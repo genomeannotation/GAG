@@ -15,12 +15,22 @@ class GffReader:
 
 		with open(filename, 'rb') as gff:
 			reader = csv.reader(gff, delimiter='\t', quotechar='|')
-			entry_id = 0
 			for line in reader:
-				entry_id = entry_id+1
-				entry_name = 'hello'
-				entry_parent = '1'
-				c.execute('INSERT INTO gff VALUES("'+str(entry_id)+'","'+line[0]+'","'+line[1]+'","'+line[2]+'",'+line[3]+','+line[4]+',"'+line[5]+'","'+line[6]+'","'+line[7]+'","'+entry_name+'","'+entry_parent+'")')
+				attributes = line[8].split(';')
+				entry_id = 'NULL'
+				entry_name = 'NULL'
+				entry_parent = 'NULL'
+				
+				for attr in attributes:
+					name_val = attr.split('=')
+					if name_val[0] == 'ID':
+						entry_id = '"'+name_val[1]+'"'
+					elif name_val[0] == 'Name':
+						entry_name = '"'+name_val[1]+'"'
+					elif name_val[0] == 'Parent':
+						entry_parent = '"'+name_val[1]+'"'
+
+				c.execute('INSERT INTO gff VALUES('+entry_id+',"'+line[0]+'","'+line[1]+'","'+line[2]+'",'+line[3]+','+line[4]+',"'+line[5]+'","'+line[6]+'","'+line[7]+'",'+entry_name+','+entry_parent+')')
 		return database
 
     ## mostly useless function, just here to demonstrate gff-reading and unit test setup...
