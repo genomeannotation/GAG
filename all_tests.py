@@ -11,10 +11,9 @@ class TestStuff(unittest.TestCase):
 
     def test_sqlite_wrapper(self):
 		db = sqlite3.connect(':memory:')
-		c = db.cursor()
-		c.execute('CREATE TABLE sample(id INTEGER PRIMARY KEY, name TEXT)')
-		c.execute('INSERT INTO sample VALUES(1, "hello")')
 		sqlite = SqliteWrapper(db)
+		sqlite.createTable('sample', ['id INTEGER PRIMARY KEY', 'name TEXT'])
+		sqlite.insertRow('sample', [1, '"hello"'])
 		row = sqlite.getRowAsStr('sample', 'id', '1')
 		self.assertEqual(row, "(1, u'hello')")
 
