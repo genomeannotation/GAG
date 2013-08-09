@@ -3,9 +3,20 @@
 import unittest
 from gff_reader import GffReader
 from fasta_reader import FastaReader
+from sqlite_wrapper import SqliteWrapper
 import sqlite3
 
 class TestStuff(unittest.TestCase):
+
+
+    def test_sqlite_wrapper(self):
+		db = sqlite3.connect(':memory:')
+		c = db.cursor()
+		c.execute('CREATE TABLE sample(id INTEGER PRIMARY KEY, name TEXT)')
+		c.execute('INSERT INTO sample VALUES(1, "hello")')
+		sqlite = SqliteWrapper(db)
+		row = sqlite.getRowAsStr('sample', 'id', '1')
+		self.assertEqual(row, "(1, u'hello')")
 
 
     def test_gff_reader(self):

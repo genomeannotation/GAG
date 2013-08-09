@@ -1,21 +1,10 @@
 #!/usr/bin/env python
 
-import sqlite3
+from gff_reader import GffReader
+from sqlite_wrapper import SqliteWrapper
 
-print('Hello, world!')
-
-# Connect to the database.
-db = sqlite3.connect('test_files/example.db')
-
-# Grab the database's cursor to execute commands
-c = db.cursor()
-
-# Create the table
-c.execute('CREATE TABLE Cars(Id integer primary key, Name text, Cost integer)')
-cur.execute("INSERT INTO Cars VALUES(1,'Audi',52642)")
-
-# Commit the changes to the database
-db.commit()
-
-# Close the database when we're done.
-db.close()
+gff = GffReader()
+db = gff.load('test_files/test.gff')
+sqlite = SqliteWrapper(db)
+row = sqlite.getRowAsStr('gff', 'id', '1')
+print(row)
