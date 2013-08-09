@@ -1,3 +1,4 @@
 ## keep it clean
 *.pyc
 *.swp
+*.db
