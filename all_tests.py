@@ -13,18 +13,20 @@ class TestStuff(unittest.TestCase):
         stats = test_reader.summary_stats("test_files/test.gff")
         self.assertEqual("test_files/test.gff: 14 lines, 1 genes, 1 mRNA, 5 exons, 5 CDS, 1 start codons, 1 stop codons", stats)
 
+
     def test_gff_reader2(self):
         test_reader = GffReader()
         db = test_reader.load('test_files/test.gff')
         c = db.cursor()
         c.execute('SELECT * FROM gff')
 
+
     def test_fasta_reader(self):
         test_reader = FastaReader()
         test_reader.read_sequences_into_db("test_files/test.fasta", "test.db")
         con = sqlite3.connect("test.db")
         cur = con.cursor()
-        cur.execute("select * from Sequences")
+        cur.execute("select * from sequence")
         first_row = cur.fetchone()
         first_sequence_id = first_row[0]
         self.assertEqual("scaffold00080", first_sequence_id)
