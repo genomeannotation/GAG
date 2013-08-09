@@ -1,0 +1,10 @@
+# make FastaReader call SqliteWrapper
+# update test_fasta_reader (no more db calls)
+# make GffReader call SqliteWrapper
+# update test_gff_reader (no more db calls)
+# BlastOutputReader?
+# produce a test.gff, test.fasta, test.blastoutput(?) and the corresponding test.tbl that we'd expect from them
+# figure out what UI should be -- command line flags, interactive shell, html interface, pointy-clicky window with rainbow unicorn background, what?
+# TblFileWriter? (and corresponding methods in SqliteWrapper)
+# make SqliteWrapper use parameter substitution (http://docs.python.org/2/library/sqlite3.html)
+# easter eggs, man
