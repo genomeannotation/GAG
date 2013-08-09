@@ -11,15 +11,16 @@ class GffReader:
 		c = database.cursor()
 
 		# Create the sqlite database: id | seq_id | source | type | start | stop | score | strand | phase | name | parent
-		c.execute('CREATE TABLE gff(id TEXT PRIMARY KEY, seq_id TEXT, source TEXT, type TEXT, start INTEGER, stop INTEGER, score REAL, strand TEXT, phase INTEGER, name TEXT, parent TEXT)')
+		c.execute('CREATE TABLE gff(id TEXT PRIMARY KEY, seq_id TEXT, source TEXT, type TEXT, start INTEGER, stop INTEGER, score TEXT, strand TEXT, phase TEXT, name TEXT, parent TEXT)')
 
 		with open(filename, 'rb') as gff:
 			reader = csv.reader(gff, delimiter='\t', quotechar='|')
+			entry_id = 0
 			for line in reader:
-				entry_id = str('')
-				entry_name = str('')
-				entry_parent = str('')
-				c.execute('INSERT INTO gff VALUES('+entry_id+','+line[0]+','+line[1]+','+line[2]+','+line[3]+','+line[4]+','+line[5]+','+line[6]+','+line[7]+','+entry_name+','+entry_parent+')')
+				entry_id = entry_id+1
+				entry_name = 'hello'
+				entry_parent = '1'
+				c.execute('INSERT INTO gff VALUES("'+str(entry_id)+'","'+line[0]+'","'+line[1]+'","'+line[2]+'",'+line[3]+','+line[4]+',"'+line[5]+'","'+line[6]+'","'+line[7]+'","'+entry_name+'","'+entry_parent+'")')
 		return database
 
     ## mostly useless function, just here to demonstrate gff-reading and unit test setup...
