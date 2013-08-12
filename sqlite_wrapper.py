@@ -17,13 +17,12 @@ class SqliteWrapper:
 		for val in columns:
 			valstr = str()
 			if type(val) is str:
-				valstr = '"'+str(val)+'"'
+				valstr = '"'+str(val)+'"' # Strings need to be surrounded by quotes
 			else:
 				valstr = str(val)
 			cols = cols+valstr+','
 		cols=cols[:len(cols)-1] # Get rid of that trailing comma
 
-		print(cols)
 		c = self.database.cursor()
 		c.execute('INSERT INTO '+table+' VALUES('+cols+')')
 
