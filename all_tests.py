@@ -25,7 +25,7 @@ class TestStuff(unittest.TestCase):
 
     def test_gff_reader2(self):
         test_reader = GffReader()
-       	gff_db = test_reader.load('test_files/test.gff')
+       	gff_db = test_reader.load('test_files/test.gff', ':memory:')
         row = gff_db.getRowAsStr('gff', 'id', '5')
         self.assertEqual(row, "(u'5', u'scaffold00080', u'maker', u'exon', 106816, 107602, u'0.9', u'+', u'.', u'BDOR_007864-RA:exon:2', u'2')")
 
@@ -35,7 +35,7 @@ class TestStuff(unittest.TestCase):
         test_reader.read_sequences_into_db("test_files/test.fasta", "test.db")
         con = sqlite3.connect("test.db")
         cur = con.cursor()
-        cur.execute("select * from sequence")
+        cur.execute("select * from fasta")
         first_row = cur.fetchone()
         first_sequence_id = first_row[0]
         self.assertEqual("scaffold00080", first_sequence_id)

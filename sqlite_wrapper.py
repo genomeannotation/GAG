@@ -26,7 +26,7 @@ class SqliteWrapper:
 		c = self.database.cursor()
 		c.execute('INSERT INTO '+table+' VALUES('+cols+')')
 
-	def commit():
+	def commit(self):
 		self.database.commit()
 
 	def getRowAsStr(self, table, id_qual, row_id):
