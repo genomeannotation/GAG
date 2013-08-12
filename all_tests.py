@@ -12,7 +12,7 @@ class TestStuff(unittest.TestCase):
     def test_sqlite_wrapper(self):
 		sqlite = SqliteWrapper(':memory:')
 		sqlite.createTable('sample', 'id INTEGER PRIMARY KEY, name TEXT')
-		sqlite.insertRow('sample', '1, "hello"')
+		sqlite.insertRow('sample', [1, "hello"])
 		row = sqlite.getRowAsStr('sample', 'id', '1')
 		self.assertEqual(row, "(1, u'hello')")
 

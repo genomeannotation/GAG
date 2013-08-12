@@ -22,13 +22,13 @@ class GffReader:
 				for attr in attributes:
 					name_val = attr.split('=')
 					if name_val[0] == 'ID':
-						entry_id = '"'+name_val[1]+'"'
+						entry_id = name_val[1]
 					elif name_val[0] == 'Name':
-						entry_name = '"'+name_val[1]+'"'
+						entry_name = name_val[1]
 					elif name_val[0] == 'Parent':
-						entry_parent = '"'+name_val[1]+'"'
+						entry_parent = name_val[1]
 
-				sqlite.insertRow('gff', entry_id+',"'+line[0]+'","'+line[1]+'","'+line[2]+'",'+line[3]+','+line[4]+',"'+line[5]+'","'+line[6]+'","'+line[7]+'",'+entry_name+','+entry_parent)
+				sqlite.insertRow('gff', [entry_id, line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], entry_name, entry_parent])
 		return sqlite
 
     ## mostly useless function, just here to demonstrate gff-reading and unit test setup...

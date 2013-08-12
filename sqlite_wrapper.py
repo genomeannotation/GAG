@@ -12,8 +12,20 @@ class SqliteWrapper:
 		c.execute('CREATE TABLE '+table+'('+columns+')')
 
 	def insertRow(self, table, columns):
+		# Create CSV string of supplied columns
+		cols = ''
+		for val in columns:
+			valstr = str()
+			if type(val) is str:
+				valstr = '"'+str(val)+'"'
+			else:
+				valstr = str(val)
+			cols = cols+valstr+','
+		cols=cols[:len(cols)-1] # Get rid of that trailing comma
+
+		print(cols)
 		c = self.database.cursor()
-		c.execute('INSERT INTO '+table+' VALUES('+columns+')')
+		c.execute('INSERT INTO '+table+' VALUES('+cols+')')
 
 	def commit():
 		self.database.commit()
