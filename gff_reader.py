@@ -1,17 +1,15 @@
 #!/usr/bin/env python
 
 import csv
-import sqlite3
+from sqlite_wrapper import SqliteWrapper
 
 class GffReader:
 
 	## Loads the gff file into a sqlite database
 	def load(self, filename):
-		database = sqlite3.connect(':memory:')
-		c = database.cursor()
-
 		# Create the sqlite database: id | seq_id | source | type | start | stop | score | strand | phase | name | parent
-		c.execute('CREATE TABLE gff(id TEXT PRIMARY KEY, seq_id TEXT, source TEXT, type TEXT, start INTEGER, stop INTEGER, score TEXT, strand TEXT, phase TEXT, name TEXT, parent TEXT)')
+		sqlite = SqliteWrapper(':memory:')
+		sqlite.createTable('gff', 'id TEXT PRIMARY KEY, seq_id TEXT, source TEXT, type TEXT, start INTEGER, stop INTEGER, score TEXT, strand TEXT, phase TEXT, name TEXT, parent TEXT')
 
 		with open(filename, 'rb') as gff:
 			reader = csv.reader(gff, delimiter='\t', quotechar='|')
@@ -30,8 +28,8 @@ class GffReader:
 					elif name_val[0] == 'Parent':
 						entry_parent = '"'+name_val[1]+'"'
 
-				c.execute('INSERT INTO gff VALUES('+entry_id+',"'+line[0]+'","'+line[1]+'","'+line[2]+'",'+line[3]+','+line[4]+',"'+line[5]+'","'+line[6]+'","'+line[7]+'",'+entry_name+','+entry_parent+')')
-		return database
+				sqlite.insertRow('gff', entry_id+',"'+line[0]+'","'+line[1]+'","'+line[2]+'",'+line[3]+','+line[4]+',"'+line[5]+'","'+line[6]+'","'+line[7]+'",'+entry_name+','+entry_parent)
+		return sqlite
 
     ## mostly useless function, just here to demonstrate gff-reading and unit test setup...
 	def summary_stats(self, filename):

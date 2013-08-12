@@ -4,26 +4,16 @@ import sqlite3
 
 class SqliteWrapper:
 
-	def __init__(self, db):
-		self.database = db
+	def __init__(self, path):
+		self.database = sqlite3.connect(path)
 
 	def createTable(self, table, columns):
-		cols = ''
-		for val in columns:
-			cols = cols+str(val)+','
-		cols=cols[:len(cols)-1]
-
 		c = self.database.cursor()
-		c.execute('CREATE TABLE '+table+'('+cols+')')
+		c.execute('CREATE TABLE '+table+'('+columns+')')
 
 	def insertRow(self, table, columns):
-		cols = ''
-		for val in columns:
-			cols = cols+str(val)+','
-		cols=cols[:len(cols)-1]
-
 		c = self.database.cursor()
-		c.execute('INSERT INTO '+table+' VALUES('+cols+')')
+		c.execute('INSERT INTO '+table+' VALUES('+columns+')')
 
 	def commit():
 		self.database.commit()

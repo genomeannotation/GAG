@@ -10,10 +10,9 @@ class TestStuff(unittest.TestCase):
 
 
     def test_sqlite_wrapper(self):
-		db = sqlite3.connect(':memory:')
-		sqlite = SqliteWrapper(db)
-		sqlite.createTable('sample', ['id INTEGER PRIMARY KEY', 'name TEXT'])
-		sqlite.insertRow('sample', [1, '"hello"'])
+		sqlite = SqliteWrapper(':memory:')
+		sqlite.createTable('sample', 'id INTEGER PRIMARY KEY, name TEXT')
+		sqlite.insertRow('sample', '1, "hello"')
 		row = sqlite.getRowAsStr('sample', 'id', '1')
 		self.assertEqual(row, "(1, u'hello')")
 
@@ -26,9 +25,9 @@ class TestStuff(unittest.TestCase):
 
     def test_gff_reader2(self):
         test_reader = GffReader()
-        db = test_reader.load('test_files/test.gff')
-        c = db.cursor()
-        c.execute('SELECT * FROM gff')
+       	gff_db = test_reader.load('test_files/test.gff')
+        row = gff_db.getRowAsStr('gff', 'id', '5')
+        self.assertEqual(row, "(u'5', u'scaffold00080', u'maker', u'exon', 106816, 107602, u'0.9', u'+', u'.', u'BDOR_007864-RA:exon:2', u'2')")
 
 
     def test_fasta_reader(self):
