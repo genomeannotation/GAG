@@ -10,11 +10,11 @@ class TestStuff(unittest.TestCase):
 
 
     def test_sqlite_wrapper(self):
-		sqlite = SqliteWrapper(':memory:')
-		sqlite.createTable('sample', 'id INTEGER PRIMARY KEY, name TEXT')
-		sqlite.insertRow('sample', [1, "hello"])
-		row = sqlite.getRowAsStr('sample', 'id', '1')
-		self.assertEqual(row, "(1, u'hello')")
+        sqlite = SqliteWrapper(':memory:')
+        sqlite.createTable('sample', 'id INTEGER PRIMARY KEY, name TEXT')
+        sqlite.insertRow('sample', [1, "hello"])
+        row = sqlite.getRowAsStr('sample', 'id', '1')
+        self.assertEqual(row, "(1, u'hello')")
 
 
     def test_gff_reader(self):
@@ -25,9 +25,11 @@ class TestStuff(unittest.TestCase):
 
     def test_gff_reader2(self):
         test_reader = GffReader()
-       	gff_db = test_reader.load('test_files/test.gff', ':memory:')
-        row = gff_db.getRowAsStr('gff', 'id', '5')
-        self.assertEqual(row, "(u'5', u'scaffold00080', u'maker', u'exon', 106816, 107602, u'0.9', u'+', u'.', u'BDOR_007864-RA:exon:2', u'2')")
+        gff_db = test_reader.load('test_files/test.gff', ':memory:')
+        c = gff_db.cursor()
+        c.execute('SELECT * FROM gff WHERE id=5')
+        row = c.fetchone()
+        self.assertEqual(row, ('5', 'scaffold00080', 'maker', 'exon', 106816, 107602, '0.9', '+', '.', 'BDOR_007864-RA:exon:2', '2'))
 
 
     def test_fasta_reader(self):
