@@ -6,7 +6,7 @@ import sqlite3
 class GffReader:
 
     ## Loads the gff file into a sqlite database
-    def load(self, filename, db_name):
+    def read_into_db(self, filename, db_name):
         # Create the sqlite database: id | seq_id | source | type | start | stop | score | strand | phase | name | parent
         db_conn = sqlite3.connect(db_name)
         db_cur = db_conn.cursor()
@@ -32,7 +32,6 @@ class GffReader:
                 db_cur.execute('INSERT INTO gff VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [entry_id, line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], entry_name, entry_parent])
             gff.close()        
 
-        db_conn.commit()
         return db_conn
 
     ## mostly useless function, just here to demonstrate gff-reading and unit test setup...

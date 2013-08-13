@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 
-from sqlite_wrapper import SqliteWrapper
+import sqlite3
 
 class FastaReader:
 
 
     def read_sequences_into_db(self, filename, db_name):
         # Create the sqlite database: seq_id | sequence
-        sqlite = SqliteWrapper(db_name)
-        sqlite.createTable('fasta', 'seq_id TEXT PRIMARY KEY, sequence TEXT')
+        db_conn = sqlite3.connect(db_name)
+        db_cur = db_conn.cursor()
+        db_cur.execute('CREATE TABLE fasta(seq_id TEXT PRIMARY KEY, sequence TEXT)')
 
         with open(filename, 'r') as f:
             while True:
@@ -30,15 +31,15 @@ class FastaReader:
                     c = f.read(1)
 
                 # Write to the database
-                sqlite.insertRow('fasta', [seq_id, seq])
+                db_cur.execute('INSERT INTO fasta VALUES(?, ?)', [seq_id, seq])
+                #sqlite.insertRow('fasta', [seq_id, seq])
 
                 if len(c) < 1:
                     break # Reached end of file
                 else:
                     f.seek(last_pos) # Put the > back so we can read the next sequence
             f.close()
-        sqlite.commit()
-        return sqlite
+        return db_conn
 		
 		
 

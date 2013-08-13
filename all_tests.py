@@ -25,7 +25,7 @@ class TestStuff(unittest.TestCase):
 
     def test_gff_reader2(self):
         test_reader = GffReader()
-        gff_db = test_reader.load('test_files/test.gff', ':memory:')
+        gff_db = test_reader.read_into_db('test_files/test.gff', ':memory:')
         c = gff_db.cursor()
         c.execute('SELECT * FROM gff WHERE id=5')
         row = c.fetchone()
@@ -34,8 +34,7 @@ class TestStuff(unittest.TestCase):
 
     def test_fasta_reader(self):
         test_reader = FastaReader()
-        test_reader.read_sequences_into_db("test_files/test.fasta", "test.db")
-        con = sqlite3.connect("test.db")
+        con = test_reader.read_sequences_into_db("test_files/test.fasta", ":memory:")
         cur = con.cursor()
         cur.execute("select * from fasta")
         first_row = cur.fetchone()
