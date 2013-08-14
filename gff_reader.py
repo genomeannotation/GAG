@@ -6,13 +6,12 @@ import sqlite3
 class GffReader:
 
     ## Loads the gff file into a sqlite database
-    def read_into_db(self, filename, db_name):
+    def read_into_db(self, file_name, db_conn):
         # Create the sqlite database: id | seq_id | source | type | start | stop | score | strand | phase | name | parent
-        db_conn = sqlite3.connect(db_name)
         db_cur = db_conn.cursor()
-        db_cur.execute('CREATE TABLE gff(id TEXT PRIMARY KEY, seq_id TEXT, source TEXT, type TEXT, start INTEGER, stop INTEGER, score TEXT, strand TEXT, phase TEXT, name TEXT, parent TEXT)')
+        db_cur.execute('CREATE TABLE gff(id TEXT PRIMARY KEY, seq_id TEXT, source TEXT, type TEXT, start INT, stop INT, score TEXT, strand TEXT, phase TEXT, name TEXT, parent TEXT)')
 
-        with open(filename, 'rb') as gff:
+        with open(file_name, 'r') as gff:
             reader = csv.reader(gff, delimiter='\t', quotechar='|')
             for line in reader:
                 attributes = line[8].split(';')

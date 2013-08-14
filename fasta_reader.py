@@ -5,13 +5,12 @@ import sqlite3
 class FastaReader:
 
 
-    def read_sequences_into_db(self, filename, db_name):
+    def read_into_db(self, file_name, db_conn):
         # Create the sqlite database: seq_id | sequence
-        db_conn = sqlite3.connect(db_name)
         db_cur = db_conn.cursor()
         db_cur.execute('CREATE TABLE fasta(seq_id TEXT PRIMARY KEY, sequence TEXT)')
 
-        with open(filename, 'r') as f:
+        with open(file_name, 'r') as f:
             while True:
                 # Get the >
                 c = f.read(1)

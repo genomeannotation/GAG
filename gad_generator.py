@@ -5,4 +5,3 @@ from sqlite_wrapper import SqliteWrapper
 
 gff = GffReader()
 gff_db = gff.read_into_db('test_files/test.gff', ':memory:')
-

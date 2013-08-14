@@ -3,6 +3,7 @@
 import unittest
 from gff_reader import GffReader
 from fasta_reader import FastaReader
+from tbl_writer import TblWriter
 from sqlite_wrapper import SqliteWrapper
 import sqlite3
 
@@ -24,8 +25,9 @@ class TestStuff(unittest.TestCase):
 
 
     def test_gff_reader2(self):
+        gff_db = sqlite3.connect(':memory:')
         test_reader = GffReader()
-        gff_db = test_reader.read_into_db('test_files/test.gff', ':memory:')
+        test_reader.read_into_db('test_files/test.gff', gff_db)
         c = gff_db.cursor()
         c.execute('SELECT * FROM gff WHERE id=5')
         row = c.fetchone()
@@ -33,8 +35,9 @@ class TestStuff(unittest.TestCase):
 
 
     def test_fasta_reader(self):
+        con = sqlite3.connect(':memory:')
         test_reader = FastaReader()
-        con = test_reader.read_sequences_into_db("test_files/test.fasta", ":memory:")
+        test_reader.read_into_db("test_files/test.fasta", con)
         cur = con.cursor()
         cur.execute("select * from fasta")
         first_row = cur.fetchone()
@@ -47,6 +50,22 @@ class TestStuff(unittest.TestCase):
         self.assertEqual("scaffold00081", second_sequence_id)
         second_sequence = second_row[1]
         self.assertEqual("gcagtttttCGCcGAAAACCCAGAAAAATGGCAAG", second_sequence[0:35])
+
+    def test_tbl_writer(self):
+        con = sqlite3.connect(':memory:')
+
+        gff_reader = GffReader()
+        gff_reader.read_into_db('test_files/test.gff', con)
+
+        fasta_reader = FastaReader()
+        fasta_reader.read_into_db("test_files/test.fasta", con)
+ 
+        test_writer = TblWriter()
+        test_writer.write_to_db(con)
+        c = con.cursor()
+        c.execute('SELECT * FROM tbl')
+        for row in c.fetchall():
+            print(row)
 
 
 ##########################
