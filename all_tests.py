@@ -3,7 +3,7 @@
 import unittest
 from gff_reader import GffReader
 from fasta_reader import FastaReader
-from tbl_writer import TblWriter
+from feature_tbl_writer import FeatureTblWriter
 from sqlite_wrapper import SqliteWrapper
 import sqlite3
 
@@ -60,7 +60,7 @@ class TestStuff(unittest.TestCase):
         fasta_reader = FastaReader()
         fasta_reader.read_into_db("test_files/test.fasta", con)
  
-        test_writer = TblWriter()
+        test_writer = FeatureTblWriter()
         test_writer.write_to_db(con)
         c = con.cursor()
         c.execute('SELECT * FROM tbl')
