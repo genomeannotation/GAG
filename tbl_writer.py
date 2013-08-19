@@ -10,18 +10,19 @@ class TblWriter:
         db_cur = db_conn.cursor()
 
         # Create a new table for our tbl file
-        db_cur.execute('CREATE TABLE tbl(gene_id TEXT PRIMARY KEY, seq_id TEXT, starts TEXT, stops TEXT)')
+        db_cur.execute('CREATE TABLE tbl(gene_id TEXT PRIMARY KEY, seq_id TEXT, starts TEXT, stops TEXT, strand TEXT, frame INT)')
 
-        # Fetch info from the gff table
+        # Select all of the gene entries from the gff table
         try:
-            db_cur.execute('SELECT * FROM gff')
+            db_cur.execute('SELECT * FROM gff WHERE type="gene"')
         except OperationalError:
             print("ERROR: gff table doesn't exist in database "+db_name)
             return
 
-        rows = db_cur.fetchall()
-        for row in rows:
-            db_cur.execute('SELECT EXISTS(SELECT 1 FROM tbl WHERE gene_id=? LIMIT 1)', [row[9]])
+        # Iterate through the genes
+        genes = db_cur.fetchall()
+        for gene in genes:
+            db_cur.execute('SELECT EXISTS(SELECT 1 FROM tbl WHERE gene_id=? LIMIT 1)', [gene[9]])
             exists = db_cur.fetchone()[0]
             if exists == 0:
-                db_cur.execute('INSERT INTO tbl VALUES(?, ?, ?, ?)', [row[9], row[1], row[4], row[5]])
+                db_cur.execute('INSERT INTO tbl VALUES(?, ?, ?, ?, ?, ?)', [gene[9], gene[1], gene[4], gene[5], None, None])
