@@ -32,7 +32,7 @@ class FeatureTblWriter:
             db_cur.execute('SELECT * FROM gff WHERE type="gene" AND id=? LIMIT 1', [rna[10]])
             gene = db_cur.fetchone()
 
-            db_cur.execute('SELECT EXISTS(SELECT * FROM tbl WHERE gene_id=? LIMIT 1)', [rna[9]]) # Make sure this gene entry doesn't already exist
+            db_cur.execute('SELECT EXISTS(SELECT gene_id FROM tbl WHERE gene_id=? LIMIT 1)', [rna[9]]) # Make sure this gene entry doesn't already exist
             exists = db_cur.fetchone()[0]
             if exists == 1:
                 print("ERROR: Gene already exists: ", rna[9])

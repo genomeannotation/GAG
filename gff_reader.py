@@ -28,8 +28,7 @@ class GffReader:
                     elif name_val[0] == 'Parent':
                         entry_parent = name_val[1]
 
-                db_cur.execute('INSERT INTO gff VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [entry_id, line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], entry_name, entry_parent])
-            gff.close()        
+                db_cur.execute('INSERT INTO gff VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [entry_id, line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], entry_name, entry_parent])     
 
         return db_conn
 

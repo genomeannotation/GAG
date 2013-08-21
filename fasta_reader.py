@@ -11,33 +11,21 @@ class FastaReader:
         db_cur.execute('CREATE TABLE fasta(seq_id TEXT PRIMARY KEY, sequence TEXT)')
 
         with open(file_name, 'r') as f:
-            while True:
-                # Get the >
-                c = f.read(1)
-                if c != '>':
-                    raise IOError('Invalid fasta file.')
-
-                # Get the seq_id
-                seq_id = f.readline().strip().split()[0]
-
-                # Get the sequence
-                seq = str()
-                last_pos = f.tell()
-                c = f.read(1)
-                while c != '>' and len(c) == 1:
-                    seq = seq+c
-                    last_pos = f.tell()
-                    c = f.read(1)
-
-                # Write to the database
-                db_cur.execute('INSERT INTO fasta VALUES(?, ?)', [seq_id, seq])
-                #sqlite.insertRow('fasta', [seq_id, seq])
-
-                if len(c) < 1:
-                    break # Reached end of file
+            seq_id = ''
+            seq = ''
+            for line in f:
+                if line[0] == '>':
+                    if len(seq_id) > 0:
+                        # Write to the database
+                        db_cur.execute('INSERT INTO fasta VALUES(?, ?)', [seq_id, seq])
+                    
+                    seq_id = line[2:].strip().split()[0] # Get the next seq_id
+                    seq = ''
                 else:
-                    f.seek(last_pos) # Put the > back so we can read the next sequence
-            f.close()
+                    seq += line
+            # Add the last sequence to the database
+            db_cur.execute('INSERT INTO fasta VALUES(?, ?)', [seq_id, seq])
+
         return db_conn
 		
 		
