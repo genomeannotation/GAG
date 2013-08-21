@@ -19,7 +19,7 @@ class FastaReader:
                         # Write to the database
                         db_cur.execute('INSERT INTO fasta VALUES(?, ?)', [seq_id, seq])
                     
-                    seq_id = line[2:].strip().split()[0] # Get the next seq_id
+                    seq_id = line[1:].strip().split()[0] # Get the next seq_id
                     seq = ''
                 else:
                     seq += line
