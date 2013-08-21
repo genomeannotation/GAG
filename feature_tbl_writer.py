@@ -17,7 +17,7 @@ class FeatureTblWriter:
         db_cur = db_conn.cursor()
 
         # Create a new table for our tbl file
-        db_cur.execute('CREATE TABLE tbl(gene_id TEXT, seq_id TEXT, type TEXT, starts TEXT, stops TEXT, strand TEXT, frame INT)')
+        db_cur.execute('CREATE TABLE tbl(prot_id TEXT, seq_id TEXT, type TEXT, starts TEXT, stops TEXT, has_start INT, has_stop INT, strand TEXT, frame INT)')
 
         # Select all of the mRNA entries from the gff table
         try:
@@ -32,14 +32,20 @@ class FeatureTblWriter:
             db_cur.execute('SELECT * FROM gff WHERE type="gene" AND id=? LIMIT 1', [rna[10]])
             gene = db_cur.fetchone()
 
-            db_cur.execute('SELECT EXISTS(SELECT gene_id FROM tbl WHERE gene_id=? LIMIT 1)', [rna[9]]) # Make sure this gene entry doesn't already exist
+            db_cur.execute('SELECT EXISTS(SELECT prot_id FROM tbl WHERE prot_id=? LIMIT 1)', [rna[9]]) # Make sure this gene entry doesn't already exist
             exists = db_cur.fetchone()[0]
             if exists == 1:
                 print("ERROR: Gene already exists: ", rna[9])
                 continue
 
+            # Get whether the sequence has start and stop codons
+            db_cur.execute('SELECT EXISTS(SELECT type, name FROM gff WHERE type="start_codon" AND name REGEXP ? LIMIT 1)', [rna[9]])
+            has_start = db_cur.fetchone()[0]
+            db_cur.execute('SELECT EXISTS(SELECT type, name FROM gff WHERE type="stop_codon" AND name REGEXP ? LIMIT 1)', [rna[9]])
+            has_stop = db_cur.fetchone()[0]
+
             # Add the gene entry to our table
-            db_cur.execute('INSERT INTO tbl VALUES(?, ?, ?, ?, ?, ?, ?)', [rna[9], gene[1], 'gene', gene[4], gene[5], gene[7], gene[8]])
+            db_cur.execute('INSERT INTO tbl VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)', [rna[9], gene[1], 'gene', gene[4], gene[5], has_start, has_stop, gene[7], gene[8]])
 
             # Fetch all of the exons pertaining to this gene
             db_cur.execute('SELECT * FROM gff WHERE type="exon" AND name REGEXP ?', [rna[9]])
@@ -54,7 +60,7 @@ class FeatureTblWriter:
                 exon_stops += str(exon[5])
 
             # Add the exon entry to our table
-            db_cur.execute('INSERT INTO tbl VALUES(?, ?, ?, ?, ?, ?, ?)', [rna[9], gene[1], 'exon', exon_starts, exon_stops, gene[7], gene[8]])
+            db_cur.execute('INSERT INTO tbl VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)', [rna[9], gene[1], 'exon', exon_starts, exon_stops, has_start, has_stop, gene[7], gene[8]])
 
             # Fetch all of the CDS pertaining to this gene
             db_cur.execute('SELECT * FROM gff WHERE type="CDS" AND name REGEXP ?', [rna[9]])
@@ -69,4 +75,4 @@ class FeatureTblWriter:
                 cds_stops += str(cds[5])
 
             # Add the CDS entry to our table
-            db_cur.execute('INSERT INTO tbl VALUES(?, ?, ?, ?, ?, ?, ?)', [rna[9], gene[1], 'CDS', cds_starts, cds_stops, gene[7], gene[8]])
+            db_cur.execute('INSERT INTO tbl VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)', [rna[9], gene[1], 'CDS', cds_starts, cds_stops, has_start, has_stop, gene[7], gene[8]])

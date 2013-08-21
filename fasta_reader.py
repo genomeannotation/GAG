@@ -22,7 +22,7 @@ class FastaReader:
                     seq_id = line[1:].strip().split()[0] # Get the next seq_id
                     seq = ''
                 else:
-                    seq += line
+                    seq += line.strip()
             # Add the last sequence to the database
             db_cur.execute('INSERT INTO fasta VALUES(?, ?)', [seq_id, seq])
 

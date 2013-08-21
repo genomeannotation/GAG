@@ -4,6 +4,7 @@ import time
 import sqlite3
 from gff_reader import GffReader
 from fasta_reader import FastaReader
+from trinotate_reader import TrinotateReader
 from feature_tbl_writer import FeatureTblWriter
 
 start_time = time.time()
@@ -22,13 +23,19 @@ fasta_reader.read_into_db("real_files/454Scaffolds.fna", con)
 
 print(time.time() - start_time, "seconds")
 
+print("Reading trinotate...")
+trinotate_reader = TrinotateReader()
+trinotate_reader.read_into_db("real_files/maker.xls", con)
+
+print(time.time() - start_time, "seconds")
+
 print("Writing tbl database...")
 test_writer = FeatureTblWriter()
 test_writer.write_to_db(con)
 c = con.cursor()
-#c.execute('SELECT * FROM tbl')
-#for row in c.fetchall():
-#    print(row)
+c.execute('SELECT * FROM tbl')
+for row in c.fetchall():
+    print(row)
 
 con.commit()
 

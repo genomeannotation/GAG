@@ -82,9 +82,9 @@ class TestStuff(unittest.TestCase):
         test_writer = FeatureTblWriter()
         test_writer.write_to_db(con)
         c = con.cursor()
-        c.execute('SELECT * FROM tbl')
-        for row in c.fetchall():
-            print(row)
+        c.execute('SELECT * FROM tbl WHERE type="gene"')
+        row = c.fetchone()
+        self.assertEqual(row, ('BDOR_007864-RA', 'scaffold00080', 'gene', '106151', '109853', '+', '.'))
 
 
 ##########################
