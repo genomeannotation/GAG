@@ -7,6 +7,13 @@ from fasta_reader import FastaReader
 from trinotate_reader import TrinotateReader
 from feature_tbl_writer import FeatureTblWriter
 
+con = sqlite3.connect('real_files/tbl_db.sqlite')
+
+test_writer = FeatureTblWriter()
+test_writer.write_to_file(con, 'sequin.tbl')
+
+exit(0)
+
 start_time = time.time()
 
 con = sqlite3.connect('real_files/tbl_db.sqlite')
