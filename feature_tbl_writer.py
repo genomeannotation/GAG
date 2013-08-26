@@ -7,6 +7,24 @@ def regexp(expr, item):
     reg = re.compile(expr)
     return reg.search(item) is not None
 
+# Takes gene ontology and returns it as a CSV of key=value
+def parse_gene_ontology(gene_ontology):
+    attributes = ''
+    elements = gene_ontology.split('`')
+    for element in elements:
+        if len(attributes) > 0:
+            attributes += ','
+
+        vals = element.split('^')
+        if vals[1] == 'molecular_function':
+            attributes += 'go_function='
+        elif vals[1] == 'cellular_component':
+            attributes += 'go_component='
+        elif vals[1] == 'biological_process':
+            attributes += 'go_process='
+        attributes += vals[2]+'|'+vals[0][3:]+'||IEA'
+    return attributes
+
 class FeatureTblWriter:
 
     def write_to_db(self, db_conn):
@@ -17,7 +35,7 @@ class FeatureTblWriter:
         db_cur = db_conn.cursor()
 
         # Create a new table for our tbl file
-        db_cur.execute('CREATE TABLE tbl(prot_id TEXT, seq_id TEXT, type TEXT, starts TEXT, stops TEXT, has_start INT, has_stop INT, strand TEXT, frame INT)')
+        db_cur.execute('CREATE TABLE tbl(prot_id TEXT, seq_id TEXT, type TEXT, starts TEXT, stops TEXT, has_start INT, has_stop INT, strand TEXT, frame INT, annotations TEXT)')
 
         # Select all of the mRNA entries from the gff table
         try:
@@ -37,6 +55,10 @@ class FeatureTblWriter:
             if exists == 1:
                 print("ERROR: Gene already exists: ", rna[9])
                 continue
+            
+            # Get the trinotate stuff
+            db_cur.execute('SELECT * FROM trinotate WHERE prot_id=? LIMIT 1', [rna[9]])
+            trinotate = db_cur.fetchone()
 
             # Get whether the sequence has start and stop codons
             db_cur.execute('SELECT EXISTS(SELECT type, name FROM gff WHERE type="start_codon" AND name REGEXP ? LIMIT 1)', [rna[9]])
@@ -45,7 +67,7 @@ class FeatureTblWriter:
             has_stop = db_cur.fetchone()[0]
 
             # Add the gene entry to our table
-            db_cur.execute('INSERT INTO tbl VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)', [rna[9], gene[1], 'gene', gene[4], gene[5], has_start, has_stop, gene[7], gene[8]])
+            db_cur.execute('INSERT INTO tbl VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [rna[9], gene[1], 'gene', gene[4], gene[5], has_start, has_stop, gene[7], gene[8], ''])
 
             # Fetch all of the exons pertaining to this gene
             db_cur.execute('SELECT * FROM gff WHERE type="exon" AND name REGEXP ?', [rna[9]])
@@ -61,7 +83,7 @@ class FeatureTblWriter:
                     exon_stops += str(exon[5])
 
                 # Add the exon entry to our table
-                db_cur.execute('INSERT INTO tbl VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)', [rna[9], gene[1], 'exon', exon_starts, exon_stops, has_start, has_stop, gene[7], gene[8]])
+                db_cur.execute('INSERT INTO tbl VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [rna[9], gene[1], 'exon', exon_starts, exon_stops, has_start, has_stop, gene[7], gene[8], ''])
 
             # Fetch all of the CDS pertaining to this gene
             db_cur.execute('SELECT * FROM gff WHERE type="CDS" AND name REGEXP ?', [rna[9]])
@@ -77,7 +99,10 @@ class FeatureTblWriter:
                     cds_stops += str(cds[5])
 
                 # Add the CDS entry to our table
-                db_cur.execute('INSERT INTO tbl VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)', [rna[9], gene[1], 'CDS', cds_starts, cds_stops, has_start, has_stop, gene[7], gene[8]])
+                cds_ann = parse_gene_ontology(trinotate[8])
+                db_cur.execute('INSERT INTO tbl VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [rna[9], gene[1], 'CDS', cds_starts, cds_stops, has_start, has_stop, gene[7], gene[8], cds_ann])
+
+
 
     def write_to_file(self, db_conn, fileName):
         db_cur = db_conn.cursor()
@@ -91,24 +116,42 @@ class FeatureTblWriter:
 
             for seq_id in seq_ids:
                 f.write('>'+seq_id+'\n')
+
+                # Create the temporary table
+                db_cur.execute('CREATE TABLE tmp_cur_seq(id TEXT PRIMARY KEY, seq_id TEXT, type TEXT, start INT, stop INT, name TEXT, parent TEXT)')
                 
-                db_cur.execute('SELECT * FROM tbl WHERE seq_id=?', [seq_id])
-                entries = db_cur.fetchall()
+                # Store temporary table of all info pertaining to this sequence
+                db_cur.execute('INSERT INTO tmp_cur_seq SELECT id, seq_id, type, start, stop, name, parent FROM gff WHERE seq_id=?', [seq_id])
 
-                for entry in entries:
-                    if len(entry[3]) == 0 or len(entry[4]) == 0:
-                        continue
+                # Grab the mRNAs on this sequence
+                db_cur.execute('SELECT * FROM tmp_cur_seq WHERE type="mRNA"')
+                rnas = db_cur.fetchall()
 
-                    # Build array of coordinates
-                    starts = entry[3].split(',')
-                    stops = entry[4].split(',')
-                    coords = []
-                    for i in range(len(starts)):
-                        coords.append([starts[i], stops[i]])
+                for rna in rnas:
+                    ##### EXON
+                    # Grab all exons under this mRNA
+                    # TODO grab annotation also
+                    db_cur.execute('SELECT start, stop FROM tmp_cur_seq WHERE type="exon" AND parent=?', [rna[0]])
+                    rows = db_cur.fetchall()
 
-                    # Write the first coords with the entry type
-                    f.write(coords[0][0]+'\t'+coords[0][1]+'\t'+entry[2]+'\n')
-                    coords = coords[1:] # Now skip the first coordinate
-                    for coord in coords:
-                        f.write(coord[0]+'\t'+coord[1]+'\n')
-                        
+                    if len(rows) > 0:
+                        f.write(str(rows[0][0])+'\t'+str(rows[0][1])+'\texon\n')
+                        rows = rows[1:]
+                        for row in rows:
+                            f.write(str(row[0])+'\t'+str(row[1])+'\n')
+
+                    ## Write the annotations
+
+                    ##### CDS
+                    # Grab all CDSs under this mRNA
+                    # TODO grab annotation also
+                    db_cur.execute('SELECT start, stop FROM tmp_cur_seq WHERE type="CDS" AND parent=?', [rna[0]])
+                    rows = db_cur.fetchall()                    
+
+                    if len(rows) > 0:
+                        f.write(str(rows[0][0])+'\t'+str(rows[0][1])+'\tCDS\n')
+                        rows = rows[1:]
+                        for row in rows:
+                            f.write(str(row[0])+'\t'+str(row[1])+'\n')
+                
+                db_cur.execute('DROP TABLE tmp_cur_seq')
