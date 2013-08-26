@@ -16,6 +16,7 @@ class TrinotateReader:
             for line in reader:
                 if len(line) == 0 or line[0][0] == '#': # Skip commented lines
                     continue
-                db_cur.execute('INSERT INTO trinotate VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [line[2], line[0], line[1], line[3], line[4], line[5], line[6], line[7], line[8], line[9]])      
+                db_cur.execute('INSERT INTO trinotate VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [line[2], line[0], line[1], line[3], line[4], line[5], line[6], line[7], line[8], line[9]])
+            db_cur.execute('CREATE INDEX prot_id_index ON trinotate(prot_id)')
 
         return db_conn

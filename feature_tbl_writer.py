@@ -9,6 +9,9 @@ def regexp(expr, item):
 
 # Takes gene ontology and returns it as a CSV of key=value
 def parse_gene_ontology(gene_ontology):
+    if len(gene_ontology) == 0 or gene_ontology == '.':
+        return ''
+
     attributes = ''
     elements = gene_ontology.split('`')
     for element in elements:
@@ -114,20 +117,33 @@ class FeatureTblWriter:
             for seq_id in db_cur.fetchall():
                 seq_ids.append(seq_id[0])
 
+            print("Sequences: "+str(len(seq_ids)))
+            i = 0
+
             for seq_id in seq_ids:
+                i += 1
+                if i%100 == 0:
+                    print(i)
+
                 f.write('>'+seq_id+'\n')
 
                 # Create the temporary table
-                db_cur.execute('CREATE TABLE tmp_cur_seq(id TEXT PRIMARY KEY, seq_id TEXT, type TEXT, start INT, stop INT, name TEXT, parent TEXT)')
+                # db_cur.execute('CREATE TABLE tmp_cur_seq(id TEXT PRIMARY KEY, seq_id TEXT, type TEXT, start INT, stop INT, name TEXT, parent TEXT)')
                 
+                magic_query = "CREATE TEMP TABLE tmp_cur_seq AS SELECT id, seq_id, type, start, stop, name, parent FROM gff WHERE seq_id=?"
+
                 # Store temporary table of all info pertaining to this sequence
-                db_cur.execute('INSERT INTO tmp_cur_seq SELECT id, seq_id, type, start, stop, name, parent FROM gff WHERE seq_id=?', [seq_id])
+                db_cur.execute(magic_query, [seq_id])
 
                 # Grab the mRNAs on this sequence
                 db_cur.execute('SELECT * FROM tmp_cur_seq WHERE type="mRNA"')
                 rnas = db_cur.fetchall()
 
                 for rna in rnas:
+                    # Grab the trinotate entry
+                    db_cur.execute('SELECT * FROM trinotate WHERE prot_id=? LIMIT 1', [rna[5]])
+                    trinotate = db_cur.fetchone()
+
                     ##### EXON
                     # Grab all exons under this mRNA
                     # TODO grab annotation also
@@ -153,5 +169,10 @@ class FeatureTblWriter:
                         rows = rows[1:]
                         for row in rows:
                             f.write(str(row[0])+'\t'+str(row[1])+'\n')
+                        cds_ann = parse_gene_ontology(trinotate[8])
+                        for annot in cds_ann.split(','):
+                            key_val = annot.split('=')
+                            if len(key_val) == 2:
+                                f.write(key_val[0]+'\t'+key_val[1]+'\n')
                 
                 db_cur.execute('DROP TABLE tmp_cur_seq')
