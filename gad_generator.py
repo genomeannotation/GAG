@@ -8,22 +8,35 @@ from trinotate_reader import TrinotateReader
 from feature_tbl_writer import FeatureTblWriter
 import os
 import sys
+import glob
 
-usage_message = """Usage: python gad_generator.py <project_name> \n\
-where the working directory contains files\n\
-project_name.gff, project_name.fasta and \
-project_name.xls"""
+usage_message = """Usage: python gad_generator.py <directory> \n\
+where directory contains files with extensions\n\
+.gff, .fasta and .xls"""
 
+def get_file_with_extension(ext):
+    results = glob.glob('./*.' + ext)
+    if len(results) != 1:
+        print("Error -- directory " + working_dir + " should contain exactly one file of type " + ext)
+        sys.exit()
+    else:
+        return results[0]
+
+# Validate command line argument
 if len(sys.argv) != 2:
     print(usage_message)
     sys.exit()
 
-project_name = sys.argv[1]
-sqlite_database = project_name + '.sqlite'
-gff_file = project_name + '.gff'
-fasta_file = project_name + '.fasta'
-trinotate_file = project_name + '.xls'
-tbl_file = project_name + '.tbl'
+working_dir = sys.argv[1]
+if not os.path.isdir(working_dir):
+    print("Sorry, couldn't find directory " + working_dir)
+
+os.chdir(working_dir)
+gff_file = get_file_with_extension('gff')
+fasta_file = get_file_with_extension('fasta')
+trinotate_file = get_file_with_extension('xls')
+sqlite_database = 'GAD.sqlite'
+tbl_file = 'GAD_generator_output.tbl'
 
 start_time = time.time()
 
