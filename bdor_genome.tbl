@@ -29039,4 +29039,5865 @@
 			transcript_id	gnl|PBARC|BDOR_mrna000961.3-RA
 			product	Kelch-like protein 5
 			go_component	cytoplasm|0005737||IEA
-			go_c
+			go_component	cytoskeleton|0005856||IEA
+>Feature sctg_0003_0316
+1	1673	REFERENCE
+			PBARC	12345
+1	1673	gene
+			locus_tag	BDOR_000961.4
+>Feature sctg_0003_0317
+1	2345	REFERENCE
+			PBARC	12345
+1	2345	gene
+			locus_tag	BDOR_000961.5
+>Feature sctg_0003_0318
+1	2621	REFERENCE
+			PBARC	12345
+1	2621	gene
+			locus_tag	BDOR_000961.6
+<891	>769	mRNA
+			protein_id	gnl|PBARC|BDOR_000961.6-RB
+			transcript_id	gnl|PBARC|BDOR_mrna000961.6-RB
+			product	Kelch-like protein 5
+<891	>769	CDS
+			protein_id	gnl|PBARC|BDOR_000961.6-RB
+			transcript_id	gnl|PBARC|BDOR_mrna000961.6-RB
+			product	Kelch-like protein 5
+			go_component	cytoplasm|0005737||IEA
+			go_component	cytoskeleton|0005856||IEA
+<891	>769	mRNA
+			protein_id	gnl|PBARC|BDOR_000961.6-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000961.6-RA
+			product	Kelch-like protein 5
+<891	>769	CDS
+			protein_id	gnl|PBARC|BDOR_000961.6-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000961.6-RA
+			product	Kelch-like protein 5
+			go_component	cytoplasm|0005737||IEA
+			go_component	cytoskeleton|0005856||IEA
+>Feature sctg_0003_0319
+1	4127	REFERENCE
+			PBARC	12345
+1	4127	gene
+			locus_tag	BDOR_000961.7
+>Feature sctg_0003_0320
+1	5094	REFERENCE
+			PBARC	12345
+1	5094	gene
+			locus_tag	BDOR_000961.8
+<2929	2460	mRNA
+2399	2135
+1792	1211
+940	>746
+			protein_id	gnl|PBARC|BDOR_000961.8-RB
+			transcript_id	gnl|PBARC|BDOR_mrna000961.8-RB
+			product	Kelch-like protein 5
+<2929	2460	CDS
+2399	2135
+1792	1211
+940	>746
+			protein_id	gnl|PBARC|BDOR_000961.8-RB
+			transcript_id	gnl|PBARC|BDOR_mrna000961.8-RB
+			product	Kelch-like protein 5
+			go_component	cytoplasm|0005737||IEA
+			go_component	cytoskeleton|0005856||IEA
+<2929	2460	mRNA
+2399	1211
+940	>746
+			protein_id	gnl|PBARC|BDOR_000961.8-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000961.8-RA
+			product	Kelch-like protein 5
+<2929	2460	CDS
+2399	1211
+940	>746
+			protein_id	gnl|PBARC|BDOR_000961.8-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000961.8-RA
+			product	Kelch-like protein 5
+			go_component	cytoplasm|0005737||IEA
+			go_component	cytoskeleton|0005856||IEA
+>Feature sctg_0003_0321
+1	2158	REFERENCE
+			PBARC	12345
+1	2158	gene
+			locus_tag	BDOR_000961.9
+>Feature sctg_0003_0322
+1	4809	REFERENCE
+			PBARC	12345
+1	4809	gene
+			locus_tag	BDOR_000961.10
+>Feature sctg_0003_0323
+1	852	REFERENCE
+			PBARC	12345
+1	852	gene
+			locus_tag	BDOR_000961.11
+>Feature sctg_0003_0324
+1	11111	REFERENCE
+			PBARC	12345
+1	3934	gene
+			locus_tag	BDOR_000961.12
+3934	>3529	mRNA
+			protein_id	gnl|PBARC|BDOR_000961.12-RB
+			transcript_id	gnl|PBARC|BDOR_mrna000961.12-RB
+			product	Kelch-like protein 5
+3549	>3529	CDS
+			protein_id	gnl|PBARC|BDOR_000961.12-RB
+			transcript_id	gnl|PBARC|BDOR_mrna000961.12-RB
+			product	Kelch-like protein 5
+			go_component	cytoplasm|0005737||IEA
+			go_component	cytoskeleton|0005856||IEA
+3934	>3529	mRNA
+			protein_id	gnl|PBARC|BDOR_000961.12-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000961.12-RA
+			product	Kelch-like protein 5
+3549	>3529	CDS
+			protein_id	gnl|PBARC|BDOR_000961.12-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000961.12-RA
+			product	Kelch-like protein 5
+			go_component	cytoplasm|0005737||IEA
+			go_component	cytoskeleton|0005856||IEA
+>Feature sctg_0003_0325
+1	8072	REFERENCE
+			PBARC	12345
+4141	8072	gene
+			locus_tag	BDOR_000964.1
+<6950	6553	mRNA
+4340	4331
+4149	4141
+			protein_id	gnl|PBARC|BDOR_000964.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000964.1-RA
+			product	hypothetical protein
+<6950	6553	CDS
+4340	4331
+4149	4141
+			protein_id	gnl|PBARC|BDOR_000964.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000964.1-RA
+			product	hypothetical protein
+373	1616	gene
+			locus_tag	BDOR_000963
+1616	1393	mRNA
+898	373
+			protein_id	gnl|PBARC|BDOR_000963-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000963-RA
+			product	hypothetical protein
+1616	1393	CDS
+898	373
+			protein_id	gnl|PBARC|BDOR_000963-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000963-RA
+			product	hypothetical protein
+>Feature sctg_0003_0326
+1	6859	REFERENCE
+			PBARC	12345
+4014	6859	gene
+			locus_tag	BDOR_000965.1
+<6854	6568	mRNA
+6492	6040
+5966	5659
+5266	5062
+4430	4347
+4264	4014
+			protein_id	gnl|PBARC|BDOR_000965.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000965.1-RA
+			product	Kelch-like protein 17
+<6854	6568	CDS
+6492	6040
+5966	5659
+5266	5062
+4430	4347
+4264	4070
+			protein_id	gnl|PBARC|BDOR_000965.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000965.1-RA
+			product	Kelch-like protein 17
+			go_component	actin cytoskeleton|0015629||IEA
+			go_component	cell junction|0030054||IEA
+			go_component	dendrite cytoplasm|0032839||IEA
+			go_component	neuronal cell body|0043025||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_component	postsynaptic density|0014069||IEA
+			go_component	postsynaptic membrane|0045211||IEA
+			go_function	protein complex scaffold|0032947||IEA
+			go_process	actin cytoskeleton organization|0030036||IEA
+			go_process	brain development|0007420||IEA
+			go_process	protein ubiquitination|0016567||IEA
+1	2897	gene
+			locus_tag	BDOR_000964.2
+2897	2880	mRNA
+2839	2787
+2421	2413
+2200	>2185
+			protein_id	gnl|PBARC|BDOR_000964.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000964.2-RA
+			product	hypothetical protein
+2897	2880	CDS
+2839	2787
+2421	2413
+2200	>2185
+			protein_id	gnl|PBARC|BDOR_000964.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000964.2-RA
+			product	hypothetical protein
+>Feature sctg_0003_0327
+1	2771	REFERENCE
+			PBARC	12345
+1	2771	gene
+			locus_tag	BDOR_000965.2
+<1219	>1105	mRNA
+			protein_id	gnl|PBARC|BDOR_000965.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000965.2-RA
+			product	Kelch-like protein 17
+<1219	>1105	CDS
+			protein_id	gnl|PBARC|BDOR_000965.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000965.2-RA
+			product	Kelch-like protein 17
+			go_component	actin cytoskeleton|0015629||IEA
+			go_component	cell junction|0030054||IEA
+			go_component	dendrite cytoplasm|0032839||IEA
+			go_component	neuronal cell body|0043025||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_component	postsynaptic density|0014069||IEA
+			go_component	postsynaptic membrane|0045211||IEA
+			go_function	protein complex scaffold|0032947||IEA
+			go_process	actin cytoskeleton organization|0030036||IEA
+			go_process	brain development|0007420||IEA
+			go_process	protein ubiquitination|0016567||IEA
+>Feature sctg_0003_0328
+1	1030	REFERENCE
+			PBARC	12345
+1	1030	gene
+			locus_tag	BDOR_000965.3
+>Feature sctg_0003_0329
+1	3813	REFERENCE
+			PBARC	12345
+1	3813	gene
+			locus_tag	BDOR_000965.4
+>Feature sctg_0003_0330
+1	1458	REFERENCE
+			PBARC	12345
+1	1450	gene
+			locus_tag	BDOR_000965.5
+1450	1037	mRNA
+614	519
+452	>264
+			protein_id	gnl|PBARC|BDOR_000965.5-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000965.5-RA
+			product	Kelch-like protein 17
+1063	1037	CDS
+614	519
+452	>264
+			protein_id	gnl|PBARC|BDOR_000965.5-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000965.5-RA
+			product	Kelch-like protein 17
+			go_component	actin cytoskeleton|0015629||IEA
+			go_component	cell junction|0030054||IEA
+			go_component	dendrite cytoplasm|0032839||IEA
+			go_component	neuronal cell body|0043025||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_component	postsynaptic density|0014069||IEA
+			go_component	postsynaptic membrane|0045211||IEA
+			go_function	protein complex scaffold|0032947||IEA
+			go_process	actin cytoskeleton organization|0030036||IEA
+			go_process	brain development|0007420||IEA
+			go_process	protein ubiquitination|0016567||IEA
+>Feature sctg_0003_0331
+1	3837	REFERENCE
+			PBARC	12345
+678	3058	gene
+			locus_tag	BDOR_000966
+3058	2798	mRNA
+1779	678
+			protein_id	gnl|PBARC|BDOR_000966-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000966-RA
+			product	hypothetical protein
+1779	781	CDS
+			protein_id	gnl|PBARC|BDOR_000966-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000966-RA
+			product	hypothetical protein
+>Feature sctg_0003_0332
+1	13682	REFERENCE
+			PBARC	12345
+8573	10663	gene
+			locus_tag	BDOR_000967
+10663	10490	mRNA
+10209	8573
+			protein_id	gnl|PBARC|BDOR_000967-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000967-RA
+			product	hypothetical protein
+10501	10490	CDS
+10209	8764
+			protein_id	gnl|PBARC|BDOR_000967-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000967-RA
+			product	hypothetical protein
+>Feature sctg_0003_0333
+1	2277	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0334
+1	3604	REFERENCE
+			PBARC	12345
+275	2463	gene
+			locus_tag	BDOR_000968
+>Feature sctg_0003_0335
+1	3297	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0336
+1	2307	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0337
+1	8879	REFERENCE
+			PBARC	12345
+823	1139	gene
+			locus_tag	BDOR_000970
+627	6876	gene
+			locus_tag	BDOR_000969
+			gene	ADCK3
+627	1221	mRNA
+1844	2068
+2133	2483
+2546	2882
+3621	5127
+5188	5346
+5411	5601
+5871	6063
+6125	6295
+6394	6876
+			protein_id	gnl|PBARC|BDOR_000969-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000969-RA
+			product	Chaperone activity of bc1 complex-like
+3925	5127	CDS
+5188	5346
+5411	5601
+5871	6063
+6125	6295
+6394	6582
+			protein_id	gnl|PBARC|BDOR_000969-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000969-RA
+			product	Chaperone activity of bc1 complex-like
+			go_component	mitochondrion|0005739||IEA
+			go_function	ATP binding|0005524||IEA
+			go_function	protein serine/threonine kinase activity|0004674||IEA
+>Feature sctg_0003_0338
+1	6543	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0339
+1	5261	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0340
+1	8807	REFERENCE
+			PBARC	12345
+509	8807	gene
+			locus_tag	BDOR_000971.1
+<509	>627	mRNA
+			protein_id	gnl|PBARC|BDOR_000971.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000971.1-RA
+			product	High affinity cGMP-specific 3'
+>Feature sctg_0003_0341
+1	2073	REFERENCE
+			PBARC	12345
+1	2073	gene
+			locus_tag	BDOR_000971.2
+>Feature sctg_0003_0342
+1	912	REFERENCE
+			PBARC	12345
+1	912	gene
+			locus_tag	BDOR_000971.3
+>Feature sctg_0003_0343
+1	2790	REFERENCE
+			PBARC	12345
+1	2790	gene
+			locus_tag	BDOR_000971.4
+>Feature sctg_0003_0344
+1	4281	REFERENCE
+			PBARC	12345
+1	4281	gene
+			locus_tag	BDOR_000971.5
+>Feature sctg_0003_0345
+1	1253	REFERENCE
+			PBARC	12345
+1	1253	gene
+			locus_tag	BDOR_000971.6
+>Feature sctg_0003_0346
+1	6461	REFERENCE
+			PBARC	12345
+1	6461	gene
+			locus_tag	BDOR_000971.7
+<5467	>5505	mRNA
+			protein_id	gnl|PBARC|BDOR_000971.7-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000971.7-RA
+			product	High affinity cGMP-specific 3'
+>Feature sctg_0003_0347
+1	6428	REFERENCE
+			PBARC	12345
+1	6428	gene
+			locus_tag	BDOR_000971.8
+>Feature sctg_0003_0348
+1	8985	REFERENCE
+			PBARC	12345
+1	8985	gene
+			locus_tag	BDOR_000971.9
+>Feature sctg_0003_0349
+1	3504	REFERENCE
+			PBARC	12345
+1	3504	gene
+			locus_tag	BDOR_000971.10
+>Feature sctg_0003_0350
+1	2591	REFERENCE
+			PBARC	12345
+1	2591	gene
+			locus_tag	BDOR_000971.11
+>Feature sctg_0003_0351
+1	1070	REFERENCE
+			PBARC	12345
+1	1070	gene
+			locus_tag	BDOR_000971.12
+>Feature sctg_0003_0352
+1	3562	REFERENCE
+			PBARC	12345
+1	3562	gene
+			locus_tag	BDOR_000971.13
+>Feature sctg_0003_0353
+1	535	REFERENCE
+			PBARC	12345
+1	535	gene
+			locus_tag	BDOR_000971.14
+>Feature sctg_0003_0354
+1	13611	REFERENCE
+			PBARC	12345
+1	13611	gene
+			locus_tag	BDOR_000971.15
+429	>3778	mRNA
+			protein_id	gnl|PBARC|BDOR_000971.15-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000971.15-RA
+			product	High affinity cGMP-specific 3'
+1444	>3778	CDS
+			protein_id	gnl|PBARC|BDOR_000971.15-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000971.15-RA
+			product	High affinity cGMP-specific 3'
+			go_component	cytosol|0005829||IEA
+			go_component	endoplasmic reticulum|0005783||IEA
+			go_component	Golgi apparatus|0005794||IEA
+			go_component	perinuclear region of cytoplasm|0048471||IEA
+			go_component	ruffle membrane|0032587||IEA
+			go_function	3'
+			go_function	3'
+			go_function	metal ion binding|0046872||IEA
+			go_process	blood coagulation|0007596||IEA
+			go_process	signal transduction|0007165||IEA
+>Feature sctg_0003_0355
+1	25057	REFERENCE
+			PBARC	12345
+1	25057	gene
+			locus_tag	BDOR_000971.16
+>Feature sctg_0003_0356
+1	1754	REFERENCE
+			PBARC	12345
+1	1754	gene
+			locus_tag	BDOR_000971.17
+>Feature sctg_0003_0357
+1	1242	REFERENCE
+			PBARC	12345
+1	1242	gene
+			locus_tag	BDOR_000971.18
+>Feature sctg_0003_0358
+1	17109	REFERENCE
+			PBARC	12345
+1	17109	gene
+			locus_tag	BDOR_000971.19
+<6865	>7190	mRNA
+			protein_id	gnl|PBARC|BDOR_000971.19-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000971.19-RA
+			product	High affinity cGMP-specific 3'
+<6865	>7190	CDS
+			protein_id	gnl|PBARC|BDOR_000971.19-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000971.19-RA
+			product	High affinity cGMP-specific 3'
+			go_component	cytosol|0005829||IEA
+			go_component	endoplasmic reticulum|0005783||IEA
+			go_component	Golgi apparatus|0005794||IEA
+			go_component	perinuclear region of cytoplasm|0048471||IEA
+			go_component	ruffle membrane|0032587||IEA
+			go_function	3'
+			go_function	3'
+			go_function	metal ion binding|0046872||IEA
+			go_process	blood coagulation|0007596||IEA
+			go_process	signal transduction|0007165||IEA
+>Feature sctg_0003_0359
+1	16105	REFERENCE
+			PBARC	12345
+1	7809	gene
+			locus_tag	BDOR_000971.20
+<6372	6523	mRNA
+7698	7809
+			protein_id	gnl|PBARC|BDOR_000971.20-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000971.20-RA
+			product	High affinity cGMP-specific 3'
+<6372	6523	CDS
+7698	7809
+			protein_id	gnl|PBARC|BDOR_000971.20-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000971.20-RA
+			product	High affinity cGMP-specific 3'
+			go_component	cytosol|0005829||IEA
+			go_component	endoplasmic reticulum|0005783||IEA
+			go_component	Golgi apparatus|0005794||IEA
+			go_component	perinuclear region of cytoplasm|0048471||IEA
+			go_component	ruffle membrane|0032587||IEA
+			go_function	3'
+			go_function	3'
+			go_function	metal ion binding|0046872||IEA
+			go_process	blood coagulation|0007596||IEA
+			go_process	signal transduction|0007165||IEA
+>Feature sctg_0003_0360
+1	1124	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0361
+1	24032	REFERENCE
+			PBARC	12345
+15713	23603	gene
+			locus_tag	BDOR_000972
+			gene	PDE9A
+15713	15723	mRNA
+16284	16410
+17220	17515
+17573	18041
+20664	23603
+			protein_id	gnl|PBARC|BDOR_000972-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000972-RA
+			product	High affinity cGMP-specific 3'
+15713	15723	CDS
+16284	16410
+17220	17515
+17573	18041
+20664	22091
+			protein_id	gnl|PBARC|BDOR_000972-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000972-RA
+			product	High affinity cGMP-specific 3'
+			go_component	cytosol|0005829||IEA
+			go_component	endoplasmic reticulum|0005783||IEA
+			go_component	Golgi apparatus|0005794||IEA
+			go_component	perinuclear region of cytoplasm|0048471||IEA
+			go_component	ruffle membrane|0032587||IEA
+			go_function	3'
+			go_function	3'
+			go_function	metal ion binding|0046872||IEA
+			go_process	blood coagulation|0007596||IEA
+			go_process	signal transduction|0007165||IEA
+>Feature sctg_0003_0362
+1	6241	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0363
+1	5703	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0364
+1	11531	REFERENCE
+			PBARC	12345
+4059	7350	gene
+			locus_tag	BDOR_000973
+			gene	ENDOU
+4059	4331	mRNA
+5082	6369
+6438	6634
+6707	6939
+7000	7350
+			protein_id	gnl|PBARC|BDOR_000973-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000973-RA
+			product	Poly(U)-specific endoribonuclease homolog
+4256	4331	CDS
+5082	6369
+6438	6634
+6707	6939
+7000	7233
+			protein_id	gnl|PBARC|BDOR_000973-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000973-RA
+			product	Poly(U)-specific endoribonuclease homolog
+			go_component	extracellular region|0005576||IEA
+			go_function	endoribonuclease activity|0004521||IEA
+			go_function	metal ion binding|0046872||IEA
+			go_function	RNA binding|0003723||IEA
+9044	11531	gene
+			locus_tag	BDOR_000974.1
+<9044	>9438	mRNA
+			protein_id	gnl|PBARC|BDOR_000974.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000974.1-RA
+			product	Protein tweety-2
+11012	11531	gene
+			locus_tag	BDOR_000975.1
+<11123	11012	mRNA
+			protein_id	gnl|PBARC|BDOR_000975.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000975.1-RA
+			product	hypothetical protein
+<11123	11101	CDS
+			protein_id	gnl|PBARC|BDOR_000975.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000975.1-RA
+			product	hypothetical protein
+>Feature sctg_0003_0365
+1	3298	REFERENCE
+			PBARC	12345
+1	3298	gene
+			locus_tag	BDOR_000974.2
+423	>2930	mRNA
+			protein_id	gnl|PBARC|BDOR_000974.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000974.2-RA
+			product	Protein tweety-2
+2820	>2930	CDS
+			protein_id	gnl|PBARC|BDOR_000974.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000974.2-RA
+			product	Protein tweety-2
+			go_component	chloride channel complex|0034707||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_function	chloride channel activity|0005254||IEA
+			go_process	inter-male aggressive behavior|0002121||IEA
+			go_process	mushroom body development|0016319||IEA
+			go_process	phagocytosis
+1	3298	gene
+			locus_tag	BDOR_000975.2
+>Feature sctg_0003_0366
+1	3180	REFERENCE
+			PBARC	12345
+1	3180	gene
+			locus_tag	BDOR_000974.3
+1	3180	gene
+			locus_tag	BDOR_000975.3
+>Feature sctg_0003_0367
+1	4836	REFERENCE
+			PBARC	12345
+1	4836	gene
+			locus_tag	BDOR_000974.4
+1	4836	gene
+			locus_tag	BDOR_000975.4
+>Feature sctg_0003_0368
+1	2922	REFERENCE
+			PBARC	12345
+1	2922	gene
+			locus_tag	BDOR_000974.5
+1	2922	gene
+			locus_tag	BDOR_000975.5
+>Feature sctg_0003_0369
+1	4544	REFERENCE
+			PBARC	12345
+1	4544	gene
+			locus_tag	BDOR_000974.6
+1	4544	gene
+			locus_tag	BDOR_000975.6
+>Feature sctg_0003_0370
+1	4155	REFERENCE
+			PBARC	12345
+1	4155	gene
+			locus_tag	BDOR_000974.7
+1	4155	gene
+			locus_tag	BDOR_000975.7
+>Feature sctg_0003_0371
+1	8841	REFERENCE
+			PBARC	12345
+1	8841	gene
+			locus_tag	BDOR_000974.8
+1	8841	gene
+			locus_tag	BDOR_000975.8
+>Feature sctg_0003_0372
+1	18045	REFERENCE
+			PBARC	12345
+1	18045	gene
+			locus_tag	BDOR_000974.9
+1	18045	gene
+			locus_tag	BDOR_000975.9
+>Feature sctg_0003_0373
+1	3514	REFERENCE
+			PBARC	12345
+1	3514	gene
+			locus_tag	BDOR_000974.10
+1	3514	gene
+			locus_tag	BDOR_000975.10
+>Feature sctg_0003_0374
+1	9797	REFERENCE
+			PBARC	12345
+1	9797	gene
+			locus_tag	BDOR_000974.11
+1	9797	gene
+			locus_tag	BDOR_000975.11
+>Feature sctg_0003_0375
+1	7911	REFERENCE
+			PBARC	12345
+1	7911	gene
+			locus_tag	BDOR_000974.12
+<5032	>5209	mRNA
+			protein_id	gnl|PBARC|BDOR_000974.12-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000974.12-RA
+			product	Protein tweety-2
+<5032	>5209	CDS
+			protein_id	gnl|PBARC|BDOR_000974.12-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000974.12-RA
+			product	Protein tweety-2
+			go_component	chloride channel complex|0034707||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_function	chloride channel activity|0005254||IEA
+			go_process	inter-male aggressive behavior|0002121||IEA
+			go_process	mushroom body development|0016319||IEA
+			go_process	phagocytosis
+1	7911	gene
+			locus_tag	BDOR_000975.12
+>Feature sctg_0003_0376
+1	8779	REFERENCE
+			PBARC	12345
+1	8779	gene
+			locus_tag	BDOR_000974.13
+<3464	>3558	mRNA
+			protein_id	gnl|PBARC|BDOR_000974.13-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000974.13-RA
+			product	Protein tweety-2
+<3464	>3558	CDS
+			protein_id	gnl|PBARC|BDOR_000974.13-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000974.13-RA
+			product	Protein tweety-2
+			go_component	chloride channel complex|0034707||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_function	chloride channel activity|0005254||IEA
+			go_process	inter-male aggressive behavior|0002121||IEA
+			go_process	mushroom body development|0016319||IEA
+			go_process	phagocytosis
+1	8779	gene
+			locus_tag	BDOR_000975.13
+>Feature sctg_0003_0377
+1	23130	REFERENCE
+			PBARC	12345
+1	23130	gene
+			locus_tag	BDOR_000974.14
+1	23130	gene
+			locus_tag	BDOR_000975.14
+>Feature sctg_0003_0378
+1	14038	REFERENCE
+			PBARC	12345
+1	8376	gene
+			locus_tag	BDOR_000974.15
+<7642	7869	mRNA
+8000	8251
+8365	8376
+			protein_id	gnl|PBARC|BDOR_000974.15-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000974.15-RA
+			product	Protein tweety-2
+<7642	7869	CDS
+8000	8251
+8365	8376
+			protein_id	gnl|PBARC|BDOR_000974.15-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000974.15-RA
+			product	Protein tweety-2
+			go_component	chloride channel complex|0034707||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_function	chloride channel activity|0005254||IEA
+			go_process	inter-male aggressive behavior|0002121||IEA
+			go_process	mushroom body development|0016319||IEA
+			go_process	phagocytosis
+1	2945	gene
+			locus_tag	BDOR_000975.15
+2945	2940	mRNA
+2799	>2722
+			protein_id	gnl|PBARC|BDOR_000975.15-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000975.15-RA
+			product	hypothetical protein
+2764	>2722	CDS
+			protein_id	gnl|PBARC|BDOR_000975.15-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000975.15-RA
+			product	hypothetical protein
+5578	8175	gene
+			locus_tag	BDOR_000976
+8175	8040	mRNA
+6698	6631
+5586	5578
+			protein_id	gnl|PBARC|BDOR_000976-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000976-RA
+			product	hypothetical protein
+8175	8040	CDS
+6698	6631
+5586	5578
+			protein_id	gnl|PBARC|BDOR_000976-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000976-RA
+			product	hypothetical protein
+>Feature sctg_0003_0379
+1	3468	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0380
+1	6007	REFERENCE
+			PBARC	12345
+3121	4982	gene
+			locus_tag	BDOR_000977
+			gene	TTY2
+3121	3123	mRNA
+3640	3758
+3887	4159
+4493	4982
+			protein_id	gnl|PBARC|BDOR_000977-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000977-RA
+			product	Protein tweety-2
+3121	3123	CDS
+3640	3758
+3887	4159
+4493	4982
+			protein_id	gnl|PBARC|BDOR_000977-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000977-RA
+			product	Protein tweety-2
+			go_component	chloride channel complex|0034707||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_function	chloride channel activity|0005254||IEA
+			go_process	inter-male aggressive behavior|0002121||IEA
+			go_process	mushroom body development|0016319||IEA
+			go_process	phagocytosis
+>Feature sctg_0003_0381
+1	29513	REFERENCE
+			PBARC	12345
+24922	26692	gene
+			locus_tag	BDOR_000983
+			gene	SMG9
+24922	25103	mRNA
+25161	26229
+26292	26692
+			protein_id	gnl|PBARC|BDOR_000983-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000983-RA
+			product	Protein SMG9
+25065	25103	CDS
+25161	26229
+26292	26572
+			protein_id	gnl|PBARC|BDOR_000983-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000983-RA
+			product	Protein SMG9
+			go_component	intracellular|0005622||IEA
+			go_function	GTP binding|0005525||IEA
+			go_process	nuclear-transcribed mRNA catabolic process
+19794	24166	gene
+			locus_tag	BDOR_000981
+			gene	U586
+19794	20228	mRNA
+20774	21026
+21221	21381
+21454	21594
+21652	21814
+22082	22176
+22336	24166
+			protein_id	gnl|PBARC|BDOR_000981-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000981-RA
+			product	UPF0586 protein CG11596
+20071	20228	CDS
+20774	21026
+21221	21381
+21454	21594
+21652	21814
+22082	22176
+22336	22714
+			protein_id	gnl|PBARC|BDOR_000981-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000981-RA
+			product	UPF0586 protein CG11596
+13400	15479	gene
+			locus_tag	BDOR_000979
+			gene	RM30
+13400	13621	mRNA
+13681	15479
+			protein_id	gnl|PBARC|BDOR_000979-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000979-RA
+			product	39S ribosomal protein L30
+13494	13621	CDS
+13681	14095
+			protein_id	gnl|PBARC|BDOR_000979-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000979-RA
+			product	39S ribosomal protein L30
+			go_component	mitochondrion|0005739||IEA
+			go_component	ribosome|0005840||IEA
+22327	24830	gene
+			locus_tag	BDOR_000982
+			gene	KTI12
+24830	24324	mRNA
+24270	23930
+23869	22327
+			protein_id	gnl|PBARC|BDOR_000982-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000982-RA
+			product	Protein KTI12 homolog
+24588	24324	CDS
+24270	23930
+23869	23588
+			protein_id	gnl|PBARC|BDOR_000982-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000982-RA
+			product	Protein KTI12 homolog
+			go_function	ATP binding|0005524||IEA
+16412	19358	gene
+			locus_tag	BDOR_000980
+			gene	SMYD3
+19358	19144	mRNA
+19065	19009
+18927	18622
+18560	18319
+18251	18121
+17678	17502
+17428	17143
+17090	16928
+16864	16412
+			protein_id	gnl|PBARC|BDOR_000980-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000980-RA
+			product	SET and MYND domain-containing protein 3
+18887	18622	CDS
+18560	18319
+18251	18121
+17678	17502
+17428	17143
+17090	16928
+16864	16657
+			protein_id	gnl|PBARC|BDOR_000980-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000980-RA
+			product	SET and MYND domain-containing protein 3
+			go_component	cytoplasm|0005737||IEA
+			go_component	nucleus|0005634||IEA
+			go_function	histone-lysine N-methyltransferase activity|0018024||IEA
+			go_function	metal ion binding|0046872||IEA
+			go_function	zinc ion binding|0008270||IEA
+9240	15384	gene
+			locus_tag	BDOR_000978
+			gene	TORS
+15384	15177	mRNA
+15119	14851
+14790	14345
+13189	12748
+12683	9504
+9443	9240
+			protein_id	gnl|PBARC|BDOR_000978-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000978-RA
+			product	Torsin-like protein
+15384	15177	CDS
+15119	14851
+14790	14345
+13189	12748
+12683	11424
+			protein_id	gnl|PBARC|BDOR_000978-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000978-RA
+			product	Torsin-like protein
+			go_component	endoplasmic reticulum lumen|0005788||IEA
+			go_function	ATP binding|0005524||IEA
+			go_process	adult chitin-containing cuticle pigmentation|0048085||IEA
+			go_process	chaperone mediated protein folding requiring cofactor|0051085||IEA
+			go_process	locomotion|0040011||IEA
+			go_process	positive regulation of GTP cyclohydrolase I activity|0043104||IEA
+			go_process	regulation of dopamine metabolic process|0042053||IEA
+27140	29513	gene
+			locus_tag	BDOR_000984.1
+<29400	29148	mRNA
+28852	27140
+			protein_id	gnl|PBARC|BDOR_000984.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000984.1-RA
+			product	UPF0740 protein CG3062
+<29400	29148	CDS
+28852	27140
+			protein_id	gnl|PBARC|BDOR_000984.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000984.1-RA
+			product	UPF0740 protein CG3062
+>Feature sctg_0003_0382
+1	1202	REFERENCE
+			PBARC	12345
+1	1202	gene
+			locus_tag	BDOR_000984.2
+<429	>293	mRNA
+			protein_id	gnl|PBARC|BDOR_000984.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000984.2-RA
+			product	UPF0740 protein CG3062
+<429	>293	CDS
+			protein_id	gnl|PBARC|BDOR_000984.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000984.2-RA
+			product	UPF0740 protein CG3062
+>Feature sctg_0003_0383
+1	5198	REFERENCE
+			PBARC	12345
+1	5198	gene
+			locus_tag	BDOR_000984.3
+<3687	>3678	mRNA
+			protein_id	gnl|PBARC|BDOR_000984.3-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000984.3-RA
+			product	UPF0740 protein CG3062
+<3687	>3678	CDS
+			protein_id	gnl|PBARC|BDOR_000984.3-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000984.3-RA
+			product	UPF0740 protein CG3062
+>Feature sctg_0003_0384
+1	1202	REFERENCE
+			PBARC	12345
+1	429	gene
+			locus_tag	BDOR_000984.4
+<429	>293	mRNA
+			protein_id	gnl|PBARC|BDOR_000984.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000984.4-RA
+			product	UPF0740 protein CG3062
+<429	>293	CDS
+			protein_id	gnl|PBARC|BDOR_000984.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000984.4-RA
+			product	UPF0740 protein CG3062
+>Feature sctg_0003_0385
+1	14076	REFERENCE
+			PBARC	12345
+10981	13868	gene
+			locus_tag	BDOR_000988
+			gene	NSUN2
+10981	11294	mRNA
+11354	12049
+12127	12269
+12329	13299
+13368	13517
+13581	13868
+			protein_id	gnl|PBARC|BDOR_000988-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000988-RA
+			product	tRNA (cytosine(34)-C(5))-methyltransferase
+11235	11294	CDS
+11354	12049
+12127	12269
+12329	13299
+13368	13517
+13581	13747
+			protein_id	gnl|PBARC|BDOR_000988-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000988-RA
+			product	tRNA (cytosine(34)-C(5))-methyltransferase
+			go_component	cytoplasm|0005737||IEA
+			go_component	nucleolus|0005730||IEA
+			go_function	tRNA (cytosine-5-)-methyltransferase activity|0016428||IEA
+			go_function	tRNA binding|0000049||IEA
+			go_process	short-term memory|0007614||IEA
+3323	7394	gene
+			locus_tag	BDOR_000986
+			gene	KLHL5
+3323	3584	mRNA
+3645	3999
+4665	5033
+5095	5366
+5660	5867
+5924	6025
+6081	7394
+			protein_id	gnl|PBARC|BDOR_000986-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000986-RA
+			product	Kelch-like protein 5
+3424	3584	CDS
+3645	3999
+4665	5033
+5095	5366
+5660	5867
+5924	6025
+6081	6311
+			protein_id	gnl|PBARC|BDOR_000986-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000986-RA
+			product	Kelch-like protein 5
+			go_component	cytoplasm|0005737||IEA
+			go_component	cytoskeleton|0005856||IEA
+7745	10849	gene
+			locus_tag	BDOR_000987
+			gene	TIP60
+10849	10697	mRNA
+10565	10439
+10371	10123
+10059	9780
+9722	9151
+9094	8882
+8682	>7745
+			protein_id	gnl|PBARC|BDOR_000987-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000987-RA
+			product	Histone acetyltransferase Tip60
+9884	9780	CDS
+9722	9151
+9094	8882
+8682	>8682
+			protein_id	gnl|PBARC|BDOR_000987-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000987-RA
+			product	Histone acetyltransferase Tip60
+			go_component	NuA4 histone acetyltransferase complex|0035267||IEA
+			go_component	polytene chromosome interband|0005705||IEA
+			go_function	histone acetyltransferase activity|0004402||IEA
+			go_process	histone exchange|0043486||IEA
+			go_process	regulation of synaptic plasticity|0048167||IEA
+			go_process	regulation of terminal button organization|2000331||IEA
+			go_process	regulation of transcription
+			go_process	response to DNA damage stimulus|0006974||IEA
+			go_process	transcription
+312	2557	gene
+			locus_tag	BDOR_000985
+			gene	HEN1
+2557	2547	mRNA
+801	312
+			protein_id	gnl|PBARC|BDOR_000985-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000985-RA
+			product	Helix-loop-helix protein 1
+2557	2547	CDS
+801	312
+			protein_id	gnl|PBARC|BDOR_000985-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000985-RA
+			product	Helix-loop-helix protein 1
+			go_component	nucleus|0005634||IEA
+			go_function	DNA binding|0003677||IEA
+			go_process	cell differentiation|0030154||IEA
+			go_process	multicellular organismal development|0007275||IEA
+			go_process	regulation of transcription
+			go_process	transcription
+>Feature sctg_0003_0386
+1	1154	REFERENCE
+			PBARC	12345
+357	1154	gene
+			locus_tag	BDOR_000989.1
+357	436	mRNA
+499	>1138
+			protein_id	gnl|PBARC|BDOR_000989.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000989.1-RA
+			product	Vanin-like protein 1
+368	436	CDS
+499	>1138
+			protein_id	gnl|PBARC|BDOR_000989.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000989.1-RA
+			product	Vanin-like protein 1
+			go_component	extrinsic to membrane|0019898||IEA
+			go_function	hydrolase activity|0016787||IEA
+			go_function	hydrolase activity
+			go_process	nitrogen compound metabolic process|0006807||IEA
+>Feature sctg_0003_0387
+1	5180	REFERENCE
+			PBARC	12345
+1	1061	gene
+			locus_tag	BDOR_000989.2
+<11	755	mRNA
+823	1061
+			protein_id	gnl|PBARC|BDOR_000989.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000989.2-RA
+			product	Vanin-like protein 1
+<11	755	CDS
+823	1006
+			protein_id	gnl|PBARC|BDOR_000989.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000989.2-RA
+			product	Vanin-like protein 1
+			go_component	extrinsic to membrane|0019898||IEA
+			go_function	hydrolase activity|0016787||IEA
+			go_function	hydrolase activity
+			go_process	nitrogen compound metabolic process|0006807||IEA
+>Feature sctg_0003_0388
+1	1961	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0389
+1	1243	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0390
+1	3365	REFERENCE
+			PBARC	12345
+222	2171	gene
+			locus_tag	BDOR_000990
+			gene	VNNL1
+2171	2055	mRNA
+1961	610
+547	388
+299	222
+			protein_id	gnl|PBARC|BDOR_000990-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000990-RA
+			product	Vanin-like protein 1
+2123	2055	CDS
+1961	610
+547	388
+299	222
+			protein_id	gnl|PBARC|BDOR_000990-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000990-RA
+			product	Vanin-like protein 1
+			go_component	extrinsic to membrane|0019898||IEA
+			go_function	hydrolase activity|0016787||IEA
+			go_function	hydrolase activity
+			go_process	nitrogen compound metabolic process|0006807||IEA
+>Feature sctg_0003_0391
+1	1472	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0392
+1	6040	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0393
+1	4673	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0394
+1	1537	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0395
+1	952	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0396
+1	3871	REFERENCE
+			PBARC	12345
+631	3457	gene
+			locus_tag	BDOR_000991
+			gene	VNNL1
+<631	669	mRNA
+805	1474
+2382	3107
+3171	3457
+			protein_id	gnl|PBARC|BDOR_000991-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000991-RA
+			product	Vanin-like protein 1
+<631	669	CDS
+805	1474
+2382	2620
+			protein_id	gnl|PBARC|BDOR_000991-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000991-RA
+			product	Vanin-like protein 1
+			go_component	extrinsic to membrane|0019898||IEA
+			go_function	hydrolase activity|0016787||IEA
+			go_function	hydrolase activity
+			go_process	nitrogen compound metabolic process|0006807||IEA
+>Feature sctg_0003_0397
+1	1555	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0398
+1	2725	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0399
+1	1336	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0400
+1	989	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0401
+1	2147	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0402
+1	2068	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0403
+1	4417	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0404
+1	7894	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0405
+1	1264	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0406
+1	599	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0407
+1	6488	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0408
+1	1854	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0409
+1	2487	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0410
+1	2673	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0411
+1	4481	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0412
+1	4336	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0413
+1	4005	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0414
+1	1126	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0415
+1	2019	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0416
+1	4065	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0417
+1	3224	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0418
+1	6495	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0419
+1	3841	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0420
+1	10680	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0421
+1	10340	REFERENCE
+			PBARC	12345
+7460	7514	gene
+			locus_tag	BDOR_000992
+>Feature sctg_0003_0422
+1	1796	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0423
+1	5287	REFERENCE
+			PBARC	12345
+3209	5287	gene
+			locus_tag	BDOR_000993.1
+3209	3226	mRNA
+4263	4494
+4620	>4788
+			protein_id	gnl|PBARC|BDOR_000993.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000993.1-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+3209	3226	CDS
+4263	4494
+4620	>4788
+			protein_id	gnl|PBARC|BDOR_000993.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000993.1-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+			go_component	voltage-gated calcium channel complex|0005891||IEA
+			go_function	low voltage-gated calcium channel activity|0008332||IEA
+			go_process	axon guidance|0007411||IEA
+			go_process	calcium ion import|0070509||IEA
+			go_process	regulation of atrial cardiac muscle cell membrane depolarization|0060371||IEA
+			go_process	regulation of heart rate|0002027||IEA
+			go_process	regulation of membrane potential|0042391||IEA
+			go_process	response to nickel cation|0010045||IEA
+			go_process	synaptic transmission|0007268||IEA
+>Feature sctg_0003_0424
+1	1533	REFERENCE
+			PBARC	12345
+1	1533	gene
+			locus_tag	BDOR_000993.2
+>Feature sctg_0003_0425
+1	5305	REFERENCE
+			PBARC	12345
+1	5305	gene
+			locus_tag	BDOR_000993.3
+>Feature sctg_0003_0426
+1	3875	REFERENCE
+			PBARC	12345
+1	851	gene
+			locus_tag	BDOR_000993.4
+<722	851	mRNA
+			protein_id	gnl|PBARC|BDOR_000993.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000993.4-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+<722	851	CDS
+			protein_id	gnl|PBARC|BDOR_000993.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000993.4-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+			go_component	voltage-gated calcium channel complex|0005891||IEA
+			go_function	low voltage-gated calcium channel activity|0008332||IEA
+			go_process	axon guidance|0007411||IEA
+			go_process	calcium ion import|0070509||IEA
+			go_process	regulation of atrial cardiac muscle cell membrane depolarization|0060371||IEA
+			go_process	regulation of heart rate|0002027||IEA
+			go_process	regulation of membrane potential|0042391||IEA
+			go_process	response to nickel cation|0010045||IEA
+			go_process	synaptic transmission|0007268||IEA
+>Feature sctg_0003_0427
+1	15261	REFERENCE
+			PBARC	12345
+9653	15261	gene
+			locus_tag	BDOR_000994.1
+9653	9664	mRNA
+9820	>9912
+			protein_id	gnl|PBARC|BDOR_000994.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000994.1-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+9653	9664	CDS
+9820	>9912
+			protein_id	gnl|PBARC|BDOR_000994.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000994.1-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+			go_component	voltage-gated calcium channel complex|0005891||IEA
+			go_function	low voltage-gated calcium channel activity|0008332||IEA
+			go_process	axon guidance|0007411||IEA
+			go_process	calcium ion import|0070509||IEA
+			go_process	regulation of atrial cardiac muscle cell membrane depolarization|0060371||IEA
+			go_process	regulation of heart rate|0002027||IEA
+			go_process	regulation of membrane potential|0042391||IEA
+			go_process	response to nickel cation|0010045||IEA
+			go_process	synaptic transmission|0007268||IEA
+>Feature sctg_0003_0428
+1	3331	REFERENCE
+			PBARC	12345
+1	3331	gene
+			locus_tag	BDOR_000994.2
+<2712	2953	mRNA
+3006	>3090
+			protein_id	gnl|PBARC|BDOR_000994.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000994.2-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+<2712	2953	CDS
+3006	>3090
+			protein_id	gnl|PBARC|BDOR_000994.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000994.2-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+			go_component	voltage-gated calcium channel complex|0005891||IEA
+			go_function	low voltage-gated calcium channel activity|0008332||IEA
+			go_process	axon guidance|0007411||IEA
+			go_process	calcium ion import|0070509||IEA
+			go_process	regulation of atrial cardiac muscle cell membrane depolarization|0060371||IEA
+			go_process	regulation of heart rate|0002027||IEA
+			go_process	regulation of membrane potential|0042391||IEA
+			go_process	response to nickel cation|0010045||IEA
+			go_process	synaptic transmission|0007268||IEA
+>Feature sctg_0003_0429
+1	1905	REFERENCE
+			PBARC	12345
+1	1905	gene
+			locus_tag	BDOR_000994.3
+<1097	>1231	mRNA
+			protein_id	gnl|PBARC|BDOR_000994.3-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000994.3-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+<1097	>1231	CDS
+			protein_id	gnl|PBARC|BDOR_000994.3-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000994.3-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+			go_component	voltage-gated calcium channel complex|0005891||IEA
+			go_function	low voltage-gated calcium channel activity|0008332||IEA
+			go_process	axon guidance|0007411||IEA
+			go_process	calcium ion import|0070509||IEA
+			go_process	regulation of atrial cardiac muscle cell membrane depolarization|0060371||IEA
+			go_process	regulation of heart rate|0002027||IEA
+			go_process	regulation of membrane potential|0042391||IEA
+			go_process	response to nickel cation|0010045||IEA
+			go_process	synaptic transmission|0007268||IEA
+>Feature sctg_0003_0430
+1	5075	REFERENCE
+			PBARC	12345
+1	5075	gene
+			locus_tag	BDOR_000994.4
+<1290	1505	mRNA
+3074	>3828
+			protein_id	gnl|PBARC|BDOR_000994.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000994.4-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+<1290	1505	CDS
+3074	>3828
+			protein_id	gnl|PBARC|BDOR_000994.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000994.4-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+			go_component	voltage-gated calcium channel complex|0005891||IEA
+			go_function	low voltage-gated calcium channel activity|0008332||IEA
+			go_process	axon guidance|0007411||IEA
+			go_process	calcium ion import|0070509||IEA
+			go_process	regulation of atrial cardiac muscle cell membrane depolarization|0060371||IEA
+			go_process	regulation of heart rate|0002027||IEA
+			go_process	regulation of membrane potential|0042391||IEA
+			go_process	response to nickel cation|0010045||IEA
+			go_process	synaptic transmission|0007268||IEA
+>Feature sctg_0003_0431
+1	11891	REFERENCE
+			PBARC	12345
+1	11891	gene
+			locus_tag	BDOR_000994.5
+<606	>818	mRNA
+			protein_id	gnl|PBARC|BDOR_000994.5-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000994.5-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+<606	>818	CDS
+			protein_id	gnl|PBARC|BDOR_000994.5-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000994.5-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+			go_component	voltage-gated calcium channel complex|0005891||IEA
+			go_function	low voltage-gated calcium channel activity|0008332||IEA
+			go_process	axon guidance|0007411||IEA
+			go_process	calcium ion import|0070509||IEA
+			go_process	regulation of atrial cardiac muscle cell membrane depolarization|0060371||IEA
+			go_process	regulation of heart rate|0002027||IEA
+			go_process	regulation of membrane potential|0042391||IEA
+			go_process	response to nickel cation|0010045||IEA
+			go_process	synaptic transmission|0007268||IEA
+>Feature sctg_0003_0432
+1	6785	REFERENCE
+			PBARC	12345
+1	1863	gene
+			locus_tag	BDOR_000994.6
+<1087	1252	mRNA
+1798	1863
+			protein_id	gnl|PBARC|BDOR_000994.6-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000994.6-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+<1087	1252	CDS
+1798	1863
+			protein_id	gnl|PBARC|BDOR_000994.6-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000994.6-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+			go_component	voltage-gated calcium channel complex|0005891||IEA
+			go_function	low voltage-gated calcium channel activity|0008332||IEA
+			go_process	axon guidance|0007411||IEA
+			go_process	calcium ion import|0070509||IEA
+			go_process	regulation of atrial cardiac muscle cell membrane depolarization|0060371||IEA
+			go_process	regulation of heart rate|0002027||IEA
+			go_process	regulation of membrane potential|0042391||IEA
+			go_process	response to nickel cation|0010045||IEA
+			go_process	synaptic transmission|0007268||IEA
+>Feature sctg_0003_0433
+1	9200	REFERENCE
+			PBARC	12345
+479	3659	gene
+			locus_tag	BDOR_000995
+			gene	CAC1G
+479	634	mRNA
+1433	1618
+3069	3299
+3465	>3659
+			protein_id	gnl|PBARC|BDOR_000995-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000995-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+521	634	CDS
+1433	1618
+3069	3299
+3465	>3659
+			protein_id	gnl|PBARC|BDOR_000995-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000995-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1G
+			go_component	voltage-gated calcium channel complex|0005891||IEA
+			go_function	low voltage-gated calcium channel activity|0008332||IEA
+			go_process	axon guidance|0007411||IEA
+			go_process	calcium ion import|0070509||IEA
+			go_process	regulation of atrial cardiac muscle cell membrane depolarization|0060371||IEA
+			go_process	regulation of heart rate|0002027||IEA
+			go_process	regulation of membrane potential|0042391||IEA
+			go_process	response to nickel cation|0010045||IEA
+			go_process	synaptic transmission|0007268||IEA
+4764	9200	gene
+			locus_tag	BDOR_000996.1
+4764	5468	mRNA
+8342	>8534
+			protein_id	gnl|PBARC|BDOR_000996.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000996.1-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1H
+4789	5468	CDS
+8342	>8534
+			protein_id	gnl|PBARC|BDOR_000996.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000996.1-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1H
+			go_component	cytoplasm|0005737||IEA
+			go_component	dendrite|0030425||IEA
+			go_component	nucleus|0005634||IEA
+			go_component	perikaryon|0043204||IEA
+			go_component	voltage-gated calcium channel complex|0005891||IEA
+			go_function	low voltage-gated calcium channel activity|0008332||IEA
+			go_function	metal ion binding|0046872||IEA
+			go_process	aldosterone biosynthetic process|0032342||IEA
+			go_process	cortisol biosynthetic process|0034651||IEA
+>Feature sctg_0003_0434
+1	8870	REFERENCE
+			PBARC	12345
+1	6254	gene
+			locus_tag	BDOR_000996.2
+<596	745	mRNA
+1423	1434
+3375	6254
+			protein_id	gnl|PBARC|BDOR_000996.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000996.2-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1H
+<596	745	CDS
+1423	1434
+3375	6254
+			protein_id	gnl|PBARC|BDOR_000996.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000996.2-RA
+			product	Voltage-dependent T-type calcium channel subunit alpha-1H
+			go_component	cytoplasm|0005737||IEA
+			go_component	dendrite|0030425||IEA
+			go_component	nucleus|0005634||IEA
+			go_component	perikaryon|0043204||IEA
+			go_component	voltage-gated calcium channel complex|0005891||IEA
+			go_function	low voltage-gated calcium channel activity|0008332||IEA
+			go_function	metal ion binding|0046872||IEA
+			go_process	aldosterone biosynthetic process|0032342||IEA
+			go_process	cortisol biosynthetic process|0034651||IEA
+>Feature sctg_0003_0435
+1	2385	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0436
+1	8554	REFERENCE
+			PBARC	12345
+1611	5545	gene
+			locus_tag	BDOR_000998
+			gene	PDPR
+1611	2851	mRNA
+2906	3424
+3542	3839
+3937	4150
+4204	4357
+4412	4527
+4587	5545
+			protein_id	gnl|PBARC|BDOR_000998-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000998-RA
+			product	Pyruvate dehydrogenase phosphatase regulatory subunit
+1852	2851	CDS
+2906	3424
+3542	3839
+3937	4150
+4204	4357
+4412	4527
+4587	5027
+			protein_id	gnl|PBARC|BDOR_000998-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000998-RA
+			product	Pyruvate dehydrogenase phosphatase regulatory subunit
+			go_component	mitochondrial matrix|0005759||IEA
+			go_function	aminomethyltransferase activity|0004047||IEA
+			go_function	oxidoreductase activity|0016491||IEA
+			go_process	glycine catabolic process|0006546||IEA
+18	1250	gene
+			locus_tag	BDOR_000997
+			gene	ALKB7
+1250	1038	mRNA
+975	800
+742	575
+503	265
+209	18
+			protein_id	gnl|PBARC|BDOR_000997-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000997-RA
+			product	Alpha-ketoglutarate-dependent dioxygenase alkB homolog 7
+1188	1038	CDS
+975	800
+742	575
+503	265
+209	92
+			protein_id	gnl|PBARC|BDOR_000997-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000997-RA
+			product	Alpha-ketoglutarate-dependent dioxygenase alkB homolog 7
+			go_component	extracellular region|0005576||IEA
+			go_component	mitochondrion|0005739||IEA
+			go_component	nucleus|0005634||IEA
+			go_function	metal ion binding|0046872||IEA
+			go_function	oxidoreductase activity
+>Feature sctg_0003_0437
+1	2173	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0438
+1	1174	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0439
+1	12125	REFERENCE
+			PBARC	12345
+4332	12125	gene
+			locus_tag	BDOR_000999.1
+4332	4612	mRNA
+5771	>7487
+			protein_id	gnl|PBARC|BDOR_000999.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000999.1-RA
+			product	Interferon regulatory factor 2-binding protein 1
+6641	>7487	CDS
+			protein_id	gnl|PBARC|BDOR_000999.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000999.1-RA
+			product	Interferon regulatory factor 2-binding protein 1
+			go_component	nucleus|0005634||IEA
+			go_process	regulation of transcription
+			go_process	transcription
+>Feature sctg_0003_0440
+1	8095	REFERENCE
+			PBARC	12345
+1	8095	gene
+			locus_tag	BDOR_000999.2
+>Feature sctg_0003_0441
+1	1849	REFERENCE
+			PBARC	12345
+1	1849	gene
+			locus_tag	BDOR_000999.3
+>Feature sctg_0003_0442
+1	2209	REFERENCE
+			PBARC	12345
+1	2209	gene
+			locus_tag	BDOR_000999.4
+>Feature sctg_0003_0443
+1	4492	REFERENCE
+			PBARC	12345
+1	4492	gene
+			locus_tag	BDOR_000999.5
+>Feature sctg_0003_0444
+1	8201	REFERENCE
+			PBARC	12345
+4930	7218	gene
+			locus_tag	BDOR_001000
+5312	6848	gene
+			locus_tag	BDOR_001001
+			gene	LIMK1
+5312	5385	mRNA
+6049	6848
+			protein_id	gnl|PBARC|BDOR_001001-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001001-RA
+			product	LIM domain kinase 1
+5364	5385	CDS
+6049	6848
+			protein_id	gnl|PBARC|BDOR_001001-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001001-RA
+			product	LIM domain kinase 1
+			go_component	actomyosin contractile ring|0005826||IEA
+			go_component	cleavage furrow|0032154||IEA
+			go_component	midbody|0030496||IEA
+			go_function	ATP binding|0005524||IEA
+			go_function	metal ion binding|0046872||IEA
+			go_function	protein serine/threonine kinase activity|0004674||IEA
+			go_function	zinc ion binding|0008270||IEA
+			go_process	actin cytoskeleton organization|0030036||IEA
+			go_process	compound eye development|0048749||IEA
+			go_process	establishment of imaginal disc-derived wing hair orientation|0001737||IEA
+			go_process	regulation of axonogenesis|0050770||IEA
+			go_process	synaptic growth at neuromuscular junction|0051124||IEA
+1	4077	gene
+			locus_tag	BDOR_000999.6
+<260	619	mRNA
+1041	1540
+1603	2029
+3717	4077
+			protein_id	gnl|PBARC|BDOR_000999.6-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000999.6-RA
+			product	Interferon regulatory factor 2-binding protein 1
+<260	619	CDS
+1041	1540
+1603	1743
+			protein_id	gnl|PBARC|BDOR_000999.6-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000999.6-RA
+			product	Interferon regulatory factor 2-binding protein 1
+			go_component	nucleus|0005634||IEA
+			go_process	regulation of transcription
+			go_process	transcription
+>Feature sctg_0003_0445
+1	8322	REFERENCE
+			PBARC	12345
+6	8312	gene
+			locus_tag	BDOR_001002
+			gene	LIMK1
+<6	1395	mRNA
+1454	1608
+1674	3553
+5298	8312
+			protein_id	gnl|PBARC|BDOR_001002-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001002-RA
+			product	LIM domain kinase 1
+<7	1395	CDS
+1454	1608
+1674	3553
+5298	5602
+			protein_id	gnl|PBARC|BDOR_001002-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001002-RA
+			product	LIM domain kinase 1
+			go_component	actomyosin contractile ring|0005826||IEA
+			go_component	cleavage furrow|0032154||IEA
+			go_component	midbody|0030496||IEA
+			go_function	ATP binding|0005524||IEA
+			go_function	metal ion binding|0046872||IEA
+			go_function	protein serine/threonine kinase activity|0004674||IEA
+			go_function	zinc ion binding|0008270||IEA
+			go_process	actin cytoskeleton organization|0030036||IEA
+			go_process	compound eye development|0048749||IEA
+			go_process	establishment of imaginal disc-derived wing hair orientation|0001737||IEA
+			go_process	regulation of axonogenesis|0050770||IEA
+			go_process	synaptic growth at neuromuscular junction|0051124||IEA
+>Feature sctg_0003_0446
+1	1552	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0447
+1	4379	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0448
+1	555	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0449
+1	14195	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0450
+1	2116	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0451
+1	24368	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0452
+1	1485	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0453
+1	5108	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0454
+1	4714	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0455
+1	1467	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0456
+1	5954	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0457
+1	11596	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0458
+1	2382	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0459
+1	1566	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0460
+1	4200	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0461
+1	10389	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0462
+1	2079	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0463
+1	4839	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0464
+1	3214	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0465
+1	5146	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0466
+1	4669	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0467
+1	3175	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0468
+1	7081	REFERENCE
+			PBARC	12345
+2997	5788	gene
+			locus_tag	BDOR_001003
+			gene	OMB
+2997	3008	mRNA
+3573	4069
+5758	5788
+			protein_id	gnl|PBARC|BDOR_001003-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001003-RA
+			product	Optomotor-blind protein
+2997	3008	CDS
+3573	4069
+5758	5788
+			protein_id	gnl|PBARC|BDOR_001003-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001003-RA
+			product	Optomotor-blind protein
+			go_component	nucleus|0005634||IEA
+			go_function	DNA binding|0003677||IEA
+			go_function	sequence-specific DNA binding transcription factor activity|0003700||IEA
+			go_process	compound eye morphogenesis|0001745||IEA
+			go_process	developmental pigmentation|0048066||IEA
+			go_process	imaginal disc-derived wing morphogenesis|0007476||IEA
+			go_process	negative regulation of transcription from RNA polymerase II promoter|0000122||IEA
+			go_process	organ growth|0035265||IEA
+			go_process	transcription
+			go_process	wing disc anterior/posterior pattern formation|0048100||IEA
+>Feature sctg_0003_0469
+1	1527	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0470
+1	3304	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0471
+1	2655	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0472
+1	6924	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0473
+1	1166	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0474
+1	5100	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0475
+1	1581	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0476
+1	5126	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0477
+1	1212	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0478
+1	1629	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0479
+1	3856	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0480
+1	2804	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0481
+1	9966	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0482
+1	4633	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0483
+1	2202	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0484
+1	1136	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0485
+1	2848	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0486
+1	3803	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0487
+1	4236	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0488
+1	1213	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0489
+1	1236	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0490
+1	2284	REFERENCE
+			PBARC	12345
+1415	1751	gene
+			locus_tag	BDOR_001004
+1415	1447	mRNA
+1620	1751
+			protein_id	gnl|PBARC|BDOR_001004-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001004-RA
+			product	hypothetical protein
+1415	1447	CDS
+1620	1751
+			protein_id	gnl|PBARC|BDOR_001004-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001004-RA
+			product	hypothetical protein
+>Feature sctg_0003_0491
+1	1813	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0492
+1	3566	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0493
+1	2076	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0494
+1	4772	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0495
+1	1177	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0496
+1	4516	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0497
+1	1723	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0498
+1	1589	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0499
+1	2680	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0500
+1	7973	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0501
+1	650	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0502
+1	3652	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0503
+1	2328	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0504
+1	6881	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0505
+1	4992	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0506
+1	2154	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0507
+1	983	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0508
+1	1455	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0509
+1	1795	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0510
+1	3684	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0511
+1	1614	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0512
+1	2069	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0513
+1	2773	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0514
+1	6203	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0515
+1	5474	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0516
+1	1558	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0517
+1	1263	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0518
+1	3300	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0519
+1	1818	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0520
+1	2278	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0521
+1	685	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0522
+1	4049	REFERENCE
+			PBARC	12345
+163	1538	gene
+			locus_tag	BDOR_001005
+			gene	OMB
+163	425	mRNA
+622	1538
+			protein_id	gnl|PBARC|BDOR_001005-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001005-RA
+			product	Optomotor-blind protein
+188	425	CDS
+622	1538
+			protein_id	gnl|PBARC|BDOR_001005-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001005-RA
+			product	Optomotor-blind protein
+			go_component	nucleus|0005634||IEA
+			go_function	DNA binding|0003677||IEA
+			go_function	sequence-specific DNA binding transcription factor activity|0003700||IEA
+			go_process	compound eye morphogenesis|0001745||IEA
+			go_process	developmental pigmentation|0048066||IEA
+			go_process	imaginal disc-derived wing morphogenesis|0007476||IEA
+			go_process	negative regulation of transcription from RNA polymerase II promoter|0000122||IEA
+			go_process	organ growth|0035265||IEA
+			go_process	transcription
+			go_process	wing disc anterior/posterior pattern formation|0048100||IEA
+>Feature sctg_0003_0523
+1	1112	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0524
+1	2534	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0525
+1	1245	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0526
+1	1096	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0527
+1	6461	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0528
+1	2080	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0529
+1	3593	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0530
+1	3968	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0531
+1	884	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0532
+1	620	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0533
+1	1530	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0534
+1	6619	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0535
+1	1556	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0536
+1	872	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0537
+1	1007	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0538
+1	1024	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0539
+1	994	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0540
+1	1313	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0541
+1	1382	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0542
+1	1916	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0543
+1	3898	REFERENCE
+			PBARC	12345
+129	1042	gene
+			locus_tag	BDOR_001006
+			gene	KLHDB
+129	296	mRNA
+396	587
+649	753
+818	1042
+			protein_id	gnl|PBARC|BDOR_001006-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001006-RA
+			product	Kelch-like protein diablo
+129	296	CDS
+396	587
+649	753
+818	1042
+			protein_id	gnl|PBARC|BDOR_001006-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001006-RA
+			product	Kelch-like protein diablo
+			go_process	cell growth|0016049||IEA
+			go_process	protein ubiquitination|0016567||IEA
+			go_process	regulation of synapse organization|0050807||IEA
+>Feature sctg_0003_0544
+1	4024	REFERENCE
+			PBARC	12345
+1	2925	gene
+			locus_tag	BDOR_001007
+			gene	KLHL1
+1	359	mRNA
+1637	1926
+1996	2215
+2371	2475
+2598	2925
+			protein_id	gnl|PBARC|BDOR_001007-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001007-RA
+			product	Kelch-like protein 1
+225	359	CDS
+1637	1926
+1996	2215
+2371	2475
+2598	2822
+			protein_id	gnl|PBARC|BDOR_001007-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001007-RA
+			product	Kelch-like protein 1
+			go_component	cytoplasm|0005737||IEA
+			go_component	cytoskeleton|0005856||IEA
+			go_component	dendrite|0030425||IEA
+			go_component	neuronal cell body|0043025||IEA
+			go_process	adult walking behavior|0007628||IEA
+			go_process	cerebellar Purkinje cell layer development|0021680||IEA
+			go_process	dendrite development|0016358||IEA
+>Feature sctg_0003_0545
+1	1776	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0546
+1	1576	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0547
+1	1612	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0548
+1	3146	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0549
+1	6580	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0550
+1	6331	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0551
+1	539	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0552
+1	1564	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0553
+1	1071	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0554
+1	2587	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0555
+1	2492	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0556
+1	1666	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0557
+1	1437	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0558
+1	1390	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0559
+1	1190	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0560
+1	6673	REFERENCE
+			PBARC	12345
+1271	6673	gene
+			locus_tag	BDOR_001008.1
+6282	6098	mRNA
+5626	5307
+3994	3835
+3769	3477
+3407	3002
+2843	2337
+2259	2154
+2090	1938
+1875	1418
+1351	1271
+			protein_id	gnl|PBARC|BDOR_001008.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001008.1-RA
+			product	Probable peroxisomal acyl-coenzyme A oxidase 1
+5430	5307	CDS
+3994	3835
+3769	3477
+3407	3002
+2843	2337
+2259	2154
+2090	1938
+1875	1615
+			protein_id	gnl|PBARC|BDOR_001008.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001008.1-RA
+			product	Probable peroxisomal acyl-coenzyme A oxidase 1
+			go_component	peroxisome|0005777||IEA
+			go_function	acyl-CoA dehydrogenase activity|0003995||IEA
+			go_function	acyl-CoA oxidase activity|0003997||IEA
+			go_function	flavin adenine dinucleotide binding|0050660||IEA
+			go_process	fatty acid beta-oxidation using acyl-CoA oxidase|0033540||IEA
+			go_process	fatty acid oxidation|0019395||IEA
+			go_process	generation of precursor metabolites and energy|0006091||IEA
+			go_process	prostaglandin metabolic process|0006693||IEA
+5621	5307	mRNA
+3994	3835
+3769	3477
+3407	3002
+2843	2337
+2259	2154
+2090	1938
+1875	1418
+1351	1271
+			protein_id	gnl|PBARC|BDOR_001008.1-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001008.1-RB
+			product	Probable peroxisomal acyl-coenzyme A oxidase 1
+5430	5307	CDS
+3994	3835
+3769	3477
+3407	3002
+2843	2337
+2259	2154
+2090	1938
+1875	1615
+			protein_id	gnl|PBARC|BDOR_001008.1-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001008.1-RB
+			product	Probable peroxisomal acyl-coenzyme A oxidase 1
+			go_component	peroxisome|0005777||IEA
+			go_function	acyl-CoA dehydrogenase activity|0003995||IEA
+			go_function	acyl-CoA oxidase activity|0003997||IEA
+			go_function	flavin adenine dinucleotide binding|0050660||IEA
+			go_process	fatty acid beta-oxidation using acyl-CoA oxidase|0033540||IEA
+			go_process	fatty acid oxidation|0019395||IEA
+			go_process	generation of precursor metabolites and energy|0006091||IEA
+			go_process	prostaglandin metabolic process|0006693||IEA
+6282	6098	mRNA
+5626	5307
+3994	3835
+3769	3477
+3407	3002
+2843	2337
+2259	2154
+2090	1938
+1875	1393
+			protein_id	gnl|PBARC|BDOR_001008.1-RC
+			transcript_id	gnl|PBARC|BDOR_mrna001008.1-RC
+			product	Probable peroxisomal acyl-coenzyme A oxidase 1
+5430	5307	CDS
+3994	3835
+3769	3477
+3407	3002
+2843	2337
+2259	2154
+2090	1938
+1875	1615
+			protein_id	gnl|PBARC|BDOR_001008.1-RC
+			transcript_id	gnl|PBARC|BDOR_mrna001008.1-RC
+			product	Probable peroxisomal acyl-coenzyme A oxidase 1
+			go_component	peroxisome|0005777||IEA
+			go_function	acyl-CoA dehydrogenase activity|0003995||IEA
+			go_function	acyl-CoA oxidase activity|0003997||IEA
+			go_function	flavin adenine dinucleotide binding|0050660||IEA
+			go_process	fatty acid beta-oxidation using acyl-CoA oxidase|0033540||IEA
+			go_process	fatty acid oxidation|0019395||IEA
+			go_process	generation of precursor metabolites and energy|0006091||IEA
+			go_process	prostaglandin metabolic process|0006693||IEA
+>Feature sctg_0003_0561
+1	2316	REFERENCE
+			PBARC	12345
+1	172	gene
+			locus_tag	BDOR_001008.2
+<172	>76	mRNA
+			protein_id	gnl|PBARC|BDOR_001008.2-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001008.2-RB
+			product	Probable peroxisomal acyl-coenzyme A oxidase 1
+>Feature sctg_0003_0562
+1	1191	REFERENCE
+			PBARC	12345
+535	1191	gene
+			locus_tag	BDOR_001009.1
+<535	>810	mRNA
+			protein_id	gnl|PBARC|BDOR_001009.1-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001009.1-RB
+			product	Uncharacterized protein CG3556
+<535	>810	mRNA
+			protein_id	gnl|PBARC|BDOR_001009.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001009.1-RA
+			product	Uncharacterized protein CG3556
+>Feature sctg_0003_0563
+1	7379	REFERENCE
+			PBARC	12345
+1	7379	gene
+			locus_tag	BDOR_001009.2
+1727	3027	mRNA
+3209	3404
+3467	3544
+3607	3689
+4849	4974
+			protein_id	gnl|PBARC|BDOR_001009.2-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001009.2-RB
+			product	Uncharacterized protein CG3556
+1731	3027	CDS
+3209	3404
+3467	3544
+3607	3689
+4849	4910
+			protein_id	gnl|PBARC|BDOR_001009.2-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001009.2-RB
+			product	Uncharacterized protein CG3556
+			go_component	extracellular region|0005576||IEA
+			go_function	cobalamin binding|0031419||IEA
+			go_process	cobalamin transport|0015889||IEA
+1727	3027	mRNA
+3209	3404
+3467	3544
+3607	3689
+4849	5296
+			protein_id	gnl|PBARC|BDOR_001009.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001009.2-RA
+			product	Uncharacterized protein CG3556
+1731	3027	CDS
+3209	3404
+3467	3544
+3607	3689
+4849	4910
+			protein_id	gnl|PBARC|BDOR_001009.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001009.2-RA
+			product	Uncharacterized protein CG3556
+			go_component	extracellular region|0005576||IEA
+			go_function	cobalamin binding|0031419||IEA
+			go_process	cobalamin transport|0015889||IEA
+>Feature sctg_0003_0564
+1	1897	REFERENCE
+			PBARC	12345
+1	1897	gene
+			locus_tag	BDOR_001009.3
+>Feature sctg_0003_0565
+1	3259	REFERENCE
+			PBARC	12345
+1	805	gene
+			locus_tag	BDOR_001009.4
+<491	>805	mRNA
+			protein_id	gnl|PBARC|BDOR_001009.4-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001009.4-RB
+			product	Uncharacterized protein CG3556
+>Feature sctg_0003_0566
+1	1605	REFERENCE
+			PBARC	12345
+35	1605	gene
+			locus_tag	BDOR_001010.1
+<657	234	mRNA
+173	35
+			protein_id	gnl|PBARC|BDOR_001010.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001010.1-RA
+			product	Dual specificity mitogen-activated protein kinase kinase hemipterous
+<657	234	CDS
+173	35
+			protein_id	gnl|PBARC|BDOR_001010.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001010.1-RA
+			product	Dual specificity mitogen-activated protein kinase kinase hemipterous
+			go_component	axon|0030424||IEA
+			go_function	ATP binding|0005524||IEA
+			go_function	JUN kinase kinase activity|0008545||IEA
+			go_function	MAP-kinase scaffold activity|0005078||IEA
+			go_function	protein tyrosine kinase activity|0004713||IEA
+			go_function	receptor signaling protein serine/threonine kinase activity|0004702||IEA
+			go_process	actin filament bundle assembly|0051017||IEA
+			go_process	axon extension|0048675||IEA
+			go_process	basement membrane disassembly|0034769||IEA
+			go_process	border follicle cell migration|0007298||IEA
+			go_process	carbohydrate homeostasis|0033500||IEA
+			go_process	cellular response to arsenic-containing substance|0071243||IEA
+			go_process	cellular response to cadmium ion|0071276||IEA
+			go_process	chorion-containing eggshell pattern formation|0030381||IEA
+			go_process	determination of adult lifespan|0008340||IEA
+			go_process	dorsal appendage formation|0046843||IEA
+			go_process	dorsal closure
+			go_process	establishment of planar polarity|0001736||IEA
+			go_process	filopodium assembly|0046847||IEA
+			go_process	imaginal disc eversion|0007561||IEA
+			go_process	imaginal disc fusion
+			go_process	lamellipodium assembly|0030032||IEA
+			go_process	melanization defense response|0035006||IEA
+			go_process	micropyle formation|0046844||IEA
+			go_process	positive regulation of JNK cascade|0046330||IEA
+			go_process	regulation of hemocyte differentiation|0045610||IEA
+			go_process	response to heat|0009408||IEA
+			go_process	triglyceride homeostasis|0070328||IEA
+			go_process	wound healing|0042060||IEA
+<732	234	mRNA
+173	35
+			protein_id	gnl|PBARC|BDOR_001010.1-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001010.1-RB
+			product	Dual specificity mitogen-activated protein kinase kinase hemipterous
+<732	234	CDS
+173	35
+			protein_id	gnl|PBARC|BDOR_001010.1-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001010.1-RB
+			product	Dual specificity mitogen-activated protein kinase kinase hemipterous
+			go_component	axon|0030424||IEA
+			go_function	ATP binding|0005524||IEA
+			go_function	JUN kinase kinase activity|0008545||IEA
+			go_function	MAP-kinase scaffold activity|0005078||IEA
+			go_function	protein tyrosine kinase activity|0004713||IEA
+			go_function	receptor signaling protein serine/threonine kinase activity|0004702||IEA
+			go_process	actin filament bundle assembly|0051017||IEA
+			go_process	axon extension|0048675||IEA
+			go_process	basement membrane disassembly|0034769||IEA
+			go_process	border follicle cell migration|0007298||IEA
+			go_process	carbohydrate homeostasis|0033500||IEA
+			go_process	cellular response to arsenic-containing substance|0071243||IEA
+			go_process	cellular response to cadmium ion|0071276||IEA
+			go_process	chorion-containing eggshell pattern formation|0030381||IEA
+			go_process	determination of adult lifespan|0008340||IEA
+			go_process	dorsal appendage formation|0046843||IEA
+			go_process	dorsal closure
+			go_process	establishment of planar polarity|0001736||IEA
+			go_process	filopodium assembly|0046847||IEA
+			go_process	imaginal disc eversion|0007561||IEA
+			go_process	imaginal disc fusion
+			go_process	lamellipodium assembly|0030032||IEA
+			go_process	melanization defense response|0035006||IEA
+			go_process	micropyle formation|0046844||IEA
+			go_process	positive regulation of JNK cascade|0046330||IEA
+			go_process	regulation of hemocyte differentiation|0045610||IEA
+			go_process	response to heat|0009408||IEA
+			go_process	triglyceride homeostasis|0070328||IEA
+			go_process	wound healing|0042060||IEA
+>Feature sctg_0003_0567
+1	4765	REFERENCE
+			PBARC	12345
+1	4765	gene
+			locus_tag	BDOR_001010.2
+>Feature sctg_0003_0568
+1	1897	REFERENCE
+			PBARC	12345
+1	1897	gene
+			locus_tag	BDOR_001010.3
+>Feature sctg_0003_0569
+1	5863	REFERENCE
+			PBARC	12345
+1	5863	gene
+			locus_tag	BDOR_001010.4
+<5810	5631	mRNA
+5566	5346
+5282	5142
+2471	1324
+1264	>518
+			protein_id	gnl|PBARC|BDOR_001010.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001010.4-RA
+			product	Dual specificity mitogen-activated protein kinase kinase hemipterous
+<5810	5631	CDS
+5566	5346
+5282	5142
+2471	1324
+1264	>518
+			protein_id	gnl|PBARC|BDOR_001010.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001010.4-RA
+			product	Dual specificity mitogen-activated protein kinase kinase hemipterous
+			go_component	axon|0030424||IEA
+			go_function	ATP binding|0005524||IEA
+			go_function	JUN kinase kinase activity|0008545||IEA
+			go_function	MAP-kinase scaffold activity|0005078||IEA
+			go_function	protein tyrosine kinase activity|0004713||IEA
+			go_function	receptor signaling protein serine/threonine kinase activity|0004702||IEA
+			go_process	actin filament bundle assembly|0051017||IEA
+			go_process	axon extension|0048675||IEA
+			go_process	basement membrane disassembly|0034769||IEA
+			go_process	border follicle cell migration|0007298||IEA
+			go_process	carbohydrate homeostasis|0033500||IEA
+			go_process	cellular response to arsenic-containing substance|0071243||IEA
+			go_process	cellular response to cadmium ion|0071276||IEA
+			go_process	chorion-containing eggshell pattern formation|0030381||IEA
+			go_process	determination of adult lifespan|0008340||IEA
+			go_process	dorsal appendage formation|0046843||IEA
+			go_process	dorsal closure
+			go_process	establishment of planar polarity|0001736||IEA
+			go_process	filopodium assembly|0046847||IEA
+			go_process	imaginal disc eversion|0007561||IEA
+			go_process	imaginal disc fusion
+			go_process	lamellipodium assembly|0030032||IEA
+			go_process	melanization defense response|0035006||IEA
+			go_process	micropyle formation|0046844||IEA
+			go_process	positive regulation of JNK cascade|0046330||IEA
+			go_process	regulation of hemocyte differentiation|0045610||IEA
+			go_process	response to heat|0009408||IEA
+			go_process	triglyceride homeostasis|0070328||IEA
+			go_process	wound healing|0042060||IEA
+<5810	5631	mRNA
+5566	5346
+5282	5142
+2495	1324
+1264	>518
+			protein_id	gnl|PBARC|BDOR_001010.4-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001010.4-RB
+			product	Dual specificity mitogen-activated protein kinase kinase hemipterous
+<5810	5631	CDS
+5566	5346
+5282	5142
+2495	1324
+1264	>518
+			protein_id	gnl|PBARC|BDOR_001010.4-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001010.4-RB
+			product	Dual specificity mitogen-activated protein kinase kinase hemipterous
+			go_component	axon|0030424||IEA
+			go_function	ATP binding|0005524||IEA
+			go_function	JUN kinase kinase activity|0008545||IEA
+			go_function	MAP-kinase scaffold activity|0005078||IEA
+			go_function	protein tyrosine kinase activity|0004713||IEA
+			go_function	receptor signaling protein serine/threonine kinase activity|0004702||IEA
+			go_process	actin filament bundle assembly|0051017||IEA
+			go_process	axon extension|0048675||IEA
+			go_process	basement membrane disassembly|0034769||IEA
+			go_process	border follicle cell migration|0007298||IEA
+			go_process	carbohydrate homeostasis|0033500||IEA
+			go_process	cellular response to arsenic-containing substance|0071243||IEA
+			go_process	cellular response to cadmium ion|0071276||IEA
+			go_process	chorion-containing eggshell pattern formation|0030381||IEA
+			go_process	determination of adult lifespan|0008340||IEA
+			go_process	dorsal appendage formation|0046843||IEA
+			go_process	dorsal closure
+			go_process	establishment of planar polarity|0001736||IEA
+			go_process	filopodium assembly|0046847||IEA
+			go_process	imaginal disc eversion|0007561||IEA
+			go_process	imaginal disc fusion
+			go_process	lamellipodium assembly|0030032||IEA
+			go_process	melanization defense response|0035006||IEA
+			go_process	micropyle formation|0046844||IEA
+			go_process	positive regulation of JNK cascade|0046330||IEA
+			go_process	regulation of hemocyte differentiation|0045610||IEA
+			go_process	response to heat|0009408||IEA
+			go_process	triglyceride homeostasis|0070328||IEA
+			go_process	wound healing|0042060||IEA
+>Feature sctg_0003_0570
+1	1605	REFERENCE
+			PBARC	12345
+1	706	gene
+			locus_tag	BDOR_001010.5
+706	234	mRNA
+173	>122
+			protein_id	gnl|PBARC|BDOR_001010.5-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001010.5-RA
+			product	Dual specificity mitogen-activated protein kinase kinase hemipterous
+706	234	CDS
+173	>122
+			protein_id	gnl|PBARC|BDOR_001010.5-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001010.5-RA
+			product	Dual specificity mitogen-activated protein kinase kinase hemipterous
+			go_component	axon|0030424||IEA
+			go_function	ATP binding|0005524||IEA
+			go_function	JUN kinase kinase activity|0008545||IEA
+			go_function	MAP-kinase scaffold activity|0005078||IEA
+			go_function	protein tyrosine kinase activity|0004713||IEA
+			go_function	receptor signaling protein serine/threonine kinase activity|0004702||IEA
+			go_process	actin filament bundle assembly|0051017||IEA
+			go_process	axon extension|0048675||IEA
+			go_process	basement membrane disassembly|0034769||IEA
+			go_process	border follicle cell migration|0007298||IEA
+			go_process	carbohydrate homeostasis|0033500||IEA
+			go_process	cellular response to arsenic-containing substance|0071243||IEA
+			go_process	cellular response to cadmium ion|0071276||IEA
+			go_process	chorion-containing eggshell pattern formation|0030381||IEA
+			go_process	determination of adult lifespan|0008340||IEA
+			go_process	dorsal appendage formation|0046843||IEA
+			go_process	dorsal closure
+			go_process	establishment of planar polarity|0001736||IEA
+			go_process	filopodium assembly|0046847||IEA
+			go_process	imaginal disc eversion|0007561||IEA
+			go_process	imaginal disc fusion
+			go_process	lamellipodium assembly|0030032||IEA
+			go_process	melanization defense response|0035006||IEA
+			go_process	micropyle formation|0046844||IEA
+			go_process	positive regulation of JNK cascade|0046330||IEA
+			go_process	regulation of hemocyte differentiation|0045610||IEA
+			go_process	response to heat|0009408||IEA
+			go_process	triglyceride homeostasis|0070328||IEA
+			go_process	wound healing|0042060||IEA
+706	234	mRNA
+173	>122
+			protein_id	gnl|PBARC|BDOR_001010.5-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001010.5-RB
+			product	Dual specificity mitogen-activated protein kinase kinase hemipterous
+706	234	CDS
+173	>122
+			protein_id	gnl|PBARC|BDOR_001010.5-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001010.5-RB
+			product	Dual specificity mitogen-activated protein kinase kinase hemipterous
+			go_component	axon|0030424||IEA
+			go_function	ATP binding|0005524||IEA
+			go_function	JUN kinase kinase activity|0008545||IEA
+			go_function	MAP-kinase scaffold activity|0005078||IEA
+			go_function	protein tyrosine kinase activity|0004713||IEA
+			go_function	receptor signaling protein serine/threonine kinase activity|0004702||IEA
+			go_process	actin filament bundle assembly|0051017||IEA
+			go_process	axon extension|0048675||IEA
+			go_process	basement membrane disassembly|0034769||IEA
+			go_process	border follicle cell migration|0007298||IEA
+			go_process	carbohydrate homeostasis|0033500||IEA
+			go_process	cellular response to arsenic-containing substance|0071243||IEA
+			go_process	cellular response to cadmium ion|0071276||IEA
+			go_process	chorion-containing eggshell pattern formation|0030381||IEA
+			go_process	determination of adult lifespan|0008340||IEA
+			go_process	dorsal appendage formation|0046843||IEA
+			go_process	dorsal closure
+			go_process	establishment of planar polarity|0001736||IEA
+			go_process	filopodium assembly|0046847||IEA
+			go_process	imaginal disc eversion|0007561||IEA
+			go_process	imaginal disc fusion
+			go_process	lamellipodium assembly|0030032||IEA
+			go_process	melanization defense response|0035006||IEA
+			go_process	micropyle formation|0046844||IEA
+			go_process	positive regulation of JNK cascade|0046330||IEA
+			go_process	regulation of hemocyte differentiation|0045610||IEA
+			go_process	response to heat|0009408||IEA
+			go_process	triglyceride homeostasis|0070328||IEA
+			go_process	wound healing|0042060||IEA
+>Feature sctg_0003_0571
+1	11320	REFERENCE
+			PBARC	12345
+3063	5582	gene
+			locus_tag	BDOR_001011
+			gene	FA32A
+3063	3354	mRNA
+3418	5582
+			protein_id	gnl|PBARC|BDOR_001011-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001011-RA
+			product	Protein FAM32A
+3130	3354	CDS
+3418	3540
+			protein_id	gnl|PBARC|BDOR_001011-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001011-RA
+			product	Protein FAM32A
+			go_component	nucleolus|0005730||IEA
+			go_process	apoptotic process|0006915||IEA
+			go_process	cell cycle|0007049||IEA
+3063	5582	gene
+			locus_tag	BDOR_001012
+			gene	CHIA
+5582	5332	mRNA
+5273	4455
+4398	4251
+4185	3063
+			protein_id	gnl|PBARC|BDOR_001012-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001012-RA
+			product	Acidic mammalian chitinase
+5485	5332	CDS
+5273	4455
+4398	4251
+4185	3825
+			protein_id	gnl|PBARC|BDOR_001012-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001012-RA
+			product	Acidic mammalian chitinase
+			go_component	cytoplasm|0005737||IEA
+			go_component	extracellular space|0005615||IEA
+			go_function	cation binding|0043169||IEA
+			go_function	chitin binding|0008061||IEA
+			go_function	chitinase activity|0004568||IEA
+			go_process	apoptotic process|0006915||IEA
+			go_process	chitin catabolic process|0006032||IEA
+			go_process	polysaccharide catabolic process|0000272||IEA
+			go_process	positive regulation of chemokine secretion|0090197||IEA
+			go_process	production of molecular mediator involved in inflammatory response|0002532||IEA
+9341	11320	gene
+			locus_tag	BDOR_001013.1
+9341	>9862	mRNA
+			protein_id	gnl|PBARC|BDOR_001013.1-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001013.1-RB
+			product	hypothetical protein
+9457	>9862	CDS
+			protein_id	gnl|PBARC|BDOR_001013.1-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001013.1-RB
+			product	hypothetical protein
+9341	>9862	mRNA
+			protein_id	gnl|PBARC|BDOR_001013.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001013.1-RA
+			product	hypothetical protein
+9457	>9862	CDS
+			protein_id	gnl|PBARC|BDOR_001013.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001013.1-RA
+			product	hypothetical protein
+>Feature sctg_0003_0572
+1	1975	REFERENCE
+			PBARC	12345
+1	1975	gene
+			locus_tag	BDOR_001013.2
+>Feature sctg_0003_0573
+1	1310	REFERENCE
+			PBARC	12345
+1	1310	gene
+			locus_tag	BDOR_001013.3
+>Feature sctg_0003_0574
+1	2815	REFERENCE
+			PBARC	12345
+1	2815	gene
+			locus_tag	BDOR_001013.4
+>Feature sctg_0003_0575
+1	1195	REFERENCE
+			PBARC	12345
+1	1195	gene
+			locus_tag	BDOR_001013.5
+>Feature sctg_0003_0576
+1	1418	REFERENCE
+			PBARC	12345
+1	1418	gene
+			locus_tag	BDOR_001013.6
+>Feature sctg_0003_0577
+1	1729	REFERENCE
+			PBARC	12345
+1	1729	gene
+			locus_tag	BDOR_001013.7
+>Feature sctg_0003_0578
+1	6731	REFERENCE
+			PBARC	12345
+1	6731	gene
+			locus_tag	BDOR_001013.8
+<991	>1017	mRNA
+			protein_id	gnl|PBARC|BDOR_001013.8-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001013.8-RA
+			product	hypothetical protein
+<991	>1016	CDS
+			protein_id	gnl|PBARC|BDOR_001013.8-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001013.8-RA
+			product	hypothetical protein
+>Feature sctg_0003_0579
+1	2125	REFERENCE
+			PBARC	12345
+1	2125	gene
+			locus_tag	BDOR_001013.9
+>Feature sctg_0003_0580
+1	2012	REFERENCE
+			PBARC	12345
+1	2012	gene
+			locus_tag	BDOR_001013.10
+>Feature sctg_0003_0581
+1	5520	REFERENCE
+			PBARC	12345
+1	5515	gene
+			locus_tag	BDOR_001013.11
+<5432	>5515	mRNA
+			protein_id	gnl|PBARC|BDOR_001013.11-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001013.11-RB
+			product	hypothetical protein
+<5432	>5514	CDS
+			protein_id	gnl|PBARC|BDOR_001013.11-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001013.11-RB
+			product	hypothetical protein
+>Feature sctg_0003_0582
+1	7504	REFERENCE
+			PBARC	12345
+5	7504	gene
+			locus_tag	BDOR_001014.1
+5	3589	mRNA
+			protein_id	gnl|PBARC|BDOR_001014.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001014.1-RA
+			product	hypothetical protein
+5	3589	CDS
+			protein_id	gnl|PBARC|BDOR_001014.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001014.1-RA
+			product	hypothetical protein
+>Feature sctg_0003_0583
+1	7525	REFERENCE
+			PBARC	12345
+1	7525	gene
+			locus_tag	BDOR_001014.2
+>Feature sctg_0003_0584
+1	3787	REFERENCE
+			PBARC	12345
+1	3787	gene
+			locus_tag	BDOR_001014.3
+>Feature sctg_0003_0585
+1	2168	REFERENCE
+			PBARC	12345
+1	2168	gene
+			locus_tag	BDOR_001014.4
+>Feature sctg_0003_0586
+1	4020	REFERENCE
+			PBARC	12345
+1	4020	gene
+			locus_tag	BDOR_001014.5
+>Feature sctg_0003_0587
+1	4903	REFERENCE
+			PBARC	12345
+1	4903	gene
+			locus_tag	BDOR_001014.6
+<3338	>3511	mRNA
+			protein_id	gnl|PBARC|BDOR_001014.6-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001014.6-RA
+			product	hypothetical protein
+>Feature sctg_0003_0588
+1	2585	REFERENCE
+			PBARC	12345
+1	2585	gene
+			locus_tag	BDOR_001014.7
+>Feature sctg_0003_0589
+1	11957	REFERENCE
+			PBARC	12345
+1	11957	gene
+			locus_tag	BDOR_001014.8
+<1650	1929	mRNA
+10169	>11126
+			protein_id	gnl|PBARC|BDOR_001014.8-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001014.8-RA
+			product	hypothetical protein
+>Feature sctg_0003_0590
+1	3679	REFERENCE
+			PBARC	12345
+1	2864	gene
+			locus_tag	BDOR_001014.9
+<929	>2864	mRNA
+			protein_id	gnl|PBARC|BDOR_001014.9-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001014.9-RA
+			product	hypothetical protein
+>Feature sctg_0003_0591
+1	6168	REFERENCE
+			PBARC	12345
+2492	6168	gene
+			locus_tag	BDOR_001015.1
+<6168	>2492	mRNA
+			protein_id	gnl|PBARC|BDOR_001015.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001015.1-RA
+			product	Forkhead box protein N3
+>Feature sctg_0003_0592
+1	10329	REFERENCE
+			PBARC	12345
+1	10329	gene
+			locus_tag	BDOR_001015.2
+7891	5474	mRNA
+5391	4984
+4919	4742
+4301	3730
+3663	3415
+3328	1
+			protein_id	gnl|PBARC|BDOR_001015.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001015.2-RA
+			product	Forkhead box protein N3
+7890	5474	CDS
+5391	4984
+4919	4742
+4301	3730
+3663	3415
+3328	2881
+			protein_id	gnl|PBARC|BDOR_001015.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001015.2-RA
+			product	Forkhead box protein N3
+			go_component	nucleus|0005634||IEA
+			go_function	sequence-specific DNA binding|0043565||IEA
+			go_function	sequence-specific DNA binding transcription factor activity|0003700||IEA
+			go_process	cell cycle|0007049||IEA
+			go_process	negative regulation of transcription
+			go_process	transcription
+>Feature sctg_0003_0593
+1	4213	REFERENCE
+			PBARC	12345
+1	4213	gene
+			locus_tag	BDOR_001015.3
+>Feature sctg_0003_0594
+1	2944	REFERENCE
+			PBARC	12345
+1	2944	gene
+			locus_tag	BDOR_001015.4
+>Feature sctg_0003_0595
+1	12358	REFERENCE
+			PBARC	12345
+1	12358	gene
+			locus_tag	BDOR_001015.5
+>Feature sctg_0003_0596
+1	12039	REFERENCE
+			PBARC	12345
+5774	6681	gene
+			locus_tag	BDOR_001016
+5774	5781	mRNA
+5833	5845
+6517	6681
+			protein_id	gnl|PBARC|BDOR_001016-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001016-RA
+			product	hypothetical protein
+5774	5781	CDS
+5833	5845
+6517	6681
+			protein_id	gnl|PBARC|BDOR_001016-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001016-RA
+			product	hypothetical protein
+11976	12037	gene
+			locus_tag	BDOR_001017
+1	5884	gene
+			locus_tag	BDOR_001015.6
+<5884	>5302	mRNA
+			protein_id	gnl|PBARC|BDOR_001015.6-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001015.6-RA
+			product	Forkhead box protein N3
+>Feature sctg_0003_0597
+1	1232	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0598
+1	1397	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0599
+1	6393	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0600
+1	21185	REFERENCE
+			PBARC	12345
+3199	3857	gene
+			locus_tag	BDOR_001020
+			gene	APTX
+<3199	3345	mRNA
+3406	3631
+3691	3857
+			protein_id	gnl|PBARC|BDOR_001020-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001020-RA
+			product	Aprataxin-like protein
+<3199	3345	CDS
+3406	3631
+3691	3857
+			protein_id	gnl|PBARC|BDOR_001020-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001020-RA
+			product	Aprataxin-like protein
+			go_component	precatalytic spliceosome|0071011||IEA
+			go_function	damaged DNA binding|0003684||IEA
+			go_function	hydrolase activity|0016787||IEA
+			go_function	metal ion binding|0046872||IEA
+			go_function	zinc ion binding|0008270||IEA
+			go_process	mRNA splicing
+			go_process	single strand break repair|0000012||IEA
+547	738	gene
+			locus_tag	BDOR_001019
+12528	21185	gene
+			locus_tag	BDOR_001021.1
+<12528	12901	mRNA
+14768	14965
+16517	16540
+16895	16948
+18371	18708
+18771	19052
+19110	19416
+19492	>19774
+			protein_id	gnl|PBARC|BDOR_001021.1-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001021.1-RB
+			product	T-complex protein 1 subunit zeta
+<12528	12901	mRNA
+14768	14965
+16517	16540
+18371	18708
+18771	19052
+19110	19416
+19492	>19774
+			protein_id	gnl|PBARC|BDOR_001021.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001021.1-RA
+			product	T-complex protein 1 subunit zeta
+529	12471	gene
+			locus_tag	BDOR_001018
+			gene	PUF68
+12471	12146	mRNA
+12028	11928
+11871	11117
+10582	10486
+6495	6260
+6196	6138
+5874	5371
+5302	2763
+2480	1896
+951	529
+			protein_id	gnl|PBARC|BDOR_001018-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001018-RA
+			product	Poly(U)-binding-splicing factor half pint
+11119	11117	CDS
+10582	10486
+6495	6260
+6196	6138
+5874	5371
+5302	4234
+			protein_id	gnl|PBARC|BDOR_001018-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001018-RA
+			product	Poly(U)-binding-splicing factor half pint
+			go_component	catalytic step 2 spliceosome|0071013||IEA
+			go_component	precatalytic spliceosome|0071011||IEA
+			go_component	protein complex|0043234||IEA
+			go_function	mRNA binding|0003729||IEA
+			go_function	nucleotide binding|0000166||IEA
+			go_function	poly(U) RNA binding|0008266||IEA
+			go_process	alternative mRNA splicing
+			go_process	cystoblast division|0007282||IEA
+			go_process	mRNA splice site selection|0006376||IEA
+			go_process	neurogenesis|0022008||IEA
+			go_process	oogenesis|0048477||IEA
+			go_process	regulation of alternative mRNA splicing
+			go_process	regulation of cell growth|0001558||IEA
+>Feature sctg_0003_0601
+1	4019	REFERENCE
+			PBARC	12345
+1	4019	gene
+			locus_tag	BDOR_001021.2
+>Feature sctg_0003_0602
+1	1759	REFERENCE
+			PBARC	12345
+1	1759	gene
+			locus_tag	BDOR_001021.3
+<51	>138	mRNA
+			protein_id	gnl|PBARC|BDOR_001021.3-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001021.3-RB
+			product	T-complex protein 1 subunit zeta
+<51	>138	mRNA
+			protein_id	gnl|PBARC|BDOR_001021.3-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001021.3-RA
+			product	T-complex protein 1 subunit zeta
+>Feature sctg_0003_0603
+1	7073	REFERENCE
+			PBARC	12345
+1	7073	gene
+			locus_tag	BDOR_001021.4
+<2284	>2325	mRNA
+			protein_id	gnl|PBARC|BDOR_001021.4-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001021.4-RB
+			product	T-complex protein 1 subunit zeta
+<2284	>2325	mRNA
+			protein_id	gnl|PBARC|BDOR_001021.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001021.4-RA
+			product	T-complex protein 1 subunit zeta
+>Feature sctg_0003_0604
+1	11375	REFERENCE
+			PBARC	12345
+1	11375	gene
+			locus_tag	BDOR_001021.5
+4628	6014	mRNA
+6094	6308
+7987	>8261
+			protein_id	gnl|PBARC|BDOR_001021.5-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001021.5-RB
+			product	T-complex protein 1 subunit zeta
+4983	6014	CDS
+6094	6308
+7987	>8261
+			protein_id	gnl|PBARC|BDOR_001021.5-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001021.5-RB
+			product	T-complex protein 1 subunit zeta
+			go_component	acrosomal vesicle|0001669||IEA
+			go_component	chaperonin-containing T-complex|0005832||IEA
+			go_component	sperm part|0097223||IEA
+			go_component	zona pellucida receptor complex|0002199||IEA
+			go_function	ATP binding|0005524||IEA
+			go_process	binding of sperm to zona pellucida|0007339||IEA
+			go_process	protein folding|0006457||IEA
+4628	6014	mRNA
+6094	6308
+7987	>8261
+			protein_id	gnl|PBARC|BDOR_001021.5-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001021.5-RA
+			product	T-complex protein 1 subunit zeta
+4983	6014	CDS
+6094	6308
+7987	>8261
+			protein_id	gnl|PBARC|BDOR_001021.5-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001021.5-RA
+			product	T-complex protein 1 subunit zeta
+			go_component	acrosomal vesicle|0001669||IEA
+			go_component	chaperonin-containing T-complex|0005832||IEA
+			go_component	sperm part|0097223||IEA
+			go_component	zona pellucida receptor complex|0002199||IEA
+			go_function	ATP binding|0005524||IEA
+			go_process	binding of sperm to zona pellucida|0007339||IEA
+			go_process	protein folding|0006457||IEA
+8528	11375	gene
+			locus_tag	BDOR_001022.1
+<8533	8528	mRNA
+			protein_id	gnl|PBARC|BDOR_001022.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001022.1-RA
+			product	hypothetical protein
+<8533	8528	CDS
+			protein_id	gnl|PBARC|BDOR_001022.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001022.1-RA
+			product	hypothetical protein
+>Feature sctg_0003_0605
+1	18767	REFERENCE
+			PBARC	12345
+1	6160	gene
+			locus_tag	BDOR_001021.6
+<41	171	mRNA
+486	677
+840	932
+1704	1810
+2663	4120
+4711	5553
+6124	>6160
+			protein_id	gnl|PBARC|BDOR_001021.6-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001021.6-RB
+			product	T-complex protein 1 subunit zeta
+<41	171	CDS
+486	677
+840	932
+1704	1810
+2663	4120
+4711	>4711
+			protein_id	gnl|PBARC|BDOR_001021.6-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001021.6-RB
+			product	T-complex protein 1 subunit zeta
+			go_component	acrosomal vesicle|0001669||IEA
+			go_component	chaperonin-containing T-complex|0005832||IEA
+			go_component	sperm part|0097223||IEA
+			go_component	zona pellucida receptor complex|0002199||IEA
+			go_function	ATP binding|0005524||IEA
+			go_process	binding of sperm to zona pellucida|0007339||IEA
+			go_process	protein folding|0006457||IEA
+<41	171	mRNA
+486	677
+840	932
+1704	1810
+2663	4120
+4711	5553
+6124	>6160
+			protein_id	gnl|PBARC|BDOR_001021.6-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001021.6-RA
+			product	T-complex protein 1 subunit zeta
+<41	171	CDS
+486	677
+840	932
+1704	1810
+2663	4120
+4711	>4711
+			protein_id	gnl|PBARC|BDOR_001021.6-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001021.6-RA
+			product	T-complex protein 1 subunit zeta
+			go_component	acrosomal vesicle|0001669||IEA
+			go_component	chaperonin-containing T-complex|0005832||IEA
+			go_component	sperm part|0097223||IEA
+			go_component	zona pellucida receptor complex|0002199||IEA
+			go_function	ATP binding|0005524||IEA
+			go_process	binding of sperm to zona pellucida|0007339||IEA
+			go_process	protein folding|0006457||IEA
+10773	14842	gene
+			locus_tag	BDOR_001024
+10773	12396	mRNA
+13246	13368
+14774	14842
+			protein_id	gnl|PBARC|BDOR_001024-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001024-RA
+			product	hypothetical protein
+12346	12396	CDS
+13246	13368
+14774	14842
+			protein_id	gnl|PBARC|BDOR_001024-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001024-RA
+			product	hypothetical protein
+5892	9957	gene
+			locus_tag	BDOR_001023
+			gene	ABCF2
+9957	9646	mRNA
+8607	7875
+7801	6759
+6688	5892
+			protein_id	gnl|PBARC|BDOR_001023-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001023-RA
+			product	ATP-binding cassette sub-family F member 2
+8541	7875	CDS
+7801	6759
+6688	6566
+			protein_id	gnl|PBARC|BDOR_001023-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001023-RA
+			product	ATP-binding cassette sub-family F member 2
+			go_component	ATP-binding cassette (ABC) transporter complex|0043190||IEA
+			go_component	mitochondrial envelope|0005740||IEA
+			go_function	ATP binding|0005524||IEA
+			go_function	ATPase activity|0016887||IEA
+			go_function	transporter activity|0005215||IEA
+			go_process	ATP catabolic process|0006200||IEA
+1	1808	gene
+			locus_tag	BDOR_001022.2
+1808	291	mRNA
+238	>33
+			protein_id	gnl|PBARC|BDOR_001022.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001022.2-RA
+			product	hypothetical protein
+1122	291	CDS
+238	>33
+			protein_id	gnl|PBARC|BDOR_001022.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001022.2-RA
+			product	hypothetical protein
+>Feature sctg_0003_0606
+1	5842	REFERENCE
+			PBARC	12345
+1404	5842	gene
+			locus_tag	BDOR_001025.1
+<1404	>2249	mRNA
+			protein_id	gnl|PBARC|BDOR_001025.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001025.1-RA
+			product	Ras-associated and pleckstrin homology domains-containing protein 1
+>Feature sctg_0003_0607
+1	2775	REFERENCE
+			PBARC	12345
+1	2775	gene
+			locus_tag	BDOR_001025.2
+>Feature sctg_0003_0608
+1	1389	REFERENCE
+			PBARC	12345
+1	1389	gene
+			locus_tag	BDOR_001025.3
+>Feature sctg_0003_0609
+1	18907	REFERENCE
+			PBARC	12345
+1	11950	gene
+			locus_tag	BDOR_001025.4
+5949	6966	mRNA
+7026	11950
+			protein_id	gnl|PBARC|BDOR_001025.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001025.4-RA
+			product	Ras-associated and pleckstrin homology domains-containing protein 1
+6162	6966	CDS
+7026	9295
+			protein_id	gnl|PBARC|BDOR_001025.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001025.4-RA
+			product	Ras-associated and pleckstrin homology domains-containing protein 1
+			go_component	cytoplasm|0005737||IEA
+			go_component	cytoskeleton|0005856||IEA
+			go_component	filopodium|0030175||IEA
+			go_component	lamellipodium|0030027||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_function	phospholipid binding|0005543||IEA
+			go_process	cell-matrix adhesion|0007160||IEA
+			go_process	signal transduction|0007165||IEA
+>Feature sctg_0003_0610
+1	3350	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0611
+1	2264	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0612
+1	6462	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0613
+1	1849	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0614
+1	6721	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0615
+1	2211	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0616
+1	9704	REFERENCE
+			PBARC	12345
+8063	9704	gene
+			locus_tag	BDOR_001028.1
+8063	8191	mRNA
+8255	>8469
+			protein_id	gnl|PBARC|BDOR_001028.1-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001028.1-RB
+			product	Large subunit GTPase 1 homolog
+8150	8191	CDS
+8255	>8469
+			protein_id	gnl|PBARC|BDOR_001028.1-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001028.1-RB
+			product	Large subunit GTPase 1 homolog
+			go_component	Cajal body|0015030||IEA
+			go_component	cytosol|0005829||IEA
+			go_component	endoplasmic reticulum|0005783||IEA
+			go_function	GTP binding|0005525||IEA
+			go_function	GTPase activity|0003924||IEA
+			go_process	multicellular organismal development|0007275||IEA
+			go_process	nuclear export|0051168||IEA
+			go_process	protein transport|0015031||IEA
+			go_process	regulation of growth|0040008||IEA
+			go_process	regulation of insulin receptor signaling pathway|0046626||IEA
+			go_process	ribosome biogenesis|0042254||IEA
+<8063	8191	mRNA
+8255	>8469
+			protein_id	gnl|PBARC|BDOR_001028.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001028.1-RA
+			product	Large subunit GTPase 1 homolog
+864	2497	gene
+			locus_tag	BDOR_001026
+			gene	VIT1
+864	1174	mRNA
+1231	1613
+1675	2497
+			protein_id	gnl|PBARC|BDOR_001026-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001026-RA
+			product	Vitellogenin-1
+943	1174	CDS
+1231	1613
+1675	2376
+			protein_id	gnl|PBARC|BDOR_001026-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001026-RA
+			product	Vitellogenin-1
+			go_component	extracellular region|0005576||IEA
+			go_function	catalytic activity|0003824||IEA
+			go_process	lipid metabolic process|0006629||IEA
+1268	1881	gene
+			locus_tag	BDOR_001027
+1881	1724	mRNA
+1454	1268
+			protein_id	gnl|PBARC|BDOR_001027-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001027-RA
+			product	hypothetical protein
+1881	1724	CDS
+1454	1268
+			protein_id	gnl|PBARC|BDOR_001027-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001027-RA
+			product	hypothetical protein
+>Feature sctg_0003_0617
+1	2785	REFERENCE
+			PBARC	12345
+1	2785	gene
+			locus_tag	BDOR_001028.2
+>Feature sctg_0003_0618
+1	744	REFERENCE
+			PBARC	12345
+1	744	gene
+			locus_tag	BDOR_001028.3
+>Feature sctg_0003_0619
+1	5131	REFERENCE
+			PBARC	12345
+1	5131	gene
+			locus_tag	BDOR_001028.4
+<2657	>2990	mRNA
+			protein_id	gnl|PBARC|BDOR_001028.4-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001028.4-RB
+			product	Large subunit GTPase 1 homolog
+<2657	>2990	CDS
+			protein_id	gnl|PBARC|BDOR_001028.4-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001028.4-RB
+			product	Large subunit GTPase 1 homolog
+			go_component	Cajal body|0015030||IEA
+			go_component	cytosol|0005829||IEA
+			go_component	endoplasmic reticulum|0005783||IEA
+			go_function	GTP binding|0005525||IEA
+			go_function	GTPase activity|0003924||IEA
+			go_process	multicellular organismal development|0007275||IEA
+			go_process	nuclear export|0051168||IEA
+			go_process	protein transport|0015031||IEA
+			go_process	regulation of growth|0040008||IEA
+			go_process	regulation of insulin receptor signaling pathway|0046626||IEA
+			go_process	ribosome biogenesis|0042254||IEA
+<2657	>2990	mRNA
+			protein_id	gnl|PBARC|BDOR_001028.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001028.4-RA
+			product	Large subunit GTPase 1 homolog
+>Feature sctg_0003_0620
+1	1424	REFERENCE
+			PBARC	12345
+1	1424	gene
+			locus_tag	BDOR_001028.5
+>Feature sctg_0003_0621
+1	7908	REFERENCE
+			PBARC	12345
+1	7908	gene
+			locus_tag	BDOR_001028.6
+>Feature sctg_0003_0622
+1	550	REFERENCE
+			PBARC	12345
+1	550	gene
+			locus_tag	BDOR_001028.7
+>Feature sctg_0003_0623
+1	7837	REFERENCE
+			PBARC	12345
+1	7837	gene
+			locus_tag	BDOR_001028.8
+>Feature sctg_0003_0624
+1	3033	REFERENCE
+			PBARC	12345
+1	3033	gene
+			locus_tag	BDOR_001028.9
+>Feature sctg_0003_0625
+1	4272	REFERENCE
+			PBARC	12345
+1	4272	gene
+			locus_tag	BDOR_001028.10
+<1330	>1478	mRNA
+			protein_id	gnl|PBARC|BDOR_001028.10-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001028.10-RB
+			product	Large subunit GTPase 1 homolog
+<1330	>1478	CDS
+			protein_id	gnl|PBARC|BDOR_001028.10-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001028.10-RB
+			product	Large subunit GTPase 1 homolog
+			go_component	Cajal body|0015030||IEA
+			go_component	cytosol|0005829||IEA
+			go_component	endoplasmic reticulum|0005783||IEA
+			go_function	GTP binding|0005525||IEA
+			go_function	GTPase activity|0003924||IEA
+			go_process	multicellular organismal development|0007275||IEA
+			go_process	nuclear export|0051168||IEA
+			go_process	protein transport|0015031||IEA
+			go_process	regulation of growth|0040008||IEA
+			go_process	regulation of insulin receptor signaling pathway|0046626||IEA
+			go_process	ribosome biogenesis|0042254||IEA
+<1330	>1478	mRNA
+			protein_id	gnl|PBARC|BDOR_001028.10-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001028.10-RA
+			product	Large subunit GTPase 1 homolog
+>Feature sctg_0003_0626
+1	11694	REFERENCE
+			PBARC	12345
+1	11694	gene
+			locus_tag	BDOR_001028.11
+<9128	>9291	mRNA
+			protein_id	gnl|PBARC|BDOR_001028.11-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001028.11-RB
+			product	Large subunit GTPase 1 homolog
+<9128	>9291	CDS
+			protein_id	gnl|PBARC|BDOR_001028.11-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001028.11-RB
+			product	Large subunit GTPase 1 homolog
+			go_component	Cajal body|0015030||IEA
+			go_component	cytosol|0005829||IEA
+			go_component	endoplasmic reticulum|0005783||IEA
+			go_function	GTP binding|0005525||IEA
+			go_function	GTPase activity|0003924||IEA
+			go_process	multicellular organismal development|0007275||IEA
+			go_process	nuclear export|0051168||IEA
+			go_process	protein transport|0015031||IEA
+			go_process	regulation of growth|0040008||IEA
+			go_process	regulation of insulin receptor signaling pathway|0046626||IEA
+			go_process	ribosome biogenesis|0042254||IEA
+<9128	>9291	mRNA
+			protein_id	gnl|PBARC|BDOR_001028.11-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001028.11-RA
+			product	Large subunit GTPase 1 homolog
+>Feature sctg_0003_0627
+1	988	REFERENCE
+			PBARC	12345
+1	988	gene
+			locus_tag	BDOR_001028.12
+>Feature sctg_0003_0628
+1	7705	REFERENCE
+			PBARC	12345
+1	7705	gene
+			locus_tag	BDOR_001028.13
+<156	293	mRNA
+494	866
+1245	>5218
+			protein_id	gnl|PBARC|BDOR_001028.13-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001028.13-RB
+			product	Large subunit GTPase 1 homolog
+<156	293	CDS
+494	866
+1245	>5218
+			protein_id	gnl|PBARC|BDOR_001028.13-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001028.13-RB
+			product	Large subunit GTPase 1 homolog
+			go_component	Cajal body|0015030||IEA
+			go_component	cytosol|0005829||IEA
+			go_component	endoplasmic reticulum|0005783||IEA
+			go_function	GTP binding|0005525||IEA
+			go_function	GTPase activity|0003924||IEA
+			go_process	multicellular organismal development|0007275||IEA
+			go_process	nuclear export|0051168||IEA
+			go_process	protein transport|0015031||IEA
+			go_process	regulation of growth|0040008||IEA
+			go_process	regulation of insulin receptor signaling pathway|0046626||IEA
+			go_process	ribosome biogenesis|0042254||IEA
+494	866	mRNA
+1245	>5218
+			protein_id	gnl|PBARC|BDOR_001028.13-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001028.13-RA
+			product	Large subunit GTPase 1 homolog
+496	866	CDS
+1245	>5218
+			protein_id	gnl|PBARC|BDOR_001028.13-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001028.13-RA
+			product	Large subunit GTPase 1 homolog
+			go_component	Cajal body|0015030||IEA
+			go_component	cytosol|0005829||IEA
+			go_component	endoplasmic reticulum|0005783||IEA
+			go_function	GTP binding|0005525||IEA
+			go_function	GTPase activity|0003924||IEA
+			go_process	multicellular organismal development|0007275||IEA
+			go_process	nuclear export|0051168||IEA
+			go_process	protein transport|0015031||IEA
+			go_process	regulation of growth|0040008||IEA
+			go_process	regulation of insulin receptor signaling pathway|0046626||IEA
+			go_process	ribosome biogenesis|0042254||IEA
+>Feature sctg_0003_0629
+1	2195	REFERENCE
+			PBARC	12345
+1	2195	gene
+			locus_tag	BDOR_001028.14
+>Feature sctg_0003_0630
+1	6471	REFERENCE
+			PBARC	12345
+1	6471	gene
+			locus_tag	BDOR_001028.15
+>Feature sctg_0003_0631
+1	2687	REFERENCE
+			PBARC	12345
+1	2687	gene
+			locus_tag	BDOR_001028.16
+>Feature sctg_0003_0632
+1	1793	REFERENCE
+			PBARC	12345
+1	1793	gene
+			locus_tag	BDOR_001028.17
+>Feature sctg_0003_0633
+1	1727	REFERENCE
+			PBARC	12345
+1	1727	gene
+			locus_tag	BDOR_001028.18
+>Feature sctg_0003_0634
+1	17468	REFERENCE
+			PBARC	12345
+1	17468	gene
+			locus_tag	BDOR_001028.19
+<12788	>12888	mRNA
+			protein_id	gnl|PBARC|BDOR_001028.19-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001028.19-RB
+			product	Large subunit GTPase 1 homolog
+<12788	>12888	CDS
+			protein_id	gnl|PBARC|BDOR_001028.19-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001028.19-RB
+			product	Large subunit GTPase 1 homolog
+			go_component	Cajal body|0015030||IEA
+			go_component	cytosol|0005829||IEA
+			go_component	endoplasmic reticulum|0005783||IEA
+			go_function	GTP binding|0005525||IEA
+			go_function	GTPase activity|0003924||IEA
+			go_process	multicellular organismal development|0007275||IEA
+			go_process	nuclear export|0051168||IEA
+			go_process	protein transport|0015031||IEA
+			go_process	regulation of growth|0040008||IEA
+			go_process	regulation of insulin receptor signaling pathway|0046626||IEA
+			go_process	ribosome biogenesis|0042254||IEA
+<12788	>12888	mRNA
+			protein_id	gnl|PBARC|BDOR_001028.19-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001028.19-RA
+			product	Large subunit GTPase 1 homolog
+<12788	>12888	CDS
+			protein_id	gnl|PBARC|BDOR_001028.19-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001028.19-RA
+			product	Large subunit GTPase 1 homolog
+			go_component	Cajal body|0015030||IEA
+			go_component	cytosol|0005829||IEA
+			go_component	endoplasmic reticulum|0005783||IEA
+			go_function	GTP binding|0005525||IEA
+			go_function	GTPase activity|0003924||IEA
+			go_process	multicellular organismal development|0007275||IEA
+			go_process	nuclear export|0051168||IEA
+			go_process	protein transport|0015031||IEA
+			go_process	regulation of growth|0040008||IEA
+			go_process	regulation of insulin receptor signaling pathway|0046626||IEA
+			go_process	ribosome biogenesis|0042254||IEA
+>Feature sctg_0003_0635
+1	1186	REFERENCE
+			PBARC	12345
+1	1186	gene
+			locus_tag	BDOR_001028.20
+>Feature sctg_0003_0636
+1	2167	REFERENCE
+			PBARC	12345
+1	2167	gene
+			locus_tag	BDOR_001028.21
+>Feature sctg_0003_0637
+1	4903	REFERENCE
+			PBARC	12345
+1	4903	gene
+			locus_tag	BDOR_001028.22
+>Feature sctg_0003_0638
+1	1873	REFERENCE
+			PBARC	12345
+1	1873	gene
+			locus_tag	BDOR_001028.23
+<423	>481	mRNA
+			protein_id	gnl|PBARC|BDOR_001028.23-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001028.23-RB
+			product	Large subunit GTPase 1 homolog
+<423	>481	CDS
+			protein_id	gnl|PBARC|BDOR_001028.23-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001028.23-RB
+			product	Large subunit GTPase 1 homolog
+			go_component	Cajal body|0015030||IEA
+			go_component	cytosol|0005829||IEA
+			go_component	endoplasmic reticulum|0005783||IEA
+			go_function	GTP binding|0005525||IEA
+			go_function	GTPase activity|0003924||IEA
+			go_process	multicellular organismal development|0007275||IEA
+			go_process	nuclear export|0051168||IEA
+			go_process	protein transport|0015031||IEA
+			go_process	regulation of growth|0040008||IEA
+			go_process	regulation of insulin receptor signaling pathway|0046626||IEA
+			go_process	ribosome biogenesis|0042254||IEA
+>Feature sctg_0003_0639
+1	8858	REFERENCE
+			PBARC	12345
+1	8858	gene
+			locus_tag	BDOR_001028.24
+<5712	5817	mRNA
+5884	6739
+6888	7126
+7195	7348
+7482	7687
+7747	>7869
+			protein_id	gnl|PBARC|BDOR_001028.24-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001028.24-RB
+			product	Large subunit GTPase 1 homolog
+<5712	5817	CDS
+5884	6739
+6888	>6889
+			protein_id	gnl|PBARC|BDOR_001028.24-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001028.24-RB
+			product	Large subunit GTPase 1 homolog
+			go_component	Cajal body|0015030||IEA
+			go_component	cytosol|0005829||IEA
+			go_component	endoplasmic reticulum|0005783||IEA
+			go_function	GTP binding|0005525||IEA
+			go_function	GTPase activity|0003924||IEA
+			go_process	multicellular organismal development|0007275||IEA
+			go_process	nuclear export|0051168||IEA
+			go_process	protein transport|0015031||IEA
+			go_process	regulation of growth|0040008||IEA
+			go_process	regulation of insulin receptor signaling pathway|0046626||IEA
+			go_process	ribosome biogenesis|0042254||IEA
+<5884	6739	mRNA
+6888	7126
+7195	7348
+7482	7687
+7747	>7869
+			protein_id	gnl|PBARC|BDOR_001028.24-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001028.24-RA
+			product	Large subunit GTPase 1 homolog
+<5884	6739	CDS
+6888	>6889
+			protein_id	gnl|PBARC|BDOR_001028.24-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001028.24-RA
+			product	Large subunit GTPase 1 homolog
+			go_component	Cajal body|0015030||IEA
+			go_component	cytosol|0005829||IEA
+			go_component	endoplasmic reticulum|0005783||IEA
+			go_function	GTP binding|0005525||IEA
+			go_function	GTPase activity|0003924||IEA
+			go_process	multicellular organismal development|0007275||IEA
+			go_process	nuclear export|0051168||IEA
+			go_process	protein transport|0015031||IEA
+			go_process	regulation of growth|0040008||IEA
+			go_process	regulation of insulin receptor signaling pathway|0046626||IEA
+			go_process	ribosome biogenesis|0042254||IEA
+>Feature sctg_0003_0640
+1	1053	REFERENCE
+			PBARC	12345
+1	1053	gene
+			locus_tag	BDOR_001028.25
+>Feature sctg_0003_0641
+1	2120	REFERENCE
+			PBARC	12345
+1	2120	gene
+			locus_tag	BDOR_001028.26
+>Feature sctg_0003_0642
+1	1468	REFERENCE
+			PBARC	12345
+1	1464	gene
+			locus_tag	BDOR_001028.27
+<409	1074	mRNA
+1160	>1464
+			protein_id	gnl|PBARC|BDOR_001028.27-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001028.27-RB
+			product	Large subunit GTPase 1 homolog
+<409	1074	mRNA
+1160	>1464
+			protein_id	gnl|PBARC|BDOR_001028.27-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001028.27-RA
+			product	Large subunit GTPase 1 homolog
+>Feature sctg_0003_0643
+1	1193	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0644
+1	9913	REFERENCE
+			PBARC	12345
+7441	8837	gene
+			locus_tag	BDOR_001030
+			gene	RM33
+7441	8465	mRNA
+8533	8636
+8695	8837
+			protein_id	gnl|PBARC|BDOR_001030-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001030-RA
+			product	39S ribosomal protein L33
+8425	8465	CDS
+8533	8636
+8695	8744
+			protein_id	gnl|PBARC|BDOR_001030-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001030-RA
+			product	39S ribosomal protein L33
+			go_component	mitochondrial large ribosomal subunit|0005762||IEA
+			go_function	structural constituent of ribosome|0003735||IEA
+			go_process	translation|0006412||IEA
+3356	7306	gene
+			locus_tag	BDOR_001029
+			gene	NO66
+7306	4858	mRNA
+4805	4447
+4381	3356
+			protein_id	gnl|PBARC|BDOR_001029-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001029-RA
+			product	Bifunctional lysine-specific demethylase and histidyl-hydroxylase NO66
+6103	4858	CDS
+4805	4447
+4381	4289
+			protein_id	gnl|PBARC|BDOR_001029-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001029-RA
+			product	Bifunctional lysine-specific demethylase and histidyl-hydroxylase NO66
+			go_component	nucleus|0005634||IEA
+			go_function	histone demethylase activity (H3-K36 specific)|0051864||IEA
+			go_function	histone demethylase activity (H3-K4 specific)|0032453||IEA
+			go_function	iron ion binding|0005506||IEA
+			go_function	oxidoreductase activity
+			go_process	negative regulation of transcription
+			go_process	transcription
+7524	8297	gene
+			locus_tag	BDOR_001031
+8297	8234	mRNA
+8019	7524
+			protein_id	gnl|PBARC|BDOR_001031-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001031-RA
+			product	hypothetical protein
+8297	8234	CDS
+8019	7649
+			protein_id	gnl|PBARC|BDOR_001031-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001031-RA
+			product	hypothetical protein
+>Feature sctg_0003_0645
+1	752	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0646
+1	5608	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0647
+1	1606	REFERENCE
+			PBARC	12345
+804	1606	gene
+			locus_tag	BDOR_001032.1
+<804	>1082	mRNA
+			protein_id	gnl|PBARC|BDOR_001032.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001032.1-RA
+			product	1-phosphatidylinositol 4
+>Feature sctg_0003_0648
+1	955	REFERENCE
+			PBARC	12345
+1	955	gene
+			locus_tag	BDOR_001032.2
+>Feature sctg_0003_0649
+1	1265	REFERENCE
+			PBARC	12345
+1	1265	gene
+			locus_tag	BDOR_001032.3
+>Feature sctg_0003_0650
+1	781	REFERENCE
+			PBARC	12345
+1	781	gene
+			locus_tag	BDOR_001032.4
+>Feature sctg_0003_0651
+1	562	REFERENCE
+			PBARC	12345
+1	562	gene
+			locus_tag	BDOR_001032.5
+>Feature sctg_0003_0652
+1	5552	REFERENCE
+			PBARC	12345
+1	5552	gene
+			locus_tag	BDOR_001032.6
+<485	587	mRNA
+1078	>1253
+			protein_id	gnl|PBARC|BDOR_001032.6-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001032.6-RA
+			product	1-phosphatidylinositol 4
+>Feature sctg_0003_0653
+1	1559	REFERENCE
+			PBARC	12345
+1	1559	gene
+			locus_tag	BDOR_001032.7
+>Feature sctg_0003_0654
+1	1514	REFERENCE
+			PBARC	12345
+1	1514	gene
+			locus_tag	BDOR_001032.8
+>Feature sctg_0003_0655
+1	10923	REFERENCE
+			PBARC	12345
+1	10923	gene
+			locus_tag	BDOR_001032.9
+>Feature sctg_0003_0656
+1	1198	REFERENCE
+			PBARC	12345
+1	1198	gene
+			locus_tag	BDOR_001032.10
+>Feature sctg_0003_0657
+1	2167	REFERENCE
+			PBARC	12345
+1	2167	gene
+			locus_tag	BDOR_001032.11
+>Feature sctg_0003_0658
+1	7404	REFERENCE
+			PBARC	12345
+1	7404	gene
+			locus_tag	BDOR_001032.12
+>Feature sctg_0003_0659
+1	1291	REFERENCE
+			PBARC	12345
+1	1291	gene
+			locus_tag	BDOR_001032.13
+>Feature sctg_0003_0660
+1	10194	REFERENCE
+			PBARC	12345
+1	10194	gene
+			locus_tag	BDOR_001032.14
+>Feature sctg_0003_0661
+1	21836	REFERENCE
+			PBARC	12345
+1	21836	gene
+			locus_tag	BDOR_001032.15
+>Feature sctg_0003_0662
+1	14630	REFERENCE
+			PBARC	12345
+1	13052	gene
+			locus_tag	BDOR_001032.16
+11536	12089	mRNA
+12942	13052
+			protein_id	gnl|PBARC|BDOR_001032.16-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001032.16-RA
+			product	1-phosphatidylinositol 4
+11910	12089	CDS
+12942	13052
+			protein_id	gnl|PBARC|BDOR_001032.16-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001032.16-RA
+			product	1-phosphatidylinositol 4
+			go_component	inaD signaling complex|0016027||IEA
+			go_component	intracellular|0005622||IEA
+			go_function	calcium ion binding|0005509||IEA
+			go_function	GTPase activator activity|0005096||IEA
+			go_function	phosphatidylinositol phospholipase C activity|0004435||IEA
+			go_function	signal transducer activity|0004871||IEA
+			go_process	adult locomotory behavior|0008344||IEA
+			go_process	calcium-mediated signaling|0019722||IEA
+			go_process	deactivation of rhodopsin mediated signaling|0016059||IEA
+			go_process	detection of chemical stimulus involved in sensory perception of bitter taste|0001580||IEA
+			go_process	diacylglycerol biosynthetic process|0006651||IEA
+			go_process	elevation of cytosolic calcium ion concentration involved in phospholipase C-activating G-protein coupled signaling pathway|0051482||IEA
+			go_process	entrainment of circadian clock|0009649||IEA
+			go_process	light-induced release of internally sequestered calcium ion|0008377||IEA
+			go_process	lipid catabolic process|0016042||IEA
+			go_process	mucosal immune response|0002385||IEA
+			go_process	negative regulation of compound eye retinal cell programmed cell death|0046673||IEA
+			go_process	phosphatidylinositol metabolic process|0046488||IEA
+			go_process	phospholipid biosynthetic process|0008654||IEA
+			go_process	photoreceptor cell maintenance|0045494||IEA
+			go_process	thermotaxis|0043052||IEA
+>Feature sctg_0003_0663
+1	2009	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0664
+1	8147	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0665
+1	4554	REFERENCE
+			PBARC	12345
+683	1090	gene
+			locus_tag	BDOR_001033
+			gene	PIPA
+683	715	mRNA
+878	1024
+1076	1090
+			protein_id	gnl|PBARC|BDOR_001033-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001033-RA
+			product	1-phosphatidylinositol 4
+683	715	CDS
+878	1024
+1076	1090
+			protein_id	gnl|PBARC|BDOR_001033-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001033-RA
+			product	1-phosphatidylinositol 4
+			go_component	inaD signaling complex|0016027||IEA
+			go_component	intracellular|0005622||IEA
+			go_function	calcium ion binding|0005509||IEA
+			go_function	GTPase activator activity|0005096||IEA
+			go_function	phosphatidylinositol phospholipase C activity|0004435||IEA
+			go_function	signal transducer activity|0004871||IEA
+			go_process	adult locomotory behavior|0008344||IEA
+			go_process	calcium-mediated signaling|0019722||IEA
+			go_process	deactivation of rhodopsin mediated signaling|0016059||IEA
+			go_process	detection of chemical stimulus involved in sensory perception of bitter taste|0001580||IEA
+			go_process	diacylglycerol biosynthetic process|0006651||IEA
+			go_process	elevation of cytosolic calcium ion concentration involved in phospholipase C-activating G-protein coupled signaling pathway|0051482||IEA
+			go_process	entrainment of circadian clock|0009649||IEA
+			go_process	light-induced release of internally sequestered calcium ion|0008377||IEA
+			go_process	lipid catabolic process|0016042||IEA
+			go_process	mucosal immune response|0002385||IEA
+			go_process	negative regulation of compound eye retinal cell programmed cell death|0046673||IEA
+			go_process	phosphatidylinositol metabolic process|0046488||IEA
+			go_process	phospholipid biosynthetic process|0008654||IEA
+			go_process	photoreceptor cell maintenance|0045494||IEA
+			go_process	thermotaxis|0043052||IEA
+>Feature sctg_0003_0666
+1	3755	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0667
+1	5709	REFERENCE
+			PBARC	12345
+692	5709	gene
+			locus_tag	BDOR_001034.1
+692	870	mRNA
+938	1148
+1240	1333
+1393	1557
+1614	1970
+2048	3102
+3175	3378
+3446	3602
+4707	>4796
+			protein_id	gnl|PBARC|BDOR_001034.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001034.1-RA
+			product	1-phosphatidylinositol 4
+732	870	CDS
+938	1148
+1240	1333
+1393	1557
+1614	1970
+2048	3102
+3175	3378
+3446	3602
+4707	>4796
+			protein_id	gnl|PBARC|BDOR_001034.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001034.1-RA
+			product	1-phosphatidylinositol 4
+			go_component	inaD signaling complex|0016027||IEA
+			go_component	intracellular|0005622||IEA
+			go_function	calcium ion binding|0005509||IEA
+			go_function	GTPase activator activity|0005096||IEA
+			go_function	phosphatidylinositol phospholipase C activity|0004435||IEA
+			go_function	signal transducer activity|0004871||IEA
+			go_process	adult locomotory behavior|0008344||IEA
+			go_process	calcium-mediated signaling|0019722||IEA
+			go_process	deactivation of rhodopsin mediated signaling|0016059||IEA
+			go_process	detection of chemical stimulus involved in sensory perception of bitter taste|0001580||IEA
+			go_process	diacylglycerol biosynthetic process|0006651||IEA
+			go_process	elevation of cytosolic calcium ion concentration involved in phospholipase C-activating G-protein coupled signaling pathway|0051482||IEA
+			go_process	entrainment of circadian clock|0009649||IEA
+			go_process	light-induced release of internally sequestered calcium ion|0008377||IEA
+			go_process	lipid catabolic process|0016042||IEA
+			go_process	mucosal immune response|0002385||IEA
+			go_process	negative regulation of compound eye retinal cell programmed cell death|0046673||IEA
+			go_process	phosphatidylinositol metabolic process|0046488||IEA
+			go_process	phospholipid biosynthetic process|0008654||IEA
+			go_process	photoreceptor cell maintenance|0045494||IEA
+			go_process	thermotaxis|0043052||IEA
+>Feature sctg_0003_0668
+1	505	REFERENCE
+			PBARC	12345
+1	505	gene
+			locus_tag	BDOR_001034.2
+>Feature sctg_0003_0669
+1	3350	REFERENCE
+			PBARC	12345
+1	2338	gene
+			locus_tag	BDOR_001034.3
+<2327	2338	mRNA
+			protein_id	gnl|PBARC|BDOR_001034.3-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001034.3-RA
+			product	1-phosphatidylinositol 4
+<2327	2338	CDS
+			protein_id	gnl|PBARC|BDOR_001034.3-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001034.3-RA
+			product	1-phosphatidylinositol 4
+			go_component	inaD signaling complex|0016027||IEA
+			go_component	intracellular|0005622||IEA
+			go_function	calcium ion binding|0005509||IEA
+			go_function	GTPase activator activity|0005096||IEA
+			go_function	phosphatidylinositol phospholipase C activity|0004435||IEA
+			go_function	signal transducer activity|0004871||IEA
+			go_process	adult locomotory behavior|0008344||IEA
+			go_process	calcium-mediated signaling|0019722||IEA
+			go_process	deactivation of rhodopsin mediated signaling|0016059||IEA
+			go_process	detection of chemical stimulus involved in sensory perception of bitter taste|0001580||IEA
+			go_process	diacylglycerol biosynthetic process|0006651||IEA
+			go_process	elevation of cytosolic calcium ion concentration involved in phospholipase C-activating G-protein coupled signaling pathway|0051482||IEA
+			go_process	entrainment of circadian clock|0009649||IEA
+			go_process	light-induced release of internally sequestered calcium ion|0008377||IEA
+			go_process	lipid catabolic process|0016042||IEA
+			go_process	mucosal immune response|0002385||IEA
+			go_process	negative regulation of compound eye retinal cell programmed cell death|0046673||IEA
+			go_process	phosphatidylinositol metabolic process|0046488||IEA
+			go_process	phospholipid biosynthetic process|0008654||IEA
+			go_process	photoreceptor cell maintenance|0045494||IEA
+			go_process	thermotaxis|0043052||IEA
+>Feature sctg_0003_0670
+1	28491	REFERENCE
+			PBARC	12345
+9790	21305	gene
+			locus_tag	BDOR_001036
+9790	10082	mRNA
+10159	10303
+10360	10574
+10642	11358
+11438	11518
+11591	11677
+12287	12360
+12530	12728
+12789	12933
+13500	13714
+13775	14497
+14743	14826
+14884	15010
+15736	15950
+16016	16732
+16800	16880
+16940	17066
+17734	18162
+18222	18568
+18633	18807
+18859	21305
+			protein_id	gnl|PBARC|BDOR_001036-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001036-RA
+			product	hypothetical protein
+9852	10082	CDS
+10159	10303
+10360	10574
+10642	11358
+11438	11518
+11591	11677
+12287	12360
+12530	12728
+12789	12933
+13500	13714
+13775	14497
+14743	14826
+14884	15010
+15736	15950
+16016	16732
+16800	16880
+16940	17066
+17734	18162
+18222	18568
+18633	18807
+18859	19112
+			protein_id	gnl|PBARC|BDOR_001036-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001036-RA
+			product	hypothetical protein
+9790	10082	mRNA
+10159	10303
+10360	10574
+10642	11358
+11438	11518
+11591	11677
+12287	12360
+12530	12933
+13500	13714
+13775	14497
+14743	14826
+14884	15010
+15736	15950
+16016	16732
+16800	16880
+16940	17066
+17734	18162
+18222	18568
+18633	18807
+18859	21305
+			protein_id	gnl|PBARC|BDOR_001036-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001036-RB
+			product	hypothetical protein
+9852	10082	CDS
+10159	10303
+10360	10574
+10642	11358
+11438	11518
+11591	11677
+12287	12360
+12530	12933
+13500	13714
+13775	14497
+14743	14826
+14884	15010
+15736	15950
+16016	16732
+16800	16880
+16940	17066
+17734	18162
+18222	18568
+18633	18807
+18859	19112
+			protein_id	gnl|PBARC|BDOR_001036-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001036-RB
+			product	hypothetical protein
+3487	9043	gene
+			locus_tag	BDOR_001035
+3487	3948	mRNA
+4039	4183
+4252	4466
+4569	5285
+5360	5440
+5516	5602
+6763	6868
+7471	7685
+7744	8463
+8525	8605
+8705	9043
+			protein_id	gnl|PBARC|BDOR_001035-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001035-RA
+			product	hypothetical protein
+3727	3948	CDS
+4039	4183
+4252	4466
+4569	5285
+5360	5440
+5516	5602
+6763	6868
+7471	7685
+7744	8463
+8525	8605
+8705	8875
+			protein_id	gnl|PBARC|BDOR_001035-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001035-RA
+			product	hypothetical protein
+24431	28491	gene
+			locus_tag	BDOR_001038.1
+<26629	24431	mRNA
+			protein_id	gnl|PBARC|BDOR_001038.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001038.1-RA
+			product	Dynein light chain 1
+<26629	26468	CDS
+			protein_id	gnl|PBARC|BDOR_001038.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001038.1-RA
+			product	Dynein light chain 1
+			go_component	centriole|0005814||IEA
+			go_component	dynein complex|0030286||IEA
+			go_component	microtubule|0005874||IEA
+			go_function	ATPase activity
+			go_function	motor activity|0003774||IEA
+			go_function	protein homodimerization activity|0042803||IEA
+			go_process	actin filament bundle assembly|0051017||IEA
+			go_process	autophagy|0006914||IEA
+			go_process	chaeta morphogenesis|0008407||IEA
+			go_process	establishment of mitotic spindle orientation|0000132||IEA
+			go_process	imaginal disc-derived wing morphogenesis|0007476||IEA
+			go_process	microtubule anchoring at centrosome|0034454||IEA
+			go_process	microtubule-based movement|0007018||IEA
+			go_process	neurogenesis|0022008||IEA
+			go_process	oogenesis|0048477||IEA
+			go_process	salivary gland cell autophagic cell death|0035071||IEA
+			go_process	sperm individualization|0007291||IEA
+			go_process	spermatid nucleus elongation|0007290||IEA
+<26629	24431	mRNA
+			protein_id	gnl|PBARC|BDOR_001038.1-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001038.1-RB
+			product	Dynein light chain 1
+<26629	26468	CDS
+			protein_id	gnl|PBARC|BDOR_001038.1-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001038.1-RB
+			product	Dynein light chain 1
+			go_component	centriole|0005814||IEA
+			go_component	dynein complex|0030286||IEA
+			go_component	microtubule|0005874||IEA
+			go_function	ATPase activity
+			go_function	motor activity|0003774||IEA
+			go_function	protein homodimerization activity|0042803||IEA
+			go_process	actin filament bundle assembly|0051017||IEA
+			go_process	autophagy|0006914||IEA
+			go_process	chaeta morphogenesis|0008407||IEA
+			go_process	establishment of mitotic spindle orientation|0000132||IEA
+			go_process	imaginal disc-derived wing morphogenesis|0007476||IEA
+			go_process	microtubule anchoring at centrosome|0034454||IEA
+			go_process	microtubule-based movement|0007018||IEA
+			go_process	neurogenesis|0022008||IEA
+			go_process	oogenesis|0048477||IEA
+			go_process	salivary gland cell autophagic cell death|0035071||IEA
+			go_process	sperm individualization|0007291||IEA
+			go_process	spermatid nucleus elongation|0007290||IEA
+20006	21037	gene
+			locus_tag	BDOR_001037
+			gene	ATBP
+21037	21000	mRNA
+20927	20383
+20316	20224
+20046	20006
+			protein_id	gnl|PBARC|BDOR_001037-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001037-RA
+			product	AT-rich binding protein
+21037	21000	CDS
+20927	20383
+20316	20224
+20046	20006
+			protein_id	gnl|PBARC|BDOR_001037-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001037-RA
+			product	AT-rich binding protein
+			go_component	nucleus|0005634||IEA
+			go_function	DNA binding|0003677||IEA
+			go_function	metal ion binding|0046872||IEA
+			go_function	zinc ion binding|0008270||IEA
+			go_process	regulation of transcription from RNA polymerase II promoter|0006357||IEA
+			go_process	transcription
+>Feature sctg_0003_0671
+1	1464	REFERENCE
+			PBARC	12345
+1	1464	gene
+			locus_tag	BDOR_001038.2
+>Feature sctg_0003_0672
+1	2591	REFERENCE
+			PBARC	12345
+1	2591	gene
+			locus_tag	BDOR_001038.3
+>Feature sctg_0003_0673
+1	3920	REFERENCE
+			PBARC	12345
+1	3920	gene
+			locus_tag	BDOR_001038.4
+1630	>1463	mRNA
+			protein_id	gnl|PBARC|BDOR_001038.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001038.4-RA
+			product	Dynein light chain 1
+1570	>1463	CDS
+			protein_id	gnl|PBARC|BDOR_001038.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001038.4-RA
+			product	Dynein light chain 1
+			go_component	centriole|0005814||IEA
+			go_component	dynein complex|0030286||IEA
+			go_component	microtubule|0005874||IEA
+			go_function	ATPase activity
+			go_function	motor activity|0003774||IEA
+			go_function	protein homodimerization activity|0042803||IEA
+			go_process	actin filament bundle assembly|0051017||IEA
+			go_process	autophagy|0006914||IEA
+			go_process	chaeta morphogenesis|0008407||IEA
+			go_process	establishment of mitotic spindle orientation|0000132||IEA
+			go_process	imaginal disc-derived wing morphogenesis|0007476||IEA
+			go_process	microtubule anchoring at centrosome|0034454||IEA
+			go_process	microtubule-based movement|0007018||IEA
+			go_process	neurogenesis|0022008||IEA
+			go_process	oogenesis|0048477||IEA
+			go_process	salivary gland cell autophagic cell death|0035071||IEA
+			go_process	sperm individualization|0007291||IEA
+			go_process	spermatid nucleus elongation|0007290||IEA
+1630	>1463	mRNA
+			protein_id	gnl|PBARC|BDOR_001038.4-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001038.4-RB
+			product	Dynein light chain 1
+1570	>1463	CDS
+			protein_id	gnl|PBARC|BDOR_001038.4-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001038.4-RB
+			product	Dynein light chain 1
+			go_component	centriole|0005814||IEA
+			go_component	dynein complex|0030286||IEA
+			go_component	microtubule|0005874||IEA
+			go_function	ATPase activity
+			go_function	motor activity|0003774||IEA
+			go_function	protein homodimerization activity|0042803||IEA
+			go_process	actin filament bundle assembly|0051017||IEA
+			go_process	autophagy|0006914||IEA
+			go_process	chaeta morphogenesis|0008407||IEA
+			go_process	establishment of mitotic spindle orientation|0000132||IEA
+			go_process	imaginal disc-derived wing morphogenesis|0007476||IEA
+			go_process	microtubule anchoring at centrosome|0034454||IEA
+			go_process	microtubule-based movement|0007018||IEA
+			go_process	neurogenesis|0022008||IEA
+			go_process	oogenesis|0048477||IEA
+			go_process	salivary gland cell autophagic cell death|0035071||IEA
+			go_process	sperm individualization|0007291||IEA
+			go_process	spermatid nucleus elongation|0007290||IEA
+>Feature sctg_0003_0674
+1	3337	REFERENCE
+			PBARC	12345
+1	3337	gene
+			locus_tag	BDOR_001038.5
+<3198	>2993	mRNA
+			protein_id	gnl|PBARC|BDOR_001038.5-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001038.5-RA
+			product	Dynein light chain 1
+<3198	>2993	mRNA
+			protein_id	gnl|PBARC|BDOR_001038.5-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001038.5-RB
+			product	Dynein light chain 1
+>Feature sctg_0003_0675
+1	4021	REFERENCE
+			PBARC	12345
+1	258	gene
+			locus_tag	BDOR_001038.6
+<236	>198	mRNA
+			protein_id	gnl|PBARC|BDOR_001038.6-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001038.6-RA
+			product	Dynein light chain 1
+<258	>198	mRNA
+			protein_id	gnl|PBARC|BDOR_001038.6-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001038.6-RB
+			product	Dynein light chain 1
+>Feature sctg_0003_0676
+1	4346	REFERENCE
+			PBARC	12345
+1550	4346	gene
+			locus_tag	BDOR_001039.1
+1550	2501	mRNA
+2656	>3833
+			protein_id	gnl|PBARC|BDOR_001039.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001039.1-RA
+			product	Protein phosphatase 1D
+3242	>3833	CDS
+			protein_id	gnl|PBARC|BDOR_001039.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001039.1-RA
+			product	Protein phosphatase 1D
+			go_function	magnesium-dependent protein serine/threonine phosphatase activity|0004724||IEA
+			go_function	metal ion binding|0046872||IEA
+			go_process	G2/M transition of mitotic cell cycle|0000086||IEA
+			go_process	peptidyl-threonine dephosphorylation|0035970||IEA
+			go_process	response to bacterium|0009617||IEA
+>Feature sctg_0003_0677
+1	8098	REFERENCE
+			PBARC	12345
+1	6208	gene
+			locus_tag	BDOR_001039.2
+<1122	1400	mRNA
+1467	1635
+1737	6208
+			protein_id	gnl|PBARC|BDOR_001039.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001039.2-RA
+			product	Protein phosphatase 1D
+<1122	1400	CDS
+1467	1635
+1737	4968
+			protein_id	gnl|PBARC|BDOR_001039.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001039.2-RA
+			product	Protein phosphatase 1D
+			go_function	magnesium-dependent protein serine/threonine phosphatase activity|0004724||IEA
+			go_function	metal ion binding|0046872||IEA
+			go_process	G2/M transition of mitotic cell cycle|0000086||IEA
+			go_process	peptidyl-threonine dephosphorylation|0035970||IEA
+			go_process	response to bacterium|0009617||IEA
+>Feature sctg_0003_0678
+1	12064	REFERENCE
+			PBARC	12345
+5277	12064	gene
+			locus_tag	BDOR_001040.1
+<5277	>5706	mRNA
+			protein_id	gnl|PBARC|BDOR_001040.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001040.1-RA
+			product	Protein spinster homolog 1
+>Feature sctg_0003_0679
+1	5390	REFERENCE
+			PBARC	12345
+1	5390	gene
+			locus_tag	BDOR_001040.2
+>Feature sctg_0003_0680
+1	2511	REFERENCE
+			PBARC	12345
+1	2511	gene
+			locus_tag	BDOR_001040.3
+>Feature sctg_0003_0681
+1	6681	REFERENCE
+			PBARC	12345
+1	2475	gene
+			locus_tag	BDOR_001040.4
+83	328	mRNA
+396	659
+737	1578
+1654	2475
+			protein_id	gnl|PBARC|BDOR_001040.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001040.4-RA
+			product	Protein spinster homolog 1
+102	328	CDS
+396	659
+737	1578
+1654	1916
+			protein_id	gnl|PBARC|BDOR_001040.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001040.4-RA
+			product	Protein spinster homolog 1
+			go_component	integral to membrane|0016021||IEA
+			go_component	mitochondrial inner membrane|0005743||IEA
+			go_process	lipid transport|0006869||IEA
+			go_process	transmembrane transport|0055085||IEA
+>Feature sctg_0003_0682
+1	5741	REFERENCE
+			PBARC	12345
+1331	2764	gene
+			locus_tag	BDOR_001041
+1331	1393	mRNA
+2352	2474
+2681	2764
+			protein_id	gnl|PBARC|BDOR_001041-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001041-RA
+			product	hypothetical protein
+1331	1393	CDS
+2352	2474
+2681	2764
+			protein_id	gnl|PBARC|BDOR_001041-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001041-RA
+			product	hypothetical protein
+>Feature sctg_0003_0683
+1	1807	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0684
+1	12755	REFERENCE
+			PBARC	12345
+725	12755	gene
+			locus_tag	BDOR_001042.1
+<725	9093	mRNA
+9733	10833
+11838	>12322
+			protein_id	gnl|PBARC|BDOR_001042.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001042.1-RA
+			product	Protein NipSnap
+<726	9093	CDS
+9733	10833
+11838	>12322
+			protein_id	gnl|PBARC|BDOR_001042.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001042.1-RA
+			product	Protein NipSnap
+>Feature sctg_0003_0685
+1	3850	REFERENCE
+			PBARC	12345
+1	3850	gene
+			locus_tag	BDOR_001042.2
+<1130	>2658	mRNA
+			protein_id	gnl|PBARC|BDOR_001042.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001042.2-RA
+			product	Protein NipSnap
+<1130	>2658	CDS
+			protein_id	gnl|PBARC|BDOR_001042.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001042.2-RA
+			product	Protein NipSnap
+247	284	gene
+			locus_tag	BDOR_001043
+>Feature sctg_0003_0686
+1	10972	REFERENCE
+			PBARC	12345
+8408	10458	gene
+			locus_tag	BDOR_001045
+			gene	RMD5A
+8408	8548	mRNA
+8662	9135
+9190	9971
+10059	10458
+			protein_id	gnl|PBARC|BDOR_001045-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001045-RA
+			product	Protein RMD5 homolog A
+8877	9135	CDS
+9190	9971
+10059	10331
+			protein_id	gnl|PBARC|BDOR_001045-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001045-RA
+			product	Protein RMD5 homolog A
+1	2971	gene
+			locus_tag	BDOR_001042.3
+<1387	1440	mRNA
+1537	1716
+1820	1988
+2051	2175
+2232	2374
+2439	2971
+			protein_id	gnl|PBARC|BDOR_001042.3-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001042.3-RA
+			product	Protein NipSnap
+<1387	1440	CDS
+1537	1716
+1820	1988
+2051	2175
+2232	2374
+2439	2587
+			protein_id	gnl|PBARC|BDOR_001042.3-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001042.3-RA
+			product	Protein NipSnap
+3479	8358	gene
+			locus_tag	BDOR_001044
+			gene	TAF8
+8358	7981	mRNA
+7921	7635
+7575	7428
+7357	7229
+7165	6914
+6666	6575
+6520	3479
+			protein_id	gnl|PBARC|BDOR_001044-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001044-RA
+			product	Transcription initiation factor TFIID subunit 8
+8122	7981	CDS
+7921	7635
+7575	7428
+7357	7229
+7165	6914
+6666	6575
+6520	5435
+			protein_id	gnl|PBARC|BDOR_001044-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001044-RA
+			product	Transcription initiation factor TFIID subunit 8
+			go_component	transcription factor TFIID complex|0005669||IEA
+			go_process	positive regulation of transcription from RNA polymerase II promoter|0045944||IEA
+			go_process	transcription initiation from RNA polymerase II promoter|0006367||IEA
+10280	10972	gene
+			locus_tag	BDOR_001046.1
+<10321	10280	mRNA
+			protein_id	gnl|PBARC|BDOR_001046.1-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001046.1-RB
+			product	DNA-directed RNA polymerase III subunit RPC1
+<10321	10280	CDS
+			protein_id	gnl|PBARC|BDOR_001046.1-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001046.1-RB
+			product	DNA-directed RNA polymerase III subunit RPC1
+			go_component	nucleus|0005634||IEA
+			go_function	DNA binding|0003677||IEA
+			go_function	DNA-directed RNA polymerase activity|0003899||IEA
+			go_function	metal ion binding|0046872||IEA
+			go_function	ribonucleoside binding|0032549||IEA
+			go_function	zinc ion binding|0008270||IEA
+			go_process	transcription
+<10321	10280	mRNA
+			protein_id	gnl|PBARC|BDOR_001046.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001046.1-RA
+			product	DNA-directed RNA polymerase III subunit RPC1
+<10321	10280	CDS
+			protein_id	gnl|PBARC|BDOR_001046.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001046.1-RA
+			product	DNA-directed RNA polymerase III subunit RPC1
+			go_component	nucleus|0005634||IEA
+			go_function	DNA binding|0003677||IEA
+			go_function	DNA-directed RNA polymerase activity|0003899||IEA
+			go_function	metal ion binding|0046872||IEA
+			go_function	ribonucleoside binding|0032549||IEA
+			go_function	zinc ion binding|0008270||IEA
+			go_process	transcription
+>Feature sctg_0003_0687
+1	19459	REFERENCE
+			PBARC	12345
+3243	5596	gene
+			locus_tag	BDOR_001047
+			gene	COGS
+3243	3729	mRNA
+4398	5596
+			protein_id	gnl|PBARC|BDOR_001047-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001047-RA
+			product	Collagenase
+3631	3729	CDS
+4398	5135
+			protein_id	gnl|PBARC|BDOR_001047-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001047-RA
+			product	Collagenase
+			go_component	extracellular region|0005576||IEA
+			go_function	serine-type endopeptidase activity|0004252||IEA
+			go_process	collagen catabolic process|0030574||IEA
+			go_process	proteolysis|0006508||IEA
+1	8593	gene
+			locus_tag	BDOR_001046.2
+8593	8445	mRNA
+8385	8256
+8198	7555
+7485	6401
+6331	6186
+2216	1799
+1727	1570
+1502	1225
+1148	881
+784	644
+575	457
+392	>26
+			protein_id	gnl|PBARC|BDOR_001046.2-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001046.2-RB
+			product	DNA-directed RNA polymerase III subunit RPC1
+8488	8445	CDS
+8385	8256
+8198	7555
+7485	6401
+6331	6186
+2216	1799
+1727	1570
+1502	1225
+1148	881
+784	644
+575	457
+392	>26
+			protein_id	gnl|PBARC|BDOR_001046.2-RB
+			transcript_id	gnl|PBARC|BDOR_mrna001046.2-RB
+			product	DNA-directed RNA polymerase III subunit RPC1
+			go_component	nucleus|0005634||IEA
+			go_function	DNA binding|0003677||IEA
+			go_function	DNA-directed RNA polymerase activity|0003899||IEA
+			go_function	metal ion binding|0046872||IEA
+			go_function	ribonucleoside binding|0032549||IEA
+			go_function	zinc ion binding|0008270||IEA
+			go_process	transcription
+8593	8445	mRNA
+8385	8256
+8198	7555
+7485	6186
+2216	1799
+1727	1570
+1502	1225
+1148	881
+784	644
+575	457
+392	>26
+			protein_id	gnl|PBARC|BDOR_001046.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001046.2-RA
+			product	DNA-directed RNA polymerase III subunit RPC1
+8488	8445	CDS
+8385	8256
+8198	7555
+7485	6186
+2216	1799
+1727	1570
+1502	1225
+1148	881
+784	644
+575	457
+392	>26
+			protein_id	gnl|PBARC|BDOR_001046.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001046.2-RA
+			product	DNA-directed RNA polymerase III subunit RPC1
+			go_component	nucleus|0005634||IEA
+			go_function	DNA binding|0003677||IEA
+			go_function	DNA-directed RNA polymerase activity|0003899||IEA
+			go_function	metal ion binding|0046872||IEA
+			go_function	ribonucleoside binding|0032549||IEA
+			go_function	zinc ion binding|0008270||IEA
+			go_process	transcription
+9034	15260	gene
+			locus_tag	BDOR_001048
+			gene	ODPT
+9034	9378	mRNA
+10218	10407
+10474	10676
+10760	11254
+11318	11400
+12202	12394
+12456	12645
+12714	12904
+12979	13150
+13209	13531
+13586	15260
+			protein_id	gnl|PBARC|BDOR_001048-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001048-RA
+			product	Pyruvate dehydrogenase E1 component subunit alpha type II
+9034	9378	CDS
+10218	10407
+10474	10676
+10760	11254
+11318	11400
+12202	12394
+12456	12645
+12714	12904
+12979	13150
+13209	13531
+13586	13933
+			protein_id	gnl|PBARC|BDOR_001048-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001048-RA
+			product	Pyruvate dehydrogenase E1 component subunit alpha type II
+			go_component	mitochondrial matrix|0005759||IEA
+			go_function	pyruvate dehydrogenase (acetyl-transferring) activity|0004739||IEA
+			go_process	glycolysis|0006096||IEA
+15929	19459	gene
+			locus_tag	BDOR_001051.1
+15929	>16668	mRNA
+			protein_id	gnl|PBARC|BDOR_001051.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001051.1-RA
+			product	hypothetical protein
+16661	>16668	CDS
+			protein_id	gnl|PBARC|BDOR_001051.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001051.1-RA
+			product	hypothetical protein
+12204	15349	gene
+			locus_tag	BDOR_001050
+15349	14545	mRNA
+14472	12204
+			protein_id	gnl|PBARC|BDOR_001050-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001050-RA
+			product	hypothetical protein
+15027	14545	CDS
+14472	14248
+			protein_id	gnl|PBARC|BDOR_001050-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001050-RA
+			product	hypothetical protein
+10333	10489	gene
+			locus_tag	BDOR_001049
+>Feature sctg_0003_0688
+1	3425	REFERENCE
+			PBARC	12345
+1	3425	gene
+			locus_tag	BDOR_001051.2
+>Feature sctg_0003_0689
+1	2334	REFERENCE
+			PBARC	12345
+1	2334	gene
+			locus_tag	BDOR_001051.3
+>Feature sctg_0003_0690
+1	1670	REFERENCE
+			PBARC	12345
+1	1629	gene
+			locus_tag	BDOR_001051.4
+>Feature sctg_0003_0691
+1	1037	REFERENCE
+			PBARC	12345
+1	1037	gene
+			locus_tag	BDOR_001051.5
+>Feature sctg_0003_0692
+1	15057	REFERENCE
+			PBARC	12345
+1	15057	gene
+			locus_tag	BDOR_001051.6
+>Feature sctg_0003_0693
+1	1669	REFERENCE
+			PBARC	12345
+1	1669	gene
+			locus_tag	BDOR_001051.7
+>Feature sctg_0003_0694
+1	1848	REFERENCE
+			PBARC	12345
+1	1848	gene
+			locus_tag	BDOR_001051.8
+>Feature sctg_0003_0695
+1	1457	REFERENCE
+			PBARC	12345
+1	516	gene
+			locus_tag	BDOR_001051.9
+<411	>516	mRNA
+			protein_id	gnl|PBARC|BDOR_001051.9-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001051.9-RA
+			product	hypothetical protein
+<411	>516	CDS
+			protein_id	gnl|PBARC|BDOR_001051.9-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001051.9-RA
+			product	hypothetical protein
+>Feature sctg_0003_0696
+1	3781	REFERENCE
+			PBARC	12345
+783	3781	gene
+			locus_tag	BDOR_001052.1
+<783	908	mRNA
+2455	>3135
+			protein_id	gnl|PBARC|BDOR_001052.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001052.1-RA
+			product	hypothetical protein
+<785	908	CDS
+2455	>3135
+			protein_id	gnl|PBARC|BDOR_001052.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001052.1-RA
+			product	hypothetical protein
+>Feature sctg_0003_0697
+1	2335	REFERENCE
+			PBARC	12345
+1	1844	gene
+			locus_tag	BDOR_001052.2
+<340	662	mRNA
+720	938
+1004	1844
+			protein_id	gnl|PBARC|BDOR_001052.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001052.2-RA
+			product	hypothetical protein
+<340	662	CDS
+720	938
+1004	1402
+			protein_id	gnl|PBARC|BDOR_001052.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001052.2-RA
+			product	hypothetical protein
+>Feature sctg_0003_0698
+1	2261	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0699
+1	2027	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0700
+1	494	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0701
+1	3226	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0702
+1	1415	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0703
+1	1068	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0704
+1	837	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0705
+1	1442	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0706
+1	1862	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0707
+1	3069	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0708
+1	1410	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0709
+1	2539	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0710
+1	2656	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0711
+1	2190	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0712
+1	1151	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0713
+1	1711	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0714
+1	2115	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0715
+1	979	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0716
+1	1755	REFERENCE
+			PBARC	12345
+437	1755	gene
+			locus_tag	BDOR_001053.1
+<437	>710	mRNA
+			protein_id	gnl|PBARC|BDOR_001053.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001053.1-RA
+			product	Potassium channel subfamily K member 18
+>Feature sctg_0003_0717
+1	2816	REFERENCE
+			PBARC	12345
+1	2816	gene
+			locus_tag	BDOR_001053.2
+67	>1079	mRNA
+			protein_id	gnl|PBARC|BDOR_001053.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001053.2-RA
+			product	Potassium channel subfamily K member 18
+398	>1079	CDS
+			protein_id	gnl|PBARC|BDOR_001053.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001053.2-RA
+			product	Potassium channel subfamily K member 18
+			go_component	integral to membrane|0016021||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_function	calcium-activated potassium channel activity|0015269||IEA
+			go_function	outward rectifier potassium channel activity|0015271||IEA
+			go_process	cellular response to pH|0071467||IEA
+			go_process	potassium ion export|0071435||IEA
+			go_process	potassium ion transport|0006813||IEA
+>Feature sctg_0003_0718
+1	1441	REFERENCE
+			PBARC	12345
+1	1441	gene
+			locus_tag	BDOR_001053.3
+<535	>1342	mRNA
+			protein_id	gnl|PBARC|BDOR_001053.3-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001053.3-RA
+			product	Potassium channel subfamily K member 18
+<535	>1342	CDS
+			protein_id	gnl|PBARC|BDOR_001053.3-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001053.3-RA
+			product	Potassium channel subfamily K member 18
+			go_component	integral to membrane|0016021||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_function	calcium-activated potassium channel activity|0015269||IEA
+			go_function	outward rectifier potassium channel activity|0015271||IEA
+			go_process	cellular response to pH|0071467||IEA
+			go_process	potassium ion export|0071435||IEA
+			go_process	potassium ion transport|0006813||IEA
+>Feature sctg_0003_0719
+1	2754	REFERENCE
+			PBARC	12345
+1	2754	gene
+			locus_tag	BDOR_001053.4
+<1917	>2008	mRNA
+			protein_id	gnl|PBARC|BDOR_001053.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001053.4-RA
+			product	Potassium channel subfamily K member 18
+<1917	>2008	CDS
+			protein_id	gnl|PBARC|BDOR_001053.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001053.4-RA
+			product	Potassium channel subfamily K member 18
+			go_component	integral to membrane|0016021||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_function	calcium-activated potassium channel activity|0015269||IEA
+			go_function	outward rectifier potassium channel activity|0015271||IEA
+			go_process	cellular response to pH|0071467||IEA
+			go_process	potassium ion export|0071435||IEA
+			go_process	potassium ion transport|0006813||IEA
+>Feature sctg_0003_0720
+1	637	REFERENCE
+			PBARC	12345
+1	637	gene
+			locus_tag	BDOR_001053.5
+>Feature sctg_0003_0721
+1	1803	REFERENCE
+			PBARC	12345
+1	1803	gene
+			locus_tag	BDOR_001053.6
+<579	1642	mRNA
+			protein_id	gnl|PBARC|BDOR_001053.6-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001053.6-RA
+			product	Potassium channel subfamily K member 18
+<579	1396	CDS
+			protein_id	gnl|PBARC|BDOR_001053.6-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001053.6-RA
+			product	Potassium channel subfamily K member 18
+			go_component	integral to membrane|0016021||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_function	calcium-activated potassium channel activity|0015269||IEA
+			go_function	outward rectifier potassium channel activity|0015271||IEA
+			go_process	cellular response to pH|0071467||IEA
+			go_process	potassium ion export|0071435||IEA
+			go_process	potassium ion transport|0006813||IEA
+>Feature sctg_0003_0722
+1	8632	REFERENCE
+			PBARC	12345
+1	2130	gene
+			locus_tag	BDOR_001053.7
+<1140	>2130	mRNA
+			protein_id	gnl|PBARC|BDOR_001053.7-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001053.7-RA
+			product	Potassium channel subfamily K member 18
+>Feature sctg_0003_0723
+1	1470	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0724
+1	1507	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0725
+1	1757	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0726
+1	947	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0727
+1	673	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0728
+1	1799	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0729
+1	1651	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0730
+1	1105	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0731
+1	1019	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0732
+1	1490	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0733
+1	1657	REFERENCE
+			PBARC	12345
+1182	1367	gene
+			locus_tag	BDOR_001054
+1367	1305	mRNA
+1244	1182
+			protein_id	gnl|PBARC|BDOR_001054-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001054-RA
+			product	hypothetical protein
+1349	1305	CDS
+1244	1182
+			protein_id	gnl|PBARC|BDOR_001054-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001054-RA
+			product	hypothetical protein
+>Feature sctg_0003_0734
+1	555	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0735
+1	672	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0736
+1	1474	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0737
+1	511	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0738
+1	1776	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0739
+1	1539	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0740
+1	1330	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0741
+1	2553	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0742
+1	1993	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0743
+1	2339	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0744
+1	3760	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0745
+1	2347	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0746
+1	1321	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0747
+1	1291	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0748
+1	5144	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0749
+1	1232	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0750
+1	3445	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0751
+1	1294	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0752
+1	2016	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0753
+1	6045	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0754
+1	1603	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0755
+1	2486	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0756
+1	1924	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0757
+1	2038	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0758
+1	1271	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0759
+1	2988	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0760
+1	1313	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0761
+1	3094	REFERENCE
+			PBARC	12345
+7	2959	gene
+			locus_tag	BDOR_001055
+2959	2399	mRNA
+2328	2243
+1646	961
+730	>7
+			protein_id	gnl|PBARC|BDOR_001055-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001055-RA
+			product	hypothetical protein
+2959	2399	CDS
+2328	2243
+1646	961
+730	>9
+			protein_id	gnl|PBARC|BDOR_001055-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001055-RA
+			product	hypothetical protein
+>Feature sctg_0003_0762
+1	1081	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0763
+1	3042	REFERENCE
+			PBARC	12345
+490	1228	gene
+			locus_tag	BDOR_001056
+			gene	KLH28
+1228	1025	mRNA
+972	871
+808	490
+			protein_id	gnl|PBARC|BDOR_001056-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001056-RA
+			product	Kelch-like protein 28
+1198	1025	CDS
+972	871
+808	629
+			protein_id	gnl|PBARC|BDOR_001056-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001056-RA
+			product	Kelch-like protein 28
+1625	3042	gene
+			locus_tag	BDOR_001057.1
+<2779	2373	mRNA
+2305	1931
+1867	>1625
+			protein_id	gnl|PBARC|BDOR_001057.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001057.1-RA
+			product	Kelch-like protein 17
+<2779	2373	CDS
+2305	1931
+1867	>1625
+			protein_id	gnl|PBARC|BDOR_001057.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001057.1-RA
+			product	Kelch-like protein 17
+			go_component	actin cytoskeleton|0015629||IEA
+			go_component	cell junction|0030054||IEA
+			go_component	dendrite cytoplasm|0032839||IEA
+			go_component	neuronal cell body|0043025||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_component	postsynaptic density|0014069||IEA
+			go_component	postsynaptic membrane|0045211||IEA
+			go_function	protein complex scaffold|0032947||IEA
+			go_process	actin cytoskeleton organization|0030036||IEA
+			go_process	brain development|0007420||IEA
+			go_process	protein ubiquitination|0016567||IEA
+>Feature sctg_0003_0764
+1	3837	REFERENCE
+			PBARC	12345
+1	716	gene
+			locus_tag	BDOR_001057.2
+716	>683	mRNA
+			protein_id	gnl|PBARC|BDOR_001057.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001057.2-RA
+			product	Kelch-like protein 17
+716	>683	CDS
+			protein_id	gnl|PBARC|BDOR_001057.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001057.2-RA
+			product	Kelch-like protein 17
+			go_component	actin cytoskeleton|0015629||IEA
+			go_component	cell junction|0030054||IEA
+			go_component	dendrite cytoplasm|0032839||IEA
+			go_component	neuronal cell body|0043025||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_component	postsynaptic density|0014069||IEA
+			go_component	postsynaptic membrane|0045211||IEA
+			go_function	protein complex scaffold|0032947||IEA
+			go_process	actin cytoskeleton organization|0030036||IEA
+			go_process	brain development|0007420||IEA
+			go_process	protein ubiquitination|0016567||IEA
+>Feature sctg_0003_0765
+1	1262	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0766
+1	4258	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0767
+1	2219	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0768
+1	1448	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0769
+1	2568	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0770
+1	2074	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0771
+1	2635	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0772
+1	993	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0773
+1	5277	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0774
+1	2149	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0775
+1	1571	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0776
+1	1090	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0777
+1	2224	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0778
+1	1808	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0779
+1	1151	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0780
+1	1497	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0781
+1	1169	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0782
+1	3718	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0783
+1	1772	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0784
+1	2495	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0785
+1	1704	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0786
+1	3125	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0787
+1	5828	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0788
+1	4876	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0789
+1	1638	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0790
+1	8291	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0791
+1	2493	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0792
+1	4972	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0793
+1	4181	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0794
+1	2356	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0795
+1	2235	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0796
+1	2052	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0797
+1	2973	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0798
+1	3766	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0799
+1	3562	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0800
+1	2915	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0801
+1	5046	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0802
+1	1019	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0803
+1	1994	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0804
+1	5381	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0805
+1	7369	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0806
+1	1880	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0807
+1	3775	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0808
+1	3909	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0809
+1	2325	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0810
+1	2106	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0811
+1	813	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0812
+1	1036	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0813
+1	1482	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0814
+1	1773	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0815
+1	5155	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0816
+1	4066	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0817
+1	1372	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0818
+1	5116	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0819
+1	3093	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0820
+1	2648	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0821
+1	2218	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0822
+1	2837	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0823
+1	3306	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0824
+1	3257	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0825
+1	2007	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0826
+1	1824	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0827
+1	5371	REFERENCE
+			PBARC	12345
+2056	2278	gene
+			locus_tag	BDOR_001058
+>Feature sctg_0003_0828
+1	3227	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0829
+1	1981	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0830
+1	2970	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0831
+1	3008	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0832
+1	7468	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0833
+1	6478	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0834
+1	9646	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0835
+1	2100	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0836
+1	6321	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0837
+1	2743	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0838
+1	3382	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0839
+1	9349	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0840
+1	5126	REFERENCE
+			PBARC	12345
+2188	5126	gene
+			locus_tag	BDOR_001059.1
+2188	>3268	mRNA
+			protein_id	gnl|PBARC|BDOR_001059.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001059.1-RA
+			product	Potassium channel subfamily K member 18
+2188	>3268	CDS
+			protein_id	gnl|PBARC|BDOR_001059.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001059.1-RA
+			product	Potassium channel subfamily K member 18
+			go_component	integral to membrane|0016021||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_function	calcium-activated potassium channel activity|0015269||IEA
+			go_function	outward rectifier potassium channel activity|0015271||IEA
+			go_process	cellular response to pH|0071467||IEA
+			go_process	potassium ion export|0071435||IEA
+			go_process	potassium ion transport|0006813||IEA
+>Feature sctg_0003_0841
+1	956	REFERENCE
+			PBARC	12345
+1	956	gene
+			locus_tag	BDOR_001059.2
+>Feature sctg_0003_0842
+1	965	REFERENCE
+			PBARC	12345
+1	965	gene
+			locus_tag	BDOR_001059.3
+<312	>855	mRNA
+			protein_id	gnl|PBARC|BDOR_001059.3-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001059.3-RA
+			product	Potassium channel subfamily K member 18
+<312	>855	CDS
+			protein_id	gnl|PBARC|BDOR_001059.3-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001059.3-RA
+			product	Potassium channel subfamily K member 18
+			go_component	integral to membrane|0016021||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_function	calcium-activated potassium channel activity|0015269||IEA
+			go_function	outward rectifier potassium channel activity|0015271||IEA
+			go_process	cellular response to pH|0071467||IEA
+			go_process	potassium ion export|0071435||IEA
+			go_process	potassium ion transport|0006813||IEA
+>Feature sctg_0003_0843
+1	4661	REFERENCE
+			PBARC	12345
+1	4661	gene
+			locus_tag	BDOR_001059.4
+<117	>379	mRNA
+			protein_id	gnl|PBARC|BDOR_001059.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001059.4-RA
+			product	Potassium channel subfamily K member 18
+<117	>379	CDS
+			protein_id	gnl|PBARC|BDOR_001059.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001059.4-RA
+			product	Potassium channel subfamily K member 18
+			go_component	integral to membrane|0016021||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_function	calcium-activated potassium channel activity|0015269||IEA
+			go_function	outward rectifier potassium channel activity|0015271||IEA
+			go_process	cellular response to pH|0071467||IEA
+			go_process	potassium ion export|0071435||IEA
+			go_process	potassium ion transport|0006813||IEA
+>Feature sctg_0003_0844
+1	2478	REFERENCE
+			PBARC	12345
+1	2478	gene
+			locus_tag	BDOR_001059.5
+>Feature sctg_0003_0845
+1	8366	REFERENCE
+			PBARC	12345
+1	2107	gene
+			locus_tag	BDOR_001059.6
+<1133	1824	mRNA
+2015	2107
+			protein_id	gnl|PBARC|BDOR_001059.6-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001059.6-RA
+			product	Potassium channel subfamily K member 18
+<1133	1824	CDS
+2015	2062
+			protein_id	gnl|PBARC|BDOR_001059.6-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001059.6-RA
+			product	Potassium channel subfamily K member 18
+			go_component	integral to membrane|0016021||IEA
+			go_component	plasma membrane|0005886||IEA
+			go_function	calcium-activated potassium channel activity|0015269||IEA
+			go_function	outward rectifier potassium channel activity|0015271||IEA
+			go_process	cellular response to pH|0071467||IEA
+			go_process	potassium ion export|0071435||IEA
+			go_process	potassium ion transport|0006813||IEA
+5041	6771	gene
+			locus_tag	BDOR_001060
+			gene	HDAC8
+5041	5176	mRNA
+5228	5976
+6029	6408
+6579	6591
+6750	6771
+			protein_id	gnl|PBARC|BDOR_001060-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001060-RA
+			product	Histone deacetylase 8
+5096	5176	CDS
+5228	5976
+6029	6408
+6579	6591
+6750	6771
+			protein_id	gnl|PBARC|BDOR_001060-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001060-RA
+			product	Histone deacetylase 8
+			go_component	cytoplasm|0005737||IEA
+			go_component	nucleus|0005634||IEA
+			go_function	metal ion binding|0046872||IEA
+			go_function	NAD-dependent histone deacetylase activity (H3-K14 specific)|0032041||IEA
+			go_function	NAD-dependent histone deacetylase activity (H3-K18 specific)|0097372||IEA
+			go_function	NAD-dependent histone deacetylase activity (H3-K9 specific)|0046969||IEA
+			go_function	NAD-dependent histone deacetylase activity (H4-K16 specific)|0046970||IEA
+			go_process	histone H3 deacetylation|0070932||IEA
+			go_process	histone H4 deacetylation|0070933||IEA
+			go_process	regulation of transcription
+			go_process	transcription
+5293	8193	gene
+			locus_tag	BDOR_001061
+			gene	HCF
+8193	7979	mRNA
+7917	5293
+			protein_id	gnl|PBARC|BDOR_001061-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001061-RA
+			product	Host cell factor
+7987	7979	CDS
+7917	6784
+			protein_id	gnl|PBARC|BDOR_001061-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001061-RA
+			product	Host cell factor
+			go_component	histone acetyltransferase complex|0000123||IEA
+			go_component	MLL3/4 complex|0044666||IEA
+			go_component	Set1C/COMPASS complex|0048188||IEA
+			go_function	chromatin binding|0003682||IEA
+			go_function	transcription coactivator activity|0003713||IEA
+			go_process	cell cycle|0007049||IEA
+			go_process	histone H3 acetylation|0043966||IEA
+			go_process	histone H3-K4 methylation|0051568||IEA
+			go_process	histone H4 acetylation|0043967||IEA
+			go_process	positive regulation of growth|0045927||IEA
+			go_process	positive regulation of transcription
+>Feature sctg_0003_0846
+1	7540	REFERENCE
+			PBARC	12345
+675	3184	gene
+			locus_tag	BDOR_001063
+			gene	CNPY4
+3184	2866	mRNA
+2795	675
+			protein_id	gnl|PBARC|BDOR_001063-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001063-RA
+			product	Protein canopy 4
+3044	2866	CDS
+2795	2234
+			protein_id	gnl|PBARC|BDOR_001063-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001063-RA
+			product	Protein canopy 4
+			go_component	extracellular region|0005576||IEA
+3633	7540	gene
+			locus_tag	BDOR_001064.1
+<4919	4325	mRNA
+4261	3633
+			protein_id	gnl|PBARC|BDOR_001064.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001064.1-RA
+			product	Visual system homeobox 2
+<4919	4325	CDS
+4261	3883
+			protein_id	gnl|PBARC|BDOR_001064.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001064.1-RA
+			product	Visual system homeobox 2
+			go_component	cytoplasm|0005737||IEA
+			go_component	nucleus|0005634||IEA
+			go_function	sequence-specific DNA binding|0043565||IEA
+			go_function	sequence-specific DNA binding transcription factor activity|0003700||IEA
+			go_process	cell fate commitment|0045165||IEA
+			go_process	negative regulation of cell proliferation|0008285||IEA
+			go_process	positive regulation of cell proliferation|0008284||IEA
+			go_process	positive regulation of transcription from RNA polymerase II promoter|0045944||IEA
+			go_process	retinal bipolar neuron differentiation|0060040||IEA
+			go_process	transcription
+>Feature sctg_0003_0847
+1	2094	REFERENCE
+			PBARC	12345
+1	2094	gene
+			locus_tag	BDOR_001064.2
+<2000	>1811	mRNA
+			protein_id	gnl|PBARC|BDOR_001064.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001064.2-RA
+			product	Visual system homeobox 2
+<2000	>1811	CDS
+			protein_id	gnl|PBARC|BDOR_001064.2-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001064.2-RA
+			product	Visual system homeobox 2
+			go_component	cytoplasm|0005737||IEA
+			go_component	nucleus|0005634||IEA
+			go_function	sequence-specific DNA binding|0043565||IEA
+			go_function	sequence-specific DNA binding transcription factor activity|0003700||IEA
+			go_process	cell fate commitment|0045165||IEA
+			go_process	negative regulation of cell proliferation|0008285||IEA
+			go_process	positive regulation of cell proliferation|0008284||IEA
+			go_process	positive regulation of transcription from RNA polymerase II promoter|0045944||IEA
+			go_process	retinal bipolar neuron differentiation|0060040||IEA
+			go_process	transcription
+>Feature sctg_0003_0848
+1	1082	REFERENCE
+			PBARC	12345
+1	1082	gene
+			locus_tag	BDOR_001064.3
+>Feature sctg_0003_0849
+1	1194	REFERENCE
+			PBARC	12345
+1	141	gene
+			locus_tag	BDOR_001064.4
+141	>127	mRNA
+			protein_id	gnl|PBARC|BDOR_001064.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001064.4-RA
+			product	Visual system homeobox 2
+141	>127	CDS
+			protein_id	gnl|PBARC|BDOR_001064.4-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001064.4-RA
+			product	Visual system homeobox 2
+			go_component	cytoplasm|0005737||IEA
+			go_component	nucleus|0005634||IEA
+			go_function	sequence-specific DNA binding|0043565||IEA
+			go_function	sequence-specific DNA binding transcription factor activity|0003700||IEA
+			go_process	cell fate commitment|0045165||IEA
+			go_process	negative regulation of cell proliferation|0008285||IEA
+			go_process	positive regulation of cell proliferation|0008284||IEA
+			go_process	positive regulation of transcription from RNA polymerase II promoter|0045944||IEA
+			go_process	retinal bipolar neuron differentiation|0060040||IEA
+			go_process	transcription
+>Feature sctg_0003_0850
+1	1066	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0851
+1	3239	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0852
+1	1469	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0853
+1	5257	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0854
+1	4520	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0855
+1	2868	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0856
+1	1235	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0857
+1	4429	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0858
+1	4290	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0859
+1	1235	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0860
+1	3149	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0861
+1	8557	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0862
+1	5991	REFERENCE
+			PBARC	12345
+2463	4099	gene
+			locus_tag	BDOR_001065
+			gene	VSX1
+4099	4090	mRNA
+2736	2528
+2471	2463
+			protein_id	gnl|PBARC|BDOR_001065-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001065-RA
+			product	Visual system homeobox 1
+4099	4090	CDS
+2736	2528
+2471	2463
+			protein_id	gnl|PBARC|BDOR_001065-RA
+			transcript_id	gnl|PBARC|BDOR_mrna001065-RA
+			product	Visual system homeobox 1
+			go_component	nucleus|0005634||IEA
+			go_function	sequence-specific DNA binding|0043565||IEA
+			go_function	sequence-specific DNA binding transcription factor activity|0003700||IEA
+			go_process	multicellular organismal development|0007275||IEA
+			go_process	response to stimulus|0050896||IEA
+			go_process	transcription
+			go_process	visual perception|0007601||IEA
+>Feature sctg_0003_0863
+1	2088	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0864
+1	2032	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0865
+1	2274	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0866
+1	5426	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0867
+1	915	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0868
+1	710	REFERENCE
+			PBARC	12345
+>Feature sctg_0003_0869
+1	2195	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0001
+1	3296	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0002
+1	2565	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0003
+1	1540	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0004
+1	3270	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0005
+1	4151	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0006
+1	1279	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0007
+1	2905	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0008
+1	5831	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0009
+1	1677	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0010
+1	2242	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0011
+1	4014	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0012
+1	1372	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0013
+1	2693	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0014
+1	2667	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0015
+1	1305	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0016
+1	2434	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0017
+1	2757	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0018
+1	1057	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0019
+1	3167	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0020
+1	2229	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0021
+1	730	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0022
+1	1233	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0023
+1	4044	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0024
+1	2221	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0025
+1	2855	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0026
+1	2447	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0027
+1	2301	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0028
+1	1687	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0029
+1	1968	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0030
+1	2728	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0031
+1	2483	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0032
+1	1875	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0033
+1	3421	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0034
+1	2264	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0035
+1	986	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0036
+1	775	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0037
+1	1582	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0038
+1	1855	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0039
+1	1153	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0040
+1	4360	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0041
+1	7364	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0042
+1	2561	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0043
+1	2223	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0044
+1	1830	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0045
+1	6400	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0046
+1	864	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0047
+1	742	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0048
+1	640	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0049
+1	930	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0050
+1	3375	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0051
+1	1415	REFERENCE
+			PBARC	12345
+>Feature sctg_0004_0052
+1	1768	REFERENCE
+			PBARC	12345
+611	1768	gene
+			locus_tag	BDOR_000327.1
+<611	>1312	mRNA
+			protein_id	gnl|PBARC|BDOR_000327.1-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000327.1-RA
+			product	Sodium-coupled monocarboxylate transporter 2
+>Feature sctg_0004_0053
+1	4395	REFERENCE
+			PBARC	12345
+1	4395	gene
+			locus_tag	BDOR_000327.2
+>Feature sctg_0004_0054
+1	4999	REFERENCE
+			PBARC	12345
+1	4999	gene
+			locus_tag	BDOR_000327.3
+>Feature sctg_0004_0055
+1	6898	REFERENCE
+			PBARC	12345
+1	6898	gene
+			locus_tag	BDOR_000327.4
+>Feature sctg_0004_0056
+1	1635	REFERENCE
+			PBARC	12345
+1	1635	gene
+			locus_tag	BDOR_000327.5
+>Feature sctg_0004_0057
+1	4625	REFERENCE
+			PBARC	12345
+1	4625	gene
+			locus_tag	BDOR_000327.6
+<106	>222	mRNA
+			protein_id	gnl|PBARC|BDOR_000327.6-RA
+			transcript_id	gnl|PBARC|BDOR_mrna000327.6-RA
+			product	Sodium-coupled monocarboxylate transporter 2
+>Feature sctg_0004_0058
+1	3239	REFERENCE
+			PBARC	12345
+1	3239	gene
+			locus_tag	BDOR_000327.7
+>Feature sctg_0004_0059
+1	6295	REFERENCE
+			PBARC	12345
+1	6295	gene
+			locus_tag	BDOR_000327.8
+>Feature sctg_0004_0060
