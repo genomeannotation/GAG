@@ -3,6 +3,11 @@
 *.swp
 *.db
 *.odp
+*.sqlite
+*.gff
+*.fasta
+*.xls
+*.tbl
 
 ## keep test output local
 sample_output/*
