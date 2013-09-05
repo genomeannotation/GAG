@@ -9,10 +9,12 @@ from feature_tbl_writer import FeatureTblWriter
 import os
 
 start_time = time.time()
+sqlite_database = 'real_files/tbl_db.sqlite'
 
-# TODO try-catch here
-os.system('rm real_files/tbl_db.sqlite')
-con = sqlite3.connect('real_files/tbl_db.sqlite')
+if os.path.isfile(sqlite_database):
+    os.system('rm '+sqlite_database)
+
+con = sqlite3.connect(sqlite_database)
 
 print("Reading gff...")
 gff_reader = GffReader()
