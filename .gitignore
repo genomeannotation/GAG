@@ -3,3 +3,6 @@
 *.swp
 *.db
 *.odp
+
+## keep test output local
+sample_output/*
