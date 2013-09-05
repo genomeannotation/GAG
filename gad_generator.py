@@ -10,6 +10,7 @@ import os
 
 start_time = time.time()
 
+# TODO try-catch here
 os.system('rm real_files/tbl_db.sqlite')
 con = sqlite3.connect('real_files/tbl_db.sqlite')
 

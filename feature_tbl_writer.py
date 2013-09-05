@@ -89,6 +89,7 @@ class FeatureTblWriter:
                 continue
             
             # Get the trinotate stuff
+            # TODO try-catch here?
             db_cur.execute('SELECT * FROM trinotate WHERE prot_id=? LIMIT 1', [rna[9]])
             trinotate = db_cur.fetchone()
 
