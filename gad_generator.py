@@ -15,13 +15,13 @@ con = sqlite3.connect('real_files/tbl_db.sqlite')
 
 print("Reading gff...")
 gff_reader = GffReader()
-gff_reader.read_into_db('real_files/454Scaffolds.gff3', con)
+gff_reader.read_into_db('real_files/real_output.gff', con)
 
 print(time.time() - start_time, "seconds")
 
 print("Reading fasta...")
 fasta_reader = FastaReader()
-fasta_reader.read_into_db("real_files/454Scaffolds.fna", con)
+fasta_reader.read_into_db("real_files/454ScaffoldContigs.fna", con)
 
 print(time.time() - start_time, "seconds")
 
@@ -34,7 +34,7 @@ print(time.time() - start_time, "seconds")
 print("Writing tbl database...")
 test_writer = FeatureTblWriter()
 #test_writer.write_to_db(con)
-test_writer.write_to_file(con, 'sequin.tbl')
+test_writer.write_to_file(con, 'bdor_genome.tbl')
 
 con.commit()
 
