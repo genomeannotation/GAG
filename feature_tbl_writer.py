@@ -284,6 +284,7 @@ class FeatureTblWriter:
                             # TODO this could be more expressive
                             # Reverse list of rows and the indices of each
                             # individual row for reverse-strand sequences
+                            # TODO list comprehension style: data = [func(item) for item in data]
                             if strand == '-':
                                 rows.reverse()
                                 for i in xrange(len(rows)):
