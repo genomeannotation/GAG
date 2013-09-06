@@ -287,17 +287,11 @@ class FeatureTblWriter:
                         if len(rows) > 0:
                             strand = rows[0][2]
 
-                            # TODO this could be more expressive
                             # Reverse list of rows and the indices of each
                             # individual row for reverse-strand sequences
-                            # TODO list comprehension style: data = [func(item) for item in data]
                             if strand == '-':
                                 rows.reverse()
                                 rows = [reverse_indices(row) for row in rows]
-                                #for i in xrange(len(rows)):
-                                    #tmp = rows[i][0]
-                                    #rows[i][0] = rows[i][1]
-                                    #rows[i][1] = tmp
 
                             if has_start == 0:
                                 f.write('<')
@@ -306,7 +300,16 @@ class FeatureTblWriter:
                             else:
                                 f.write(str(rows[0][0])+'\t'+str(rows[0][1])+'\tCDS\n')
 
+                            if rows[0][3] == '1':
+                                codon_annotation = '\t\t\tcodon_start\t2\n'
+                            elif rows[0][3] == '2':
+                                codon_annotation = '\t\t\tcodon_start\t3\n'
+                            else:
+                                codon_annotation = ''
+                            
+
                             rows = rows[1:]
+
                             for row in rows[:-1]:
                                 f.write(str(row[0])+'\t'+str(row[1])+'\n')
                             if len(rows) > 0:
@@ -315,11 +318,7 @@ class FeatureTblWriter:
                                 else:
                                     f.write(str(rows[len(rows)-1][0])+'\t'+str(rows[len(rows)-1][1])+'\n')
 
-                            if rows[0][3] == '1':
-                                f.write('\t\t\tcodon_start\t2\n')
-                            elif rows[0][3] == '2':
-                                f.write('\t\t\tcodon_start\t3\n')
-                            
+                            f.write(codon_annotation)                            
                             cds_ann = cds_exon_ann_base+','+parse_gene_ontology(trinotate[8])
                             for annot in cds_ann.split(','):
                                 key_val = annot.split('=')
