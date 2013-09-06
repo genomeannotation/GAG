@@ -229,21 +229,16 @@ class FeatureTblWriter:
                         ##### EXON
                         # Grab all exons under this mRNA
                         db_cur.execute('SELECT start, stop, strand FROM tmp_cur_seq WHERE type="exon" AND parent=?', [rna[0]])
-                        rows = db_cur.fetchall()
+                        rows = list(db_cur.fetchall())
+                        rows.sort()
 
-                        ######### TODO: HEY BRIAN I'M WRITING COORDINATES
                         if len(rows) > 0:
                             strand = rows[0][2]
 
-                            # Sort dem lists
-                            lrows = list()
-                            for row in rows:
-                                lrows.append(list(row[:-1]))
-                            rows = lrows
-
-                            rows.sort()
-                            for row in rows:
-                                row.sort()
+                            # Make each row a sorted list; remove strand entry
+                            for i in xrange(len(rows)):
+                                rows[i] = list(rows[i][:-1]) 
+                                rows[i].sort()
 
                             if strand == '-':
                                 rows.reverse()
