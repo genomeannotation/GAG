@@ -57,6 +57,7 @@ def parse_gene_ontology(gene_ontology):
         attributes += vals[2]+'|'+vals[0][3:]+'||IEA'
     return attributes
 
+
 class FeatureTblWriter:
 
     def write_to_db(self, db_conn):
@@ -67,7 +68,7 @@ class FeatureTblWriter:
         db_cur = db_conn.cursor()
 
         # Create a new table for our tbl file
-        db_cur.execute('CREATE TABLE tbl(prot_id TEXT, seq_id TEXT, type TEXT, starts TEXT, stops TEXT, has_start INT, has_stop INT, strand TEXT, frame INT, annotations TEXT)')
+        db_cur.execute('CREATE TABLE tbl(prot_id TEXT, seq_id TEXT, type TEXT, starts TEXT, stops TEXT, has_start INT, has_stop INT, strand TEXT, phase TEXT, annotations TEXT)')
 
         # Select all of the mRNA entries from the gff table
         try:
@@ -89,7 +90,7 @@ class FeatureTblWriter:
                 continue
             
             # Get the trinotate stuff
-            # TODO try-catch here?
+            # TODO try-except here?
             db_cur.execute('SELECT * FROM trinotate WHERE prot_id=? LIMIT 1', [rna[9]])
             trinotate = db_cur.fetchone()
 
@@ -163,7 +164,7 @@ class FeatureTblWriter:
                 # db_cur.execute('CREATE TABLE tmp_cur_seq(id TEXT PRIMARY KEY, seq_id TEXT, type TEXT, start INT, stop INT, name TEXT, parent TEXT)')
                 
                 # TODO: Match columns up with gff columns (i.e. strand isn't last in gff table)
-                magic_query = "CREATE TEMP TABLE tmp_cur_seq AS SELECT id, seq_id, type, start, stop, name, parent, strand FROM gff WHERE seq_id=?"
+                magic_query = "CREATE TEMP TABLE tmp_cur_seq AS SELECT id, seq_id, type, start, stop, name, parent, strand, phase FROM gff WHERE seq_id=?"
 
                 # Store temporary table of all info pertaining to this sequence
                 db_cur.execute(magic_query, [seq[0]])
@@ -268,27 +269,27 @@ class FeatureTblWriter:
 
                         ##### CDS
                         # Grab all CDSs under this mRNA
-                        db_cur.execute('SELECT start, stop, strand FROM tmp_cur_seq WHERE type="CDS" AND parent=?', [rna[0]])
-                        rows = db_cur.fetchall()                    
+                        db_cur.execute('SELECT start, stop, strand, phase FROM tmp_cur_seq WHERE type="CDS" AND parent=?', [rna[0]])
+                        # Need rows to be a sorted list for reversing :)
+                        rows = list(db_cur.fetchall())
+                        rows.sort()
 
-                        ######### TODO: HEY BRIAN I'M WRITING COORDINATES
+                        # Need each row to be a list as well
+                        for i in xrange(len(rows)):
+                            rows[i] = list(rows[i])
+
                         if len(rows) > 0:
                             strand = rows[0][2]
 
-                            # Sort dem lists
-                            lrows = list()
-                            for row in rows:
-                                lrows.append(list(row[:-1]))
-                            rows = lrows
-
-                            rows.sort()
-                            for row in rows:
-                                row.sort()
-
+                            # TODO this could be more expressive
+                            # Reverse list of rows and the indices of each
+                            # individual row for reverse-strand sequences
                             if strand == '-':
                                 rows.reverse()
-                                for row in rows:
-                                    row.reverse()
+                                for i in xrange(len(rows)):
+                                    tmp = rows[i][0]
+                                    rows[i][0] = rows[i][1]
+                                    rows[i][1] = tmp
 
                             if has_start == 0:
                                 f.write('<')
@@ -296,14 +297,30 @@ class FeatureTblWriter:
                                 f.write(str(rows[0][0])+'\t>'+str(rows[0][1])+'\tCDS\n')
                             else:
                                 f.write(str(rows[0][0])+'\t'+str(rows[0][1])+'\tCDS\n')
+
+                            if rows[0][3] == '1':
+                                f.write('\t\t\tcodon_start\t2\n')
+                            elif rows[0][3] == '2':
+                                f.write('\t\t\tcodon_start\t3\n')
+
                             rows = rows[1:]
                             for row in rows[:-1]:
+                                if strand == '-':
                                 f.write(str(row[0])+'\t'+str(row[1])+'\n')
+                                if row[3] == '1':
+                                    f.write('\t\t\tcodon_start\t2\n')
+                                elif row[3] == '2':
+                                    f.write('\t\t\tcodon_start\t3\n')
                             if len(rows) > 0:
                                 if has_stop == 0:
                                     f.write(str(rows[len(rows)-1][0])+'\t>'+str(rows[len(rows)-1][1])+'\n')
                                 else:
                                     f.write(str(rows[len(rows)-1][0])+'\t'+str(rows[len(rows)-1][1])+'\n')
+                            if rows[len(rows)-1][3] == '1':
+                                f.write('\t\t\tcodon_start\t2\n')
+                            elif rows[len(rows)-1][3] == '2':
+                                f.write('\t\t\tcodon_start\t3\n')
+
 
                             cds_ann = cds_exon_ann_base+','+parse_gene_ontology(trinotate[8])
                             for annot in cds_ann.split(','):
