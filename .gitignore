@@ -10,5 +10,5 @@
 *.tbl
 
 ## keep test output local
-sample_output/*
 real_files/*
+test_files2/*
