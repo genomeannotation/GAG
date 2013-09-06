@@ -306,29 +306,20 @@ class FeatureTblWriter:
                             else:
                                 f.write(str(rows[0][0])+'\t'+str(rows[0][1])+'\tCDS\n')
 
-                            if rows[0][3] == '1':
-                                f.write('\t\t\tcodon_start\t2\n')
-                            elif rows[0][3] == '2':
-                                f.write('\t\t\tcodon_start\t3\n')
-
                             rows = rows[1:]
                             for row in rows[:-1]:
                                 f.write(str(row[0])+'\t'+str(row[1])+'\n')
-                                if row[3] == '1':
-                                    f.write('\t\t\tcodon_start\t2\n')
-                                elif row[3] == '2':
-                                    f.write('\t\t\tcodon_start\t3\n')
                             if len(rows) > 0:
                                 if has_stop == 0:
                                     f.write(str(rows[len(rows)-1][0])+'\t>'+str(rows[len(rows)-1][1])+'\n')
                                 else:
                                     f.write(str(rows[len(rows)-1][0])+'\t'+str(rows[len(rows)-1][1])+'\n')
-                                if rows[len(rows)-1][3] == '1':
-                                    f.write('\t\t\tcodon_start\t2\n')
-                                elif rows[len(rows)-1][3] == '2':
-                                    f.write('\t\t\tcodon_start\t3\n')
 
-
+                            if rows[0][3] == '1':
+                                f.write('\t\t\tcodon_start\t2\n')
+                            elif rows[0][3] == '2':
+                                f.write('\t\t\tcodon_start\t3\n')
+                            
                             cds_ann = cds_exon_ann_base+','+parse_gene_ontology(trinotate[8])
                             for annot in cds_ann.split(','):
                                 key_val = annot.split('=')
