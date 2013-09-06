@@ -305,7 +305,6 @@ class FeatureTblWriter:
 
                             rows = rows[1:]
                             for row in rows[:-1]:
-                                if strand == '-':
                                 f.write(str(row[0])+'\t'+str(row[1])+'\n')
                                 if row[3] == '1':
                                     f.write('\t\t\tcodon_start\t2\n')
@@ -316,10 +315,10 @@ class FeatureTblWriter:
                                     f.write(str(rows[len(rows)-1][0])+'\t>'+str(rows[len(rows)-1][1])+'\n')
                                 else:
                                     f.write(str(rows[len(rows)-1][0])+'\t'+str(rows[len(rows)-1][1])+'\n')
-                            if rows[len(rows)-1][3] == '1':
-                                f.write('\t\t\tcodon_start\t2\n')
-                            elif rows[len(rows)-1][3] == '2':
-                                f.write('\t\t\tcodon_start\t3\n')
+                                if rows[len(rows)-1][3] == '1':
+                                    f.write('\t\t\tcodon_start\t2\n')
+                                elif rows[len(rows)-1][3] == '2':
+                                    f.write('\t\t\tcodon_start\t3\n')
 
 
                             cds_ann = cds_exon_ann_base+','+parse_gene_ontology(trinotate[8])

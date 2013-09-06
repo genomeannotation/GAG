@@ -12,3 +12,4 @@
 ## keep test output local
 real_files/*
 test_files2/*
+test_files3/*
