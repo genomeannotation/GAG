@@ -57,6 +57,12 @@ def parse_gene_ontology(gene_ontology):
         attributes += vals[2]+'|'+vals[0][3:]+'||IEA'
     return attributes
 
+def reverse_indices(row):
+    tmp = row[0]
+    row[0] = row[1]
+    row[1] = tmp
+    return row
+
 
 class FeatureTblWriter:
 
@@ -287,10 +293,11 @@ class FeatureTblWriter:
                             # TODO list comprehension style: data = [func(item) for item in data]
                             if strand == '-':
                                 rows.reverse()
-                                for i in xrange(len(rows)):
-                                    tmp = rows[i][0]
-                                    rows[i][0] = rows[i][1]
-                                    rows[i][1] = tmp
+                                rows = [reverse_indices(row) for row in rows]
+                                #for i in xrange(len(rows)):
+                                    #tmp = rows[i][0]
+                                    #rows[i][0] = rows[i][1]
+                                    #rows[i][1] = tmp
 
                             if has_start == 0:
                                 f.write('<')
