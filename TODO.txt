@@ -1,5 +1,4 @@
 # TODO the coordinates of a gene should be reversed if it's on a reverse strand, see https://www.ncbi.nlm.nih.gov/Sequin/table.html (the colorful part halfway down the page)
 
-# TODO discard all exons or CDSs whose total length (i.e. the sum of the lengths of all segments) is less than 10. 
+# TODO discard all exons or CDSs whose total length (i.e. the sum of the lengths of all segments) is less than 150. 
 
-# TODO make sure 10 is the right number for the above TODO :)
