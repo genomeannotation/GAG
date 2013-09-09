@@ -18,6 +18,7 @@ class FeatureTblEntry:
         self.type = newType
 
     def add_coordinates(self, start, stop):
+        assert(start < stop) # Start must be smaller than stop
         self.coords.append([start, stop])
 
     def set_strand(self, strand):
@@ -44,6 +45,7 @@ class FeatureTblEntry:
         entry = ''
 
         fixedCoords = copy.deepcopy(self.coords) # Make a deep copy of our list of coordinates so we don't mess with the original data
+        fixedCoords.sort()
         if self.strand == '-':
             fixedCoords.reverse()
             [coords.reverse() for coords in fixedCoords]
@@ -52,18 +54,20 @@ class FeatureTblEntry:
         if not self.has_start:
             entry += '<'
         entry += str(fixedCoords[0][0])+'\t'+str(fixedCoords[0][1])+'\t'+self.type+'\n'
-        
-        # Write the middle pairs of coords
-        for coords in fixedCoords[1:-1]: # TODO: List comprehension
-            entry += str(coords[0])+'\t'+str(coords[1])+'\n'
+        fixedCoords = fixedCoords[1:] # Cut out the first coordinates        
 
-        # Write the last pair of coords with partial info
-        if self.has_stop:
-            entry += str(fixedCoords[-1][0])+'\t'+str(fixedCoords[-1][1])+'\n'
-        else:
-            entry += str(fixedCoords[-1][0])+'\t'+'>'+str(fixedCoords[-1][1])+'\n'
+        if len(fixedCoords) > 0:
+            # Write the middle pairs of coords
+            for coords in fixedCoords[:-1]: # TODO: List comprehension?
+                entry += str(coords[0])+'\t'+str(coords[1])+'\n'
 
-        # Write the start codon
+            # Write the last pair of coords with partial info
+            if self.has_stop:
+                entry += str(fixedCoords[-1][0])+'\t'+str(fixedCoords[-1][1])+'\n'
+            else:
+                entry += str(fixedCoords[-1][0])+'\t'+'>'+str(fixedCoords[-1][1])+'\n'
+
+        # Write the start codon annotation
         if self.phase != 0:
             entry += '\t\t\tstart_codon\t'+str(self.phase+1)+'\n'
 

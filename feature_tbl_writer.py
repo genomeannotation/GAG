@@ -186,15 +186,22 @@ class FeatureTblWriter:
                     trinotate = db_cur.fetchone()
 
                     # Write the gene
-                    f.write(str(gene[3])+'\t'+str(gene[4])+'\tgene\n')
-
+                    entry = FeatureTblEntry()
+                    entry.set_type('gene')
+                    entry.set_strand(gene[7])
+                    entry.set_partial_info(True, True)
+                    if gene[8] != '.':
+                        entry.set_phase(int(gene[8]))
+                    entry.add_coordinates(gene[3], gene[4])
                     gene_ann = 'locus_tag='+gene[5]
                     if trinotate:
                         gene_ann += ','+parse_blast_hit_gene(trinotate[0])
                     for annot in gene_ann.split(','):
                         key_val = annot.split('=')
                         if len(key_val) == 2:
-                            f.write('\t\t\t'+key_val[0]+'\t'+key_val[1]+'\n')
+                            entry.add_annotation(key_val[0], key_val[1])
+                    if entry.get_total_length() >= 150:
+                        f.write(entry.write_to_string())
 
                     # Grab the mRNAs on this sequence
                     db_cur.execute('SELECT * FROM tmp_cur_seq WHERE type="mRNA" AND parent=?', [gene[0]])
@@ -229,96 +236,46 @@ class FeatureTblWriter:
 
                         ##### EXON
                         # Grab all exons under this mRNA
-                        db_cur.execute('SELECT start, stop, strand FROM tmp_cur_seq WHERE type="exon" AND parent=?', [rna[0]])
-                        rows = list(db_cur.fetchall())
-                        rows.sort()
+                        db_cur.execute('SELECT start, stop, strand, phase FROM tmp_cur_seq WHERE type="exon" AND parent=?', [rna[0]])
+                        exons = db_cur.fetchall()
 
-                        if len(rows) > 0:
-                            strand = rows[0][2]
-
-                            # Make each row a sorted list; remove strand entry
-                            for i in xrange(len(rows)):
-                                rows[i] = list(rows[i][:-1]) 
-                                rows[i].sort()
-
-                            if strand == '-':
-                                rows.reverse()
-                                for row in rows:
-                                    row.reverse()
-
-                            if has_start == 0:
-                                f.write('<')
-                            if has_stop == 0 and len(rows) == 1:
-                                f.write(str(rows[0][0])+'\t>'+str(rows[0][1])+'\tmRNA\n') # Exons are actually mRNA. What?
-                            else:
-                                f.write(str(rows[0][0])+'\t'+str(rows[0][1])+'\tmRNA\n') # Exons are actually mRNA. What?
-                            rows = rows[1:]
-                            for row in rows[:-1]:
-                                f.write(str(row[0])+'\t'+str(row[1])+'\n')
-                            if len(rows) > 0:
-                                if has_stop == 0:
-                                    f.write(str(rows[len(rows)-1][0])+'\t>'+str(rows[len(rows)-1][1])+'\n')
-                                else:
-                                    f.write(str(rows[len(rows)-1][0])+'\t'+str(rows[len(rows)-1][1])+'\n')
-
+                        if len(exons) > 0:
+                            entry = FeatureTblEntry()
+                            entry.set_type('mRNA') # Exons are actually mRNA?
+                            entry.set_partial_info(has_start, has_stop)
+                            entry.set_strand(exons[0][2])
+                            if exons[0][3] != '.':
+                                entry.set_phase(int(exons[0][3]))
+                            [entry.add_coordinates(exon[0], exon[1]) for exon in exons]
                             exon_ann = cds_exon_ann_base
                             for annot in exon_ann.split(','):
                                 key_val = annot.split('=')
                                 if len(key_val) == 2:
-                                    f.write('\t\t\t'+key_val[0]+'\t'+key_val[1]+'\n')
+                                    entry.add_annotation(key_val[0], key_val[1])
+                            if entry.get_total_length() >= 150:
+                                f.write(entry.write_to_string())
 
                         ## Write the annotations
 
                         ##### CDS
                         # Grab all CDSs under this mRNA
                         db_cur.execute('SELECT start, stop, strand, phase FROM tmp_cur_seq WHERE type="CDS" AND parent=?', [rna[0]])
-                        # Need rows to be a sorted list for reversing :)
-                        rows = list(db_cur.fetchall())
-                        rows.sort()
+                        CDSs = db_cur.fetchall()                        
 
-                        # Need each row to be a list as well
-                        for i in xrange(len(rows)):
-                            rows[i] = list(rows[i])
-
-                        if len(rows) > 0:
-                            strand = rows[0][2]
-
-                            # Reverse list of rows and the indices of each
-                            # individual row for reverse-strand sequences
-                            if strand == '-':
-                                rows.reverse()
-                                rows = [reverse_indices(row) for row in rows]
-
-                            if has_start == 0:
-                                f.write('<')
-                            if has_stop == 0 and len(rows) == 1:
-                                f.write(str(rows[0][0])+'\t>'+str(rows[0][1])+'\tCDS\n')
-                            else:
-                                f.write(str(rows[0][0])+'\t'+str(rows[0][1])+'\tCDS\n')
-
-                            if rows[0][3] == '1':
-                                codon_annotation = '\t\t\tcodon_start\t2\n'
-                            elif rows[0][3] == '2':
-                                codon_annotation = '\t\t\tcodon_start\t3\n'
-                            else:
-                                codon_annotation = ''
-                            
-
-                            rows = rows[1:]
-
-                            for row in rows[:-1]:
-                                f.write(str(row[0])+'\t'+str(row[1])+'\n')
-                            if len(rows) > 0:
-                                if has_stop == 0:
-                                    f.write(str(rows[len(rows)-1][0])+'\t>'+str(rows[len(rows)-1][1])+'\n')
-                                else:
-                                    f.write(str(rows[len(rows)-1][0])+'\t'+str(rows[len(rows)-1][1])+'\n')
-
-                            f.write(codon_annotation)                            
+                        if len(CDSs) > 0:
+                            entry = FeatureTblEntry()
+                            entry.set_type('CDS')
+                            entry.set_partial_info(has_start, has_stop)
+                            entry.set_strand(CDSs[0][2])
+                            if CDSs[0][3] != '.':
+                                entry.set_phase(int(CDSs[0][3]))
+                            [entry.add_coordinates(CDS[0], CDS[1]) for CDS in CDSs]
                             cds_ann = cds_exon_ann_base+','+parse_gene_ontology(trinotate[8])
                             for annot in cds_ann.split(','):
                                 key_val = annot.split('=')
                                 if len(key_val) == 2:
-                                    f.write('\t\t\t'+key_val[0]+'\t'+key_val[1]+'\n')
+                                    entry.add_annotation(key_val[0], key_val[1])
+                            if entry.get_total_length() >= 150:
+                                f.write(entry.write_to_string())
                 
                 db_cur.execute('DROP TABLE tmp_cur_seq')
