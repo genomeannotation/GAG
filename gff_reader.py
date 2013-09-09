@@ -3,6 +3,7 @@
 import csv
 import sqlite3
 
+# TODO: Represent multiple CDS's/exons/etc as single objects
 class GffReader:
 
     ## Loads the gff file into a sqlite database

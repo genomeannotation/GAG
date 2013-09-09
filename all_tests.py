@@ -5,18 +5,10 @@ from gff_reader import GffReader
 from fasta_reader import FastaReader
 from trinotate_reader import TrinotateReader
 from feature_tbl_writer import FeatureTblWriter
-from sqlite_wrapper import SqliteWrapper
+from feature_tbl_entry import FeatureTblEntry
 import sqlite3
 
 class TestStuff(unittest.TestCase):
-
-
-    def test_sqlite_wrapper(self):
-        sqlite = SqliteWrapper(':memory:')
-        sqlite.createTable('sample', 'id INTEGER PRIMARY KEY, name TEXT')
-        sqlite.insertRow('sample', [1, "hello"])
-        row = sqlite.getRowAsStr('sample', 'id', '1')
-        self.assertEqual(row, "(1, u'hello')")
 
 
     def test_gff_reader(self):
@@ -70,6 +62,7 @@ class TestStuff(unittest.TestCase):
         self.assertEqual('GO:0005739^cellular_component^mitochondrion', first_row[8])
         self.assertEqual('MAQPSHHKLAKRVFKSVYDAECSTADEKSDLKMFKNARNKATTAK', first_row[9][:45])
 
+    #TODO: This test needs to be rewritten
     def test_tbl_writer(self):
         con = sqlite3.connect(':memory:')
 
@@ -85,6 +78,18 @@ class TestStuff(unittest.TestCase):
         c.execute('SELECT * FROM tbl WHERE type="gene"')
         row = c.fetchone()
         self.assertEqual(row, ('BDOR_007864-RA', 'scaffold00080', 'gene', '106151', '109853', '+', '.'))
+
+    def test_tbl_entry(self):
+        entry = FeatureTblEntry()
+        entry.set_type('CDS')
+        entry.set_strand('-')
+        entry.set_phase(1)
+        entry.add_coordinates(500, 1000)
+        entry.add_coordinates(1500, 2000)
+        entry.add_coordinates(2500, 3000)
+        entry.add_annotation('hello', 'world')
+        entry.add_annotation('jah', 'rastafari?')
+        self.assertEqual('<3000\t2500\tCDS\n2000\t1500\n1000\t>500\n\t\t\tstart_codon\t2\n\t\t\thello\tworld\n\t\t\tjah\trastafari?\n', entry.write_to_string())
 
 
 ##########################

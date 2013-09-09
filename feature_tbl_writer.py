@@ -2,6 +2,7 @@
 
 import sqlite3
 import re
+from feature_tbl_entry import FeatureTblEntry
 
 def regexp(expr, item):
     reg = re.compile(expr)
