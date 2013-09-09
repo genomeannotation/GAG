@@ -5,6 +5,7 @@ import copy
 #TODO: It'd be cool if we could pickle/depickle
 class FeatureTblEntry:
 
+    #TODO: Add parameters to constructor
     def __init__(self):
         self.type = ''
         self.coords = []
