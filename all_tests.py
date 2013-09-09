@@ -90,6 +90,7 @@ class TestStuff(unittest.TestCase):
         entry.add_annotation('hello', 'world')
         entry.add_annotation('jah', 'rastafari?')
         self.assertEqual('<3000\t2500\tCDS\n2000\t1500\n1000\t>500\n\t\t\tstart_codon\t2\n\t\t\thello\tworld\n\t\t\tjah\trastafari?\n', entry.write_to_string())
+        self.assertEqual(entry.get_total_length(), 1500)
 
 
 ##########################

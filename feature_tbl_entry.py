@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import copy
+
 #TODO: It'd be cool if we could pickle/depickle
 class FeatureTblEntry:
 
@@ -31,27 +33,35 @@ class FeatureTblEntry:
     def add_annotation(self, key, value):
         self.annotations.append([key, value])
 
+    # Returns the summed length of each coordinate pair
+    def get_total_length(self):
+        length = 0
+        for coords in self.coords:
+            length += coords[1]-coords[0]
+        return length
+
     def write_to_string(self):
         entry = ''
 
+        fixedCoords = copy.deepcopy(self.coords) # Make a deep copy of our list of coordinates so we don't mess with the original data
         if self.strand == '-':
-            self.coords.reverse()
-            [coords.reverse() for coords in self.coords]
+            fixedCoords.reverse()
+            [coords.reverse() for coords in fixedCoords]
 
         # Write the first pair of coords with the entry type and partial info
         if not self.has_start:
             entry += '<'
-        entry += str(self.coords[0][0])+'\t'+str(self.coords[0][1])+'\t'+self.type+'\n'
+        entry += str(fixedCoords[0][0])+'\t'+str(fixedCoords[0][1])+'\t'+self.type+'\n'
         
         # Write the middle pairs of coords
-        for coords in self.coords[1:-1]: # TODO: List comprehension
+        for coords in fixedCoords[1:-1]: # TODO: List comprehension
             entry += str(coords[0])+'\t'+str(coords[1])+'\n'
 
         # Write the last pair of coords with partial info
         if self.has_stop:
-            entry += str(self.coords[-1][0])+'\t'+str(self.coords[-1][1])+'\n'
+            entry += str(fixedCoords[-1][0])+'\t'+str(fixedCoords[-1][1])+'\n'
         else:
-            entry += str(self.coords[-1][0])+'\t'+'>'+str(self.coords[-1][1])+'\n'
+            entry += str(fixedCoords[-1][0])+'\t'+'>'+str(fixedCoords[-1][1])+'\n'
 
         # Write the start codon
         if self.phase != 0:
