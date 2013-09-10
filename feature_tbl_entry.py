@@ -19,8 +19,10 @@ class FeatureTblEntry:
         self.type = newType
 
     def add_coordinates(self, start, stop):
-        assert(start < stop) # Start must be smaller than stop
-        self.coords.append([start, stop])
+        if start >= stop:
+            print("Warning: feature start >= stop; skipping...")
+        else:
+            self.coords.append([start, stop])
 
     def set_strand(self, strand):
         self.strand = strand
