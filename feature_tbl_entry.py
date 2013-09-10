@@ -72,7 +72,7 @@ class FeatureTblEntry:
 
         # Write the start codon annotation
         if self.phase != 0:
-            entry += '\t\t\tstart_codon\t'+str(self.phase+1)+'\n'
+            entry += '\t\t\tcodon_start\t'+str(self.phase+1)+'\n'
 
         for annot in self.annotations:
             entry += '\t\t\t'+annot[0]+'\t'+annot[1]+'\n'
