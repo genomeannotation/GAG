@@ -56,8 +56,11 @@ class FeatureTblEntry:
         # Write the first pair of coords with the entry type and partial info
         if not self.has_start:
             entry += '<'
-        entry += str(fixedCoords[0][0])+'\t'+str(fixedCoords[0][1])+'\t'+self.type+'\n'
-        fixedCoords = fixedCoords[1:] # Cut out the first coordinates        
+        if len(fixedCoords) == 1 and not self.has_stop: # Special case: Only one set of coordinates and no stop codon - write the partial infos
+            entry += str(fixedCoords[0][0])+'\t'+'>'+str(fixedCoords[0][1])+'\t'+self.type+'\n'
+        else: # Normal case - more than one pair of coordinates or we do have a stop codon
+            entry += str(fixedCoords[0][0])+'\t'+str(fixedCoords[0][1])+'\t'+self.type+'\n'
+        fixedCoords = fixedCoords[1:] # Cut out the first coordinates
 
         if len(fixedCoords) > 0:
             # Write the middle pairs of coords
