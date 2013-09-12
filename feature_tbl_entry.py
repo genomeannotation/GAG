@@ -74,8 +74,11 @@ class FeatureTblEntry:
                 entry += str(fixedCoords[-1][0])+'\t'+'>'+str(fixedCoords[-1][1])+'\n'
 
         # Write the start codon annotation
-        if self.phase != 0 and not self.has_start:
-            entry += '\t\t\tcodon_start\t'+str(self.phase+1)+'\n'
+        if self.type == 'CDS':
+            if self.phase != 0 and not self.has_start:
+                entry += '\t\t\tcodon_start\t'+str(self.phase+1)+'\n'
+            else:
+                entry += '\t\t\tcodon_start\t1\n'
 
         for annot in self.annotations:
             entry += '\t\t\t'+annot[0]+'\t'+annot[1]+'\n'
