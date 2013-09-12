@@ -1,5 +1,0 @@
-# TODO the coordinates of a gene should be reversed if it's on a reverse strand, see https://www.ncbi.nlm.nih.gov/Sequin/table.html (the colorful part halfway down the page)
-
-# TODO discard all exons or CDSs whose total length (i.e. the sum of the lengths of all segments) is less than 150. 
-
-# TODO at present FeatureTblEntry.add_coordinates() just skips a start,stop pair where start >= stop (most common case is start == stop). Is this okay? If first pair is discarded, does this throw the sequence out of phase? Tell me now.
