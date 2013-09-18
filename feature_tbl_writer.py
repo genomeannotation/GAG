@@ -48,6 +48,7 @@ def parse_gene_ontology(gene_ontology):
         if len(attributes) > 0:
             attributes += ','
 
+	element = replace(element, ',', '')
         vals = element.split('^')
         if vals[1] == 'molecular_function':
             attributes += 'go_function='
@@ -103,27 +104,32 @@ class FeatureTblWriter:
                 genes = db_cur.fetchall()
 
                 for gene in genes:
+                    # Whether or not the gene is good to write
+                    gene_good = true
+                    exon_entries = []
+                    cds_entries = []
+
                     # Find a trinotate entry to give us the gene id for this gene
                     db_cur.execute('SELECT top_blast_hit FROM trinotate WHERE prot_id REGEXP ? LIMIT 1', [gene[5]])
                     trinotate = db_cur.fetchone()
 
                     # Write the gene
-                    entry = FeatureTblEntry()
-                    entry.set_type('gene')
-                    entry.set_strand(gene[7])
-                    entry.set_partial_info(True, True)
+                    gene_entry = FeatureTblEntry()
+                    gene_entry.set_type('gene')
+                    gene_entry.set_strand(gene[7])
+                    gene_entry.set_partial_info(True, True)
                     if gene[8] != '.':
-                        entry.set_phase(int(gene[8]))
-                    entry.add_coordinates(gene[3], gene[4])
+                        gene_entry.set_phase(int(gene[8]))
+                    gene_entry.add_coordinates(gene[3], gene[4])
                     gene_ann = 'locus_tag='+gene[5]
                     if trinotate:
                         gene_ann += ','+parse_blast_hit_gene(trinotate[0])
                     for annot in gene_ann.split(','):
                         key_val = annot.split('=')
                         if len(key_val) == 2:
-                            entry.add_annotation(key_val[0], key_val[1])
-                    if entry.get_total_length() >= 150:
-                        f.write(entry.write_to_string())
+                            gene_entry.add_annotation(key_val[0], key_val[1])
+                    if gene_entry.get_total_length() < 150:
+                        gene_good = false
 
                     # Grab the mRNAs on this sequence
                     db_cur.execute('SELECT * FROM tmp_cur_seq WHERE type="mRNA" AND parent=?', [gene[0]])
@@ -174,8 +180,11 @@ class FeatureTblWriter:
                                 key_val = annot.split('=')
                                 if len(key_val) == 2:
                                     entry.add_annotation(key_val[0], key_val[1])
-                            if entry.get_total_length() >= 150:
-                                f.write(entry.write_to_string())
+                            exon_entries.append(entry)
+                            if entry.get_total_length() < 150:
+                                gene_good = false
+                        else:
+                            gene_good = false
 
                         ## Write the annotations
 
@@ -197,7 +206,20 @@ class FeatureTblWriter:
                                 key_val = annot.split('=')
                                 if len(key_val) == 2:
                                     entry.add_annotation(key_val[0], key_val[1])
-                            if entry.get_total_length() >= 150:
-                                f.write(entry.write_to_string())
-                
+                            cds_entries.append(entry)
+                            if entry.get_total_length() < 150:
+                                gene_good = false
+                        else:
+                            gene_good = false
+
+                    if len(exon_entries) != len(cds_entries):
+                        gene_good = false
+                    if gene_good:
+                        f.write(gene_entry.write_to_string())
+                        for i in range(len(exon_entries))
+                            f.write(exon_entries[i].write_to_string())
+                            f.write(cds_entries[i].write_to_string())
+                    else:
+                        print("Removed bad gene ", gene[5])
+
                 db_cur.execute('DROP TABLE tmp_cur_seq')
