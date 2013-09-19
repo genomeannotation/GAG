@@ -48,7 +48,7 @@ def parse_gene_ontology(gene_ontology):
         if len(attributes) > 0:
             attributes += ','
 
-	element = replace(element, ',', '')
+	element = element.replace(',', '')
         vals = element.split('^')
         if vals[1] == 'molecular_function':
             attributes += 'go_function='
@@ -105,7 +105,7 @@ class FeatureTblWriter:
 
                 for gene in genes:
                     # Whether or not the gene is good to write
-                    gene_good = true
+                    gene_good = True
                     exon_entries = []
                     cds_entries = []
 
@@ -129,7 +129,7 @@ class FeatureTblWriter:
                         if len(key_val) == 2:
                             gene_entry.add_annotation(key_val[0], key_val[1])
                     if gene_entry.get_total_length() < 150:
-                        gene_good = false
+                        gene_good = False
 
                     # Grab the mRNAs on this sequence
                     db_cur.execute('SELECT * FROM tmp_cur_seq WHERE type="mRNA" AND parent=?', [gene[0]])
@@ -182,9 +182,9 @@ class FeatureTblWriter:
                                     entry.add_annotation(key_val[0], key_val[1])
                             exon_entries.append(entry)
                             if entry.get_total_length() < 150:
-                                gene_good = false
+                                gene_good = False
                         else:
-                            gene_good = false
+                            gene_good = False
 
                         ## Write the annotations
 
@@ -208,15 +208,15 @@ class FeatureTblWriter:
                                     entry.add_annotation(key_val[0], key_val[1])
                             cds_entries.append(entry)
                             if entry.get_total_length() < 150:
-                                gene_good = false
+                                gene_good = False
                         else:
-                            gene_good = false
+                            gene_good = False
 
                     if len(exon_entries) != len(cds_entries):
-                        gene_good = false
+                        gene_good = False
                     if gene_good:
                         f.write(gene_entry.write_to_string())
-                        for i in range(len(exon_entries))
+                        for i in range(len(exon_entries)):
                             f.write(exon_entries[i].write_to_string())
                             f.write(cds_entries[i].write_to_string())
                     else:
