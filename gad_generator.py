@@ -15,11 +15,14 @@ usage_message = """Usage: python gad_generator.py <directory>\n\
 where directory contains files with extensions\n\
 .gff, .fasta and .xls"""
 
-def get_file_with_extension(ext, opt = false):
+def get_file_with_extension(ext, opt = False):
     results = glob.glob('./*.' + ext)
     if len(results) != 1:
-        print("Error -- directory " + working_dir + " should contain exactly one file of type " + ext)
-        sys.exit()
+        if opt == False:
+            print("Error -- directory " + working_dir + " should contain exactly one file of type " + ext)
+            sys.exit()
+        else:
+            return None
     else:
         return results[0]
 
@@ -36,7 +39,7 @@ os.chdir(working_dir)
 gff_file = get_file_with_extension('gff')
 fasta_file = get_file_with_extension('fasta')
 trinotate_file = get_file_with_extension('xls')
-blacklist_file = get_file_with_extension('blacklist')
+blacklist_file = get_file_with_extension('blacklist', True)
 sqlite_database = 'GAD.sqlite'
 tbl_file = 'GAD_generator_output.tbl'
 
@@ -67,8 +70,9 @@ print(time.time() - start_time, "seconds")
 
 # Get the blacklist
 gene_blacklist = Set()
-for badgene in blacklist_file:
-    gene_blacklist.add(badgene)
+if blacklist_file != None:
+    for badgene in blacklist_file:
+        gene_blacklist.add(badgene)
 
 print("Writing tbl database...")
 test_writer = FeatureTblWriter()

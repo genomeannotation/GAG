@@ -132,7 +132,8 @@ class FeatureTblWriter:
                         if len(key_val) == 2:
                             gene_entry.add_annotation(key_val[0], key_val[1])
                     if gene_entry.get_total_length() < 150:
-                        gene_good = False
+                        ##gene_good = False
+                        continue # If we know all the way from the top that the gene is bad... why waste time?
 
                     # Grab the mRNAs on this sequence
                     db_cur.execute('SELECT * FROM tmp_cur_seq WHERE type="mRNA" AND parent=?', [gene[0]])
@@ -183,11 +184,8 @@ class FeatureTblWriter:
                                 key_val = annot.split('=')
                                 if len(key_val) == 2:
                                     entry.add_annotation(key_val[0], key_val[1])
-                            exon_entries.append(entry)
                             if entry.get_total_length() < 150:
-                                gene_good = False
-                        else:
-                            gene_good = False
+                                exon_entries.append(entry)
 
                         ## Write the annotations
 
@@ -209,19 +207,27 @@ class FeatureTblWriter:
                                 key_val = annot.split('=')
                                 if len(key_val) == 2:
                                     entry.add_annotation(key_val[0], key_val[1])
-                            cds_entries.append(entry)
                             if entry.get_total_length() < 150:
-                                gene_good = False
-                        else:
-                            gene_good = False
+                                cds_entries.append(entry)
 
-                    if len(exon_entries) != len(cds_entries):
-                        gene_good = False
+                    # Check for duplicate exon (aka mRNA) entries
+                    for a in range(0, len(exon_entries)):
+                        for b in range(len(exon_entries), a+1, -1): # Reverse iterate so we can remove stuff without worrying
+                            if exon_entries[a].has_same_coords(exon_entries[b]):
+                                del exon_entries[b]
+
+                    # Check for duplicate CDS entries
+                    for a in range(0, len(cds_entries)):
+                        for b in range(len(cds_entries), a+1, -1): # Reverse iterate so we can remove stuff without worrying
+                            if cds_entries[a].has_same_coords(cds_entries[b]):
+                                del cds_entries[b]
+
                     if gene_good:
                         f.write(gene_entry.write_to_string())
-                        for i in range(len(exon_entries)):
-                            f.write(exon_entries[i].write_to_string())
-                            f.write(cds_entries[i].write_to_string())
+                        for exon in exon_entries:
+                            f.write(exon.write_to_string())
+                        for cds in cds_entries:
+                            f.write(cds.write_to_string())
                     else:
                         print("Removed bad gene ", gene[5])
 

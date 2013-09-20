@@ -24,6 +24,15 @@ class FeatureTblEntry:
         else:
             self.coords.append([start, stop])
 
+    def has_same_coords(self, other):
+        if len(self.coords) != len(other.coords):
+            return False
+
+        for i in range(len(self.coords)):
+            if self.coords[i][0] != other.coords[i][0] or self.coords[i][1] != other.coords[i][1]:
+                return False
+        return True
+
     def set_strand(self, strand):
         self.strand = strand
 
