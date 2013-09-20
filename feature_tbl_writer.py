@@ -211,14 +211,14 @@ class FeatureTblWriter:
                                 cds_entries.append(entry)
 
                     # Check for duplicate exon (aka mRNA) entries
-                    for a in range(0, len(exon_entries)):
-                        for b in range(len(exon_entries), a+1, -1): # Reverse iterate so we can remove stuff without worrying
+                    for a in range(0, len(exon_entries)-1):
+                        for b in range(len(exon_entries)-1, a+1-1, -1): # Reverse iterate so we can remove stuff without worrying
                             if exon_entries[a].has_same_coords(exon_entries[b]):
                                 del exon_entries[b]
 
                     # Check for duplicate CDS entries
-                    for a in range(0, len(cds_entries)):
-                        for b in range(len(cds_entries), a+1, -1): # Reverse iterate so we can remove stuff without worrying
+                    for a in range(0, len(cds_entries)-1):
+                        for b in range(len(cds_entries)-1, a+1-1, -1): # Reverse iterate so we can remove stuff without worrying
                             if cds_entries[a].has_same_coords(cds_entries[b]):
                                 del cds_entries[b]
 

@@ -56,6 +56,10 @@ class FeatureTblEntry:
     def write_to_string(self):
         entry = ''
 
+        if len(self.coords) == 0:
+            print("Warning -- Removing sequence with no coordinates")
+            return entry
+
         fixedCoords = copy.deepcopy(self.coords) # Make a deep copy of our list of coordinates so we don't mess with the original data
         fixedCoords.sort()
         if self.strand == '-':
