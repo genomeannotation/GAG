@@ -68,7 +68,7 @@ def reverse_indices(row):
 
 class FeatureTblWriter:
 
-    def write_to_file(self, db_conn, fileName):
+    def write_to_file(self, db_conn, fileName, blacklist):
         db_conn.create_function('regexp', 2, regexp)
 
         db_cur = db_conn.cursor()
@@ -104,6 +104,9 @@ class FeatureTblWriter:
                 genes = db_cur.fetchall()
 
                 for gene in genes:
+                    if gene[5] in blacklist:
+                        continue
+
                     # Whether or not the gene is good to write
                     gene_good = True
                     exon_entries = []
