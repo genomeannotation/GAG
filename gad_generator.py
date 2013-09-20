@@ -9,7 +9,6 @@ from feature_tbl_writer import FeatureTblWriter
 import os
 import sys
 import glob
-from sets import Set
 
 usage_message = """Usage: python gad_generator.py <directory>\n\
 where directory contains files with extensions\n\
@@ -69,7 +68,7 @@ trinotate_reader.read_into_db(trinotate_file, con)
 print(time.time() - start_time, "seconds")
 
 # Get the blacklist
-gene_blacklist = Set()
+gene_blacklist = set()
 if blacklist_file != None:
     for badgene in blacklist_file:
         gene_blacklist.add(badgene)
