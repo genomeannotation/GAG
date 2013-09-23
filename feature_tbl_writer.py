@@ -139,6 +139,9 @@ class FeatureTblWriter:
                     db_cur.execute('SELECT * FROM tmp_cur_seq WHERE type="mRNA" AND parent=?', [gene[0]])
                     rnas = db_cur.fetchall()
 
+                    # Whether or not CDS and exons are good
+                    exon_CDS_good = True
+
                     for rna in rnas:
                         # Grab the trinotate entry
                         trinotate = None
@@ -184,6 +187,9 @@ class FeatureTblWriter:
                                 key_val = annot.split('=')
                                 if len(key_val) == 2:
                                     entry.add_annotation(key_val[0], key_val[1])
+                            if entry.is_short_intron():
+                                exon_CDS_good = False
+                                break
                             if entry.get_total_length() < 150:
                                 exon_entries.append(entry)
 
@@ -207,6 +213,9 @@ class FeatureTblWriter:
                                 key_val = annot.split('=')
                                 if len(key_val) == 2:
                                     entry.add_annotation(key_val[0], key_val[1])
+                            if entry.is_short_intron():
+                                exon_CDS_good = False
+                                break
                             if entry.get_total_length() < 150:
                                 cds_entries.append(entry)
 
@@ -223,11 +232,15 @@ class FeatureTblWriter:
                                 del cds_entries[b]
 
                     if gene_good:
-                        f.write(gene_entry.write_to_string())
-                        for exon in exon_entries:
-                            f.write(exon.write_to_string())
-                        for cds in cds_entries:
-                            f.write(cds.write_to_string())
+                        if exon_CDS_good:
+                            f.write(gene_entry.write_to_string())
+                            for exon in exon_entries:
+                                f.write(exon.write_to_string())
+                            for cds in cds_entries:
+                                f.write(cds.write_to_string())
+                        else:
+                            gene_entry.add_annotation("note", "nonfunctional due to frameshift")
+                            f.write(gene_entry.write_to_string())
                     else:
                         print("Removed bad gene ", gene[5])
 

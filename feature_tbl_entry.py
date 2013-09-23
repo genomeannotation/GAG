@@ -33,6 +33,12 @@ class FeatureTblEntry:
                 return False
         return True
 
+    def is_short_intron(self):
+        for coords in self.coords:
+            if coords[1]-coords[0] <= 10: #NCBI says anything less than 10 nt is a short intron
+                return True
+        return False
+
     def set_strand(self, strand):
         self.strand = strand
 
