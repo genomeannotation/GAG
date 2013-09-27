@@ -239,6 +239,7 @@ class FeatureTblWriter:
                             for cds in cds_entries:
                                 f.write(cds.write_to_string())
                         else:
+                            print("Warning: Skipping mRNA and CDS's in nonfunctional gene: ", gene[5])
                             gene_entry.add_annotation("note", "nonfunctional due to frameshift")
                             f.write(gene_entry.write_to_string())
                     else:
