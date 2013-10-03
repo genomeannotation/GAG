@@ -48,7 +48,7 @@ def parse_gene_ontology(gene_ontology):
         if len(attributes) > 0:
             attributes += ','
 
-	element = element.replace(',', '')
+        element = element.replace(',', '')
         vals = element.split('^')
         if vals[1] == 'molecular_function':
             attributes += 'go_function='
@@ -68,6 +68,9 @@ def reverse_indices(row):
 
 class FeatureTblWriter:
 
+    def generate_header_line(self):
+        return '>Feature SeqId\n'
+
     def write_to_file(self, db_conn, fileName, blacklist):
         db_conn.create_function('regexp', 2, regexp)
 
@@ -75,7 +78,7 @@ class FeatureTblWriter:
 
         with open(fileName, 'w') as f:
             ## Stupid first line??
-            f.write('>Feature SeqId\n')
+            f.write(self.generate_header_line())
 
             # Get the sequence ids
             db_cur.execute('SELECT * FROM fasta')
