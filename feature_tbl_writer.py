@@ -85,12 +85,14 @@ class FeatureTblWriter:
 
             i = 0
             for seq in db_cur.fetchall():
+                sequence_id = seq[0]
+                sequence = seq[1]
                 i += 1
                 if i%100 == 0:
                     print(i)
 
-                f.write('>Feature '+seq[0]+'\n')
-                f.write('1\t'+str(len(seq[1]))+'\tREFERENCE\n')
+                f.write('>Feature '+sequence_id+'\n')
+                f.write('1\t'+str(len(sequence))+'\tREFERENCE\n')
                 f.write('\t\t\tPBARC\t12345\n')
 
                 # Create the temporary table
@@ -100,7 +102,7 @@ class FeatureTblWriter:
                 magic_query = "CREATE TEMP TABLE tmp_cur_seq AS SELECT id, seq_id, type, start, stop, name, parent, strand, phase FROM gff WHERE seq_id=?"
 
                 # Store temporary table of all info pertaining to this sequence
-                db_cur.execute(magic_query, [seq[0]])
+                db_cur.execute(magic_query, [sequence_id])
 
                 # Grab the genes on this sequence
                 db_cur.execute('SELECT * FROM tmp_cur_seq WHERE type="gene"')
