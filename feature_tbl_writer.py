@@ -91,13 +91,9 @@ class FeatureTblWriter:
             for i, seq in enumerate(db_cur.fetchall()):
                 sequence_id = seq[0]
                 sequence = seq[1]
-                i += 1
                 if i%100 == 0:
                     print(i)
 
-                #f.write('>Feature '+sequence_id+'\n')
-                #f.write('1\t'+str(len(sequence))+'\tREFERENCE\n')
-                #f.write('\t\t\tPBARC\t12345\n')
                 self.write_sequence_header(f, sequence_id, sequence)
                 
                 # TODO: Match columns up with gff columns (i.e. strand isn't last in gff table)
