@@ -48,7 +48,7 @@ def parse_gene_ontology(gene_ontology):
         if len(attributes) > 0:
             attributes += ','
 
-	element = element.replace(',', '')
+        element = element.replace(',', '')
         vals = element.split('^')
         if vals[1] == 'molecular_function':
             attributes += 'go_function='
@@ -68,6 +68,14 @@ def reverse_indices(row):
 
 class FeatureTblWriter:
 
+    def generate_header_line(self):
+        return '>Feature SeqId\n'
+
+    def write_sequence_header(self, openfile, seq_id, seq):
+        openfile.write('>Feature '+seq_id+'\n')
+        openfile.write('1\t'+str(len(seq))+'\tREFERENCE\n')
+        openfile.write('\t\t\tPBARC\t12345\n')
+
     def write_to_file(self, db_conn, fileName, blacklist):
         db_conn.create_function('regexp', 2, regexp)
 
@@ -75,36 +83,32 @@ class FeatureTblWriter:
 
         with open(fileName, 'w') as f:
             ## Stupid first line??
-            f.write('>Feature SeqId\n')
+            f.write(self.generate_header_line())
 
             # Get the sequence ids
             db_cur.execute('SELECT * FROM fasta')
 
-            i = 0
-            for seq in db_cur.fetchall():
-                i += 1
+            for i, seq in enumerate(db_cur.fetchall()):
+                sequence_id = seq[0]
+                sequence = seq[1]
                 if i%100 == 0:
                     print(i)
 
-                f.write('>Feature '+seq[0]+'\n')
-                f.write('1\t'+str(len(seq[1]))+'\tREFERENCE\n')
-                f.write('\t\t\tPBARC\t12345\n')
-
-                # Create the temporary table
-                # db_cur.execute('CREATE TABLE tmp_cur_seq(id TEXT PRIMARY KEY, seq_id TEXT, type TEXT, start INT, stop INT, name TEXT, parent TEXT)')
+                self.write_sequence_header(f, sequence_id, sequence)
                 
                 # TODO: Match columns up with gff columns (i.e. strand isn't last in gff table)
                 magic_query = "CREATE TEMP TABLE tmp_cur_seq AS SELECT id, seq_id, type, start, stop, name, parent, strand, phase FROM gff WHERE seq_id=?"
 
                 # Store temporary table of all info pertaining to this sequence
-                db_cur.execute(magic_query, [seq[0]])
+                db_cur.execute(magic_query, [sequence_id])
 
                 # Grab the genes on this sequence
                 db_cur.execute('SELECT * FROM tmp_cur_seq WHERE type="gene"')
                 genes = db_cur.fetchall()
 
                 for gene in genes:
-                    if gene[5] in blacklist:
+                    gene_name = gene[5]
+                    if gene_name in blacklist:
                         continue
 
                     # Whether or not the gene is good to write
@@ -113,7 +117,7 @@ class FeatureTblWriter:
                     cds_entries = []
 
                     # Find a trinotate entry to give us the gene id for this gene
-                    db_cur.execute('SELECT top_blast_hit FROM trinotate WHERE prot_id REGEXP ? LIMIT 1', [gene[5]])
+                    db_cur.execute('SELECT top_blast_hit FROM trinotate WHERE prot_id REGEXP ? LIMIT 1', [gene_name])
                     trinotate = db_cur.fetchone()
 
                     # Write the gene
@@ -124,7 +128,7 @@ class FeatureTblWriter:
                     if gene[8] != '.':
                         gene_entry.set_phase(int(gene[8]))
                     gene_entry.add_coordinates(gene[3], gene[4])
-                    gene_ann = 'locus_tag='+gene[5]
+                    gene_ann = 'locus_tag='+gene_name
                     if trinotate:
                         gene_ann += ','+parse_blast_hit_gene(trinotate[0])
                     for annot in gene_ann.split(','):
