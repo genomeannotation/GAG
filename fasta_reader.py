@@ -8,7 +8,7 @@ class FastaReader:
     def read_into_db(self, file_name, db_conn):
         # Create the sqlite database: seq_id | sequence
         db_cur = db_conn.cursor()
-        db_cur.execute('CREATE TABLE fasta(seq_id TEXT PRIMARY KEY, sequence TEXT)')
+        db_cur.execute('CREATE TABLE fasta(seq_id TEXT PRIMARY KEY, seq TEXT)')
 
         with open(file_name, 'r') as f:
             seq_id = ''
