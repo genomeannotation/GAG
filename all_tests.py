@@ -1,13 +1,7 @@
 #!/usr/bin/env python
 
 import unittest
-from gff_reader import GffReader
-from fasta_reader import FastaReader
-from trinotate_reader import TrinotateReader
-from feature_tbl_writer import FeatureTblWriter
-from feature_tbl_entry import FeatureTblEntry
 from fasta import Fasta
-import sqlite3
 
 class TestStuff(unittest.TestCase):
 
