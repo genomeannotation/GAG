@@ -129,6 +129,9 @@ class MRNA:
     def add_other_feature(self, feature):
         self.other_features.append(feature)
 
+    def length_of_shortest_cds_segment(self):
+        return self.cds.length_of_shortest_segment()
+
     def to_gff(self, seq_name, source, strand):
         result = seq_name + "\t" + source + "\t" + "mRNA" + "\t"
         result += str(self.indices[0]) + "\t" + str(self.indices[1]) + "\t"
@@ -142,5 +145,29 @@ class MRNA:
         return result
 
 
+class Gene:
 
+    def __init__(self, seq_name, source, indices, strand, id, name):
+        self.seq_name = seq_name
+        self.source = source
+        self.indices = indices
+        self.strand = strand
+        self.id = id
+        self.name = name
+        self.mrnas = []
 
+    def length(self):
+        return length_of_segment(self.indices)
+
+    def add_mrna(self, mrna):
+        self.mrnas.append(mrna)
+
+    def length_of_shortest_cds_segment(self):
+        min_length = self.mrnas[0].length_of_shortest_cds_segment()
+        if len(self.mrnas) == 1:
+            return min_length
+        else:
+            for mrna in self.mrnas:
+                if mrna.length_of_shortest_cds_segment() < min_length:
+                    min_length = mrna.length_of_shortest_cds_segment()
+        return min_length

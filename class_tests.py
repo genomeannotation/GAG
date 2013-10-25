@@ -2,7 +2,7 @@
 
 import unittest
 from mock import Mock
-from feature_classes import CDS, Exon, OtherFeature, MRNA
+from feature_classes import CDS, Exon, OtherFeature, MRNA, Gene
 
 class TestFeatureClasses(unittest.TestCase):
 
@@ -110,6 +110,8 @@ class TestFeatureClasses(unittest.TestCase):
         test_mrna1.adjust_indices(-32)
         self.assertEqual(3734, test_mrna1.indices[0])
 
+        # TODO should call adjust indices on exon, cds and other features!
+
         # test .set_exon
         self.assertFalse(test_mrna1.exon)
         fake_exon = Mock()
@@ -131,6 +133,11 @@ class TestFeatureClasses(unittest.TestCase):
         test_mrna1.add_other_feature(fake_stop_codon)
         self.assertEquals(2, len(test_mrna1.other_features))
 
+        # test .length_of_shortest_cds_segment
+        fake_cds.length_of_shortest_segment.return_value = 241
+        self.assertEquals(241, test_mrna1.length_of_shortest_cds_segment())
+        fake_cds.length_of_shortest_segment.assert_called()
+
         # test .to_gff (this is where the money is)
         fake_exon.to_gff.return_value = "...exon to gff\n"
         fake_cds.to_gff.return_value = "...cds to gff\n"
@@ -143,7 +150,42 @@ class TestFeatureClasses(unittest.TestCase):
         expected += "...start codon to gff\n...stop codon to gff\n"
         actual = test_mrna1.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
         self.assertEquals(expected, actual)
+        fake_exon.to_gff.assert_called_with("sctg_0080_0020", "maker", '+')
+        fake_cds.to_gff.assert_called_with("sctg_0080_0020", "maker", '+')
+        fake_start_codon.to_gff.assert_called_with("sctg_0080_0020", "maker", '+')
+        fake_stop_codon.to_gff.assert_called_with("sctg_0080_0020", "maker", '+')
 
+
+    def test_Gene(self):
+        # test constructor
+        test_gene1 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[3734, 7436], strand='+', id=1, name="BDOR_007864")
+        self.assertEqual('Gene', test_gene1.__class__.__name__)
+
+        # test .length
+        self.assertEqual(3703, test_gene1.length())
+
+        # test .add_mrna
+        self.assertEquals(0, len(test_gene1.mrnas))
+        fake_mrna1 = Mock()
+        test_gene1.add_mrna(fake_mrna1)
+        self.assertEquals(1, len(test_gene1.mrnas))
+        fake_mrna2 = Mock()
+        test_gene1.add_mrna(fake_mrna2)
+        self.assertEquals(2, len(test_gene1.mrnas))
+
+        # test .length_of_shortest_cds_segment
+        fake_mrna1.length_of_shortest_cds_segment.return_value = 358
+        fake_mrna2.length_of_shortest_cds_segment.return_value = 241
+        self.assertEquals(241, test_gene1.length_of_shortest_cds_segment())
+        fake_mrna1.length_of_shortest_cds_segment.assert_called()
+        fake_mrna2.length_of_shortest_cds_segment.assert_called()
+
+        # TODO test adjust indices (must call recursively!)
+        # TODO test has_stop, has_start
+        # TODO to_gff
+        
+        
+        
         
         
         
