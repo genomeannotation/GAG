@@ -181,7 +181,7 @@ class TestFeatureClasses(unittest.TestCase):
         fake_mrna2.length_of_shortest_cds_segment.assert_called()
 
         # TODO test adjust indices (must call recursively!)
-        # TODO test has_stop, has_start
+        # TODO test has_stop, has_start (must add to MRNA first)
         # TODO to_gff
         
         
