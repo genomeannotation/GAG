@@ -57,6 +57,7 @@ class Exon:
         self.indices = indices
         self.scores = scores
         self.parent_id = parent_id
+        self.annotations = []
 
     def length(self):
         length = 0
@@ -76,6 +77,70 @@ class Exon:
             result += "ID=" + str(self.ids[i]) + ";Name=" + self.names[i]
             result += ";Parent=" + str(self.parent_id) + "\n"
         return result
+
+
+class OtherFeature:
+
+    def __init__(self, feature_type, indices, id, name, parent_id):
+        self.feature_type = feature_type
+        self.indices = indices
+        self.id = id
+        self.name = name
+        self.parent_id = parent_id
+
+    def length(self):
+        return length_of_segment(self.indices) 
+
+    def adjust_indices(self, n):
+        self.indices = [i + n for i in self.indices]
+
+    def to_gff(self, seq_name, source, strand):
+        result = seq_name + "\t" + source + "\t" + self.feature_type + "\t"
+        result += str(self.indices[0]) + "\t" + str(self.indices[1]) + "\t"
+        result += "." + "\t" + strand + "\t" + "." 
+        result += "ID=" + str(self.id) + ";Name=" + self.name + ";"
+        result += "Parent=" + str(self.parent_id) + "\n"
+        return result
+
+
+class MRNA:
+
+    def __init__(self, id, name, indices, parent_id):
+        self.id = id
+        self.name = name
+        self.indices = indices
+        self.parent_id = parent_id
+        self.exon = None
+        self.cds = None
+        self.other_features = []
+
+    def length(self):
+        return length_of_segment(self.indices)
+
+    def adjust_indices(self, n):
+        self.indices = [i + n for i in self.indices]
+
+    def set_exon(self, exon):
+        self.exon = exon
+
+    def set_cds(self, cds):
+        self.cds = cds
+
+    def add_other_feature(self, feature):
+        self.other_features.append(feature)
+
+    def to_gff(self, seq_name, source, strand):
+        result = seq_name + "\t" + source + "\t" + "mRNA" + "\t"
+        result += str(self.indices[0]) + "\t" + str(self.indices[1]) + "\t"
+        result += "." + "\t" + strand + "\t" + "." + "\t"
+        result += "ID=" + str(self.id) + ";Name=" + self.name
+        result += ";Parent=" + str(self.parent_id) + "\n"
+        result += self.exon.to_gff(seq_name, source, strand)
+        result += self.cds.to_gff(seq_name, source, strand)
+        for other in self.other_features:
+            result += other.to_gff(seq_name, source, strand)
+        return result
+
 
 
 

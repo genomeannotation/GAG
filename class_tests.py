@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 import unittest
-from feature_classes import CDS, Exon
+from mock import Mock
+from feature_classes import CDS, Exon, OtherFeature, MRNA
 
 class TestFeatureClasses(unittest.TestCase):
 
@@ -70,6 +71,81 @@ class TestFeatureClasses(unittest.TestCase):
         expected = expected1 + expected2 + expected3 + expected4 + expected5
         actual = test_exon1.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
         self.assertEqual(expected, actual)
+
+
+    def test_OtherFeature(self):
+        # test constructor
+        test_start1 = OtherFeature(feature_type="start_codon", indices=[3734, 3736], id=13, name="BDOR_007864-RA:start1", parent_id=2)
+        self.assertEqual('OtherFeature', test_start1.__class__.__name__)
+
+        # test .length
+        self.assertEqual(3, test_start1.length())
+
+        # test .adjust_indices
+        test_start1.adjust_indices(-20)
+        self.assertEqual(3714, test_start1.indices[0])
+        # adjust them back for consistency...
+        test_start1.adjust_indices(20)
+        self.assertEqual(3736, test_start1.indices[1])
+
+        # test .to_gff
+        expected = "sctg_0080_0020\tmaker\tstart_codon\t"
+        expected += "3734\t3736\t.\t+\t."
+        expected += "ID=13;Name=BDOR_007864-RA:start1;Parent=2\n"
+        actual = test_start1.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
+        self.assertEqual(expected, actual)
+
+    def test_MRNA(self):
+        # test constructor
+        test_mrna1 = MRNA(id=2, name="BDOR_007864-RA", indices=[3734, 7436], parent_id=1)
+        self.assertEqual('MRNA', test_mrna1.__class__.__name__)
+
+        # test .length
+        self.assertEqual(3703, test_mrna1.length())
+
+        # test .adjust_indices
+        test_mrna1.adjust_indices(32)
+        self.assertEqual(7468, test_mrna1.indices[1])
+        # adjust 'em back
+        test_mrna1.adjust_indices(-32)
+        self.assertEqual(3734, test_mrna1.indices[0])
+
+        # test .set_exon
+        self.assertFalse(test_mrna1.exon)
+        fake_exon = Mock()
+        test_mrna1.set_exon(fake_exon)
+        self.assertTrue(test_mrna1.exon)
+
+        # test .set_cds
+        self.assertFalse(test_mrna1.cds)
+        fake_cds = Mock()
+        test_mrna1.set_cds(fake_cds)
+        self.assertTrue(test_mrna1.cds)
+
+        # test .add_other_feature
+        self.assertEquals(0, len(test_mrna1.other_features))
+        fake_start_codon = Mock()
+        test_mrna1.add_other_feature(fake_start_codon)
+        self.assertEquals(1, len(test_mrna1.other_features))
+        fake_stop_codon = Mock()
+        test_mrna1.add_other_feature(fake_stop_codon)
+        self.assertEquals(2, len(test_mrna1.other_features))
+
+        # test .to_gff (this is where the money is)
+        fake_exon.to_gff.return_value = "...exon to gff\n"
+        fake_cds.to_gff.return_value = "...cds to gff\n"
+        fake_start_codon.to_gff.return_value = "...start codon to gff\n"
+        fake_stop_codon.to_gff.return_value = "...stop codon to gff\n"
+        expected = "sctg_0080_0020\tmaker\tmRNA\t"
+        expected += "3734\t7436\t.\t+\t.\t"
+        expected += "ID=2;Name=BDOR_007864-RA;Parent=1\n"
+        expected += "...exon to gff\n...cds to gff\n"
+        expected += "...start codon to gff\n...stop codon to gff\n"
+        actual = test_mrna1.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
+        self.assertEquals(expected, actual)
+
+        
+        
         
 
 
