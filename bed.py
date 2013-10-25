@@ -17,3 +17,6 @@ class Bed:
 
     def contains(self, chrom):
         return chrom in self.entries
+
+    def get_coordinates(self, chrom):
+        return self.entries[chrom]

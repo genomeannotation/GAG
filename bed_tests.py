@@ -22,6 +22,9 @@ class TestBed(unittest.TestCase):
         self.assertTrue(test_bed1.contains('sctg_0002_0347'))
         self.assertFalse(test_bed1.contains('totally made-up key'))
 
+        # test .get_coordinates
+        self.assertEqual([1, 4307], test_bed1.get_coordinates('sctg_0002_0347'))
+
 
 
 ##########################
