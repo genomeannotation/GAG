@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-import sqlite3
-
 class Fasta:
 
     def __init__(self):
