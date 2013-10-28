@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 
 import unittest
-from fasta import Fasta
+import fasta_tests
+import class_tests
+import bed_tests
 
-class TestStuff(unittest.TestCase):
+# get suites from test modules
+suite1 = class_tests.suite()
+suite2 = bed_tests.suite()
+suite3 = fasta_tests.suite()
 
+# collect suites in a TestSuite object
+suite = unittest.TestSuite()
+suite.addTest(suite1)
+suite.addTest(suite2)
+suite.addTest(suite3)
 
-    def test_fasta(self):
-        fasta = Fasta()
-        fasta.readString('>seq1\nATGCCGTA\n>seq2\nAGGTCC\n>seq3\nGGGGGG')
-        fasta.trimSeq('seq2', 2, 3)
-        self.assertEqual(fasta.writeString(), '>seq1\nATGCCGTA\n>seq2\nATCC\n>seq3\nGGGGGG')
-        fasta.trimSeq('seq2', 1, 4)
-        self.assertEqual(fasta.writeString(), '>seq1\nATGCCGTA\n>seq3\nGGGGGG')
-
-
-##########################
-if __name__ == '__main__':
-    unittest.main()
+# run suite
+unittest.TextTestRunner(verbosity=2).run(suite)

@@ -33,5 +33,10 @@ class TestBed(unittest.TestCase):
 
 
 ##########################
+def suite():
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TestBed))
+    return suite
+
 if __name__ == '__main__':
     unittest.main()

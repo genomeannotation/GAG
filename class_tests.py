@@ -190,7 +190,11 @@ class TestFeatureClasses(unittest.TestCase):
         
         
 
-
 ##########################
+def suite():
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TestFeatureClasses))
+    return suite
+
 if __name__ == '__main__':
     unittest.main()
