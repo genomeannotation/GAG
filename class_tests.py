@@ -38,6 +38,16 @@ class TestFeatureClasses(unittest.TestCase):
         expected = expected1 + expected2 + expected3 + expected4 + expected5
         actual = test_cds1.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
         self.assertEqual(expected, actual)
+        # what if id, parent_id are strings? does it matter?
+        test_cds2 = CDS(ids=['foo1', 'foo2', 'foo3', 'foo4', 'foo5'], names=test_names1, indices=test_indices1, frames=test_frames1, parent_id='bar7')
+        expected6 = "sctg_0080_0020\tmaker\tCDS\t3734\t4034\t.\t+\t0\tID=foo1;Name=BDOR_007864-RA:cds:0;Parent=bar7\n"
+        expected7 = "sctg_0080_0020\tmaker\tCDS\t4092\t4332\t.\t+\t2\tID=foo2;Name=BDOR_007864-RA:cds:1;Parent=bar7\n"
+        expected8 = "sctg_0080_0020\tmaker\tCDS\t4399\t5185\t.\t+\t1\tID=foo3;Name=BDOR_007864-RA:cds:2;Parent=bar7\n"
+        expected9 = "sctg_0080_0020\tmaker\tCDS\t5249\t6565\t.\t+\t0\tID=foo4;Name=BDOR_007864-RA:cds:3;Parent=bar7\n"
+        expected10 = "sctg_0080_0020\tmaker\tCDS\t6630\t7436\t.\t+\t0\tID=foo5;Name=BDOR_007864-RA:cds:4;Parent=bar7\n"
+        expected = expected6 + expected7 + expected8 + expected9 + expected10
+        actual = test_cds2.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
+        self.assertEqual(expected, actual)
 
         # test to_tbl
         # TODO when add annotations stuff
