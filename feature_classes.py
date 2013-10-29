@@ -87,8 +87,9 @@ class CDS(GenePart):
 
 class Exon(GenePart):
 
-    def __init__(self, id=[], name=[], indices=[], score=[], parent_id=None):
-        GenePart.__init__(self, feature_type='exon', id=id, name=name, indices=indices, score=score, parent_id=parent_id)
+    def __init__(self, **kwargs):
+        kwargs['feature_type'] = 'exon'
+        GenePart.__init__(self, **kwargs)
         self.annotations = []
 
 
