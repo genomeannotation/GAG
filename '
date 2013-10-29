@@ -41,7 +41,7 @@ class CDS:
     def generate_attributes_entry(self, i):
         # TODO error check
         entry = "ID=" + str(self.ids[i]) + ";"
-        if len(self.names) > i:
+        if len(self.name) >= i:
             entry += "Name=" + str(self.names[i]) + ";"
         entry += "Parent=" + str(self.parent_id) + "\n"
         return entry
