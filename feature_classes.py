@@ -8,18 +8,39 @@ def length_of_segment(index_pair):
 def adjust_index_pair(index_pair, n):
     return [i + n for i in index_pair]
 
-class CDS:
-
-
-    def __init__(self, ids, names, indices, frames, parent_id):
-        self.ids = ids
-        self.names = names
+class GenePart:
+    def __init__(self, feature_type=None, id=[], name=[], indices=[], score=[], parent_id=None):
+        self.feature_type = feature_type
+        self.id = id
+        self.name = name
         self.indices = indices
-        self.frames = frames
+        self.score = score
         self.parent_id = parent_id
-        self.annotations = []
+
+    def length(self):
+        length = 0
+        for index_pair in self.indices:
+            length += length_of_segment(index_pair)
+        return length
+
+    # used by .to_gff
+    def get_score(self, i):
+        if self.score and len(self.score) > i:
+            return self.score[i]
+        else:
+            return "."
+
+    # used by .to_gff
+    # (CDS overrides this method)
+    def get_phase(self, i):
+        return "."
+
+    def adjust_indices(self, n):
+        self.indices = [adjust_index_pair(pair, n) for pair in self.indices]
 
     def length_of_shortest_segment(self):
+        if len(self.indices) == 0:
+            return None
         min_length = length_of_segment(self.indices[0])
         if len(self.indices) == 1:
             return min_length
@@ -29,85 +50,46 @@ class CDS:
                     min_length = length_of_segment(index_pair)
         return min_length
 
-    def length(self):
-        length = 0
-        for index_pair in self.indices:
-            length += length_of_segment(index_pair)
-        return length
-
-    def adjust_indices(self, n):
-        self.indices = [adjust_index_pair(pair, n) for pair in self.indices]
-
-    def generate_attributes_entry(self, i):
-        # TODO error check
-        entry = "ID=" + str(self.ids[i]) + ";"
-        if len(self.names) > i:
-            entry += "Name=" + str(self.names[i]) + ";"
+    def generate_attribute_entry(self, i):
+        if len(self.id) <= i or self.parent_id is None:
+            return None
+        entry = "ID=" + str(self.id[i]) + ";"
+        if len(self.name) > i:
+            entry += "Name=" + str(self.name[i]) + ";"
         entry += "Parent=" + str(self.parent_id) + "\n"
         return entry
 
     def to_gff(self, seq_name, source, strand):
         result = ""
         for i in range(len(self.indices)):
-            result += seq_name + "\t" + source + "\t" + "CDS" + "\t"
-            result += str(self.indices[i][0]) + "\t" + str(self.indices[i][1]) + "\t"
-            result += "." + "\t" + strand + "\t" + str(self.frames[i]) + "\t"
-            result += self.generate_attributes_entry(i)
+            result += seq_name + "\t" + source + "\t"
+            result += self.feature_type + "\t" + str(self.indices[i][0])
+            result += "\t" + str(self.indices[i][1]) + "\t"
+            result += str(self.get_score(i)) + "\t" + strand + "\t"
+            result += str(self.get_phase(i)) + "\t"
+            result += self.generate_attribute_entry(i)
         return result
 
 
-class Exon:
+class CDS(GenePart):
 
-    def __init__(self, ids, names, indices, scores, parent_id):
-        self.ids = ids
-        self.names = names
-        self.indices = indices
-        self.scores = scores
-        self.parent_id = parent_id
+    def __init__(self, id=[], name=[], indices=[], score=[], phase=[], parent_id=None):
+        GenePart.__init__(self, feature_type='CDS', id=id, name=name, indices=indices, score=score, parent_id=parent_id)
+        self.phase = phase 
         self.annotations = []
 
-    def length(self):
-        length = 0
-        for index_pair in self.indices:
-            length += length_of_segment(index_pair)
-        return length
-
-    def adjust_indices(self, n):
-        self.indices = [adjust_index_pair(pair, n) for pair in self.indices]
-
-    def to_gff(self, seq_name, source, strand):
-        result = ""
-        for i in range(len(self.indices)):
-            result += seq_name + "\t" + source + "\t" + "exon" + "\t"
-            result += str(self.indices[i][0]) + "\t" + str(self.indices[i][1]) + "\t"
-            result += str(self.scores[i]) + "\t" + strand + "\t" + "." + "\t"
-            result += "ID=" + str(self.ids[i]) + ";Name=" + self.names[i]
-            result += ";Parent=" + str(self.parent_id) + "\n"
-        return result
+    def get_phase(self, i):
+        if self.phase and len(self.phase) > i:
+            return self.phase[i]
+        else:
+            return "."
 
 
-class OtherFeature:
+class Exon(GenePart):
 
-    def __init__(self, feature_type, indices, id, name, parent_id):
-        self.feature_type = feature_type
-        self.indices = indices
-        self.id = id
-        self.name = name
-        self.parent_id = parent_id
-
-    def length(self):
-        return length_of_segment(self.indices) 
-
-    def adjust_indices(self, n):
-        self.indices = [i + n for i in self.indices]
-
-    def to_gff(self, seq_name, source, strand):
-        result = seq_name + "\t" + source + "\t" + self.feature_type + "\t"
-        result += str(self.indices[0]) + "\t" + str(self.indices[1]) + "\t"
-        result += "." + "\t" + strand + "\t" + "." 
-        result += "ID=" + str(self.id) + ";Name=" + self.name + ";"
-        result += "Parent=" + str(self.parent_id) + "\n"
-        return result
+    def __init__(self, id=[], name=[], indices=[], score=[], parent_id=None):
+        GenePart.__init__(self, feature_type='exon', id=id, name=name, indices=indices, score=score, parent_id=parent_id)
+        self.annotations = []
 
 
 class MRNA:
