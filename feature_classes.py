@@ -9,11 +9,19 @@ def adjust_index_pair(index_pair, n):
     return [i + n for i in index_pair]
 
 class GenePart:
-    def __init__(self, feature_type=None, identifier=[], name=[], indices=[], score=[], parent_id=None):
+    def __init__(self, feature_type=None, identifier=None, name=None, indices=None, score=None, parent_id=None):
         self.feature_type = feature_type
+        if identifier is None:
+            identifier = []
         self.identifier = identifier
+        if name is None:
+            name = []
         self.name = name
+        if indices is None:
+            indices = []
         self.indices = indices
+        if score is None:
+            score = []
         self.score = score
         self.parent_id = parent_id
 
@@ -85,8 +93,10 @@ class GenePart:
 
 class CDS(GenePart):
 
-    def __init__(self, identifier=[], name=[], indices=[], score=[], phase=[], parent_id=None):
+    def __init__(self, identifier=None, name=None, indices=None, score=None, phase=None, parent_id=None):
         GenePart.__init__(self, feature_type='CDS', identifier=identifier, name=name, indices=indices, score=score, parent_id=parent_id)
+        if phase is None:
+            phase = []
         self.phase = phase 
         self.annotations = []
 

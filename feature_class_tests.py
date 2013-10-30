@@ -26,15 +26,15 @@ class TestFeatureClasses(unittest.TestCase):
         self.assertRaises(ValueError, gp3.add_indices, 'foo')
 
         # test .add_name
-        #self.assertEqual(0, len(gp3.name))
-        #gp3.add_name('BDOR_007864-RA:cds:0')
-        #self.assertEqual(1, len(gp3.name))
+        self.assertEqual(0, len(gp3.name))
+        gp3.add_name('BDOR_007864-RA:cds:0')
+        self.assertEqual(1, len(gp3.name))
 
 
         # test .add_identifier
-        #self.assertEqual(0, len(gp3.identifier))
-        #gp3.add_identifier('7')
-        #self.assertEqual(1, len(gp3.identifier))
+        self.assertEqual(0, len(gp3.identifier))
+        gp3.add_identifier('7')
+        self.assertEqual(1, len(gp3.identifier))
 
         # test .length
         self.assertEqual(83, gp2.length())
