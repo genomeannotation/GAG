@@ -109,6 +109,12 @@ class MRNA:
 
     def adjust_indices(self, n):
         self.indices = [i + n for i in self.indices]
+        if self.exon:
+            self.exon.adjust_indices(n)
+        if self.cds:
+            self.cds.adjust_indices(n)
+        for feature in self.other_features:
+            feature.adjust_indices(n)
 
     def set_exon(self, exon):
         self.exon = exon
@@ -121,6 +127,18 @@ class MRNA:
 
     def length_of_shortest_cds_segment(self):
         return self.cds.length_of_shortest_segment()
+
+    def has_start(self):
+        for feature in self.other_features:
+            if feature.feature_type is 'start_codon':
+                return True
+        return False
+
+    def has_stop(self):
+        for feature in self.other_features:
+            if feature.feature_type is 'stop_codon':
+                return True
+        return False
 
     def to_gff(self, seq_name, source, strand):
         result = seq_name + "\t" + source + "\t" + "mRNA" + "\t"
@@ -161,3 +179,10 @@ class Gene:
                 if mrna.length_of_shortest_cds_segment() < min_length:
                     min_length = mrna.length_of_shortest_cds_segment()
         return min_length
+
+    def adjust_indices(self, n):
+        # TODO error check, can't get negative indices)
+        self.indices = [i + n for i in self.indices]
+        for mrna in self.mrnas:
+            mrna.adjust_indices(n)
+        

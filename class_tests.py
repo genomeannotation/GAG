@@ -118,8 +118,7 @@ class TestFeatureClasses(unittest.TestCase):
         actual = test_cds2.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
         self.assertEqual(expected, actual)
 
-        # test to_tbl
-        # TODO when add annotations stuff
+        # TODO test to_tbl when add annotations stuff
 
     def test_Exon(self):
         # test constructor
@@ -160,57 +159,65 @@ class TestFeatureClasses(unittest.TestCase):
         # test .length
         self.assertEqual(3703, test_mrna1.length())
 
-        # test .adjust_indices
-        test_mrna1.adjust_indices(32)
-        self.assertEqual(7468, test_mrna1.indices[1])
-        # adjust 'em back
-        test_mrna1.adjust_indices(-32)
-        self.assertEqual(3734, test_mrna1.indices[0])
+        # our mrna needs a cds and exon...
+        fake_cds = Mock()
+        fake_exon = Mock()
 
-        # TODO should call adjust indices on exon, cds and other features!
+        # ... and maybe a start codon for fun
+        fake_start_codon = Mock()
 
         # test .set_exon
         self.assertFalse(test_mrna1.exon)
-        fake_exon = Mock()
         test_mrna1.set_exon(fake_exon)
         self.assertTrue(test_mrna1.exon)
 
         # test .set_cds
         self.assertFalse(test_mrna1.cds)
-        fake_cds = Mock()
         test_mrna1.set_cds(fake_cds)
         self.assertTrue(test_mrna1.cds)
-
+        
         # test .add_other_feature
         self.assertEquals(0, len(test_mrna1.other_features))
-        fake_start_codon = Mock()
         test_mrna1.add_other_feature(fake_start_codon)
         self.assertEquals(1, len(test_mrna1.other_features))
-        fake_stop_codon = Mock()
-        test_mrna1.add_other_feature(fake_stop_codon)
-        self.assertEquals(2, len(test_mrna1.other_features))
+
+        # test .adjust_indices
+        test_mrna1.adjust_indices(32)
+        self.assertEqual(7468, test_mrna1.indices[1])
+        fake_cds.adjust_indices.assert_called_with(32)
+        fake_exon.adjust_indices.assert_called_with(32)
+        fake_start_codon.adjust_indices.assert_called_with(32)
+        # adjust 'em back
+        test_mrna1.adjust_indices(-32)
+        self.assertEqual(3734, test_mrna1.indices[0])
+        fake_cds.adjust_indices.assert_called_with(-32)
+        fake_exon.adjust_indices.assert_called_with(-32)
+        fake_start_codon.adjust_indices.assert_called_with(-32)
 
         # test .length_of_shortest_cds_segment
         fake_cds.length_of_shortest_segment.return_value = 241
         self.assertEquals(241, test_mrna1.length_of_shortest_cds_segment())
-        fake_cds.length_of_shortest_segment.assert_called()
+        fake_cds.length_of_shortest_segment.assert_called_once_with()
+
+        # test .has_start, .has_stop
+        fake_start_codon.feature_type = 'start_codon'
+        self.assertTrue(test_mrna1.has_start())
+        self.assertFalse(test_mrna1.has_stop())
 
         # test .to_gff (this is where the money is)
         fake_exon.to_gff.return_value = "...exon to gff\n"
         fake_cds.to_gff.return_value = "...cds to gff\n"
         fake_start_codon.to_gff.return_value = "...start codon to gff\n"
-        fake_stop_codon.to_gff.return_value = "...stop codon to gff\n"
         expected = "sctg_0080_0020\tmaker\tmRNA\t"
         expected += "3734\t7436\t.\t+\t.\t"
         expected += "ID=2;Name=BDOR_007864-RA;Parent=1\n"
         expected += "...exon to gff\n...cds to gff\n"
-        expected += "...start codon to gff\n...stop codon to gff\n"
+        expected += "...start codon to gff\n"
         actual = test_mrna1.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
         self.assertEquals(expected, actual)
         fake_exon.to_gff.assert_called_with("sctg_0080_0020", "maker", '+')
         fake_cds.to_gff.assert_called_with("sctg_0080_0020", "maker", '+')
         fake_start_codon.to_gff.assert_called_with("sctg_0080_0020", "maker", '+')
-        fake_stop_codon.to_gff.assert_called_with("sctg_0080_0020", "maker", '+')
 
 
     def test_Gene(self):
@@ -234,10 +241,18 @@ class TestFeatureClasses(unittest.TestCase):
         fake_mrna1.length_of_shortest_cds_segment.return_value = 358
         fake_mrna2.length_of_shortest_cds_segment.return_value = 241
         self.assertEquals(241, test_gene1.length_of_shortest_cds_segment())
-        fake_mrna1.length_of_shortest_cds_segment.assert_called()
-        fake_mrna2.length_of_shortest_cds_segment.assert_called()
+        fake_mrna1.length_of_shortest_cds_segment.assert_called_with()
+        fake_mrna2.length_of_shortest_cds_segment.assert_called_with()
 
-        # TODO test adjust indices (must call recursively!)
+        # test .adjust_indices
+        test_gene1.adjust_indices(16)
+        fake_mrna1.adjust_indices.assert_called_with(16)
+        self.assertEquals(3750, test_gene1.indices[0])
+        # adjust them back
+        test_gene1.adjust_indices(-16)
+        fake_mrna1.adjust_indices.assert_called_with(-16)
+        self.assertEquals(3734, test_gene1.indices[0])
+
         # TODO test has_stop, has_start (must add to MRNA first)
         # TODO to_gff
         # TODO Gene.adjust_indices should be robust against attempts to 
