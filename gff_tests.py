@@ -6,8 +6,11 @@ from gff import GFF
 
 class TestGFF(unittest.TestCase):
 
-    def test_foo(self):
-        self.assertTrue(True)
+    def test_gff(self):
+        # test constructor
+        test_gff1 = GFF()
+        self.assertEquals('GFF', test_gff1.__class__.__name__)
+
 
     """def test_bed(self):
         # test constructor

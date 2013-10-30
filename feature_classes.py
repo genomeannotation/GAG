@@ -9,13 +9,25 @@ def adjust_index_pair(index_pair, n):
     return [i + n for i in index_pair]
 
 class GenePart:
-    def __init__(self, feature_type=None, id=[], name=[], indices=[], score=[], parent_id=None):
+    def __init__(self, feature_type=None, identifier=[], name=[], indices=[], score=[], parent_id=None):
         self.feature_type = feature_type
-        self.id = id
+        self.identifier = identifier
         self.name = name
         self.indices = indices
         self.score = score
         self.parent_id = parent_id
+
+    def add_indices(self, ind):
+        if isinstance(ind, list) and len(ind) is 2:
+            self.indices.append(ind)
+        else:
+            raise ValueError()
+
+    def add_name(self, name):
+        self.name.append(name)
+
+    def add_identifier(self, identifier):
+        self.identifier.append(identifier)
 
     def length(self):
         length = 0
@@ -51,9 +63,9 @@ class GenePart:
         return min_length
 
     def generate_attribute_entry(self, i):
-        if len(self.id) <= i or self.parent_id is None:
+        if len(self.identifier) <= i or self.parent_id is None:
             return None
-        entry = "ID=" + str(self.id[i]) + ";"
+        entry = "ID=" + str(self.identifier[i]) + ";"
         if len(self.name) > i:
             entry += "Name=" + str(self.name[i]) + ";"
         entry += "Parent=" + str(self.parent_id) + "\n"
@@ -73,8 +85,8 @@ class GenePart:
 
 class CDS(GenePart):
 
-    def __init__(self, id=[], name=[], indices=[], score=[], phase=[], parent_id=None):
-        GenePart.__init__(self, feature_type='CDS', id=id, name=name, indices=indices, score=score, parent_id=parent_id)
+    def __init__(self, identifier=[], name=[], indices=[], score=[], phase=[], parent_id=None):
+        GenePart.__init__(self, feature_type='CDS', identifier=identifier, name=name, indices=indices, score=score, parent_id=parent_id)
         self.phase = phase 
         self.annotations = []
 
@@ -95,8 +107,8 @@ class Exon(GenePart):
 
 class MRNA:
 
-    def __init__(self, id, name, indices, parent_id):
-        self.id = id
+    def __init__(self, identifier, name, indices, parent_id):
+        self.identifier = identifier
         self.name = name
         self.indices = indices
         self.parent_id = parent_id
@@ -144,7 +156,7 @@ class MRNA:
         result = seq_name + "\t" + source + "\t" + "mRNA" + "\t"
         result += str(self.indices[0]) + "\t" + str(self.indices[1]) + "\t"
         result += "." + "\t" + strand + "\t" + "." + "\t"
-        result += "ID=" + str(self.id) + ";Name=" + self.name
+        result += "ID=" + str(self.identifier) + ";Name=" + self.name
         result += ";Parent=" + str(self.parent_id) + "\n"
         result += self.exon.to_gff(seq_name, source, strand)
         result += self.cds.to_gff(seq_name, source, strand)
@@ -155,13 +167,13 @@ class MRNA:
 
 class Gene:
 
-    def __init__(self, seq_name, source, indices, strand, id, name, score=None):
+    def __init__(self, seq_name, source, indices, strand, identifier, name, score=None):
         self.seq_name = seq_name
         self.source = source
         self.indices = indices
         self.score = score
         self.strand = strand
-        self.id = id
+        self.identifier = identifier
         self.name = name
         self.mrnas = []
 
@@ -200,7 +212,7 @@ class Gene:
         result += 'gene' + "\t" + str(self.indices[0]) + "\t"
         result += str(self.indices[1]) + "\t" + self.get_score()
         result += "\t" + self.strand + "\t" + "." + "\t"
-        result += "ID=" + str(self.id) + ";Name=" + self.name + "\n"
+        result += "ID=" + str(self.identifier) + ";Name=" + self.name + "\n"
         for mrna in self.mrnas:
             result += mrna.to_gff()
         return result

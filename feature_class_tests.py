@@ -16,6 +16,26 @@ class TestFeatureClasses(unittest.TestCase):
         self.assertEqual(2, len(gp2.indices))
         self.assertEqual('CDS', gp2.feature_type)
 
+        # test .add_indices
+        gp3 = GenePart(feature_type='exon', indices=[])
+        self.assertEqual(0, len(gp3.indices))
+        gp3.add_indices([77, 144])
+        self.assertEqual(1, len(gp3.indices))
+        # error check
+        self.assertRaises(ValueError, gp3.add_indices, 7)
+        self.assertRaises(ValueError, gp3.add_indices, 'foo')
+
+        # test .add_name
+        #self.assertEqual(0, len(gp3.name))
+        #gp3.add_name('BDOR_007864-RA:cds:0')
+        #self.assertEqual(1, len(gp3.name))
+
+
+        # test .add_identifier
+        #self.assertEqual(0, len(gp3.identifier))
+        #gp3.add_identifier('7')
+        #self.assertEqual(1, len(gp3.identifier))
+
         # test .length
         self.assertEqual(83, gp2.length())
         # what if no indices at all?
@@ -34,7 +54,10 @@ class TestFeatureClasses(unittest.TestCase):
         self.assertFalse(gp1.length_of_shortest_segment())
 
         # test .generate_attribute_entry
-        gp2.id = ['foo1', 'foo2']
+        gp2.identifier = ['foo1', 'foo2']
+        #print("foo! gp1 is " + str(gp1.identifier))
+        #print("foo! gp2 is " + str(gp2.identifier))
+        #print("foo! gp3 is " + str(gp3.identifier))
         gp2.parent_id = 'mama'
         expected = "ID=foo2;Parent=mama\n"
         self.assertEqual(expected, gp2.generate_attribute_entry(1))
@@ -43,7 +66,7 @@ class TestFeatureClasses(unittest.TestCase):
         self.assertEqual(expected, gp2.generate_attribute_entry(0))
         # what if index out of range?
         self.assertFalse(gp2.generate_attribute_entry(2))
-        # what if no id or parent_id?
+        # what if no identifier or parent_id?
         self.assertFalse(gp1.generate_attribute_entry(0))
         gp1.parent_id = 'dad'
         self.assertFalse(gp1.generate_attribute_entry(0))
@@ -66,10 +89,10 @@ class TestFeatureClasses(unittest.TestCase):
         # test constructor
         test_indices1 = [[3734, 4034], [4092, 4332], [4399, 5185], [5249, 6565], [6630, 7436]]
         test_name1 = ["BDOR_007864-RA:cds:0", "BDOR_007864-RA:cds:1", "BDOR_007864-RA:cds:2", "BDOR_007864-RA:cds:3", "BDOR_007864-RA:cds:4"]
-        test_id1 = [8, 9, 10, 11, 12]
+        test_identifier1 = [8, 9, 10, 11, 12]
         test_phase1 = [0, 2, 1, 0, 0]
         test_parent_id1 = 2
-        test_cds1 = CDS(id=test_id1, name=test_name1, indices=test_indices1, score=None, phase=test_phase1, parent_id=test_parent_id1)
+        test_cds1 = CDS(identifier=test_identifier1, name=test_name1, indices=test_indices1, score=None, phase=test_phase1, parent_id=test_parent_id1)
         self.assertEqual('CDS', test_cds1.__class__.__name__)
         # should also be able to construct w/o all the params...
         empty_cds = CDS()
@@ -97,8 +120,8 @@ class TestFeatureClasses(unittest.TestCase):
         expected = expected1 + expected2 + expected3 + expected4 + expected5
         actual = test_cds1.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
         self.assertEqual(expected, actual)
-        # what if id, parent_id are strings? does it matter?
-        test_cds2 = CDS(id=['foo1', 'foo2', 'foo3', 'foo4', 'foo5'], name=test_name1, indices=test_indices1, score=None, phase=test_phase1, parent_id='bar7')
+        # what if identifier, parent_id are strings? does it matter?
+        test_cds2 = CDS(identifier=['foo1', 'foo2', 'foo3', 'foo4', 'foo5'], name=test_name1, indices=test_indices1, score=None, phase=test_phase1, parent_id='bar7')
         expected1 = "sctg_0080_0020\tmaker\tCDS\t3734\t4034\t.\t+\t0\tID=foo1;Name=BDOR_007864-RA:cds:0;Parent=bar7\n"
         expected2 = "sctg_0080_0020\tmaker\tCDS\t4092\t4332\t.\t+\t2\tID=foo2;Name=BDOR_007864-RA:cds:1;Parent=bar7\n"
         expected3 = "sctg_0080_0020\tmaker\tCDS\t4399\t5185\t.\t+\t1\tID=foo3;Name=BDOR_007864-RA:cds:2;Parent=bar7\n"
@@ -122,12 +145,12 @@ class TestFeatureClasses(unittest.TestCase):
 
     def test_Exon(self):
         # test constructor
-        test_id1 = [3, 4, 5, 6, 7]
+        test_identifier1 = [3, 4, 5, 6, 7]
         test_name1 = ["BDOR_007864-RA:exon:0", "BDOR_007864-RA:exon:1", "BDOR_007864-RA:exon:2", "BDOR_007864-RA:exon:3", "BDOR_007864-RA:exon:4"]
         test_indices1 = [[3734, 4034], [4092, 4332], [4399, 5185], [5249, 6565], [6630, 7436]]
         test_score1 = [0.9, 0.9, 0.9, 0.9, 0.9]
         test_parent_id1 = 2
-        test_exon1 = Exon(id=test_id1, name=test_name1, indices=test_indices1, score=test_score1, parent_id=test_parent_id1)
+        test_exon1 = Exon(identifier=test_identifier1, name=test_name1, indices=test_indices1, score=test_score1, parent_id=test_parent_id1)
         self.assertEqual('Exon', test_exon1.__class__.__name__)
         
         # test .length
@@ -153,7 +176,7 @@ class TestFeatureClasses(unittest.TestCase):
 
     def test_MRNA(self):
         # test constructor
-        test_mrna1 = MRNA(id=2, name="BDOR_007864-RA", indices=[3734, 7436], parent_id=1)
+        test_mrna1 = MRNA(identifier=2, name="BDOR_007864-RA", indices=[3734, 7436], parent_id=1)
         self.assertEqual('MRNA', test_mrna1.__class__.__name__)
 
         # test .length
@@ -222,7 +245,7 @@ class TestFeatureClasses(unittest.TestCase):
 
     def test_Gene(self):
         # test constructor
-        test_gene1 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[3734, 7436], strand='+', id=1, name="BDOR_007864")
+        test_gene1 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[3734, 7436], strand='+', identifier=1, name="BDOR_007864")
         self.assertEqual('Gene', test_gene1.__class__.__name__)
 
         # test .length
