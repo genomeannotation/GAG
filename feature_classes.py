@@ -55,6 +55,12 @@ class GenePart:
     def get_phase(self, i):
         return "."
 
+    def collidesRange(self, start, stop):
+        for index_pair in self.indices:
+            if start <= index_pair[1] and stop >= index_pair[0]:
+                return True
+        return False
+
     def adjust_indices(self, n):
         self.indices = [adjust_index_pair(pair, n) for pair in self.indices]
 
@@ -208,6 +214,11 @@ class Gene:
                 if mrna.length_of_shortest_cds_segment() < min_length:
                     min_length = mrna.length_of_shortest_cds_segment()
         return min_length
+
+    def collidesRange(self, start, stop):
+        if start <= self.indices[1] and stop >= self.indices[0]:
+            return True
+        return False
 
     def adjust_indices(self, n):
         if n < 0 and math.fabs(n) > self.indices[0]:

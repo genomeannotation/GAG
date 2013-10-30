@@ -278,6 +278,9 @@ class TestFeatureClasses(unittest.TestCase):
         # error check
         self.assertRaises(IndexError, test_gene1.adjust_indices, -4000)
 
+        self.assertEquals(test_gene1.collidesRange(3500, 3800), True)
+        self.assertEquals(test_gene1.collidesRange(3500, 3600), False)
+
         # test .to_gff
         fake_mrna1.to_gff.return_value = "fake mrna1 to gff here:)\n"
         fake_mrna2.to_gff.return_value = "fake mrna2 to gff here:)\n"
