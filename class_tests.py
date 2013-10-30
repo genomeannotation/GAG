@@ -252,14 +252,17 @@ class TestFeatureClasses(unittest.TestCase):
         test_gene1.adjust_indices(-16)
         fake_mrna1.adjust_indices.assert_called_with(-16)
         self.assertEquals(3734, test_gene1.indices[0])
+        # error check
+        self.assertRaises(IndexError, test_gene1.adjust_indices, -4000)
 
-        # TODO test has_stop, has_start (must add to MRNA first)
-        # TODO to_gff
-        # TODO Gene.adjust_indices should be robust against attempts to 
-        #  adjust into negative territory; it should modify downstream calls
-        #  in order to compensate. hence no error checking for this kind of thing
-        #  in CDS.adjust-indices; must trust call from Gene.
-        
+        # test .to_gff
+        fake_mrna1.to_gff.return_value = "fake mrna1 to gff here:)\n"
+        fake_mrna2.to_gff.return_value = "fake mrna2 to gff here:)\n"
+        expected = "sctg_0080_0020\tmaker\tgene\t3734\t7436\t.\t+\t."
+        expected += "\tID=1;Name=BDOR_007864\n"
+        expected += "fake mrna1 to gff here:)\n"
+        expected += "fake mrna2 to gff here:)\n"
+        self.assertEquals(expected, test_gene1.to_gff())
         
         
         

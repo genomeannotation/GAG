@@ -155,10 +155,11 @@ class MRNA:
 
 class Gene:
 
-    def __init__(self, seq_name, source, indices, strand, id, name):
+    def __init__(self, seq_name, source, indices, strand, id, name, score=None):
         self.seq_name = seq_name
         self.source = source
         self.indices = indices
+        self.score = score
         self.strand = strand
         self.id = id
         self.name = name
@@ -166,6 +167,12 @@ class Gene:
 
     def length(self):
         return length_of_segment(self.indices)
+
+    def get_score(self):
+        if self.score:
+            return self.score
+        else:
+            return '.'
 
     def add_mrna(self, mrna):
         self.mrnas.append(mrna)
@@ -181,8 +188,22 @@ class Gene:
         return min_length
 
     def adjust_indices(self, n):
-        # TODO error check, can't get negative indices)
-        self.indices = [i + n for i in self.indices]
+        if n < 0 and math.fabs(n) > self.indices[0]:
+            raise IndexError()
+        else:
+            self.indices = [i + n for i in self.indices]
+            for mrna in self.mrnas:
+                mrna.adjust_indices(n) 
+
+    def to_gff(self):
+        result = self.seq_name + "\t" + self.source + "\t"
+        result += 'gene' + "\t" + str(self.indices[0]) + "\t"
+        result += str(self.indices[1]) + "\t" + self.get_score()
+        result += "\t" + self.strand + "\t" + "." + "\t"
+        result += "ID=" + str(self.id) + ";Name=" + self.name + "\n"
         for mrna in self.mrnas:
-            mrna.adjust_indices(n)
-        
+            result += mrna.to_gff()
+        return result
+
+
+
