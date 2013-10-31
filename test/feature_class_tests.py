@@ -12,12 +12,14 @@ class TestFeatureClasses(unittest.TestCase):
         self.assertEqual(0, len(gp1.indices))
         self.assertFalse(gp1.score)
         self.assertFalse(gp1.parent_id)
-        gp2 = GenePart(feature_type='CDS', indices=[[1, 44], [65, 103]])
-        self.assertEqual(2, len(gp2.indices))
+        gp2 = GenePart(feature_type='CDS', indices=[1, 44])
+        self.assertEqual(1, len(gp2.indices))
         self.assertEqual('CDS', gp2.feature_type)
 
         # test .add_indices
-        gp3 = GenePart(feature_type='exon', indices=[])
+        gp2.add_indices([65, 103])
+        self.assertEqual(2, len(gp2.indices))
+        gp3 = GenePart(feature_type='exon')
         self.assertEqual(0, len(gp3.indices))
         gp3.add_indices([77, 144])
         self.assertEqual(1, len(gp3.indices))
@@ -29,7 +31,6 @@ class TestFeatureClasses(unittest.TestCase):
         self.assertEqual(0, len(gp3.name))
         gp3.add_name('BDOR_007864-RA:cds:0')
         self.assertEqual(1, len(gp3.name))
-
 
         # test .add_identifier
         self.assertEqual(0, len(gp3.identifier))
@@ -87,16 +88,38 @@ class TestFeatureClasses(unittest.TestCase):
 
     def test_CDS(self):
         # test constructor
-        test_indices1 = [[3734, 4034], [4092, 4332], [4399, 5185], [5249, 6565], [6630, 7436]]
-        test_name1 = ["BDOR_007864-RA:cds:0", "BDOR_007864-RA:cds:1", "BDOR_007864-RA:cds:2", "BDOR_007864-RA:cds:3", "BDOR_007864-RA:cds:4"]
-        test_identifier1 = [8, 9, 10, 11, 12]
-        test_phase1 = [0, 2, 1, 0, 0]
+        test_indices1 = [3734, 4034]
+        extra_indices = [[4092, 4332], [4399, 5185], [5249, 6565], [6630, 7436]]
+        test_name1 = "BDOR_007864-RA:cds:0"
+        extra_names = ["BDOR_007864-RA:cds:1", "BDOR_007864-RA:cds:2", "BDOR_007864-RA:cds:3", "BDOR_007864-RA:cds:4"]
+        test_identifier1 = 8
+        extra_identifiers = [9, 10, 11, 12]
+        test_phase1 = 0
+        extra_phases = [2, 1, 0, 0]
         test_parent_id1 = 2
         test_cds1 = CDS(identifier=test_identifier1, name=test_name1, indices=test_indices1, score=None, phase=test_phase1, parent_id=test_parent_id1)
         self.assertEqual('CDS', test_cds1.__class__.__name__)
         # should also be able to construct w/o all the params...
         empty_cds = CDS()
         self.assertEqual('CDS', empty_cds.feature_type) 
+
+        # test .add_indices
+        for ind_pair in extra_indices:
+            test_cds1.add_indices(ind_pair)
+        self.assertEqual([4399, 5185], test_cds1.indices[2])
+
+        # test .add_name
+        for name in extra_names:
+            test_cds1.add_name(name)
+        self.assertEqual("BDOR_007864-RA:cds:4", test_cds1.name[4])
+
+        # test .add_identifier
+        for ident in extra_identifiers:
+            test_cds1.add_identifier(ident)
+
+        # test .add_phase
+        for phase in extra_phases:
+            test_cds1.add_phase(phase)
 
         # test .length_of_shortest_segment
         self.assertEqual(241, test_cds1.length_of_shortest_segment())
@@ -121,7 +144,16 @@ class TestFeatureClasses(unittest.TestCase):
         actual = test_cds1.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
         self.assertEqual(expected, actual)
         # what if identifier, parent_id are strings? does it matter?
-        test_cds2 = CDS(identifier=['foo1', 'foo2', 'foo3', 'foo4', 'foo5'], name=test_name1, indices=test_indices1, score=None, phase=test_phase1, parent_id='bar7')
+        test_cds2 = CDS(identifier='foo1', name=test_name1, indices=test_indices1, score=None, phase=test_phase1, parent_id='bar7')
+        extra_identifiers2 = ['foo2', 'foo3', 'foo4', 'foo5']
+        for ind_pair in extra_indices:
+            test_cds2.add_indices(ind_pair)
+        for name in extra_names:
+            test_cds2.add_name(name)
+        for ident in extra_identifiers2:
+            test_cds2.add_identifier(ident)
+        for phase in extra_phases:
+            test_cds2.add_phase(phase)
         expected1 = "sctg_0080_0020\tmaker\tCDS\t3734\t4034\t.\t+\t0\tID=foo1;Name=BDOR_007864-RA:cds:0;Parent=bar7\n"
         expected2 = "sctg_0080_0020\tmaker\tCDS\t4092\t4332\t.\t+\t2\tID=foo2;Name=BDOR_007864-RA:cds:1;Parent=bar7\n"
         expected3 = "sctg_0080_0020\tmaker\tCDS\t4399\t5185\t.\t+\t1\tID=foo3;Name=BDOR_007864-RA:cds:2;Parent=bar7\n"
@@ -145,13 +177,34 @@ class TestFeatureClasses(unittest.TestCase):
 
     def test_Exon(self):
         # test constructor
-        test_identifier1 = [3, 4, 5, 6, 7]
-        test_name1 = ["BDOR_007864-RA:exon:0", "BDOR_007864-RA:exon:1", "BDOR_007864-RA:exon:2", "BDOR_007864-RA:exon:3", "BDOR_007864-RA:exon:4"]
-        test_indices1 = [[3734, 4034], [4092, 4332], [4399, 5185], [5249, 6565], [6630, 7436]]
-        test_score1 = [0.9, 0.9, 0.9, 0.9, 0.9]
+        test_identifier1 = 3
+        extra_identifiers = [4, 5, 6, 7]
+        test_name1 = "BDOR_007864-RA:exon:0"
+        extra_names = ["BDOR_007864-RA:exon:1", "BDOR_007864-RA:exon:2", "BDOR_007864-RA:exon:3", "BDOR_007864-RA:exon:4"]
+        test_indices1 = [3734, 4034] 
+        extra_indices = [[4092, 4332], [4399, 5185], [5249, 6565], [6630, 7436]]
+        test_score1 = 0.9
+        extra_scores = [0.9, 0.9, 0.9, 0.9]
         test_parent_id1 = 2
         test_exon1 = Exon(identifier=test_identifier1, name=test_name1, indices=test_indices1, score=test_score1, parent_id=test_parent_id1)
         self.assertEqual('Exon', test_exon1.__class__.__name__)
+
+        # test .add_indices
+        for ind_pair in extra_indices:
+            test_exon1.add_indices(ind_pair)
+        self.assertEqual(5, len(test_exon1.indices))
+
+        # test .add_name
+        for name in extra_names:
+            test_exon1.add_name(name)
+
+        # test .add_identifier
+        for ident in extra_identifiers:
+            test_exon1.add_identifier(ident)
+
+        # test .add_score
+        for score in extra_scores:
+            test_exon1.add_score(score)
         
         # test .length
         self.assertEqual(3453, test_exon1.length())

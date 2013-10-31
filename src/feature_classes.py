@@ -11,18 +11,18 @@ def adjust_index_pair(index_pair, n):
 class GenePart:
     def __init__(self, feature_type=None, identifier=None, name=None, indices=None, score=None, parent_id=None):
         self.feature_type = feature_type
-        if identifier is None:
-            identifier = []
-        self.identifier = identifier
-        if name is None:
-            name = []
-        self.name = name
-        if indices is None:
-            indices = []
-        self.indices = indices
-        if score is None:
-            score = []
-        self.score = score
+        self.identifier = []
+        if identifier is not None:
+            self.identifier.append(identifier)
+        self.name = []
+        if name is not None:
+            self.name.append(name)
+        self.indices = []
+        if indices is not None:
+            self.indices.append(indices)
+        self.score = []
+        if score is not None:
+            self.score.append(score)
         self.parent_id = parent_id
 
     def add_indices(self, ind):
@@ -101,9 +101,9 @@ class CDS(GenePart):
 
     def __init__(self, identifier=None, name=None, indices=None, score=None, phase=None, parent_id=None):
         GenePart.__init__(self, feature_type='CDS', identifier=identifier, name=name, indices=indices, score=score, parent_id=parent_id)
-        if phase is None:
-            phase = []
-        self.phase = phase 
+        self.phase = []
+        if phase is not None:
+            self.phase.append(phase)
         self.annotations = []
 
     def get_phase(self, i):
@@ -112,6 +112,9 @@ class CDS(GenePart):
         else:
             return "."
 
+    def add_phase(self, ph):
+        self.phase.append(ph)
+
 
 class Exon(GenePart):
 
@@ -119,6 +122,9 @@ class Exon(GenePart):
         kwargs['feature_type'] = 'exon'
         GenePart.__init__(self, **kwargs)
         self.annotations = []
+
+    def add_score(self, score):
+        self.score.append(score)
 
 
 class MRNA:
