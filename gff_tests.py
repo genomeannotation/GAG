@@ -49,15 +49,27 @@ class TestGFF(unittest.TestCase):
         # test extract_cds_args
         test_cds_line1 = ['sctg_0080_0020', 'maker', 'CDS', '10247', '10625', '.', '-', '1', 'ID=229.1;Name=BDOR_007863.1-RA:cds:44;Parent=173.1']
         test_cds_line2 = ['sctg_0080_0020', 'maker', 'CDS', '9089', '10086', '.', '-', '2', 'ID=230.1;Name=BDOR_007863.1-RA:cds:45;Parent=173.1']
-        expected = {'identifier': ['229.1'], 'name': ['BDOR_007863.1-RA:cds:44'], 'indices': [[10247, 10625]], 'phase': [1], 'parent_id': '173.1'}
+        expected = {'identifier': '229.1', 'name': 'BDOR_007863.1-RA:cds:44', 'indices': [10247, 10625], 'phase': 1, 'parent_id': '173.1'}
         actual = test_gff1.extract_cds_args(test_cds_line1)
         self.assertEquals(expected, actual)
 
         # test extract_exon_args
         test_exon_line1 = ['sctg_0080_0020', 'maker', 'exon', '10247', '10625', '100.148', '-', '.', 'ID=199.1;Name=BDOR_007863.1-RA:exon:48;Parent=173.1']
         test_exon_line2 = ['sctg_0080_0020', 'maker', 'exon', '9089', '10086', '270.928', '-', '.', 'ID=200.1;Name=BDOR_007863.1-RA:exon:49;Parent=173.1']
-        expected = {'identifier': ['199.1'], 'name': ['BDOR_007863.1-RA:exon:48'], 'indices': [[10247, 10625]], 'score': ['100.148'], 'parent_id': '173.1'}
+        expected = {'identifier': '199.1', 'name': 'BDOR_007863.1-RA:exon:48', 'indices': [10247, 10625], 'score': '100.148', 'parent_id': '173.1'}
         actual = test_gff1.extract_exon_args(test_exon_line1)
+        self.assertEquals(expected, actual)
+
+        # test extract_other_feature_args
+        test_feature_line = ['sctg_0080_0020', 'maker', 'five_prime_UTR', '460', '627', '.', '-', '.', 'ID=234.1;Name=BDOR_007863.1-RA:UTR1;Parent=173.1']
+        expected = {'feature_type': 'five_prime_UTR', 'identifier': '234.1', 'name': 'BDOR_007863.1-RA:UTR1', 'indices': [460, 627], 'parent_id': '173.1'}
+        actual = test_gff1.extract_other_feature_args(test_feature_line)
+        self.assertEquals(expected, actual)
+
+        # test extract_mrna_args
+        test_mrna_line1 = ['sctg_0080_0020', 'maker', 'mRNA', '460', '12713', '.', '-', '.', 'ID=173.1;Name=BDOR_007863.1-RA;Parent=172.1']
+        expected = {'identifier': '173.1', 'name': 'BDOR_007863.1-RA', 'indices': [460, 12713], 'parent_id': '172.1'}
+        actual = test_gff1.extract_mrna_args(test_mrna_line1)
         self.assertEquals(expected, actual)
 
         # test extract_gene_args

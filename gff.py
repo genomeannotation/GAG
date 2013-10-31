@@ -50,29 +50,35 @@ class GFF:
         
 
     def extract_cds_args(self, line):
-        result = {'indices': [[int(line[3]), int(line[4])]], 'phase': [int(line[7])]}
+        result = {'indices': [int(line[3]), int(line[4])], 'phase': int(line[7])}
         attribs = self.parse_attributes(line[8])
-        result['identifier'] = [attribs['identifier']]
-        result['name'] = [attribs['name']]
-        result['parent_id'] = attribs['parent_id']
+        result.update(attribs)
         return result
 
     def extract_exon_args(self, line):
-        result = {'indices': [[int(line[3]), int(line[4])]], 'score': [line[5]]}
+        result = {'indices': [int(line[3]), int(line[4])], 'score': line[5]}
         attribs = self.parse_attributes(line[8])
-        result['identifier'] = [attribs['identifier']]
-        result['name'] = [attribs['name']]
-        result['parent_id'] = attribs['parent_id']
+        result.update(attribs)
         return result
-        
+
+    def extract_other_feature_args(self, line):
+        result = {'feature_type': line[2], 'indices': [int(line[3]), int(line[4])]}
+        attribs = self.parse_attributes(line[8])
+        result.update(attribs)
+        return result
+
+    def extract_mrna_args(self, line):
+        result = {'indices': [int(line[3]), int(line[4])]}
+        attribs = self.parse_attributes(line[8])
+        result.update(attribs)
+        return result        
         
 
     # returns a dict 
     def extract_gene_args(self, line):  # TODO 'score'
         result = {'seq_name': line[0], 'source': line[1], 'indices': [int(line[3]), int(line[4])], 'strand': line[6]}
         attribs = self.parse_attributes(line[8])
-        result['identifier'] = attribs['identifier']
-        result['name'] = attribs['name']
+        result.update(attribs)
         return result
 
     def update_cds(self, line):
