@@ -2,7 +2,7 @@
 
 import unittest
 from mock import Mock
-from feature_classes import GenePart, CDS, Exon, MRNA, Gene
+from src.feature_classes import GenePart, CDS, Exon, MRNA, Gene
 
 class TestFeatureClasses(unittest.TestCase):
 

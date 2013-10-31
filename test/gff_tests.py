@@ -2,7 +2,7 @@
 
 import unittest
 from mock import Mock
-from gff import GFF
+from src.gff import GFF
 import sys
 
 class TestGFF(unittest.TestCase):

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import unittest
-from fasta import Fasta
+from src.fasta import Fasta
 
 class TestFasta(unittest.TestCase):
 

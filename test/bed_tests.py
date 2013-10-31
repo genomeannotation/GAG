@@ -2,7 +2,7 @@
 
 import unittest
 from mock import Mock
-from bed import Bed
+from src.bed import Bed
 
 class TestBed(unittest.TestCase):
 
