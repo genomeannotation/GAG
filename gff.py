@@ -72,9 +72,7 @@ class GFF:
         attribs = self.parse_attributes(line[8])
         result.update(attribs)
         return result        
-        
 
-    # returns a dict 
     def extract_gene_args(self, line):  # TODO 'score'
         result = {'seq_name': line[0], 'source': line[1], 'indices': [int(line[3]), int(line[4])], 'strand': line[6]}
         attribs = self.parse_attributes(line[8])
