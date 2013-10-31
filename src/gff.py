@@ -51,6 +51,8 @@ class GFF:
 
     def extract_cds_args(self, line):
         result = {'indices': [int(line[3]), int(line[4])], 'phase': int(line[7])}
+        if isinstance(line[7], float):
+            result['score'] = line[7]
         attribs = self.parse_attributes(line[8])
         result.update(attribs)
         return result
@@ -80,14 +82,20 @@ class GFF:
         return result
 
     def update_cds(self, line):
-        # TODO
-        print "foo"
+        args = self.extract_cds_args(line)
+        self.current_cds.add_indices(args['indices'])
+        self.current_cds.add_phase(args['phase'])
+        self.current_cds.add_identifier(args['identifier'])
+        self.current_cds.add_name(args['name'])
+        if 'score' in args:
+            self.current_cds.add_score(args['score'])
 
     def process_cds_line(self, line):
         if self.current_cds:
             self.update_cds(line)
         else:
-            args = self.extract_cds_args(line)
+            kwargs = self.extract_cds_args(line)
+            self.current_cds = CDS(**kwargs)
 
 
 

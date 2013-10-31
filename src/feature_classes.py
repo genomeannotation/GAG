@@ -37,6 +37,9 @@ class GenePart:
     def add_identifier(self, identifier):
         self.identifier.append(identifier)
 
+    def add_score(self, score):
+        self.score.append(score)
+
     def length(self):
         length = 0
         for index_pair in self.indices:
@@ -122,9 +125,6 @@ class Exon(GenePart):
         kwargs['feature_type'] = 'exon'
         GenePart.__init__(self, **kwargs)
         self.annotations = []
-
-    def add_score(self, score):
-        self.score.append(score)
 
 
 class MRNA:

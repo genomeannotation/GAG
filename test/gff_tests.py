@@ -81,7 +81,11 @@ class TestGFF(unittest.TestCase):
         # should instantiate cds if no current_cds
         self.assertFalse(test_gff1.current_cds)
         test_gff1.process_cds_line(test_cds_line1)
-        #self.assertTrue(test_gff1.current_cds)
+        self.assertTrue(test_gff1.current_cds)
+        # should add info to current cds if already exists
+        test_gff1.process_cds_line(test_cds_line2)
+        self.assertEquals(2, len(test_gff1.current_cds.indices))
+        self.assertEquals(2, test_gff1.current_cds.phase[1])
         
         
         
