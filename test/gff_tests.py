@@ -88,11 +88,40 @@ class TestGFF(unittest.TestCase):
         self.assertEquals(2, test_gff1.current_cds.phase[1])
         
         
-        
+# read gff pseudocode:
+# for each line, if comment skip
+# validate line
+# process line (based on line_type)
+# if gene 
+#   if current gene exists
+#       wrap up current gene**
+#   create new gene         
+# if mrna
+#   if current mrna exists
+#       wrap up current mrna***
+#   create new mrna
+# if cds
+#   if current cds exists
+#       current_cds.update()
+#   else
+#       create new cds
+# if exon
+#   if current exon exists
+#       current_exon.update()
+#   else
+#       create new exon
+# if other feature
+#   create other_feature
+#   add to current mrna
+# if last line of file
+#   wrap up current gene
 
+# to sum up, other_features are added to current mrna as they are created. cds and exon are added to their mrna only when new mrna or new gene is reached.
+# also check parent id when add feature to mrna, or mrna to gene.
 
+# **means: if current mrna, wrap up current mrna. add current gene to gff.genes[]. None out everything.
 
-
+# ***means: if current cds/exon/etc, add to current mrna. add current mrna to current gene. None out all but gene.
 
 ##########################
 def suite():
