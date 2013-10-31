@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import unittest
-from mock import Mock
+from mock import Mock, patch
 from src.gff import GFF
 import sys
 
@@ -77,15 +77,37 @@ class TestGFF(unittest.TestCase):
         actual = test_gff1.extract_gene_args(test_line1)
         self.assertEquals(expected, actual)
 
+        # test process_line
+        with patch.object(test_gff1, 'process_gene_line') as mock:
+            test_gff1.process_line(test_line1)
+        mock.assert_called_with(test_line1)
+        with patch.object(test_gff1, 'process_mrna_line') as mock:
+            test_gff1.process_line(test_mrna_line1)
+        mock.assert_called_with(test_mrna_line1)
+        with patch.object(test_gff1, 'process_cds_line') as mock:
+            test_gff1.process_line(test_cds_line1)
+        mock.assert_called_with(test_cds_line1)
+        with patch.object(test_gff1, 'process_exon_line') as mock:
+            test_gff1.process_line(test_exon_line1)
+        mock.assert_called_with(test_exon_line1)
+        with patch.object(test_gff1, 'process_other_feature_line') as mock:
+            test_gff1.process_line(test_feature_line)
+        mock.assert_called_with(test_feature_line)
+        
+
         # test process_cds_line
         # should instantiate cds if no current_cds
         self.assertFalse(test_gff1.current_cds)
         test_gff1.process_cds_line(test_cds_line1)
         self.assertTrue(test_gff1.current_cds)
         # should add info to current cds if already exists
+        test_gff1.current_cds = Mock()
         test_gff1.process_cds_line(test_cds_line2)
-        self.assertEquals(2, len(test_gff1.current_cds.indices))
-        self.assertEquals(2, test_gff1.current_cds.phase[1])
+        test_gff1.current_cds.add_indices.assert_called_with([9089, 10086])
+        test_gff1.current_cds.add_phase.assert_called_with(2)
+        test_gff1.current_cds.add_name.assert_called_with('BDOR_007863.1-RA:cds:45')
+        test_gff1.current_cds.add_identifier.assert_called_with('230.1')
+    
         
         
 # read gff pseudocode:

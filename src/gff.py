@@ -90,12 +90,37 @@ class GFF:
         if 'score' in args:
             self.current_cds.add_score(args['score'])
 
+    def process_line(self, line):
+        ltype = self.line_type(line)
+        if ltype is 'gene':
+            self.process_gene_line(line)
+        elif ltype is 'mRNA':
+            self.process_mrna_line(line)
+        elif ltype is 'CDS':
+            self.process_cds_line(line)
+        elif ltype is 'exon':
+            self.process_exon_line(line)
+        else:
+            self.process_other_feature_line(line)
+
+    def process_gene_line(self, line):
+        print "foo"
+
+    def process_mrna_line(self, line):
+        print "foo"
+
     def process_cds_line(self, line):
         if self.current_cds:
             self.update_cds(line)
         else:
             kwargs = self.extract_cds_args(line)
             self.current_cds = CDS(**kwargs)
+
+    def process_exon_line(self, line):
+        print "foo"
+
+    def process_other_feature_line(self, line):
+        print "foo"
 
 
 
