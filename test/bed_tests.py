@@ -3,6 +3,8 @@
 import unittest
 from mock import Mock
 from src.bed import Bed
+import sys
+import csv
 
 class TestBed(unittest.TestCase):
 
@@ -29,6 +31,32 @@ class TestBed(unittest.TestCase):
         self.assertEqual([1, 4307], test_bed1.get_coordinates('sctg_0002_0347'))
         # what if bad input?
         self.assertEqual(None, test_bed1.get_coordinates('no such seq'))
+
+        # test .process_line
+        self.assertEqual(1, len(test_bed1.entries))
+        test_input1 = ['sctg_0002_0348', '1', '102']
+        test_bed1.process_line(test_input1)
+        self.assertEqual(2, len(test_bed1.entries))
+        # what if bad input?
+        bad_input1 = ['sctg_0002_0348', '7']
+        sys.stderr.write("test should generate an error message:\n")
+        test_bed1.process_line(bad_input1)
+        self.assertEqual(2, len(test_bed1.entries))
+
+        # test .read_file
+        test_bed2 = Bed()
+        with open('test_files/sample1.bed', 'rb') as f:
+            reader = csv.reader(f, delimiter='\t')
+            test_bed2.read_file(reader)
+        self.assertEqual(2, len(test_bed2.entries))
+        self.assertTrue(test_bed2.contains('sctg_0002_0028'))
+        self.assertTrue(test_bed2.contains('sctg_0034_0004'))
+        coords = test_bed2.get_coordinates('sctg_0034_0004')
+        self.assertEqual(4431, coords[1])
+        
+
+        
+        
 
 
 
