@@ -180,8 +180,10 @@ class MRNA:
         result += "." + "\t" + strand + "\t" + "." + "\t"
         result += "ID=" + str(self.identifier) + ";Name=" + self.name
         result += ";Parent=" + str(self.parent_id) + "\n"
-        result += self.exon.to_gff(seq_name, source, strand)
-        result += self.cds.to_gff(seq_name, source, strand)
+        if self.exon:
+            result += self.exon.to_gff(seq_name, source, strand)
+        if self.cds:
+            result += self.cds.to_gff(seq_name, source, strand)
         for other in self.other_features:
             result += other.to_gff(seq_name, source, strand)
         return result
@@ -241,7 +243,7 @@ class Gene:
         result += "\t" + self.strand + "\t" + "." + "\t"
         result += "ID=" + str(self.identifier) + ";Name=" + self.name + "\n"
         for mrna in self.mrnas:
-            result += mrna.to_gff()
+            result += mrna.to_gff(self.seq_name, self.source, self.strand)
         return result
 
 

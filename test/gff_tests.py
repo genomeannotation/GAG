@@ -179,6 +179,13 @@ class TestGFF(unittest.TestCase):
         self.assertEquals('68.2', gff.genes[2].mrnas[2].identifier)
         self.assertEquals('77.2', gff.genes[2].mrnas[2].exon.identifier[0])
         self.assertEquals(2084, gff.genes[2].mrnas[2].exon.indices[0][1])
+
+        with open('foo', 'wb') as outfile:
+            for gene in gff.genes:  
+                outfile.write(gene.to_gff())
+         
+
+        # TODO verify that the above works :)  
         
 
 ##########################
