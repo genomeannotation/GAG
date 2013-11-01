@@ -90,6 +90,14 @@ class GFF:
         if 'score' in args:
             self.current_cds.add_score(args['score'])
 
+    def update_exon(self, line):
+        args = self.extract_exon_args(line)
+        self.current_exon.add_indices(args['indices'])
+        self.current_exon.add_identifier(args['identifier'])
+        self.current_exon.add_name(args['name'])
+        if 'score' in args:
+            self.current_exon.add_score(args['score'])
+
     def process_line(self, line):
         ltype = self.line_type(line)
         if ltype is 'gene':
@@ -104,10 +112,20 @@ class GFF:
             self.process_other_feature_line(line)
 
     def process_gene_line(self, line):
-        print "foo"
+        if self.current_gene:
+            self.wrap_up_gene()
+            self.process_gene_line(line)
+        else:
+            kwargs = self.extract_gene_args(line)
+            self.current_gene = Gene(**kwargs)
 
     def process_mrna_line(self, line):
-        print "foo"
+        if self.current_mrna:
+            self.wrap_up_mrna()
+            self.process_mrna_line(line)
+        else:
+            kwargs = self.extract_mrna_args(line)
+            self.current_mrna = MRNA(**kwargs)
 
     def process_cds_line(self, line):
         if self.current_cds:
@@ -117,10 +135,34 @@ class GFF:
             self.current_cds = CDS(**kwargs)
 
     def process_exon_line(self, line):
-        print "foo"
+        if self.current_exon:
+            self.update_exon(line)
+        else:
+            kwargs = self.extract_exon_args(line)
+            self.current_exon = Exon(**kwargs)
 
     def process_other_feature_line(self, line):
+        if not self.current_mrna:
+            sys.stderr.write("trying to add a feature but no mRNA to add it to... here is the line in question: " + str(line))
+        else:
+            kwargs = self.extract_other_feature_args(line)
+            feat = GenePart(**kwargs)
+            self.current_mrna.other_features.append(feat)
+
+    def wrap_up_gene(self):
+        self.wrap_up_mrna()
+        self.genes.append(self.current_gene)
+        self.current_gene = None
         print "foo"
+
+    def wrap_up_mrna(self):
+        if self.current_cds:
+            self.current_mrna.set_cds(self.current_cds)
+        if self.current_exon:
+            self.current_exon.set_exon(self.current_exon)
+        # TODO make sure other-features are already added?
+        self.current_gene.add_mrna(self.current_mrna)
+        self.current_mrna = None
 
 
 

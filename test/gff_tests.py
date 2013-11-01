@@ -93,7 +93,64 @@ class TestGFF(unittest.TestCase):
         with patch.object(test_gff1, 'process_other_feature_line') as mock:
             test_gff1.process_line(test_feature_line)
         mock.assert_called_with(test_feature_line)
+
+        # test process_gene_line
+        test_gff2 = GFF()
+        self.assertEquals(0, len(test_gff2.genes))
+        self.assertFalse(test_gff2.current_gene)
+        # if no current gene, simply create new gene
+        test_gff2.process_gene_line(test_line1)   
+        self.assertTrue(test_gff2.current_gene)
+        # if gene already present, should wrap up current
+        # gene, add it to genes[] and instantiate a new one
+        self.assertEquals(0, len(test_gff2.genes))
+        test_gene_line2 = ['sctg_0080_0020', 'maker', 'gene', '460', '12713', '.', '-', '.', 'ID=172.1;Name=BDOR_007863.1']
+        test_gff2.process_gene_line(test_gene_line2)
+        self.assertEquals(1, len(test_gff2.genes))
+        self.assertEquals('172.1', test_gff2.current_gene.identifier)
+
+        # test process_mrna_line
+        self.assertFalse(test_gff2.current_mrna)
+        # if no current mrna, should create a new one
+        test_gff2.process_mrna_line(test_mrna_line1) 
+        self.assertTrue(test_gff2.current_mrna)
+        # if mrna already present, should wrap up current
+        # mrna, add it to current_gene, instantiate new mrna
+        self.assertEquals(0, len(test_gff2.current_gene.mrnas))
+        self.assertEquals('173.1', test_gff2.current_mrna.identifier)
+        test_mrna_line2 = ['sctg_0080_0020', 'maker', 'mRNA', '460', '12713', '.', '-', '.', 'ID=foo;Name=BDOR_007863.1-RA;Parent=172.1']
+        test_gff2.process_mrna_line(test_mrna_line2)
+        self.assertEquals(1, len(test_gff2.current_gene.mrnas))
+        self.assertEquals('foo', test_gff2.current_mrna.identifier)
+
+        # test process_cds_line
+        self.assertFalse(test_gff2.current_cds)
+        # if no current cds should instantiate one
+        test_gff2.process_cds_line(test_cds_line1)
+        self.assertTrue(test_gff2.current_cds)
+        self.assertEquals(['229.1'], test_gff2.current_cds.identifier)
+        # if cds already present, should add info to current_cds
+        test_gff2.process_cds_line(test_cds_line2)
+        self.assertEquals(['229.1', '230.1'], test_gff2.current_cds.identifier)
+
+        # test process_exon_line
+        self.assertFalse(test_gff2.current_exon)
+        # if no current exon should instantiate one
+        test_gff2.process_exon_line(test_exon_line1)
+        self.assertTrue(test_gff2.current_exon)
+        self.assertEquals(1, len(test_gff2.current_exon.indices))
+        # if exon already present, add info to current_exon
+        test_gff2.process_exon_line(test_exon_line2)
+        self.assertEquals(2, len(test_gff2.current_exon.indices))
+
+        # test process_other_feature_line
+        self.assertEquals(0, len(test_gff2.current_mrna.other_features))
+        # should add object to current_mrna.other_features
+        test_gff2.process_other_feature_line(test_feature_line)
+        self.assertEquals(1, len(test_gff2.current_mrna.other_features))
+        self.assertEquals('five_prime_UTR', test_gff2.current_mrna.other_features[0].feature_type)
         
+             
 
         # test process_cds_line
         # should instantiate cds if no current_cds
@@ -107,6 +164,7 @@ class TestGFF(unittest.TestCase):
         test_gff1.current_cds.add_phase.assert_called_with(2)
         test_gff1.current_cds.add_name.assert_called_with('BDOR_007863.1-RA:cds:45')
         test_gff1.current_cds.add_identifier.assert_called_with('230.1')
+
     
         
         
