@@ -4,6 +4,7 @@ import unittest
 from mock import Mock, patch
 from src.gff import GFF
 import sys
+import csv
 
 class TestGFF(unittest.TestCase):
 
@@ -150,8 +151,7 @@ class TestGFF(unittest.TestCase):
         self.assertEquals(1, len(test_gff2.current_mrna.other_features))
         self.assertEquals('five_prime_UTR', test_gff2.current_mrna.other_features[0].feature_type)
         
-             
-
+        # REDUNDANT? but why delete a test?
         # test process_cds_line
         # should instantiate cds if no current_cds
         self.assertFalse(test_gff1.current_cds)
@@ -165,43 +165,21 @@ class TestGFF(unittest.TestCase):
         test_gff1.current_cds.add_name.assert_called_with('BDOR_007863.1-RA:cds:45')
         test_gff1.current_cds.add_identifier.assert_called_with('230.1')
 
-    
+    def test_gff_file_stuff(self):
+        gff = GFF()
+        with open('test_files/tiny_test.gff', 'rb') as f:
+            reader = csv.reader(f, delimiter='\t')
+            gff.read_file(reader)
+        self.assertEquals(3, len(gff.genes))
+        self.assertEquals(3703, gff.genes[0].length())
+        self.assertEquals('2', gff.genes[0].mrnas[0].identifier)
+        self.assertEquals(1, len(gff.genes[0].mrnas))
+        self.assertEquals('43.1', gff.genes[1].mrnas[1].identifier)
+        self.assertEquals('15.2', gff.genes[2].identifier)
+        self.assertEquals('68.2', gff.genes[2].mrnas[2].identifier)
+        self.assertEquals('77.2', gff.genes[2].mrnas[2].exon.identifier[0])
+        self.assertEquals(2084, gff.genes[2].mrnas[2].exon.indices[0][1])
         
-        
-# read gff pseudocode:
-# for each line, if comment skip
-# validate line
-# process line (based on line_type)
-# if gene 
-#   if current gene exists
-#       wrap up current gene**
-#   create new gene         
-# if mrna
-#   if current mrna exists
-#       wrap up current mrna***
-#   create new mrna
-# if cds
-#   if current cds exists
-#       current_cds.update()
-#   else
-#       create new cds
-# if exon
-#   if current exon exists
-#       current_exon.update()
-#   else
-#       create new exon
-# if other feature
-#   create other_feature
-#   add to current mrna
-# if last line of file
-#   wrap up current gene
-
-# to sum up, other_features are added to current mrna as they are created. cds and exon are added to their mrna only when new mrna or new gene is reached.
-# also check parent id when add feature to mrna, or mrna to gene.
-
-# **means: if current mrna, wrap up current mrna. add current gene to gff.genes[]. None out everything.
-
-# ***means: if current cds/exon/etc, add to current mrna. add current mrna to current gene. None out all but gene.
 
 ##########################
 def suite():

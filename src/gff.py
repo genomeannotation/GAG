@@ -100,13 +100,13 @@ class GFF:
 
     def process_line(self, line):
         ltype = self.line_type(line)
-        if ltype is 'gene':
+        if ltype == 'gene':
             self.process_gene_line(line)
-        elif ltype is 'mRNA':
+        elif ltype == 'mRNA':
             self.process_mrna_line(line)
-        elif ltype is 'CDS':
+        elif ltype == 'CDS':
             self.process_cds_line(line)
-        elif ltype is 'exon':
+        elif ltype == 'exon':
             self.process_exon_line(line)
         else:
             self.process_other_feature_line(line)
@@ -150,17 +150,32 @@ class GFF:
             self.current_mrna.other_features.append(feat)
 
     def wrap_up_gene(self):
-        self.wrap_up_mrna()
+        if self.current_mrna:
+            self.wrap_up_mrna()
         self.genes.append(self.current_gene)
         self.current_gene = None
 
     def wrap_up_mrna(self):
         if self.current_cds:
+            # TODO check parent_id?
             self.current_mrna.set_cds(self.current_cds)
+            self.current_cds = None
         if self.current_exon:
-            self.current_exon.set_exon(self.current_exon)
+            # TODO check parent_id? may have to change tests...
+            self.current_mrna.set_exon(self.current_exon)
+            self.current_exon = None
         self.current_gene.add_mrna(self.current_mrna)
         self.current_mrna = None
+
+    def read_file(self, reader):
+        for line in reader:
+            if line[0].startswith('#'):
+                continue
+            else:
+                if self.validate_line(line):
+                    self.process_line(line)
+        self.wrap_up_gene()
+                    
 
 
 
