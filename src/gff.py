@@ -153,14 +153,12 @@ class GFF:
         self.wrap_up_mrna()
         self.genes.append(self.current_gene)
         self.current_gene = None
-        print "foo"
 
     def wrap_up_mrna(self):
         if self.current_cds:
             self.current_mrna.set_cds(self.current_cds)
         if self.current_exon:
             self.current_exon.set_exon(self.current_exon)
-        # TODO make sure other-features are already added?
         self.current_gene.add_mrna(self.current_mrna)
         self.current_mrna = None
 
