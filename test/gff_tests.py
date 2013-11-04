@@ -167,7 +167,7 @@ class TestGFF(unittest.TestCase):
 
     def test_gff_file_stuff(self):
         gff = GFF()
-        with open('test_files/tiny_test.gff', 'rb') as f:
+        with open('sample_files/tiny_test.gff', 'rb') as f:
             reader = csv.reader(f, delimiter='\t')
             gff.read_file(reader)
         self.assertEqual(3, len(gff.genes))

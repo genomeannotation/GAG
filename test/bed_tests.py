@@ -45,7 +45,7 @@ class TestBed(unittest.TestCase):
 
         # test .read_file
         test_bed2 = Bed()
-        with open('test_files/sample1.bed', 'rb') as f:
+        with open('sample_files/sample1.bed', 'rb') as f:
             reader = csv.reader(f, delimiter='\t')
             test_bed2.read_file(reader)
         self.assertEqual(2, len(test_bed2.entries))
