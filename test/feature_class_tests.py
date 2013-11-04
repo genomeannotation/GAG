@@ -342,6 +342,16 @@ class TestFeatureClasses(unittest.TestCase):
         expected += "fake mrna1 to gff here:)\n"
         expected += "fake mrna2 to gff here:)\n"
         self.assertEquals(expected, test_gene1.to_gff())
+
+    def testTrimmingMethods(self):
+        # above tests are probably too long; should probably be
+        # atomic. live and learn. this = trying to do better
+        # test CDS.trim_end
+        cds = CDS(identifier="foo_CDS1", name="cds1", indices=[40, 75], phase=0, parent_id='mrna7')
+        cds.add_identifier('foo_CDS2')
+        cds.add_name('cds2')
+        cds.add_indices([100, 175])
+        
         
         
 
