@@ -88,6 +88,9 @@ class GenePart:
         for i in reversed(segs_to_cut):
             self.remove_segment(i)
 
+    def trim_begin(self, beginindex):
+        self.adjust_indices(-beginindex + 1)
+
     def length_of_shortest_segment(self):
         if len(self.indices) == 0:
             return None
@@ -191,6 +194,10 @@ class MRNA:
             for feat in self.other_features:
                 feat.trim_end(endindex)
 
+    # beginindex is the new start index of sequence!
+    def trim_begin(self, beginindex):
+        self.adjust_indices(-beginindex + 1)
+
     def set_exon(self, exon):
         self.exon = exon
 
@@ -268,6 +275,10 @@ class Gene:
             self.indices[1] = endindex
             for mrna in self.mrnas:
                 mrna.trim_end(endindex)
+
+    # beginindex is the new start index of sequence
+    def trim_begin(self, beginindex):
+        self.adjust_indices(-beginindex + 1)
             
 
     def length_of_shortest_cds_segment(self):
