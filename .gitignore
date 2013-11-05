@@ -8,6 +8,7 @@
 *.fasta
 *.xls
 *.tbl
+*~
 
 ## keep test output local
 real_files/*
