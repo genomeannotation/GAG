@@ -171,6 +171,26 @@ class MRNA:
         for feature in self.other_features:
             feature.adjust_indices(n)
 
+    def trim_end(self, endindex):
+        if self.indices[0] > endindex:
+            print "foo"
+            self.identifier = None
+            self.name = None
+            self.indices = None
+            self.parent_id = None
+            self.exon = None
+            self.cds = None
+            self.other_features = None
+            # TODO write RIP message to stderr?
+        elif self.indices[1] > endindex:
+            self.indices[1] = endindex
+            if self.cds:
+                self.cds.trim_end(endindex)
+            if self.exon:
+                self.exon.trim_end(endindex)
+            for feat in self.other_features:
+                feat.trim_end(endindex)
+
     def set_exon(self, exon):
         self.exon = exon
 
@@ -233,6 +253,22 @@ class Gene:
 
     def add_mrna(self, mrna):
         self.mrnas.append(mrna)
+
+    def trim_end(self, endindex):
+        if self.indices[0] > endindex:
+            self.seq_name = None
+            self.source = None
+            self.indices = None 
+            self.score = None
+            self.strand = None 
+            self.identifier = None 
+            self.name = None 
+            self.mrnas = None
+        elif self.indices[1] > endindex:
+            self.indices[1] = endindex
+            for mrna in self.mrnas:
+                mrna.trim_end(endindex)
+            
 
     def length_of_shortest_cds_segment(self):
         min_length = self.mrnas[0].length_of_shortest_cds_segment()
