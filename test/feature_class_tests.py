@@ -439,43 +439,8 @@ class TestFeatureClasses(unittest.TestCase):
         fake_mrna2.trim_end.assert_called_with(150)
 
     def test_trim_begin(self):
-        # test on exon; cds is about the same ...
-        exon = Exon(identifier='foo_exon', name='exon1', indices=[50, 100], parent_id='mrna1')
-        exon.add_identifier('foo_exon2')
-        exon.add_name('exon2')
-        exon.add_indices([200, 300])
-        exon.add_identifier('foo_exon3')
-        exon.add_name('exon3')
-        exon.add_indices([400, 500])
-        exon.trim_begin(20)
-        self.assertEquals(31, exon.indices[0][0])
-        self.assertEquals(381, exon.indices[2][0])
-        # can result in negative indices; requires post-validation
-        exon.trim_begin(50)
-        self.assertEquals(-18, exon.indices[0][0])
-
-        # verify same effect on one-segement other_features...
-        utr = GenePart(feature_type='five_prime_utr', identifier='foo_utr', name='utr1', indices=[20, 22], parent_id='foo_mrna')
-        utr.trim_begin(5)
-        self.assertEquals(16, utr.indices[0][0])
-        utr.trim_begin(20)
-        self.assertEquals(-3, utr.indices[0][0])
-        
-        # do the same for mrna 
-        mrna = MRNA(identifier='foo_mrna', name='mrna1', indices=[100, 200], parent_id='gene1')
-        mrna.trim_begin(80)
-        self.assertEquals(21, mrna.indices[0])
-        # verify recursive call
-        fake_cds = Mock()
-        mrna.set_cds(fake_cds)
-        mrna.trim_begin(10)
-        self.assertEquals(12, mrna.indices[0])
-        fake_cds.adjust_indices.assert_called_with(-9)
-        # indices can reach negative territory
-        mrna.trim_begin(50)
-        self.assertEquals(-37, mrna.indices[0])
-        
-        # do the same for gene
+        # only need to test on gene since gene will call
+        # adjust_indices recursively (this is already under test)
         gene = Gene(seq_name="sctg_foo", source='maker', indices=[100, 200], strand='-', identifier='foo_gene', name='gene1')
         gene.trim_begin(80)
         self.assertEquals(21, gene.indices[0])
@@ -486,9 +451,6 @@ class TestFeatureClasses(unittest.TestCase):
         gene.add_mrna(fake_mrna2)
         gene.trim_begin(10)
         self.assertEquals(112, gene.indices[1])
-        # note -- gene doesn't call trim_begin on child features;
-        # it calls adjust_indices. which means that GenePart.trim_begin
-        # is probably useless. live and learn.
         fake_mrna1.adjust_indices.assert_called_with(-9)
         fake_mrna2.adjust_indices.assert_called_with(-9)
 
