@@ -4,9 +4,6 @@
 *.db
 *.odp
 *.sqlite
-*.gff
-*.fasta
-*.xls
 *.tbl
 *~
 
