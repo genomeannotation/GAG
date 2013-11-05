@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import math
+import sys
 
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
@@ -64,8 +65,28 @@ class GenePart:
                 return True
         return False
 
+    def remove_segment(self, segindex):
+        try:
+            self.identifier.pop(segindex)
+            self.name.pop(segindex)
+            self.indices.pop(segindex)
+        except IndexError:
+            sys.stderr.write("Trying to remove nonexistent segment " + str(segindex) + " from " + str(self))
+        if len(self.score) > segindex:
+            self.score.pop(segindex)
+
     def adjust_indices(self, n):
         self.indices = [adjust_index_pair(pair, n) for pair in self.indices]
+
+    def trim_end(self, endindex):
+        segs_to_cut = []
+        for i, index_pair in enumerate(self.indices):
+            if index_pair[0] > endindex:
+                segs_to_cut.append(i)
+            elif index_pair[1] > endindex:
+                self.indices[i][1] = endindex
+        for i in reversed(segs_to_cut):
+            self.remove_segment(i)
 
     def length_of_shortest_segment(self):
         if len(self.indices) == 0:

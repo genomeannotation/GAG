@@ -343,14 +343,54 @@ class TestFeatureClasses(unittest.TestCase):
         expected += "fake mrna2 to gff here:)\n"
         self.assertEquals(expected, test_gene1.to_gff())
 
-    def testTrimmingMethods(self):
+    def test_trimming_methods(self):
         # above tests are probably too long; should probably be
         # atomic. live and learn. this = trying to do better
-        # test CDS.trim_end
+        # test CDS.remove_segment
         cds = CDS(identifier="foo_CDS1", name="cds1", indices=[40, 75], phase=0, parent_id='mrna7')
         cds.add_identifier('foo_CDS2')
+        cds.add_identifier('foo_CDS3')
         cds.add_name('cds2')
+        cds.add_name('cds3')
         cds.add_indices([100, 175])
+        cds.add_indices([200, 250])
+        # CDS has 3 segments
+        self.assertEquals(3, len(cds.indices))
+        self.assertEquals(3, len(cds.name))
+        self.assertEquals(3, len(cds.identifier))
+        cds.remove_segment(2)
+        # should now have 2 segments
+        self.assertEquals(2, len(cds.indices))
+        self.assertEquals(2, len(cds.name))
+        self.assertEquals(2, len(cds.identifier))
+
+        for pair in cds.indices:
+            print pair
+
+        # test CDS.trim_end
+        cds.trim_end(150)
+        # should keep both segments of cds
+        self.assertEquals(2, len(cds.indices))
+        self.assertEquals(2, len(cds.name))
+        # and second segment's end index should be 230
+        self.assertEquals(150, cds.indices[1][1])
+        # now trim entire segment ...
+        cds.trim_end(90)
+        self.assertEquals(1, len(cds.indices))
+        self.assertEquals(1, len(cds.name))
+        # verify that all is okay if we trim off multiple segments
+        cds.add_identifier('foo_CDS2')
+        cds.add_identifier('foo_CDS3')
+        cds.add_name('cds2')
+        cds.add_name('cds3')
+        cds.add_indices([100, 175])
+        cds.add_indices([200, 250])
+        self.assertEquals(3, len(cds.indices))
+        self.assertEquals(3, len(cds.identifier))
+        cds.trim_end(50)
+        self.assertEquals(1, len(cds.indices))
+        self.assertEquals(1, len(cds.name))
+        
         
         
         
