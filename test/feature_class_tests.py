@@ -433,6 +433,53 @@ class TestFeatureClasses(unittest.TestCase):
         cds1.indices[0] = [1, 10]
         cds1.adjust_phase()
         self.assertEquals([1, 10], cds1.indices[0])
+
+    def test_clean_up_indices(self):
+        # test on a GenePart...
+        nice_cds = CDS(identifier='foo', name='foo', indices=[-5, 28], phase=1, parent_id='bar')
+        junk_cds = CDS(identifier='bar', name='bar', indices=[-20, -2], phase=0, parent_id='bar')
+        nice_cds.clean_up_indices()
+        self.assertEquals(1, nice_cds.indices[0][0])
+        self.assertEquals(28, nice_cds.indices[0][1]) 
+        junk_cds.clean_up_indices()
+        self.assertEquals(0, junk_cds.indices[0][0])
+        self.assertEquals(0, junk_cds.indices[0][1])
+
+        # test on mRNA...
+        nice_mrna = MRNA(identifier='foo', name='foo', indices=[-10, 200], parent_id='foo')
+        junk_mrna = MRNA(identifier='bar', name='bar', indices=[-300, -200], parent_id='bar')
+        nice_mrna.clean_up_indices()
+        self.assertEquals(1, nice_mrna.indices[0])
+        self.assertEquals(200, nice_mrna.indices[1])
+        junk_mrna.clean_up_indices()
+        self.assertEquals(0, junk_mrna.indices[0])
+        self.assertEquals(0, junk_mrna.indices[1])
+        # test recursive call
+        codon = Mock()
+        exon = Mock()
+        nice_mrna.add_other_feature(codon)
+        nice_mrna.set_exon(exon)
+        nice_mrna.clean_up_indices()
+        codon.clean_up_indices.assert_called_with()
+        exon.clean_up_indices.assert_called_with()
+
+        # test on Gene
+        nice_gene = Gene(seq_name='fooseq', source='maker', indices=[-23, 127], strand='-', identifier='foo', name='foo')
+        junk_gene = Gene(seq_name='barseq', source='maker', indices=[-400, -100], strand='-', identifier='bar', name='bar')
+        nice_gene.clean_up_indices()
+        self.assertEquals(1, nice_gene.indices[0])
+        self.assertEquals(127, nice_gene.indices[1])
+        junk_gene.clean_up_indices()
+        self.assertEquals(0, junk_gene.indices[0])
+        self.assertEquals(0, junk_gene.indices[1])
+        # test recursive call
+        mrna1 = Mock()
+        mrna2 = Mock()
+        nice_gene.add_mrna(mrna1)
+        nice_gene.add_mrna(mrna2)
+        nice_gene.clean_up_indices()
+        mrna1.clean_up_indices.assert_called_with()
+        mrna2.clean_up_indices.assert_called_with()
         
 
 

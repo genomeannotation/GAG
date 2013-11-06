@@ -88,6 +88,14 @@ class GenePart:
             elif index_pair[1] > endindex:
                 self.indices[i][1] = endindex
 
+    def clean_up_indices(self):
+        for i in xrange(len(self.indices)):
+            if self.indices[i][1] < 1:
+                self.indices[i][0] = 0
+                self.indices[i][1] = 0
+            elif self.indices[i][0] < 1:
+                self.indices[i][0] = 1
+
     def length_of_shortest_segment(self):
         if len(self.indices) == 0:
             return None
@@ -175,6 +183,19 @@ class MRNA:
             self.cds.adjust_indices(n)
         for feature in self.other_features:
             feature.adjust_indices(n)
+
+    def clean_up_indices(self):
+        if self.indices[1] < 1:
+            self.indices[0] = 0
+            self.indices[1] = 0
+        elif self.indices[0] < 1:
+            self.indices[0] = 1
+        if self.cds:
+            self.cds.clean_up_indices()
+        if self.exon:
+            self.exon.clean_up_indices()
+        for feat in self.other_features:
+            feat.clean_up_indices()
 
     def trim_end(self, endindex):
         if self.indices[0] > endindex:
@@ -264,6 +285,15 @@ class Gene:
     # beginindex is the new start index of sequence
     def trim_begin(self, beginindex):
         self.adjust_indices(-beginindex + 1)
+
+    def clean_up_indices(self):
+        if self.indices[1] < 1:
+            self.indices[0] = 0
+            self.indices[1] = 0
+        elif self.indices[0] < 1:
+            self.indices[0] = 1
+        for mrna in self.mrnas:
+            mrna.clean_up_indices()
             
 
     def length_of_shortest_cds_segment(self):
