@@ -421,6 +421,20 @@ class TestFeatureClasses(unittest.TestCase):
         fake_mrna1.adjust_indices.assert_called_with(-9)
         fake_mrna2.adjust_indices.assert_called_with(-9)
 
+    def test_adjust_phase(self):
+        # formula for phase is (old_phase + negative_index -1) mod 3
+        cds1 = CDS(identifier='foo', name='foo_cds', indices=[-4, 13], phase=0, parent_id='bar')
+        cds1.adjust_phase()
+        self.assertEquals(1, cds1.phase[0])
+        cds1.indices[0][0] = -4
+        cds1.adjust_phase()
+        self.assertEquals(2, cds1.phase[0])
+        # shouldn't affect cds with indices[i][0] > 0
+        cds1.indices[0] = [1, 10]
+        cds1.adjust_phase()
+        self.assertEquals([1, 10], cds1.indices[0])
+        
+
 
 
         

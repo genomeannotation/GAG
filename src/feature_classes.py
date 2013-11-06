@@ -139,6 +139,11 @@ class CDS(GenePart):
     def add_phase(self, ph):
         self.phase.append(ph)
 
+    def adjust_phase(self):
+        for i in range(len(self.phase)):
+            if self.indices[i][0] < 1:
+                self.phase[i] = (self.phase[i] + self.indices[i][0] + -1) %3
+
 
 class Exon(GenePart):
 
