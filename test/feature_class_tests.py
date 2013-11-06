@@ -502,27 +502,38 @@ class TestFeatureClasses(unittest.TestCase):
         self.assertEquals(0, len(exon.indices))
         self.assertEquals(0, len(exon.identifier))
 
-    def test_remove_empty_features(self):
+    def test_valid_codon(self):
+        stop = GenePart(feature_type='stop_codon', identifier='foo', name='foo', indices=[2, 3], parent_id='foofoo')
+        self.assertFalse(stop.valid_codon())
+
+    def test_remove_invalid_features(self):
         mrna = MRNA(identifier='foo', name='foo', indices=[20, 50], parent_id='foo') 
         nice_exon = Mock()
         empty_cds = Mock() 
         empty_stop_codon = Mock()
+        invalid_start_codon = Mock()
         nice_utr = Mock()
         mrna.set_exon(nice_exon)
         mrna.set_cds(empty_cds)
         mrna.add_other_feature(empty_stop_codon)
         mrna.add_other_feature(nice_utr)
+        mrna.add_other_feature(invalid_start_codon)
         nice1 = PropertyMock(return_value = [10, 50])
         nice2 = PropertyMock(return_value = [1, 9])
+        invalid1 = PropertyMock(return_value = [1, 2])
+        empty = PropertyMock(return_value=[])
+        starttype = PropertyMock(return_value = 'start_codon')
+        invalid_start_codon.valid_codon.return_value = False
         type(nice_exon).indices = nice1
         type(nice_utr).indices = nice2
-        empty = PropertyMock(return_value=[])
+        type(invalid_start_codon).indices = invalid1
+        type(invalid_start_codon).feature_type = starttype
         type(empty_cds).indices = empty
         type(empty_stop_codon).indices = empty
-        self.assertEquals(2, len(mrna.other_features))
+        self.assertEquals(3, len(mrna.other_features))
         self.assertTrue(mrna.cds)
         self.assertTrue(mrna.exon)
-        mrna.remove_empty_features()
+        mrna.remove_invalid_features()
         self.assertFalse(mrna.cds)
         self.assertEquals(1, len(mrna.other_features))
 
@@ -535,9 +546,9 @@ class TestFeatureClasses(unittest.TestCase):
         gene.add_mrna(junk_mrna)
         gene.add_mrna(nice_mrna) 
         self.assertEquals(2, len(gene.mrnas))
-        gene.remove_empty_features()
+        gene.remove_invalid_features()
         self.assertEquals(1, len(gene.mrnas))
-        nice_mrna.remove_empty_features.assert_called_with()
+        nice_mrna.remove_invalid_features.assert_called_with()
 
     def test_trim(self):
         gene = Gene(seq_name='sctg_foo', source='maker', indices=[100, 200], strand='-', identifier='foo_gene', name='gene1')
@@ -563,7 +574,7 @@ class TestFeatureClasses(unittest.TestCase):
         bad_mrna.adjust_phase.assert_called_with()
         nice_mrna.clean_up_indices.assert_called_with()
         bad_mrna.clean_up_indices.assert_called_with()
-        nice_mrna.remove_empty_features.assert_called_with()
+        nice_mrna.remove_invalid_features.assert_called_with()
 
         
         

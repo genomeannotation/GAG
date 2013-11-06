@@ -104,6 +104,12 @@ class GenePart:
             elif self.indices[i][0] < 1:
                 self.indices[i][0] = 1
 
+    def valid_codon(self):  
+        if length_of_segment(self.indices[0]) == 3:
+            return True
+        else:
+            return False
+
     def length_of_shortest_segment(self):
         if len(self.indices) == 0:
             return None
@@ -222,20 +228,26 @@ class MRNA:
             for feat in self.other_features:
                 feat.trim_end(endindex)
 
-    def remove_empty_features(self):
+    def remove_invalid_features(self):
         if self.cds:
+            self.cds.remove_trimmed_segments()
             ind = self.cds.indices
             if len(ind) == 0:
                 self.cds = None
         if self.exon:
+            self.exon.remove_trimmed_segments()
             if len(self.exon.indices) == 0:
                 self.exon = None
-        empty_features = []
+        invalid_features = []
         for i, feat in enumerate(self.other_features):
+            self.other_features[i].remove_trimmed_segments()
             if len(feat.indices) == 0:
-                empty_features.append(i)
-        for j in reversed(empty_features):
-            self.other_features.pop(i)
+                invalid_features.append(i)
+            elif feat.feature_type == 'start_codon' or 'stop_codon':
+                if not feat.valid_codon():
+                    invalid_features.append(i)
+        for j in reversed(invalid_features):
+            self.other_features.pop(j)
 
 
     def set_exon(self, exon):
@@ -308,8 +320,6 @@ class Gene:
         elif self.indices[1] > endindex:
             self.indices[1] = endindex
             for mrna in self.mrnas:
-                print str(mrna)
-                print str(endindex)
                 mrna.trim_end(endindex)
 
     # beginindex is the new start index of sequence
@@ -325,7 +335,7 @@ class Gene:
         for mrna in self.mrnas:
             mrna.clean_up_indices()
 
-    def remove_empty_features(self):
+    def remove_invalid_features(self):
         empty_mrnas = []
         for i in xrange(len(self.mrnas)):
             if self.mrnas[i].indices[0] == 0:
@@ -333,7 +343,7 @@ class Gene:
         for j in reversed(empty_mrnas):
             self.mrnas.pop(j)
         for mrna in self.mrnas:
-            mrna.remove_empty_features()
+            mrna.remove_invalid_features()
         # TODO what if mrna.remove_empty leaves mrna with
         # no features? do we want to trash it?
             
@@ -362,10 +372,9 @@ class Gene:
         self.trim_end(new_indices[1])
         self.trim_begin(new_indices[0])
         for mrna in self.mrnas:
-            print str(mrna)
             mrna.adjust_phase()
         self.clean_up_indices()
-        self.remove_empty_features()
+        self.remove_invalid_features()
 
     def to_gff(self):
         result = self.seq_name + "\t" + self.source + "\t"

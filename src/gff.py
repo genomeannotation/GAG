@@ -169,7 +169,7 @@ class GFF:
 
     def read_file(self, reader):
         for line in reader:
-            if line[0].startswith('#'):
+            if len(line) > 0 and line[0].startswith('#'):
                 continue
             else:
                 if self.validate_line(line):
