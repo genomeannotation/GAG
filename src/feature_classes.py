@@ -318,6 +318,18 @@ class Gene:
             self.indices[0] = 1
         for mrna in self.mrnas:
             mrna.clean_up_indices()
+
+    def remove_empty_features(self):
+        empty_mrnas = []
+        for i in xrange(len(self.mrnas)):
+            if self.mrnas[i].indices[0] == 0:
+                empty_mrnas.append(i)
+        for j in reversed(empty_mrnas):
+            self.mrnas.pop(j)
+        for mrna in self.mrnas:
+            mrna.remove_empty_features()
+        # TODO what if mrna.remove_empty leaves mrna with
+        # no features? do we want to trash it?
             
 
     def length_of_shortest_cds_segment(self):

@@ -520,7 +520,19 @@ class TestFeatureClasses(unittest.TestCase):
         mrna.remove_empty_features()
         self.assertFalse(mrna.cds)
         self.assertEquals(1, len(mrna.other_features))
-        
+
+        # try it on Gene
+        gene = Gene(seq_name="sctg_foo", source='maker', indices=[100, 200], strand='-', identifier='foo_gene', name='gene1')
+        junk_mrna = MRNA(identifier='junk', name='junk', indices=[0, 0], parent_id='foo_gene')
+        nice_mrna = Mock()
+        nice_ind = PropertyMock(return_value = [100, 200])
+        type(nice_mrna).indices = nice_ind
+        gene.add_mrna(junk_mrna)
+        gene.add_mrna(nice_mrna) 
+        self.assertEquals(2, len(gene.mrnas))
+        gene.remove_empty_features()
+        self.assertEquals(1, len(gene.mrnas))
+        nice_mrna.remove_empty_features.assert_called_with()
 
 
         
