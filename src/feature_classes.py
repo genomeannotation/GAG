@@ -79,14 +79,14 @@ class GenePart:
         self.indices = [adjust_index_pair(pair, n) for pair in self.indices]
 
     def trim_end(self, endindex):
-        segs_to_cut = []
         for i, index_pair in enumerate(self.indices):
             if index_pair[0] > endindex:
-                segs_to_cut.append(i)
+                # entire segment is past cutoff;
+                # mark for removal
+                self.indices[i][0] = 0
+                self.indices[i][1] = 0
             elif index_pair[1] > endindex:
                 self.indices[i][1] = endindex
-        for i in reversed(segs_to_cut):
-            self.remove_segment(i)
 
     def length_of_shortest_segment(self):
         if len(self.indices) == 0:
@@ -173,15 +173,8 @@ class MRNA:
 
     def trim_end(self, endindex):
         if self.indices[0] > endindex:
-            print "foo"
-            self.identifier = None
-            self.name = None
-            self.indices = None
-            self.parent_id = None
-            self.exon = None
-            self.cds = None
-            self.other_features = None
-            # TODO write RIP message to stderr?
+            self.indices[0] = 0
+            self.indices[1] = 0
         elif self.indices[1] > endindex:
             self.indices[1] = endindex
             if self.cds:
@@ -256,14 +249,8 @@ class Gene:
 
     def trim_end(self, endindex):
         if self.indices[0] > endindex:
-            self.seq_name = None
-            self.source = None
-            self.indices = None 
-            self.score = None
-            self.strand = None 
-            self.identifier = None 
-            self.name = None 
-            self.mrnas = None
+            self.indices[0] = 0
+            self.indices[1] = 0
         elif self.indices[1] > endindex:
             self.indices[1] = endindex
             for mrna in self.mrnas:

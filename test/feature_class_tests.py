@@ -351,65 +351,32 @@ class TestFeatureClasses(unittest.TestCase):
         cds.add_name('cds3')
         cds.add_indices([100, 175])
         cds.add_indices([200, 250])
-        # CDS has 3 segments
-        self.assertEquals(3, len(cds.indices))
-        self.assertEquals(3, len(cds.name))
-        self.assertEquals(3, len(cds.identifier))
-        cds.remove_segment(2)
-        # should now have 2 segments
-        self.assertEquals(2, len(cds.indices))
-        self.assertEquals(2, len(cds.name))
-        self.assertEquals(2, len(cds.identifier))
-
-        # test CDS.trim_end
-        # (same idea for exon)
         cds.trim_end(150)
-        # should keep both segments of cds
-        self.assertEquals(2, len(cds.indices))
-        self.assertEquals(2, len(cds.name))
-        # and second segment's end index should be 230
+        self.assertEquals(0, cds.indices[2][0])
+        self.assertEquals(0, cds.indices[2][1])
         self.assertEquals(150, cds.indices[1][1])
-        # now trim entire segment ...
         cds.trim_end(90)
-        self.assertEquals(1, len(cds.indices))
-        self.assertEquals(1, len(cds.name))
-        # verify that all is okay if we trim off multiple segments
-        cds.add_identifier('foo_CDS2')
-        cds.add_identifier('foo_CDS3')
-        cds.add_name('cds2')
-        cds.add_name('cds3')
-        cds.add_indices([100, 175])
-        cds.add_indices([200, 250])
-        self.assertEquals(3, len(cds.indices))
-        self.assertEquals(3, len(cds.identifier))
-        cds.trim_end(50)
-        self.assertEquals(1, len(cds.indices))
-        self.assertEquals(1, len(cds.name))
-        self.assertEquals(50, cds.indices[0][1])
-        self.assertEquals(40, cds.indices[0][0])
+        self.assertEquals(0, cds.indices[1][0])
+        self.assertEquals(0, cds.indices[1][1])
+        self.assertEquals(75, cds.indices[0][1]) #unchanged
 
         # test GenePart.trim_end for one-segment feature
         stop_codon = GenePart(feature_type='stop_codon', identifier='foo_stop', name='stop1', indices=[20, 22], parent_id='foo_mrna')
-        self.assertEquals(1, len(stop_codon.indices))
         self.assertEquals(22, stop_codon.indices[0][1])
         stop_codon.trim_end(21)
-        self.assertEquals(1, len(stop_codon.indices))
         self.assertEquals(21, stop_codon.indices[0][1])
         stop_codon.trim_end(10)
-        self.assertEquals(0, len(stop_codon.indices))
-        self.assertEquals(0, len(stop_codon.identifier))
+        self.assertEquals(0, stop_codon.indices[0][0])
+        self.assertEquals(0, stop_codon.indices[0][0])
 
         # now do the same for mRNA
         mrna = MRNA(identifier='foo_mrna', name='mrna1', indices=[100, 200], parent_id='gene1')
         mrna.trim_end(150)
+        self.assertEquals(100, mrna.indices[0])
         self.assertEquals(150, mrna.indices[1])
-        # now trim it into oblivion
-        self.assertTrue(mrna.name)
-        self.assertTrue(mrna.indices)
         mrna.trim_end(50)
-        print(mrna.name)
-        self.assertFalse(mrna.name)
-        self.assertFalse(mrna.indices)
+        self.assertEquals(0, mrna.indices[0])
+        self.assertEquals(0, mrna.indices[1])
        
          # verify recursive call on child features
         mrna2 = MRNA(identifier='foo_mrna', name='mrna1', indices=[100, 200], parent_id='gene1')
@@ -422,11 +389,11 @@ class TestFeatureClasses(unittest.TestCase):
         # ... and for Gene
         gene = Gene(seq_name="sctg_foo", source='maker', indices=[100, 200], strand='-', identifier='foo_gene', name='gene1')
         gene.trim_end(150)
+        self.assertEquals(100, gene.indices[0])
         self.assertEquals(150, gene.indices[1])
-        # now trim it into oblivion
         gene.trim_end(50)
-        self.assertFalse(gene.indices)
-        self.assertFalse(gene.identifier)
+        self.assertEquals(0, gene.indices[0])
+        self.assertEquals(0, gene.indices[1])
         
         # verify recursive call on child mrnas
         gene2 = Gene(seq_name="sctg_foo", source='maker', indices=[100, 200], strand='-', identifier='foo_gene', name='gene1')
