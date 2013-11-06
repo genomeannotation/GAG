@@ -325,8 +325,6 @@ class TestFeatureClasses(unittest.TestCase):
         test_gene1.adjust_indices(-16)
         fake_mrna1.adjust_indices.assert_called_with(-16)
         self.assertEquals(3734, test_gene1.indices[0])
-        # error check
-        self.assertRaises(IndexError, test_gene1.adjust_indices, -4000)
 
         self.assertEquals(test_gene1.collidesRange(3500, 3800), True)
         self.assertEquals(test_gene1.collidesRange(3500, 3600), False)
@@ -434,6 +432,13 @@ class TestFeatureClasses(unittest.TestCase):
         cds1.adjust_phase()
         self.assertEquals([1, 10], cds1.indices[0])
 
+        # test on MRNA
+        mrna = MRNA(identifier='foo', name='foo', indices=[1, 100], parent_id='bar')
+        fake_cds = Mock()
+        mrna.set_cds(fake_cds)
+        mrna.adjust_phase()
+        fake_cds.adjust_phase.assert_called_with()
+
     def test_clean_up_indices(self):
         # test on a GenePart...
         nice_cds = CDS(identifier='foo', name='foo', indices=[-5, 28], phase=1, parent_id='bar')
@@ -534,6 +539,31 @@ class TestFeatureClasses(unittest.TestCase):
         self.assertEquals(1, len(gene.mrnas))
         nice_mrna.remove_empty_features.assert_called_with()
 
+    def test_trim(self):
+        gene = Gene(seq_name='sctg_foo', source='maker', indices=[100, 200], strand='-', identifier='foo_gene', name='gene1')
+        nice_mrna = Mock()
+        bad_mrna = Mock()
+        nice_ind = PropertyMock(return_value = [100, 200])
+        bad_ind = PropertyMock(return_value = [0, 0])
+        type(nice_mrna).indices = nice_ind
+        type(bad_mrna).indices = bad_ind
+        gene.add_mrna(nice_mrna)
+        gene.add_mrna(bad_mrna)
+        bed_indices = [120, 180]
+        self.assertEquals(2, len(gene.mrnas))
+        gene.trim(bed_indices)
+        self.assertEquals(1, len(gene.mrnas))
+        self.assertEquals(1, gene.indices[0])
+        self.assertEquals(61, gene.indices[1])
+        nice_mrna.trim_end.assert_called_with(180)
+        bad_mrna.trim_end.assert_called_with(180)
+        nice_mrna.adjust_indices.assert_called_with(-119)
+        bad_mrna.adjust_indices.assert_called_with(-119)
+        nice_mrna.adjust_phase.assert_called_with()
+        bad_mrna.adjust_phase.assert_called_with()
+        nice_mrna.clean_up_indices.assert_called_with()
+        bad_mrna.clean_up_indices.assert_called_with()
+        nice_mrna.remove_empty_features.assert_called_with()
 
         
         

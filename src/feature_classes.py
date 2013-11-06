@@ -192,6 +192,10 @@ class MRNA:
         for feature in self.other_features:
             feature.adjust_indices(n)
 
+    def adjust_phase(self):
+        if self.cds:
+            self.cds.adjust_phase()
+
     def clean_up_indices(self):
         if self.indices[1] < 1:
             self.indices[0] = 0
@@ -304,6 +308,8 @@ class Gene:
         elif self.indices[1] > endindex:
             self.indices[1] = endindex
             for mrna in self.mrnas:
+                print str(mrna)
+                print str(endindex)
                 mrna.trim_end(endindex)
 
     # beginindex is the new start index of sequence
@@ -348,12 +354,18 @@ class Gene:
         return False
 
     def adjust_indices(self, n):
-        if n < 0 and math.fabs(n) > self.indices[0]:
-            raise IndexError()
-        else:
-            self.indices = [i + n for i in self.indices]
-            for mrna in self.mrnas:
-                mrna.adjust_indices(n) 
+        self.indices = [i + n for i in self.indices]
+        for mrna in self.mrnas:
+            mrna.adjust_indices(n) 
+
+    def trim(self, new_indices):
+        self.trim_end(new_indices[1])
+        self.trim_begin(new_indices[0])
+        for mrna in self.mrnas:
+            print str(mrna)
+            mrna.adjust_phase()
+        self.clean_up_indices()
+        self.remove_empty_features()
 
     def to_gff(self):
         result = self.seq_name + "\t" + self.source + "\t"
