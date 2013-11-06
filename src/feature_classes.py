@@ -75,6 +75,14 @@ class GenePart:
         if len(self.score) > segindex:
             self.score.pop(segindex)
 
+    def remove_trimmed_segments(self):
+        segs_to_trim = []
+        for i in xrange(len(self.indices)):
+            if self.indices[i][0] == 0:
+                segs_to_trim.append(i)
+        for j in reversed(segs_to_trim):
+            self.remove_segment(j)
+
     def adjust_indices(self, n):
         self.indices = [adjust_index_pair(pair, n) for pair in self.indices]
 
@@ -209,6 +217,22 @@ class MRNA:
                 self.exon.trim_end(endindex)
             for feat in self.other_features:
                 feat.trim_end(endindex)
+
+    def remove_empty_features(self):
+        if self.cds:
+            ind = self.cds.indices
+            if len(ind) == 0:
+                self.cds = None
+        if self.exon:
+            if len(self.exon.indices) == 0:
+                self.exon = None
+        empty_features = []
+        for i, feat in enumerate(self.other_features):
+            if len(feat.indices) == 0:
+                empty_features.append(i)
+        for j in reversed(empty_features):
+            self.other_features.pop(i)
+
 
     def set_exon(self, exon):
         self.exon = exon

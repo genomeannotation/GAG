@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import unittest
-from mock import Mock
+from mock import Mock, PropertyMock
 from src.feature_classes import GenePart, CDS, Exon, MRNA, Gene
 
 class TestFeatureClasses(unittest.TestCase):
@@ -481,7 +481,46 @@ class TestFeatureClasses(unittest.TestCase):
         mrna1.clean_up_indices.assert_called_with()
         mrna2.clean_up_indices.assert_called_with()
         
+    def test_remove_trimmed_segments(self):
+        exon = Exon(identifier='foo', name='foo', indices=[0, 0], parent_id='foo')
+        exon.add_identifier('foo2')
+        exon.add_name('foo2')
+        exon.add_indices([22, 100])
+        self.assertEquals(2, len(exon.identifier))
+        self.assertEquals(2, len(exon.indices))
+        exon.remove_trimmed_segments()
+        self.assertEquals(1, len(exon.name))
+        self.assertEquals(1, len(exon.indices))
+        # verify that it will remove all segments if appropriate
+        exon.indices[0] = [0, 0]
+        exon.remove_trimmed_segments()
+        self.assertEquals(0, len(exon.indices))
+        self.assertEquals(0, len(exon.identifier))
 
+    def test_remove_empty_features(self):
+        mrna = MRNA(identifier='foo', name='foo', indices=[20, 50], parent_id='foo') 
+        nice_exon = Mock()
+        empty_cds = Mock() 
+        empty_stop_codon = Mock()
+        nice_utr = Mock()
+        mrna.set_exon(nice_exon)
+        mrna.set_cds(empty_cds)
+        mrna.add_other_feature(empty_stop_codon)
+        mrna.add_other_feature(nice_utr)
+        nice1 = PropertyMock(return_value = [10, 50])
+        nice2 = PropertyMock(return_value = [1, 9])
+        type(nice_exon).indices = nice1
+        type(nice_utr).indices = nice2
+        empty = PropertyMock(return_value=[])
+        type(empty_cds).indices = empty
+        type(empty_stop_codon).indices = empty
+        self.assertEquals(2, len(mrna.other_features))
+        self.assertTrue(mrna.cds)
+        self.assertTrue(mrna.exon)
+        mrna.remove_empty_features()
+        self.assertFalse(mrna.cds)
+        self.assertEquals(1, len(mrna.other_features))
+        
 
 
         
