@@ -3,6 +3,10 @@
 import sys
 from feature_classes import GenePart, CDS, Exon, MRNA, Gene
 
+# TODO apply_bed(bed) -- calls gene.trim(bed.get_coords) for all genes
+# where bed.contains(gene.seq_id)
+# damn i just about wrote it already...
+
 class GFF:
 
     def __init__(self):
