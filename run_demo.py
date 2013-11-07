@@ -24,5 +24,18 @@ with open(bed_filename, 'rb') as bedfile:
     bedreader = csv.reader(bedfile, delimiter='\t')
     bed.read_file(bedreader)
 
+
+print("here is the gff I read...")
 for gene in gff.genes:
-    print str(gene)
+    print(gene.to_gff())
+
+print("\n")
+print("here is the bed...")
+print(str(bed))
+
+gff.apply_bed(bed)
+
+print("\n")
+print("and here is the gff after applying changes")
+for gene in gff.genes:
+    print(gene.to_gff())

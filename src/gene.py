@@ -93,12 +93,16 @@ class Gene:
             mrna.adjust_indices(n) 
 
     def trim(self, new_indices):
-        self.trim_end(new_indices[1])
-        self.trim_begin(new_indices[0])
-        for mrna in self.mrnas:
-            mrna.adjust_phase()
-        self.clean_up_indices()
-        self.remove_invalid_features()
+        if new_indices == [0, 0]:
+            self.mrnas = []
+            self.indices = [0, 0]
+        else:
+            self.trim_end(new_indices[1])
+            self.trim_begin(new_indices[0])
+            for mrna in self.mrnas:
+                mrna.adjust_phase()
+            self.clean_up_indices()
+            self.remove_invalid_features()
 
     def to_gff(self):
         result = self.seq_name + "\t" + self.source + "\t"

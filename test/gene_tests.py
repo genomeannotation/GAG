@@ -154,6 +154,13 @@ class TestGene(unittest.TestCase):
         # verify bad_mrna was removed
         self.assertEquals(1, len(gene.mrnas))
 
+        # if indices=[0, 0] then remove all features
+        # and mark gene for removal
+        self.assertEquals(2, len(self.test_gene1.mrnas))
+        self.test_gene1.trim([0, 0])
+        self.assertEquals(0, len(self.test_gene1.mrnas))
+        self.assertEquals([0, 0], self.test_gene1.indices)
+
         
         
 
