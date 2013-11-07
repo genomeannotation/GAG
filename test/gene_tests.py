@@ -20,6 +20,11 @@ class TestGene(unittest.TestCase):
     def test_constructor(self):
         self.assertEqual('Gene', self.test_gene0.__class__.__name__)
 
+    def test_is_empty(self):
+        self.assertFalse(self.test_gene0.is_empty())
+        self.test_gene0.indices = [0, 0]
+        self.assertTrue(self.test_gene0.is_empty())
+
     def test_length(self):
         self.assertEqual(3703, self.test_gene0.length())
 

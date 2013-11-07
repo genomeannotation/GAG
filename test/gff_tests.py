@@ -208,6 +208,17 @@ class TestGFF(unittest.TestCase):
         assert not gene2.trim.called
         gene1.trim.assert_called_with([100, 500])
 
+    def test_remove_empty_genes(self):
+        nonempty_gene = Mock()
+        nonempty_gene.is_empty.return_value = False
+        empty_gene = Mock()
+        empty_gene.is_empty.return_value = True
+        self.test_gff1.genes.append(nonempty_gene)
+        self.test_gff1.genes.append(empty_gene)
+        self.assertEquals(2, len(self.test_gff1.genes))
+        self.test_gff1.remove_empty_genes()
+        self.assertEquals(1, len(self.test_gff1.genes))
+
         
          
 

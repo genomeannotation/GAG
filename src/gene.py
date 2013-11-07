@@ -6,6 +6,9 @@ import sys
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
 
+def trimmed_completely(gene_inds, seq_inds):
+    return seq_inds == [0,0] or gene_inds[0] > seq_inds[1] or gene_inds[1] < seq_inds[0]
+
 class Gene:
 
     def __init__(self, seq_name, source, indices, strand, identifier, name, score=None):
@@ -24,6 +27,9 @@ class Gene:
         result += ") containing " + str(len(self.mrnas))
         result += " mrnas"
         return result
+
+    def is_empty(self):
+        return self.indices == [0, 0]
 
     def length(self):
         return length_of_segment(self.indices)
@@ -93,7 +99,7 @@ class Gene:
             mrna.adjust_indices(n) 
 
     def trim(self, new_indices):
-        if new_indices == [0, 0]:
+        if trimmed_completely(self.indices, new_indices):
             self.mrnas = []
             self.indices = [0, 0]
         else:

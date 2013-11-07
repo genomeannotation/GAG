@@ -195,6 +195,14 @@ class GFF:
             if bed.contains(gene.seq_name):
                 coords = bed.get_coordinates(gene.seq_name)
                 gene.trim(coords)
+
+    def remove_empty_genes(self):
+        empties = []
+        for i in xrange(len(self.genes)):
+            if self.genes[i].is_empty():
+                empties.append(i)
+        for j in reversed(empties):
+            self.genes.pop(j)
                     
 
 
