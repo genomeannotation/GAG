@@ -21,14 +21,17 @@ class TestGFF(unittest.TestCase):
         self.test_feature_line = ['sctg_0080_0020', 'maker', 'five_prime_UTR', '460', '627', '.', '-', '.', 'ID=234.1;Name=BDOR_007863.1-RA:UTR1;Parent=173.1']
         self.test_mrna_line1 = ['sctg_0080_0020', 'maker', 'mRNA', '460', '12713', '.', '-', '.', 'ID=173.1;Name=BDOR_007863.1-RA;Parent=172.1']
 
-    def test_gff(self):
-        # test constructor
+    def test_constructor(self):
         self.assertEqual('GFF', self.test_gff1.__class__.__name__)
         self.assertEqual(0, len(self.test_gff1.genes))
         self.assertFalse(self.test_gff1.current_gene)
         self.assertFalse(self.test_gff1.current_mrna)
         self.assertFalse(self.test_gff1.current_exon)
         self.assertFalse(self.test_gff1.current_cds)
+
+    def test_str(self):
+        expected = "GFF containing 0 genes"
+        self.assertEquals(expected, str(self.test_gff1))
 
     def test_validate_line(self):
         bad_line1 = ['sctg_x', 'maker']

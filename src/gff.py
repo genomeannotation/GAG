@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 import sys
-from feature_classes import GenePart, CDS, Exon, MRNA, Gene
+from gene_part import GenePart, CDS, Exon
+from mrna import MRNA
+from gene import Gene
 
 # TODO apply_bed(bed) -- calls gene.trim(bed.get_coords) for all genes
 # where bed.contains(gene.seq_id)
@@ -15,6 +17,12 @@ class GFF:
         self.current_mrna = None
         self.current_exon = None
         self.current_cds = None
+
+    def __str__(self):
+        result = "GFF containing "
+        result += str(len(self.genes))
+        result += " genes"
+        return result
 
     def validate_line(self, line):
         if len(line) is not 9:

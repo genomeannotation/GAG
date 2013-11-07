@@ -2,7 +2,9 @@
 
 import unittest
 from mock import Mock, PropertyMock
-from src.feature_classes import GenePart, CDS, Exon, MRNA, Gene
+from src.gene_part import GenePart, CDS, Exon
+from src.mrna import MRNA
+from src.gene import Gene
 
 class TestGene(unittest.TestCase):
 
@@ -56,6 +58,11 @@ class TestGene(unittest.TestCase):
         expected += "fake mrna1 to gff here:)\n"
         expected += "fake mrna2 to gff here:)\n"
         self.assertEquals(expected, self.test_gene1.to_gff())
+
+    def test_str(self):
+        expected = "Gene (ID=1, Name=BDOR_007864, seq_name=sctg_0080_0020) containing 2 mrnas"
+        self.assertEquals(expected, str(self.test_gene1))
+
 
     def test_trim_end(self):
         self.test_gene1.trim_end(7400)

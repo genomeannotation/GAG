@@ -21,6 +21,12 @@ class Bed:
         if entries is not None:
             self.entries.update(entries)
 
+    def __str__(self):
+        result = "Bed containing "
+        result += str(len(self.entries))
+        result += " entries"
+        return result
+
     def add_entry(self, key, val):
         if validate_entry(key, val):
             self.entries[key] = val

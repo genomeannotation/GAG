@@ -15,6 +15,10 @@ class TestBed(unittest.TestCase):
         test_vals1 = [1, 4307]
         self.test_bed1.add_entry(test_key1, test_vals1)
 
+    def test_str(self):
+        expected = "Bed containing 1 entries"
+        self.assertEquals(expected, str(self.test_bed1))
+
     def test_constructor(self):
         self.assertEqual('Bed', self.test_bed0.__class__.__name__)
         self.assertFalse(self.test_bed0.entries)
