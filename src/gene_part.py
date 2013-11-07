@@ -72,8 +72,6 @@ class GenePart:
         return False
 
     def remove_segment(self, segindex):
-        print "trying to remove segment " + str(segindex)
-        print " from " + str(self)
         try:
             self.identifier.pop(segindex)
             self.name.pop(segindex)
