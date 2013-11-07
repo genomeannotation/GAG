@@ -188,10 +188,10 @@ class TestGFF(unittest.TestCase):
         # build mock genes
         gene1 = Mock()
         seq1 = PropertyMock(return_value = 'sctg_1')
-        type(gene1).seq_id= seq1
+        type(gene1).seq_name= seq1
         gene2 = Mock()
         seq2 = PropertyMock(return_value = 'sctg_2')
-        type(gene2).seq_id= seq2
+        type(gene2).seq_name= seq2
         # add them to the gff
         self.test_gff1.genes.append(gene1)
         self.test_gff1.genes.append(gene2)

@@ -192,8 +192,8 @@ class GFF:
 
     def apply_bed(self, bed):
         for gene in self.genes:
-            if bed.contains(gene.seq_id):
-                coords = bed.get_coordinates(gene.seq_id)
+            if bed.contains(gene.seq_name):
+                coords = bed.get_coordinates(gene.seq_name)
                 gene.trim(coords)
                     
 
