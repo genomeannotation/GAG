@@ -54,7 +54,7 @@ sctg_4	maker	CDS	200	300	.	+	1	ID=33;Name=FOO_5-RA:cds:0;Parent=31
 sctg_5	maker	gene	200	700	.	+	.	ID=34;Name=FOO_6
 sctg_5	maker	mRNA	200	700	.	+	.	ID=35;Name=FOO_6-RA;Parent=34
 sctg_5	maker	exon	200	499	0.9	+	.	ID=36;Name=FOO_6-RA:exon:0;Parent=35
-sctg_5	maker	five_prime_UTR	200	499	.	+	.	ID=37;Name=FOO_6-RA:UTR1;Parent=35
+sctg_5	maker	three_prime_UTR	500	699	.	+	.	ID=37;Name=FOO_6-RA:UTR1;Parent=35
 sctg_5	maker	mRNA	500	700	.	+	.	ID=38;Name=FOO_6-RB;Parent=34
 sctg_5	maker	exon	500	700	0.9	+	.	ID=39;Name=FOO_6-RB:exon:0;Parent=38
 

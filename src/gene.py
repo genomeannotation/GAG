@@ -74,9 +74,6 @@ class Gene:
             self.mrnas.pop(j)
         for mrna in self.mrnas:
             mrna.remove_invalid_features()
-        # TODO what if mrna.remove_empty leaves mrna with
-        # no features? do we want to trash it?
-            
 
     def length_of_shortest_cds_segment(self):
         min_length = self.mrnas[0].length_of_shortest_cds_segment()

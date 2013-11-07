@@ -24,10 +24,9 @@ class MRNA:
             result += "Exon, "
         if self.cds:
             result += "CDS "
-        if self.exon or self.cds:
-            result += "and "
         if len(self.other_features) > 0:
-            result += str(len(self.other_features)) + " other features"
+            result += "and " + str(len(self.other_features)) 
+            result += " other features"
         return result
 
     def length(self):
@@ -73,6 +72,7 @@ class MRNA:
                 feat.trim_end(endindex)
 
     def remove_invalid_features(self):
+        print("before: "+str(self))
         if self.cds:
             self.cds.remove_trimmed_segments()
             ind = self.cds.indices
@@ -84,14 +84,20 @@ class MRNA:
                 self.exon = None
         invalid_features = []
         for i, feat in enumerate(self.other_features):
+            print("lookin at "+str(feat))
             self.other_features[i].remove_trimmed_segments()
             if len(feat.indices) == 0:
+                print("in if")
                 invalid_features.append(i)
-            elif feat.feature_type == 'start_codon' or 'stop_codon':
+            elif feat.feature_type == 'start_codon' or feat.feature_type == 'stop_codon':
+                print("in elif")
                 if not feat.valid_codon():
+                    print("in if not")
                     invalid_features.append(i)
+        print("inval feats: "+str(invalid_features))
         for j in reversed(invalid_features):
             self.other_features.pop(j)
+        print("after: "+str(self))
 
 
     def set_exon(self, exon):
