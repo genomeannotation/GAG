@@ -57,6 +57,8 @@ class GFF:
                 result['parent_id'] = split_attr[2].split('=')[1]
             except IndexError:
                 sys.stderr.write('error trying to parse "' + attr + '"\n')
+                if self.current_gene:
+                    sys.stderr.write('occurred at ' + str(self.current_gene))
                 return None
         return result
         
@@ -187,6 +189,12 @@ class GFF:
                 if self.validate_line(line):
                     self.process_line(line)
         self.wrap_up_gene()
+
+    def apply_bed(self, bed):
+        for gene in self.genes:
+            if bed.contains(gene.seq_id):
+                coords = bed.get_coordinates(gene.seq_id)
+                gene.trim(coords)
                     
 
 
