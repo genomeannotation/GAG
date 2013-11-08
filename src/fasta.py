@@ -7,7 +7,7 @@ class Fasta:
     def __init__(self):
         self.entries = list()
 
-    def readString(self, data):
+    def read_string(self, data):
         seq_id = ''
         seq = ''
         for line in data.split('\n'):
@@ -23,7 +23,7 @@ class Fasta:
         # Add the last sequence
         self.entries.append([seq_id, seq])
 
-    def writeString(self):
+    def write_string(self):
         s = str()
         i = 0
         for entry in self.entries:
@@ -33,7 +33,7 @@ class Fasta:
             i += 1
         return s
 
-    def readFile(self, fileName):
+    def read_file(self, fileName):
         with open(fileName, 'r') as f:
             seq_id = ''
             seq = ''
@@ -51,7 +51,7 @@ class Fasta:
             self.entries.append([seq_id, seq])
 
     # i think this does the inverse of what we need?
-    def trimSeq(self, seq_id, start, stop):
+    def trim_seq(self, seq_id, start, stop):
         for i, entry in enumerate(self.entries):
             if entry[0] == seq_id:
                 if len(entry[1]) <= stop-(start-1):
