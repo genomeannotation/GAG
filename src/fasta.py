@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from bed import Bed
+
 class Fasta:
 
     def __init__(self):
@@ -48,6 +50,7 @@ class Fasta:
             # Add the last sequence
             self.entries.append([seq_id, seq])
 
+    # i think this does the inverse of what we need?
     def trimSeq(self, seq_id, start, stop):
         for i, entry in enumerate(self.entries):
             if entry[0] == seq_id:
@@ -55,8 +58,11 @@ class Fasta:
                     self.entries.pop(i)
                 else:
                     self.entries[i][1] = entry[1][:start-1] + entry[1][stop:]
-                return
-		
-		
 
-		
+    def apply_bed(self, bed):
+        for seq in self.entries:
+            print(seq[0])
+            if bed.contains(seq[0]):
+                coords = bed.get_coordinates(seq[0])
+                print str(coords)
+                seq[1] = seq[1][coords[0]-1:coords[1]]
