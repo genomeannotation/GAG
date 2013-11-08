@@ -65,6 +65,8 @@ class Fasta:
                 coords = bed.get_coordinates(seq[0])
                 if coords == [0, 0]:
                     seqs_to_remove.append(i)
-                seq[1] = seq[1][coords[0]-1:coords[1]]
-        for j in reversed(seqs_to_remove):
-            self.entries.pop(j)
+                    seq[1] = coords
+                else:
+                    seq[1] = seq[1][coords[0]-1:coords[1]]
+        # remove entries with coords = [0, 0]
+        self.entries = [e for e in self.entries if e[1] != [0, 0]] 

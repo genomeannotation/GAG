@@ -197,14 +197,4 @@ class GFF:
                 gene.trim(coords)
 
     def remove_empty_genes(self):
-        empties = []
-        for i in xrange(len(self.genes)):
-            if self.genes[i].is_empty():
-                empties.append(i)
-        for j in reversed(empties):
-            self.genes.pop(j)
-                    
-
-
-
-
+        self.genes = [g for g in self.genes if not g.is_empty()]

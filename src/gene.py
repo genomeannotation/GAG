@@ -66,12 +66,8 @@ class Gene:
             mrna.clean_up_indices()
 
     def remove_invalid_features(self):
-        empty_mrnas = []
-        for i in xrange(len(self.mrnas)):
-            if self.mrnas[i].indices[0] == 0:
-                empty_mrnas.append(i)
-        for j in reversed(empty_mrnas):
-            self.mrnas.pop(j)
+        # remove mrnas with indices[0] == 0
+        self.mrnas = [m for m in self.mrnas if m.indices[0] != 0]
         for mrna in self.mrnas:
             mrna.remove_invalid_features()
 
