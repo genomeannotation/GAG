@@ -42,11 +42,10 @@ class Fasta:
                     if len(seq_id) > 0:
                         # Save the data
                         self.entries.append([seq_id, seq])
-                
-                seq_id = line[1:].strip().split()[0] # Get the next seq_id
-                seq = ''
-            else:
-                seq += line.strip()
+                    seq_id = line[1:].strip().split()[0] # Get the next seq_id
+                    seq = ''
+                else:
+                    seq += line.strip()
             # Add the last sequence
             self.entries.append([seq_id, seq])
 

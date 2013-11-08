@@ -33,6 +33,13 @@ class TestFasta(unittest.TestCase):
         self.fasta0.read_file("sample_files/no_line_breaks.fasta")
         self.assertEquals(2, len(self.fasta0.entries))
         self.assertEquals('seq_1', self.fasta0.entries[0][0])
+        self.assertEquals('GATTACAGATTACAGATTACAGATTACAGATTACAGATTACAGATTACAGATTACA', self.fasta0.entries[0][1])
+        self.assertEquals('seq_2', self.fasta0.entries[1][0])
+        self.assertEquals('NNNNNNNNGATTACAGATTACAGATTACANNNNNNNNNNN', self.fasta0.entries[1][1])
+        self.fasta0.read_file("sample_files/has_line_breaks.fasta")
+        self.assertEquals(4, len(self.fasta0.entries))
+        self.assertEquals(['seq_1', 'GATTACAGATTACAGATTACAGATTACAGATTACAGATTACAGATTACAGATTACA'], self.fasta0.entries[2])
+        self.assertEquals(['seq_2', 'NNNNNNNNGATTACAGATTACAGATTACANNNNNNNNNNN'], self.fasta0.entries[3])
 
     def test_apply_bed(self):
         bed = Bed({'seq1': [2,7], 'seq3': [2,6]})
