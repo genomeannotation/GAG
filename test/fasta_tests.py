@@ -45,10 +45,14 @@ class TestFasta(unittest.TestCase):
         bed = Bed({'seq1': [2,7], 'seq3': [2,6]})
         self.assertEquals('ATGCCGTA', self.fasta1.entries[0][1])
         self.assertEquals('GGGGGG', self.fasta1.entries[2][1])
-        print(bed.get_coordinates('seq1'))
         self.fasta1.apply_bed(bed)
         self.assertEquals('TGCCGT', self.fasta1.entries[0][1])
         self.assertEquals('GGGGG', self.fasta1.entries[2][1])
+        newbed = Bed({'seq3': [0, 0]})
+        self.assertEquals(3, len(self.fasta1.entries))
+        self.fasta1.apply_bed(newbed)
+        self.assertEquals(2, len(self.fasta1.entries))
+        
 
 
 ##########################

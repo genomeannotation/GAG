@@ -59,9 +59,12 @@ class Fasta:
                     self.entries[i][1] = entry[1][:start-1] + entry[1][stop:]
 
     def apply_bed(self, bed):
-        for seq in self.entries:
-            print(seq[0])
+        seqs_to_remove = []
+        for i, seq in enumerate(self.entries):
             if bed.contains(seq[0]):
                 coords = bed.get_coordinates(seq[0])
-                print str(coords)
+                if coords == [0, 0]:
+                    seqs_to_remove.append(i)
                 seq[1] = seq[1][coords[0]-1:coords[1]]
+        for j in reversed(seqs_to_remove):
+            self.entries.pop(j)
