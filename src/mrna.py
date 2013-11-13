@@ -2,6 +2,7 @@
 
 import math
 import sys
+from feature_tbl_entry import FeatureTblEntry
 
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
@@ -130,3 +131,28 @@ class MRNA:
         for other in self.other_features:
             result += other.to_gff(seq_name, source, strand)
         return result
+
+    def to_tbl_entries(self, strand):
+        entries = []
+
+        phase = 0
+        if self.cds != None:
+            phase = self.cds.get_phase(0)
+            cdsEntry = FeatureTblEntry()
+            cdsEntry.set_type("CDS")
+            for coord in self.cds.indices:
+                cdsEntry.add_coordinates(coord[0], coord[1])
+            cdsEntry.set_strand(strand)
+            cdsEntry.set_phase(phase)
+            entries.append(cdsEntry)
+
+        if self.exon != None:
+            exonEntry = FeatureTblEntry()
+            exonEntry.set_type("mRNA")
+            for coord in self.exon.indices:
+                exonEntry.add_coordinates(coord[0], coord[1])
+            exonEntry.set_strand(strand)
+            exonEntry.set_phase(phase)
+            entries.append(exonEntry)
+
+        return entries

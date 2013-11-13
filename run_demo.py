@@ -10,6 +10,7 @@ from src.mrna import MRNA
 from src.gene_part import GenePart, CDS, Exon
 from src.gff import GFF
 from src.bed import Bed
+from src.feature_tbl_entry import FeatureTblEntry
 
 gff_filename = "demo/demo.gff"
 bed_filename = "demo/demo.bed"
@@ -46,3 +47,9 @@ print(fasta.write_string())
 print("\nGFF:\n")
 for gene in gff.genes:
     sys.stdout.write(gene.to_gff())
+
+print("\n\n********TABLE WRITING\n*******************")
+for gene in gff.genes:
+    entries = gene.to_tbl_entries()
+    for entry in entries:    
+        print(entry.write_to_string())
