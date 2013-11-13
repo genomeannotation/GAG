@@ -11,10 +11,12 @@ from src.gene_part import GenePart, CDS, Exon
 from src.gff import GFF
 from src.bed import Bed
 from src.feature_tbl_entry import FeatureTblEntry
+from src.annotator import Annotator
 
 gff_filename = "demo/demo.gff"
 bed_filename = "demo/demo.bed"
 fasta_filename = "demo/demo.fasta"
+trinotate_filename = "demo/demo.trinotate"
 
 gff = GFF()
 bed = Bed()
@@ -49,7 +51,11 @@ for gene in gff.genes:
     sys.stdout.write(gene.to_gff())
 
 print("\n\n********TABLE WRITING\n*******************")
+annot = Annotator()
+annot.read_from_file(trinotate_filename)
 for gene in gff.genes:
     entries = gene.to_tbl_entries()
     for entry in entries:    
+        if entry.type == 'gene':
+            annot.annotate_gene(entry)
         print(entry.write_to_string())

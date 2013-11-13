@@ -8,6 +8,7 @@ class FeatureTblEntry:
     #TODO: Add parameters to constructor
     def __init__(self):
         self.type = ''
+        self.name = ''
         self.coords = []
         self.strand = '+'
         self.phase = 0 # Start codon of 1
@@ -17,6 +18,9 @@ class FeatureTblEntry:
 
     def set_type(self, newType):
         self.type = newType
+
+    def set_name(self, name):
+        self.name = name
 
     def add_coordinates(self, start, stop):
         if start >= stop:
@@ -51,6 +55,10 @@ class FeatureTblEntry:
 
     def add_annotation(self, key, value):
         self.annotations.append([key, value])
+
+    def add_annotations(self, annotations):
+        for annotation in annotations:
+            self.annotations.append(annotation)
 
     # Returns the summed length of each coordinate pair
     def get_total_length(self):

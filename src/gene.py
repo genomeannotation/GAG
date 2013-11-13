@@ -118,6 +118,7 @@ class Gene:
         entries = []
         geneEntry = FeatureTblEntry()
         geneEntry.set_type("gene")
+        geneEntry.set_name(self.name)
         geneEntry.add_coordinates(self.indices[0], self.indices[1])
         geneEntry.set_strand(self.strand)
         geneEntry.set_phase(0)
