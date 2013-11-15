@@ -122,6 +122,7 @@ class Gene:
         geneEntry.add_coordinates(self.indices[0], self.indices[1])
         geneEntry.set_strand(self.strand)
         geneEntry.set_phase(0)
+        geneEntry.set_partial_info(True, True) # Pretend there's a start and stop codon for genes
         entries.append(geneEntry)   
         for mrna in self.mrnas: 
             mrna_entries = mrna.to_tbl_entries(self.strand)

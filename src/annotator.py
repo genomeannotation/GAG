@@ -19,7 +19,7 @@ def parse_blast_hit_gene(blast_hit):
 # Takes blast hit and returns it as a list of key value pairs
 def parse_blast_hit_cds(blast_hit):
     if len(blast_hit) == 0 or blast_hit == '.':
-        return 'product=hypothetical protein'
+        return [['product', 'hypothetical protein']]
 
     attributes = []
     parts = blast_hit.split('`')
@@ -66,8 +66,34 @@ class Annotator:
                 self.entries.append(line.split('\t'))
 
     def annotate_gene(self, gene):
+        gene.add_annotation('locus_tag', gene.name)
         for entry in self.entries:
             if entry[2][:-3] == gene.name: # Chop off the -RA stuff
                 gene.add_annotations(parse_blast_hit_gene(entry[3]))
                 return
+
+    def annotate_cds(self, cds):
+        split_prot_id = cds.name.split('_')
+        cds.add_annotation('protein_id', 'gnl|PBARC|'+cds.name)
+        cds.add_annotation('transcript_id', 'gnl|PBARC|'+split_prot_id[0]+'_mrna'+split_prot_id[1])
+
+        for entry in self.entries:
+            if entry[2] == cds.name:
+                cds.add_annotations(parse_blast_hit_cds(entry[3]))
+                cds.add_annotations(parse_gene_ontology(entry[8]))
+                return
+
+        cds.add_annotation('product', 'hypothetical protein')
+
+    def annotate_mrna(self, mrna):
+        split_prot_id = mrna.name.split('_')                
+        mrna.add_annotation('protein_id', 'gnl|PBARC|'+mrna.name)
+        mrna.add_annotation('transcript_id', 'gnl|PBARC|'+split_prot_id[0]+'_mrna'+split_prot_id[1])
+
+        for entry in self.entries:
+            if entry[2] == mrna.name:
+                mrna.add_annotations(parse_blast_hit_cds(entry[3]))
+                return
+
+        mrna.add_annotation('product', 'hypothetical protein')
 

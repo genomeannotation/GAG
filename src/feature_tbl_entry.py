@@ -24,7 +24,7 @@ class FeatureTblEntry:
 
     def add_coordinates(self, start, stop):
         if start >= stop:
-            print("Warning: feature start >= stop; skipping...")
+            print("Warning: Entry "+self.name+": start >= stop; skipping coordinate")
         else:
             self.coords.append([start, stop])
 
@@ -71,7 +71,7 @@ class FeatureTblEntry:
         entry = ''
 
         if len(self.coords) == 0:
-            print("Warning -- Removing sequence with no coordinates")
+            print("Warning: Entry "+self.name+": No coordinates; skipping entry")
             return entry
 
         fixedCoords = copy.deepcopy(self.coords) # Make a deep copy of our list of coordinates so we don't mess with the original data
@@ -108,7 +108,10 @@ class FeatureTblEntry:
                 entry += '\t\t\tcodon_start\t1\n'
 
         for annot in self.annotations:
-            entry += '\t\t\t'+annot[0]+'\t'+annot[1]+'\n'
+            if len(annot) == 2:
+                entry += '\t\t\t'+annot[0]+'\t'+annot[1]+'\n'
+            else:
+                print("ERROR: Invalid annotation on "+self.name+": "+annot)
 
         return entry
         
