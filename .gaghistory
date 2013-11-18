@@ -1,0 +1,5 @@
+readgff real_files/real_output.gff
+readfasta real_files/454ScaffoldContigs.fna
+readtrinotate real_files/maker.xls
+barfgenetbl BDOR_000010.1
+exit

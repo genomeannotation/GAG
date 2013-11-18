@@ -149,7 +149,7 @@ class MRNA:
             phase = self.cds.get_phase(0)
             cdsEntry = FeatureTblEntry()
             cdsEntry.set_type("CDS")
-            cdsEntry.set_name(self.cds.name[0].split(':')[0])
+            cdsEntry.set_name(self.name)
             for coord in self.cds.indices:
                 cdsEntry.add_coordinates(coord[0], coord[1])
             cdsEntry.set_strand(strand)
@@ -160,7 +160,7 @@ class MRNA:
         if self.exon != None:
             exonEntry = FeatureTblEntry()
             exonEntry.set_type("mRNA")
-            exonEntry.set_name(self.exon.name[0].split(':')[0])
+            exonEntry.set_name(self.name)
             for coord in self.exon.indices:
                 exonEntry.add_coordinates(coord[0], coord[1])
             exonEntry.set_strand(strand)
