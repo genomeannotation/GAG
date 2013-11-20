@@ -99,6 +99,37 @@ class GagCmd(cmd.Cmd):
                     outFile.write(entry.write_to_string()+'\n')
         outFile.close()
 
+    def do_barfsession(self, line):
+        if len(line) == 0:
+            print("Usage: barfsession <directory>\n")
+            return
+
+        os.system('mkdir '+line)
+        
+        # Write the gff
+        with open(line+'/gag.gff', 'w') as gff:
+            for gene in self.gff.genes:
+                gff.write(gene.to_gff())
+            gff.close()
+
+        # Write the fasta
+        with open(line+'/gag.fasta', 'w') as fasta:
+            fasta.write(self.fasta.write_string())
+            fasta.close()
+
+        # Write the annotations
+        self.annot.write_to_file(line+'/gag.trinotate')
+
+    def do_loadsession(self, line):
+        # Read the gff
+        self.do_readgff(line+'/gag.gff')
+
+        # Read the fasta
+        self.do_readfasta(line+'/gag.fasta')
+
+        # Read the annotations
+        self.do_readtrinotate(line+'/gag.trinotate')
+
     def do_barfgenegff(self, line):
         for gene in self.gff.genes:
             if gene.name == line:

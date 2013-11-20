@@ -58,12 +58,19 @@ class Annotator:
         self.entries = []
 
     def read_from_file(self, filename):
-        with open(filename, "r") as f:
+        with open(filename, 'r') as f:
             for line in f:
                 if line[0] == '#':
                     continue
 
                 self.entries.append(line.split('\t'))
+            f.close()
+
+    def write_to_file(self, filename):
+        with open(filename, 'w') as f:
+            for entry in self.entries:
+                f.write('\t'.join(entry)+'\n')
+            f.close()
 
     def annotate_gene(self, gene):
         gene.add_annotation('locus_tag', gene.name)
