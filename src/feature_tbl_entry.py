@@ -15,12 +15,22 @@ class FeatureTblEntry:
         self.has_start = False
         self.has_stop = False
         self.annotations = []
+        self.errors = [] # errors associated with this entry
 
     def set_type(self, newType):
         self.type = newType
 
     def set_name(self, name):
         self.name = name
+
+    def add_error(self, error):
+        self.errors.append(error)
+
+    def has_error(self, error):
+        for err in errors:
+            if err == error:
+                return True
+        return False
 
     def add_coordinates(self, start, stop):
         if start >= stop:

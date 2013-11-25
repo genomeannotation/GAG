@@ -13,6 +13,7 @@ from src.gene_part import GenePart, CDS, Exon
 from src.gff import GFF
 from src.bed import Bed
 from src.feature_tbl_entry import FeatureTblEntry
+from src.feature_tbl import FeatureTbl
 from src.annotator import Annotator
 
 class GagCmd(cmd.Cmd):
@@ -23,6 +24,8 @@ class GagCmd(cmd.Cmd):
 
         readline.set_history_length(1000)
         readline.read_history_file('.gaghistory')
+
+        self.feature_tbl = FeatureTbl()
                 
 
     def precmd(self, line):
@@ -35,10 +38,10 @@ class GagCmd(cmd.Cmd):
         print("to the currently loaded gff will be lost.\n")
 
     def do_readgff(self, line):
-        self.gff = GFF()
+        self.feature_tbl.gff = GFF()
         with open(line, 'rb') as gfffile:
             gffreader = csv.reader(gfffile, delimiter='\t')
-            self.gff.read_file(gffreader)
+            self.feature_tbl.gff.read_file(gffreader)
 
     def help_readfasta(self):
         print("Usage: readfasta <file_name>\n")
@@ -46,16 +49,16 @@ class GagCmd(cmd.Cmd):
         print("to the currently loaded fasta will be lost.\n")
 
     def do_readfasta(self, line):
-        self.fasta = Fasta()
-        self.fasta.read_file(line)
+        self.feature_tbl.fasta = Fasta()
+        self.feature_tbl.fasta.read_file(line)
 
     def help_readtrinotate(self):
         print("Usage: readtrinotate <file_name>\n")
         print("Read annotations from a trinotate file.\n")
 
     def do_readtrinotate(self, line):
-        self.annot = Annotator()
-        self.annot.read_from_file(line)
+        self.feature_tbl.annot = Annotator()
+        self.feature_tbl.annot.read_from_file(line)
 
     def help_applybed(self):
         print("Usage: applybed <file_name>\n")
@@ -69,35 +72,28 @@ class GagCmd(cmd.Cmd):
         with open(line, 'rb') as bedfile:
             bedreader = csv.reader(bedfile, delimiter='\t')
             bed.read_file(bedreader)
-            self.fasta.apply_bed(bed)
-            self.gff.apply_bed(bed)
-            self.gff.remove_empty_genes()
+            self.feature_tbl.fasta.apply_bed(bed)
+            self.feature_tbl.gff.apply_bed(bed)
+            self.feature_tbl.gff.remove_empty_genes()
 
     def help_writetbl(self):
         print("Usage: writetbl <file_name>\n")
         print("Write a sweet feature table to the specified file.\n")
 
     def do_writetbl(self, line):
-        outFile = open(line, 'w')
-        outFile.write('>Feature SeqId\n')
+        with open(line, 'w') as outFile:
+            self.feature_tbl.write_file(outFile)
+            outFile.close()
 
-        for seq in self.fasta.entries:
-            outFile.write('>Feature '+seq[0]+'\n')
-            outFile.write('1\t'+str(len(seq[1]))+'\tREFERENCE\n\t\t\tPBARC\t12345\n')
-            for gene in self.gff.genes:
-                if gene.seq_name != seq[0]:
-                    continue
+    def do_barferrsubset(self, line):
+        args = line.split()
 
-                entries = gene.to_tbl_entries()
-                for entry in entries:    
-                    if entry.type == 'gene':
-                        self.annot.annotate_gene(entry)
-                    elif entry.type == 'CDS':
-                        self.annot.annotate_cds(entry)
-                    elif entry.type == 'mRNA':
-                        self.annot.annotate_mrna(entry)
-                    outFile.write(entry.write_to_string()+'\n')
-        outFile.close()
+        if len(args) < 2:
+            print("Usage: barferrsubset <directory> <errorcode>\n")
+            return
+
+        outdir = args[0]
+        err = args[1]
 
     def do_barfsession(self, line):
         if len(line) == 0:
@@ -108,17 +104,17 @@ class GagCmd(cmd.Cmd):
         
         # Write the gff
         with open(line+'/gag.gff', 'w') as gff:
-            for gene in self.gff.genes:
+            for gene in self.feature_tbl.gff.genes:
                 gff.write(gene.to_gff())
             gff.close()
 
         # Write the fasta
         with open(line+'/gag.fasta', 'w') as fasta:
-            fasta.write(self.fasta.write_string())
+            fasta.write(self.feature_tbl.fasta.write_string())
             fasta.close()
 
         # Write the annotations
-        self.annot.write_to_file(line+'/gag.trinotate')
+        self.feature_tbl.annot.write_to_file(line+'/gag.trinotate')
 
     def do_loadsession(self, line):
         # Read the gff
@@ -131,23 +127,12 @@ class GagCmd(cmd.Cmd):
         self.do_readtrinotate(line+'/gag.trinotate')
 
     def do_barfgenegff(self, line):
-        for gene in self.gff.genes:
+        for gene in self.feature_tbl.gff.genes:
             if gene.name == line:
                 print(gene.to_gff())
 
     def do_barfgenetbl(self, line):
-        for gene in self.gff.genes:
-            if gene.name == line:
-                entries = gene.to_tbl_entries()
-                for entry in entries:    
-                    if entry.type == 'gene':
-                        self.annot.annotate_gene(entry)
-                    elif entry.type == 'CDS':
-                        self.annot.annotate_cds(entry)
-                    elif entry.type == 'mRNA':
-                        self.annot.annotate_mrna(entry)
-                    print(entry.write_to_string()+'\n')
-                return
+        self.feature_tbl.write_file(sys.stdout, set(line.split()))
 
     def help_exit(self):
         print("Exit this console.\n")

@@ -60,7 +60,8 @@ class Annotator:
     def read_from_file(self, filename):
         with open(filename, 'r') as f:
             for line in f:
-                if line[0] == '#':
+                line = line.strip()
+                if len(line) == 0 or line[0] == '#':
                     continue
 
                 self.entries.append(line.split('\t'))
@@ -69,7 +70,7 @@ class Annotator:
     def write_to_file(self, filename):
         with open(filename, 'w') as f:
             for entry in self.entries:
-                f.write('\t'.join(entry)+'\n')
+                f.write('\t'.join(entry))
             f.close()
 
     def annotate_gene(self, gene):

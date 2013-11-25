@@ -19,3 +19,65 @@ exit
 loadsession myfunsession
 barfgenetbl FOO_1
 exit
+loadsession myfunsession
+barfgenetbl FOO_1
+exit
+loadsession myfunsession
+barfgenetbl FOO_1
+exit
+loadsession myfunsession
+barfgenetbl FOO_1
+barfgenetbl FOO_1 FOO_2
+loadsession myfunsession
+barfgenetbl FOO_1
+exit
+loadsession myfunsession
+barfgenetbl FOO_1
+exit
+loadsession myfunsession
+barfgenetbl FOO_1
+exit
+loadsession myfunsession
+barfgenetbl FOO_1
+exit
+loadsession myfunsession
+barfgenetbl FOO_1
+exit
+loadsession myfunsession
+barfgenetbl FOO_1
+exit
+loadsession myfunsession
+barfgenetbl FOO_1
+exit
+loadsession myfunsession
+barfgenetbl FOO_2
+exit
+loadsession myfunsession
+barfgenetbl FOO_5
+exit
+loadsession myfunsession
+barfgenetbl FOO_5
+loadsession myfunsession
+barfgenetbl FOO_5
+loadsession myfunsession
+barfgenetbl FOO_1
+barfgenetbl FOO_1 FOO_2
+loadsession myfunsession
+barfgenetbl FOO_1
+barfgenetbl FOO_1 FOO_2
+loadsession myfunsession
+barfgenetbl FOO_1 FOO_2
+loadsession myfunsession
+barfgenetbl FOO_2
+loadsession myfunsession
+barfgenetbl FOO_2
+barfgenetbl FOO_1 FOO_2
+exit
+loadsession myfunsession
+barfgenetbl FOO_1 FOO_2
+loadsession myfunsession
+barfgenetbl FOO_1 FOO_2
+exit
+loadsession myfunsession
+barfgenetbl FOO_1 FOO_2
+exit
