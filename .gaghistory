@@ -81,3 +81,18 @@ exit
 loadsession myfunsession
 barfgenetbl FOO_1 FOO_2
 exit
+loadsession myfunsession
+barfgenetbl FOO_1 FOO_2 > funfile.txt
+exit
+readgff real_files/real_output.gff
+readfasta real_files/454ScaffoldContigs.fna
+readtrinotate real_files/maker.xls
+barfsession bdorsession
+exit
+loadsession bdorsession
+barfgenetbl BDOR_000010
+loadsession bdorsession
+barfgenetbl BDOR_000010.1
+loadsession bdorsession
+barfgenetbl BDOR_000010.1
+exit
