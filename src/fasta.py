@@ -41,8 +41,6 @@ class Fasta:
 
     def get_subseq(self, seq_id, indices):
         seq = self.get_seq(seq_id)
-        print "#######################"
-        print indices
         if seq and self.indices_not_out_of_range(indices, seq):
             start = indices[0] - 1
             end = indices[1]
@@ -91,8 +89,6 @@ class Fasta:
 
     # 'indices' in question are one-based, not zero-based.
     def indices_not_out_of_range(self, indices, seq):
-        print "###################33"
-        print str(len(seq))
         if indices[0] > 0 and indices[1] <= len(seq):
             return True
         else:
