@@ -33,6 +33,24 @@ class Fasta:
             i += 1
         return s
 
+    def get_seq(self, seq_id):
+        for entry in self.entries:
+            if entry[0] == seq_id:
+                return entry[1]
+        return None
+
+    def get_subseq(self, seq_id, indices):
+        seq = self.get_seq(seq_id)
+        print "#######################"
+        print indices
+        if seq and self.indices_not_out_of_range(indices, seq):
+            start = indices[0] - 1
+            end = indices[1]
+            return seq[start:end]
+        else:
+            return None
+        
+
     def read_file(self, fileName):
         with open(fileName, 'r') as f:
             seq_id = ''
@@ -70,3 +88,12 @@ class Fasta:
                     seq[1] = seq[1][coords[0]-1:coords[1]]
         # remove entries with coords = [0, 0]
         self.entries = [e for e in self.entries if e[1] != [0, 0]] 
+
+    # 'indices' in question are one-based, not zero-based.
+    def indices_not_out_of_range(self, indices, seq):
+        print "###################33"
+        print str(len(seq))
+        if indices[0] > 0 and indices[1] <= len(seq):
+            return True
+        else:
+            return False

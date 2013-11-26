@@ -29,6 +29,18 @@ class TestFasta(unittest.TestCase):
         expected = '>seq1\nATGCCGTA\n>seq3\nGGGGGG'
         self.assertEqual(expected, self.fasta1.write_string())
 
+    def test_get_seq(self):
+        expected = 'AGGTCC'
+        self.assertEqual(expected, self.fasta1.get_seq('seq2'))
+        self.assertFalse(self.fasta1.get_seq('bad_seqid'))
+
+    def test_get_subseq(self):
+        #self.fasta1.read_string('>seq1\nATGCCGTA\n>seq2\nAGGTCC\n>seq3\nGGGGGG')
+        expected = 'GGTC'
+        self.assertEqual(expected, self.fasta1.get_subseq('seq2', [2, 5]))
+        self.assertFalse(self.fasta1.get_subseq('bad_seqid', [1, 10]))
+        self.assertFalse(self.fasta1.get_subseq('seq1', [1, 10])) #out of range
+
     def test_read_file(self):
         self.fasta0.read_file("sample_files/no_line_breaks.fasta")
         self.assertEquals(2, len(self.fasta0.entries))
@@ -52,6 +64,12 @@ class TestFasta(unittest.TestCase):
         self.assertEquals(3, len(self.fasta1.entries))
         self.fasta1.apply_bed(newbed)
         self.assertEquals(2, len(self.fasta1.entries))
+
+    def test_indices_not_out_of_range(self):
+        test_seq = 'GATTACA'
+        good_indices = [1, 7]
+        bad_indices = [2, 8]
+        self.assertTrue(self.fasta1.indices_not_out_of_range(good_indices, test_seq))
         
 
 
