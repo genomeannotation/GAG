@@ -96,3 +96,6 @@ barfgenetbl BDOR_000010.1
 loadsession bdorsession
 barfgenetbl BDOR_000010.1
 exit
+loadsession bdorsession
+barfgenegff BDOR_000010.1
+barfgenetbl BDOR_000010.1
