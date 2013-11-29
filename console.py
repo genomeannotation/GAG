@@ -136,6 +136,7 @@ class GagCmd(cmd.Cmd):
 
     def do_barfseq(self, line):
         args = line.split(' ')
+        print(str(self.feature_tbl.fasta.get_subseq(args[0], [int(args[1]), int(args[2])]))+'\n')
 
     def help_exit(self):
         print("Exit this console.\n")

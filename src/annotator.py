@@ -86,8 +86,10 @@ class Annotator:
         cds.add_annotation('transcript_id', 'gnl|PBARC|'+split_prot_id[0]+'_mrna'+split_prot_id[1])
 
         for entry in self.entries:
-            dotSomething = re.search('\.[0-9]', cds.name).group(0)
-            print(dotSomething+'\n')
+            reDot = re.search('\.[0-9]', cds.name)
+            dotSomething = ''
+            if reDot != None:
+                dotSomething = reDot.group(0)
 
             if entry[2] == cds.name.replace(dotSomething, ''):
                 cds.add_annotations(parse_blast_hit_cds(entry[3]))
@@ -102,7 +104,12 @@ class Annotator:
         mrna.add_annotation('transcript_id', 'gnl|PBARC|'+split_prot_id[0]+'_mrna'+split_prot_id[1])
 
         for entry in self.entries:
-            if entry[2] == mrna.name:
+            reDot = re.search('\.[0-9]', mrna.name)
+            dotSomething = ''
+            if reDot != None:
+                dotSomething = reDot.group(0)
+
+            if entry[2] == mrna.name.replace(dotSomething, ''):
                 mrna.add_annotations(parse_blast_hit_cds(entry[3]))
                 return
 

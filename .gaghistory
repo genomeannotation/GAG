@@ -112,3 +112,27 @@ exit
 loadsession bdorsession
 barfgenetbl BDOR_000010.1
 exit
+loadsession bdorsession
+barfgenetbl BDOR_000010.1
+barfgenegff BDOR_00010.1
+barfgenegff BDOR_000010.1
+barfseq sctg_0001_0067 13325 13533
+loadsession bdorsession
+barfseq sctg_0001_0067 13325 13533
+barfseq sctg_0001_0067 13324 13533
+exit
+loadsession bdorsession
+barfgenegff BDOR_000010.1
+barfseq sctg_0001_0067 13324 13533
+barfseq sctg_0001_0067 12271 12394
+barfgenegff BDOR_000024.1
+barfgenegff BDOR_000024
+barfseq sctg_0001_0098 19910 20128
+barfseq sctg_0001_0098 21112 21242
+barfgenetbl BDOR_000024
+loadsession bdorsession
+barfgenetbl BDOR_000024
+loadsession bdorsession
+barfgenetbl BDOR_000024
+barfgenetbl BDOR_000010.1
+exit
