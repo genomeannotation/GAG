@@ -134,6 +134,9 @@ class GagCmd(cmd.Cmd):
     def do_barfgenetbl(self, line):
         self.feature_tbl.write_file(sys.stdout, set(line.split()))
 
+    def do_barfseq(self, line):
+        args = line.split(' ')
+
     def help_exit(self):
         print("Exit this console.\n")
 

@@ -9,6 +9,7 @@ class FeatureTblEntry:
     def __init__(self):
         self.type = ''
         self.name = ''
+        self.seq_name = ''
         self.coords = []
         self.strand = '+'
         self.phase = 0 # Start codon of 1
@@ -22,6 +23,9 @@ class FeatureTblEntry:
 
     def set_name(self, name):
         self.name = name
+
+    def set_seq_name(self, name):
+        self.seq_name = name
 
     def add_error(self, error):
         self.errors.append(error)

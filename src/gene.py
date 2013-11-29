@@ -119,6 +119,7 @@ class Gene:
         geneEntry = FeatureTblEntry()
         geneEntry.set_type("gene")
         geneEntry.set_name(self.name)
+        geneEntry.set_seq_name(self.seq_name)
         geneEntry.add_coordinates(self.indices[0], self.indices[1])
         geneEntry.set_strand(self.strand)
         geneEntry.set_phase(0)
@@ -127,6 +128,7 @@ class Gene:
         for mrna in self.mrnas: 
             mrna_entries = mrna.to_tbl_entries(self.strand)
             for mrna_entry in mrna_entries:
+                mrna_entry.set_seq_name(self.seq_name)
                 entries.append(mrna_entry)
         return entries
 
