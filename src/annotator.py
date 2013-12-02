@@ -73,6 +73,18 @@ class Annotator:
                 f.write('\t'.join(entry))
             f.close()
 
+    def get_entry(self, name):
+        reDot = re.search('\.[0-9]', name)
+        if reDot != None:
+            name = name.replace(reDot.group(0), '')
+            print(name)
+
+        for entry in self.entries:
+            print(entry[2])
+            if entry[2] == name:
+                return entry
+        return None
+
     def annotate_gene(self, gene):
         gene.add_annotation('locus_tag', gene.name)
         for entry in self.entries:

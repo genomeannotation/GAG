@@ -153,3 +153,24 @@ exit
 readfasta real_files/454Scaffolds.fna
 barfseq scaffold00001 405381 405423
 exit
+loadsession bdorsession
+ducttapeseqframes BDOR_000010.1
+ducttapeseqframes BDOR_000010.1-RA
+ducttapeseqframes BDOR_000010.1-RB
+exit
+loadsession bdorsession
+ducttapeseqframes BDOR_000010.1-RB
+loadsession bdorsession
+ducttapeseqframes BDOR_000010-RB
+exit
+loadsession bdorsession
+ducttapeseqframes BDOR_000010-RB
+ducttapeseqframes BDOR_000010.1-RB
+loadsession bdorsession
+ducttapeseqframes BDOR_000010.1-RB
+loadsession bdorsession
+ducttapeseqframes BDOR_000010.1-RB
+loadsession bdorsession
+ducttapeseqframes BDOR_000010.1-RB
+loadsession bdorsession
+ducttapeseqframes BDOR_000010.1-RB

@@ -15,6 +15,7 @@ from src.bed import Bed
 from src.feature_tbl_entry import FeatureTblEntry
 from src.feature_tbl import FeatureTbl
 from src.annotator import Annotator
+from src.translate import translate
 
 class GagCmd(cmd.Cmd):
 
@@ -137,6 +138,34 @@ class GagCmd(cmd.Cmd):
     def do_barfseq(self, line):
         args = line.split(' ')
         print(str(self.feature_tbl.fasta.get_subseq(args[0], [int(args[1]), int(args[2])]))+'\n')
+
+    def do_ducttapeseqframes(self, line):
+        for gene in self.feature_tbl.gff.genes:
+            for mrna in gene.mrnas:
+                if mrna.name == line:
+                    seq = self.feature_tbl.fasta.get_subseq(gene.seq_name, mrna.cds.indices[0])
+                    pseq1 = translate(seq, 1, '+')
+                    pseq2 = translate(seq, 2, '+')
+                    pseq3 = translate(seq, 3, '+')
+                    nseq1 = translate(seq, 1, '-')
+                    nseq2 = translate(seq, 2, '-')
+                    nseq3 = translate(seq, 3, '-')
+
+                    pepSeq = self.feature_tbl.annot.get_entry(line)[9]
+                    if pepSeq.find(pseq1) != -1:
+                        print('+1')
+                    elif pepSeq.find(pseq2) != -1:
+                        print('+2')
+                    elif pepSeq.find(pseq3) != -1:
+                        print('+3')
+                    elif pepSeq.find(nseq1) != -1:
+                        print('-1')
+                    elif pepSeq.find(nseq2) != -1:
+                        print('-2')
+                    elif pepSeq.find(nseq3) != -1:
+                        print('-3')
+
+                    return
 
     def help_exit(self):
         print("Exit this console.\n")
