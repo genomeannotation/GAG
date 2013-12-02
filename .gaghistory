@@ -136,3 +136,20 @@ loadsession bdorsession
 barfgenetbl BDOR_000024
 barfgenetbl BDOR_000010.1
 exit
+loadsession bdorsession
+barfgenetbl BDOR_000032
+barfgenegff BDOR_000032
+barfseq sctg_0001_0117 418 1682
+barfgenegff BDOR_000044.1
+barfseq sctg_0001_0132 4730 5070
+barfseq sctg_0001_0132 5702 6435
+barfgenegff BDOR_000047.1
+barfseq sctg_0001_0135 1918 2026
+barfgenegff BDOR_000010.1
+barfseq sctg_0001_0067 13324 13533
+barfgenegff BDOR_000010.2
+barfseq sctg_0001_0068 5633 5675
+exit
+readfasta real_files/454Scaffolds.fna
+barfseq scaffold00001 405381 405423
+exit
