@@ -38,6 +38,3 @@ def translate(seq, frame, strand):
         peptide += amino_acid
                 
     return peptide
-
-seq = 'CGGCTCCAAAaAGTGCAACAAACACGAACAAAAACTTATTCAT'
-print(translate(seq, 2, '-'))
