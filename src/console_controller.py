@@ -16,43 +16,30 @@ from src.feature_tbl_entry import FeatureTblEntry
 from src.genome import Genome
 from src.annotator import Annotator
 from src.translate import translate
-from src.console_controller import ConsoleController
 
-class GagCmd(cmd.Cmd):
+class ConsoleController:
 
     def __init__(self):
-        cmd.Cmd.__init__(self)
-        self.prompt = "GAG> "
-
-        readline.set_history_length(1000)
-        readline.read_history_file('.gaghistory')
-        self.controller = ConsoleController()
-
         self.genome = Genome()
-                
 
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return cmd.Cmd.precmd(self, line)
+    def read_gff(self, line):
+        self.genome.gff = GFF()
+        with open(line, 'rb') as gfffile:
+            gffreader = csv.reader(gfffile, delimiter='\t')
+            self.genome.gff.read_file(gffreader)
+        return self.genome.gff
 
-    def help_readgff(self):
-        print("Usage: readgff <file_name>\n")
-        print("Read the gff file. Any unsaved changes")
-        print("to the currently loaded gff will be lost.\n")
+    def read_fasta(self, line):
+        self.genome.fasta = Fasta()
+        self.genome.fasta.read_file(line)
+        return self.genome.fasta
 
-    def do_readgff(self, line):
-        self.controller.read_gff(line)
+    def barf_gff(self, line):
+        for gene in self.genome.gff.genes:
+            if gene.name == line:
+                print(gene.to_gff())
 
-    def help_readfasta(self):
-        print("Usage: readfasta <file_name>\n")
-        print("Read the fasta file. Any unsaved changes")
-        print("to the currently loaded fasta will be lost.\n")
-
-    def do_readfasta(self, line):
-        self.genome.fasta = self.controller.read_fasta(line)
-
-    def do_barfgenegff(self, line):
-        self.controller.barf_gff(line)
+"""
 
     def help_readtrinotate(self):
         print("Usage: readtrinotate <file_name>\n")
@@ -128,6 +115,7 @@ class GagCmd(cmd.Cmd):
         # Read the annotations
         self.do_readtrinotate(line+'/gag.trinotate')
 
+
     def do_barfgenetbl(self, line):
         self.genome.write_file(sys.stdout, set(line.split()))
 
@@ -171,3 +159,4 @@ class GagCmd(cmd.Cmd):
 
 if __name__ == '__main__':
     GagCmd().cmdloop("Welcome to the GAG console!")
+"""

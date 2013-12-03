@@ -181,3 +181,34 @@ readgff real_files/real_output.gff
 barfgenegff
 barfgenegff BDOR_000010.1
 exit
+help
+quit
+exit
+history
+readgff real_files/real_output.gff
+help
+barfgenegff BDOR_000010.1
+exit
+help
+readfasta real_files/part3.fasta
+barfseq sctg_0032_0343
+barfseq sctg_0032_0343 1 5
+readfasta real_files/part3.fasta
+barfseq sctg_0032_0343 1 5
+exit
+readfasta real_files/part3.fasta
+barfseq sctg_0032_0343 1 5
+exit
+readgff real_files/real_output.gff
+barfgenegff BDOR_000010.1
+exit
+readgff real_files/real_output.gff
+barfgenegff BDOR_000010.1
+exit
+readgff real_files/real_output.gff
+barfgenegff BDOR_000010.1
+quit
+exit
+readgff real_files/real_output.gff
+barfgenegff BDOR_000010.1
+exit
