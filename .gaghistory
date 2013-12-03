@@ -174,3 +174,10 @@ loadsession bdorsession
 ducttapeseqframes BDOR_000010.1-RB
 loadsession bdorsession
 ducttapeseqframes BDOR_000010.1-RB
+help
+help help
+help readgff
+readgff real_files/real_output.gff
+barfgenegff
+barfgenegff BDOR_000010.1
+exit

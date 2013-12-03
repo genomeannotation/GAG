@@ -2,7 +2,7 @@
 
 from feature_tbl_entry import FeatureTblEntry
 
-class FeatureTbl:
+class Genome:
 
     def __init__(self):
         self.fasta = None
