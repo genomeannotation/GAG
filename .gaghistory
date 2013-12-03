@@ -212,3 +212,43 @@ exit
 readgff real_files/real_output.gff
 barfgenegff BDOR_000010.1
 exit
+readfasta real_files/part3.fasta
+barfseq 1 10
+readfasta real_files/part3.fasta
+barfseq 1 10
+readfasta real_files/part3.fasta
+barfseq 1 10
+readfasta real_files/part3.fasta
+barfseq sctg_0032_0343 1 10
+exit
+readtrinotate real_files/maker.xls
+exit
+readtrinotate real_files/maker.xls
+readfasta real_files/part3.fasta
+barfseq sctg_0032_0343 1 10
+exit
+readfasta demo/demo.fasta
+readgff demo/demo.gff
+applybed demo/demo.bed
+exit
+barferrsubset
+exit
+readfasta demo/demo.fasta
+readgff demo/demo.gff
+writetbl("foo")
+exit
+readfasta demo/demo.fasta
+readgff demo/demo.gff
+readtrinotate real_files/maker.xls
+writetbl foo
+exit
+readfasta demo/demo.fasta
+readgff demo/demo.gff
+readtrinotate real_files/maker.xls
+barfgenetbl
+exit
+readfasta demo/demo.fasta
+readgff demo/demo.gff
+readtrinotate real_files/maker.xls
+barfgenetbl
+exit

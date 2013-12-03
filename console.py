@@ -20,6 +20,8 @@ from src.console_controller import ConsoleController
 
 class GagCmd(cmd.Cmd):
 
+## Setup, loading and saving sessions, exit, etc.
+
     def __init__(self):
         cmd.Cmd.__init__(self)
         self.prompt = "GAG> "
@@ -35,6 +37,29 @@ class GagCmd(cmd.Cmd):
         readline.write_history_file('.gaghistory')
         return cmd.Cmd.precmd(self, line)
 
+    def do_barfsession(self, line):
+        self.controller.barf_session(line)
+
+    def do_loadsession(self, line):
+        self.controller.load_session(line)
+
+    def help_exit(self):
+        print("Exit this console.\n")
+
+    def do_exit(self, line):
+        return True
+
+
+## Reading in files
+
+    def help_readfasta(self):
+        print("Usage: readfasta <file_name>\n")
+        print("Read the fasta file. Any unsaved changes")
+        print("to the currently loaded fasta will be lost.\n")
+
+    def do_readfasta(self, line):
+        self.controller.read_fasta(line)
+
     def help_readgff(self):
         print("Usage: readgff <file_name>\n")
         print("Read the gff file. Any unsaved changes")
@@ -43,24 +68,15 @@ class GagCmd(cmd.Cmd):
     def do_readgff(self, line):
         self.controller.read_gff(line)
 
-    def help_readfasta(self):
-        print("Usage: readfasta <file_name>\n")
-        print("Read the fasta file. Any unsaved changes")
-        print("to the currently loaded fasta will be lost.\n")
-
-    def do_readfasta(self, line):
-        self.genome.fasta = self.controller.read_fasta(line)
-
-    def do_barfgenegff(self, line):
-        self.controller.barf_gff(line)
-
     def help_readtrinotate(self):
         print("Usage: readtrinotate <file_name>\n")
         print("Read annotations from a trinotate file.\n")
 
     def do_readtrinotate(self, line):
-        self.genome.annot = Annotator()
-        self.genome.annot.read_from_file(line)
+        self.controller.read_trinotate(line)
+
+
+## Manipulate genome
 
     def help_applybed(self):
         print("Usage: applybed <file_name>\n")
@@ -70,104 +86,35 @@ class GagCmd(cmd.Cmd):
         print("update the GFF file accordingly.\n")
 
     def do_applybed(self, line):
-        bed = Bed()
-        with open(line, 'rb') as bedfile:
-            bedreader = csv.reader(bedfile, delimiter='\t')
-            bed.read_file(bedreader)
-            self.genome.fasta.apply_bed(bed)
-            self.genome.gff.apply_bed(bed)
-            self.genome.gff.remove_empty_genes()
+        self.controller.apply_bed(line)
+
+    def do_ducttapeseqframes(self, line):
+        self.controller.duct_tape_seq_frames(line)
+
+
+## Output info to console
+
+    def do_barfgenegff(self, line):
+        self.controller.barf_gff(line)
+
+    def do_barfseq(self, line):
+        self.controller.barf_seq(line)
+
+    def do_barfgenetbl(self, line):
+        self.controller.barf_gene_tbl(line)
+
+
+## Output info to file
 
     def help_writetbl(self):
         print("Usage: writetbl <file_name>\n")
         print("Write a sweet feature table to the specified file.\n")
 
     def do_writetbl(self, line):
-        with open(line, 'w') as outFile:
-            self.genome.write_file(outFile)
-            outFile.close()
+        self.controller.write_tbl(line)
 
-    def do_barferrsubset(self, line):
-        args = line.split()
 
-        if len(args) < 2:
-            print("Usage: barferrsubset <directory> <errorcode>\n")
-            return
-
-        outdir = args[0]
-        err = args[1]
-
-    def do_barfsession(self, line):
-        if len(line) == 0:
-            print("Usage: barfsession <directory>\n")
-            return
-
-        os.system('mkdir '+line)
-        
-        # Write the gff
-        with open(line+'/gag.gff', 'w') as gff:
-            for gene in self.genome.gff.genes:
-                gff.write(gene.to_gff())
-            gff.close()
-
-        # Write the fasta
-        with open(line+'/gag.fasta', 'w') as fasta:
-            fasta.write(self.genome.fasta.write_string())
-            fasta.close()
-
-        # Write the annotations
-        self.genome.annot.write_to_file(line+'/gag.trinotate')
-
-    def do_loadsession(self, line):
-        # Read the gff
-        self.do_readgff(line+'/gag.gff')
-
-        # Read the fasta
-        self.do_readfasta(line+'/gag.fasta')
-
-        # Read the annotations
-        self.do_readtrinotate(line+'/gag.trinotate')
-
-    def do_barfgenetbl(self, line):
-        self.genome.write_file(sys.stdout, set(line.split()))
-
-    def do_barfseq(self, line):
-        args = line.split(' ')
-        print(str(self.genome.fasta.get_subseq(args[0], [int(args[1]), int(args[2])]))+'\n')
-
-    def do_ducttapeseqframes(self, line):
-        for gene in self.genome.gff.genes:
-            for mrna in gene.mrnas:
-                if mrna.name == line:
-                    seq = self.genome.fasta.get_subseq(gene.seq_name, mrna.cds.indices[0])
-                    pseq1 = translate(seq, 1, '+')
-                    pseq2 = translate(seq, 2, '+')
-                    pseq3 = translate(seq, 3, '+')
-                    nseq1 = translate(seq, 1, '-')
-                    nseq2 = translate(seq, 2, '-')
-                    nseq3 = translate(seq, 3, '-')
-
-                    pepSeq = self.genome.annot.get_entry(line)[9]
-                    if pepSeq.find(pseq1) != -1:
-                        print('+1')
-                    elif pepSeq.find(pseq2) != -1:
-                        print('+2')
-                    elif pepSeq.find(pseq3) != -1:
-                        print('+3')
-                    elif pepSeq.find(nseq1) != -1:
-                        print('-1')
-                    elif pepSeq.find(nseq2) != -1:
-                        print('-2')
-                    elif pepSeq.find(nseq3) != -1:
-                        print('-3')
-
-                    return
-
-    def help_exit(self):
-        print("Exit this console.\n")
-
-    def do_exit(self, line):
-        return True
+########################################################################
 
 if __name__ == '__main__':
     GagCmd().cmdloop("Welcome to the GAG console!")
