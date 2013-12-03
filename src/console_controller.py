@@ -4,8 +4,6 @@
 import os
 import sys
 import csv
-import cmd
-import readline
 from src.fasta import Fasta
 from src.gene import Gene
 from src.mrna import MRNA
