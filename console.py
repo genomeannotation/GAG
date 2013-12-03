@@ -1,22 +1,10 @@
 #!/usr/bin/env python
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
-import os
-import sys
-import csv
 import cmd
 import readline
-from src.fasta import Fasta
-from src.gene import Gene
-from src.mrna import MRNA
-from src.gene_part import GenePart, CDS, Exon
-from src.gff import GFF
-from src.bed import Bed
-from src.feature_tbl_entry import FeatureTblEntry
-from src.genome import Genome
-from src.annotator import Annotator
-from src.translate import translate
 from src.console_controller import ConsoleController
+
 
 class GagCmd(cmd.Cmd):
 
@@ -25,12 +13,9 @@ class GagCmd(cmd.Cmd):
     def __init__(self):
         cmd.Cmd.__init__(self)
         self.prompt = "GAG> "
-
         readline.set_history_length(1000)
         readline.read_history_file('.gaghistory')
         self.controller = ConsoleController()
-
-        self.genome = Genome()
                 
 
     def precmd(self, line):
