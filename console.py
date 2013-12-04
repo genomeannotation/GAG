@@ -80,10 +80,10 @@ class GagCmd(cmd.Cmd):
 ## Output info to console
 
     def do_barfgenegff(self, line):
-        self.controller.barf_gff(line)
+        print(self.controller.barf_gff(line))
 
     def do_barfseq(self, line):
-        self.controller.barf_seq(line)
+        print(self.controller.barf_seq(line))
 
     def do_barfgenetbl(self, line):
         self.controller.barf_gene_tbl(line)

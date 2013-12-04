@@ -115,11 +115,11 @@ class ConsoleController:
     def barf_gff(self, line):
         for gene in self.genome.gff.genes:
             if gene.name == line:
-                print(gene.to_gff())
+                return gene.to_gff()
 
     def barf_seq(self, line):
         args = line.split(' ')
-        print(str(self.genome.fasta.get_subseq(args[0], [int(args[1]), int(args[2])]))+'\n')
+        return str(self.genome.fasta.get_subseq(args[0], [int(args[1]), int(args[2])]))+'\n'
 
     def barf_gene_tbl(self, line):
         self.genome.write_file(sys.stdout, set(line.split()))
