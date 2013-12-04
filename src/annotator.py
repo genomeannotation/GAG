@@ -70,17 +70,15 @@ class Annotator:
     def write_to_file(self, filename):
         with open(filename, 'w') as f:
             for entry in self.entries:
-                f.write('\t'.join(entry))
+                f.write('\t'.join(entry)+'\n')
             f.close()
 
     def get_entry(self, name):
         reDot = re.search('\.[0-9]', name)
         if reDot != None:
             name = name.replace(reDot.group(0), '')
-            print(name)
 
         for entry in self.entries:
-            print(entry[2])
             if entry[2] == name:
                 return entry
         return None

@@ -174,3 +174,11 @@ loadsession bdorsession
 ducttapeseqframes BDOR_000010.1-RB
 loadsession bdorsession
 ducttapeseqframes BDOR_000010.1-RB
+loadsession bdorsession
+ducttapeseqframes BDOR_000010.1-RB
+barfsession bdorsession
+exit
+loadsession bdorsession
+ducttapeseqframes BDOR_000010.1-RB
+barfsession bdorsession
+exit
