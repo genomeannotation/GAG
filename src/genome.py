@@ -8,7 +8,12 @@ class Genome:
         self.fasta = None
         self.gff = None
         self.annot = None
+        self.template_file = None
         self.entries = []
+
+    def add_template_file(self, filename):
+        #TODO verify file
+        self.template_file = filename
 
     def addEntry(self, entry):
         entries.append(entry)
