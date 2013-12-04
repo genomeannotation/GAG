@@ -6,6 +6,7 @@
 *.sqlite
 *.tbl
 *~
+.gaghistory
 
 ## keep test output local
 real_files/*
