@@ -51,6 +51,9 @@ class ConsoleController:
         # Read the annotations
         self.read_trinotate(line+'/gag.trinotate')
 
+    def ls(self, line):
+        os.system('ls '+line)
+
 
 ## Reading in files
 

@@ -34,6 +34,9 @@ class GagCmd(cmd.Cmd):
     def do_exit(self, line):
         return True
 
+    def do_ls(self, line):
+        self.controller.ls(line)
+
 
 ## Reading in files
 
