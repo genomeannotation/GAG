@@ -28,15 +28,17 @@ class Genome:
                     self.annot.annotate_mrna(entry)
                 self.entries.append(entry)
 
-    def write_file(self, outFile, genes = None, errors = None):
-        if outFile == None or self.fasta == None or self.gff == None or self.annot == None:
-            return
-        
-        outFile.write('>Feature SeqId\n')
+    def write_string(self, genes = None, errors = None):
+        output = ''
+
+        if self.fasta == None or self.gff == None or self.annot == None:
+            return output
+       
+        output += '>Feature SeqId\n'
 
         for seq in self.fasta.entries:
             if genes != None and not genes:
-                return
+                return output
 
             entries = []
             for gene in self.gff.genes:
@@ -60,8 +62,9 @@ class Genome:
 
             # If there are any entries, write this section of the tbl file
             if len(entries) > 0:
-                outFile.write('>Feature '+seq[0]+'\n')
-                outFile.write('1\t'+str(len(seq[1]))+'\tREFERENCE\n\t\t\tPBARC\t12345\n')
+                output += '>Feature '+seq[0]+'\n'
+                output += '1\t'+str(len(seq[1]))+'\tREFERENCE\n\t\t\tPBARC\t12345\n'
 
                 for entry in entries:    
-                    outFile.write(entry.write_to_string()+'\n')
+                    output += entry.write_to_string()+'\n'
+        return output

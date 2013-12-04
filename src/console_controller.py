@@ -4,6 +4,8 @@
 import os
 import sys
 import csv
+import subprocess
+import StringIO
 from src.fasta import Fasta
 from src.gene import Gene
 from src.mrna import MRNA
@@ -21,6 +23,7 @@ class ConsoleController:
 
     def __init__(self):
         self.genome = Genome()
+        self.input = ''
 
     def barf_session(self, line):
         if len(line) == 0:
@@ -52,7 +55,19 @@ class ConsoleController:
         self.read_trinotate(line+'/gag.trinotate')
 
     def ls(self, line):
-        os.system('ls '+line)
+        proc = subprocess.Popen(['ls '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
+        (out, err) = proc.communicate(self.input)
+        return out
+
+    def cat(self, line):
+        proc = subprocess.Popen(['cat '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
+        (out, err) = proc.communicate(self.input)
+        return out
+
+    def grep(self, line):
+        proc = subprocess.Popen(['grep '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
+        (out, err) = proc.communicate(self.input)
+        return out
 
 
 ## Reading in files
@@ -125,7 +140,7 @@ class ConsoleController:
         return str(self.genome.fasta.get_subseq(args[0], [int(args[1]), int(args[2])]))+'\n'
 
     def barf_gene_tbl(self, line):
-        self.genome.write_file(sys.stdout, set(line.split()))
+        return self.genome.write_string(set(line.split()))
 
     def barf_err_subset(self, line):
         args = line.split()
@@ -140,7 +155,8 @@ class ConsoleController:
 
     def write_tbl(self, line):
         with open(line, 'w') as outFile:
-            self.genome.write_file(outFile)
+            outFile.write(self.genome.write_string())
+            outFile.close()
 
 
 

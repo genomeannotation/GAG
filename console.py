@@ -3,6 +3,7 @@
 
 import cmd
 import readline
+import sys
 from src.console_controller import ConsoleController
 
 
@@ -15,12 +16,33 @@ class GagCmd(cmd.Cmd):
         self.prompt = "GAG> "
         readline.set_history_length(1000)
         readline.read_history_file('.gaghistory')
-        self.controller = ConsoleController()
-                
+        self.controller = ConsoleController() 
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
         return cmd.Cmd.precmd(self, line)
+
+    def postcmd(self, stop, line):
+        if hasattr(self, 'output') and self.output:
+            print self.output
+            self.output = None
+        return stop
+
+    def parseline(self, line):
+        if '|' in line:
+            return 'pipe', line.split('|'), line
+        return cmd.Cmd.parseline(self, line)
+
+    def do_pipe(self, args):
+        buf = None
+        for arg in args:
+            if buf:
+                self.controller.input = buf
+            else:
+                self.controller.input = ''
+            self.onecmd(arg)
+            if hasattr(self, 'output') and self.output:
+                buf = self.output
 
     def do_barfsession(self, line):
         self.controller.barf_session(line)
@@ -35,7 +57,13 @@ class GagCmd(cmd.Cmd):
         return True
 
     def do_ls(self, line):
-        self.controller.ls(line)
+        self.output = self.controller.ls(line)
+
+    def do_cat(self, line):
+        self.output = self.controller.cat(line)
+
+    def do_grep(self, line):
+        self.output = self.controller.grep(line)
 
 
 ## Reading in files
@@ -83,13 +111,13 @@ class GagCmd(cmd.Cmd):
 ## Output info to console
 
     def do_barfgenegff(self, line):
-        print(self.controller.barf_gff(line))
+        self.output = self.controller.barf_gff(line)
 
     def do_barfseq(self, line):
-        print(self.controller.barf_seq(line))
+        self.output = self.controller.barf_seq(line)
 
     def do_barfgenetbl(self, line):
-        self.controller.barf_gene_tbl(line)
+        self.output = self.controller.barf_gene_tbl(line)
 
 
 ## Output info to file
