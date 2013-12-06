@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 from feature_tbl_entry import FeatureTblEntry
+import sys
+import os.path
 
 class Genome:
 
@@ -11,9 +13,12 @@ class Genome:
         self.template_file = None
         self.entries = []
 
+    def verify_file(self, filename):
+        return os.path.exists(filename) 
+
     def add_template_file(self, filename):
-        #TODO verify file
-        self.template_file = filename
+        if self.verify_file(filename):
+            self.template_file = filename
 
     def addEntry(self, entry):
         entries.append(entry)
