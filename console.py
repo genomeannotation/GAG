@@ -105,7 +105,7 @@ class GagCmd(cmd.Cmd):
         self.controller.apply_bed(line)
 
     def do_ducttapeseqframes(self, line):
-        self.controller.duct_tape_seq_frames(line)
+        print(self.controller.duct_tape_seq_frames(line))
 
 
 ## Output info to console

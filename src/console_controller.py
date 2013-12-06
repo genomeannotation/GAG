@@ -100,9 +100,27 @@ class ConsoleController:
             self.genome.gff.remove_empty_genes()
 
     def duct_tape_seq_frames(self, line):
+        args = None        
+
+        if len(line) > 0:
+            args = line.split()
+        else:
+            args = self.input.split('\n')
+
+        out = ''
+
+        for yarg in args: # I'm a pirate
+            if self.ducttape_mrna_seq_frame(yarg):
+                out += 'Fixed '+yarg+'.\n'
+            else:
+                out += 'Failed to fix '+yarg+'.\n'
+        return out
+
+
+    def ducttape_mrna_seq_frame(self, name):
         for gene in self.genome.gff.genes:
             for mrna in gene.mrnas:
-                if mrna.name == line:
+                if mrna.name == name:
                     seq = self.genome.fasta.get_subseq(gene.seq_name, mrna.cds.indices[0])
                     pseq1 = translate(seq, 1, '+')
                     pseq2 = translate(seq, 2, '+')
@@ -111,22 +129,29 @@ class ConsoleController:
                     nseq2 = translate(seq, 2, '-')
                     nseq3 = translate(seq, 3, '-')
 
-                    pepSeq = self.genome.annot.get_entry(line)[9]
+                    pepSeq = self.genome.annot.get_entry(name)[9]
                     if pepSeq.find(pseq1) != -1:
-                        print('+1')
+                        gene.strand = '+'
+                        mrna.cds.phase[0] = 0
                     elif pepSeq.find(pseq2) != -1:
-                        print('+2')
+                        gene.strand = '+'
+                        mrna.cds.phase[0] = 1
                     elif pepSeq.find(pseq3) != -1:
-                        print('+3')
+                        gene.strand = '+'
+                        mrna.cds.phase[0] = 2
                     elif pepSeq.find(nseq1) != -1:
-                        print('-1')
+                        gene.strand = '-'
+                        mrna.cds.phase[0] = 0
                     elif pepSeq.find(nseq2) != -1:
-                        print('-2')
+                        gene.strand = '-'
+                        mrna.cds.phase[0] = 1
                     elif pepSeq.find(nseq3) != -1:
-                        print('-3')
+                        gene.strand = '-'
+                        mrna.cds.phase[0] = 2
 
-                    return
-
+                    return True
+        return False
+        
 
 ## Output info to console
 
