@@ -65,7 +65,13 @@ class ConsoleController:
         return out
 
     def grep(self, line):
+        print(line)
         proc = subprocess.Popen(['grep '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
+        (out, err) = proc.communicate(self.input)
+        return out
+
+    def sed(self, line):
+        proc = subprocess.Popen(['sed '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
         (out, err) = proc.communicate(self.input)
         return out
 
@@ -107,14 +113,11 @@ class ConsoleController:
         else:
             args = self.input.split('\n')
 
-        out = ''
-
         for yarg in args: # I'm a pirate
             if self.ducttape_mrna_seq_frame(yarg):
-                out += 'Fixed '+yarg+'.\n'
+                print('Fixed '+yarg+'.')
             else:
-                out += 'Failed to fix '+yarg+'.\n'
-        return out
+                print('Failed to fix '+yarg+'.')
 
 
     def ducttape_mrna_seq_frame(self, name):
@@ -122,6 +125,9 @@ class ConsoleController:
             for mrna in gene.mrnas:
                 if mrna.name == name:
                     seq = self.genome.fasta.get_subseq(gene.seq_name, mrna.cds.indices[0])
+                    if seq == None:
+                        return False
+
                     pseq1 = translate(seq, 1, '+')
                     pseq2 = translate(seq, 2, '+')
                     pseq3 = translate(seq, 3, '+')
@@ -129,27 +135,35 @@ class ConsoleController:
                     nseq2 = translate(seq, 2, '-')
                     nseq3 = translate(seq, 3, '-')
 
-                    pepSeq = self.genome.annot.get_entry(name)[9]
-                    if pepSeq.find(pseq1) != -1:
-                        gene.strand = '+'
-                        mrna.cds.phase[0] = 0
-                    elif pepSeq.find(pseq2) != -1:
-                        gene.strand = '+'
-                        mrna.cds.phase[0] = 1
-                    elif pepSeq.find(pseq3) != -1:
-                        gene.strand = '+'
-                        mrna.cds.phase[0] = 2
-                    elif pepSeq.find(nseq1) != -1:
-                        gene.strand = '-'
-                        mrna.cds.phase[0] = 0
-                    elif pepSeq.find(nseq2) != -1:
-                        gene.strand = '-'
-                        mrna.cds.phase[0] = 1
-                    elif pepSeq.find(nseq3) != -1:
-                        gene.strand = '-'
-                        mrna.cds.phase[0] = 2
+                    annotEntry = self.genome.annot.get_entry(name)
+                    if annotEntry:
+                        pepSeq = annotEntry[9]
+                        if pepSeq == None:
+                            return False
 
-                    return True
+                        if pseq1 and pepSeq.find(pseq1) != -1:
+                            gene.strand = '+'
+                            mrna.cds.phase[0] = 0
+                        elif pseq2 and pepSeq.find(pseq2) != -1:
+                            gene.strand = '+'
+                            mrna.cds.phase[0] = 1
+                        elif pseq3 and pepSeq.find(pseq3) != -1:
+                            gene.strand = '+'
+                            mrna.cds.phase[0] = 2
+                        elif nseq1 and pepSeq.find(nseq1) != -1:
+                            gene.strand = '-'
+                            mrna.cds.phase[0] = 0
+                        elif nseq2 and pepSeq.find(nseq2) != -1:
+                            gene.strand = '-'
+                            mrna.cds.phase[0] = 1
+                        elif nseq3 and pepSeq.find(nseq3) != -1:
+                            gene.strand = '-'
+                            mrna.cds.phase[0] = 2
+                        else:
+                            return False
+                        return True
+                    else:
+                        return False
         return False
         
 

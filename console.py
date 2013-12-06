@@ -30,7 +30,21 @@ class GagCmd(cmd.Cmd):
 
     def parseline(self, line):
         if '|' in line:
-            return 'pipe', line.split('|'), line
+            commands = ['']
+            quotes = ''
+            for c in line:
+                if c == '|' and quotes == '':
+                    commands[-1] = commands[-1].strip()
+                    commands.append('')
+                else:
+                    if quotes == '' and (c == "'" or c == '"'):
+                        quotes = c
+                    elif quotes == c:
+                        quotes = ''
+                    commands[-1] += c
+            commands[-1] = commands[-1].strip()
+            if len(commands) > 1:
+                return 'pipe', commands, line
         return cmd.Cmd.parseline(self, line)
 
     def do_pipe(self, args):
@@ -64,6 +78,9 @@ class GagCmd(cmd.Cmd):
 
     def do_grep(self, line):
         self.output = self.controller.grep(line)
+
+    def do_sed(self, line):
+        self.output = self.controller.sed(line)
 
 
 ## Reading in files
@@ -105,7 +122,7 @@ class GagCmd(cmd.Cmd):
         self.controller.apply_bed(line)
 
     def do_ducttapeseqframes(self, line):
-        print(self.controller.duct_tape_seq_frames(line))
+        self.controller.duct_tape_seq_frames(line)
 
 
 ## Output info to console
