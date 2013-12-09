@@ -54,6 +54,7 @@ class GagCmd(cmd.Cmd):
                 self.controller.input = buf
             else:
                 self.controller.input = ''
+            self.output = ''
             self.onecmd(arg)
             if hasattr(self, 'output') and self.output:
                 buf = self.output

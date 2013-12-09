@@ -55,10 +55,11 @@ class Genome:
                 if gene.seq_name != seq[0]:
                     continue
 
-                if genes == None or gene.name not in genes:
+                if genes != None and gene.name not in genes:
                     continue
 
-                genes.remove(gene.name)
+                if genes != None:
+                    genes.remove(gene.name)
 
                 newEntries = gene.to_tbl_entries()
                 for entry in newEntries:
