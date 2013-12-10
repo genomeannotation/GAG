@@ -115,7 +115,8 @@ class ConsoleController:
             self.genome.gff.apply_bed(bed)
             self.genome.gff.remove_empty_genes()
 
-    def subset_fasta(self):
+    def subset_fasta(self, line):
+        # line parameter is not used, but Cmd likes to pass it so there it is.
         self.genome.fasta.subset_fasta(self.seqlist)
 
     def duct_tape_seq_frames(self, line):

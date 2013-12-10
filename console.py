@@ -6,6 +6,14 @@ import readline
 import sys
 from src.console_controller import ConsoleController
 
+def try_catch(command, args):
+    try:
+        command(args) 
+    except:
+        e = sys.exc_info()[0]
+        print("Sorry, that command raised an exception. Here's what I know:\n")
+        print(e)
+
 
 class GagCmd(cmd.Cmd):
 
@@ -64,14 +72,14 @@ class GagCmd(cmd.Cmd):
         print("Writes gff, fasta and trinotate files to the specified directory.\n")
 
     def do_barfsession(self, line):
-        self.controller.barf_session(line)
+        try_catch(self.controller.barf_session, line)
 
     def help_loadsession(self):
         print("Usage: loadsession <directory>\n")
         print("Reads in a gff, fasta and trinotate file from the specified directory.\n")
 
     def do_loadsession(self, line):
-        self.controller.load_session(line)
+        try_catch(self.controller.load_session, line)
 
     def help_exit(self):
         print("Exit this console.\n")
@@ -97,7 +105,7 @@ class GagCmd(cmd.Cmd):
         print("Usage: addseq <seqid>\n")
 
     def do_addseq(self, line):
-        self.controller.add_seq(line)
+        try_catch(self.controller.add_seq, line)
 
 
 ## Reading in files
@@ -108,7 +116,7 @@ class GagCmd(cmd.Cmd):
         print("to the currently loaded fasta will be lost.\n")
 
     def do_readfasta(self, line):
-        self.controller.read_fasta(line)
+        try_catch(self.controller.read_fasta, line)
 
     def help_readgff(self):
         print("Usage: readgff <file_name>\n")
@@ -116,14 +124,14 @@ class GagCmd(cmd.Cmd):
         print("to the currently loaded gff will be lost.\n")
 
     def do_readgff(self, line):
-        self.controller.read_gff(line)
+        try_catch(self.controller.read_gff, line)
 
     def help_readtrinotate(self):
         print("Usage: readtrinotate <file_name>\n")
         print("Read annotations from a trinotate file.\n")
 
     def do_readtrinotate(self, line):
-        self.controller.read_trinotate(line)
+        try_catch(self.controller.read_trinotate, line)
 
 
 ## Manipulate genome
@@ -136,14 +144,14 @@ class GagCmd(cmd.Cmd):
         print("update the GFF file accordingly.\n")
 
     def do_applybed(self, line):
-        self.controller.apply_bed(line)
+        try_catch(self.controller.apply_bed, line)
 
     def help_subsetfasta(self):
         print("Usage: subsetfasta\n")
         print("(You must first use 'addseq' to create a list of sequence ids to keep)\n")
 
     def do_subsetfasta(self, line):
-        self.controller.subset_fasta()
+        try_catch(self.controller.subset_fasta, line)
 
     def help_ducttapeseqframes(self):
         print("Usage: ducttapeseqframes <mrna_id> [another_gene_id] [etc.]\n")
@@ -151,7 +159,7 @@ class GagCmd(cmd.Cmd):
         print("If it doesn't match, performs a six-frame translation and chooses the correct frame. Adjusts the gff accordingly.\n")
 
     def do_ducttapeseqframes(self, line):
-        self.controller.duct_tape_seq_frames(line)
+        try_catch(self.controller.duct_tape_seq_frames, line)
 
 
 ## Output info to console
@@ -161,20 +169,20 @@ class GagCmd(cmd.Cmd):
         print("Prints gff entry for corresponding gene to console.\n")
 
     def do_barfgenegff(self, line):
-        self.output = self.controller.barf_gff(line)
+        self.output = try_catch(self.controller.barf_gff, line)
 
     def help_barfseq(self):
         print("Usage: barfseq <seq_id> <start_index> <end_index>\n")
         print("Prints (sub)sequence to console.\n")
 
     def do_barfseq(self, line):
-        self.output = self.controller.barf_seq(line)
+        self.output = try_catch(self.controller.barf_seq, line)
 
     def help_barfgenetbl(self):
         print("TODO")   # TODO
 
     def do_barfgenetbl(self, line):
-        self.output = self.controller.barf_gene_tbl(line)
+        self.output = try_catch(self.controller.barf_gene_tbl, line)
 
 
 ## Output info to file
@@ -184,14 +192,14 @@ class GagCmd(cmd.Cmd):
         print("Write a sweet feature table to the specified file.\n")
 
     def do_writetbl(self, line):
-        self.controller.write_tbl(line)
+        try_catch(self.controller.write_tbl, line)
 
     def help_writefasta(self):
         print("Usage: writefasta <file_name>\n")
         print("Writes current fasta to specified file. If you've applied a bed or used 'subsetfasta', the modified version is written.\n")
 
     def do_writefasta(self, line):
-        self.controller.write_fasta(line)
+        try_catch(self.controller.write_fasta, line)
 
 
 ## tbl2asn integration
@@ -201,13 +209,13 @@ class GagCmd(cmd.Cmd):
         print("Creates a new folder, links current fasta and template file, writes current genes to .tbl file.\n")
 
     def do_preptbl2asn(self, line):
-        self.controller.prep_tbl2asn(line)
+        try_catch(self.controller.prep_tbl2asn, line)
 
     def help_settbl2asnexecutable(self):
         print("Usage: settbl2asnexecutable <path/to/tbl2asn>\n")
 
     def do_settbl2asnexecutable(self, line):
-        self.controller.set_tbl2asn_executable(line)
+        try_catch(self.controller.set_tbl2asn_executable, line)
 
     def help_runtbl2asn(self):
         print("Usage: runtbl2asn <path>\n")
@@ -215,7 +223,7 @@ class GagCmd(cmd.Cmd):
         print("(See preptbl2asn, settbl2asnexecutable)\n")
 
     def do_runtbl2asn(self, line):
-        self.controller.run_tbl2asn(line)
+        try_catch(self.controller.run_tbl2asn, line)
 
 
 
