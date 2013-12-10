@@ -147,6 +147,30 @@ class GagCmd(cmd.Cmd):
     def do_writetbl(self, line):
         self.controller.write_tbl(line)
 
+## tbl2asn integration
+
+    def help_preptbl2asn(self):
+        print("Usage: preptbl2asn <path>\n")
+        print("Creates a new folder, links current fasta and template file, writes current genes to .tbl file.\n")
+
+    def do_preptbl2asn(self, line):
+        self.controller.prep_tbl2asn(line)
+
+    def help_settbl2asnexecutable(self):
+        print("Usage: settbl2asnexecutable <path/to/tbl2asn>\n")
+
+    def do_settbl2asnexecutable(self, line):
+        self.controller.set_tbl2asn_executable(line)
+
+    def help_runtbl2asn(self):
+        print("Usage: runtbl2asn <path>\n")
+        print("Runs tbl2asn executable in the folder provided. Folder must contain files with extensions .fsa, .sbt and .tbl, and tbl2asn executable must be set.\n")
+        print("(See preptbl2asn, settbl2asnexecutable)\n")
+
+    def do_runtbl2asn(self, line):
+        self.controller.run_tbl2asn(line)
+
+
 
 ########################################################################
 

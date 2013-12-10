@@ -236,12 +236,12 @@ class ConsoleController:
             return True
 
     def run_tbl2asn(self, line):
-        if ready_for_tbl2asn(line):
+        if self.ready_for_tbl2asn(line):
             tbl2asn_command = self.tbl2asn_executable + " -p " + line
             tbl2asn_command += " -M b -V vb -c f -Z discrep"
             os.system(tbl2asn_command)
         else:
-            sys.stderr.write("Sorry, " + line + " isn't a valid tbl2asn directory. Try running 'prep_tbl2asn' first.")
+            sys.stderr.write("Sorry, unable to run tbl2asn in " + line + ". Try prep_tbl2asn or settbl2asnexecutable first.")
             
 
 
