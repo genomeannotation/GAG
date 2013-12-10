@@ -10,6 +10,7 @@ import test.bed_tests
 import test.gff_tests
 import test.assorted_tests
 import test.genome_tests
+import test.console_controller_tests
 
 # get suites from test modules
 suite1 = test.fasta_tests.suite()
@@ -20,6 +21,7 @@ suite5 = test.bed_tests.suite()
 suite6 = test.gff_tests.suite()
 suite7 = test.assorted_tests.suite()
 suite8 = test.genome_tests.suite()
+suite9 = test.console_controller_tests.suite()
 
 # collect suites in a TestSuite object
 suite = unittest.TestSuite()
@@ -31,6 +33,7 @@ suite.addTest(suite5)
 suite.addTest(suite6)
 suite.addTest(suite7)
 suite.addTest(suite8)
+suite.addTest(suite9)
 
 # run suite
 unittest.TextTestRunner(verbosity=2).run(suite)

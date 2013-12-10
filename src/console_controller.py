@@ -6,6 +6,7 @@ import sys
 import csv
 import subprocess
 import StringIO
+import pdb
 from src.fasta import Fasta
 from src.gene import Gene
 from src.mrna import MRNA
@@ -24,6 +25,8 @@ class ConsoleController:
     def __init__(self):
         self.genome = Genome()
         self.input = ''
+        self.fasta_file = None
+        self.tbl2asn_executable = None
 
     def barf_session(self, line):
         if len(line) == 0:
@@ -79,6 +82,7 @@ class ConsoleController:
 ## Reading in files
 
     def read_fasta(self, line):
+        self.fasta_file = line
         self.genome.fasta = Fasta()
         self.genome.fasta.read_file(line)
 
@@ -196,6 +200,49 @@ class ConsoleController:
         with open(line, 'w') as outFile:
             outFile.write(self.genome.write_string())
             outFile.close()
+
+## New, Exciting tbl2asn integration
+    def set_tbl2asn_executable(self, line):
+        self.tbl2asn_executable = line
+
+    def prep_tbl2asn(self, line):
+        if os.path.exists(line):
+            sys.stderr.write("Sorry, looks like " + line + " already exists.\n")
+            sys.stderr.write("Please try command again with another directory name.\n")
+            return
+        else:
+            # create tbl2asn directory
+            os.system('mkdir ' + line)
+            # symlink template file and fasta file
+            template_abs_path = os.path.abspath(self.genome.template_file)
+            os.system('ln -s ' + template_abs_path + ' ' + line + '/gag.sbt')
+            fasta_abs_path = os.path.abspath(self.fasta_file)
+            os.system('ln -s ' + fasta_abs_path + ' ' + line + '/gag.fsa')
+            # write tbl file
+            self.write_tbl(line + "/gag.tbl")
+
+    def ready_for_tbl2asn(self, line):
+        if not self.tbl2asn_executable:
+            return False
+        elif not os.path.isdir(line):
+            return False
+        elif not os.path.exists(line + "/gag.fsa"):
+            return False
+        elif not os.path.exists(line + "/gag.tbl"):
+            return False
+        elif not os.path.exists(line + "/gag.sbt"):
+            return False
+        else:
+            return True
+
+    def run_tbl2asn(self, line):
+        if ready_for_tbl2asn(line):
+            tbl2asn_command = self.tbl2asn_executable + " -p " + line
+            tbl2asn_command += " -M b -V vb -c f -Z discrep"
+            os.system(tbl2asn_command)
+        else:
+            sys.stderr.write("Sorry, " + line + " isn't a valid tbl2asn directory. Try running 'prep_tbl2asn' first.")
+            
 
 
 
