@@ -13,6 +13,7 @@ class TestConsoleController(unittest.TestCase):
 
     def test_constructor(self):
         self.assertEqual('ConsoleController', self.ctrlr.__class__.__name__)
+        self.assertTrue(isinstance(self.ctrlr.seqlist, list))
 
     def test_read_fasta(self):
         self.assertFalse(self.ctrlr.genome.fasta)
@@ -21,6 +22,11 @@ class TestConsoleController(unittest.TestCase):
         self.assertTrue(self.ctrlr.genome.fasta)
         # ctrlr should retain fastas filename
         self.assertEquals("demo/demo.fasta", self.ctrlr.fasta_file)
+
+    def test_add_seq(self):
+        self.assertEquals(0, len(self.ctrlr.seqlist))
+        self.ctrlr.add_seq('seq2')
+        self.assertEquals(1, len(self.ctrlr.seqlist))
 
     def test_read_gff(self):
         self.assertFalse(self.ctrlr.genome.gff)

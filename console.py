@@ -83,6 +83,14 @@ class GagCmd(cmd.Cmd):
     def do_sed(self, line):
         self.output = self.controller.sed(line)
 
+## Assorted utilities
+
+    def help_addseq(self):
+        print("Usage: addseq <seqid>\n")
+
+    def do_addseq(self, line):
+        self.controller.add_seq(line)
+
 
 ## Reading in files
 
@@ -122,6 +130,13 @@ class GagCmd(cmd.Cmd):
     def do_applybed(self, line):
         self.controller.apply_bed(line)
 
+    def help_subsetfasta(self):
+        print("Usage: subsetfasta\n")
+        print("(You must first use 'addseq' to create a list of sequence ids to keep)\n")
+
+    def do_subsetfasta(self, line):
+        self.controller.subset_fasta()
+
     def do_ducttapeseqframes(self, line):
         self.controller.duct_tape_seq_frames(line)
 
@@ -146,6 +161,14 @@ class GagCmd(cmd.Cmd):
 
     def do_writetbl(self, line):
         self.controller.write_tbl(line)
+
+    def help_writefasta(self):
+        print("Usage: writefasta <file_name>\n")
+        print("Writes current fasta to specified file. If you've applied a bed or used 'subsetfasta', the modified version is written.\n")
+
+    def do_writefasta(self, line):
+        self.controller.write_fasta(line)
+
 
 ## tbl2asn integration
 

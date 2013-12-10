@@ -27,6 +27,7 @@ class ConsoleController:
         self.input = ''
         self.fasta_file = None
         self.tbl2asn_executable = None
+        self.seqlist = []
 
     def barf_session(self, line):
         if len(line) == 0:
@@ -78,6 +79,11 @@ class ConsoleController:
         (out, err) = proc.communicate(self.input)
         return out
 
+## Assorted utilities
+
+    def add_seq(self, line):
+        self.seqlist.append(line)
+
 
 ## Reading in files
 
@@ -108,6 +114,9 @@ class ConsoleController:
             self.genome.fasta.apply_bed(bed)
             self.genome.gff.apply_bed(bed)
             self.genome.gff.remove_empty_genes()
+
+    def subset_fasta(self):
+        self.genome.fasta.subset_fasta(self.seqlist)
 
     def duct_tape_seq_frames(self, line):
         args = None        
@@ -200,6 +209,10 @@ class ConsoleController:
         with open(line, 'w') as outFile:
             outFile.write(self.genome.write_string())
             outFile.close()
+
+    def write_fasta(self, line):
+        with open(line, 'w') as outFile:
+            outFile.write(self.genome.fasta.write_string())
 
 ## New, Exciting tbl2asn integration
     def set_tbl2asn_executable(self, line):

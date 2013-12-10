@@ -93,3 +93,6 @@ class Fasta:
             return True
         else:
             return False
+
+    def subset_fasta(self, seqlist):
+        self.entries = [e for e in self.entries if e[0] in seqlist]
