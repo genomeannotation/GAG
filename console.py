@@ -59,8 +59,16 @@ class GagCmd(cmd.Cmd):
             if hasattr(self, 'output') and self.output:
                 buf = self.output
 
+    def help_barfsession(self):
+        print("Usage: barfsession <directory>\n")
+        print("Writes gff, fasta and trinotate files to the specified directory.\n")
+
     def do_barfsession(self, line):
         self.controller.barf_session(line)
+
+    def help_loadsession(self):
+        print("Usage: loadsession <directory>\n")
+        print("Reads in a gff, fasta and trinotate file from the specified directory.\n")
 
     def do_loadsession(self, line):
         self.controller.load_session(line)
@@ -137,17 +145,33 @@ class GagCmd(cmd.Cmd):
     def do_subsetfasta(self, line):
         self.controller.subset_fasta()
 
+    def help_ducttapeseqframes(self):
+        print("Usage: ducttapeseqframes <mrna_id> [another_gene_id] [etc.]\n")
+        print("Checks the translation of the coding sequence of each supplied mrna against the expected protein sequence from Trinotate.\n")
+        print("If it doesn't match, performs a six-frame translation and chooses the correct frame. Adjusts the gff accordingly.\n")
+
     def do_ducttapeseqframes(self, line):
         self.controller.duct_tape_seq_frames(line)
 
 
 ## Output info to console
 
+    def help_barfgenegff(self):
+        print("Usage: barfgenegff <gene_id>\n")
+        print("Prints gff entry for corresponding gene to console.\n")
+
     def do_barfgenegff(self, line):
         self.output = self.controller.barf_gff(line)
 
+    def help_barfseq(self):
+        print("Usage: barfseq <seq_id> <start_index> <end_index>\n")
+        print("Prints (sub)sequence to console.\n")
+
     def do_barfseq(self, line):
         self.output = self.controller.barf_seq(line)
+
+    def help_barfgenetbl(self):
+        print("TODO")   # TODO
 
     def do_barfgenetbl(self, line):
         self.output = self.controller.barf_gene_tbl(line)
