@@ -122,7 +122,7 @@ class ConsoleController:
         # line parameter is not used, but Cmd likes to pass it so there it is.
         self.genome.fasta.subset_fasta(self.seqlist)
 
-    def subset_genome(self):
+    def subset_gff(self):
         self.genome.gff.subset_gff(self.seqlist)
 
     def duct_tape_seq_frames(self, line):
@@ -145,16 +145,15 @@ class ConsoleController:
             for mrna in gene.mrnas:
                 if mrna.name == name:
                     seq = self.genome.fasta.get_subseq(gene.seq_name, mrna.cds.indices[0])
-                    if seq == None or len(seq) < 4:
+                    if seq == None or len(seq) < 6:
                         return False
                     
-                    seq = seq[:-1] # Trim off last character, because trinotate chops of stop codons
-                    pseq1 = translate(seq, 1, '+')
-                    pseq2 = translate(seq, 2, '+')
-                    pseq3 = translate(seq, 3, '+')
-                    nseq1 = translate(seq, 1, '-')
-                    nseq2 = translate(seq, 2, '-')
-                    nseq3 = translate(seq, 3, '-')
+                    pseq1 = translate(seq, 1, '+')[:-1]
+                    pseq2 = translate(seq, 2, '+')[:-1]
+                    pseq3 = translate(seq, 3, '+')[:-1]
+                    nseq1 = translate(seq, 1, '-')[:-1]
+                    nseq2 = translate(seq, 2, '-')[:-1]
+                    nseq3 = translate(seq, 3, '-')[:-1]
 
                     annotEntry = self.genome.annot.get_entry(name)
                     if annotEntry:

@@ -9,9 +9,9 @@ from src.console_controller import ConsoleController
 def try_catch(command, args):
     try:
         if args is not None:
-            command(args) 
+            return command(args) 
         else:
-            command()
+            return command()
     except:
         e = sys.exc_info()[0]
         print("Sorry, that command raised an exception. Here's what I know:\n")
