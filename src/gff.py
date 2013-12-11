@@ -196,5 +196,8 @@ class GFF:
                 coords = bed.get_coordinates(gene.seq_name)
                 gene.trim(coords)
 
+    def subset_gff(self, seqlist):
+        self.genes = [g for g in self.genes if g.seq_name in seqlist]
+
     def remove_empty_genes(self):
         self.genes = [g for g in self.genes if not g.is_empty()]

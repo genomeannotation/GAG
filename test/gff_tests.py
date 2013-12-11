@@ -208,6 +208,24 @@ class TestGFF(unittest.TestCase):
         assert not gene2.trim.called
         gene1.trim.assert_called_with([100, 500])
 
+    def test_subset_gff(self):
+        gene1 = Mock()
+        seq1 = PropertyMock(return_value = 'sctg_1')
+        type(gene1).seq_name = seq1
+        gene2 = Mock()
+        seq2 = PropertyMock(return_value = 'sctg_2')
+        type(gene2).seq_name = seq2
+        gene3 = Mock()
+        seq3 = PropertyMock(return_value = 'sctg_3')
+        type(gene3).seq_name = seq3
+        self.test_gff1.genes.extend([gene1, gene2, gene3])
+        self.assertEquals(3, len(self.test_gff1.genes))
+        self.test_gff1.subset_gff(['sctg_1', 'sctg_3'])
+        self.assertEquals(2, len(self.test_gff1.genes))
+        self.assertEquals('sctg_1', self.test_gff1.genes[0].seq_name)
+        self.assertEquals('sctg_3', self.test_gff1.genes[1].seq_name)
+        
+
     def test_remove_empty_genes(self):
         nonempty_gene = Mock()
         nonempty_gene.is_empty.return_value = False
