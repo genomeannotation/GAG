@@ -119,6 +119,9 @@ class ConsoleController:
         # line parameter is not used, but Cmd likes to pass it so there it is.
         self.genome.fasta.subset_fasta(self.seqlist)
 
+    def subset_genome(self, line):
+        self.genome.gff.subset_gff(self.seqlist)
+
     def duct_tape_seq_frames(self, line):
         args = None        
 
@@ -227,11 +230,11 @@ class ConsoleController:
         else:
             # create tbl2asn directory
             os.system('mkdir ' + line)
-            # symlink template file and fasta file
+            # symlink template file 
             template_abs_path = os.path.abspath(self.genome.template_file)
             os.system('ln -s ' + template_abs_path + ' ' + line + '/gag.sbt')
-            fasta_abs_path = os.path.abspath(self.fasta_file)
-            os.system('ln -s ' + fasta_abs_path + ' ' + line + '/gag.fsa')
+            # write fasta file
+            self.write_fasta(line + '/gag.fsa')
             # write tbl file
             self.write_tbl(line + "/gag.tbl")
 

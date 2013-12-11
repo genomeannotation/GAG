@@ -153,6 +153,13 @@ class GagCmd(cmd.Cmd):
     def do_subsetfasta(self, line):
         try_catch(self.controller.subset_fasta, line)
 
+    def help_subsetgff(self):
+        print("Usage: subsetgff\n")
+        print("(You must first use 'addseq' to create a list of sequence ids to keep)\n")
+
+    def do_subsetgff(self, line):
+        try_catch(self.controller.subset_gff, line)
+
     def help_ducttapeseqframes(self):
         print("Usage: ducttapeseqframes <mrna_id> [another_gene_id] [etc.]\n")
         print("Checks the translation of the coding sequence of each supplied mrna against the expected protein sequence from Trinotate.\n")
