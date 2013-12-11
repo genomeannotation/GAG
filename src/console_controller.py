@@ -125,9 +125,10 @@ class ConsoleController:
             for mrna in gene.mrnas:
                 if mrna.name == name:
                     seq = self.genome.fasta.get_subseq(gene.seq_name, mrna.cds.indices[0])
-                    if seq == None:
+                    if seq == None or len(seq) < 4:
                         return False
-
+                    
+                    seq = seq[:-1] # Trim off last character, because trinotate chops of stop codons
                     pseq1 = translate(seq, 1, '+')
                     pseq2 = translate(seq, 2, '+')
                     pseq3 = translate(seq, 3, '+')
