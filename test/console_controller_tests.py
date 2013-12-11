@@ -28,6 +28,13 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.add_seq('seq2')
         self.assertEquals(1, len(self.ctrlr.seqlist))
 
+    def test_clear_seqlist(self):
+        self.assertEquals(0, len(self.ctrlr.seqlist))
+        self.ctrlr.seqlist = ['fooseq', 'barseq']
+        self.assertEquals(2, len(self.ctrlr.seqlist))
+        self.ctrlr.clear_seqlist()
+        self.assertEquals(0, len(self.ctrlr.seqlist))
+
     def test_read_gff(self):
         self.assertFalse(self.ctrlr.genome.gff)
         self.ctrlr.read_gff("demo/demo.gff")

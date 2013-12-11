@@ -8,7 +8,10 @@ from src.console_controller import ConsoleController
 
 def try_catch(command, args):
     try:
-        command(args) 
+        if args is not None:
+            command(args) 
+        else:
+            command()
     except:
         e = sys.exc_info()[0]
         print("Sorry, that command raised an exception. Here's what I know:\n")
@@ -151,14 +154,14 @@ class GagCmd(cmd.Cmd):
         print("(You must first use 'addseq' to create a list of sequence ids to keep)\n")
 
     def do_subsetfasta(self, line):
-        try_catch(self.controller.subset_fasta, line)
+        try_catch(self.controller.subset_fasta, None)
 
     def help_subsetgff(self):
         print("Usage: subsetgff\n")
         print("(You must first use 'addseq' to create a list of sequence ids to keep)\n")
 
     def do_subsetgff(self, line):
-        try_catch(self.controller.subset_gff, line)
+        try_catch(self.controller.subset_gff, None)
 
     def help_ducttapeseqframes(self):
         print("Usage: ducttapeseqframes <mrna_id> [another_gene_id] [etc.]\n")

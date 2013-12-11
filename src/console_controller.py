@@ -84,6 +84,9 @@ class ConsoleController:
     def add_seq(self, line):
         self.seqlist.append(line)
 
+    def clear_seqlist(self):
+        del(self.seqlist[:])
+
 
 ## Reading in files
 
@@ -115,11 +118,11 @@ class ConsoleController:
             self.genome.gff.apply_bed(bed)
             self.genome.gff.remove_empty_genes()
 
-    def subset_fasta(self, line):
+    def subset_fasta(self):
         # line parameter is not used, but Cmd likes to pass it so there it is.
         self.genome.fasta.subset_fasta(self.seqlist)
 
-    def subset_genome(self, line):
+    def subset_genome(self):
         self.genome.gff.subset_gff(self.seqlist)
 
     def duct_tape_seq_frames(self, line):
