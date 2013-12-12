@@ -26,7 +26,10 @@ class GagCmd(cmd.Cmd):
         cmd.Cmd.__init__(self)
         self.prompt = "GAG> "
         readline.set_history_length(1000)
-        readline.read_history_file('.gaghistory')
+        try:
+            readline.read_history_file('.gaghistory')
+        except IOError:
+            sys.stderr.write("No .gaghistory file available...")
         self.controller = ConsoleController() 
 
     def precmd(self, line):
