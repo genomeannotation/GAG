@@ -27,6 +27,7 @@ class ConsoleController:
         self.input = ''
         self.fasta_file = None
         self.tbl2asn_executable = None
+        self.template_file = None
         self.seqlist = []
 
     def barf_session(self, line):
@@ -86,6 +87,9 @@ class ConsoleController:
 
     def clear_seqlist(self):
         del(self.seqlist[:])
+
+    def add_template_file(self, line):
+        self.template_file = line
 
 
 ## Reading in files
@@ -230,11 +234,14 @@ class ConsoleController:
             sys.stderr.write("Sorry, looks like " + line + " already exists.\n")
             sys.stderr.write("Please try command again with another directory name.\n")
             return
+        elif not self.template_file:
+            sys.stderr.write("No template file specified. Try 'addtemplatefile'\n")
+            return
         else:
             # create tbl2asn directory
             os.system('mkdir ' + line)
             # symlink template file 
-            template_abs_path = os.path.abspath(self.genome.template_file)
+            template_abs_path = os.path.abspath(self.template_file)
             os.system('ln -s ' + template_abs_path + ' ' + line + '/gag.sbt')
             # write fasta file
             self.write_fasta(line + '/gag.fsa')

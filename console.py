@@ -110,6 +110,12 @@ class GagCmd(cmd.Cmd):
     def do_addseq(self, line):
         try_catch(self.controller.add_seq, line)
 
+    def help_addtemplatefile(self):
+        print("Usage: addtemplatefile <path/to/file>\n")
+
+    def do_addtemplatefile(self, line):
+        try_catch(self.controller.add_template_file, line)
+
 
 ## Reading in files
 

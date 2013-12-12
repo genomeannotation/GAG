@@ -10,15 +10,10 @@ class Genome:
         self.fasta = None
         self.gff = None
         self.annot = None
-        self.template_file = None
         self.entries = []
 
     def verify_file(self, filename):
         return os.path.exists(filename) 
-
-    def add_template_file(self, filename):
-        if self.verify_file(filename):
-            self.template_file = filename
 
     def addEntry(self, entry):
         entries.append(entry)

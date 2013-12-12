@@ -35,6 +35,11 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.clear_seqlist()
         self.assertEquals(0, len(self.ctrlr.seqlist))
 
+    def test_add_template_file(self):
+        self.assertFalse(self.ctrlr.template_file)
+        self.ctrlr.add_template_file("demo/demo.sbt")
+        self.assertTrue(self.ctrlr.template_file)
+
     def test_read_gff(self):
         self.assertFalse(self.ctrlr.genome.gff)
         self.ctrlr.read_gff("demo/demo.gff")
@@ -45,7 +50,7 @@ class TestConsoleController(unittest.TestCase):
         # must have a fasta, a tbl and an sbt
         self.ctrlr.read_fasta("demo/demo.fasta")
         self.ctrlr.read_gff("demo/demo.gff")
-        self.ctrlr.genome.add_template_file("demo/demo.sbt")
+        self.ctrlr.add_template_file("demo/demo.sbt")
         self.ctrlr.prep_tbl2asn("tbl2asn_unittest")
         self.assertTrue(os.path.isdir("tbl2asn_unittest"))
         self.assertTrue(os.path.exists("tbl2asn_unittest/gag.sbt"))
