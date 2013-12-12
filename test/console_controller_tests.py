@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import unittest
-from mock import Mock, patch
+from mock import Mock, patch, PropertyMock
 import sys
 import os
 from src.console_controller import ConsoleController
@@ -15,13 +15,39 @@ class TestConsoleController(unittest.TestCase):
         self.assertEqual('ConsoleController', self.ctrlr.__class__.__name__)
         self.assertTrue(isinstance(self.ctrlr.seqlist, list))
 
+    def test_status(self):
+        expected = "Fasta: no fasta\nGFF: no gff\nTemplate File: no template file\n"
+        expected += "Seqlist: no seqlist\nTbl2asn Executable: no tbl2asn executable\n"
+        self.assertEquals(expected, self.ctrlr.status())
+
+        expected2 = "Fasta: Fasta containing 5 sequences\nGFF: GFF containing 20 genes\n"
+        expected2 += "Template File: foo.sbt\nSeqlist: ['seq1', 'seq3']\n"
+        expected2 += "Tbl2asn Executable: linux.tbl2asn\n"
+        def fastastring(self):
+            return "Fasta containing 5 sequences\n"
+        def gffstring(self):
+            return "GFF containing 20 genes\n"
+        mock_genome = Mock()
+        mock_fasta = Mock()
+        mock_fasta.__str__ = fastastring
+        type(mock_genome).fasta = mock_fasta
+        mock_gff = Mock()
+        mock_gff.__str__ = gffstring
+        type(mock_genome).gff = mock_gff
+        self.ctrlr.genome = mock_genome
+        self.ctrlr.template_file = "foo.sbt"
+        self.ctrlr.seqlist = ['seq1', 'seq3']
+        self.ctrlr.tbl2asn_executable = "linux.tbl2asn"
+        
+        self.assertEquals(expected2, self.ctrlr.status())
+        
+        
+        
+
     def test_read_fasta(self):
         self.assertFalse(self.ctrlr.genome.fasta)
-        self.assertFalse(self.ctrlr.fasta_file)
         self.ctrlr.read_fasta("demo/demo.fasta")
         self.assertTrue(self.ctrlr.genome.fasta)
-        # ctrlr should retain fastas filename
-        self.assertEquals("demo/demo.fasta", self.ctrlr.fasta_file)
 
     def test_add_seq(self):
         self.assertEquals(0, len(self.ctrlr.seqlist))

@@ -21,7 +21,7 @@ class GFF:
     def __str__(self):
         result = "GFF containing "
         result += str(len(self.genes))
-        result += " genes"
+        result += " genes\n"
         return result
 
     def validate_line(self, line):

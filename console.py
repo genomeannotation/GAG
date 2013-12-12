@@ -116,6 +116,13 @@ class GagCmd(cmd.Cmd):
     def do_addtemplatefile(self, line):
         try_catch(self.controller.add_template_file, line)
 
+    def help_status(self):
+        print("Usage: status\n")
+        print("Gives a brief summary of what's in memory\n")
+
+    def do_status(self, line):
+        print(try_catch(self.controller.status, None))
+
 
 ## Reading in files
 

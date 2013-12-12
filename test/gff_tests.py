@@ -31,7 +31,7 @@ class TestGFF(unittest.TestCase):
         self.assertFalse(self.test_gff1.current_cds)
 
     def test_str(self):
-        expected = "GFF containing 0 genes"
+        expected = "GFF containing 0 genes\n"
         self.assertEquals(expected, str(self.test_gff1))
 
     def test_validate_line(self):

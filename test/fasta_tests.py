@@ -13,8 +13,12 @@ class TestFasta(unittest.TestCase):
         self.fasta1.read_string('>seq1\nATGCCGTA\n>seq2\nAGGTCC\n>seq3\nGGGGGG')
 
     def test_constructor(self):
-        self.assertEqual('Fasta', self.fasta0.__class__.__name__)
+        self.assertEquals('Fasta', self.fasta0.__class__.__name__)
         self.assertTrue(isinstance(self.fasta0.entries, list))
+
+    def test_string(self):
+        expected = "Fasta containing 3 sequences\n"
+        self.assertEquals(expected, str(self.fasta1))
 
     def test_read_string(self):
         self.assertEquals(0, len(self.fasta0.entries))

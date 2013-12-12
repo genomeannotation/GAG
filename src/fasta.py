@@ -7,6 +7,12 @@ class Fasta:
     def __init__(self):
         self.entries = list()
 
+    def __str__(self):
+        result = "Fasta containing "
+        result += str(len(self.entries))
+        result += " sequences\n"
+        return result
+
     def read_string(self, data):
         seq_id = ''
         seq = ''

@@ -25,7 +25,6 @@ class ConsoleController:
     def __init__(self):
         self.genome = Genome()
         self.input = ''
-        self.fasta_file = None
         self.tbl2asn_executable = None
         self.template_file = None
         self.seqlist = []
@@ -91,11 +90,34 @@ class ConsoleController:
     def add_template_file(self, line):
         self.template_file = line
 
+    def status(self):
+        result = ""
+        if self.genome.fasta:
+            result += "Fasta: " + str(self.genome.fasta)
+        else:
+            result += "Fasta: no fasta\n"
+        if self.genome.gff:
+            result += "GFF: " + str(self.genome.gff)
+        else:
+            result += "GFF: no gff\n"
+        if self.template_file:
+            result += "Template File: " + self.template_file + "\n"
+        else:
+            result += "Template File: no template file\n"
+        if self.seqlist:
+            result += "Seqlist: " + str(self.seqlist) + "\n"
+        else:
+            result += "Seqlist: no seqlist\n"
+        if self.tbl2asn_executable:
+            result += "Tbl2asn Executable: " + self.tbl2asn_executable + "\n"
+        else:
+            result += "Tbl2asn Executable: no tbl2asn executable\n"
+        return result
+
 
 ## Reading in files
 
     def read_fasta(self, line):
-        self.fasta_file = line
         self.genome.fasta = Fasta()
         self.genome.fasta.read_file(line)
 
