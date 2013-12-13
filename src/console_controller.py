@@ -69,7 +69,6 @@ class ConsoleController:
         return out
 
     def grep(self, line):
-        print(line)
         proc = subprocess.Popen(['grep '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
         (out, err) = proc.communicate(self.input)
         return out
@@ -114,6 +113,24 @@ class ConsoleController:
             result += "Tbl2asn Executable: no tbl2asn executable\n"
         return result
 
+    def barftofile(self, line):
+        args = line.split()
+
+        with open(args[0], 'w') as f:
+            if len(args) > 0:
+                for arg in args[1:]:
+                    f.write(arg+' ')
+            else:
+                f.write(self.input)
+
+    def barffromfile(self, line):
+        result = ''
+        with open(line.strip(), 'r') as f:
+            for fline in f:
+                result += fline
+        return result
+            
+
 
 ## Reading in files
 
@@ -152,6 +169,7 @@ class ConsoleController:
         self.genome.gff.subset_gff(self.seqlist)
 
     def duct_tape_seq_frames(self, line):
+        result = ''
         args = None        
 
         if len(line) > 0:
@@ -161,10 +179,34 @@ class ConsoleController:
 
         for yarg in args: # I'm a pirate
             if self.ducttape_mrna_seq_frame(yarg):
-                print('Fixed '+yarg+'.')
+                result += 'Fixed '+yarg+'.\n'
             else:
-                print('Failed to fix '+yarg+'.')
+                result += 'Failed to fix '+yarg+'.\n'
+        return result
 
+
+    def removemrna(self, line):
+        args = None        
+
+        if len(line) > 0:
+            args = line.split()
+        else:
+            args = self.input.split('\n')
+
+        for name in args:
+            eraseGenes = []
+            for gene in self.genome.gff.genes:
+                erase = []
+                for mrna in gene.mrnas:
+                    if mrna.name == name:
+                        erase.append(mrna)
+                for mrna in erase:
+                    gene.mrnas.remove(mrna)
+                if len(gene.mrnas) == 0:
+                    eraseGenes.append(gene)
+            for gene in eraseGenes:
+                self.genome.gff.genes.remove(gene)
+                        
 
     def ducttape_mrna_seq_frame(self, name):
         for gene in self.genome.gff.genes:
