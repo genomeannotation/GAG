@@ -5,6 +5,7 @@ from mock import Mock, patch, PropertyMock
 from src.gff import GFF
 from src.bed import Bed
 import sys
+import os
 import csv
 
 class TestGFF(unittest.TestCase):
@@ -180,9 +181,16 @@ class TestGFF(unittest.TestCase):
         self.assertEqual('77.2', gff.genes[2].mrnas[2].exon.identifier[0])
         self.assertEqual(2084, gff.genes[2].mrnas[2].exon.indices[0][1])
 
+        try:
+            os.system('mkdir TEST_RUN')
+        except:
+            pass
+
         with open('TEST_RUN/foo', 'wb') as outfile:
             for gene in gff.genes:  
                 outfile.write(gene.to_gff())
+
+        os.system('rm -r TEST_RUN')
 
     def test_apply_bed(self):
         # build mock genes
