@@ -105,6 +105,15 @@ class GagCmd(cmd.Cmd):
     def do_sed(self, line):
         self.output = self.controller.sed(line)
 
+    def do_sort(self, line):
+        self.output = self.controller.sort(line)
+
+    def do_unique(self, line):
+        self.output = self.controller.unique(line)
+
+    def do_barf(self, line):
+        self.output = self.controller.barf(line)
+
 ## Assorted utilities
 
     def help_addseq(self):

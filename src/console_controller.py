@@ -78,6 +78,21 @@ class ConsoleController:
         (out, err) = proc.communicate(self.input)
         return out
 
+    def sort(self, line):
+        proc = subprocess.Popen(['sort '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
+        (out, err) = proc.communicate(self.input)
+        return out
+
+    def unique(self, line):
+        proc = subprocess.Popen(['unique '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
+        (out, err) = proc.communicate(self.input)
+        return out
+
+    def barf(self, line):
+        proc = subprocess.Popen(['echo '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
+        (out, err) = proc.communicate(self.input)
+        return out
+
 ## Assorted utilities
 
     def add_seq(self, line):
@@ -117,7 +132,7 @@ class ConsoleController:
         args = line.split()
 
         with open(args[0], 'w') as f:
-            if len(args) > 0:
+            if len(args) > 1:
                 for arg in args[1:]:
                     f.write(arg+' ')
             else:
