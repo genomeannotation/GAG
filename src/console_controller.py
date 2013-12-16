@@ -96,7 +96,14 @@ class ConsoleController:
 ## Assorted utilities
 
     def add_seq(self, line):
-        self.seqlist.append(line)
+        args = []
+        if len(line) > 0:
+            args = line.split()
+        else:
+            args = self.input.split('\n')
+
+        for arg in args:
+            self.seqlist.append(arg)
 
     def clear_seqlist(self):
         del(self.seqlist[:])
