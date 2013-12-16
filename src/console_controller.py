@@ -83,8 +83,8 @@ class ConsoleController:
         (out, err) = proc.communicate(self.input)
         return out
 
-    def unique(self, line):
-        proc = subprocess.Popen(['unique '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
+    def uniq(self, line):
+        proc = subprocess.Popen(['uniq '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
         (out, err) = proc.communicate(self.input)
         return out
 

@@ -108,8 +108,8 @@ class GagCmd(cmd.Cmd):
     def do_sort(self, line):
         self.output = self.controller.sort(line)
 
-    def do_unique(self, line):
-        self.output = self.controller.unique(line)
+    def do_uniq(self, line):
+        self.output = self.controller.uniq(line)
 
     def do_barf(self, line):
         self.output = self.controller.barf(line)
