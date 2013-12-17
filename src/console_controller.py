@@ -275,6 +275,15 @@ class ConsoleController:
                     else:
                         return False
         return False
+
+    def remove_all_gene_segments(self, line):
+        args = []
+        if len(line) > 0:
+            args = line.split()
+        else:
+            args = self.input.split('\n')
+        for arg in args:
+            self.genome.remove_all_gene_segments(arg)
         
 
 ## Output info to console

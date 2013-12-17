@@ -74,3 +74,7 @@ class Genome:
                 for entry in entries:    
                     output += entry.write_to_string()+'\n'
         return output
+
+    def remove_all_gene_segments(self, prefix):
+        self.gff.remove_all_gene_segments(prefix)
+

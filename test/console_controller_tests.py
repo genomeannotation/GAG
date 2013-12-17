@@ -50,6 +50,12 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.add_seq('seq2')
         self.assertEquals(1, len(self.ctrlr.seqlist))
 
+    def test_add_seq_multiline(self):
+        self.assertEquals(0, len(self.ctrlr.seqlist))
+        self.ctrlr.add_seq("seq1\nseq2\nseq3\nseq4\n")
+        self.assertEquals(4, len(self.ctrlr.seqlist))
+        self.assertEquals('seq3', self.ctrlr.seqlist[2])
+
     def test_clear_seqlist(self):
         self.assertEquals(0, len(self.ctrlr.seqlist))
         self.ctrlr.seqlist = ['fooseq', 'barseq']
@@ -109,6 +115,28 @@ class TestConsoleController(unittest.TestCase):
         with patch('os.path.exists', mock3):
             self.assertFalse(self.ctrlr.ready_for_tbl2asn('tbl2asn_demo'))
         self.assertTrue(self.ctrlr.ready_for_tbl2asn('tbl2asn_demo'))
+
+    def test_remove_all_gene_segments(self):
+        mock_genome = Mock()
+        self.ctrlr.genome = mock_genome
+        self.ctrlr.remove_all_gene_segments("BDOR_foo")
+        mock_genome.remove_all_gene_segments.assert_called_with("BDOR_foo")
+
+    def test_remove_all_gene_segments_multiline(self):
+        mock_genome = Mock()
+        self.ctrlr.genome = mock_genome
+        self.ctrlr.remove_all_gene_segments("BDOR_foo\nBDOR_bar\nBDOR_sandwich")
+        calls = mock_genome.mock_calls
+        print("***************" + str(calls))
+        # build a list of arguments to all calls to mock_genome
+        argslist = []
+        for call in calls:
+            argslist.append(call[1][0])
+
+        self.assertTrue("BDOR_foo" in argslist)
+        self.assertTrue("BDOR_bar" in argslist)
+        self.assertTrue("BDOR_sandwich" in argslist)
+
         
 
 
