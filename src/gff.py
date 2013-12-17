@@ -206,6 +206,6 @@ class GFF:
         if len(prefix) > 0:
             self.genes = [g for g in self.genes if not prefix in g.name]
 
-    def remove_genes_containing(self, mrna_name):
+    def remove_genes_containing_mrna_named(self, mrna_name):
         if len(mrna_name) > 0:
             self.genes = [g for g in self.genes if not g.contains_mrna_named(mrna_name)]
