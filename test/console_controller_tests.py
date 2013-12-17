@@ -127,7 +127,7 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.genome = mock_genome
         self.ctrlr.remove_all_gene_segments("BDOR_foo\nBDOR_bar\nBDOR_sandwich")
         calls = mock_genome.mock_calls
-        print("***************" + str(calls))
+
         # build a list of arguments to all calls to mock_genome
         argslist = []
         for call in calls:
