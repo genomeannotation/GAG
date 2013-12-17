@@ -122,6 +122,12 @@ class GagCmd(cmd.Cmd):
     def do_addseq(self, line):
         try_catch(self.controller.add_seq, line)
 
+    def help_clearseqlist(self):
+        print("Usage: clearseqlist\n")
+
+    def do_clearseqlist(self, line):
+        try_catch(self.controller.clear_seqlist, None)
+
     def help_addtemplatefile(self):
         print("Usage: addtemplatefile <path/to/file>\n")
 

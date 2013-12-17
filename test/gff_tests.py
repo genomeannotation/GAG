@@ -260,9 +260,14 @@ class TestGFF(unittest.TestCase):
         self.assertEquals(1, len(self.test_gff1.genes))
         self.assertEquals("BDOR_00001", self.test_gff1.genes[0].name)
 
-
-        
-         
+    def test_remove_all_gene_segments_handles_empty_string(self):
+        gene1 = Mock()
+        gene1.name = "BDOR_foo"
+        self.assertEquals(0, len(self.test_gff1.genes))
+        self.test_gff1.genes.append(gene1)
+        self.assertEquals(1, len(self.test_gff1.genes))
+        self.test_gff1.remove_all_gene_segments("")
+        self.assertEquals(1, len(self.test_gff1.genes))
 
 ##########################
 def suite():
