@@ -221,7 +221,7 @@ class GagCmd(cmd.Cmd):
     def help_removegenescontainingmrnanamed(self):
         print("Usage: removegenescontainingmrnanamed <mrna_name>\n")
 
-    def do_removeallgenesegments(self, line):
+    def do_removegenescontainingmrnanamed(self, line):
         try_catch(self.controller.remove_genes_containing_mrna_named, line)
 
 
