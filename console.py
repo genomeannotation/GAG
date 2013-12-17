@@ -210,7 +210,7 @@ class GagCmd(cmd.Cmd):
         print("Removes from genome all genes with said gene_id prefix.\n")
 
     def do_removeallgenesegments(self, line):
-        try_catch(self.controller.remove_all_gene_segments(line))
+        try_catch(self.controller.remove_all_gene_segments, line)
 
 
 ## Output info to console
