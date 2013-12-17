@@ -38,11 +38,7 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.template_file = "foo.sbt"
         self.ctrlr.seqlist = ['seq1', 'seq3']
         self.ctrlr.tbl2asn_executable = "linux.tbl2asn"
-        
         self.assertEquals(expected2, self.ctrlr.status())
-        
-        
-        
 
     def test_read_fasta(self):
         self.assertFalse(self.ctrlr.genome.fasta)

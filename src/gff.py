@@ -201,3 +201,6 @@ class GFF:
 
     def remove_empty_genes(self):
         self.genes = [g for g in self.genes if not g.is_empty()]
+
+    def remove_all_gene_segments(self, prefix):
+        self.genes = [g for g in self.genes if not prefix in g.identifier] 
