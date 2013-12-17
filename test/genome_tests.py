@@ -25,6 +25,12 @@ class TestGenome(unittest.TestCase):
         self.genome.remove_all_gene_segments("BDOR_foo")
         gff.remove_all_gene_segments.assert_called_with("BDOR_foo")
 
+    def test_remove_genes_containing_mrna_named(self):
+        gff = Mock()
+        self.genome.gff = gff
+        self.genome.remove_genes_containing_mrna_named("foo")
+        gff.remove_genes_containing_mrna_named.assert_called_with("foo")
+
 
 ##########################
 def suite():

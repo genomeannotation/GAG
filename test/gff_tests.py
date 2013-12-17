@@ -269,6 +269,23 @@ class TestGFF(unittest.TestCase):
         self.test_gff1.remove_all_gene_segments("")
         self.assertEquals(1, len(self.test_gff1.genes))
 
+    def test_remove_genes_containing_mrna_named_when_true(self):
+        gene1 = Mock()
+        gene1.contains_mrna_named.return_value = True
+        self.test_gff1.genes.append(gene1)
+        self.assertEquals(1, len(self.test_gff1.genes))
+        self.test_gff1.remove_genes_containing("foo")
+        self.assertEquals(0, len(self.test_gff1.genes))
+
+    def test_remove_genes_containing_mrna_named_when_false(self):
+        gene1 = Mock()
+        gene1.contains_mrna_named.return_value = False 
+        self.test_gff1.genes.append(gene1)
+        self.assertEquals(1, len(self.test_gff1.genes))
+        self.test_gff1.remove_genes_containing("foo")
+        self.assertEquals(1, len(self.test_gff1.genes))
+    
+        
 ##########################
 def suite():
     suite = unittest.TestSuite()

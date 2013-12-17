@@ -35,6 +35,11 @@ class TestGene(unittest.TestCase):
         self.test_gene0.add_mrna(self.fake_mrna2)
         self.assertEquals(2, len(self.test_gene0.mrnas))
 
+    def test_contains_mrna_named(self):
+        self.fake_mrna1.name = "BDOR_foo"
+        self.assertTrue(self.test_gene1.contains_mrna_named("BDOR_foo"))
+        self.assertFalse(self.test_gene1.contains_mrna_named("no_such_mrna_name"))
+
     def test_length_of_shortest_cds_segment(self):
         self.fake_mrna1.length_of_shortest_cds_segment.return_value = 358
         self.fake_mrna2.length_of_shortest_cds_segment.return_value = 241

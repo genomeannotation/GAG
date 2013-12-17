@@ -137,6 +137,12 @@ class TestConsoleController(unittest.TestCase):
         self.assertTrue("BDOR_bar" in argslist)
         self.assertTrue("BDOR_sandwich" in argslist)
 
+    def test_remove_genes_containing_mrna_named(self):
+        mock_genome = Mock()
+        self.ctrlr.genome = mock_genome
+        self.ctrlr.remove_genes_containing_mrna_named("foo")
+        mock_genome.remove_genes_containing_mrna_named.assert_called_with("foo")
+
         
 
 

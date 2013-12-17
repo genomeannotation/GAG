@@ -218,6 +218,12 @@ class GagCmd(cmd.Cmd):
     def do_removeallgenesegments(self, line):
         try_catch(self.controller.remove_all_gene_segments, line)
 
+    def help_removegenescontainingmrnanamed(self):
+        print("Usage: removegenescontainingmrnanamed <mrna_name>\n")
+
+    def do_removeallgenesegments(self, line):
+        try_catch(self.controller.remove_genes_containing_mrna_named, line)
+
 
 ## Output info to console
 

@@ -284,6 +284,16 @@ class ConsoleController:
             args = self.input.split('\n')
         for arg in args:
             self.genome.remove_all_gene_segments(arg)
+
+    def remove_genes_containing_mrna_named(self, line):
+        args = []
+        if len(line) > 0:
+            args = line.split()
+        else:
+            args = self.input.split('\n')
+        for arg in args:
+            self.genome.remove_genes_containing_mrna_named(arg)
+        
         
 
 ## Output info to console

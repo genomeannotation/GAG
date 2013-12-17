@@ -44,6 +44,12 @@ class Gene:
     def add_mrna(self, mrna):
         self.mrnas.append(mrna)
 
+    def contains_mrna_named(self, name):
+        for mrna in self.mrnas:
+            if mrna.name == name:
+                return True
+        return False
+
     def trim_end(self, endindex):
         if self.indices[0] > endindex:
             self.indices[0] = 0
