@@ -249,16 +249,16 @@ class TestGFF(unittest.TestCase):
         gene1 = Mock()
         gene2 = Mock()
         gene3 = Mock()
-        gene1.identifier = "BDOR_00001"
-        gene2.identifier = "BDOR_00002.1"
-        gene3.identifier = "BDOR_00002.2"
+        gene1.name = "BDOR_00001"
+        gene2.name = "BDOR_00002.1"
+        gene3.name = "BDOR_00002.2"
         self.assertEquals(0, len(self.test_gff1.genes))
         self.test_gff1.genes.extend([gene1, gene2, gene3])
         self.assertEquals(3, len(self.test_gff1.genes))
-        self.assertEquals("BDOR_00001", self.test_gff1.genes[0].identifier)
+        self.assertEquals("BDOR_00001", self.test_gff1.genes[0].name)
         self.test_gff1.remove_all_gene_segments("BDOR_00002")
         self.assertEquals(1, len(self.test_gff1.genes))
-        self.assertEquals("BDOR_00001", self.test_gff1.genes[0].identifier)
+        self.assertEquals("BDOR_00001", self.test_gff1.genes[0].name)
 
 
         
