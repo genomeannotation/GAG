@@ -81,3 +81,14 @@ class Genome:
     def obliterate_genes_related_to_mrnas(self, mrna_names):
         self.gff.obliterate_genes_related_to_mrnas(mrna_names)
 
+    def rename_maker_mrnas(self):
+        count = 1000000
+        for gene in self.gff.genes:
+            for mrna in gene.mrnas:
+                if mrna.is_maker_mrna():
+                    old_name = mrna.name
+                    new_name = 'BDOR_' + str(count)
+                    mrna.name = new_name
+                    self.annot.rename_mrna(old_name, new_name)
+                    count += 1
+

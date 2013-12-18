@@ -203,6 +203,13 @@ class GagCmd(cmd.Cmd):
     def do_removemrna(self, line):
         try_catch(self.controller.removemrna, line)
 
+    def help_renamemakermrnas(self):
+        print("Usage: renamemakermrnas\n")
+        print("Renames any mRNA with 'maker' in its name -- numbered from 'BDOR_1000000' on up.\n")
+
+    def do_renamemakermrnas(self, line):
+        try_catch(self.controller.rename_maker_mrnas, None)
+
     def help_ducttapeseqframes(self):
         print("Usage: ducttapeseqframes <mrna_id> [another_gene_id] [etc.]\n")
         print("Checks the translation of the coding sequence of each supplied mrna against the expected protein sequence from Trinotate.\n")

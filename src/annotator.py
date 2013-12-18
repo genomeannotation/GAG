@@ -83,6 +83,13 @@ class Annotator:
                 return entry
         return None
 
+    def rename_mrna(self, old_name, new_name):
+        for entry in self.entries:
+            # protein id is in the third column
+            if entry[2] == old_name:
+                entry[2] = new_name
+                return
+
     def annotate_gene(self, gene):
         gene.add_annotation('locus_tag', gene.name)
         for entry in self.entries:

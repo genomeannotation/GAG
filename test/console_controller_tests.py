@@ -143,6 +143,12 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.obliterate_genes_related_to_mrnas("BDOR_foo\nBDOR_bar\nBDOR_sandwich")
         mock_genome.obliterate_genes_related_to_mrnas.assert_called_with(["BDOR_foo", "BDOR_bar", "BDOR_sandwich"])
 
+    def test_rename_maker_mrnas(self):
+        mock_genome = Mock()
+        self.ctrlr.genome = mock_genome
+        self.ctrlr.rename_maker_mrnas()
+        mock_genome.rename_maker_mrnas.assert_called_with()
+
 
 
 

@@ -229,6 +229,17 @@ class ConsoleController:
             for gene in eraseGenes:
                 self.genome.gff.genes.remove(gene)
                         
+    def obliterate_genes_related_to_mrnas(self, line):
+        args = []
+        if len(line) > 0:
+            args = line.split()
+        else:
+            args = self.input.split('\n')
+        self.genome.obliterate_genes_related_to_mrnas(args)
+
+    def rename_maker_mrnas(self):
+        self.genome.rename_maker_mrnas()
+
 
     def ducttape_mrna_seq_frame(self, name):
         for gene in self.genome.gff.genes:
@@ -364,15 +375,6 @@ class ConsoleController:
         else:
             sys.stderr.write("Sorry, unable to run tbl2asn in " + line + ". Try prep_tbl2asn or settbl2asnexecutable first.")
             
-    def obliterate_genes_related_to_mrnas(self, line):
-        args = []
-        if len(line) > 0:
-            args = line.split()
-        else:
-            args = self.input.split('\n')
-        self.genome.obliterate_genes_related_to_mrnas(args)
-        
-
 
 
 

@@ -161,6 +161,12 @@ class TestMRNA(unittest.TestCase):
         self.assertTrue(mrna.exon)
         self.assertEquals(1, len(mrna.other_features))
 
+    def test_is_maker_mrna(self):
+        maker_mrna = MRNA(identifier=1, name="maker-scaffold00080-est_gff_Cufflinks-gene-2.9-mRNA-1", indices=[3734, 7436], parent_id=1)
+        self.assertFalse(self.test_mrna0.is_maker_mrna())
+        self.assertTrue(maker_mrna.is_maker_mrna())
+       
+
 
 
 ##########################
