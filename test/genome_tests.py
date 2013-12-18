@@ -25,11 +25,11 @@ class TestGenome(unittest.TestCase):
         self.genome.remove_all_gene_segments("BDOR_foo")
         gff.remove_all_gene_segments.assert_called_with("BDOR_foo")
 
-    def test_remove_genes_containing_mrna_named(self):
+    def test_obliterate_genes_related_to_mrnas(self):
         gff = Mock()
         self.genome.gff = gff
-        self.genome.remove_genes_containing_mrna_named("foo")
-        gff.remove_genes_containing_mrna_named.assert_called_with("foo")
+        self.genome.obliterate_genes_related_to_mrnas(['foo', 'bar'])
+        gff.obliterate_genes_related_to_mrnas.assert_called_with(['foo', 'bar'])
 
 
 ##########################

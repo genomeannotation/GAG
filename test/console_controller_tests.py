@@ -137,13 +137,13 @@ class TestConsoleController(unittest.TestCase):
         self.assertTrue("BDOR_bar" in argslist)
         self.assertTrue("BDOR_sandwich" in argslist)
 
-    def test_remove_genes_containing_mrna_named(self):
+    def test_obliterate_genes_related_to_mrnas_multiline(self):
         mock_genome = Mock()
         self.ctrlr.genome = mock_genome
-        self.ctrlr.remove_genes_containing_mrna_named("foo")
-        mock_genome.remove_genes_containing_mrna_named.assert_called_with("foo")
+        self.ctrlr.obliterate_genes_related_to_mrnas("BDOR_foo\nBDOR_bar\nBDOR_sandwich")
+        mock_genome.obliterate_genes_related_to_mrnas.assert_called_with(["BDOR_foo", "BDOR_bar", "BDOR_sandwich"])
 
-        
+
 
 
 ##########################

@@ -78,6 +78,6 @@ class Genome:
     def remove_all_gene_segments(self, prefix):
         self.gff.remove_all_gene_segments(prefix)
 
-    def remove_genes_containing_mrna_named(self, mrna_name):
-        self.gff.remove_genes_containing_mrna_named(mrna_name)
+    def obliterate_genes_related_to_mrnas(self, mrna_names):
+        self.gff.obliterate_genes_related_to_mrnas(mrna_names)
 

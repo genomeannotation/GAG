@@ -224,6 +224,13 @@ class GagCmd(cmd.Cmd):
     def do_removegenescontainingmrnanamed(self, line):
         try_catch(self.controller.remove_genes_containing_mrna_named, line)
 
+    def help_obliterategenesrelatedtomrnas(self):
+        print("Usage: obliterategenesrelatedtomrnas <mrna_names>\n")
+        print("For each mRNA name, removes the parent gene and any gene with the same prefix as the parent.\n")
+
+    def do_obliterategenesrelatedtomrnas(self, line):
+        try_catch(self.controller.obliterate_genes_related_to_mrnas, line)
+
 
 ## Output info to console
 

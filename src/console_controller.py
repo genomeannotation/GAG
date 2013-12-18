@@ -285,17 +285,6 @@ class ConsoleController:
         for arg in args:
             self.genome.remove_all_gene_segments(arg)
 
-    def remove_genes_containing_mrna_named(self, line):
-        args = []
-        if len(line) > 0:
-            args = line.split()
-        else:
-            args = self.input.split('\n')
-        for arg in args:
-            self.genome.remove_genes_containing_mrna_named(arg)
-        
-        
-
 ## Output info to console
 
     def barf_gff(self, line):
@@ -375,7 +364,14 @@ class ConsoleController:
         else:
             sys.stderr.write("Sorry, unable to run tbl2asn in " + line + ". Try prep_tbl2asn or settbl2asnexecutable first.")
             
-
+    def obliterate_genes_related_to_mrnas(self, line):
+        args = []
+        if len(line) > 0:
+            args = line.split()
+        else:
+            args = self.input.split('\n')
+        self.genome.obliterate_genes_related_to_mrnas(args)
+        
 
 
 

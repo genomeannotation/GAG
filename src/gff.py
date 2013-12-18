@@ -206,6 +206,31 @@ class GFF:
         if len(prefix) > 0:
             self.genes = [g for g in self.genes if not prefix in g.name]
 
-    def remove_genes_containing_mrna_named(self, mrna_name):
-        if len(mrna_name) > 0:
-            self.genes = [g for g in self.genes if not g.contains_mrna_named(mrna_name)]
+    # takes list of mrna names, returns list of gene names
+    def get_mrnas_parent_gene_names(self, mrnalist):
+        gene_names = []
+        for gene in self.genes:
+            for mrna in mrnalist:
+                if gene.contains_mrna_named(mrna) and gene.name not in gene_names:
+                    gene_names.append(gene.name)
+        return gene_names
+
+    def gene_name_to_prefix(self, gene_name):
+        return gene_name.split('.')[0]
+
+    def prefix_match(self, gene, prefixes):
+        for prefix in prefixes:
+            if prefix in gene.name:
+                return True
+        return False
+
+    def remove_genes_by_prefixes(self, prefixes):
+        self.genes = [g for g in self.genes if not self.prefix_match(g, prefixes)]
+
+
+    def obliterate_genes_related_to_mrnas(self, mrna_names):
+        parent_genes = self.get_mrnas_parent_gene_names(mrna_names)
+        prefixes = [self.gene_name_to_prefix(g) for g in parent_genes]
+        self.remove_genes_by_prefixes(prefixes)
+
+

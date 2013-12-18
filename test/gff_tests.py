@@ -269,21 +269,67 @@ class TestGFF(unittest.TestCase):
         self.test_gff1.remove_all_gene_segments("")
         self.assertEquals(1, len(self.test_gff1.genes))
 
-    def test_remove_genes_containing_mrna_named_when_true(self):
+    def test_get_mrnas_parent_gene_names(self):
         gene1 = Mock()
+        gene1.name = "gene1"
         gene1.contains_mrna_named.return_value = True
-        self.test_gff1.genes.append(gene1)
-        self.assertEquals(1, len(self.test_gff1.genes))
-        self.test_gff1.remove_genes_containing_mrna_named("foo")
-        self.assertEquals(0, len(self.test_gff1.genes))
+        gene2 = Mock()
+        gene2.name = "gene2"
+        gene2.contains_mrna_named.return_value = True
+        gene3 = Mock()
+        gene3.name = "gene3"
+        gene3.contains_mrna_named.return_value = False
+        self.test_gff1.genes.extend([gene1, gene2, gene3])
+        mrna_names = ['foo1', 'foo2']
+        gene_names = self.test_gff1.get_mrnas_parent_gene_names(mrna_names)
+        print("*********************"+str(gene_names))
+        self.assertEquals(2, len(gene_names))
 
-    def test_remove_genes_containing_mrna_named_when_false(self):
+    def test_gene_id_to_prefix(self):
+        gene_name1 = "BDOR_007864"
+        gene_name2 = "BDOR_007866.1"
+        self.assertEquals("BDOR_007864", self.test_gff1.gene_name_to_prefix(gene_name1))
+        self.assertEquals("BDOR_007866", self.test_gff1.gene_name_to_prefix(gene_name2))
+
+    def test_remove_genes_by_prefixes(self):
+        prefixes = ["BDOR_00001", "BDOR_00002"]
         gene1 = Mock()
-        gene1.contains_mrna_named.return_value = False 
-        self.test_gff1.genes.append(gene1)
+        gene1.name = "BDOR_00001.7"
+        gene2 = Mock()
+        gene2.name = "BDOR_00002.2"
+        gene3 = Mock()
+        gene3.name = "BDOR_00008.7"
+        self.test_gff1.genes.extend([gene1, gene2, gene3])
+        self.assertEquals(3, len(self.test_gff1.genes))
+        self.test_gff1.remove_genes_by_prefixes(prefixes)
         self.assertEquals(1, len(self.test_gff1.genes))
-        self.test_gff1.remove_genes_containing_mrna_named("foo")
+        self.assertEquals("BDOR_00008.7", self.test_gff1.genes[0].name)
+
+    def test_obliterate_genes_related_to_mrnas(self):
+        gene1 = Mock()
+        gene1.name = "BDOR_00001.1"
+        gene1.contains_mrna_named.return_value = False
+        gene2 = Mock()
+        gene2.name = "BDOR_00001.2"
+        gene2.contains_mrna_named.return_value = True
+        gene3 = Mock()
+        gene3.name = "BDOR_00001.3"
+        gene3.contains_mrna_named.return_value = False
+        gene4 = Mock()
+        gene4.name = "BDOR_00002.1"
+        gene4.contains_mrna_named.return_value = False
+        gene5 = Mock()
+        gene5.name = "BDOR_00003.1"
+        gene5.contains_mrna_named.return_value = True
+        mrna_names = ['child_of_gene2', 'child_of_gene5']
+        self.test_gff1.genes.extend([gene1, gene2, gene3, gene4, gene5])
+        self.assertEquals(5, len(self.test_gff1.genes))
+        self.test_gff1.obliterate_genes_related_to_mrnas(mrna_names)
         self.assertEquals(1, len(self.test_gff1.genes))
+        self.assertEquals("BDOR_00002.1", self.test_gff1.genes[0].name)
+
+
+
     
         
 ##########################
