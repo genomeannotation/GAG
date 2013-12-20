@@ -4,6 +4,7 @@
 import cmd
 import readline
 import sys
+import traceback
 from src.console_controller import ConsoleController
 
 def try_catch(command, args):
@@ -13,9 +14,8 @@ def try_catch(command, args):
         else:
             return command()
     except:
-        e = sys.exc_info()[0]
         print("Sorry, that command raised an exception. Here's what I know:\n")
-        print(e)
+        print(traceback.format_exc())
 
 
 class GagCmd(cmd.Cmd):
