@@ -25,6 +25,33 @@ class TestGenome(unittest.TestCase):
         self.genome.remove_all_gene_segments("BDOR_foo")
         gff.remove_all_gene_segments.assert_called_with("BDOR_foo")
 
+    def test_verify_start_codon(self):
+        # this is a pretty mocky test. basically verifies that genome
+        # gets cds indices from the mrna, gets corresponding subseq from fasta
+        # and calls mrna's add_start_codon method
+        mrna = Mock()
+        mrna.get_cds_indices.return_value = [[100, 109], [150, 200]]
+        fasta = Mock()
+        fasta.get_subseq.return_value = 'auggattaca'
+        self.genome.fasta = fasta
+        seq_name = 'seq_1'
+        self.genome.verify_start_codon(mrna, seq_name)
+        mrna.get_cds_indices.assert_called_with()
+        fasta.get_subseq.assert_called_with('seq_1', [100, 109])
+        mrna.add_start_codon.assert_called_with(100)
+
+    def test_verify_stop_codon(self):
+        mrna = Mock()
+        mrna.get_cds_indices.return_value = [[100, 109], [150, 200]]
+        fasta = Mock()
+        fasta.get_subseq.return_value = 'gattacatag'
+        self.genome.fasta = fasta
+        seq_name = 'seq_1'
+        self.genome.verify_stop_codon(mrna, seq_name)
+        mrna.get_cds_indices.assert_called_with()
+        fasta.get_subseq.assert_called_with('seq_1', [150, 200])
+        mrna.add_stop_codon.assert_called_with(200)
+
     def test_obliterate_genes_related_to_mrnas(self):
         gff = Mock()
         self.genome.gff = gff

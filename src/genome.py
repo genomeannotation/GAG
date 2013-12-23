@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from feature_tbl_entry import FeatureTblEntry
+from translate import *
 import sys
 import os.path
 
@@ -20,6 +21,21 @@ class Genome:
     
     def addEntries(self, entries):
         [self.entries.append(entry) for entry in entries]
+
+    # maybe should be called 'create_start_codon_GenePart if sequence contains start codon'
+    def verify_start_codon(self, mrna, seq_id):
+        indices = mrna.get_cds_indices()
+        seq = self.fasta.get_subseq(seq_id, indices[0])
+        if has_start_codon(seq):
+            mrna.add_start_codon(indices[0][0])
+
+    def verify_stop_codon(self, mrna, seq_id):
+        indices = mrna.get_cds_indices()
+        last_pair = indices[len(indices)-1]
+        seq = self.fasta.get_subseq(seq_id, last_pair)
+        if has_stop_codon(seq):
+            mrna.add_stop_codon(last_pair[1])
+
 
     def generateEntries(self):
         for gene in self.gff.genes:
