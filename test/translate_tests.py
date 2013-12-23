@@ -21,6 +21,7 @@ class TestTranslate(unittest.TestCase):
         self.assertTrue(has_stop_codon('gattacatag'))
         self.assertTrue(has_stop_codon('gattacataa'))
         self.assertTrue(has_stop_codon('gattacatga'))
+        self.assertFalse(has_stop_codon('gattacaact'))
         
         
 
