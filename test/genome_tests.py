@@ -52,6 +52,42 @@ class TestGenome(unittest.TestCase):
         fasta.get_subseq.assert_called_with('seq_1', [150, 200])
         mrna.add_stop_codon.assert_called_with(200)
 
+    def test_verify_all_starts_and_stops(self):
+        mock_indices = [[5, 45], [100, 150]]
+        gene1 = Mock()
+        mrna1 = Mock()
+        mrna1.has_start_codon.return_value = False
+        mrna1.has_stop_codon.return_value = True
+        mrna1.get_cds_indices.return_value = mock_indices
+        mrna2 = Mock()
+        mrna2.has_start_codon.return_value = True
+        mrna2.has_stop_codon.return_value = False
+        mrna2.get_cds_indices.return_value = mock_indices
+        gene1.mrnas = [mrna1, mrna2]
+        gene2 = Mock()
+        mrna3 = Mock()
+        mrna3.has_start_codon.return_value = True
+        mrna3.has_stop_codon.return_value = True
+        mrna3.get_cds_indices.return_value = mock_indices
+        gene2.mrnas = [mrna3]
+        gff = Mock()
+        gff.genes = [gene1, gene2]
+        self.genome.gff = gff
+        fasta = Mock()
+        fasta.get_subseq.return_value = 'augtag'
+        self.genome.fasta = fasta
+        self.genome.verify_all_starts_and_stops()
+        mrna1.has_start_codon.assert_called_with()
+        mrna1.add_start_codon.assert_called_with(5)
+        mrna1.has_stop_codon.assert_called_with()
+        assert not mrna1.add_stop_codon.called
+        mrna2.has_start_codon.assert_called_with()
+        mrna2.has_stop_codon.assert_called_with()
+        mrna2.add_stop_codon.assert_called_with(150)
+        assert not mrna2.add_start_codon.called
+        assert not mrna3.add_start_codon.called
+        assert not mrna3.add_stop_codon.called
+        
     def test_obliterate_genes_related_to_mrnas(self):
         gff = Mock()
         self.genome.gff = gff

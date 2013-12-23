@@ -36,6 +36,13 @@ class Genome:
         if has_stop_codon(seq):
             mrna.add_stop_codon(last_pair[1])
 
+    def verify_all_starts_and_stops(self):
+        for gene in self.gff.genes:
+            for mrna in gene.mrnas:
+                if not mrna.has_start_codon():
+                    self.verify_start_codon(mrna, gene.seq_name)
+                if not mrna.has_stop_codon():
+                    self.verify_stop_codon(mrna, gene.seq_name)
 
     def generateEntries(self):
         for gene in self.gff.genes:
