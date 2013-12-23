@@ -53,7 +53,13 @@ class TestMRNA(unittest.TestCase):
 
     def test_get_cds_indices(self):
         self.fake_cds.indices = [[4000, 4100], [5000, 7000]]
+        self.fake_cds.get_phase.return_value = 0
         self.assertEquals([[4000, 4100], [5000, 7000]], self.test_mrna1.get_cds_indices())
+
+    def test_get_cds_when_phase_matters(self):
+        self.fake_cds.indices = [[4000, 4100], [5000, 7000]]
+        self.fake_cds.get_phase.return_value = 1
+        self.assertEquals([[4001, 4100], [5001, 7000]], self.test_mrna1.get_cds_indices())
 
     def test_adjust_indices(self):
         self.test_mrna1.adjust_indices(32)

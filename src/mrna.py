@@ -125,7 +125,12 @@ class MRNA:
 
     def get_cds_indices(self):
         if self.cds:
-            return self.cds.indices
+            result = []
+            for i, index_pair in enumerate(self.cds.indices):
+                pair = self.cds.indices[i]
+                new_start = pair[0] + self.cds.get_phase(i)
+                result.append([new_start, pair[1]])
+            return result
         else:
             return None
 
