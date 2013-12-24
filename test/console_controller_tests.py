@@ -155,6 +155,12 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.verify_all_starts_and_stops()
         mock_genome.verify_all_starts_and_stops.assert_called_with()
 
+    def test_remove_mrnas_with_cds_shorter_than(self):
+        mock_genome = Mock()
+        self.ctrlr.genome = mock_genome
+        self.ctrlr.remove_mrnas_with_cds_shorter_than(150)
+        mock_genome.remove_mrnas_with_cds_shorter_than.assert_called_with(150)
+
 
 
 

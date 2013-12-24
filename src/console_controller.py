@@ -298,6 +298,10 @@ class ConsoleController:
         for arg in args:
             self.genome.remove_all_gene_segments(arg)
 
+    def remove_mrnas_with_cds_shorter_than(self, line):
+        min_length = int(line)
+        self.genome.remove_mrnas_with_cds_shorter_than(min_length)
+
 ## Output info to console
 
     def barf_gff(self, line):

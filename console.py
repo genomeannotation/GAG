@@ -246,6 +246,14 @@ class GagCmd(cmd.Cmd):
     def do_obliterategenesrelatedtomrnas(self, line):
         try_catch(self.controller.obliterate_genes_related_to_mrnas, line)
 
+    def help_removemrnaswithcdsshorterthan(self):
+        print("Usage: removemrnaswithcdsshorterthan <min_length>\n")
+        print("Removes mRNAs containing a cds shorter than min_length; if the resulting Gene has no mRNAs left\n")
+        print("it removes the gene too :)\n")
+
+    def do_removemrnaswithcdsshorterthan(self, line):
+        try_catch(self.controller.remove_mrnas_with_cds_shorter_than, line)
+
 
 ## Output info to console
 
