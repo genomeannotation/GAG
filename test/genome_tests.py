@@ -37,7 +37,7 @@ class TestGenome(unittest.TestCase):
         seq_name = 'seq_1'
         self.genome.verify_start_codon(mrna, seq_name)
         mrna.get_cds_indices.assert_called_with()
-        fasta.get_subseq.assert_called_with('seq_1', [100, 109])
+        fasta.get_subseq.assert_called_with('seq_1', [[100, 109]])
         mrna.add_start_codon.assert_called_with(100)
 
     def test_verify_stop_codon(self):
@@ -49,7 +49,7 @@ class TestGenome(unittest.TestCase):
         seq_name = 'seq_1'
         self.genome.verify_stop_codon(mrna, seq_name)
         mrna.get_cds_indices.assert_called_with()
-        fasta.get_subseq.assert_called_with('seq_1', [150, 200])
+        fasta.get_subseq.assert_called_with('seq_1', [[150, 200]])
         mrna.add_stop_codon.assert_called_with(200)
 
     def test_verify_all_starts_and_stops(self):

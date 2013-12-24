@@ -41,9 +41,9 @@ class TestFasta(unittest.TestCase):
     def test_get_subseq(self):
         #self.fasta1.read_string('>seq1\nATGCCGTA\n>seq2\nAGGTCC\n>seq3\nGGGGGG')
         expected = 'GGTC'
-        self.assertEqual(expected, self.fasta1.get_subseq('seq2', [2, 5]))
-        self.assertFalse(self.fasta1.get_subseq('bad_seqid', [1, 10]))
-        self.assertFalse(self.fasta1.get_subseq('seq1', [1, 10])) #out of range
+        self.assertEqual(expected, self.fasta1.get_subseq('seq2', [[2, 5]]))
+        self.assertFalse(self.fasta1.get_subseq('bad_seqid', [[1, 10]]))
+        self.assertFalse(self.fasta1.get_subseq('seq1', [[1, 10]])) #out of range
 
     def test_read_file(self):
         self.fasta0.read_file("sample_files/no_line_breaks.fasta")

@@ -46,13 +46,17 @@ class Fasta:
         return None
 
     def get_subseq(self, seq_id, indices):
-        seq = self.get_seq(seq_id)
-        if seq and self.indices_not_out_of_range(indices, seq):
-            start = indices[0] - 1
-            end = indices[1]
-            return seq[start:end]
-        else:
-            return None
+        seq = ''
+
+        for i in indices:
+            subseq = self.get_seq(seq_id)
+            if subseq and self.indices_not_out_of_range(i, subseq):
+                start = i[0] - 1
+                end = i[1]
+                seq += subseq[start:end]
+            else:
+                return None
+        return seq
         
 
     def read_file(self, fileName):

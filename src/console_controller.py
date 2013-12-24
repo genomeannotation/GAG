@@ -245,7 +245,7 @@ class ConsoleController:
         for gene in self.genome.gff.genes:
             for mrna in gene.mrnas:
                 if mrna.name == name:
-                    seq = self.genome.fasta.get_subseq(gene.seq_name, mrna.cds.indices[0])
+                    seq = self.genome.fasta.get_subseq(gene.seq_name, mrna.cds.indices)
                     if seq == None or len(seq) < 6:
                         return False
                     
@@ -305,7 +305,7 @@ class ConsoleController:
 
     def barf_seq(self, line):
         args = line.split(' ')
-        return str(self.genome.fasta.get_subseq(args[0], [int(args[1]), int(args[2])]))+'\n'
+        return str(self.genome.fasta.get_subseq(args[0], [[int(args[1]), int(args[2])]]))+'\n'
 
     def barf_gene_tbl(self, line):
         return self.genome.write_string(set(line.split()))
