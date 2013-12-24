@@ -249,12 +249,12 @@ class ConsoleController:
                     if seq == None or len(seq) < 6:
                         return False
                     
-                    pseq1 = translate(seq, 1, '+')[:-1]
-                    pseq2 = translate(seq, 2, '+')[:-1]
-                    pseq3 = translate(seq, 3, '+')[:-1]
-                    nseq1 = translate(seq, 1, '-')[:-1]
-                    nseq2 = translate(seq, 2, '-')[:-1]
-                    nseq3 = translate(seq, 3, '-')[:-1]
+                    pseq1 = translate(seq, 1, '+')
+                    pseq2 = translate(seq, 2, '+')
+                    pseq3 = translate(seq, 3, '+')
+                    nseq1 = translate(seq, 1, '-')
+                    nseq2 = translate(seq, 2, '-')
+                    nseq3 = translate(seq, 3, '-')
 
                     annotEntry = self.genome.annot.get_entry(name)
                     if annotEntry:
@@ -262,22 +262,22 @@ class ConsoleController:
                         if pepSeq == None:
                             return False
 
-                        if pseq1 and pepSeq.find(pseq1) != -1:
+                        if pseq1 and pepSeq.find(pseq1[:-1]) != -1:
                             gene.strand = '+'
                             mrna.cds.phase[0] = 0
-                        elif pseq2 and pepSeq.find(pseq2) != -1:
+                        elif pseq2 and pepSeq.find(pseq2[:-1]) != -1:
                             gene.strand = '+'
                             mrna.cds.phase[0] = 1
-                        elif pseq3 and pepSeq.find(pseq3) != -1:
+                        elif pseq3 and pepSeq.find(pseq3[:-1]) != -1:
                             gene.strand = '+'
                             mrna.cds.phase[0] = 2
-                        elif nseq1 and pepSeq.find(nseq1) != -1:
+                        elif nseq1 and pepSeq.find(nseq1[:-1]) != -1:
                             gene.strand = '-'
                             mrna.cds.phase[0] = 0
-                        elif nseq2 and pepSeq.find(nseq2) != -1:
+                        elif nseq2 and pepSeq.find(nseq2[:-1]) != -1:
                             gene.strand = '-'
                             mrna.cds.phase[0] = 1
-                        elif nseq3 and pepSeq.find(nseq3) != -1:
+                        elif nseq3 and pepSeq.find(nseq3[:-1]) != -1:
                             gene.strand = '-'
                             mrna.cds.phase[0] = 2
                         else:

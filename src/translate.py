@@ -45,7 +45,9 @@ def reverse_complement(seq):
     return ''.join([rev_comp_dict.get(base) for base in reversed(seq)])
 
 def translate(seq, frame, strand):
-    # TODO handle N's?
+    if 'n' in seq or 'N' in seq:
+        return None
+
     seq = seq.lower().replace('\n', '').replace(' ', '')
 
     if not verify_inputs(seq, frame, strand):
