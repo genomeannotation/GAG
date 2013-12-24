@@ -22,6 +22,10 @@ class Genome:
     def addEntries(self, entries):
         [self.entries.append(entry) for entry in entries]
 
+    def remove_mrnas_with_cds_shorter_than(self, min_length):
+        if self.gff:
+            self.gff.remove_mrnas_with_cds_shorter_than(min_length)
+
     # maybe should be called 'create_start_codon_GenePart if sequence contains start codon'
     def verify_start_codon(self, mrna, seq_id):
         if mrna.cds:

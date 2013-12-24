@@ -25,6 +25,12 @@ class TestGenome(unittest.TestCase):
         self.genome.remove_all_gene_segments("BDOR_foo")
         gff.remove_all_gene_segments.assert_called_with("BDOR_foo")
 
+    def test_remove_mrnas_with_cds_shorter_than(self):
+        gff = Mock()
+        self.genome.gff = gff
+        self.genome.remove_mrnas_with_cds_shorter_than(150)
+        gff.remove_mrnas_with_cds_shorter_than.assert_called_with(150)
+
     def test_verify_start_codon(self):
         # this is a pretty mocky test. basically verifies that genome
         # gets cds indices from the mrna, gets corresponding subseq from fasta
