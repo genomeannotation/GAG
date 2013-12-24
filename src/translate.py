@@ -38,6 +38,20 @@ def verify_inputs(seq, frame, strand):
     else:
         return True
 
+def has_start_codon(seq):
+    return seq[:3] == 'aug'
+
+def has_stop_codon(seq):
+    last3 = seq[-3:]
+    if last3 == 'tag':
+        return True
+    elif last3 == 'taa':
+        return True
+    elif last3 == 'tga':
+        return True
+    else:
+        return False
+
 def reverse_complement(seq):
     bases = ['a', 'c', 'g', 't']
     complements = ['t', 'g', 'c', 'a']

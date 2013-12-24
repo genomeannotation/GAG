@@ -18,7 +18,6 @@ class TestMRNA(unittest.TestCase):
         self.test_mrna1.set_cds(self.fake_cds)
         self.test_mrna1.add_other_feature(self.fake_start_codon)
 
-
     def test_constructor(self):
         self.assertEqual('MRNA', self.test_mrna0.__class__.__name__)
 
@@ -39,6 +38,28 @@ class TestMRNA(unittest.TestCase):
         self.assertEquals(0, len(self.test_mrna0.other_features))
         self.test_mrna0.add_other_feature(self.fake_start_codon)
         self.assertEquals(1, len(self.test_mrna0.other_features))
+
+    def test_add_start_codon(self):
+        self.assertFalse(self.test_mrna0.has_start())
+        #self.test_mrna0 = MRNA(identifier=2, name="BDOR_007864-RA", indices=[3734, 7436], parent_id=1)
+        self.test_mrna0.add_start_codon(4000)
+        self.assertTrue(self.test_mrna0.has_start())
+        self.assertEquals([[4000, 4002]], self.test_mrna0.other_features[0].indices)
+
+    def test_add_stop_codon(self):
+        self.assertFalse(self.test_mrna0.has_stop())
+        self.test_mrna0.add_stop_codon(7002)
+        self.assertTrue(self.test_mrna0.has_stop())
+
+    def test_get_cds_indices(self):
+        self.fake_cds.indices = [[4000, 4100], [5000, 7000]]
+        self.fake_cds.get_phase.return_value = 0
+        self.assertEquals([[4000, 4100], [5000, 7000]], self.test_mrna1.get_cds_indices())
+
+    def test_get_cds_when_phase_matters(self):
+        self.fake_cds.indices = [[4000, 4100], [5000, 7000]]
+        self.fake_cds.get_phase.return_value = 1
+        self.assertEquals([[4001, 4100], [5001, 7000]], self.test_mrna1.get_cds_indices())
 
     def test_adjust_indices(self):
         self.test_mrna1.adjust_indices(32)

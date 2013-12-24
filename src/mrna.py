@@ -3,6 +3,7 @@
 import math
 import sys
 from feature_tbl_entry import FeatureTblEntry
+from src.gene_part import GenePart
 
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
@@ -105,6 +106,33 @@ class MRNA:
 
     def add_other_feature(self, feature):
         self.other_features.append(feature)
+
+    def add_start_codon(self, begin_index):
+        start_id = self.identifier + 1000000
+        start_name = self.name + ':start'
+        start_indices = [begin_index, begin_index+2]
+        start_parent_id = self.identifier
+        start = GenePart(feature_type='start_codon', identifier=start_id, name=start_name, indices=start_indices, parent_id=start_parent_id)
+        self.add_other_feature(start)
+
+    def add_stop_codon(self, end_index):
+        stop_id = self.identifier + 1000001
+        stop_name = self.name + ':stop'
+        stop_indices = [end_index-2, end_index]
+        stop_parent_id = self.identifier
+        stop = GenePart(feature_type='stop_codon', identifier=stop_id, name=stop_name, indices=stop_indices, parent_id=stop_parent_id)
+        self.add_other_feature(stop)
+
+    def get_cds_indices(self):
+        if self.cds:
+            result = []
+            for i, index_pair in enumerate(self.cds.indices):
+                pair = self.cds.indices[i]
+                new_start = pair[0] + self.cds.get_phase(i)
+                result.append([new_start, pair[1]])
+            return result
+        else:
+            return None
 
     def length_of_shortest_cds_segment(self):
         return self.cds.length_of_shortest_segment()
