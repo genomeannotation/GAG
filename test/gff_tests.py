@@ -87,6 +87,15 @@ class TestGFF(unittest.TestCase):
         actual = self.test_gff1.extract_gene_args(self.test_gene_line1)
         self.assertEqual(expected, actual)
 
+    def test_remove_mrnas_with_cds_shorter_than(self):
+        gff = GFF()
+        gene1 = Mock()
+        gene1.mrnas = None
+        gff.genes = [gene1]
+        gff.remove_mrnas_with_cds_shorter_than(150)
+        gene1.remove_mrnas_with_cds_shorter_than.assert_called_with(150)
+        self.assertEquals(0, len(gff.genes))
+
     def test_process_line(self):
         with patch.object(self.test_gff1, 'process_gene_line') as mock:
             self.test_gff1.process_line(self.test_gene_line1)

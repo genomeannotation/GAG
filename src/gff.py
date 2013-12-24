@@ -95,6 +95,16 @@ class GFF:
         result.update(attribs)
         return result
 
+    def remove_mrnas_with_cds_shorter_than(self, min_length):
+        if self.genes:
+            to_remove = []
+            for gene in self.genes:
+                gene.remove_mrnas_with_cds_shorter_than(min_length)
+                if not gene.mrnas:
+                    to_remove.append(gene)
+            for g in to_remove:
+                self.genes.remove(g)
+
     def update_cds(self, line):
         args = self.extract_cds_args(line)
         self.current_cds.add_indices(args['indices'])
