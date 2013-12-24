@@ -210,6 +210,14 @@ class GagCmd(cmd.Cmd):
     def do_renamemakermrnas(self, line):
         try_catch(self.controller.rename_maker_mrnas, None)
 
+    def help_verifyallstartsandstops(self, line):
+        print("Usage: verifyallstartsandstops\n")
+        print("For each mRNA that is missing a start or stop, checks the beginning/end of the coding\n")
+        print("sequence and if there is in fact a start/stop codon, creates one and adds it to the mRNA.\n")
+
+    def do_verifyallstartsandstops(self, line):
+        try_catch(self.controller.verify_all_starts_and_stops, None)
+
     def help_ducttapeseqframes(self):
         print("Usage: ducttapeseqframes <mrna_id> [another_gene_id] [etc.]\n")
         print("Checks the translation of the coding sequence of each supplied mrna against the expected protein sequence from Trinotate.\n")

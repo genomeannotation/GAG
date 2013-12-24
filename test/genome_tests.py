@@ -40,6 +40,18 @@ class TestGenome(unittest.TestCase):
         fasta.get_subseq.assert_called_with('seq_1', [100, 109])
         mrna.add_start_codon.assert_called_with(100)
 
+    def test_verify_start_codon_if_no_CDS(self):
+        # if mRNA has no CDS, nothing should get called
+        mrna = Mock()
+        mrna.cds = False
+        mrna.get_cds_indices.return_value = None
+        fasta = Mock()
+        fasta.get_subseq.return_value = 'auggattaca'
+        self.genome.fasta = fasta
+        seq_name = 'seq_1'
+        self.genome.verify_start_codon(mrna, seq_name)
+        assert not mrna.get_cds_indices.called
+
     def test_verify_stop_codon(self):
         mrna = Mock()
         mrna.get_cds_indices.return_value = [[100, 109], [150, 200]]
@@ -56,18 +68,21 @@ class TestGenome(unittest.TestCase):
         mock_indices = [[5, 45], [100, 150]]
         gene1 = Mock()
         mrna1 = Mock()
-        mrna1.has_start_codon.return_value = False
-        mrna1.has_stop_codon.return_value = True
+        mrna1.has_start.return_value = False
+        mrna1.has_stop.return_value = True
+        mrna1.cds = True
         mrna1.get_cds_indices.return_value = mock_indices
         mrna2 = Mock()
-        mrna2.has_start_codon.return_value = True
-        mrna2.has_stop_codon.return_value = False
+        mrna2.has_start.return_value = True
+        mrna2.has_stop.return_value = False
+        mrna2.cds = True
         mrna2.get_cds_indices.return_value = mock_indices
         gene1.mrnas = [mrna1, mrna2]
         gene2 = Mock()
         mrna3 = Mock()
-        mrna3.has_start_codon.return_value = True
-        mrna3.has_stop_codon.return_value = True
+        mrna3.has_start.return_value = True
+        mrna3.has_stop.return_value = True
+        mrna3.cds = True
         mrna3.get_cds_indices.return_value = mock_indices
         gene2.mrnas = [mrna3]
         gff = Mock()
@@ -77,12 +92,12 @@ class TestGenome(unittest.TestCase):
         fasta.get_subseq.return_value = 'augtag'
         self.genome.fasta = fasta
         self.genome.verify_all_starts_and_stops()
-        mrna1.has_start_codon.assert_called_with()
+        mrna1.has_start.assert_called_with()
         mrna1.add_start_codon.assert_called_with(5)
-        mrna1.has_stop_codon.assert_called_with()
+        mrna1.has_stop.assert_called_with()
         assert not mrna1.add_stop_codon.called
-        mrna2.has_start_codon.assert_called_with()
-        mrna2.has_stop_codon.assert_called_with()
+        mrna2.has_start.assert_called_with()
+        mrna2.has_stop.assert_called_with()
         mrna2.add_stop_codon.assert_called_with(150)
         assert not mrna2.add_start_codon.called
         assert not mrna3.add_start_codon.called
