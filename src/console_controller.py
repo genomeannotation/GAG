@@ -200,10 +200,7 @@ class ConsoleController:
             args = self.input.split('\n')
 
         for yarg in args: # I'm a pirate
-            if self.ducttape_mrna_seq_frame(yarg):
-                result += 'Fixed '+yarg+'.\n'
-            else:
-                result += 'Failed to fix '+yarg+'.\n'
+            result += self.ducttape_mrna_seq_frame(yarg)
         return result
 
 
@@ -247,10 +244,12 @@ class ConsoleController:
         for gene in self.genome.gff.genes:
             for mrna in gene.mrnas:
                 if mrna.name == name:
-                    seq = self.genome.fasta.get_subseq(gene.seq_name, mrna.cds.indices)
-                    if seq == None or len(seq) < 6:
-                        return False
-                    
+                    seq = self.genome.fasta.get_subseq(gene.seq_name, [mrna.cds.indices[0]]) #first segment
+                    if seq == None:
+                        return "Failed to fix "+name+": sequence does not exist.\n" 
+                    elif len(seq) < 6:
+                        return "Failed to fix "+name+": sequence less than 6 base pairs.\n"
+
                     pseq1 = translate(seq, 1, '+')
                     pseq2 = translate(seq, 2, '+')
                     pseq3 = translate(seq, 3, '+')
@@ -262,32 +261,33 @@ class ConsoleController:
                     if annotEntry:
                         pepSeq = annotEntry[9]
                         if pepSeq == None:
-                            return False
+                            return "Failed to fix "+name+": trinotate missing peptide sequence.\n"
 
-                        if pseq1 and pepSeq.find(pseq1[:-1]) != -1:
+                        oldphase = mrna.cds.phase[0]
+                        if pseq1 and pepSeq.find(pseq1[:-1]) == 0:
                             gene.strand = '+'
                             mrna.cds.phase[0] = 0
-                        elif pseq2 and pepSeq.find(pseq2[:-1]) != -1:
+                        elif pseq2 and pepSeq.find(pseq2[:-1]) == 0:
                             gene.strand = '+'
                             mrna.cds.phase[0] = 1
-                        elif pseq3 and pepSeq.find(pseq3[:-1]) != -1:
+                        elif pseq3 and pepSeq.find(pseq3[:-1]) == 0:
                             gene.strand = '+'
                             mrna.cds.phase[0] = 2
-                        elif nseq1 and pepSeq.find(nseq1[:-1]) != -1:
+                        elif nseq1 and pepSeq.find(nseq1[:-1]) == 0:
                             gene.strand = '-'
                             mrna.cds.phase[0] = 0
-                        elif nseq2 and pepSeq.find(nseq2[:-1]) != -1:
+                        elif nseq2 and pepSeq.find(nseq2[:-1]) == 0:
                             gene.strand = '-'
                             mrna.cds.phase[0] = 1
-                        elif nseq3 and pepSeq.find(nseq3[:-1]) != -1:
+                        elif nseq3 and pepSeq.find(nseq3[:-1]) == 0:
                             gene.strand = '-'
                             mrna.cds.phase[0] = 2
                         else:
-                            return False
-                        return True
+                            return "Failed to fix "+name+": no matching translation.\n"
+                        return "Fixed "+name+" from phase "+str(oldphase)+" to phase "+str(mrna.cds.phase[0])+"\n"
                     else:
-                        return False
-        return False
+                        return "Failed to fix "+name+": trinotate entry doesn't exist.\n"
+        return "Failed to fix "+name+": mRNA doesn't exist.\n"
 
     def remove_all_gene_segments(self, line):
         args = []
@@ -312,6 +312,16 @@ class ConsoleController:
     def barf_seq(self, line):
         args = line.split(' ')
         return str(self.genome.fasta.get_subseq(args[0], [[int(args[1]), int(args[2])]]))+'\n'
+
+    def barf_cds_seq(self, line):
+        name = line
+
+        for gene in self.genome.gff.genes:
+            for mrna in gene.mrnas:
+                if mrna.name == name and mrna.cds:
+                    return self.genome.fasta.get_subseq(gene.seq_name, mrna.cds.indices)
+
+        return "Error: Couldn't find mRNA.\n"
 
     def barf_gene_tbl(self, line):
         return self.genome.write_string(set(line.split()))
