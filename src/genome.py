@@ -26,7 +26,7 @@ class Genome:
     def verify_start_codon(self, mrna, seq_id):
         if mrna.cds:
             indices = mrna.get_cds_indices()
-            seq = self.fasta.get_subseq(seq_id, indices[0])
+            seq = self.fasta.get_subseq(seq_id, [indices[0]])
             if has_start_codon(seq):
                 mrna.add_start_codon(indices[0][0])
 
