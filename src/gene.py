@@ -52,23 +52,16 @@ class Gene:
 
     def remove_mrnas_with_cds_shorter_than(self, min_length):
         # TODO for now this also removes mrnas with NO cds, but do we want that?
-        print("removing mrnas at gene " + self.name)
         to_remove = []
         if self.mrnas:
             for mrna in self.mrnas:
-                print("now at mrna " + mrna.name)
                 if mrna.cds:
-                    print("it has a cds")
-                    print("cds length is " + str(mrna.cds.length()))
                     if mrna.cds.length() < min_length:
-                        print("okay, we're gonna have to remove " + mrna.name)
                         to_remove.append(mrna)
                 else:
                     to_remove.append(mrna)
-        print("mrnas to remove from this gene: " + str(to_remove))
         for m in to_remove:
             self.mrnas.remove(m)
-        print("mrnas left on this gene: " + str(self.mrnas))
 
     def trim_end(self, endindex):
         if self.indices[0] > endindex:

@@ -38,9 +38,9 @@ class TestGene(unittest.TestCase):
     def test_remove_mrnas_with_cds_shorter_than(self):
         self.assertEquals(2, len(self.test_gene1.mrnas))
         cds1 = Mock()
-        cds1.length = 149
+        cds1.length.return_value = 149
         cds2 = Mock()
-        cds2.length = 151
+        cds2.length.return_value = 151
         self.fake_mrna1.cds = cds1
         self.fake_mrna2.cds = cds2
         self.test_gene1.remove_mrnas_with_cds_shorter_than(150)
