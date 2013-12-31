@@ -26,6 +26,10 @@ class Genome:
         if self.gff:
             self.gff.remove_mrnas_with_cds_shorter_than(min_length)
 
+    def remove_first_cds_segment_if_shorter_than(self, min_length):
+        if self.gff:
+            self.gff.remove_first_cds_segment_if_shorter_than(min_length)
+
     # maybe should be called 'create_start_codon_GenePart if sequence contains start codon'
     def verify_start_codon(self, mrna, seq_id):
         if mrna.cds:

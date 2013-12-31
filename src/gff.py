@@ -95,6 +95,11 @@ class GFF:
         result.update(attribs)
         return result
 
+    def remove_first_cds_segment_if_shorter_than(self, min_length):
+        if self.genes:
+            for gene in self.genes:
+                gene.remove_first_cds_segment_if_shorter_than(min_length)
+
     def remove_mrnas_with_cds_shorter_than(self, min_length):
         if self.genes:
             to_remove = []

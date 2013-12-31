@@ -105,6 +105,20 @@ class TestMRNA(unittest.TestCase):
         self.fake_cds.to_gff.assert_called_with("sctg_0080_0020", "maker", '+')
         self.fake_start_codon.to_gff.assert_called_with("sctg_0080_0020", "maker", '+')
 
+    def test_remove_first_cds_segment_if_shorter_than(self):
+        bad_indices = [[5,7], [10,20]]
+        self.fake_cds.indices = bad_indices
+        self.assertEquals(2, len(self.test_mrna1.cds.indices))
+        self.test_mrna1.remove_first_cds_segment_if_shorter_than(4)
+        self.assertEquals(1, len(self.test_mrna1.cds.indices))
+
+    def test_remove_first_cds_segment_if_shorter_than_leaves_well_enough_alone(self):
+        good_indices = [[5, 8], [10, 20]]
+        self.fake_cds.indices = good_indices
+        self.assertEquals(2, len(self.test_mrna1.cds.indices))
+        self.test_mrna1.remove_first_cds_segment_if_shorter_than(4)
+        self.assertEquals(2, len(self.test_mrna1.cds.indices))
+
     def test_trim_end(self):
         self.test_mrna1.trim_end(7400)
         self.assertEquals(3734, self.test_mrna1.indices[0])

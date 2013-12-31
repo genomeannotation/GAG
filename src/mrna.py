@@ -63,6 +63,11 @@ class MRNA:
         for feat in self.other_features:
             feat.clean_up_indices()
 
+    def remove_first_cds_segment_if_shorter_than(self, min_length):
+        if self.cds:
+            if length_of_segment(self.cds.indices[0]) < min_length:
+                self.cds.indices = self.cds.indices[1:]
+
     def trim_end(self, endindex):
         if self.indices[0] > endindex:
             self.indices[0] = 0

@@ -84,7 +84,6 @@ class TestGene(unittest.TestCase):
         expected = "Gene (ID=1, Name=BDOR_007864, seq_name=sctg_0080_0020) containing 2 mrnas"
         self.assertEquals(expected, str(self.test_gene1))
 
-
     def test_trim_end(self):
         self.test_gene1.trim_end(7400)
         self.assertEquals(3734, self.test_gene1.indices[0])
@@ -126,6 +125,11 @@ class TestGene(unittest.TestCase):
         junk_gene.clean_up_indices()
         self.assertEquals(0, junk_gene.indices[0])
         self.assertEquals(0, junk_gene.indices[1])
+
+    def test_remove_first_cds_segment_if_shorter_than(self):
+        self.test_gene1.remove_first_cds_segment_if_shorter_than(4)
+        self.fake_mrna1.remove_first_cds_segment_if_shorter_than.assert_called_with(4)
+        self.fake_mrna2.remove_first_cds_segment_if_shorter_than.assert_called_with(4)
         
     def test_remove_invalid_features(self):
         gene = Gene(seq_name="sctg_foo", source='maker', indices=[100, 200], strand='-', identifier='foo_gene', name='gene1')

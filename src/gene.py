@@ -85,6 +85,11 @@ class Gene:
         for mrna in self.mrnas:
             mrna.clean_up_indices()
 
+    def remove_first_cds_segment_if_shorter_than(self, min_length):
+        if self.mrnas:
+            for mrna in self.mrnas:
+                mrna.remove_first_cds_segment_if_shorter_than(min_length)
+
     def remove_invalid_features(self):
         # remove mrnas with indices[0] == 0
         self.mrnas = [m for m in self.mrnas if m.indices[0] != 0]
