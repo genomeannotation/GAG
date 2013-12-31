@@ -176,6 +176,19 @@ class GagCmd(cmd.Cmd):
 
 ## Manipulate genome
 
+    def help_ducttape(self):
+        print("Usage: ducttape\n")
+        print("For the genome in memory, does the following:\n")
+        print("\t*Renames all 'maker' mRNAs, starting with 'BDOR_1000000'\n")
+        print("\t*Removes each first CDS segment if its length is less than 4\n")
+        print("\t*Verifies all start and stop codons by checking against the actual sequence; creates new features as necessary\n")
+        print("\t*Verifies all 'frame' information for coding sequences by running a six-frame translation and checking the\n")
+        print("\t protein sequence against the one stored in the annotation file\n")
+        print("\t*Removes invalid features -- first eliminating any mRNA with no CDS, then any gene with no mRNAs.\n")
+
+    def do_ducttape(self, line):
+        try_catch(self.controller.ducttape, None)
+
     def help_applybed(self):
         print("Usage: applybed <file_name>\n")
         print("Applies a bed file to the data. This will")

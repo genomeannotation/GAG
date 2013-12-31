@@ -249,7 +249,6 @@ class TestGFF(unittest.TestCase):
         self.assertEquals('sctg_1', self.test_gff1.genes[0].seq_name)
         self.assertEquals('sctg_3', self.test_gff1.genes[1].seq_name)
         
-
     def test_remove_empty_genes(self):
         nonempty_gene = Mock()
         nonempty_gene.is_empty.return_value = False

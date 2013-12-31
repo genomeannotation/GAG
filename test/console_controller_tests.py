@@ -116,6 +116,18 @@ class TestConsoleController(unittest.TestCase):
             self.assertFalse(self.ctrlr.ready_for_tbl2asn('tbl2asn_demo'))
         self.assertTrue(self.ctrlr.ready_for_tbl2asn('tbl2asn_demo'))
 
+    def test_ducttape(self):
+        mock_genome = Mock()
+        mock_gff = Mock()
+        mock_genome.gff = mock_gff
+        self.ctrlr.genome = mock_genome
+        self.ctrlr.ducttape()
+        mock_genome.rename_maker_mrnas.assert_called_with()
+        mock_gff.remove_first_cds_segment_if_shorter_than.assert_called_with(4)
+        mock_genome.verify_all_starts_and_stops.assert_called_with()
+        mock_genome.ducttape_mrna_seq_frames.assert_called_with()
+        mock_gff.remove_mrnas_with_cds_shorter_than.assert_called_with(150)
+
     def test_remove_all_gene_segments(self):
         mock_genome = Mock()
         self.ctrlr.genome = mock_genome

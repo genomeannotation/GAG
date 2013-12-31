@@ -174,6 +174,17 @@ class ConsoleController:
 
 ## Manipulate genome
 
+    def ducttape(self):
+        min_first_cds_segment_length = 4
+        min_cds_length = 150
+        if self.genome.gff:
+            self.genome.rename_maker_mrnas()
+            self.genome.gff.remove_first_cds_segment_if_shorter_than(min_first_cds_segment_length)
+            self.genome.verify_all_starts_and_stops()
+            self.genome.ducttape_mrna_seq_frames()
+            self.genome.gff.remove_mrnas_with_cds_shorter_than(min_cds_length)
+
+
     def apply_bed(self, line):
         bed = Bed()
         with open(line, 'rb') as bedfile:
