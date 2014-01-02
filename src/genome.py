@@ -22,55 +22,6 @@ class Genome:
     def addEntries(self, entries):
         [self.entries.append(entry) for entry in entries]
 
-    def ducttape_mrna_seq_frames(self):
-        for gene in self.gff.genes:
-            for mrna in gene.mrnas:
-                name = mrna.name
-                seq = self.fasta.get_subseq(gene.seq_name, [mrna.cds.indices[0]]) #first segment
-                if seq == None:
-                    return "Failed to fix "+name+": sequence does not exist.\n" 
-                elif len(seq) < 6:
-                    return "Failed to fix "+name+": sequence less than 6 base pairs.\n"
-
-                pseq1 = translate(seq, 1, '+')
-                pseq2 = translate(seq, 2, '+')
-                pseq3 = translate(seq, 3, '+')
-                nseq1 = translate(seq, 1, '-')
-                nseq2 = translate(seq, 2, '-')
-                nseq3 = translate(seq, 3, '-')
-
-                annotEntry = self.annot.get_entry(name)
-                if annotEntry:
-                    pepSeq = annotEntry[9]
-                    if pepSeq == None:
-                        return "Failed to fix "+name+": trinotate missing peptide sequence.\n"
-
-                    oldphase = mrna.cds.phase[0]
-                    if pseq1 and pepSeq.find(pseq1[:-1]) == 0:
-                        gene.strand = '+'
-                        mrna.cds.phase[0] = 0
-                    elif pseq2 and pepSeq.find(pseq2[:-1]) == 0:
-                        gene.strand = '+'
-                        mrna.cds.phase[0] = 1
-                    elif pseq3 and pepSeq.find(pseq3[:-1]) == 0:
-                        gene.strand = '+'
-                        mrna.cds.phase[0] = 2
-                    elif nseq1 and pepSeq.find(nseq1[:-1]) == 0:
-                        gene.strand = '-'
-                        mrna.cds.phase[0] = 0
-                    elif nseq2 and pepSeq.find(nseq2[:-1]) == 0:
-                        gene.strand = '-'
-                        mrna.cds.phase[0] = 1
-                    elif nseq3 and pepSeq.find(nseq3[:-1]) == 0:
-                        gene.strand = '-'
-                        mrna.cds.phase[0] = 2
-                    else:
-                        return "Failed to fix "+name+": no matching translation.\n"
-                    return "Fixed "+name+" from phase "+str(oldphase)+" to phase "+str(mrna.cds.phase[0])+"\n"
-                else:
-                    return "Failed to fix "+name+": trinotate entry doesn't exist.\n"
-        return "Failed to fix "+name+": mRNA doesn't exist.\n"
-
     # this also removes empty genes; could use a better name maybe...
     def remove_mrnas_with_cds_shorter_than(self, min_length):
         if self.gff:
