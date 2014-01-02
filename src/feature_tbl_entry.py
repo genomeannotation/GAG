@@ -38,9 +38,8 @@ class FeatureTblEntry:
 
     def add_coordinates(self, start, stop):
         if start >= stop:
-            print("Warning: Entry "+self.name+": start >= stop; skipping coordinate")
-        else:
-            self.coords.append([start, stop])
+            print("Warning: Entry "+self.name+": start >= stop")
+        self.coords.append([start, stop])
 
     def has_same_coords(self, other):
         if len(self.coords) != len(other.coords):
