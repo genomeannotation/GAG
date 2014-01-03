@@ -123,7 +123,7 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.genome = mock_genome
         self.ctrlr.ducttape()
         mock_genome.rename_maker_mrnas.assert_called_with()
-        mock_gff.remove_first_cds_segment_if_shorter_than.assert_called_with(4)
+        mock_gff.remove_first_cds_segment_if_shorter_than.assert_called_with(3)
         mock_genome.verify_all_starts_and_stops.assert_called_with()
         mock_gff.remove_mrnas_with_cds_shorter_than.assert_called_with(150)
 

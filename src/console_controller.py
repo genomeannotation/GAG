@@ -175,7 +175,7 @@ class ConsoleController:
 ## Manipulate genome
 
     def ducttape(self):
-        min_first_cds_segment_length = 4
+        min_first_cds_segment_length = 3
         min_cds_length = 150
         if self.genome.gff:
             self.genome.rename_maker_mrnas()
