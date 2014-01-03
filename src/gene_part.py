@@ -2,6 +2,7 @@
 
 import math
 import sys
+from translate import *
 
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
@@ -173,6 +174,24 @@ class CDS(GenePart):
         for i in range(len(self.phase)):
             if self.indices[i][0] < 1:
                 self.phase[i] = (self.phase[i] + self.indices[i][0] + -1) %3
+
+    def extract_sequence(self, fasta, seq_name, strand):
+        seq = ''
+        if strand == '+':
+            for i in xrange(len(self.indices)):
+                index_pair = self.indices[i]
+                phase = self.phase[i]
+                adjusted_indices = [index_pair[0] + phase, index_pair[1]]
+                seq += fasta.get_subseq(seq_name, adjusted_indices)
+        elif strand == '-':
+            for i in xrange(len(self.indices)):
+                index_pair = self.indices[i]
+                phase = self.phase[i]
+                adjusted_indices = [index_pair[0], index_pair[1] - phase]
+                non_reversed_seq = fasta.get_subseq(seq_name, adjusted_indices)
+                seq += reverse_complement(non_reversed_seq)     # currently failing, not sure why.
+        return seq
+
 
 
 class Exon(GenePart):

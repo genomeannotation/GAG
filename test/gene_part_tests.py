@@ -160,6 +160,30 @@ class TestCDS(unittest.TestCase):
         for phase in self.extra_phases:
             self.test_cds1.add_phase(phase)
 
+    def test_extract_sequence_pos_strand(self):
+        fasta = Mock()
+        fasta.get_subseq.return_value = 'GATTACA'
+        strand = '+'
+        seq_name = 'seq1'
+        seq = self.test_cds1.extract_sequence(fasta, seq_name, strand)
+        expected = 'GATTACAGATTACAGATTACAGATTACAGATTACA'
+        self.assertEquals(expected, seq)
+
+    def test_extract_sequence_neg_strand(self):
+        fasta = Mock()
+        fasta.get_subseq.return_value = 'GATTACA'
+        strand = '-'
+        seq_name = 'seq1'
+        seq = self.test_cds1.extract_sequence(fasta, seq_name, strand)
+        expected = 'TGTAATCTGTAATCTGTAATCTGTAATCTGTAATC'
+        self.assertEquals(expected, seq)
+        calls = fasta.mock_calls
+        # build a list of arguments to all calls to fasta
+        first_call_args = calls[0][1]
+        self.assertTrue('seq1' in first_call_args)
+        second_call_args = calls[1][1]
+        self.assertTrue([4092, 4330] in second_call_args) # this confirms that phase was accounted for
+
     def test_cds_constructor(self):
         self.assertEquals('CDS', self.test_cds0.__class__.__name__)
         # should also be able to construct w/o all the params...

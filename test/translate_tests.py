@@ -22,6 +22,10 @@ class TestTranslate(unittest.TestCase):
         self.assertTrue(has_stop_codon('gattacataa'))
         self.assertTrue(has_stop_codon('gattacatga'))
         self.assertFalse(has_stop_codon('gattacaact'))
+
+    def test_reverse_complement(self):
+        self.assertEquals('C', reverse_complement('G'))
+        self.assertEquals('CAT', reverse_complement('ATG'))
         
         
 

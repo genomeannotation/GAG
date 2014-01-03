@@ -87,7 +87,7 @@ class Gene:
 
     def create_starts_and_stops(self, fasta):
         for mrna in self.mrnas:
-            mrna.create_starts_and_stops(fasta, self.strand)
+            mrna.create_starts_and_stops(fasta, self.seq_name, self.strand)
 
     def remove_first_cds_segment_if_shorter_than(self, min_length):
         if self.mrnas:

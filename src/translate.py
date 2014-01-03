@@ -53,8 +53,8 @@ def has_stop_codon(seq):
         return False
 
 def reverse_complement(seq):
-    bases = ['a', 'c', 'g', 't']
-    complements = ['t', 'g', 'c', 'a']
+    bases = ['a', 'c', 'g', 't', 'A', 'C', 'G', 'T']
+    complements = ['t', 'g', 'c', 'a', 'T', 'G', 'C', 'A']
     rev_comp_dict = dict(zip(bases, complements))
     return ''.join([rev_comp_dict.get(base) for base in reversed(seq)])
 

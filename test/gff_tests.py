@@ -296,7 +296,6 @@ class TestGFF(unittest.TestCase):
         self.test_gff1.genes.extend([gene1, gene2, gene3])
         mrna_names = ['foo1', 'foo2']
         gene_names = self.test_gff1.get_mrnas_parent_gene_names(mrna_names)
-        print("*********************"+str(gene_names))
         self.assertEquals(2, len(gene_names))
 
     def test_gene_id_to_prefix(self):
