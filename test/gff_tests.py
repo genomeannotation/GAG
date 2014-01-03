@@ -176,10 +176,9 @@ class TestGFF(unittest.TestCase):
 
         # test process_other_feature_line
         self.assertEqual(0, len(self.test_gff2.current_mrna.other_features))
-        # should add object to current_mrna.other_features
+        # should do NOTHING when another feature is encountered :)
         self.test_gff2.process_other_feature_line(self.test_feature_line)
-        self.assertEqual(1, len(self.test_gff2.current_mrna.other_features))
-        self.assertEqual('five_prime_UTR', self.test_gff2.current_mrna.other_features[0].feature_type)
+        self.assertEqual(0, len(self.test_gff2.current_mrna.other_features))
         
 
     def test_gff_file_stuff(self):

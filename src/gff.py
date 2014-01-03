@@ -171,12 +171,7 @@ class GFF:
             self.current_exon = Exon(**kwargs)
 
     def process_other_feature_line(self, line):
-        if not self.current_mrna:
-            sys.stderr.write("trying to add a feature but no mRNA to add it to... here is the line in question: " + str(line))
-        else:
-            kwargs = self.extract_other_feature_args(line)
-            feat = GenePart(**kwargs)
-            self.current_mrna.other_features.append(feat)
+        pass
 
     def wrap_up_gene(self):
         if self.current_mrna:
