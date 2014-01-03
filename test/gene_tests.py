@@ -126,6 +126,15 @@ class TestGene(unittest.TestCase):
         self.assertEquals(0, junk_gene.indices[0])
         self.assertEquals(0, junk_gene.indices[1])
 
+    def test_create_starts_and_stops(self):
+        mrna1 = Mock()
+        mrna2 = Mock()
+        self.test_gene0.mrnas = [mrna1, mrna2]
+        fasta = Mock()
+        self.test_gene0.create_starts_and_stops(fasta)
+        mrna1.create_starts_and_stops.assert_called_with(fasta, '+')
+        mrna2.create_starts_and_stops.assert_called_with(fasta, '+')
+
     def test_remove_first_cds_segment_if_shorter_than(self):
         self.test_gene1.remove_first_cds_segment_if_shorter_than(4)
         self.fake_mrna1.remove_first_cds_segment_if_shorter_than.assert_called_with(4)

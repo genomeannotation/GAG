@@ -39,7 +39,7 @@ def verify_inputs(seq, frame, strand):
         return True
 
 def has_start_codon(seq):
-    return seq[:3] == 'aug'
+    return seq[:3] == 'aug' or seq[:3] == 'atg'
 
 def has_stop_codon(seq):
     last3 = seq[-3:]

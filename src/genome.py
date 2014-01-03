@@ -32,28 +32,9 @@ class Genome:
             self.gff.remove_first_cds_segment_if_shorter_than(min_length)
 
     # maybe should be called 'create_start_codon_GenePart if sequence contains start codon'
-    def verify_start_codon(self, mrna, seq_id):
-        if mrna.cds:
-            indices = mrna.get_cds_indices()
-            seq = self.fasta.get_subseq(seq_id, [indices[0]])
-            if has_start_codon(seq):
-                mrna.add_start_codon(indices[0][0])
-
-    def verify_stop_codon(self, mrna, seq_id):
-        if mrna.cds:
-            indices = mrna.get_cds_indices()
-            last_pair = indices[len(indices)-1]
-            seq = self.fasta.get_subseq(seq_id, [last_pair])
-            if has_stop_codon(seq):
-                mrna.add_stop_codon(last_pair[1])
-
-    def verify_all_starts_and_stops(self):
+    def create_starts_and_stops(self):
         for gene in self.gff.genes:
-            for mrna in gene.mrnas:
-                if not mrna.has_start():
-                    self.verify_start_codon(mrna, gene.seq_name)
-                if not mrna.has_stop():
-                    self.verify_stop_codon(mrna, gene.seq_name)
+            gene.create_starts_and_stops(self.fasta)
 
     def generateEntries(self):
         for gene in self.gff.genes:

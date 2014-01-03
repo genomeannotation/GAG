@@ -180,7 +180,7 @@ class ConsoleController:
         if self.genome.gff:
             self.genome.rename_maker_mrnas()
             self.genome.gff.remove_first_cds_segment_if_shorter_than(min_first_cds_segment_length)
-            self.genome.verify_all_starts_and_stops()
+            self.genome.create_starts_and_stops() 
             #self.ducttape_all_seq_frames() 
             self.genome.gff.remove_mrnas_with_cds_shorter_than(min_cds_length)
 
@@ -248,8 +248,8 @@ class ConsoleController:
     def rename_maker_mrnas(self):
         self.genome.rename_maker_mrnas()
 
-    def verify_all_starts_and_stops(self):
-        self.genome.verify_all_starts_and_stops()
+    def create_starts_and_stops(self):
+        self.genome.create_starts_and_stops()
 
     def ducttape_mrna_seq_frame(self, name):
         for gene in self.genome.gff.genes:

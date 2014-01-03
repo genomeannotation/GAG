@@ -124,7 +124,7 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.ducttape()
         mock_genome.rename_maker_mrnas.assert_called_with()
         mock_gff.remove_first_cds_segment_if_shorter_than.assert_called_with(3)
-        mock_genome.verify_all_starts_and_stops.assert_called_with()
+        mock_genome.create_starts_and_stops.assert_called_with()
         mock_gff.remove_mrnas_with_cds_shorter_than.assert_called_with(150)
 
     def test_remove_all_gene_segments(self):
@@ -160,11 +160,11 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.rename_maker_mrnas()
         mock_genome.rename_maker_mrnas.assert_called_with()
 
-    def test_verify_all_starts_and_stops(self):
+    def test_create_starts_and_stops(self):
         mock_genome = Mock()
         self.ctrlr.genome = mock_genome
-        self.ctrlr.verify_all_starts_and_stops()
-        mock_genome.verify_all_starts_and_stops.assert_called_with()
+        self.ctrlr.create_starts_and_stops()
+        mock_genome.create_starts_and_stops.assert_called_with()
 
     def test_remove_mrnas_with_cds_shorter_than(self):
         mock_genome = Mock()
