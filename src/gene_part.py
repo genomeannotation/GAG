@@ -180,16 +180,12 @@ class CDS(GenePart):
         if strand == '+':
             for i in xrange(len(self.indices)):
                 index_pair = self.indices[i]
-                phase = self.phase[i]
-                adjusted_indices = [index_pair[0] + phase, index_pair[1]]
-                seq += fasta.get_subseq(seq_name, adjusted_indices)
+                seq += fasta.get_subseq(seq_name, index_pair)
         elif strand == '-':
             for i in xrange(len(self.indices)):
                 index_pair = self.indices[i]
-                phase = self.phase[i]
-                adjusted_indices = [index_pair[0], index_pair[1] - phase]
-                non_reversed_seq = fasta.get_subseq(seq_name, adjusted_indices)
-                seq += reverse_complement(non_reversed_seq)     # currently failing, not sure why.
+                non_reversed_seq = fasta.get_subseq(seq_name, index_pair)
+                seq += reverse_complement(non_reversed_seq)
         return seq
 
 
