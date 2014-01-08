@@ -63,7 +63,7 @@ class MRNA:
         for feat in self.other_features:
             feat.clean_up_indices()
 
-    def create_starts_and_stops(self, fasta, phase):
+    def create_start_and_stop_if_necessary(self, fasta, seq_name, phase):
         pass
 
     def remove_first_cds_segment_if_shorter_than(self, min_length):

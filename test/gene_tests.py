@@ -132,8 +132,8 @@ class TestGene(unittest.TestCase):
         self.test_gene0.mrnas = [mrna1, mrna2]
         fasta = Mock()
         self.test_gene0.create_starts_and_stops(fasta)
-        mrna1.create_starts_and_stops.assert_called_with(fasta, 'sctg_0080_0020', '+')
-        mrna2.create_starts_and_stops.assert_called_with(fasta, 'sctg_0080_0020', '+')
+        mrna1.create_start_and_stop_if_necessary.assert_called_with(fasta, 'sctg_0080_0020', '+')
+        mrna2.create_start_and_stop_if_necessary.assert_called_with(fasta, 'sctg_0080_0020', '+')
 
     def test_remove_first_cds_segment_if_shorter_than(self):
         self.test_gene1.remove_first_cds_segment_if_shorter_than(4)

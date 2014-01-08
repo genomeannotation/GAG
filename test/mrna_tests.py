@@ -156,13 +156,15 @@ class TestMRNA(unittest.TestCase):
         codon.clean_up_indices.assert_called_with()
         exon.clean_up_indices.assert_called_with()
 
-    def test_create_starts_and_stops(self):
+    def test_create_start_and_stop_if_necessary(self):
         fasta = Mock()
-        self.test_mrna0.create_starts_and_stops(fasta, '+')
+        seq_name = 'seq_foo'
+        strand = '+'
+        self.test_mrna0.create_start_and_stop_if_necessary(fasta, seq_name, strand)
         pass
         #self.fake_cds = Mock()
         #self.test_mrna0 = MRNA(identifier=2, name="BDOR_007864-RA", indices=[3734, 7436], parent_id=1)
-            #mrna.create_starts_and_stops(fasta, self.strand)
+            #mrna.create_start_and_stop_if_necessary(fasta, self.strand)
 
     def test_remove_invalid_features(self):
         mrna = MRNA(identifier='foo', name='foo', indices=[20, 50], parent_id='foo') 
