@@ -174,6 +174,25 @@ class CDS(GenePart):
         for i in range(len(self.phase)):
             if self.indices[i][0] < 1:
                 self.phase[i] = (self.phase[i] + self.indices[i][0] + -1) %3
+    # returns first and third indices regardless of whether CDS actually has a start codon
+    def get_start_indices(self, phase):
+        if phase == '+':
+            first_index = self.indices[0][0]
+            return [first_index, first_index+2]
+        elif phase == '-':
+            first_index = self.indices[0][1]
+            return [first_index-2, first_index]
+
+    def get_stop_indices(self, phase):
+        if phase == '+':
+            last_index_pair = self.indices[len(self.indices)-1]
+            last_index = last_index_pair[1]
+            return [last_index-2, last_index]
+        elif phase == '-':
+            last_index_pair = self.indices[len(self.indices)-1]
+            last_index = last_index_pair[0]
+            return [last_index, last_index+2]
+
 
     def extract_sequence(self, fasta, seq_name, strand):
         seq = ''

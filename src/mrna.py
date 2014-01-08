@@ -4,6 +4,7 @@ import math
 import sys
 from feature_tbl_entry import FeatureTblEntry
 from src.gene_part import GenePart
+from src.translate import *
 
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
@@ -64,7 +65,16 @@ class MRNA:
             feat.clean_up_indices()
 
     def create_start_and_stop_if_necessary(self, fasta, seq_name, phase):
-        pass
+        if not self.cds:
+            return
+        seq = self.cds.extract_sequence(fasta, seq_name, phase)
+        if has_start_codon(seq):
+            indices = self.cds.get_start_indices(phase)
+            self.add_start_codon(indices)
+        if has_stop_codon(seq):
+            indices = self.cds.get_stop_indices(phase)
+            self.add_stop_codon(indices)
+
 
     def remove_first_cds_segment_if_shorter_than(self, min_length):
         if self.cds:

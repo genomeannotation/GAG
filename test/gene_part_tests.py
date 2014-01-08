@@ -160,6 +160,22 @@ class TestCDS(unittest.TestCase):
         for phase in self.extra_phases:
             self.test_cds1.add_phase(phase)
 
+    def test_get_start_indices_pos_strand(self):
+        expected = [3734, 3736]
+        self.assertEquals(expected, self.test_cds1.get_start_indices('+'))
+
+    def test_get_start_indices_neg_strand(self):
+        expected = [4032, 4034]
+        self.assertEquals(expected, self.test_cds1.get_start_indices('-'))
+
+    def test_get_stop_indices_pos_strand(self):
+        expected = [7434, 7436]
+        self.assertEquals(expected, self.test_cds1.get_stop_indices('+'))
+
+    def test_get_stop_indices_neg_strand(self):
+        expected = [6630, 6632]
+        self.assertEquals(expected, self.test_cds1.get_stop_indices('-'))
+
     def test_extract_sequence_pos_strand(self):
         fasta = Mock()
         fasta.get_subseq.return_value = 'GATTACA'

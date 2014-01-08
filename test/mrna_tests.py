@@ -158,13 +158,30 @@ class TestMRNA(unittest.TestCase):
 
     def test_create_start_and_stop_if_necessary(self):
         fasta = Mock()
+        cds = Mock()
+        cds.extract_sequence.return_value = 'atgtag' # startstop
+        cds.get_start_indices.return_value = 20
+        cds.get_stop_indices.return_value = 40
+        self.test_mrna0.cds = cds
         seq_name = 'seq_foo'
         strand = '+'
+        self.assertFalse(self.test_mrna0.other_features)
         self.test_mrna0.create_start_and_stop_if_necessary(fasta, seq_name, strand)
-        pass
-        #self.fake_cds = Mock()
-        #self.test_mrna0 = MRNA(identifier=2, name="BDOR_007864-RA", indices=[3734, 7436], parent_id=1)
-            #mrna.create_start_and_stop_if_necessary(fasta, self.strand)
+        self.assertTrue(self.test_mrna0.other_features)
+        self.assertEquals(2, len(self.test_mrna0.other_features))
+
+    def test_create_start_and_stop_when_no_start_or_stop(self):
+        fasta = Mock()
+        cds = Mock()
+        cds.extract_sequence.return_value = 'tagatg' # no start or stop
+        cds.get_start_indices.return_value = 20
+        cds.get_stop_indices.return_value = 40
+        self.test_mrna0.cds = cds
+        seq_name = 'seq_foo'
+        strand = '+'
+        self.assertFalse(self.test_mrna0.other_features)
+        self.test_mrna0.create_start_and_stop_if_necessary(fasta, seq_name, strand)
+        self.assertFalse(self.test_mrna0.other_features)
 
     def test_remove_invalid_features(self):
         mrna = MRNA(identifier='foo', name='foo', indices=[20, 50], parent_id='foo') 
