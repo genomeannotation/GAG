@@ -385,7 +385,7 @@ class ConsoleController:
         for gene in self.genome.gff.genes:
             for mrna in gene.mrnas:
                 if mrna.name == name and mrna.cds:
-                    return self.genome.fasta.get_subseq(gene.seq_name, mrna.cds.indices)
+                    return mrna.cds.extract_sequence(self.genome.fasta, gene.seq_name, gene.strand)
 
         return "Error: Couldn't find mRNA.\n"
 
