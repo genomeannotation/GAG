@@ -80,6 +80,9 @@ class MRNA:
         if self.cds:
             if length_of_segment(self.cds.indices[0]) < min_length:
                 self.cds.indices = self.cds.indices[1:]
+                self.cds.name = self.cds.name[1:]
+                self.cds.identifier = self.cds.identifier[1:]
+                self.cds.phase = self.cds.phase[1:]
 
     def trim_end(self, endindex):
         if self.indices[0] > endindex:

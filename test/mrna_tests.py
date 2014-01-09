@@ -106,7 +106,13 @@ class TestMRNA(unittest.TestCase):
 
     def test_remove_first_cds_segment_if_shorter_than(self):
         bad_indices = [[5,7], [10,20]]
+        names = ['foo1', 'foo2']
+        phases = [0, 2]
+        identifiers = [8, 9]
         self.fake_cds.indices = bad_indices
+        self.fake_cds.name = names
+        self.fake_cds.phase = phases
+        self.fake_cds.identifier = identifiers
         self.assertEquals(2, len(self.test_mrna1.cds.indices))
         self.test_mrna1.remove_first_cds_segment_if_shorter_than(4)
         self.assertEquals(1, len(self.test_mrna1.cds.indices))
