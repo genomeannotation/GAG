@@ -181,7 +181,7 @@ class ConsoleController:
             self.genome.rename_maker_mrnas()
             self.genome.gff.remove_first_cds_segment_if_shorter_than(min_first_cds_segment_length)
             self.genome.create_starts_and_stops() 
-            #self.ducttape_all_seq_frames() 
+            self.ducttape_all_seq_frames() 
             self.genome.gff.remove_mrnas_with_cds_shorter_than(min_cds_length)
 
 
