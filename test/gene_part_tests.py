@@ -198,7 +198,7 @@ class TestCDS(unittest.TestCase):
         first_call_args = calls[0][1]
         self.assertTrue('seq1' in first_call_args)
         second_call_args = calls[1][1]
-        self.assertTrue([4092, 4332] in second_call_args) 
+        self.assertTrue([[4092, 4332]] in second_call_args) 
 
     def test_cds_constructor(self):
         self.assertEquals('CDS', self.test_cds0.__class__.__name__)

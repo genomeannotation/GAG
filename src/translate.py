@@ -39,10 +39,12 @@ def verify_inputs(seq, frame, strand):
         return True
 
 def has_start_codon(seq):
-    return seq[:3] == 'aug' or seq[:3] == 'atg'
+    print("has_start_codon here ...")
+    print("...you passed me " + seq)
+    return seq[:3].lower() == 'aug' or seq[:3].lower() == 'atg'
 
 def has_stop_codon(seq):
-    last3 = seq[-3:]
+    last3 = seq[-3:].lower()
     if last3 == 'tag':
         return True
     elif last3 == 'taa':
@@ -53,8 +55,9 @@ def has_stop_codon(seq):
         return False
 
 def reverse_complement(seq):
-    bases = ['a', 'c', 'g', 't', 'A', 'C', 'G', 'T']
-    complements = ['t', 'g', 'c', 'a', 'T', 'G', 'C', 'A']
+    print(seq)
+    bases = ['a', 'c', 'g', 't', 'n', 'A', 'C', 'G', 'T', 'N']
+    complements = ['t', 'g', 'c', 'a', 'n', 'T', 'G', 'C', 'A', 'N']
     rev_comp_dict = dict(zip(bases, complements))
     return ''.join([rev_comp_dict.get(base) for base in reversed(seq)])
 

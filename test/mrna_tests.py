@@ -41,14 +41,13 @@ class TestMRNA(unittest.TestCase):
 
     def test_add_start_codon(self):
         self.assertFalse(self.test_mrna0.has_start())
-        #self.test_mrna0 = MRNA(identifier=2, name="BDOR_007864-RA", indices=[3734, 7436], parent_id=1)
-        self.test_mrna0.add_start_codon(4000)
+        self.test_mrna0.add_start_codon([4000, 4002])
         self.assertTrue(self.test_mrna0.has_start())
         self.assertEquals([[4000, 4002]], self.test_mrna0.other_features[0].indices)
 
     def test_add_stop_codon(self):
         self.assertFalse(self.test_mrna0.has_stop())
-        self.test_mrna0.add_stop_codon(7002)
+        self.test_mrna0.add_stop_codon([7000, 7002])
         self.assertTrue(self.test_mrna0.has_stop())
 
     def test_get_cds_indices(self):
@@ -139,8 +138,8 @@ class TestMRNA(unittest.TestCase):
         self.fake_cds.adjust_phase.assert_called_with()
 
     def test_clean_up_indices(self):
-        nice_mrna = MRNA(identifier='foo', name='foo', indices=[-10, 200], parent_id='foo')
-        junk_mrna = MRNA(identifier='bar', name='bar', indices=[-300, -200], parent_id='bar')
+        nice_mrna = MRNA(identifier=1, name='foo', indices=[-10, 200], parent_id='foo')
+        junk_mrna = MRNA(identifier=2, name='bar', indices=[-300, -200], parent_id='bar')
         nice_mrna.clean_up_indices()
         self.assertEquals(1, nice_mrna.indices[0])
         self.assertEquals(200, nice_mrna.indices[1])
@@ -184,7 +183,7 @@ class TestMRNA(unittest.TestCase):
         self.assertFalse(self.test_mrna0.other_features)
 
     def test_remove_invalid_features(self):
-        mrna = MRNA(identifier='foo', name='foo', indices=[20, 50], parent_id='foo') 
+        mrna = MRNA(identifier=1, name='foo', indices=[20, 50], parent_id='foo') 
         # set up mocks...
         nice_exon = Mock()
         nice1 = PropertyMock(return_value = [10, 50])
