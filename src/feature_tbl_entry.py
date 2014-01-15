@@ -73,6 +73,26 @@ class FeatureTblEntry:
         for annotation in annotations:
             self.annotations.append(annotation)
 
+    def get_annotation(self, key):
+        for annotation in self.annotations:
+            if annotation[0] == key:
+                return annotation[1]
+        return None
+
+    def remove_annotation(self, key):
+        to_remove = None
+        for annotation in self.annotations:
+            if annotation[0] == key:
+                to_remove = annotation
+        if to_remove:
+            self.annotations.remove(to_remove)
+
+    def is_hypothetical(self):
+        for annotation in self.annotations:
+            if annotation[0] == "product" and annotation[2] == "hypothetical protein":
+                return True
+        return False
+
     # Returns the summed length of each coordinate pair
     def get_total_length(self):
         length = 0

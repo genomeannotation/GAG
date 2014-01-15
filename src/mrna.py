@@ -182,7 +182,7 @@ class MRNA:
             result += other.to_gff(seq_name, source, strand)
         return result
 
-    def to_tbl_entries(self, strand):
+    def to_tbl_entries(self, annotator, strand):
         entries = []
 
         has_start = False
@@ -205,6 +205,7 @@ class MRNA:
             cdsEntry.set_strand(strand)
             cdsEntry.set_phase(phase)
             cdsEntry.set_partial_info(has_start, has_stop)
+            annotator.annotate_cds(cdsEntry)
             entries.append(cdsEntry)
 
         if self.exon != None:
@@ -216,6 +217,7 @@ class MRNA:
             exonEntry.set_strand(strand)
             exonEntry.set_phase(phase)
             exonEntry.set_partial_info(has_start, has_stop)
+            annotator.annotate_mrna(exonEntry)
             entries.append(exonEntry)
 
         return entries

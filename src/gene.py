@@ -142,7 +142,7 @@ class Gene:
             result += mrna.to_gff(self.seq_name, self.source, self.strand)
         return result
 
-    def to_tbl_entries(self):
+    def to_tbl_entries(self, annotator):
         entries = []
         geneEntry = FeatureTblEntry()
         geneEntry.set_type("gene")
@@ -152,12 +152,25 @@ class Gene:
         geneEntry.set_strand(self.strand)
         geneEntry.set_phase(0)
         geneEntry.set_partial_info(True, True) # Pretend there's a start and stop codon for genes
-        entries.append(geneEntry)   
+        annotator.annotate_gene(geneEntry)
+        entries.append(geneEntry)
+
+        hypothetical = False
         for mrna in self.mrnas: 
-            mrna_entries = mrna.to_tbl_entries(self.strand)
+            mrna_entries = mrna.to_tbl_entries(annotator, self.strand)
             for mrna_entry in mrna_entries:
                 mrna_entry.set_seq_name(self.seq_name)
+                if mrna_entry.is_hypothetical():
+                    hypothetical = True
                 entries.append(mrna_entry)
+
+        # Hypothetical genes don't get gene names
+        if hypothetical == True:
+            geneAnnot = geneEntry.get_annotation('gene')
+            geneEntry.remove_annotation('gene')
+            if geneAnnot:
+                geneEntry.add_annotation('note', 'gene '+geneAnnot)
+
         return entries
 
 

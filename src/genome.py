@@ -38,14 +38,8 @@ class Genome:
 
     def generateEntries(self):
         for gene in self.gff.genes:
-            newEntries = gene.to_tbl_entries()
+            newEntries = gene.to_tbl_entries(self.annot)
             for entry in newEntries:
-                if entry.type == 'gene':
-                    self.annot.annotate_gene(entry)
-                elif entry.type == 'CDS':
-                    self.annot.annotate_cds(entry)
-                elif entry.type == 'mRNA':
-                    self.annot.annotate_mrna(entry)
                 self.entries.append(entry)
 
     def write_string(self, genes = None, errors = None):
