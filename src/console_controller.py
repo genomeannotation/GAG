@@ -29,6 +29,10 @@ class ConsoleController:
         self.template_file = None
         self.seqlist = []
 
+        with open('gag.config', 'r') as config:
+            self.tbl2asn_executable = config.readline()
+            self.template_file = config.readline()
+
     def barf_session(self, line):
         if len(line) == 0:
             print("Usage: barfsession <directory>\n")
