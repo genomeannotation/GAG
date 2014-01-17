@@ -243,4 +243,7 @@ class GFF:
         prefixes = [self.gene_name_to_prefix(g) for g in parent_genes]
         self.remove_genes_by_prefixes(prefixes)
 
+    def invalidate_region(self, seq, start, stop):
+        return
+
 

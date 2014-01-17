@@ -101,3 +101,6 @@ class Genome:
                     self.annot.rename_mrna(old_name, new_name)
                     count += 1
 
+    def invalidate_region(self, seq, start, stop):
+        self.gff.invalidate_region(seq, start, stop)
+
