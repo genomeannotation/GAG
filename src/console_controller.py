@@ -22,16 +22,17 @@ class ConsoleController:
 
 ## Setup, loading and saving sessions
 
-    def __init__(self):
+    def __init__(self, configPath = None):
         self.genome = Genome()
         self.input = ''
         self.tbl2asn_executable = None
         self.template_file = None
         self.seqlist = []
 
-        with open('gag.config', 'r') as config:
-            self.tbl2asn_executable = config.readline()
-            self.template_file = config.readline()
+        if configPath:
+            with open(configPath, 'r') as config:
+                self.tbl2asn_executable = config.readline()
+                self.template_file = config.readline()
 
     def barf_session(self, line):
         if len(line) == 0:

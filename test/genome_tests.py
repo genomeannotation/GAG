@@ -84,6 +84,13 @@ class TestGenome(unittest.TestCase):
         self.bdor_mrna.is_maker_mrna.assert_called_with()
         self.other_mrna.is_maker_mrna.assert_called_with()
 
+    def test_invalidate_region(self):
+        gff = Mock()
+        self.genome.gff = gff
+        self.assertTrue(self.genome.gff)
+        self.genome.invalidate_region('Scaffold_foo', 50, 100)
+        gff.invalidate_region.assert_called_with('Scaffold_foo', 50, 100)
+
 
 ##########################
 def suite():

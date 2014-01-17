@@ -30,7 +30,7 @@ class GagCmd(cmd.Cmd):
             readline.read_history_file('.gaghistory')
         except IOError:
             sys.stderr.write("No .gaghistory file available...")
-        self.controller = ConsoleController() 
+        self.controller = ConsoleController('gag.config') 
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
