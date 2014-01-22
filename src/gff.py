@@ -244,6 +244,10 @@ class GFF:
         self.remove_genes_by_prefixes(prefixes)
 
     def invalidate_region(self, seq, start, stop):
-        return
+        for gene in self.genes:
+            if gene.seq_name == seq:
+                for mrna in gene.mrnas:
+                    mrna.cds.invalidate_region(start, stop)
+                    mrna.exon.invalidate_region(start, stop)
 
 

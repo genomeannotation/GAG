@@ -342,7 +342,23 @@ class TestGFF(unittest.TestCase):
         self.assertEquals("BDOR_00002.1", self.test_gff1.genes[0].name)
 
 
-
+    def test_invalidate_region(self):
+        gene1 = Mock()
+        gene1.seq_name = 'Scaffold_foo'
+        gene1.mrnas = [Mock()]
+        gene1.mrnas[0].cds = Mock()
+        gene1.mrnas[0].exon = Mock()
+        gene2 = Mock()
+        gene2.seq_name = 'Scaffold_dog'
+        gene2.mrnas = [Mock()]
+        gene2.mrnas[0].cds = Mock()
+        gene2.mrnas[0].exon = Mock()
+        self.test_gff1.genes.extend([gene1, gene2])
+        self.test_gff1.invalidate_region('Scaffold_foo', 50, 100)
+        gene1.mrnas[0].cds.invalidate_region.assert_called_with(50, 100)
+        gene1.mrnas[0].exon.invalidate_region.assert_called_with(50, 100)
+        assert not gene2.mrnas[0].cds.invalidate_region.called
+        assert not gene2.mrnas[0].exon.invalidate_region.called
     
         
 ##########################

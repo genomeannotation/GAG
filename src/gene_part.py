@@ -105,6 +105,26 @@ class GenePart:
             elif index_pair[1] > endindex:
                 self.indices[i][1] = endindex
 
+    def invalidate_region(self, start, stop):
+        for index in self.indices:
+            # index range contained in invalid region, mark for removal
+            if start <= index[0] and stop >= index[1]:
+                index[0] = 0
+                index[1] = 0
+                continue
+            # invalid region is in the middle of the index range, mark for removal
+            if start >= index[0] and stop <= index[1]:
+                index[0] = 0
+                index[1] = 0
+                continue
+            # The beginning is in the invalid region, trim beginning forward to invalid sequence stop
+            elif start < index[0] and stop >= index[0]:
+                index[0] = stop+1
+            # The end is in the invalid region, trim end back to invalid seq start
+            elif start < index[1] and stop >= index[1]:
+                index[1] = start-1
+
+
     def clean_up_indices(self):
         for i in xrange(len(self.indices)):
             if self.indices[i][1] < 1:
