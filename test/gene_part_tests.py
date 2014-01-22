@@ -261,6 +261,13 @@ class TestCDS(unittest.TestCase):
         self.test_cds1.adjust_indices(5)
         self.assertEquals(5185, self.test_cds1.indices[2][1])
 
+    def test_invalidate_region(self):
+        expected = [3737, 4034]
+        expectedPhase = 2
+        self.test_cds1.invalidate_region(3700, 3736)
+        self.assertEquals(expected, self.test_cds1.indices[0])
+        self.assertEquals(expectedPhase, self.test_cds1.phase[0])
+
     def test_to_gff(self):
         expected1 = "sctg_0080_0020\tmaker\tCDS\t3734\t4034\t.\t+\t0\tID=8;Name=BDOR_007864-RA:cds:0;Parent=2\n"
         expected2 = "sctg_0080_0020\tmaker\tCDS\t4092\t4332\t.\t+\t2\tID=9;Name=BDOR_007864-RA:cds:1;Parent=2\n"
