@@ -106,7 +106,7 @@ class GenePart:
                 self.indices[i][1] = endindex
 
     def invalidate_region(self, start, stop):
-        for index in self.indices:
+        for i, index in enumerate(self.indices):
             # index range contained in invalid region, mark for removal
             if start <= index[0] and stop >= index[1]:
                 index[0] = 0
@@ -215,7 +215,7 @@ class CDS(GenePart):
 
     # Override to account for phase
     def invalidate_region(self, start, stop):
-        for index in self.indices:
+        for i, index in enumerate(self.indices):
             # index range contained in invalid region, mark for removal
             if start <= index[0] and stop >= index[1]:
                 index[0] = 0

@@ -29,7 +29,7 @@ class ConsoleController:
         self.template_file = None
         self.seqlist = []
 
-        if os.path.isfile(configPath):
+        if configPath and os.path.isfile(configPath):
             with open(configPath, 'r') as config:
                 self.tbl2asn_executable = config.readline()
                 self.template_file = config.readline()
