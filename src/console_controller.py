@@ -457,7 +457,8 @@ class ConsoleController:
     def run_tbl2asn(self, line):
         if self.ready_for_tbl2asn(line):
             tbl2asn_command = self.tbl2asn_executable + " -p " + line
-            tbl2asn_command += ' -j "[organism=Bactrocera dorsalis][tech=WGS]" -M b -V vb -c f -Z discrep'
+            tbl2asn_command += ' -j "[organism=Bactrocera dorsalis][tech=WGS]" -M n -l paired-ends -V vb -c f -Z ' + line + '/discrep'
+            tbl2asn_command += ' -t ' + self.template_file
             os.system(tbl2asn_command)
         else:
             sys.stderr.write("Sorry, unable to run tbl2asn in " + line + ". Try prep_tbl2asn or settbl2asnexecutable first.")
