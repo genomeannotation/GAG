@@ -91,6 +91,19 @@ class TestGenome(unittest.TestCase):
         self.genome.invalidate_region('Scaffold_foo', 50, 100)
         gff.invalidate_region.assert_called_with('Scaffold_foo', 50, 100)
 
+    def test_trim_region(self):
+        gene1 = Mock()
+        gene2 = Mock()
+        gff = Mock()
+        gff.genes = [gene1, gene2]
+        self.genome.gff = gff
+        fasta = Mock()
+        self.genome.fasta = fasta
+        self.genome.trim_region('seq1', 1, 3)
+        fasta.trim_seq.assert_called_with('seq1', 1, 3)
+        gene1.adjust_indices.assert_called_with(-3, 3) 
+
+
 
 ##########################
 def suite():

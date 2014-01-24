@@ -104,3 +104,11 @@ class Genome:
     def invalidate_region(self, seq, start, stop):
         self.gff.invalidate_region(seq, start, stop)
 
+    def trim_region(self, seq, start, stop):
+        if self.fasta:
+            self.fasta.trim_seq(seq, start, stop)
+        if self.gff and self.gff.genes:
+            offset = -(stop - start + 1)
+            for gene in self.gff.genes:
+                gene.adjust_indices(offset, stop)
+
