@@ -38,14 +38,17 @@ class MRNA:
     def is_maker_mrna(self):
         return 'maker' in self.name
 
-    def adjust_indices(self, n):
-        self.indices = [i + n for i in self.indices]
+    def adjust_indices(self, n, start_index=1):
+        if self.indices[0] > start_index:
+            self.indices = [i + n for i in self.indices]
+        elif self.indices[1] > start_index:
+            self.indices[1] += n
         if self.exon:
-            self.exon.adjust_indices(n)
+            self.exon.adjust_indices(n, start_index)
         if self.cds:
-            self.cds.adjust_indices(n)
+            self.cds.adjust_indices(n, start_index)
         for feature in self.other_features:
-            feature.adjust_indices(n)
+            feature.adjust_indices(n, start_index)
 
     def adjust_phase(self):
         if self.cds:

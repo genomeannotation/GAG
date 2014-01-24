@@ -63,15 +63,21 @@ class TestMRNA(unittest.TestCase):
     def test_adjust_indices(self):
         self.test_mrna1.adjust_indices(32)
         self.assertEqual(7468, self.test_mrna1.indices[1])
-        self.fake_cds.adjust_indices.assert_called_with(32)
-        self.fake_exon.adjust_indices.assert_called_with(32)
-        self.fake_start_codon.adjust_indices.assert_called_with(32)
+        self.fake_cds.adjust_indices.assert_called_with(32, 1)
+        self.fake_exon.adjust_indices.assert_called_with(32, 1)
+        self.fake_start_codon.adjust_indices.assert_called_with(32, 1)
         # adjust 'em back
         self.test_mrna1.adjust_indices(-32)
         self.assertEqual(3734, self.test_mrna1.indices[0])
-        self.fake_cds.adjust_indices.assert_called_with(-32)
-        self.fake_exon.adjust_indices.assert_called_with(-32)
-        self.fake_start_codon.adjust_indices.assert_called_with(-32)
+        self.fake_cds.adjust_indices.assert_called_with(-32, 1)
+        self.fake_exon.adjust_indices.assert_called_with(-32, 1)
+        self.fake_start_codon.adjust_indices.assert_called_with(-32, 1)
+
+    def test_adjust_indices_after_start_index(self):
+        self.test_mrna1.adjust_indices(32, 8000)
+        self.assertEqual(3734, self.test_mrna1.indices[0])
+        self.test_mrna1.adjust_indices(32, 3000)
+        self.assertEqual(3766, self.test_mrna1.indices[0])
 
     def test_length_of_shortest_cds_segment(self):
         self.fake_cds.length_of_shortest_segment.return_value = 241

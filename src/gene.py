@@ -74,7 +74,7 @@ class Gene:
 
     # beginindex is the new start index of sequence
     def trim_begin(self, beginindex):
-        self.adjust_indices(-beginindex + 1)
+        self.adjust_indices(-beginindex + 1, 1)
 
     def clean_up_indices(self):
         if self.indices[1] < 1:
@@ -115,10 +115,13 @@ class Gene:
             return True
         return False
 
-    def adjust_indices(self, n):
-        self.indices = [i + n for i in self.indices]
+    def adjust_indices(self, n, start_index=1):
+        if self.indices[0] >= start_index:
+            self.indices = [i + n for i in self.indices]
+        elif self.indices[1] >= start_index:
+            self.indices[1] += n
         for mrna in self.mrnas:
-            mrna.adjust_indices(n) 
+            mrna.adjust_indices(n, start_index) 
 
     def trim(self, new_indices):
         if trimmed_completely(self.indices, new_indices):

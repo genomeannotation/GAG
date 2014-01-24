@@ -64,6 +64,11 @@ class TestGenePart(unittest.TestCase):
         self.gp2.adjust_indices(-10)
         self.assertEquals(65, self.gp2.indices[1][0])
 
+    def test_adjust_indices_after_start_index(self):
+        self.gp2.adjust_indices(10, 50)
+        self.assertEqual(44, self.gp2.indices[0][1])
+        self.assertEqual(75, self.gp2.indices[1][0])
+
     def test_clean_up_indices(self):
         # test on a GenePart...
         nice_cds = CDS(identifier='foo', name='foo', indices=[-5, 28], phase=1, parent_id='bar')

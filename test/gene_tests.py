@@ -16,7 +16,6 @@ class TestGene(unittest.TestCase):
         self.test_gene1.add_mrna(self.fake_mrna1)
         self.test_gene1.add_mrna(self.fake_mrna2)
 
-
     def test_constructor(self):
         self.assertEqual('Gene', self.test_gene0.__class__.__name__)
 
@@ -60,11 +59,11 @@ class TestGene(unittest.TestCase):
 
     def test_adjust_indices(self):
         self.test_gene1.adjust_indices(16)
-        self.fake_mrna1.adjust_indices.assert_called_with(16)
+        self.fake_mrna1.adjust_indices.assert_called_with(16, 1)
         self.assertEquals(3750, self.test_gene1.indices[0])
         # adjust them back
         self.test_gene1.adjust_indices(-16)
-        self.fake_mrna1.adjust_indices.assert_called_with(-16)
+        self.fake_mrna1.adjust_indices.assert_called_with(-16, 1)
         self.assertEquals(3734, self.test_gene1.indices[0])
 
     def test_collides_range(self):
@@ -102,8 +101,8 @@ class TestGene(unittest.TestCase):
         self.assertEquals(3725, self.test_gene1.indices[0])
         self.assertEquals(7427, self.test_gene1.indices[1])
         # should call adjust_indices on child mrnas ...
-        self.fake_mrna1.adjust_indices.assert_called_with(-9)
-        self.fake_mrna2.adjust_indices.assert_called_with(-9)
+        self.fake_mrna1.adjust_indices.assert_called_with(-9, 1)
+        self.fake_mrna2.adjust_indices.assert_called_with(-9, 1)
         
     def test_clean_up_indices(self):
         # if indices[0] < 1, set to 1 
@@ -178,8 +177,8 @@ class TestGene(unittest.TestCase):
         # verify appropriate calls were made to child mrnas
         nice_mrna.trim_end.assert_called_with(180)
         bad_mrna.trim_end.assert_called_with(180)
-        nice_mrna.adjust_indices.assert_called_with(-119)
-        bad_mrna.adjust_indices.assert_called_with(-119)
+        nice_mrna.adjust_indices.assert_called_with(-119, 1)
+        bad_mrna.adjust_indices.assert_called_with(-119, 1)
         nice_mrna.adjust_phase.assert_called_with()
         bad_mrna.adjust_phase.assert_called_with()
         nice_mrna.clean_up_indices.assert_called_with()
@@ -194,9 +193,6 @@ class TestGene(unittest.TestCase):
         self.test_gene1.trim([0, 0])
         self.assertEquals(0, len(self.test_gene1.mrnas))
         self.assertEquals([0, 0], self.test_gene1.indices)
-
-        
-        
 
 ##########################
 def suite():

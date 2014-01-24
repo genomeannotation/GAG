@@ -92,8 +92,13 @@ class GenePart:
         for j in reversed(segs_to_trim):
             self.remove_segment(j)
 
-    def adjust_indices(self, n):
-        self.indices = [adjust_index_pair(pair, n) for pair in self.indices]
+    def adjust_indices(self, n, start_index=1):
+        for i, index_pair in enumerate(self.indices):
+            print("i=" + str(i) + " and index_pair=" + str(index_pair))
+            if index_pair[0] >= start_index:
+                self.indices[i] = adjust_index_pair(self.indices[i], n)
+            elif index_pair[1] >= start_index:
+                self.indices[i][1] += n
 
     def trim_end(self, endindex):
         for i, index_pair in enumerate(self.indices):
