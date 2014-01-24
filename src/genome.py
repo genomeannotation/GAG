@@ -65,7 +65,7 @@ class Genome:
                 if genes != None:
                     genes.remove(gene.name)
 
-                newEntries = gene.to_tbl_entries()
+                newEntries = gene.to_tbl_entries(self.annot)
                 for entry in newEntries:
                     if entry.type == 'gene':
                         self.annot.annotate_gene(entry)

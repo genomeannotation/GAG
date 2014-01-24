@@ -89,7 +89,7 @@ class FeatureTblEntry:
 
     def is_hypothetical(self):
         for annotation in self.annotations:
-            if annotation[0] == "product" and annotation[2] == "hypothetical protein":
+            if annotation[0] == "product" and annotation[1] == "hypothetical protein":
                 return True
         return False
 
