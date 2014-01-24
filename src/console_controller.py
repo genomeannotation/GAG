@@ -52,6 +52,15 @@ class ConsoleController:
 
         # Write the annotations
         self.genome.annot.write_to_file(line+'/gag.trinotate')
+        
+        # Write config file
+        if self.tbl2asn_executable or self.template_file:
+            with open(line+'/gag.config', 'w') as config:
+                if self.tbl2asn_executable:
+                    config.write(self.tbl2asn_executable+'\n')
+                if self.template_file:
+                    config.write(self.template_file+'\n')
+
 
     def load_session(self, line):
         # Read the gff
@@ -62,6 +71,13 @@ class ConsoleController:
 
         # Read the annotations
         self.read_trinotate(line+'/gag.trinotate')
+
+        # Load config file if it exists...
+        configPath = line+'/gag.config'
+        if os.path.isfile(configPath):
+            with open(configPath, 'r') as config:
+                self.tbl2asn_executable = config.readline().strip()
+                self.template_file = config.readline().strip()
 
     def ls(self, line):
         proc = subprocess.Popen(['ls '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
@@ -457,7 +473,7 @@ class ConsoleController:
     def run_tbl2asn(self, line):
         if self.ready_for_tbl2asn(line):
             tbl2asn_command = self.tbl2asn_executable + " -p " + line
-            tbl2asn_command += ' -j "[organism=Bactrocera dorsalis][tech=WGS]" -M n -l paired-ends -V vb -c f -Z ' + line + '/discrep'
+            tbl2asn_command += ' -j "[organism=Bactrocera dorsalis][tech=WGS]" -M n -V vb -c f -Z ' + line + '/discrep'
             tbl2asn_command += ' -t ' + self.template_file
             os.system(tbl2asn_command)
         else:
