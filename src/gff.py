@@ -250,4 +250,8 @@ class GFF:
                     mrna.cds.invalidate_region(start, stop)
                     mrna.exon.invalidate_region(start, stop)
 
-
+    def contains_gene_on_seq(self, seq_id):
+        for gene in self.genes:
+            if gene.seq_name == seq_id:
+                return True
+        return False

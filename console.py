@@ -274,6 +274,12 @@ class GagCmd(cmd.Cmd):
     def do_trimregion(self, line):
         try_catch(self.controller.trim_region, line)
 
+    def help_removeseq(self):
+        print("Usage: removeseq <seq_id> [-F]\n")
+        print("Removes sequence from fasta, only if the sequence contains no features or if the -F option is used.\n")
+
+    def do_removeseq(self, line):
+        try_catch(self.controller.remove_seq, line)
 
 ## Output info to console
 

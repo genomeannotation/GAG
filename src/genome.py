@@ -112,3 +112,9 @@ class Genome:
             for gene in self.gff.genes:
                 gene.adjust_indices(offset, stop)
 
+    def remove_seq(self, seq_id, force=False):
+        if force or not self.gff.contains_gene_on_seq(seq_id):
+            self.fasta.remove_seq(seq_id)
+        else:
+            print("Sorry, that sequence contains features. Try '-F' to force removal\n")
+

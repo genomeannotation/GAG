@@ -76,13 +76,19 @@ class TestFasta(unittest.TestCase):
         self.assertTrue(self.fasta1.indices_not_out_of_range(good_indices, test_seq))
 
     def test_subset_fasta(self):
-        #self.fasta1.read_string('>seq1\nATGCCGTA\n>seq2\nAGGTCC\n>seq3\nGGGGGG')
         self.assertEquals(3, len(self.fasta1.entries))
         seqs_to_keep = ['seq1', 'seq3']
         self.fasta1.subset_fasta(seqs_to_keep)
         self.assertEquals(2, len(self.fasta1.entries))
         self.assertEquals('seq1', self.fasta1.entries[0][0])
         self.assertEquals('seq3', self.fasta1.entries[1][0])
+
+    def test_remove_seq(self):
+        self.assertEqual(3, len(self.fasta1.entries))
+        self.fasta1.remove_seq('seq1')
+        self.assertEqual(2, len(self.fasta1.entries))
+        self.assertEqual('seq2', self.fasta1.entries[0][0])
+
         
 
 

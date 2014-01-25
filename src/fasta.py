@@ -106,3 +106,7 @@ class Fasta:
 
     def subset_fasta(self, seqlist):
         self.entries = [e for e in self.entries if e[0] in seqlist]
+
+    def remove_seq(self, seq_id):
+        self.entries = [e for e in self.entries if e[0] != seq_id]
+

@@ -103,6 +103,13 @@ class TestGenome(unittest.TestCase):
         fasta.trim_seq.assert_called_with('seq1', 1, 3)
         gene1.adjust_indices.assert_called_with(-3, 3) 
 
+    def test_remove_seq(self):
+        self.genome.fasta = Mock()
+        gff = Mock()
+        gff.contains_gene_on_seq.return_value = False
+        self.genome.gff = gff
+        self.genome.remove_seq('seq1')
+        self.genome.fasta.remove_seq.assert_called_with('seq1')
 
 
 ##########################

@@ -178,6 +178,11 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.trim_region('seq1 5 8')
         mock_genome.trim_region.assert_called_with('seq1', 5, 8)
 
+    def test_remove_seq(self):
+        mock_genome = Mock()
+        self.ctrlr.genome = mock_genome
+        self.ctrlr.remove_seq('seq1')
+        mock_genome.remove_seq.assert_called_with('seq1')
 
 
 

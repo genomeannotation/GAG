@@ -401,6 +401,16 @@ class ConsoleController:
                 stop = int(args[2])
                 self.genome.trim_region(seq, start, stop)
 
+    def remove_seq(self, line):
+        args = []
+        if len(line) > 0:
+            args = line.split()
+            seq_id = args[0]
+            if len(args) == 2 and args[1] == '-F':
+                self.genome.remove_seq(seq_id, force=True)
+            else:
+                self.genome.remove_seq(seq_id)
+
 ## Output info to console
 
     def barf_gff(self, line):

@@ -341,7 +341,6 @@ class TestGFF(unittest.TestCase):
         self.assertEquals(1, len(self.test_gff1.genes))
         self.assertEquals("BDOR_00002.1", self.test_gff1.genes[0].name)
 
-
     def test_invalidate_region(self):
         gene1 = Mock()
         gene1.seq_name = 'Scaffold_foo'
@@ -360,6 +359,12 @@ class TestGFF(unittest.TestCase):
         assert not gene2.mrnas[0].cds.invalidate_region.called
         assert not gene2.mrnas[0].exon.invalidate_region.called
     
+    def test_contains_gene_on_seq(self):
+        gene1 = Mock()
+        gene1.seq_name = 'seq1'
+        self.test_gff1.genes = [gene1]
+        self.assertTrue(self.test_gff1.contains_gene_on_seq('seq1'))
+
         
 ##########################
 def suite():
