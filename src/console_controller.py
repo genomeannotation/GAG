@@ -389,6 +389,18 @@ class ConsoleController:
         min_length = int(line)
         self.genome.remove_mrnas_with_cds_shorter_than(min_length)
 
+    def trim_region(self, line):
+        args = []
+        if len(line) > 0:
+            args = line.split()
+            if len(args) != 3:
+                sys.stderr.write("Error: ConsoleController.trim_region requires 3 args\n")
+            else:
+                seq = args[0]
+                start = int(args[1])
+                stop = int(args[2])
+                self.genome.trim_region(seq, start, stop)
+
 ## Output info to console
 
     def barf_gff(self, line):

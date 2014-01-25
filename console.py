@@ -267,6 +267,13 @@ class GagCmd(cmd.Cmd):
     def do_removemrnaswithcdsshorterthan(self, line):
         try_catch(self.controller.remove_mrnas_with_cds_shorter_than, line)
 
+    def help_trimregion(self):
+        print("Usage: trimregion <seq_id> <start_index> <stop_index>\n")
+        print("Removes subsequence from fasta and adjusts indices of features which follow region.\n")
+
+    def do_trimregion(self, line):
+        try_catch(self.controller.trim_region, line)
+
 
 ## Output info to console
 

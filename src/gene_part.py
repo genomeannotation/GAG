@@ -94,7 +94,6 @@ class GenePart:
 
     def adjust_indices(self, n, start_index=1):
         for i, index_pair in enumerate(self.indices):
-            print("i=" + str(i) + " and index_pair=" + str(index_pair))
             if index_pair[0] >= start_index:
                 self.indices[i] = adjust_index_pair(self.indices[i], n)
             elif index_pair[1] >= start_index:

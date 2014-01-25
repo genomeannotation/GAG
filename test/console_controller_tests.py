@@ -172,6 +172,12 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.remove_mrnas_with_cds_shorter_than(150)
         mock_genome.remove_mrnas_with_cds_shorter_than.assert_called_with(150)
 
+    def test_trim_region(self):
+        mock_genome = Mock()
+        self.ctrlr.genome = mock_genome
+        self.ctrlr.trim_region('seq1 5 8')
+        mock_genome.trim_region.assert_called_with('seq1', 5, 8)
+
 
 
 
