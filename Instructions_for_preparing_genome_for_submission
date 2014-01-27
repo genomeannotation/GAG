@@ -1,14 +1,14 @@
 1) Run gag.console.py
 2) readgff, readfasta, readtrinotate
 3) settbl2asnexecutable, addtemplatefile
-4) ducttape -- this does 'rename maker mrnas', 'remove first cds segment if shorter than 3', 'create starts and stops' and 'remove mrnas with cds shorter than 150'.
-5) removeseq scaffold04061 -- this seq contains N's but has no features on it.
-6) trimregion scaffold02211 5499 5499 -- this seq contains a terminal N #TODO TEST THIS
-7) removeallgenesegments BDOR_001261 BDOR_005278 -- these genes contain other genes (??)
-8) invalidateregion scaffold00001 714210 714404 -- tail end of a CDS that is all N's...
-9) invalidateregion scaffold00097 602817 603018 -- (same)
-10) TODO from NCBI error reports, address all features from 'beginendgap' (probably use invalidateregion)
-11) TODO from NCBI error reports, address all regions from 'contaminationscreen' (probably use invalidateregion)
+4) removeseq scaffold04061 -- this seq contains N's but has no features on it.
+5) trimregion scaffold02211 5499 5499 -- this seq contains a terminal N #TODO TEST THIS
+6) removeallgenesegments BDOR_001261 BDOR_005278 -- these genes contain other genes (??)
+7) invalidateregion scaffold00001 714210 714404 -- tail end of a CDS that is all N's...
+8) invalidateregion scaffold00097 602817 603018 -- (same)
+9) TODO from NCBI error reports, address all features from 'beginendgap' (probably use invalidateregion)
+10) TODO from NCBI error reports, address all regions from 'contaminationscreen' (probably use invalidateregion)
+11) ducttape -- this does 'rename maker mrnas', 'remove first cds segment if shorter than 3', 'create starts and stops' and 'remove mrnas with cds shorter than 150'. ## note: must run this AFTER invalidate region! because create start stops.
 
 
 **Check .tbl and .sqn files for presence of gene_ids 'ECE2' and 'TCPG' -- they came up in error report as containing other genes, but I can't find them in any of the input files, so wtf?
