@@ -4,6 +4,7 @@
 import cmd
 import readline
 import sys
+import os
 import traceback
 from src.console_controller import ConsoleController
 
@@ -30,7 +31,10 @@ class GagCmd(cmd.Cmd):
             readline.read_history_file('.gaghistory')
         except IOError:
             sys.stderr.write("No .gaghistory file available...")
-        self.controller = ConsoleController('gag.config') 
+    
+        # Find the path for our config stuff
+        pathname = os.path.dirname(sys.argv[0])
+        self.controller = ConsoleController(os.path.abspath(pathname)+'/gag.config') 
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
