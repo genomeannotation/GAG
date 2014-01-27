@@ -67,12 +67,6 @@ class Genome:
 
                 newEntries = gene.to_tbl_entries(self.annot)
                 for entry in newEntries:
-                    if entry.type == 'gene':
-                        self.annot.annotate_gene(entry)
-                    elif entry.type == 'CDS':
-                        self.annot.annotate_cds(entry)
-                    elif entry.type == 'mRNA':
-                        self.annot.annotate_mrna(entry)
                     entries.append(entry)
 
             # If there are any entries, write this section of the tbl file

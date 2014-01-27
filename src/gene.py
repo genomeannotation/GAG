@@ -170,9 +170,9 @@ class Gene:
         # Hypothetical genes don't get gene names
         if hypothetical == True:
             geneAnnot = geneEntry.get_annotation('gene')
-            geneEntry.remove_annotation('gene')
             if geneAnnot:
                 geneEntry.add_annotation('note', 'gene '+geneAnnot)
+            geneEntry.remove_annotation('gene')
 
         return entries
 
