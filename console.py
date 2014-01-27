@@ -33,8 +33,8 @@ class GagCmd(cmd.Cmd):
             sys.stderr.write("No .gaghistory file available...")
     
         # Find the path for our config stuff
-        pathname = os.path.dirname(sys.argv[0])
-        self.controller = ConsoleController(os.path.abspath(pathname)+'/gag.config') 
+        self.execPath = os.path.abspath(os.path.dirname(sys.argv[0]))
+        self.controller = ConsoleController(self.execPath+'/', 'gag.config') 
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
