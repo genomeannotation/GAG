@@ -2,5 +2,5 @@
 2) readgff, readfasta, readtrinotate
 3) settbl2asnexecutable, addtemplatefile
 4) ducttape -- this does 'rename maker mrnas', 'remove first cds segment if shorter than 3', 'create starts and stops' and 'remove mrnas with cds shorter than 150'.
-5) removeseq scaffold02211 -- this seq contains N's but has no features on it.
+5) removeseq scaffold04061 -- this seq contains N's but has no features on it.
 6) trimregion scaffold02211 5499 5499 -- this seq contains a terminal N #TODO TEST THIS
