@@ -57,9 +57,9 @@ class ConsoleController:
         if self.tbl2asn_executable or self.template_file:
             with open(line+'/gag.config', 'w') as config:
                 if self.tbl2asn_executable:
-                    config.write(self.tbl2asn_executable+'\n')
+                    config.write(self.tbl2asn_executable)
                 if self.template_file:
-                    config.write(self.template_file+'\n')
+                    config.write(self.template_file)
 
 
     def load_session(self, line):
