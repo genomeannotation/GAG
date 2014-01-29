@@ -22,16 +22,15 @@ class ConsoleController:
 
 ## Setup, loading and saving sessions
 
-    def __init__(self, execPath = None, configPath = None):
+    def __init__(self, configPath = None):
         self.genome = Genome()
         self.input = ''
         self.tbl2asn_executable = None
         self.template_file = None
         self.seqlist = []
 
-        if execPath and configPath and os.path.isfile(execPath+configPath):
-            self.execPath = execPath
-            with open(execPath+configPath, 'r') as config:
+        if configPath and os.path.isfile(configPath):
+            with open(configPath, 'r') as config:
                 self.tbl2asn_executable = config.readline()
                 self.template_file = config.readline()
 
@@ -472,7 +471,7 @@ class ConsoleController:
             # create tbl2asn directory
             os.system('mkdir ' + line)
             # symlink template file 
-            template_abs_path = self.execPath+self.template_file
+            template_abs_path = os.path.abspath(self.template_file)
             os.system('ln -s ' + template_abs_path + ' ' + line + '/gag.sbt')
             # write fasta file
             self.write_fasta(line + '/gag.fsa')
@@ -480,32 +479,29 @@ class ConsoleController:
             self.write_tbl(line + "/gag.tbl")
 
     def ready_for_tbl2asn(self, line):
-        if not os.path.exists(self.execPath+self.tbl2asn_executable):
-            return "Couldn't find tbl2asn executable at "+self.execPath+self.tbl2asn_executable
-        elif not os.path.exists(self.execPath+self.template_file):
-            return "Couldn't find template file at "+self.execPath+self.template_file
+        if not self.tbl2asn_executable:
+            return False
         elif not os.path.isdir(line):
-            return "Directory doesn't exist "+line
+            return False
         elif not os.path.exists(line + "/gag.fsa"):
-            return line+"/gag.fsa doesn't exist"
+            return False
         elif not os.path.exists(line + "/gag.tbl"):
-            return line+"/gag.tbl doesn't exist"
+            return False
         elif not os.path.exists(line + "/gag.sbt"):
-            return line+"/gag.sbt doesn't exist"
+            return False
         else:
-            return ''
+            return True
 
     def run_tbl2asn(self, line):
-        errorMsg = self.ready_for_tbl2asn(line)
-        if len(errorMsg) == 0:
-            tbl2asn_command = self.execPath+self.tbl2asn_executable + " -p " + line
+        if self.ready_for_tbl2asn(line):
+            tbl2asn_command = self.tbl2asn_executable + " -p " + line
             tbl2asn_command += ' -j "[organism=Bactrocera dorsalis][tech=WGS]" -M n -V vb -c f '
             tbl2asn_command += '-Z ' + line + '/discrep'
-            tbl2asn_command += ' -t ' + self.execPath+self.template_file
+            tbl2asn_command += ' -t ' + self.template_file
             tbl2asn_command += ' -a r50k -l paired-ends'
             os.system(tbl2asn_command)
         else:
-            sys.stderr.write("Sorry, unable to run tbl2asn in " + line + ": " + errorMsg+'\n')
+            sys.stderr.write("Sorry, unable to run tbl2asn in " + line + ". Try prep_tbl2asn or settbl2asnexecutable first.")
             
 
 
