@@ -110,3 +110,38 @@ class Fasta:
     def remove_seq(self, seq_id):
         self.entries = [e for e in self.entries if e[0] != seq_id]
 
+    # Given a position in the fasta, returns the number of Ns 
+    # from that position forward (returns 0 if the base at that position is not N)
+    def how_many_Ns_forward(self, seq_id, position):
+        seq = self.get_seq(seq_id)
+        index = position-1
+        if seq[index] != 'N' and seq[index] != 'n':
+            return 0
+        else:
+            count = 1
+            index += 1
+            for base in seq[index:]:
+                if base != 'N' and base != 'n':
+                    return count
+                else:
+                    count += 1
+            return count
+
+    # Given a position in the fasta, returns the number of Ns 
+    # from that position backward (returns 0 if the base at that position is not N)
+    def how_many_Ns_backward(self, seq_id, position):
+        seq = self.get_seq(seq_id)
+        index = position-1
+        if seq[index] != 'N' and seq[index] != 'n':
+            return 0
+        else:
+            count = 1
+            index -= 1
+            for base in seq[index::-1]:
+                if base != 'N' and base != 'n':
+                    return count
+                else:
+                    count += 1
+            return count
+
+

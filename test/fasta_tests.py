@@ -39,7 +39,6 @@ class TestFasta(unittest.TestCase):
         self.assertFalse(self.fasta1.get_seq('bad_seqid'))
 
     def test_get_subseq(self):
-        #self.fasta1.read_string('>seq1\nATGCCGTA\n>seq2\nAGGTCC\n>seq3\nGGGGGG')
         expected = 'GGTC'
         self.assertEqual(expected, self.fasta1.get_subseq('seq2', [[2, 5]]))
         self.assertFalse(self.fasta1.get_subseq('bad_seqid', [[1, 10]]))
@@ -88,6 +87,26 @@ class TestFasta(unittest.TestCase):
         self.fasta1.remove_seq('seq1')
         self.assertEqual(2, len(self.fasta1.entries))
         self.assertEqual('seq2', self.fasta1.entries[0][0])
+
+    def setup_bad_fasta(self):
+        self.badfasta = Fasta()
+        self.badfasta.read_string('>seq1\nNNnNNGATTACA\n>seq2\nGATTACAnNn')
+
+    def test_how_many_Ns_forward(self):
+        self.setup_bad_fasta()
+        self.assertEqual(5, self.badfasta.how_many_Ns_forward('seq1', 1))
+
+    def test_how_many_Ns_forward_returns_zero_if_no_Ns(self):
+        # (seq1, base 3 is a 'G')
+        self.assertEqual(0, self.fasta1.how_many_Ns_forward('seq1', 3))
+
+    def test_how_many_Ns_backward(self):
+        self.setup_bad_fasta()
+        self.assertEqual(3, self.badfasta.how_many_Ns_backward('seq2', 10))
+
+    def test_how_many_Ns_backward_returns_zero_if_no_Ns(self):
+        self.assertEqual(0, self.fasta1.how_many_Ns_backward('seq1', 3))
+
 
         
 
