@@ -241,12 +241,15 @@ class CDS(GenePart):
         if strand == '+':
             for i in xrange(len(self.indices)):
                 index_pair = self.indices[i]
-                seq += fasta.get_subseq(seq_name, [index_pair])
+                subseq = fasta.get_subseq(seq_name, [index_pair])
+                if subseq:
+                    seq += subseq
         elif strand == '-':
             for i in xrange(len(self.indices)):
                 index_pair = self.indices[i]
                 non_reversed_seq = fasta.get_subseq(seq_name, [index_pair])
-                seq += reverse_complement(non_reversed_seq)
+                if non_reversed_seq:
+                    seq += reverse_complement(non_reversed_seq)
         return seq
 
 
