@@ -426,7 +426,10 @@ class ConsoleController:
             self.genome.invalidate_region(args[0], int(args[1]), int(args[2]))
         else:
             lines = self.input.split('\n')
-            for args in lines:
+            for line in lines:
+                args = line.split()
+                if not args:
+                    continue
                 self.genome.invalidate_region(args[0], int(args[1]), int(args[2]))
 
 
