@@ -420,6 +420,15 @@ class ConsoleController:
         for arg in args:
             self.genome.check_gene_for_invalid_begin_or_end(arg)
 
+    def invalidate_region(self, line):
+        if len(line) > 0:
+            args = line.split()
+            self.genome.invalidate_region(args[0], int(args[1]), int(args[2]))
+        else:
+            lines = self.input.split('\n')
+            for args in lines:
+                self.genome.invalidate_region(args[0], int(args[1]), int(args[2]))
+
 
 ## Output info to console
 

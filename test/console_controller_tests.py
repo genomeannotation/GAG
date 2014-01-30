@@ -190,6 +190,12 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.check_gene_for_invalid_begin_or_end('BDOR_FOO')
         mock_genome.check_gene_for_invalid_begin_or_end.assert_called_with('BDOR_FOO')
 
+    def test_invalidate_region(self):
+        mock_genome = Mock()
+        self.ctrlr.genome = mock_genome
+        self.ctrlr.invalidate_region('seq1 5 10')
+        mock_genome.invalidate_region.assert_called_with('seq1', 5, 10)
+
 
 
 ##########################

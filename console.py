@@ -292,6 +292,13 @@ class GagCmd(cmd.Cmd):
     def do_checkgeneforinvalidbeginorend(self, line):
         try_catch(self.controller.check_gene_for_invalid_begin_or_end, line)
 
+    def help_invalidateregion(self):
+        print("Usage: invalidateregion <seq_id> <start> <stop>\n")
+        print("Truncates or removes any feature located on region to be invalidated\n")
+
+    def do_invalidateregion(self, line):
+        try_catch(self.controller.invalidate_region, line)
+
 ## Output info to console
 
     def help_barfgenegff(self):
