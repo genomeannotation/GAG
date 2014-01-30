@@ -29,5 +29,6 @@
 
 13) ducttape -- this does 'rename maker mrnas', 'remove first cds segment if shorter than 3', 'create starts and stops' and 'remove mrnas with cds shorter than 150'. ## note: must run this AFTER invalidate region! because create start stops. -- and there's an error there now...
 
+14) preptbl2asn, runtbl2asn. cross fingers.
 
 **Check .tbl and .sqn files for presence of gene_ids 'ECE2' and 'TCPG' -- they came up in error report as containing other genes, but I can't find them in any of the input files, so wtf?
