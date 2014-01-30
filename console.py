@@ -285,6 +285,13 @@ class GagCmd(cmd.Cmd):
     def do_removeseq(self, line):
         try_catch(self.controller.remove_seq, line)
 
+    def help_checkgeneforinvalidbeginorend(self):
+        print("Usage: checkgeneforinvalidbeginorend <gene_name>\n")
+        print("Checks to see if gene begins or ends in a gap; if so, invalidates region corresponding to the gap.\n")
+
+    def do_checkgeneforinvalidbeginorend(self, line):
+        try_catch(self.controller.check_gene_for_invalid_begin_or_end, line)
+
 ## Output info to console
 
     def help_barfgenegff(self):

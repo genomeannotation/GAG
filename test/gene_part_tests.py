@@ -118,6 +118,11 @@ class TestGenePart(unittest.TestCase):
         self.gp2.invalidate_region(90, 110)
         self.assertEquals(expected, self.gp2.indices)
 
+    def test_invalidate_region_chops_off_beginning(self):
+        expected = [[5, 44], [65, 103]]
+        self.gp2.invalidate_region(1, 4)
+        self.assertEqual(expected, self.gp2.indices)
+
     def test_generate_attribute_entry(self):
         # test .generate_attribute_entry
         expected = "ID=foo1;Name=cds:0;Parent=mama\n"

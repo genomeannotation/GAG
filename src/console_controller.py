@@ -411,6 +411,16 @@ class ConsoleController:
             else:
                 self.genome.remove_seq(seq_id)
 
+    def check_gene_for_invalid_begin_or_end(self, line):
+        args = []
+        if len(line) > 0:
+            args = line.split()
+        else:
+            args = self.input.split('\n')
+        for arg in args:
+            self.genome.check_gene_for_invalid_begin_or_end(arg)
+
+
 ## Output info to console
 
     def barf_gff(self, line):

@@ -184,6 +184,12 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.remove_seq('seq1')
         mock_genome.remove_seq.assert_called_with('seq1')
 
+    def test_check_gene_for_invalid_begin_or_end(self):
+        mock_genome = Mock()
+        self.ctrlr.genome = mock_genome
+        self.ctrlr.check_gene_for_invalid_begin_or_end('BDOR_FOO')
+        mock_genome.check_gene_for_invalid_begin_or_end.assert_called_with('BDOR_FOO')
+
 
 
 ##########################
