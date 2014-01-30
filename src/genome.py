@@ -119,6 +119,8 @@ class Genome:
 
     def check_gene_for_invalid_begin_or_end(self, gene_name):
         seqinfo = self.get_gene_seq_info(gene_name)
+        if not seqinfo:
+            return
         seq_id = seqinfo[0]
         begin = seqinfo[1][0]
         end = seqinfo[1][1]
