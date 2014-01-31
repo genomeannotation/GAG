@@ -104,7 +104,8 @@ class Genome:
         if self.gff and self.gff.genes:
             offset = -(stop - start + 1)
             for gene in self.gff.genes:
-                gene.adjust_indices(offset, stop)
+                if gene.seq_name == seq:
+                    gene.adjust_indices(offset, stop)
 
     def remove_seq(self, seq_id, force=False):
         if force or not self.gff.contains_gene_on_seq(seq_id):

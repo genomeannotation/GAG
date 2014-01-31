@@ -100,6 +100,7 @@ class TestGenome(unittest.TestCase):
 
     def test_trim_region(self):
         self.make_mock_genes_and_gff()
+        self.gene1.seq_name = 'seq1'
         fasta = Mock()
         self.genome.fasta = fasta
         self.genome.trim_region('seq1', 1, 3)
