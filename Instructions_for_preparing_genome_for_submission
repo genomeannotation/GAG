@@ -4,15 +4,17 @@
 4) removeseq scaffold04061 -- this seq contains N's but has no features on it.
 5) trimregion scaffold02211 5499 5499 -- this seq contains a terminal N 
 6) removeallgenesegments BDOR_001261 BDOR_005278 -- these genes contain other genes (??)
-7) invalidateregion scaffold00001 714210 714404 -- tail end of a CDS that is all N's...
-8) invalidateregion scaffold00097 602817 603018 -- (same)
-9) convert NCBI beginendgap file into list of problem gene ids -- command (bash):
+7) removeallgenesegments BDOR_004239 -- abutting intervals.
+8) invalidateregion scaffold00001 714210 714404 -- tail end of a CDS that is all N's...
+9) invalidateregion scaffold00097 602817 603018 -- (same)
+10) convert NCBI beginendgap file into list of problem gene ids -- command (bash):
 
     grep BDOR beginendgap | sed 's/.*BDOR/BDOR/' | sort | uniq > beginendgap.gene_ids
 
-10) cat beginendgap.gene_ids | checkgeneforinvalidbeginorend
+11) cat beginendgap.gene_ids | checkgeneforinvalidbeginorend
+11a) checkgeneforinvalidbeginorend BDOR_004239 -- apparently it has a trailing X?
 
-11) convert NCBI contaminationscreen file into table of seq ids, starts and stops -- command (bash):
+12) convert NCBI contaminationscreen file into table of seq ids, starts and stops -- command (bash):
 
     grep cleaned contaminationscreen | awk '{print $1"\t"$3}' | sed 's/lcl|//; s/\.\./\t/g' > contaminationscreen.seq_id_start_stop.tsv
     
@@ -25,10 +27,25 @@
     scaffold00520   62191   62229
     scaffold00520   62956   62995
 
-12) cat contaminationscreen.seq_id_start_stop.tsv | invalidateregion
+13) cat contaminationscreen.seq_id_start_stop.tsv | invalidateregion
 
-13) ducttape -- this does 'rename maker mrnas', 'remove first cds segment if shorter than 3', 'create starts and stops' and 'remove mrnas with cds shorter than 150'. ## note: must run this AFTER invalidate region! because create start stops. -- and there's an error there now...
+14) ducttape -- this does 'rename maker mrnas', 'remove first cds segment if shorter than 3', 'create starts and stops' and 'remove mrnas with cds shorter than 150'. ## note: must run this AFTER invalidate region! because create start stops. -- and there's an error there now...
 
-14) preptbl2asn, runtbl2asn. cross fingers.
+15) preptbl2asn, runtbl2asn. cross fingers.
 
-**Check .tbl and .sqn files for presence of gene_ids 'ECE2' and 'TCPG' -- they came up in error report as containing other genes, but I can't find them in any of the input files, so wtf?
+16) sift through gag.val to get names of mRNAs which have weird phase-y issues. There are 13143 of them:
+
+    grep InternalStop gag.val | sed 's/.*PBARC|BDOR/BDOR/; s/\]//' > mRNAs_with_InternalStop_ERRORS.txt
+
+17) cat mRNAs_with_InternalStop_ERRORS.txt | ducttapeseqframes
+
+18) preptbl2asn, runtbl2asn. cross fingers.
+
+19) sift through gag.val to get mRNAs which still have InternalStop problems. There are now 6961 of them.
+
+
+
+
+
+
+**Check .tbl and .sqn files for presence of gene_ids 'ECE2' and 'TCPG' -- they came up in error report as containing other genes, but I can't find them in any of the input files, so wtf? EDIT: they are in there; must ask somebody smarter what to do about them. See error #7 from Larissa's email.
