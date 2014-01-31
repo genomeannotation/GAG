@@ -246,9 +246,7 @@ class GFF:
     def invalidate_region(self, seq, start, stop):
         for gene in self.genes:
             if gene.seq_name == seq:
-                for mrna in gene.mrnas:
-                    mrna.cds.invalidate_region(start, stop)
-                    mrna.exon.invalidate_region(start, stop)
+                gene.invalidate_region(start, stop)
 
     def contains_gene_on_seq(self, seq_id):
         for gene in self.genes:

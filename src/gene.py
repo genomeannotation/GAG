@@ -121,7 +121,27 @@ class Gene:
         elif self.indices[1] >= start_index:
             self.indices[1] += n
         for mrna in self.mrnas:
-            mrna.adjust_indices(n, start_index) 
+            mrna.adjust_indices(n, start_index)
+
+    def invalidate_region(self, start, stop):
+        # index range contained in invalid region, mark for removal
+        if start <= self.indices[0] and stop >= self.indices[1]:
+            self.indices[0] = 0
+            self.indices[1] = 0
+        # invalid region is in the middle of the index range, mark for removal
+        elif start > self.indices[0] and stop < self.indices[1]:
+            self.indices[0] = 0
+            self.indices[1] = 0
+        # The beginning is in the invalid region, trim beginning forward to invalid sequence stop
+        elif start <= self.indices[0] and stop >= self.indices[0]:
+            self.indices[0] = stop+1
+        # The end is in the invalid region, trim end back to invalid seq start
+        elif start <= self.indices[1] and stop >= self.indices[1]:
+            self.indices[1] = start-1
+
+        for mrna in self.mrnas:
+            mrna.cds.invalidate_region(start, stop)
+            mrna.exon.invalidate_region(start, stop)
 
     def trim(self, new_indices):
         if trimmed_completely(self.indices, new_indices):
