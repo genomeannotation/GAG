@@ -230,8 +230,8 @@ class CDS(GenePart):
                 continue
             # The beginning is in the invalid region, trim beginning forward to invalid sequence stop
             elif start <= index[0] and stop >= index[0]:
+                self.phase[0] = (self.phase[0] - ((stop+1)-index[0])%3)%3 # adjust phase
                 index[0] = stop+1
-                self.phase[0] = (self.phase[0] - ((stop+1)-start)%3)%3 # adjust phase
             # The end is in the invalid region, trim end back to invalid seq start
             elif start <= index[1] and stop >= index[1]:
                 index[1] = start-1
