@@ -28,12 +28,6 @@ class FeatureTblEntry:
     def add_error(self, error):
         self.errors.append(error)
 
-    def has_error(self, error):
-        for err in errors:
-            if err == error:
-                return True
-        return False
-
     def add_coordinates(self, start, stop):
         if start >= stop:
             print("Warning: Entry "+self.name+": start >= stop")
@@ -44,13 +38,15 @@ class FeatureTblEntry:
             return False
 
         for i in range(len(self.coords)):
-            if self.coords[i][0] != other.coords[i][0] or self.coords[i][1] != other.coords[i][1]:
+            if self.coords[i][0] != other.coords[i][0] \
+               or self.coords[i][1] != other.coords[i][1]:
                 return False
         return True
 
     def is_short_intron(self):
         for coords in self.coords:
-            if coords[1]-coords[0] <= 10: #NCBI says anything less than 10 nt is a short intron
+            if coords[1]-coords[0] <= 10: 
+                #NCBI says anything less than 10 nt is a short intron
                 return True
         return False
 
@@ -87,7 +83,8 @@ class FeatureTblEntry:
 
     def is_hypothetical(self):
         for annotation in self.annotations:
-            if annotation[0] == "product" and annotation[1] == "hypothetical protein":
+            if annotation[0] == "product" and \
+               annotation[1] == "hypothetical protein":
                 return True
         return False
 
@@ -102,10 +99,13 @@ class FeatureTblEntry:
         entry = ''
 
         if len(self.coords) == 0:
-            print("Warning: Entry "+self.name+": No coordinates; skipping entry")
+            print("Warning: Entry "+self.name+\
+                  ": No coordinates; skipping entry")
             return entry
 
-        fixedCoords = copy.deepcopy(self.coords) # Make a deep copy of our list of coordinates so we don't mess with the original data
+        # Make a deep copy of our list of coordinates 
+        # so we don't mess with the original data
+        fixedCoords = copy.deepcopy(self.coords) 
         fixedCoords.sort()
         if self.strand == '-':
             fixedCoords.reverse()
@@ -114,10 +114,16 @@ class FeatureTblEntry:
         # Write the first pair of coords with the entry type and partial info
         if not self.has_start:
             entry += '<'
-        if len(fixedCoords) == 1 and not self.has_stop: # Special case: Only one set of coordinates and no stop codon - write the partial infos
-            entry += str(fixedCoords[0][0])+'\t'+'>'+str(fixedCoords[0][1])+'\t'+self.type+'\n'
-        else: # Normal case - more than one pair of coordinates or we do have a stop codon
-            entry += str(fixedCoords[0][0])+'\t'+str(fixedCoords[0][1])+'\t'+self.type+'\n'
+        if len(fixedCoords) == 1 and not self.has_stop: 
+            # Special case: Only one set of coordinates and 
+            # no stop codon - write the partial infos
+            entry += str(fixedCoords[0][0])+'\t'+\
+                     '>'+str(fixedCoords[0][1])+'\t'+self.type+'\n'
+        else: 
+            # Normal case - more than one pair of coordinates 
+            # or we do have a stop codon
+            entry += str(fixedCoords[0][0])+'\t'+\
+                     str(fixedCoords[0][1])+'\t'+self.type+'\n'
         fixedCoords = fixedCoords[1:] # Cut out the first coordinates
 
         if len(fixedCoords) > 0:
@@ -127,9 +133,11 @@ class FeatureTblEntry:
 
             # Write the last pair of coords with partial info
             if self.has_stop:
-                entry += str(fixedCoords[-1][0])+'\t'+str(fixedCoords[-1][1])+'\n'
+                entry += str(fixedCoords[-1][0])+\
+                         '\t'+str(fixedCoords[-1][1])+'\n'
             else:
-                entry += str(fixedCoords[-1][0])+'\t'+'>'+str(fixedCoords[-1][1])+'\n'
+                entry += str(fixedCoords[-1][0])+'\t'+\
+                         '>'+str(fixedCoords[-1][1])+'\n'
 
         # Write the start codon annotation
         if self.type == 'CDS':

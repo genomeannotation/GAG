@@ -11,7 +11,8 @@ def adjust_index_pair(index_pair, n):
     return [i + n for i in index_pair]
 
 class GenePart:
-    def __init__(self, feature_type=None, identifier=None, name=None, indices=None, score=None, parent_id=None):
+    def __init__(self, feature_type=None, identifier=None, name=None, \
+                 indices=None, score=None, parent_id=None):
         self.feature_type = feature_type
         self.identifier = []
         if identifier is not None:
@@ -78,7 +79,8 @@ class GenePart:
             self.name.pop(segindex)
             self.indices.pop(segindex)
         except IndexError:
-            sys.stderr.write("Trying to remove nonexistent segment " + str(segindex) + " from " + str(self))
+            sys.stderr.write("Trying to remove nonexistent segment " + \
+                             str(segindex) + " from " + str(self))
         if len(self.score) > segindex:
             self.score.pop(segindex)
         if self.feature_type == 'CDS' and len(self.phase) > segindex:
@@ -111,18 +113,22 @@ class GenePart:
 
     def invalidate_region(self, start, stop):
         for i, index in enumerate(self.indices):
-            # index range contained in invalid region, mark for removal
+            # Index range contained in invalid region, 
+            # mark for removal
             if start <= index[0] and stop >= index[1]:
                 index[0] = 0
                 index[1] = 0
-            # invalid region is in the middle of the index range, mark for removal
+            # Invalid region is in the middle of the index range, 
+            # mark for removal
             elif start > index[0] and stop < index[1]:
                 index[0] = 0
                 index[1] = 0
-            # The beginning is in the invalid region, trim beginning forward to invalid sequence stop
+            # The beginning is in the invalid region, 
+            # trim beginning forward to invalid sequence stop
             elif start <= index[0] and stop >= index[0]:
                 index[0] = stop+1
-            # The end is in the invalid region, trim end back to invalid seq start
+            # The end is in the invalid region, 
+            # trim end back to invalid seq start
             elif start <= index[1] and stop >= index[1]:
                 index[1] = start-1
 
@@ -176,8 +182,10 @@ class GenePart:
 
 class CDS(GenePart):
 
-    def __init__(self, identifier=None, name=None, indices=None, score=None, phase=None, parent_id=None):
-        GenePart.__init__(self, feature_type='CDS', identifier=identifier, name=name, indices=indices, score=score, parent_id=parent_id)
+    def __init__(self, identifier=None, name=None, indices=None, \
+                 score=None, phase=None, parent_id=None):
+        GenePart.__init__(self, feature_type='CDS', identifier=identifier, \
+                name=name, indices=indices, score=score, parent_id=parent_id)
         self.phase = []
         if phase is not None:
             self.phase.append(phase)
@@ -196,7 +204,8 @@ class CDS(GenePart):
         for i in range(len(self.phase)):
             if self.indices[i][0] < 1:
                 self.phase[i] = (self.phase[i] + self.indices[i][0] + -1) %3
-    # returns first and third indices regardless of whether CDS actually has a start codon
+    # Returns first and third indices regardless of whether 
+    # CDS actually has a start codon
     def get_start_indices(self, phase):
         if phase == '+':
             first_index = self.indices[0][0]
@@ -218,19 +227,23 @@ class CDS(GenePart):
     # Override to account for phase
     def invalidate_region(self, start, stop):
         for i, index in enumerate(self.indices):
-            # index range contained in invalid region, mark for removal
+            # index range contained in invalid region, 
+            # mark for removal
             if start <= index[0] and stop >= index[1]:
                 index[0] = 0
                 index[1] = 0
-            # invalid region is in the middle of the index range, mark for removal
+            # Invalid region is in the middle of the index range, 
+            # mark for removal
             elif start > index[0] and stop < index[1]:
                 index[0] = 0
                 index[1] = 0
-            # The beginning is in the invalid region, trim beginning forward to invalid sequence stop
+            # The beginning is in the invalid region, 
+            # trim beginning forward to invalid sequence stop
             elif start <= index[0] and stop >= index[0]:
                 self.phase[0] = (self.phase[0] - ((stop+1)-index[0])%3)%3 # adjust phase
                 index[0] = stop+1
-            # The end is in the invalid region, trim end back to invalid seq start
+            # The end is in the invalid region, 
+            # trim end back to invalid seq start
             elif start <= index[1] and stop >= index[1]:
                 index[1] = start-1
 

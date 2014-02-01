@@ -60,7 +60,8 @@ class GFF:
         
 
     def extract_cds_args(self, line):
-        result = {'indices': [int(line[3]), int(line[4])], 'phase': int(line[7])}
+        result = {'indices': [int(line[3]), int(line[4])], \
+                  'phase': int(line[7])}
         if isinstance(line[7], float):
             result['score'] = line[7]
         attribs = self.parse_attributes(line[8])
@@ -74,7 +75,8 @@ class GFF:
         return result
 
     def extract_other_feature_args(self, line):
-        result = {'feature_type': line[2], 'indices': [int(line[3]), int(line[4])]}
+        result = {'feature_type': line[2], \
+                  'indices': [int(line[3]), int(line[4])]}
         attribs = self.parse_attributes(line[8])
         result.update(attribs)
         return result
@@ -86,7 +88,8 @@ class GFF:
         return result        
 
     def extract_gene_args(self, line):  
-        result = {'seq_name': line[0], 'source': line[1], 'indices': [int(line[3]), int(line[4])], 'strand': line[6]}
+        result = {'seq_name': line[0], 'source': line[1], \
+                  'indices': [int(line[3]), int(line[4])], 'strand': line[6]}
         attribs = self.parse_attributes(line[8])
         result.update(attribs)
         return result
@@ -215,7 +218,8 @@ class GFF:
         gene_names = []
         for gene in self.genes:
             for mrna in mrnalist:
-                if gene.contains_mrna_named(mrna) and gene.name not in gene_names:
+                if gene.contains_mrna_named(mrna) \
+                        and gene.name not in gene_names:
                     gene_names.append(gene.name)
         return gene_names
 
@@ -229,7 +233,8 @@ class GFF:
         return False
 
     def remove_genes_by_prefixes(self, prefixes):
-        self.genes = [g for g in self.genes if not self.prefix_match(g, prefixes)]
+        self.genes = \
+                [g for g in self.genes if not self.prefix_match(g, prefixes)]
 
 
     def obliterate_genes_related_to_mrnas(self, mrna_names):

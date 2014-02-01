@@ -7,11 +7,13 @@ def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
 
 def trimmed_completely(gene_inds, seq_inds):
-    return seq_inds == [0, 0] or gene_inds[0] > seq_inds[1] or gene_inds[1] < seq_inds[0]
+    return seq_inds == [0, 0] or gene_inds[0] > seq_inds[1] \
+                              or gene_inds[1] < seq_inds[0]
 
 class Gene:
 
-    def __init__(self, seq_name, source, indices, strand, identifier, name, score=None):
+    def __init__(self, seq_name, source, indices, strand, \
+                 identifier, name, score=None):
         self.seq_name = seq_name
         self.source = source
         self.indices = indices
@@ -85,7 +87,8 @@ class Gene:
 
     def create_starts_and_stops(self, fasta):
         for mrna in self.mrnas:
-            mrna.create_start_and_stop_if_necessary(fasta, self.seq_name, self.strand)
+            mrna.create_start_and_stop_if_necessary(fasta, \
+                    self.seq_name, self.strand)
 
     def remove_first_cds_segment_if_shorter_than(self, min_length):
         if self.mrnas:
@@ -130,7 +133,8 @@ class Gene:
         elif start > self.indices[0] and stop < self.indices[1]:
             self.indices[0] = 0
             self.indices[1] = 0
-        # The beginning is in the invalid region, trim beginning forward to invalid sequence stop
+        # The beginning is in the invalid region, 
+        # trim beginning forward to invalid sequence stop
         elif start <= self.indices[0] and stop >= self.indices[0]:
             self.indices[0] = stop+1
         # The end is in the invalid region, trim end back to invalid seq start
@@ -172,7 +176,8 @@ class Gene:
         geneEntry.add_coordinates(self.indices[0], self.indices[1])
         geneEntry.set_strand(self.strand)
         geneEntry.set_phase(0)
-        geneEntry.set_partial_info(True, True) # Pretend there's a start and stop codon for genes
+        # Pretend there's a start and stop codon for genes
+        geneEntry.set_partial_info(True, True) 
         annotator.annotate_gene(geneEntry)
         entries.append(geneEntry)
 

@@ -44,7 +44,8 @@ class Bed:
 
     def process_line(self, line):
         if len(line) < 3:
-            sys.stderr.write("Bed attempting to read a line with less than three entries. The line looks like this: " + str(line))
+            sys.stderr.write("Bed attempting to read a line with less than \
+                    three entries. The line looks like this: " + str(line))
         else:
             key = line[0]
             vals = [int(line[1]), int(line[2])]

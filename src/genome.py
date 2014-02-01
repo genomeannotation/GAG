@@ -28,7 +28,8 @@ class Genome:
         if self.gff:
             self.gff.remove_first_cds_segment_if_shorter_than(min_length)
 
-    # maybe should be called 'create_start_codon_GenePart if sequence contains start codon'
+    # maybe should be called 
+    #  'create_start_codon_GenePart if sequence contains start codon'
     def create_starts_and_stops(self):
         for gene in self.gff.genes:
             gene.create_starts_and_stops(self.fasta)
@@ -69,7 +70,8 @@ class Genome:
             # If there are any entries, write this section of the tbl file
             if len(entries) > 0:
                 output += '>Feature '+seq[0]+'\n'
-                output += '1\t'+str(len(seq[1]))+'\tREFERENCE\n\t\t\tPBARC\t12345\n'
+                output += '1\t'+str(len(seq[1]))+\
+                          '\tREFERENCE\n\t\t\tPBARC\t12345\n'
 
                 for entry in entries:    
                     output += entry.write_to_string()+'\n'
@@ -108,7 +110,8 @@ class Genome:
         if force or not self.gff.contains_gene_on_seq(seq_id):
             self.fasta.remove_seq(seq_id)
         else:
-            print("Sorry, that sequence contains features. Try '-F' to force removal\n")
+            print("Sorry, that sequence contains features. \
+                    Try '-F' to force removal\n")
 
     def get_gene_seq_info(self, gene_name):
         for gene in self.gff.genes:

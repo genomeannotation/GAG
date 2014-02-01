@@ -114,7 +114,8 @@ class MRNA:
             self.other_features[i].remove_trimmed_segments()
             if len(feat.indices) == 0:
                 invalid_features.append(i)
-            elif feat.feature_type == 'start_codon' or feat.feature_type == 'stop_codon':
+            elif feat.feature_type == 'start_codon' \
+                    or feat.feature_type == 'stop_codon':
                 if not feat.valid_codon():
                     invalid_features.append(i)
         for j in reversed(invalid_features):
@@ -134,14 +135,16 @@ class MRNA:
         start_id = int(self.identifier) + 1000000000
         start_name = self.name + ':start'
         start_parent_id = self.identifier
-        start = GenePart(feature_type='start_codon', identifier=start_id, name=start_name, indices=indices, parent_id=start_parent_id)
+        start = GenePart(feature_type='start_codon', identifier=start_id, \
+                name=start_name, indices=indices, parent_id=start_parent_id)
         self.add_other_feature(start)
 
     def add_stop_codon(self, indices):
         stop_id = int(self.identifier) + 1000000001
         stop_name = self.name + ':stop'
         stop_parent_id = self.identifier
-        stop = GenePart(feature_type='stop_codon', identifier=stop_id, name=stop_name, indices=indices, parent_id=stop_parent_id)
+        stop = GenePart(feature_type='stop_codon', identifier=stop_id, \
+                name=stop_name, indices=indices, parent_id=stop_parent_id)
         self.add_other_feature(stop)
 
     def get_cds_indices(self):

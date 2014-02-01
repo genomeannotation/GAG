@@ -74,37 +74,44 @@ class ConsoleController:
                 self.template_file = config.readline().strip()
 
     def ls(self, line):
-        proc = subprocess.Popen(['ls '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
+        proc = subprocess.Popen(['ls '+line], stdout=subprocess.PIPE, \
+                stdin=subprocess.PIPE, shell=True)
         (out, err) = proc.communicate(self.input)
         return out
 
     def cat(self, line):
-        proc = subprocess.Popen(['cat '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
+        proc = subprocess.Popen(['cat '+line], stdout=subprocess.PIPE, \
+                stdin=subprocess.PIPE, shell=True)
         (out, err) = proc.communicate(self.input)
         return out
 
     def grep(self, line):
-        proc = subprocess.Popen(['grep '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
+        proc = subprocess.Popen(['grep '+line], stdout=subprocess.PIPE, \
+                stdin=subprocess.PIPE, shell=True)
         (out, err) = proc.communicate(self.input)
         return out
 
     def sed(self, line):
-        proc = subprocess.Popen(['sed '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
+        proc = subprocess.Popen(['sed '+line], stdout=subprocess.PIPE, \
+                stdin=subprocess.PIPE, shell=True)
         (out, err) = proc.communicate(self.input)
         return out
 
     def sort(self, line):
-        proc = subprocess.Popen(['sort '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
+        proc = subprocess.Popen(['sort '+line], stdout=subprocess.PIPE, \
+                stdin=subprocess.PIPE, shell=True)
         (out, err) = proc.communicate(self.input)
         return out
 
     def uniq(self, line):
-        proc = subprocess.Popen(['uniq '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
+        proc = subprocess.Popen(['uniq '+line], stdout=subprocess.PIPE, \
+                stdin=subprocess.PIPE, shell=True)
         (out, err) = proc.communicate(self.input)
         return out
 
     def barf(self, line):
-        proc = subprocess.Popen(['echo '+line], stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
+        proc = subprocess.Popen(['echo '+line], stdout=subprocess.PIPE, \
+                stdin=subprocess.PIPE, shell=True)
         (out, err) = proc.communicate(self.input)
         return out
 
@@ -270,11 +277,14 @@ class ConsoleController:
         for gene in self.genome.gff.genes:
             for mrna in gene.mrnas:
                 if mrna.name == name:
-                    seq = self.genome.fasta.get_subseq(gene.seq_name, [mrna.cds.indices[0]]) #first segment
+                    seq = self.genome.fasta.get_subseq(gene.seq_name, \
+                            [mrna.cds.indices[0]]) #first segment
                     if seq == None:
-                        return "Failed to fix "+name+": sequence does not exist.\n" 
+                        return "Failed to fix "+name+\
+                               ": sequence does not exist.\n" 
                     elif len(seq) < 6:
-                        return "Failed to fix "+name+": sequence less than 6 base pairs.\n"
+                        return "Failed to fix "+name+\
+                               ": sequence less than 6 base pairs.\n"
 
                     pseq1 = translate(seq, 1, '+')
                     pseq2 = translate(seq, 2, '+')
@@ -287,7 +297,8 @@ class ConsoleController:
                     if annotEntry:
                         pepSeq = annotEntry[9]
                         if pepSeq == None:
-                            return "Failed to fix "+name+": trinotate missing peptide sequence.\n"
+                            return "Failed to fix "+name+\
+                                   ": trinotate missing peptide sequence.\n"
 
                         oldphase = mrna.cds.phase[0]
                         if pseq1 and pepSeq.find(pseq1[:-1]) == 0:
@@ -309,22 +320,28 @@ class ConsoleController:
                             gene.strand = '-'
                             mrna.cds.phase[0] = 2
                         else:
-                            return "Failed to fix "+name+": no matching translation.\n"
-                        return "Fixed "+name+" from phase "+str(oldphase)+" to phase "+str(mrna.cds.phase[0])+"\n"
+                            return "Failed to fix "+name+\
+                                   ": no matching translation.\n"
+                        return "Fixed "+name+" from phase "+str(oldphase)+\
+                               " to phase "+str(mrna.cds.phase[0])+"\n"
                     else:
-                        return "Failed to fix "+name+": trinotate entry doesn't exist.\n"
+                        return "Failed to fix "+name+\
+                               ": trinotate entry doesn't exist.\n"
         return "Failed to fix "+name+": mRNA doesn't exist.\n"
 
     def ducttape_all_seq_frames(self):
         for gene in self.genome.gff.genes:
             for mrna in gene.mrnas:
                 name = mrna.name
-                seq = self.genome.fasta.get_subseq(gene.seq_name, [mrna.cds.indices[0]]) #first segment
+                seq = self.genome.fasta.get_subseq(gene.seq_name, \
+                        [mrna.cds.indices[0]]) #first segment
                 if seq == None:
-                    print("Failed to fix "+name+": sequence does not exist.\n") 
+                    print("Failed to fix "+name+\
+                          ": sequence does not exist.\n") 
                     continue
                 elif len(seq) < 6:
-                    print("Failed to fix "+name+": sequence less than 6 base pairs.\n")
+                    print("Failed to fix "+name+\
+                          ": sequence less than 6 base pairs.\n")
                     continue
 
                 pseq1 = translate(seq, 1, '+')
@@ -338,7 +355,8 @@ class ConsoleController:
                 if annotEntry:
                     pepSeq = annotEntry[9]
                     if pepSeq == None:
-                        print("Failed to fix "+name+": trinotate missing peptide sequence.\n")
+                        print("Failed to fix "+name+\
+                              ": trinotate missing peptide sequence.\n")
                         continue
 
                     oldphase = mrna.cds.phase[0]
@@ -361,12 +379,15 @@ class ConsoleController:
                         gene.strand = '-'
                         mrna.cds.phase[0] = 2
                     else:
-                        print("Failed to fix "+name+": no matching translation.\n")
+                        print("Failed to fix "+name+\
+                              ": no matching translation.\n")
                         continue
-                    print("Fixed "+name+" from phase "+str(oldphase)+" to phase "+str(mrna.cds.phase[0])+"\n")
+                    print("Fixed "+name+" from phase "+str(oldphase)+\
+                          " to phase "+str(mrna.cds.phase[0])+"\n")
                     continue
                 else:
-                    print("Failed to fix "+name+": trinotate entry doesn't exist.\n")
+                    print("Failed to fix " +name+ \
+                          ": trinotate entry doesn't exist.\n")
                     continue
         print("Failed to fix "+name+": mRNA doesn't exist.\n")
     
@@ -388,7 +409,8 @@ class ConsoleController:
         if len(line) > 0:
             args = line.split()
             if len(args) != 3:
-                sys.stderr.write("Error: ConsoleController.trim_region requires 3 args\n")
+                sys.stderr.write("Error: ConsoleController.trim_region \
+                                  requires 3 args\n")
             else:
                 seq = args[0]
                 start = int(args[1])
@@ -424,7 +446,8 @@ class ConsoleController:
                 args = line.split()
                 if not args:
                     continue
-                self.genome.invalidate_region(args[0], int(args[1]), int(args[2]))
+                self.genome.invalidate_region(args[0], \
+                        int(args[1]), int(args[2]))
 
 
 ## Output info to console
@@ -436,7 +459,8 @@ class ConsoleController:
 
     def barf_seq(self, line):
         args = line.split(' ')
-        return str(self.genome.fasta.get_subseq(args[0], [[int(args[1]), int(args[2])]]))+'\n'
+        return str(self.genome.fasta.get_subseq(args[0], \
+                [[int(args[1]), int(args[2])]]))+'\n'
 
     def barf_cds_seq(self, line):
         name = line
@@ -444,7 +468,8 @@ class ConsoleController:
         for gene in self.genome.gff.genes:
             for mrna in gene.mrnas:
                 if mrna.name == name and mrna.cds:
-                    return mrna.cds.extract_sequence(self.genome.fasta, gene.seq_name, gene.strand)
+                    return mrna.cds.extract_sequence(self.genome.fasta, \
+                            gene.seq_name, gene.strand)
 
         return "Error: Couldn't find mRNA.\n"
 
@@ -468,11 +493,14 @@ class ConsoleController:
 
     def prep_tbl2asn(self, line):
         if os.path.exists(line):
-            sys.stderr.write("Sorry, looks like " + line + " already exists.\n")
-            sys.stderr.write("Please try command again with another directory name.\n")
+            sys.stderr.write("Sorry, looks like " + line + \
+                             " already exists.\n")
+            sys.stderr.write("Please try command again \
+                              with another directory name.\n")
             return
         elif not self.template_file:
-            sys.stderr.write("No template file specified. Try 'addtemplatefile'\n")
+            sys.stderr.write("No template file specified. \
+                             Try 'addtemplatefile'\n")
             return
         else:
             # create tbl2asn directory
@@ -502,13 +530,15 @@ class ConsoleController:
     def run_tbl2asn(self, line):
         if self.ready_for_tbl2asn(line):
             tbl2asn_command = self.tbl2asn_executable + " -p " + line
-            tbl2asn_command += ' -j "[organism=Bactrocera dorsalis][tech=WGS]" -M n -V vb -c f '
+            tbl2asn_command += ' -j "[organism=Bactrocera dorsalis]\
+                               [tech=WGS]" -M n -V vb -c f '
             tbl2asn_command += '-Z ' + line + '/discrep'
             tbl2asn_command += ' -t ' + self.template_file
             tbl2asn_command += ' -a r50k -l paired-ends'
             os.system(tbl2asn_command)
         else:
-            sys.stderr.write("Sorry, unable to run tbl2asn in " + line + ". Try prep_tbl2asn or settbl2asnexecutable first.")
+            sys.stderr.write("Sorry, unable to run tbl2asn in " + line +\
+                             ". Try prep_tbl2asn or settbl2asnexecutable first.")
             
 
 

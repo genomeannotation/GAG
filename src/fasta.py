@@ -109,7 +109,8 @@ class Fasta:
         self.entries = [e for e in self.entries if e[0] != seq_id]
 
     # Given a position in the fasta, returns the number of Ns 
-    # from that position forward (returns 0 if the base at that position is not N)
+    # from that position forward 
+    # (returns 0 if the base at that position is not N)
     def how_many_Ns_forward(self, seq_id, position):
         seq = self.get_seq(seq_id)
         index = position-1
@@ -126,7 +127,8 @@ class Fasta:
             return count
 
     # Given a position in the fasta, returns the number of Ns 
-    # from that position backward (returns 0 if the base at that position is not N)
+    # from that position backward 
+    # (returns 0 if the base at that position is not N)
     def how_many_Ns_backward(self, seq_id, position):
         seq = self.get_seq(seq_id)
         index = position-1
