@@ -2,7 +2,7 @@
 
 import math
 import sys
-from translate import *
+from src.translate import *
 
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1

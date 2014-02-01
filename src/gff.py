@@ -1,13 +1,9 @@
 #!/usr/bin/env python
 
 import sys
-from gene_part import GenePart, CDS, Exon
-from mrna import MRNA
-from gene import Gene
-
-# TODO apply_bed(bed) -- calls gene.trim(bed.get_coords) for all genes
-# where bed.contains(gene.seq_id)
-# damn i just about wrote it already...
+from src.gene_part import CDS, Exon
+from src.mrna import MRNA
+from src.gene import Gene
 
 class GFF:
 
@@ -89,7 +85,7 @@ class GFF:
         result.update(attribs)
         return result        
 
-    def extract_gene_args(self, line):  # TODO 'score'
+    def extract_gene_args(self, line):  
         result = {'seq_name': line[0], 'source': line[1], 'indices': [int(line[3]), int(line[4])], 'strand': line[6]}
         attribs = self.parse_attributes(line[8])
         result.update(attribs)
@@ -181,11 +177,9 @@ class GFF:
 
     def wrap_up_mrna(self):
         if self.current_cds:
-            # TODO check parent_id?
             self.current_mrna.set_cds(self.current_cds)
             self.current_cds = None
         if self.current_exon:
-            # TODO check parent_id? may have to change tests...
             self.current_mrna.set_exon(self.current_exon)
             self.current_exon = None
         self.current_gene.add_mrna(self.current_mrna)

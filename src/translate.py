@@ -3,10 +3,10 @@
 
 import sys
 
-bases = ['t', 'c', 'a', 'g']
-codons = [a+b+c for a in bases for b in bases for c in bases]
-amino_acids = 'FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG'
-codon_table = dict(zip(codons, amino_acids))
+BASES = ['t', 'c', 'a', 'g']
+CODONS = [a+b+c for a in BASES for b in BASES for c in BASES]
+AMINO_ACIDS = 'FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG'
+CODON_TABLE = dict(zip(CODONS, AMINO_ACIDS))
 
 def valid_seq(seq):
     # Assumes seq is already lowercase
@@ -79,7 +79,7 @@ def translate(seq, frame, strand):
     
     for i in xrange(0, len(seq), 3):
         codon = seq[i: i+3]
-        amino_acid = codon_table.get(codon, '')
+        amino_acid = CODON_TABLE.get(codon, '')
         peptide += amino_acid
 
     return peptide

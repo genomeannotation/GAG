@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-from bed import Bed
-
 class Fasta:
 
     def __init__(self):

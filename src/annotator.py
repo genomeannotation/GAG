@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import re
-from feature_tbl_entry import FeatureTblEntry
 
 # Takes blast hit and returns it as a list of key value pairs
 def parse_blast_hit_gene(blast_hit):
@@ -22,7 +21,6 @@ def parse_blast_hit_cds(blast_hit):
         return [['product', 'hypothetical protein']]
 
     attributes = []
-    parts = blast_hit.split('`')
 
     matchObj = re.search( r'RecName: Full=([^;]*)', blast_hit)
     if matchObj:

@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 
 import math
-import sys
-from feature_tbl_entry import FeatureTblEntry
+from src.feature_tbl_entry import FeatureTblEntry
 
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
 
 def trimmed_completely(gene_inds, seq_inds):
-    return seq_inds == [0,0] or gene_inds[0] > seq_inds[1] or gene_inds[1] < seq_inds[0]
+    return seq_inds == [0, 0] or gene_inds[0] > seq_inds[1] or gene_inds[1] < seq_inds[0]
 
 class Gene:
 
@@ -51,7 +50,6 @@ class Gene:
         return False
 
     def remove_mrnas_with_cds_shorter_than(self, min_length):
-        # TODO for now this also removes mrnas with NO cds, but do we want that?
         to_remove = []
         if self.mrnas:
             for mrna in self.mrnas:

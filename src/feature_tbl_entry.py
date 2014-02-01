@@ -2,10 +2,8 @@
 
 import copy
 
-#TODO: It'd be cool if we could pickle/depickle
 class FeatureTblEntry:
 
-    #TODO: Add parameters to constructor
     def __init__(self):
         self.type = ''
         self.name = ''
@@ -124,7 +122,7 @@ class FeatureTblEntry:
 
         if len(fixedCoords) > 0:
             # Write the middle pairs of coords
-            for coords in fixedCoords[:-1]: # TODO: List comprehension?
+            for coords in fixedCoords[:-1]: 
                 entry += str(coords[0])+'\t'+str(coords[1])+'\n'
 
             # Write the last pair of coords with partial info

@@ -5,15 +5,9 @@ import os
 import sys
 import csv
 import subprocess
-import StringIO
-import pdb
 from src.fasta import Fasta
-from src.gene import Gene
-from src.mrna import MRNA
-from src.gene_part import GenePart, CDS, Exon
 from src.gff import GFF
 from src.bed import Bed
-from src.feature_tbl_entry import FeatureTblEntry
 from src.genome import Genome
 from src.annotator import Annotator
 from src.translate import translate
@@ -456,15 +450,6 @@ class ConsoleController:
 
     def barf_gene_tbl(self, line):
         return self.genome.write_string(set(line.split()))
-
-    def barf_err_subset(self, line):
-        args = line.split()
-        if len(args) < 2:
-            print("Usage: barferrsubset <directory> <errorcode>\n")
-            return
-        outdir = args[0]
-        err = args[1]
-        # TODO ?
 
 ## Output info to file
 

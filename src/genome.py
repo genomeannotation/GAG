@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from feature_tbl_entry import FeatureTblEntry
-from translate import *
+from src.feature_tbl_entry import FeatureTblEntry
+from src.translate import *
 import sys
 import os.path
 
@@ -16,9 +16,6 @@ class Genome:
     def verify_file(self, filename):
         return os.path.exists(filename) 
 
-    def addEntry(self, entry):
-        entries.append(entry)
-    
     def addEntries(self, entries):
         [self.entries.append(entry) for entry in entries]
 

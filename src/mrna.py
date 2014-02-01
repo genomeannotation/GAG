@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
 import math
-import sys
-from feature_tbl_entry import FeatureTblEntry
+from src.feature_tbl_entry import FeatureTblEntry
 from src.gene_part import GenePart
 from src.translate import *
 
