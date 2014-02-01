@@ -1,3 +1,5 @@
+## NOTE! you must run 'ducttape' every time you reload a session, because ducttape creates starts and stops which are NO LONGER READ WHEN READING A GFF.
+
 1) Run gag.console.py
 2) readgff, readfasta, readtrinotate
 3) settbl2asnexecutable, addtemplatefile
@@ -29,7 +31,7 @@
 
 13) cat contaminationscreen.seq_id_start_stop.tsv | invalidateregion
 
-14) ducttape -- this does 'rename maker mrnas', 'remove first cds segment if shorter than 3', 'create starts and stops' and 'remove mrnas with cds shorter than 150'. ## note: must run this AFTER invalidate region! because create start stops. -- and there's an error there now...
+14) ducttape -- this does 'rename maker mrnas', 'remove first cds segment if shorter than 3', 'create starts and stops' and 'remove mrnas with cds shorter than 150'. ## note: must run this AFTER invalidate region! because create start stops.
 
 15) preptbl2asn, runtbl2asn. cross fingers.
 
@@ -41,7 +43,6 @@
 
 18) preptbl2asn, runtbl2asn. cross fingers.
 
-19) sift through gag.val to get mRNAs which still have InternalStop problems. There are now 6961 of them.
 
 
 
