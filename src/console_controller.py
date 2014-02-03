@@ -534,7 +534,7 @@ class ConsoleController:
                                [tech=WGS]" -M n -V vb -c f '
             tbl2asn_command += '-Z ' + line + '/discrep'
             tbl2asn_command += ' -t ' + self.template_file
-            tbl2asn_command += ' -a r50k -l paired-ends'
+            tbl2asn_command += ' -a r10k -l paired-ends'
             os.system(tbl2asn_command)
         else:
             sys.stderr.write("Sorry, unable to run tbl2asn in " + line +\
