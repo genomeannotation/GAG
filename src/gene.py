@@ -125,17 +125,9 @@ class Gene:
             mrna.adjust_indices(n, start_index)
 
     def invalidate_region(self, start, stop):
-        # index range contained in invalid region, mark for removal
-        if start <= self.indices[0] and stop >= self.indices[1]:
-            self.indices[0] = 0
-            self.indices[1] = 0
-        # invalid region is in the middle of the index range, mark for removal
-        elif start > self.indices[0] and stop < self.indices[1]:
-            self.indices[0] = 0
-            self.indices[1] = 0
         # The beginning is in the invalid region, 
         # trim beginning forward to invalid sequence stop
-        elif start <= self.indices[0] and stop >= self.indices[0]:
+        if start <= self.indices[0] and stop >= self.indices[0]:
             self.indices[0] = stop+1
         # The end is in the invalid region, trim end back to invalid seq start
         elif start <= self.indices[1] and stop >= self.indices[1]:
