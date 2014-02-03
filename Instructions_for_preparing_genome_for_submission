@@ -43,9 +43,25 @@
 
 18) preptbl2asn, runtbl2asn. cross fingers.
 
+19) get more features to remove -- ShortIntron, StartCodon, NoStop, InternalStop:
 
+    grep ShortIntron gag.val | sed 's/.*BDOR/BDOR/; s/]//' | sort | uniq > short_intron_features_to_remove.mrna_ids
+    grep StartCodon gag.val | sed 's/.*BDOR/BDOR/; s/]//' | sort | uniq > start_codon_features_to_remove.mrna_ids
+    grep NoStop gag.val | sed 's/.*BDOR/BDOR/; s/]//' | sort | uniq > no_stop_features_to_remove.mrna_ids
+    grep InternalStop gag.val | sed 's/.*BDOR/BDOR/; s/]//' | sort | uniq > internal_stop_features_to_remove.mrna_ids
 
+20) remove those features:
 
+    cat internal_stop_features_to_remove.mrna_ids | removemrna
+    cat no_stop_features_to_remove.mrna_ids | removemrna
+    cat short_intron_features_to_remove.mrna_ids | removemrna
+    cat start_codon_features_to_remove.mrna_ids | removemrna
+
+21) ducttape again (to create starts and stops)
+
+    ducttape
+
+22) preptbl2asn, runtbl2asn. cross fingers.
 
 
 
