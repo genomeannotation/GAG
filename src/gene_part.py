@@ -67,12 +67,6 @@ class GenePart:
     def get_phase(self, i):
         return "."
 
-    def collidesRange(self, start, stop):
-        for index_pair in self.indices:
-            if start <= index_pair[1] and stop >= index_pair[0]:
-                return True
-        return False
-
     def remove_segment(self, segindex):
         try:
             self.identifier.pop(segindex)
