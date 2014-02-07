@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 
-from src.feature_tbl_entry import FeatureTblEntry
 from src.translate import *
-import sys
-import os.path
 
 class Genome:
 
