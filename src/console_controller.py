@@ -267,6 +267,9 @@ class ConsoleController:
             args = self.input.split('\n')
         self.genome.obliterate_genes_related_to_mrnas(args)
 
+    def remove_genes_marked_for_removal(self, line):
+        self.genome.remove_genes_marked_for_removal()
+
     def rename_maker_mrnas(self):
         self.genome.rename_maker_mrnas()
 

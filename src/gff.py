@@ -242,6 +242,11 @@ class GFF:
         prefixes = [self.gene_name_to_prefix(g) for g in parent_genes]
         self.remove_genes_by_prefixes(prefixes)
 
+    def remove_genes_marked_for_removal(self):
+        for gene in reversed(self.genes):
+            if gene.indices[0] == 0 and gene.indices[1] == 0:
+                self.genes.remove(gene)
+
     def invalidate_region(self, seq, start, stop):
         for gene in self.genes:
             if gene.seq_name == seq:

@@ -83,6 +83,9 @@ class Genome:
     def obliterate_genes_related_to_mrnas(self, mrna_names):
         self.gff.obliterate_genes_related_to_mrnas(mrna_names)
 
+    def remove_genes_marked_for_removal(self):
+        self.gff.remove_genes_marked_for_removal()
+
     def rename_maker_mrnas(self):
         count = 1000000
         for gene in self.gff.genes:
