@@ -273,9 +273,6 @@ class ConsoleController:
     def rename_maker_mrnas(self):
         self.genome.rename_maker_mrnas()
 
-    def create_starts_and_stops(self):
-        self.genome.create_starts_and_stops()
-
     def ducttape_mrna_seq_frame(self, name):
         for gene in self.genome.gff.genes:
             for mrna in gene.mrnas:

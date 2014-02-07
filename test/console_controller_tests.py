@@ -160,12 +160,6 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.rename_maker_mrnas()
         mock_genome.rename_maker_mrnas.assert_called_with()
 
-    def test_create_starts_and_stops(self):
-        mock_genome = Mock()
-        self.ctrlr.genome = mock_genome
-        self.ctrlr.create_starts_and_stops()
-        mock_genome.create_starts_and_stops.assert_called_with()
-
     def test_remove_mrnas_with_cds_shorter_than(self):
         mock_genome = Mock()
         self.ctrlr.genome = mock_genome
