@@ -2,7 +2,7 @@
 
 import math
 import sys
-from src.translate import *
+import src.translate as translate
 
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
@@ -254,7 +254,7 @@ class CDS(GenePart):
                 index_pair = self.indices[i]
                 non_reversed_seq = fasta.get_subseq(seq_name, [index_pair])
                 if non_reversed_seq:
-                    seq += reverse_complement(non_reversed_seq)
+                    seq += translate.reverse_complement(non_reversed_seq)
         return seq
 
 
