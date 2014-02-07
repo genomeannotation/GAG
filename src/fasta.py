@@ -11,22 +11,6 @@ class Fasta:
         result += " sequences\n"
         return result
 
-    def read_string(self, data):
-        seq_id = ''
-        seq = ''
-        for line in data.split('\n'):
-            if line[0] == '>':
-                if len(seq_id) > 0:
-                    # Save the data
-                    self.entries.append([seq_id, seq])
-                
-                seq_id = line[1:].strip().split()[0] # Get the next seq_id
-                seq = ''
-            else:
-                seq += line.strip()
-        # Add the last sequence
-        self.entries.append([seq_id, seq])
-
     def write_string(self):
         s = str()
         i = 0
