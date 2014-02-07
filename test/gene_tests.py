@@ -85,10 +85,6 @@ class TestGene(unittest.TestCase):
         self.test_gene1.invalidate_region(7431, 7440)
         self.assertEquals(self.test_gene1.indices, [3734, 7430])
 
-    def test_collides_range(self):
-        self.assertEquals(self.test_gene1.collidesRange(3500, 3800), True)
-        self.assertEquals(self.test_gene1.collidesRange(3500, 3600), False)
-
     def test_to_gff(self):
         self.fake_mrna1.to_gff.return_value = "fake mrna1 to gff here:)\n"
         self.fake_mrna2.to_gff.return_value = "fake mrna2 to gff here:)\n"

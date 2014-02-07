@@ -111,11 +111,6 @@ class Gene:
                     min_length = mrna.length_of_shortest_cds_segment()
         return min_length
 
-    def collidesRange(self, start, stop):
-        if start <= self.indices[1] and stop >= self.indices[0]:
-            return True
-        return False
-
     def adjust_indices(self, n, start_index=1):
         if self.indices[0] >= start_index:
             self.indices = [i + n for i in self.indices]

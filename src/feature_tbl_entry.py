@@ -14,7 +14,6 @@ class FeatureTblEntry:
         self.has_start = False
         self.has_stop = False
         self.annotations = []
-        self.errors = [] # errors associated with this entry
 
     def set_type(self, newType):
         self.type = newType
@@ -25,30 +24,10 @@ class FeatureTblEntry:
     def set_seq_name(self, name):
         self.seq_name = name
 
-    def add_error(self, error):
-        self.errors.append(error)
-
     def add_coordinates(self, start, stop):
         if start >= stop:
             print("Warning: Entry "+self.name+": start >= stop")
         self.coords.append([start, stop])
-
-    def has_same_coords(self, other):
-        if len(self.coords) != len(other.coords):
-            return False
-
-        for i in range(len(self.coords)):
-            if self.coords[i][0] != other.coords[i][0] \
-               or self.coords[i][1] != other.coords[i][1]:
-                return False
-        return True
-
-    def is_short_intron(self):
-        for coords in self.coords:
-            if coords[1]-coords[0] <= 10: 
-                #NCBI says anything less than 10 nt is a short intron
-                return True
-        return False
 
     def set_strand(self, strand):
         self.strand = strand
@@ -87,13 +66,6 @@ class FeatureTblEntry:
                annotation[1] == "hypothetical protein":
                 return True
         return False
-
-    # Returns the summed length of each coordinate pair
-    def get_total_length(self):
-        length = 0
-        for coords in self.coords:
-            length += coords[1]-coords[0]
-        return length
 
     def write_to_string(self):
         entry = ''
