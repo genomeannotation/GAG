@@ -13,12 +13,6 @@ class Genome:
         self.annot = None
         self.entries = []
 
-    def verify_file(self, filename):
-        return os.path.exists(filename) 
-
-    def addEntries(self, entries):
-        [self.entries.append(entry) for entry in entries]
-
     # this also removes empty genes; could use a better name maybe...
     def remove_mrnas_with_cds_shorter_than(self, min_length):
         if self.gff:
@@ -33,12 +27,6 @@ class Genome:
     def create_starts_and_stops(self):
         for gene in self.gff.genes:
             gene.create_starts_and_stops(self.fasta)
-
-    def generateEntries(self):
-        for gene in self.gff.genes:
-            newEntries = gene.to_tbl_entries(self.annot)
-            for entry in newEntries:
-                self.entries.append(entry)
 
     def write_string(self, genes = None, errors = None):
         output = ''

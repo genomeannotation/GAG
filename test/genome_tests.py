@@ -13,10 +13,6 @@ class TestGenome(unittest.TestCase):
     def test_constructor(self):
         self.assertEqual('Genome', self.genome.__class__.__name__)
 
-    def test_verify_file(self):
-        self.assertTrue(self.genome.verify_file("sample_files/sample.sbt"))
-        self.assertFalse(self.genome.verify_file("no_file_here.foo"))
-
     def test_remove_all_gene_segments(self):
         self.assertFalse(self.genome.gff)
         gff = Mock()
