@@ -18,3 +18,7 @@ GAG> loadsession my_genome
 
 # Write .tbl file 
 GAG> writetbl foo.tbl
+
+# Go on your merry way
+GAG> exit
+
