@@ -1,1 +1,21 @@
 Genome Annotation Generator
+
+A console-based program to read, modify, annotate and output genomic data.
+Can write files to .gff3 or to the NCBI's .tbl format.
+
+
+***Example Usage***
+In the most basic case, you have a .gff and .fasta file and wish to
+produce a .tbl file for NCBI submission. You must also have a template
+file (extension .sbt).
+
+Assuming the genome files are located in the 'my_genome' folder...
+
+# Run program
+python console.py
+
+# Read in data
+GAG> loadsession my_genome
+
+# Write .tbl file 
+GAG> writetbl foo.tbl
