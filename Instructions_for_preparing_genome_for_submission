@@ -29,7 +29,7 @@
     scaffold00520   62191   62229
     scaffold00520   62956   62995
 
-13) cat contaminationscreen.seq_id_start_stop.tsv | invalidateregion
+13) cat contaminationscreen.seq_id_start_stop.tsv | trimregion
 
 14) ducttape -- this does 'rename maker mrnas', 'remove first cds segment if shorter than 3', 'create starts and stops' and 'remove mrnas with cds shorter than 150'. ## note: must run this AFTER invalidate region! because create start stops.
 
