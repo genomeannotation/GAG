@@ -5,16 +5,19 @@ Can write files to .gff3 or to the NCBI's .tbl format.
 
 
 ***Example Usage***
-In the most basic case, you have a .gff and .fasta file and wish to
-produce a .tbl file for NCBI submission. 
-
-Assuming the genome files are located in the 'my_genome' folder...
+In the most basic case, you have a .gff ('organism.gff') and .fasta file ('organism.fasta') 
+and you wish to produce a .tbl file for NCBI submission. 
 
 # Run program
 python console.py
 
 # Read in data
-GAG> loadsession my_genome
+GAG> readgff organism.gff
+GAG> readfasta organism.fasta
+
+# At present we ignore starts and stops when reading the .gff,
+# because we found so many errors with our input. So this command is necessary:
+GAG> createstartsandstops
 
 # Write .tbl file 
 GAG> writetbl foo.tbl

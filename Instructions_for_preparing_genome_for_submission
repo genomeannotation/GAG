@@ -89,4 +89,16 @@
 
     removeallgenesegments BDOR_004800 BDOR_012445
 
-30) 
+30) ducttape again ...
+
+31) still get errors. a couple gaps and about 20 internal stops.
+
+32) so as far as teh gap errors go:
+
+    invalidateregion scaffold00013 2155941 2155942
+    
+33) and then the internal stops
+
+    cat more_internal_stops.mrna_ids | removemrna
+
+34) try again...

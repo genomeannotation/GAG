@@ -193,6 +193,16 @@ class GagCmd(cmd.Cmd):
     def do_ducttape(self, line):
         try_catch(self.controller.ducttape, None)
 
+    def help_createstartsandstops(self):
+        print("Usage: createstartsandstops\n")
+        print("Reads through each mRNA and checks corresponding sequence to see if it\n")
+        print("contains start and stop codons. Creates these features if they exist.\n")
+        print("This command must be issued before writing a .tbl file, as start/stop information\n")
+        print("from the input .gff is ignored when loading the genome.\n")
+
+    def do_createstartsandstops(self, line):
+        try_catch(self.controller.create_starts_and_stops, None)
+
     def help_applybed(self):
         print("Usage: applybed <file_name>\n")
         print("Applies a bed file to the data. This will")

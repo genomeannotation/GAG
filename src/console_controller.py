@@ -205,6 +205,8 @@ class ConsoleController:
             self.genome.create_starts_and_stops() 
             self.genome.gff.remove_mrnas_with_cds_shorter_than(min_cds_length)
 
+    def create_starts_and_stops(self):
+        self.genome.create_starts_and_stops() 
 
     def apply_bed(self, line):
         bed = Bed()
