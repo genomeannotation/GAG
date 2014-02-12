@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from src.annotator import Annotator
+
 class Genome:
 
     def __init__(self):
@@ -26,8 +28,10 @@ class Genome:
     def write_string(self, genes = None, errors = None):
         output = ''
 
-        if self.fasta == None or self.gff == None or self.annot == None:
+        if self.fasta == None or self.gff == None:
             return output
+        if self.annot == None:
+            self.annot = Annotator()
        
         output += '>Feature SeqId\n'
 
