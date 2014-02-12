@@ -203,9 +203,10 @@ class ConsoleController:
             self.genome.rename_maker_mrnas()
             self.genome.gff.remove_first_cds_segment_if_shorter_than(min_first_cds_segment_length)
             self.genome.create_starts_and_stops() 
-            #self.ducttape_all_seq_frames() 
             self.genome.gff.remove_mrnas_with_cds_shorter_than(min_cds_length)
 
+    def create_starts_and_stops(self):
+        self.genome.create_starts_and_stops() 
 
     def apply_bed(self, line):
         bed = Bed()
@@ -273,9 +274,6 @@ class ConsoleController:
     def rename_maker_mrnas(self):
         self.genome.rename_maker_mrnas()
 
-    def create_starts_and_stops(self):
-        self.genome.create_starts_and_stops()
-
     def ducttape_mrna_seq_frame(self, name):
         for gene in self.genome.gff.genes:
             for mrna in gene.mrnas:
@@ -332,68 +330,6 @@ class ConsoleController:
                                ": trinotate entry doesn't exist.\n"
         return "Failed to fix "+name+": mRNA doesn't exist.\n"
 
-    def ducttape_all_seq_frames(self):
-        for gene in self.genome.gff.genes:
-            for mrna in gene.mrnas:
-                name = mrna.name
-                seq = self.genome.fasta.get_subseq(gene.seq_name, \
-                        [mrna.cds.indices[0]]) #first segment
-                if seq == None:
-                    print("Failed to fix "+name+\
-                          ": sequence does not exist.\n") 
-                    continue
-                elif len(seq) < 6:
-                    print("Failed to fix "+name+\
-                          ": sequence less than 6 base pairs.\n")
-                    continue
-
-                pseq1 = translate(seq, 1, '+')
-                pseq2 = translate(seq, 2, '+')
-                pseq3 = translate(seq, 3, '+')
-                nseq1 = translate(seq, 1, '-')
-                nseq2 = translate(seq, 2, '-')
-                nseq3 = translate(seq, 3, '-')
-
-                annotEntry = self.genome.annot.get_entry(name)
-                if annotEntry:
-                    pepSeq = annotEntry[9]
-                    if pepSeq == None:
-                        print("Failed to fix "+name+\
-                              ": trinotate missing peptide sequence.\n")
-                        continue
-
-                    oldphase = mrna.cds.phase[0]
-                    if pseq1 and pepSeq.find(pseq1[:-1]) <= 3:
-                        gene.strand = '+'
-                        mrna.cds.phase[0] = 0
-                    elif pseq2 and pepSeq.find(pseq2[:-1]) <= 3:
-                        gene.strand = '+'
-                        mrna.cds.phase[0] = 1
-                    elif pseq3 and pepSeq.find(pseq3[:-1]) <= 3:
-                        gene.strand = '+'
-                        mrna.cds.phase[0] = 2
-                    elif nseq1 and pepSeq.find(nseq1[:-1]) <= 3:
-                        gene.strand = '-'
-                        mrna.cds.phase[0] = 0
-                    elif nseq2 and pepSeq.find(nseq2[:-1]) <= 3:
-                        gene.strand = '-'
-                        mrna.cds.phase[0] = 1
-                    elif nseq3 and pepSeq.find(nseq3[:-1]) <= 3:
-                        gene.strand = '-'
-                        mrna.cds.phase[0] = 2
-                    else:
-                        print("Failed to fix "+name+\
-                              ": no matching translation.\n")
-                        continue
-                    print("Fixed "+name+" from phase "+str(oldphase)+\
-                          " to phase "+str(mrna.cds.phase[0])+"\n")
-                    continue
-                else:
-                    print("Failed to fix " +name+ \
-                          ": trinotate entry doesn't exist.\n")
-                    continue
-        print("Failed to fix "+name+": mRNA doesn't exist.\n")
-    
     def remove_all_gene_segments(self, line):
         args = []
         if len(line) > 0:

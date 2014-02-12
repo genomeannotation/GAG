@@ -1,1 +1,32 @@
 Genome Annotation Generator
+
+A console-based program to read, modify, annotate and output genomic data.
+Can write files to .gff3 or to the NCBI's .tbl format.
+
+
+***Example Usage***
+In this exciting vignette, you will create a .tbl file from the .fasta and
+.gff files provided in the 'walkthrough' directory. You should run these commands
+from within the main GAG directory, or else adjust the file paths.
+
+# Run program
+python console.py
+
+# Read in data
+GAG> readgff walkthrough/gag.gff
+GAG> readfasta walkthrough/gag.fasta
+
+# At present we ignore starts and stops when reading the .gff,
+# because we found so many errors with our input. So this command is necessary:
+GAG> createstartsandstops
+
+# Write .tbl file 
+GAG> writetbl foo.tbl
+
+# Go on your merry way
+GAG> exit
+
+With any luck, you now have a file in your working directory called 'foo.tbl'. There
+may be any number of things wrong with it -- please get in touch with us so we can fix
+whatever ridiculous errors we have made. We're all in this together :)
+

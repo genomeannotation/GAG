@@ -2,7 +2,7 @@
 
 import math
 import sys
-from src.translate import *
+import src.translate as translate
 
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
@@ -66,12 +66,6 @@ class GenePart:
     # (CDS overrides this method)
     def get_phase(self, i):
         return "."
-
-    def collidesRange(self, start, stop):
-        for index_pair in self.indices:
-            if start <= index_pair[1] and stop >= index_pair[0]:
-                return True
-        return False
 
     def remove_segment(self, segindex):
         try:
@@ -260,7 +254,7 @@ class CDS(GenePart):
                 index_pair = self.indices[i]
                 non_reversed_seq = fasta.get_subseq(seq_name, [index_pair])
                 if non_reversed_seq:
-                    seq += reverse_complement(non_reversed_seq)
+                    seq += translate.reverse_complement(non_reversed_seq)
         return seq
 
 

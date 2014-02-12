@@ -30,12 +30,6 @@ class GFF:
     def line_type(self, line):
         return line[2]
 
-    def validate_first_line(self, line):
-        if self.line_type(line) is 'gene':
-            return self.validate_line(line)
-        else:
-            return False
-
     # returns a dict with id, name, parent_id (if present)
     def parse_attributes(self, attr):
         result = {}
@@ -72,13 +66,6 @@ class GFF:
 
     def extract_exon_args(self, line):
         result = {'indices': [int(line[3]), int(line[4])], 'score': line[5]}
-        attribs = self.parse_attributes(line[8])
-        result.update(attribs)
-        return result
-
-    def extract_other_feature_args(self, line):
-        result = {'feature_type': line[2], \
-                  'indices': [int(line[3]), int(line[4])]}
         attribs = self.parse_attributes(line[8])
         result.update(attribs)
         return result

@@ -44,10 +44,6 @@ class TestGFF(unittest.TestCase):
         self.assertEqual('gene', self.test_gff1.line_type(self.test_gene_line1))
         self.assertEqual('mRNA', self.test_gff1.line_type(self.test_line2))
 
-    def test_validate_first_line(self):
-        self.assertTrue(self.test_gff1.validate_first_line(self.test_gene_line1))
-        self.assertFalse(self.test_gff1.validate_first_line(self.test_line2))
-
     def test_parse_attributes(self):
         expected1 = {'identifier': '2', 'name': 'BDOR_007864-RA', 'parent_id': '1'}
         string1 = 'ID=2;Name=BDOR_007864-RA;Parent=1'
@@ -70,11 +66,6 @@ class TestGFF(unittest.TestCase):
     def test_extract_exon_args(self):
         expected = {'identifier': '199.1', 'name': 'BDOR_007863.1-RA:exon:48', 'indices': [10247, 10625], 'score': '100.148', 'parent_id': '173.1'}
         actual = self.test_gff1.extract_exon_args(self.test_exon_line1)
-        self.assertEqual(expected, actual)
-
-    def test_extract_other_feature_args(self):
-        expected = {'feature_type': 'five_prime_UTR', 'identifier': '234.1', 'name': 'BDOR_007863.1-RA:UTR1', 'indices': [460, 627], 'parent_id': '173.1'}
-        actual = self.test_gff1.extract_other_feature_args(self.test_feature_line)
         self.assertEqual(expected, actual)
 
     def test_extract_mrna_args(self):

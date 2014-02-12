@@ -111,11 +111,6 @@ class Gene:
                     min_length = mrna.length_of_shortest_cds_segment()
         return min_length
 
-    def collidesRange(self, start, stop):
-        if start <= self.indices[1] and stop >= self.indices[0]:
-            return True
-        return False
-
     def adjust_indices(self, n, start_index=1):
         if self.indices[0] >= start_index:
             self.indices = [i + n for i in self.indices]
@@ -161,6 +156,7 @@ class Gene:
 
     def to_tbl_entries(self, annotator):
         entries = []
+        temp_entries = []
         geneEntry = FeatureTblEntry()
         geneEntry.set_type("gene")
         geneEntry.set_name(self.name)
@@ -168,20 +164,26 @@ class Gene:
         geneEntry.add_coordinates(self.indices[0], self.indices[1])
         geneEntry.set_strand(self.strand)
         geneEntry.set_phase(0)
-        # Pretend there's a start and stop codon for genes
-        geneEntry.set_partial_info(True, True) 
         annotator.annotate_gene(geneEntry)
-        entries.append(geneEntry)
 
+        gene_has_start = True
+        gene_has_stop = True
         hypothetical = False
+
         for mrna in self.mrnas: 
             mrna_entries = mrna.to_tbl_entries(annotator, self.strand)
             for mrna_entry in mrna_entries:
                 mrna_entry.set_seq_name(self.seq_name)
                 if mrna_entry.is_hypothetical():
                     hypothetical = True
-                entries.append(mrna_entry)
+                # If gene contains a partial feature, gene is partial.
+                if not mrna_entry.has_start:
+                    gene_has_start = False
+                if not mrna_entry.has_stop:
+                    gene_has_stop = False
+                temp_entries.append(mrna_entry)
 
+        geneEntry.set_partial_info(gene_has_start, gene_has_stop) 
         # Hypothetical genes don't get gene names
         if hypothetical == True:
             geneAnnot = geneEntry.get_annotation('gene')
@@ -189,6 +191,8 @@ class Gene:
                 geneEntry.add_annotation('note', 'gene '+geneAnnot)
             geneEntry.remove_annotation('gene')
 
+        entries.append(geneEntry)
+        entries.extend(temp_entries)
         return entries
 
 

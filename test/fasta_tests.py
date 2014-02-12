@@ -10,7 +10,7 @@ class TestFasta(unittest.TestCase):
     def setUp(self):
         self.fasta0 = Fasta()
         self.fasta1 = Fasta()
-        self.fasta1.read_string('>seq1\nATGCCGTA\n>seq2\nAGGTCC\n>seq3\nGGGGGG')
+        self.fasta1.entries = [['seq1', 'ATGCCGTA'], ['seq2', 'AGGTCC'], ['seq3', 'GGGGGG']]
 
     def test_constructor(self):
         self.assertEquals('Fasta', self.fasta0.__class__.__name__)
@@ -19,11 +19,6 @@ class TestFasta(unittest.TestCase):
     def test_string(self):
         expected = "Fasta containing 3 sequences\n"
         self.assertEquals(expected, str(self.fasta1))
-
-    def test_read_string(self):
-        self.assertEquals(0, len(self.fasta0.entries))
-        self.fasta0.read_string('>seq1\nATGCCGTA\n>seq2\nAGGTCC\n>seq3\nGGGGGG')
-        self.assertEquals(3, len(self.fasta0.entries))
 
     def test_trim_seq(self):
         self.fasta1.trim_seq('seq2', 2, 3)
@@ -90,7 +85,7 @@ class TestFasta(unittest.TestCase):
 
     def setup_bad_fasta(self):
         self.badfasta = Fasta()
-        self.badfasta.read_string('>seq1\nNNnNNGATTACA\n>seq2\nGATTACAnNn')
+        self.badfasta.entries = [['seq1', 'NNnNNGATTACA'], ['seq2', 'GATTACAnNn']]
 
     def test_how_many_Ns_forward(self):
         self.setup_bad_fasta()

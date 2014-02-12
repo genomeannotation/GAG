@@ -29,7 +29,7 @@
     scaffold00520   62191   62229
     scaffold00520   62956   62995
 
-13) cat contaminationscreen.seq_id_start_stop.tsv | invalidateregion
+13) cat contaminationscreen.seq_id_start_stop.tsv | trimregion
 
 14) ducttape -- this does 'rename maker mrnas', 'remove first cds segment if shorter than 3', 'create starts and stops' and 'remove mrnas with cds shorter than 150'. ## note: must run this AFTER invalidate region! because create start stops.
 
@@ -71,4 +71,34 @@
 
 25) preptbl2asn, runtbl2asn. cross fingers.
 
-**Check .tbl and .sqn files for presence of gene_ids 'ECE2' and 'TCPG' -- they came up in error report as containing other genes, but I can't find them in any of the input files, so wtf? EDIT: they are in there; must ask somebody smarter what to do about them. See error #7 from Larissa's email.
+##Check .tbl and .sqn files for presence of gene_ids 'ECE2' and 'TCPG' -- they came up in error report as containing other genes, but I can't find them in any of the input files, so wtf? EDIT: they are in there; must ask somebody smarter what to do about them. See error #7 from Larissa's email.
+
+26) next grep -A 1 DISC_BAD_GENE_STRAND discrep.orig ... then grep BDOR then sed 's/.*BDOR/BDOR/' | sort | uniq > DISC_BAD_GENE_STRAND_ERRORS.gene_ids ... then grep '[02468]$' gives you the even ones (they come in sequential pairs so this gives you one per pair). next up is
+
+    cat DISC_BAD_GENE_STRAND_ERRORS.even_gene_ids | removeallgenesegments
+
+27) next up is EST_DUP_GENES_OPPOSITE_STRANDS ... go copy the relevant lines from discrep.orig, then extract the gene ids and use the same trick to get the even ones, let's call it DUP_GENES.even_gene_ids ... so next
+
+    cat DUP_GENES.even_gene_ids | removeallgenesegments
+
+28) next up there is one gene with a gene name but a bad product name (?), the error is SHOW_HYPOTHETICAL_CDS_HAVING_GENE_NAME ... it is on BDOR_002139, so
+
+    removeallgenesegments BDOR_002139
+
+29) more genes containing other genes:
+
+    removeallgenesegments BDOR_004800 BDOR_012445
+
+30) ducttape again ...
+
+31) still get errors. a couple gaps and about 20 internal stops.
+
+32) so as far as teh gap errors go:
+
+    invalidateregion scaffold00013 2155941 2155942
+    
+33) and then the internal stops
+
+    cat more_internal_stops.mrna_ids | removemrna
+
+34) try again...

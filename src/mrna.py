@@ -3,7 +3,7 @@
 import math
 from src.feature_tbl_entry import FeatureTblEntry
 from src.gene_part import GenePart
-from src.translate import *
+import src.translate as translate
 
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
@@ -70,10 +70,10 @@ class MRNA:
         if not self.cds:
             return
         seq = self.cds.extract_sequence(fasta, seq_name, phase)
-        if has_start_codon(seq):
+        if translate.has_start_codon(seq):
             indices = self.cds.get_start_indices(phase)
             self.add_start_codon(indices)
-        if has_stop_codon(seq):
+        if translate.has_stop_codon(seq):
             indices = self.cds.get_stop_indices(phase)
             self.add_stop_codon(indices)
 
@@ -146,17 +146,6 @@ class MRNA:
         stop = GenePart(feature_type='stop_codon', identifier=stop_id, \
                 name=stop_name, indices=indices, parent_id=stop_parent_id)
         self.add_other_feature(stop)
-
-    def get_cds_indices(self):
-        if self.cds:
-            result = []
-            for i, index_pair in enumerate(self.cds.indices):
-                pair = self.cds.indices[i]
-                new_start = pair[0] + self.cds.get_phase(i)
-                result.append([new_start, pair[1]])
-            return result
-        else:
-            return None
 
     def length_of_shortest_cds_segment(self):
         return self.cds.length_of_shortest_segment()
