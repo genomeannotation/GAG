@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import traceback
 from src.gene_part import CDS, Exon
 from src.mrna import MRNA
 from src.gene import Gene
@@ -13,6 +14,7 @@ class GFF:
         self.current_mrna = None
         self.current_exon = None
         self.current_cds = None
+        self.current_line = 0 # Not even reading a file yet
 
     def __str__(self):
         result = "GFF containing "
@@ -189,12 +191,22 @@ class GFF:
         self.current_mrna = None
 
     def read_file(self, reader):
+        self.current_line = 1 # aaaand begin!
         for line in reader:
-            if len(line) == 0 or line[0].startswith('#'):
-                continue
-            else:
-                if self.validate_line(line):
-                    self.process_line(line)
+            try:
+                if len(line) == 0 or line[0].startswith('#'):
+                    continue
+                else:
+                    if self.validate_line(line):
+                        self.process_line(line)
+            except:
+                print("\nException raised while reading GFF line: "+str(self.current_line)+"\n\n")
+                print(traceback.format_exc())
+                go_on = raw_input("\n\nAttempt to continue? (y/n): ")
+                if go_on != 'y' and go_on != 'Y': # Didn't select Y, get outta here!
+                    return
+                
+            self.current_line += 1
         self.wrap_up_gene()
 
     def apply_bed(self, bed):
