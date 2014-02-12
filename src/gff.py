@@ -15,6 +15,7 @@ class GFF:
         self.current_exon = None
         self.current_cds = None
         self.current_line = 0 # Not even reading a file yet
+        self.give_up = False # we are strong for now
 
     def __str__(self):
         result = "GFF containing "
@@ -32,26 +33,28 @@ class GFF:
 
     # returns a dict with id, name, parent_id (if present)
     def parse_attributes(self, attr):
-        result = {}
         split_attr = attr.split(';')
-        # make sure that worked :)
-        if len(split_attr) < 2:
-            sys.stderr.write('error trying to parse "' + attr + '"\n')
-            return None
+        keys = [val.split('=')[0] for val in split_attr]
+        vals = [val.split('=')[1] for val in split_attr]
+        
+        attr_dict = dict(zip(keys, vals)) # Our parameter dictionary
+        
+        result = {}
+
         try:
-            result['identifier'] = split_attr[0].split('=')[1]
-            result['name'] = split_attr[1].split('=')[1]
-        except IndexError:
-            sys.stderr.write('error trying to parse "' + attr + '"\n')
+            result['identifier'] = attr_dict['ID']
+            result['name'] = attr_dict['Name']
+            if 'Parent' in attr_dict:
+                result['parent_id'] = attr_dict['Parent']
+        except KeyError as ke:
+            print("\nError reading GFF mRNA entry at line "+str(self.current_line)+": required attribute '"+ke.args[0]+"' doesn't exist.\n")
+
+            go_on = raw_input("\n\nAttempt to continue? (y/n): ")
+            if go_on != 'y' and go_on != 'Y': # Didn't select Y, get outta here!
+                self.give_up = True
+
             return None
-        if len(split_attr) is 3:
-            try:
-                result['parent_id'] = split_attr[2].split('=')[1]
-            except IndexError:
-                sys.stderr.write('error trying to parse "' + attr + '"\n')
-                if self.current_gene:
-                    sys.stderr.write('occurred at ' + str(self.current_gene))
-                return None
+
         return result
         
 
@@ -61,18 +64,30 @@ class GFF:
         if isinstance(line[7], float):
             result['score'] = line[7]
         attribs = self.parse_attributes(line[8])
+        
+        if not attribs:
+            return None
+
         result.update(attribs)
         return result
 
     def extract_exon_args(self, line):
         result = {'indices': [int(line[3]), int(line[4])], 'score': line[5]}
         attribs = self.parse_attributes(line[8])
+
+        if not attribs:
+            return None
+
         result.update(attribs)
         return result
 
     def extract_mrna_args(self, line):
         result = {'indices': [int(line[3]), int(line[4])]}
         attribs = self.parse_attributes(line[8])
+
+        if not attribs:
+            return None
+
         result.update(attribs)
         return result        
 
@@ -80,6 +95,10 @@ class GFF:
         result = {'seq_name': line[0], 'source': line[1], \
                   'indices': [int(line[3]), int(line[4])], 'strand': line[6]}
         attribs = self.parse_attributes(line[8])
+
+        if not attribs:
+            return None
+
         result.update(attribs)
         return result
 
@@ -134,6 +153,10 @@ class GFF:
             self.process_gene_line(line)
         else:
             kwargs = self.extract_gene_args(line)
+
+            if not kwargs:
+                return
+
             self.current_gene = Gene(**kwargs)
 
     def process_mrna_line(self, line):
@@ -142,6 +165,10 @@ class GFF:
             self.process_mrna_line(line)
         else:
             kwargs = self.extract_mrna_args(line)
+
+            if not kwargs:
+                return
+
             self.current_mrna = MRNA(**kwargs)
 
     def process_cds_line(self, line):
@@ -149,6 +176,10 @@ class GFF:
             self.update_cds(line)
         else:
             kwargs = self.extract_cds_args(line)
+
+            if not kwargs:
+                return
+
             self.current_cds = CDS(**kwargs)
 
     def process_exon_line(self, line):
@@ -156,6 +187,10 @@ class GFF:
             self.update_exon(line)
         else:
             kwargs = self.extract_exon_args(line)
+
+            if not kwargs:
+                return
+
             self.current_exon = Exon(**kwargs)
 
     def process_other_feature_line(self, line):
@@ -178,8 +213,13 @@ class GFF:
         self.current_mrna = None
 
     def read_file(self, reader):
-        self.current_line = 1 # aaaand begin!
+        self.current_line = 0 # aaaand begin!
         for line in reader:
+            if self.give_up:
+                return
+
+            self.current_line += 1
+
             try:
                 if len(line) == 0 or line[0].startswith('#'):
                     continue
@@ -192,8 +232,6 @@ class GFF:
                 go_on = raw_input("\n\nAttempt to continue? (y/n): ")
                 if go_on != 'y' and go_on != 'Y': # Didn't select Y, get outta here!
                     return
-                
-            self.current_line += 1
         self.wrap_up_gene()
 
     def apply_bed(self, bed):
