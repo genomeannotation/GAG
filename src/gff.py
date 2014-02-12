@@ -33,9 +33,16 @@ class GFF:
 
     # returns a dict with id, name, parent_id (if present)
     def parse_attributes(self, attr):
+        if ';' not in attr:
+            return None
         split_attr = attr.split(';')
-        keys = [val.split('=')[0] for val in split_attr]
-        vals = [val.split('=')[1] for val in split_attr]
+        try:
+            keys = [val.split('=')[0] for val in split_attr]
+            vals = [val.split('=')[1] for val in split_attr]
+        except IndexError as ie:
+            sys.stderr.write("IndexError trying to split attributes: " + str(split_attr))
+            return None
+
         
         attr_dict = dict(zip(keys, vals)) # Our parameter dictionary
         
