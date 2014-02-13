@@ -101,7 +101,7 @@ class Annotator:
         if len(split_prot_id) >= 2:
             cds.add_annotation('transcript_id', 'gnl|PBARC|'+split_prot_id[0]+'_mrna')
         else:   # if not a Maker-named CDS :)
-            cds.add_annotation('transcript_id', 'gnl|PBARC|'+cds.name+'_mrna'+cds.name)
+            cds.add_annotation('transcript_id', 'gnl|PBARC|'+cds.name+'_mrna')
            
 
         for entry in self.entries:
