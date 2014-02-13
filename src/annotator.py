@@ -98,7 +98,11 @@ class Annotator:
     def annotate_cds(self, cds):
         split_prot_id = cds.name.split('_')
         cds.add_annotation('protein_id', 'gnl|PBARC|'+cds.name)
-        cds.add_annotation('transcript_id', 'gnl|PBARC|'+split_prot_id[0]+'_mrna'+split_prot_id[1])
+        if len(split_prot_id) >= 2:
+            cds.add_annotation('transcript_id', 'gnl|PBARC|'+split_prot_id[0]+'_mrna')
+        else:   # if not a Maker-named CDS :)
+            cds.add_annotation('transcript_id', 'gnl|PBARC|'+cds.name+'_mrna'+cds.name)
+           
 
         for entry in self.entries:
             reDot = re.search('\.[0-9]', cds.name)
@@ -116,7 +120,10 @@ class Annotator:
     def annotate_mrna(self, mrna):
         split_prot_id = mrna.name.split('_')                
         mrna.add_annotation('protein_id', 'gnl|PBARC|'+mrna.name)
-        mrna.add_annotation('transcript_id', 'gnl|PBARC|'+split_prot_id[0]+'_mrna'+split_prot_id[1])
+        if len(split_prot_id) >= 2:
+            mrna.add_annotation('transcript_id', 'gnl|PBARC|'+split_prot_id[0]+'_mrna'+split_prot_id[1])
+        else:   # if not a Maker-named mRNA :)
+            mrna.add_annotation('transcript_id', 'gnl|PBARC|'+mrna.name+'_mrna')
 
         for entry in self.entries:
             reDot = re.search('\.[0-9]', mrna.name)
