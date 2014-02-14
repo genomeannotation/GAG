@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import unittest
+import io
 from src.fasta import Fasta
 from mock import Mock
 
@@ -38,14 +39,19 @@ class TestFasta(unittest.TestCase):
         self.assertFalse(self.fasta1.get_subseq('bad_seqid', [[1, 10]]))
         self.assertFalse(self.fasta1.get_subseq('seq1', [[1, 10]])) #out of range
 
-    def test_read_file(self):
-        self.fasta0.read_file("sample_files/no_line_breaks.fasta")
+    def test_read(self):
+        no_line_breaks = io.BytesIO('>seq_1\nGATTACAGATTACAGATTACAGATTACAGATTACAGATTACAGATTACAGATTACA\n' +
+                                    '>seq_2\nNNNNNNNNGATTACAGATTACAGATTACANNNNNNNNNNN')
+        line_breaks = io.BytesIO('>seq_1\nGATTACAGATTACAGATTACAGATTACA\nGATTACAGATTACAGATTACAGATTACA\n' +
+                                 '>seq_2\nNNNNNNNNGATTACAGATTACAGATTAC\nANNNNNNNNNNN')
+
+        self.fasta0.read(no_line_breaks)
         self.assertEquals(2, len(self.fasta0.entries))
         self.assertEquals('seq_1', self.fasta0.entries[0][0])
         self.assertEquals('GATTACAGATTACAGATTACAGATTACAGATTACAGATTACAGATTACAGATTACA', self.fasta0.entries[0][1])
         self.assertEquals('seq_2', self.fasta0.entries[1][0])
         self.assertEquals('NNNNNNNNGATTACAGATTACAGATTACANNNNNNNNNNN', self.fasta0.entries[1][1])
-        self.fasta0.read_file("sample_files/has_line_breaks.fasta")
+        self.fasta0.read(line_breaks)
         self.assertEquals(4, len(self.fasta0.entries))
         self.assertEquals(['seq_1', 'GATTACAGATTACAGATTACAGATTACAGATTACAGATTACAGATTACAGATTACA'], self.fasta0.entries[2])
         self.assertEquals(['seq_2', 'NNNNNNNNGATTACAGATTACAGATTACANNNNNNNNNNN'], self.fasta0.entries[3])

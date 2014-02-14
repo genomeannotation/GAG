@@ -179,7 +179,7 @@ class ConsoleController:
 
     def read_fasta(self, line):
         self.genome.fasta = Fasta()
-        self.genome.fasta.read_file(line)
+        self.genome.fasta.read(open(line, 'r'))
 
     def read_gff(self, line):
         self.genome.gff = GFF()
