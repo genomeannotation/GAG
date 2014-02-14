@@ -203,16 +203,6 @@ class GagCmd(cmd.Cmd):
     def do_createstartsandstops(self, line):
         try_catch(self.controller.create_starts_and_stops, None)
 
-    def help_applybed(self):
-        print("Usage: applybed <file_name>\n")
-        print("Applies a bed file to the data. This will")
-        print("trim out any sequences that aren't in the")
-        print("ranges of the bed file and automagically")
-        print("update the GFF file accordingly.\n")
-
-    def do_applybed(self, line):
-        try_catch(self.controller.apply_bed, line)
-
     def help_subsetfasta(self):
         print("Usage: subsetfasta\n")
         print("(You must first use 'addseq' to create a list of sequence ids to keep)\n")
@@ -251,13 +241,6 @@ class GagCmd(cmd.Cmd):
 
     def do_removeallgenesegments(self, line):
         try_catch(self.controller.remove_all_gene_segments, line)
-
-    def help_obliterategenesrelatedtomrnas(self):
-        print("Usage: obliterategenesrelatedtomrnas <mrna_names>\n")
-        print("For each mRNA name, removes the parent gene and any gene with the same prefix as the parent.\n")
-
-    def do_obliterategenesrelatedtomrnas(self, line):
-        try_catch(self.controller.obliterate_genes_related_to_mrnas, line)
 
     def do_removegenesmarkedforremoval(self, line):
         try_catch(self.controller.remove_genes_marked_for_removal, line)

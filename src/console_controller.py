@@ -208,15 +208,6 @@ class ConsoleController:
     def create_starts_and_stops(self):
         self.genome.create_starts_and_stops() 
 
-    def apply_bed(self, line):
-        bed = Bed()
-        with open(line, 'rb') as bedfile:
-            bedreader = csv.reader(bedfile, delimiter='\t')
-            bed.read_file(bedreader)
-            self.genome.fasta.apply_bed(bed)
-            self.genome.gff.apply_bed(bed)
-            self.genome.gff.remove_empty_genes()
-
     def subset_fasta(self):
         # line parameter is not used, but Cmd likes to pass it so there it is.
         self.genome.fasta.subset_fasta(self.seqlist)
@@ -260,14 +251,6 @@ class ConsoleController:
             for gene in eraseGenes:
                 self.genome.gff.genes.remove(gene)
                         
-    def obliterate_genes_related_to_mrnas(self, line):
-        args = []
-        if len(line) > 0:
-            args = line.split()
-        else:
-            args = self.input.split('\n')
-        self.genome.obliterate_genes_related_to_mrnas(args)
-
     def remove_genes_marked_for_removal(self, line):
         self.genome.remove_genes_marked_for_removal()
 
