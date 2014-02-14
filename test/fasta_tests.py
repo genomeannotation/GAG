@@ -2,7 +2,6 @@
 
 import unittest
 from src.fasta import Fasta
-from src.bed import Bed
 from mock import Mock
 
 class TestFasta(unittest.TestCase):
@@ -50,18 +49,6 @@ class TestFasta(unittest.TestCase):
         self.assertEquals(4, len(self.fasta0.entries))
         self.assertEquals(['seq_1', 'GATTACAGATTACAGATTACAGATTACAGATTACAGATTACAGATTACAGATTACA'], self.fasta0.entries[2])
         self.assertEquals(['seq_2', 'NNNNNNNNGATTACAGATTACAGATTACANNNNNNNNNNN'], self.fasta0.entries[3])
-
-    def test_apply_bed(self):
-        bed = Bed({'seq1': [2,7], 'seq3': [2,6]})
-        self.assertEquals('ATGCCGTA', self.fasta1.entries[0][1])
-        self.assertEquals('GGGGGG', self.fasta1.entries[2][1])
-        self.fasta1.apply_bed(bed)
-        self.assertEquals('TGCCGT', self.fasta1.entries[0][1])
-        self.assertEquals('GGGGG', self.fasta1.entries[2][1])
-        newbed = Bed({'seq3': [0, 0]})
-        self.assertEquals(3, len(self.fasta1.entries))
-        self.fasta1.apply_bed(newbed)
-        self.assertEquals(2, len(self.fasta1.entries))
 
     def test_indices_not_out_of_range(self):
         test_seq = 'GATTACA'

@@ -3,7 +3,6 @@
 import unittest
 from mock import Mock, patch, PropertyMock
 from src.gff import GFF
-from src.bed import Bed
 import sys
 import os
 import csv
@@ -197,30 +196,6 @@ class TestGFF(unittest.TestCase):
                 outfile.write(gene.to_gff())
 
         os.system('rm -r TEST_RUN')
-
-    def test_apply_bed(self):
-        # build mock genes
-        gene1 = Mock()
-        seq1 = PropertyMock(return_value = 'sctg_1')
-        type(gene1).seq_name= seq1
-        gene2 = Mock()
-        seq2 = PropertyMock(return_value = 'sctg_2')
-        type(gene2).seq_name= seq2
-        # add them to the gff
-        self.test_gff1.genes.append(gene1)
-        self.test_gff1.genes.append(gene2)
-        # easier to use a real Bed...
-        bed = Bed({'sctg_1': [100, 500], 'sctg_3': [20, 50]})
-        # verify that bed works as expected
-        # yes i realize this isn't test_bed, but
-        # could help one day with debugging?
-        self.assertTrue(bed.contains('sctg_1'))
-        self.assertFalse(bed.contains('sctg_2'))
-        self.assertEquals([100, 500], bed.get_coordinates('sctg_1'))
-
-        self.test_gff1.apply_bed(bed)
-        assert not gene2.trim.called
-        gene1.trim.assert_called_with([100, 500])
 
     def test_subset_gff(self):
         gene1 = Mock()

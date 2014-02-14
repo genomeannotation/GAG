@@ -7,7 +7,6 @@ import csv
 import subprocess
 from src.fasta import Fasta
 from src.gff import GFF
-from src.bed import Bed
 from src.genome import Genome
 from src.annotator import Annotator
 from src.translate import translate

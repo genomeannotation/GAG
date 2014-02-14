@@ -241,12 +241,6 @@ class GFF:
                     return
         self.wrap_up_gene()
 
-    def apply_bed(self, bed):
-        for gene in self.genes:
-            if bed.contains(gene.seq_name):
-                coords = bed.get_coordinates(gene.seq_name)
-                gene.trim(coords)
-
     def subset_gff(self, seqlist):
         self.genes = [g for g in self.genes if g.seq_name in seqlist]
 
