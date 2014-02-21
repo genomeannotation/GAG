@@ -61,16 +61,16 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.create_starts_and_stops()
         mock_genome.create_starts_and_stops.assert_called_with()
 
-    def test_remove_all_gene_segments(self):
+    def test_remove_gene(self):
         mock_genome = Mock()
         self.ctrlr.genome = mock_genome
-        self.ctrlr.remove_all_gene_segments("BDOR_foo")
+        self.ctrlr.remove_gene("BDOR_foo")
         mock_genome.remove_all_gene_segments.assert_called_with("BDOR_foo")
 
     def test_remove_all_gene_segments_multiline(self):
         mock_genome = Mock()
         self.ctrlr.genome = mock_genome
-        self.ctrlr.remove_all_gene_segments("BDOR_foo\nBDOR_bar\nBDOR_sandwich")
+        self.ctrlr.remove_gene("BDOR_foo\nBDOR_bar\nBDOR_sandwich")
         calls = mock_genome.mock_calls
 
         # build a list of arguments to all calls to mock_genome

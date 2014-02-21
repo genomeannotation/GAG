@@ -253,7 +253,7 @@ class ConsoleController:
                                ": trinotate entry doesn't exist.\n"
         return "Failed to fix "+name+": mRNA doesn't exist.\n"
 
-    def remove_all_gene_segments(self, line):
+    def remove_gene(self, line):
         args = []
         if len(line) > 0:
             args = line.split()

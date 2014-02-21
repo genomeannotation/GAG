@@ -154,7 +154,7 @@ class GagCmd(cmd.Cmd):
         print("Removes from genome all genes with said gene_id prefix.\n")
 
     def do_removegene(self, line):
-        try_catch(self.controller.remove_all_gene_segments, line)
+        try_catch(self.controller.remove_gene, line)
 
     def help_trimregion(self):
         print("Usage: trimregion <seq_id> <start_index> <stop_index>\n")
