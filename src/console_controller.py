@@ -15,21 +15,14 @@ class ConsoleController:
 
 ## Setup, loading and saving sessions
 
-    def __init__(self, configPath = None):
+    def __init__(self):
         self.genome = Genome()
         self.input = ''
-        self.tbl2asn_executable = None
-        self.template_file = None
         self.seqlist = []
 
-        if configPath and os.path.isfile(configPath):
-            with open(configPath, 'r') as config:
-                self.tbl2asn_executable = config.readline()
-                self.template_file = config.readline()
-
-    def barf_session(self, line):
+    def barf_folder(self, line):
         if len(line) == 0:
-            print("Usage: barfsession <directory>\n")
+            print("Usage: barffolder <directory>\n")
             return
 
         os.system('mkdir '+line)
@@ -46,16 +39,7 @@ class ConsoleController:
         # Write the annotations
         self.genome.annot.write_to_file(line+'/gag.trinotate')
         
-        # Write config file
-        if self.tbl2asn_executable or self.template_file:
-            with open(line+'/gag.config', 'w') as config:
-                if self.tbl2asn_executable:
-                    config.write(self.tbl2asn_executable)
-                if self.template_file:
-                    config.write(self.template_file)
-
-
-    def load_session(self, line):
+    def load_folder(self, line):
         # Read the gff
         self.read_gff(line+'/gag.gff')
 
@@ -64,13 +48,6 @@ class ConsoleController:
 
         # Read the annotations
         self.read_trinotate(line+'/gag.trinotate')
-
-        # Load config file if it exists...
-        configPath = line+'/gag.config'
-        if os.path.isfile(configPath):
-            with open(configPath, 'r') as config:
-                self.tbl2asn_executable = config.readline().strip()
-                self.template_file = config.readline().strip()
 
     def ls(self, line):
         proc = subprocess.Popen(['ls '+line], stdout=subprocess.PIPE, \
@@ -116,22 +93,6 @@ class ConsoleController:
 
 ## Assorted utilities
 
-    def add_seq(self, line):
-        args = []
-        if len(line) > 0:
-            args = line.split()
-        else:
-            args = self.input.split('\n')
-
-        for arg in args:
-            self.seqlist.append(arg)
-
-    def clear_seqlist(self):
-        del(self.seqlist[:])
-
-    def add_template_file(self, line):
-        self.template_file = line
-
     def status(self):
         result = ""
         if self.genome.fasta:
@@ -142,18 +103,6 @@ class ConsoleController:
             result += "GFF: " + str(self.genome.gff)
         else:
             result += "GFF: no gff\n"
-        if self.template_file:
-            result += "Template File: " + self.template_file + "\n"
-        else:
-            result += "Template File: no template file\n"
-        if self.seqlist:
-            result += "Seqlist: " + str(self.seqlist) + "\n"
-        else:
-            result += "Seqlist: no seqlist\n"
-        if self.tbl2asn_executable:
-            result += "Tbl2asn Executable: " + self.tbl2asn_executable + "\n"
-        else:
-            result += "Tbl2asn Executable: no tbl2asn executable\n"
         return result
 
     def barftofile(self, line):
@@ -165,14 +114,6 @@ class ConsoleController:
                     f.write(arg+' ')
             else:
                 f.write(self.input)
-
-    def barffromfile(self, line):
-        result = ''
-        with open(line.strip(), 'r') as f:
-            for fline in f:
-                result += fline
-        return result
-            
 
 
 ## Reading in files
@@ -407,60 +348,4 @@ class ConsoleController:
     def write_fasta(self, line):
         with open(line, 'w') as outFile:
             outFile.write(self.genome.fasta.write_string())
-
-## New, Exciting tbl2asn integration
-    def set_tbl2asn_executable(self, line):
-        self.tbl2asn_executable = line
-
-    def prep_tbl2asn(self, line):
-        if os.path.exists(line):
-            sys.stderr.write("Sorry, looks like " + line + \
-                             " already exists.\n")
-            sys.stderr.write("Please try command again \
-                              with another directory name.\n")
-            return
-        elif not self.template_file:
-            sys.stderr.write("No template file specified. \
-                             Try 'addtemplatefile'\n")
-            return
-        else:
-            # create tbl2asn directory
-            os.system('mkdir ' + line)
-            # symlink template file 
-            template_abs_path = os.path.abspath(self.template_file)
-            os.system('ln -s ' + template_abs_path + ' ' + line + '/gag.sbt')
-            # write fasta file
-            self.write_fasta(line + '/gag.fsa')
-            # write tbl file
-            self.write_tbl(line + "/gag.tbl")
-
-    def ready_for_tbl2asn(self, line):
-        if not self.tbl2asn_executable:
-            return False
-        elif not os.path.isdir(line):
-            return False
-        elif not os.path.exists(line + "/gag.fsa"):
-            return False
-        elif not os.path.exists(line + "/gag.tbl"):
-            return False
-        elif not os.path.exists(line + "/gag.sbt"):
-            return False
-        else:
-            return True
-
-    def run_tbl2asn(self, line):
-        if self.ready_for_tbl2asn(line):
-            tbl2asn_command = self.tbl2asn_executable + " -p " + line
-            tbl2asn_command += ' -j "[organism=Bactrocera dorsalis]\
-                               [tech=WGS]" -M n -V vb -c f '
-            tbl2asn_command += '-Z ' + line + '/discrep'
-            tbl2asn_command += ' -t ' + self.template_file
-            tbl2asn_command += ' -a r10k -l paired-ends'
-            os.system(tbl2asn_command)
-        else:
-            sys.stderr.write("Sorry, unable to run tbl2asn in " + line +\
-                             ". Try prep_tbl2asn or settbl2asnexecutable first.")
-            
-
-
 
