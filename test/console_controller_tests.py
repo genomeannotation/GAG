@@ -13,7 +13,6 @@ class TestConsoleController(unittest.TestCase):
 
     def test_constructor(self):
         self.assertEqual('ConsoleController', self.ctrlr.__class__.__name__)
-        self.assertTrue(isinstance(self.ctrlr.seqlist, list))
 
     def test_status(self):
         expected = "Fasta: no fasta\nGFF: no gff\n"

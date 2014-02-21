@@ -18,7 +18,6 @@ class ConsoleController:
     def __init__(self):
         self.genome = Genome()
         self.input = ''
-        self.seqlist = []
 
     def barf_folder(self, line):
         if len(line) == 0:
