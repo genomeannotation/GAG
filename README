@@ -10,13 +10,7 @@ In this exciting vignette, you will create a .tbl file from the .fasta and .gff 
 python console.py
 
 # Read in data
-GAG> readgff walkthrough/gag.gff
-GAG> readfasta walkthrough/gag.fasta
-
-# At present we ignore starts and stops when reading the .gff,
-# because we found so many errors with our input. So this command is
-# necessary:
-GAG> createstartsandstops
+GAG> loadfolder walkthrough
 
 # Write .tbl file 
 GAG> writetbl foo.tbl
