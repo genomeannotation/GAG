@@ -5,11 +5,15 @@ import os
 import sys
 import csv
 import subprocess
+import glob
 from src.fasta import Fasta
 from src.gff import GFF
 from src.genome import Genome
 from src.annotator import Annotator
 from src.translate import translate
+
+def foo():
+    return 3
 
 class ConsoleController:
 
@@ -39,14 +43,31 @@ class ConsoleController:
         self.genome.annot.write_to_file(line+'/gag.trinotate')
         
     def load_folder(self, line):
+        # Get filenames
+        gffs = glob.glob(line + '/*.gff')
+        fastas = glob.glob(line + '/*.fasta')
+        trinotates = glob.glob(line + '/*.trinotate')
+
         # Read the gff
-        self.read_gff(line+'/gag.gff')
+        if gffs:
+            self.read_gff(gffs[0])
+        else:
+            sys.stderr.write("Couldn't find .gff file in " + line + "\n")
+            return
 
         # Read the fasta
-        self.read_fasta(line+'/gag.fasta')
+        if fastas:
+            self.read_fasta(fastas[0])
+        else:
+            sys.stderr.write("Couldn't find .fasta file in " + line + "\n")
+            return
 
         # Read the annotations
-        self.read_trinotate(line+'/gag.trinotate')
+        if trinotates:
+            self.read_trinotate(line+'/gag.trinotate')
+        else:
+            sys.stderr.write("Did not find .trinotate file; no functional annotations available.\n")
+
 
     def ls(self, line):
         proc = subprocess.Popen(['ls '+line], stdout=subprocess.PIPE, \
