@@ -277,6 +277,20 @@ class ConsoleController:
                 start = int(args[1])
                 stop = int(args[2])
                 self.genome.trim_region(seq, start, stop)
+        else:
+            lines = self.input.split('\n')
+            for entry in lines:
+                entries = entry.split()
+                if len(entries) != 3:
+                    sys.stderr.write("Error: ConsoleController.trim_region " +
+                                      "requires 3 args\n")
+                    sys.stderr.write("This was the input: " + entry + "\n")
+                    sys.stderr.write("Moving on to next input...\n")
+                else:
+                    seq = entries[0]
+                    start = int(entries[1])
+                    stop = int(entries[2])
+                    self.genome.trim_region(seq, start, stop)
 
     def remove_seq(self, line):
         args = []
