@@ -45,10 +45,10 @@ class TestGFF(unittest.TestCase):
         self.assertEqual('mRNA', self.test_gff1.line_type(self.test_line2))
 
     def test_parse_attributes(self):
-        expected1 = {'identifier': '2', 'name': 'BDOR_007864-RA', 'parent_id': '1'}
+        expected1 = {'identifier': '2', 'parent_id': '1'}
         string1 = 'ID=2;Name=BDOR_007864-RA;Parent=1'
         self.assertEqual(expected1, self.test_gff1.parse_attributes(string1))
-        expected2 = {'identifier': '1', 'name': 'BDOR_007864'}
+        expected2 = {'identifier': '1'}
         string2 = 'ID=1;Name=BDOR_007864'
         self.assertEqual(expected2, self.test_gff1.parse_attributes(string2))
         bad_string1 = 'not semicolon delimited...'
@@ -59,22 +59,22 @@ class TestGFF(unittest.TestCase):
         self.assertFalse(self.test_gff1.parse_attributes(bad_string2))
 
     def test_extract_cds_args(self):
-        expected = {'identifier': '229.1', 'name': 'BDOR_007863.1-RA:cds:44', 'indices': [10247, 10625], 'phase': 1, 'parent_id': '173.1'}
+        expected = {'identifier': '229.1', 'indices': [10247, 10625], 'phase': 1, 'parent_id': '173.1'}
         actual = self.test_gff1.extract_cds_args(self.test_cds_line1)
         self.assertEqual(expected, actual)
 
     def test_extract_exon_args(self):
-        expected = {'identifier': '199.1', 'name': 'BDOR_007863.1-RA:exon:48', 'indices': [10247, 10625], 'score': '100.148', 'parent_id': '173.1'}
+        expected = {'identifier': '199.1', 'indices': [10247, 10625], 'score': '100.148', 'parent_id': '173.1'}
         actual = self.test_gff1.extract_exon_args(self.test_exon_line1)
         self.assertEqual(expected, actual)
 
     def test_extract_mrna_args(self):
-        expected = {'identifier': '173.1', 'name': 'BDOR_007863.1-RA', 'indices': [460, 12713], 'parent_id': '172.1'}
+        expected = {'identifier': '173.1', 'indices': [460, 12713], 'parent_id': '172.1'}
         actual = self.test_gff1.extract_mrna_args(self.test_mrna_line1)
         self.assertEqual(expected, actual)
 
     def test_extract_gene_args(self):
-        expected = {'seq_name': 'sctg_0080_0020', 'source': 'maker', 'indices': [3734, 7436], 'strand': '+', 'identifier': '1', 'name': 'BDOR_007864'}
+        expected = {'seq_name': 'sctg_0080_0020', 'source': 'maker', 'indices': [3734, 7436], 'strand': '+', 'identifier': '1'}
         actual = self.test_gff1.extract_gene_args(self.test_gene_line1)
         self.assertEqual(expected, actual)
 
@@ -173,8 +173,60 @@ class TestGFF(unittest.TestCase):
         
 
     def test_gff_file_stuff(self):
-        # So sorry for this uber long line :S
-        sample = io.BytesIO('sctg_0080_0020\tmaker\tgene\t3734\t7436\t.\t+\t.\tID=1;Name=BDOR_007864\nsctg_0080_0020\tmaker\tmRNA\t3734\t7436\t.\t+\t.\tID=2;Name=BDOR_007864-RA;Parent=1\nsctg_0080_0020\tmaker\texon\t3734\t4034\t0.9\t+\t.\tID=3;Name=BDOR_007864-RA:exon:0;Parent=2\nsctg_0080_0020\tmaker\texon\t4092\t4332\t0.9\t+\t.\tID=4;Name=BDOR_007864-RA:exon:1;Parent=2\nsctg_0080_0020\tmaker\texon\t4399\t5185\t0.9\t+\t.\tID=5;Name=BDOR_007864-RA:exon:2;Parent=2\nsctg_0080_0020\tmaker\texon\t5249\t6565\t0.9\t+\t.\tID=6;Name=BDOR_007864-RA:exon:3;Parent=2\nsctg_0080_0020\tmaker\texon\t6630\t7436\t0.9\t+\t.\tID=7;Name=BDOR_007864-RA:exon:4;Parent=2\nsctg_0080_0020\tmaker\tCDS\t3734\t4034\t.\t+\t0\tID=8;Name=BDOR_007864-RA:cds:0;Parent=2\nsctg_0080_0020\tmaker\tCDS\t4092\t4332\t.\t+\t2\tID=9;Name=BDOR_007864-RA:cds:1;Parent=2\nsctg_0080_0020\tmaker\tCDS\t4399\t5185\t.\t+\t1\tID=10;Name=BDOR_007864-RA:cds:2;Parent=2\nsctg_0080_0020\tmaker\tCDS\t5249\t6565\t.\t+\t0\tID=11;Name=BDOR_007864-RA:cds:3;Parent=2\nsctg_0080_0020\tmaker\tCDS\t6630\t7436\t.\t+\t0\tID=12;Name=BDOR_007864-RA:cds:4;Parent=2\nsctg_0080_0020\tmaker\tstart_codon\t3734\t3736\t.\t+\t.\tID=13;Name=BDOR_007864-RA:start1;Parent=2\nsctg_0080_0020\tmaker\tstop_codon\t7434\t7436\t.\t+\t.\tID=14;Name=BDOR_007864-RA:stop2;Parent=2\nsctg_0080_0026\tmaker\tgene\t3306\t4514\t.\t+\t.\tID=15.1;Name=BDOR_007866.1\nsctg_0080_0026\tmaker\tmRNA\t3306\t4514\t.\t+\t.\tID=16.1;Name=BDOR_007866.1-RB;Parent=15.1\nsctg_0080_0026\tmaker\texon\t3306\t3382\t0.065333\t+\t.\tID=17.1;Name=BDOR_007866.1-RB:exon:5;Parent=16.1\nsctg_0080_0026\tmaker\texon\t3707\t3965\t47.919\t+\t.\tID=18.1;Name=BDOR_007866.1-RB:exon:6;Parent=16.1\nsctg_0080_0026\tmaker\texon\t4028\t4276\t67.378\t+\t.\tID=19.1;Name=BDOR_007866.1-RB:exon:7;Parent=16.1\nsctg_0080_0026\tmaker\tfive_prime_UTR\t3306\t3382\t.\t+\t.\tID=28.1;Name=BDOR_007866.1-RB:UTR1;Parent=16.1\nsctg_0080_0026\tmaker\tfive_prime_UTR\t3707\t3965\t.\t+\t.\tID=29.1;Name=BDOR_007866.1-RB:UTR2;Parent=16.1\nsctg_0080_0026\tmaker\tfive_prime_UTR\t4028\t4276\t.\t+\t.\tID=30.1;Name=BDOR_007866.1-RB:UTR3;Parent=16.1\nsctg_0080_0026\tmaker\tmRNA\t3306\t4514\t.\t+\t.\tID=43.1;Name=BDOR_007866.1-RC;Parent=15.1\nsctg_0080_0026\tmaker\texon\t3306\t3382\t0.065333\t+\t.\tID=44.1;Name=BDOR_007866.1-RB:exon:5;Parent=43.1\nsctg_0080_0026\tmaker\texon\t3707\t3965\t47.919\t+\t.\tID=45.1;Name=BDOR_007866.1-RB:exon:6;Parent=43.1\nsctg_0080_0026\tmaker\texon\t4028\t4276\t67.378\t+\t.\tID=46.1;Name=BDOR_007866.1-RB:exon:7;Parent=43.1\nsctg_0080_0026\tmaker\tfive_prime_UTR\t3306\t3382\t.\t+\t.\tID=54.1;Name=BDOR_007866.1-RC:UTR1;Parent=43.1\nsctg_0080_0026\tmaker\tfive_prime_UTR\t3707\t3809\t.\t+\t.\tID=55.1;Name=BDOR_007866.1-RC:UTR2;Parent=43.1\nsctg_0080_0026\tmaker\tCDS\t3810\t3965\t.\t+\t0\tID=56.1;Name=BDOR_007866.1-RC:cds:13;Parent=43.1\nsctg_0080_0026\tmaker\tCDS\t4028\t4276\t.\t+\t0\tID=57.1;Name=BDOR_007866.1-RC:cds:14;Parent=43.1\nsctg_0080_0026\tmaker\tstart_codon\t3810\t3812\t.\t+\t.\tID=66.1;Name=BDOR_007866.1-RC:start1;Parent=43.1\nsctg_0080_0026\tmaker\tmRNA\t3306\t4514\t.\t+\t.\tID=158.1;Name=BDOR_007866.1-RA;Parent=15.1\nsctg_0080_0026\tmaker\texon\t3306\t3382\t0.065333\t+\t.\tID=159.1;Name=BDOR_007866.1-RB:exon:5;Parent=158.1\nsctg_0080_0026\tmaker\texon\t3707\t3965\t47.919\t+\t.\tID=160.1;Name=BDOR_007866.1-RB:exon:6;Parent=158.1\nsctg_0080_0026\tmaker\texon\t4028\t4287\t65.380\t+\t.\tID=161.1;Name=BDOR_007866.1-RA:exon:20;Parent=158.1\nsctg_0080_0026\tmaker\tfive_prime_UTR\t3306\t3382\t.\t+\t.\tID=164.1;Name=BDOR_007866.1-RA:UTR1;Parent=158.1\nsctg_0080_0026\tmaker\tfive_prime_UTR\t3707\t3809\t.\t+\t.\tID=165.1;Name=BDOR_007866.1-RA:UTR2;Parent=158.1\nsctg_0080_0026\tmaker\tCDS\t3810\t3965\t.\t+\t0\tID=166.1;Name=BDOR_007866.1-RC:cds:13;Parent=158.1\nsctg_0080_0026\tmaker\tCDS\t4028\t4287\t.\t+\t0\tID=167.1;Name=BDOR_007866.1-RA:cds:16;Parent=158.1\nsctg_0080_0026\tmaker\tstart_codon\t3810\t3812\t.\t+\t.\tID=170.1;Name=BDOR_007866.1-RA:start1;Parent=158.1\nsctg_0080_0027\tmaker\tgene\t1\t3870\t.\t+\t.\tID=15.2;Name=BDOR_007866.2\nsctg_0080_0027\tmaker\tmRNA\t1\t3870\t.\t+\t.\tID=16.2;Name=BDOR_007866.2-RB;Parent=15.2\nsctg_0080_0027\tmaker\tmRNA\t1\t3870\t.\t+\t.\tID=43.2;Name=BDOR_007866.2-RC;Parent=15.2\nsctg_0080_0027\tmaker\tmRNA\t1584\t3870\t.\t+\t.\tID=68.2;Name=BDOR_007866.2-RD;Parent=15.2\nsctg_0080_0027\tmaker\texon\t1584\t2084\t0.372975\t+\t.\tID=77.2;Name=BDOR_007866.2-RD:exon:16;Parent=68.2\nsctg_0080_0027\tmaker\tfive_prime_UTR\t1584\t2084\t.\t+\t.\tID=78.2;Name=BDOR_007866.2-RD:UTR1;Parent=68.2\nsctg_0080_0027\tmaker\tmRNA\t2224\t3870\t.\t+\t.\tID=91.2;Name=BDOR_007866.2-RF;Parent=15.2\nsctg_0080_0027\tmaker\texon\t2224\t2402\t0.372975\t+\t.\tID=100.2;Name=BDOR_007866.2-RF:exon:17;Parent=91.2\nsctg_0080_0027\tmaker\tfive_prime_UTR\t2224\t2402\t.\t+\t.\tID=101.2;Name=BDOR_007866.2-RF:UTR1;Parent=91.2\nsctg_0080_0027\tmaker\tmRNA\t2063\t3870\t.\t+\t.\tID=114.2;Name=BDOR_007866.2-RE;Parent=15.2\nsctg_0080_0027\tmaker\texon\t2063\t2135\t0.372975\t+\t.\tID=123.2;Name=BDOR_007866.2-RE:exon:18;Parent=114.2\nsctg_0080_0027\tmaker\tfive_prime_UTR\t2063\t2135\t.\t+\t.\tID=124.2;Name=BDOR_007866.2-RE:UTR1;Parent=114.2\nsctg_0080_0027\tmaker\tmRNA\t1\t3870\t.\t+\t.\tID=158.2;Name=BDOR_007866.2-RA;Parent=15.2')
+        sample_text = "sctg_0080_0020\tmaker\tgene\t3734\t7436\t.\t+\t.\tID=1;Name=BDOR_007864\n"
+        sample_text += "sctg_0080_0020\tmaker\tmRNA\t3734\t7436\t.\t+\t.\tID=2;Name=BDOR_007864-RA;Parent=1\n"
+        sample_text += "sctg_0080_0020\tmaker\texon\t3734\t4034\t0.9\t+\t.\tID=3;Name=BDOR_007864-RA:exon:0;Parent=2\n"
+        sample_text += "sctg_0080_0020\tmaker\texon\t4092\t4332\t0.9\t+\t.\tID=4;Name=BDOR_007864-RA:exon:1;Parent=2\n"
+        sample_text += "sctg_0080_0020\tmaker\texon\t4399\t5185\t0.9\t+\t.\tID=5;Name=BDOR_007864-RA:exon:2;Parent=2\n"
+        sample_text += "sctg_0080_0020\tmaker\texon\t5249\t6565\t0.9\t+\t.\tID=6;Name=BDOR_007864-RA:exon:3;Parent=2\n"
+        sample_text += "sctg_0080_0020\tmaker\texon\t6630\t7436\t0.9\t+\t.\tID=7;Name=BDOR_007864-RA:exon:4;Parent=2\n"
+        sample_text += "sctg_0080_0020\tmaker\tCDS\t3734\t4034\t.\t+\t0\tID=8;Name=BDOR_007864-RA:cds:0;Parent=2\n"
+        sample_text += "sctg_0080_0020\tmaker\tCDS\t4092\t4332\t.\t+\t2\tID=9;Name=BDOR_007864-RA:cds:1;Parent=2\n"
+        sample_text += "sctg_0080_0020\tmaker\tCDS\t4399\t5185\t.\t+\t1\tID=10;Name=BDOR_007864-RA:cds:2;Parent=2\n"
+        sample_text += "sctg_0080_0020\tmaker\tCDS\t5249\t6565\t.\t+\t0\tID=11;Name=BDOR_007864-RA:cds:3;Parent=2\n"
+        sample_text += "sctg_0080_0020\tmaker\tCDS\t6630\t7436\t.\t+\t0\tID=12;Name=BDOR_007864-RA:cds:4;Parent=2\n"
+        sample_text += "sctg_0080_0020\tmaker\tstart_codon\t3734\t3736\t.\t+\t.\tID=13;Name=BDOR_007864-RA:start1;Parent=2\n"
+        sample_text += "sctg_0080_0020\tmaker\tstop_codon\t7434\t7436\t.\t+\t.\tID=14;Name=BDOR_007864-RA:stop2;Parent=2\n"
+        sample_text += "sctg_0080_0026\tmaker\tgene\t3306\t4514\t.\t+\t.\tID=15.1;Name=BDOR_007866.1\n"
+        sample_text += "sctg_0080_0026\tmaker\tmRNA\t3306\t4514\t.\t+\t.\tID=16.1;Name=BDOR_007866.1-RB;Parent=15.1\n"
+        sample_text += "sctg_0080_0026\tmaker\texon\t3306\t3382\t0.065333\t+\t.\tID=17.1;Name=BDOR_007866.1-RB:exon:5;Parent=16.1\n"
+        sample_text += "sctg_0080_0026\tmaker\texon\t3707\t3965\t47.919\t+\t.\tID=18.1;Name=BDOR_007866.1-RB:exon:6;Parent=16.1\n"
+        sample_text += "sctg_0080_0026\tmaker\texon\t4028\t4276\t67.378\t+\t.\tID=19.1;Name=BDOR_007866.1-RB:exon:7;Parent=16.1\n"
+        sample_text += "sctg_0080_0026\tmaker\tfive_prime_UTR\t3306\t3382\t.\t+\t.\tID=28.1;Name=BDOR_007866.1-RB:UTR1;Parent=16.1\n"
+        sample_text += "sctg_0080_0026\tmaker\tfive_prime_UTR\t3707\t3965\t.\t+\t.\tID=29.1;Name=BDOR_007866.1-RB:UTR2;Parent=16.1\n"
+        sample_text += "sctg_0080_0026\tmaker\tfive_prime_UTR\t4028\t4276\t.\t+\t.\tID=30.1;Name=BDOR_007866.1-RB:UTR3;Parent=16.1\n"
+        sample_text += "sctg_0080_0026\tmaker\tmRNA\t3306\t4514\t.\t+\t.\tID=43.1;Name=BDOR_007866.1-RC;Parent=15.1\n"
+        sample_text += "sctg_0080_0026\tmaker\texon\t3306\t3382\t0.065333\t+\t.\tID=44.1;Name=BDOR_007866.1-RB:exon:5;Parent=43.1\n"
+        sample_text += "sctg_0080_0026\tmaker\texon\t3707\t3965\t47.919\t+\t.\tID=45.1;Name=BDOR_007866.1-RB:exon:6;Parent=43.1\n"
+        sample_text += "sctg_0080_0026\tmaker\texon\t4028\t4276\t67.378\t+\t.\tID=46.1;Name=BDOR_007866.1-RB:exon:7;Parent=43.1\n"
+        sample_text += "sctg_0080_0026\tmaker\tfive_prime_UTR\t3306\t3382\t.\t+\t.\tID=54.1;Name=BDOR_007866.1-RC:UTR1;Parent=43.1\n"
+        sample_text += "sctg_0080_0026\tmaker\tfive_prime_UTR\t3707\t3809\t.\t+\t.\tID=55.1;Name=BDOR_007866.1-RC:UTR2;Parent=43.1\n"
+        sample_text += "sctg_0080_0026\tmaker\tCDS\t3810\t3965\t.\t+\t0\tID=56.1;Name=BDOR_007866.1-RC:cds:13;Parent=43.1\n"
+        sample_text += "sctg_0080_0026\tmaker\tCDS\t4028\t4276\t.\t+\t0\tID=57.1;Name=BDOR_007866.1-RC:cds:14;Parent=43.1\n"
+        sample_text += "sctg_0080_0026\tmaker\tstart_codon\t3810\t3812\t.\t+\t.\tID=66.1;Name=BDOR_007866.1-RC:start1;Parent=43.1\n"
+        sample_text += "sctg_0080_0026\tmaker\tmRNA\t3306\t4514\t.\t+\t.\tID=158.1;Name=BDOR_007866.1-RA;Parent=15.1\n"
+        sample_text += "sctg_0080_0026\tmaker\texon\t3306\t3382\t0.065333\t+\t.\tID=159.1;Name=BDOR_007866.1-RB:exon:5;Parent=158.1\n"
+        sample_text += "sctg_0080_0026\tmaker\texon\t3707\t3965\t47.919\t+\t.\tID=160.1;Name=BDOR_007866.1-RB:exon:6;Parent=158.1\n"
+        sample_text += "sctg_0080_0026\tmaker\texon\t4028\t4287\t65.380\t+\t.\tID=161.1;Name=BDOR_007866.1-RA:exon:20;Parent=158.1\n"
+        sample_text += "sctg_0080_0026\tmaker\tfive_prime_UTR\t3306\t3382\t.\t+\t.\tID=164.1;Name=BDOR_007866.1-RA:UTR1;Parent=158.1\n"
+        sample_text += "sctg_0080_0026\tmaker\tfive_prime_UTR\t3707\t3809\t.\t+\t.\tID=165.1;Name=BDOR_007866.1-RA:UTR2;Parent=158.1\n"
+        sample_text += "sctg_0080_0026\tmaker\tCDS\t3810\t3965\t.\t+\t0\tID=166.1;Name=BDOR_007866.1-RC:cds:13;Parent=158.1\n"
+        sample_text += "sctg_0080_0026\tmaker\tCDS\t4028\t4287\t.\t+\t0\tID=167.1;Name=BDOR_007866.1-RA:cds:16;Parent=158.1\n"
+        sample_text += "sctg_0080_0026\tmaker\tstart_codon\t3810\t3812\t.\t+\t.\tID=170.1;Name=BDOR_007866.1-RA:start1;Parent=158.1\n"
+        sample_text += "sctg_0080_0027\tmaker\tgene\t1\t3870\t.\t+\t.\tID=15.2;Name=BDOR_007866.2\n"
+        sample_text += "sctg_0080_0027\tmaker\tmRNA\t1\t3870\t.\t+\t.\tID=16.2;Name=BDOR_007866.2-RB;Parent=15.2\n"
+        sample_text += "sctg_0080_0027\tmaker\tmRNA\t1\t3870\t.\t+\t.\tID=43.2;Name=BDOR_007866.2-RC;Parent=15.2\n"
+        sample_text += "sctg_0080_0027\tmaker\tmRNA\t1584\t3870\t.\t+\t.\tID=68.2;Name=BDOR_007866.2-RD;Parent=15.2\n"
+        sample_text += "sctg_0080_0027\tmaker\texon\t1584\t2084\t0.372975\t+\t.\tID=77.2;Name=BDOR_007866.2-RD:exon:16;Parent=68.2\n"
+        sample_text += "sctg_0080_0027\tmaker\tfive_prime_UTR\t1584\t2084\t.\t+\t.\tID=78.2;Name=BDOR_007866.2-RD:UTR1;Parent=68.2\n"
+        sample_text += "sctg_0080_0027\tmaker\tmRNA\t2224\t3870\t.\t+\t.\tID=91.2;Name=BDOR_007866.2-RF;Parent=15.2\n"
+        sample_text += "sctg_0080_0027\tmaker\texon\t2224\t2402\t0.372975\t+\t.\tID=100.2;Name=BDOR_007866.2-RF:exon:17;Parent=91.2\n"
+        sample_text += "sctg_0080_0027\tmaker\tfive_prime_UTR\t2224\t2402\t.\t+\t.\tID=101.2;Name=BDOR_007866.2-RF:UTR1;Parent=91.2\n"
+        sample_text += "sctg_0080_0027\tmaker\tmRNA\t2063\t3870\t.\t+\t.\tID=114.2;Name=BDOR_007866.2-RE;Parent=15.2\n"
+        sample_text += "sctg_0080_0027\tmaker\texon\t2063\t2135\t0.372975\t+\t.\tID=123.2;Name=BDOR_007866.2-RE:exon:18;Parent=114.2\n"
+        sample_text += "sctg_0080_0027\tmaker\tfive_prime_UTR\t2063\t2135\t.\t+\t.\tID=124.2;Name=BDOR_007866.2-RE:UTR1;Parent=114.2\n"
+        sample_text += "sctg_0080_0027\tmaker\tmRNA\t1\t3870\t.\t+\t.\tID=158.2;Name=BDOR_007866.2-RA;Parent=15.2')"
+        sample = io.BytesIO(sample_text)
         reader = csv.reader(sample, delimiter='\t')
 
         gff = GFF()  
@@ -228,87 +280,43 @@ class TestGFF(unittest.TestCase):
         self.test_gff1.remove_empty_genes()
         self.assertEquals(1, len(self.test_gff1.genes))
 
-    def test_remove_all_gene_segments(self):
+    def test_remove_gene(self):
         gene1 = Mock()
         gene2 = Mock()
         gene3 = Mock()
-        gene1.name = "BDOR_00001"
-        gene2.name = "BDOR_00002.1"
-        gene3.name = "BDOR_00002.2"
+        gene1.identifier = "BDOR_00001"
+        gene2.identifier = "BDOR_00002.1"
+        gene3.identifier = "BDOR_00002.2"
         self.assertEquals(0, len(self.test_gff1.genes))
         self.test_gff1.genes.extend([gene1, gene2, gene3])
         self.assertEquals(3, len(self.test_gff1.genes))
-        self.assertEquals("BDOR_00001", self.test_gff1.genes[0].name)
+        self.assertEquals("BDOR_00001", self.test_gff1.genes[0].identifier)
         self.test_gff1.remove_all_gene_segments("BDOR_00002")
         self.assertEquals(1, len(self.test_gff1.genes))
-        self.assertEquals("BDOR_00001", self.test_gff1.genes[0].name)
+        self.assertEquals("BDOR_00001", self.test_gff1.genes[0].identifier)
 
     def test_remove_all_gene_segments_handles_empty_string(self):
         gene1 = Mock()
-        gene1.name = "BDOR_foo"
+        gene1.identifier = "BDOR_foo"
         self.assertEquals(0, len(self.test_gff1.genes))
         self.test_gff1.genes.append(gene1)
         self.assertEquals(1, len(self.test_gff1.genes))
         self.test_gff1.remove_all_gene_segments("")
         self.assertEquals(1, len(self.test_gff1.genes))
 
-    def test_get_mrnas_parent_gene_names(self):
-        gene1 = Mock()
-        gene1.name = "gene1"
-        gene1.contains_mrna_named.return_value = True
-        gene2 = Mock()
-        gene2.name = "gene2"
-        gene2.contains_mrna_named.return_value = True
-        gene3 = Mock()
-        gene3.name = "gene3"
-        gene3.contains_mrna_named.return_value = False
-        self.test_gff1.genes.extend([gene1, gene2, gene3])
-        mrna_names = ['foo1', 'foo2']
-        gene_names = self.test_gff1.get_mrnas_parent_gene_names(mrna_names)
-        self.assertEquals(2, len(gene_names))
-
-    def test_gene_id_to_prefix(self):
-        gene_name1 = "BDOR_007864"
-        gene_name2 = "BDOR_007866.1"
-        self.assertEquals("BDOR_007864", self.test_gff1.gene_name_to_prefix(gene_name1))
-        self.assertEquals("BDOR_007866", self.test_gff1.gene_name_to_prefix(gene_name2))
-
     def test_remove_genes_by_prefixes(self):
         prefixes = ["BDOR_00001", "BDOR_00002"]
         gene1 = Mock()
-        gene1.name = "BDOR_00001.7"
+        gene1.identifier = "BDOR_00001.7"
         gene2 = Mock()
-        gene2.name = "BDOR_00002.2"
+        gene2.identifier = "BDOR_00002.2"
         gene3 = Mock()
-        gene3.name = "BDOR_00008.7"
+        gene3.identifier = "BDOR_00008.7"
         self.test_gff1.genes.extend([gene1, gene2, gene3])
         self.assertEquals(3, len(self.test_gff1.genes))
         self.test_gff1.remove_genes_by_prefixes(prefixes)
         self.assertEquals(1, len(self.test_gff1.genes))
-        self.assertEquals("BDOR_00008.7", self.test_gff1.genes[0].name)
-
-    def test_obliterate_genes_related_to_mrnas(self):
-        gene1 = Mock()
-        gene1.name = "BDOR_00001.1"
-        gene1.contains_mrna_named.return_value = False
-        gene2 = Mock()
-        gene2.name = "BDOR_00001.2"
-        gene2.contains_mrna_named.return_value = True
-        gene3 = Mock()
-        gene3.name = "BDOR_00001.3"
-        gene3.contains_mrna_named.return_value = False
-        gene4 = Mock()
-        gene4.name = "BDOR_00002.1"
-        gene4.contains_mrna_named.return_value = False
-        gene5 = Mock()
-        gene5.name = "BDOR_00003.1"
-        gene5.contains_mrna_named.return_value = True
-        mrna_names = ['child_of_gene2', 'child_of_gene5']
-        self.test_gff1.genes.extend([gene1, gene2, gene3, gene4, gene5])
-        self.assertEquals(5, len(self.test_gff1.genes))
-        self.test_gff1.obliterate_genes_related_to_mrnas(mrna_names)
-        self.assertEquals(1, len(self.test_gff1.genes))
-        self.assertEquals("BDOR_00002.1", self.test_gff1.genes[0].name)
+        self.assertEquals("BDOR_00008.7", self.test_gff1.genes[0].identifier)
 
     def test_invalidate_region(self):
         gene1 = Mock()

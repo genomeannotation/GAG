@@ -11,15 +11,12 @@ def adjust_index_pair(index_pair, n):
     return [i + n for i in index_pair]
 
 class GenePart:
-    def __init__(self, feature_type=None, identifier=None, name=None, \
+    def __init__(self, feature_type=None, identifier=None,\
                  indices=None, score=None, parent_id=None):
         self.feature_type = feature_type
         self.identifier = []
         if identifier is not None:
             self.identifier.append(identifier)
-        self.name = []
-        if name is not None:
-            self.name.append(name)
         self.indices = []
         if indices is not None:
             self.indices.append(indices)
@@ -30,8 +27,7 @@ class GenePart:
 
     def __str__(self):
         result = self.feature_type + " (first ID="
-        result += str(self.identifier[0]) + ", first name="
-        result += str(self.name[0]) + ")"
+        result += str(self.identifier[0])+ ")"
         return result
 
     def add_indices(self, ind):
@@ -39,9 +35,6 @@ class GenePart:
             self.indices.append(ind)
         else:
             raise ValueError()
-
-    def add_name(self, name):
-        self.name.append(name)
 
     def add_identifier(self, identifier):
         self.identifier.append(identifier)
@@ -70,7 +63,6 @@ class GenePart:
     def remove_segment(self, segindex):
         try:
             self.identifier.pop(segindex)
-            self.name.pop(segindex)
             self.indices.pop(segindex)
         except IndexError:
             sys.stderr.write("Trying to remove nonexistent segment " + \
@@ -157,8 +149,6 @@ class GenePart:
         if len(self.identifier) <= i or self.parent_id is None:
             return None
         entry = "ID=" + str(self.identifier[i]) + ";"
-        if len(self.name) > i:
-            entry += "Name=" + str(self.name[i]) + ";"
         entry += "Parent=" + str(self.parent_id) + "\n"
         return entry
 
@@ -176,10 +166,10 @@ class GenePart:
 
 class CDS(GenePart):
 
-    def __init__(self, identifier=None, name=None, indices=None, \
+    def __init__(self, identifier=None, indices=None, \
                  score=None, phase=None, parent_id=None):
         GenePart.__init__(self, feature_type='CDS', identifier=identifier, \
-                name=name, indices=indices, score=score, parent_id=parent_id)
+                indices=indices, score=score, parent_id=parent_id)
         self.phase = []
         if phase is not None:
             self.phase.append(phase)

@@ -13,19 +13,18 @@ def trimmed_completely(gene_inds, seq_inds):
 class Gene:
 
     def __init__(self, seq_name, source, indices, strand, \
-                 identifier, name, score=None):
+                 identifier, score=None):
         self.seq_name = seq_name
         self.source = source
         self.indices = indices
         self.score = score
         self.strand = strand
         self.identifier = identifier
-        self.name = name
         self.mrnas = []
 
     def __str__(self):
-        result = "Gene (ID=" + str(self.identifier) + ", Name="
-        result += self.name + ", seq_name=" + self.seq_name
+        result = "Gene (ID=" + str(self.identifier) 
+        result += ", seq_name=" + self.seq_name
         result += ") containing " + str(len(self.mrnas))
         result += " mrnas"
         return result
@@ -45,9 +44,9 @@ class Gene:
     def add_mrna(self, mrna):
         self.mrnas.append(mrna)
 
-    def contains_mrna_named(self, name):
+    def contains_mrna_with_id(self, identifier):
         for mrna in self.mrnas:
-            if mrna.name == name:
+            if mrna.identifier == identifier:
                 return True
         return False
 
@@ -149,7 +148,7 @@ class Gene:
         result += 'gene' + "\t" + str(self.indices[0]) + "\t"
         result += str(self.indices[1]) + "\t" + self.get_score()
         result += "\t" + self.strand + "\t" + "." + "\t"
-        result += "ID=" + str(self.identifier) + ";Name=" + self.name + "\n"
+        result += "ID=" + str(self.identifier) + "\n"
         for mrna in self.mrnas:
             result += mrna.to_gff(self.seq_name, self.source, self.strand)
         return result
@@ -159,7 +158,7 @@ class Gene:
         temp_entries = []
         geneEntry = FeatureTblEntry()
         geneEntry.set_type("gene")
-        geneEntry.set_name(self.name)
+        geneEntry.set_name(self.identifier)
         geneEntry.set_seq_name(self.seq_name)
         geneEntry.add_coordinates(self.indices[0], self.indices[1])
         geneEntry.set_strand(self.strand)

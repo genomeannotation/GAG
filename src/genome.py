@@ -99,13 +99,6 @@ class Genome:
 
         self.gff.remove_all_gene_segments(prefix)
 
-    def obliterate_genes_related_to_mrnas(self, mrna_names):
-        """Remove all genes containing any of the mRNAs in the mrna_names list.
-
-        """
-
-        self.gff.obliterate_genes_related_to_mrnas(mrna_names)
-
     def remove_genes_marked_for_removal(self):
         """Removes all genes previously marked for removal, by setting their indices at
         [0, 0]

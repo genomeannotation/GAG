@@ -10,9 +10,8 @@ def length_of_segment(index_pair):
 
 class MRNA:
 
-    def __init__(self, identifier, name, indices, parent_id):
+    def __init__(self, identifier, indices, parent_id):
         self.identifier = identifier
-        self.name = name
         self.indices = indices
         self.parent_id = parent_id
         self.exon = None
@@ -20,8 +19,7 @@ class MRNA:
         self.other_features = []
 
     def __str__(self):
-        result = "mRNA (ID=" + str(self.identifier) + ", Name="
-        result += self.name + ") containing "
+        result = "mRNA (ID=" + str(self.identifier) + ") containing "
         if self.exon:
             result += "Exon, "
         if self.cds:
@@ -35,7 +33,7 @@ class MRNA:
         return length_of_segment(self.indices)
 
     def is_maker_mrna(self):
-        return 'maker' in self.name
+        return 'maker' in self.identifier
 
     def adjust_indices(self, n, start_index=1):
         if self.indices[0] > start_index:
@@ -82,7 +80,6 @@ class MRNA:
         if self.cds:
             if length_of_segment(self.cds.indices[0]) < min_length:
                 self.cds.indices = self.cds.indices[1:]
-                self.cds.name = self.cds.name[1:]
                 self.cds.identifier = self.cds.identifier[1:]
                 self.cds.phase = self.cds.phase[1:]
 
@@ -132,19 +129,18 @@ class MRNA:
         self.other_features.append(feature)
 
     def add_start_codon(self, indices):
-        start_id = int(self.identifier) + 1000000000
-        start_name = self.name + ':start'
+        # TODO figure out naming scheme...
+        start_id = self.identifier + ":start"
         start_parent_id = self.identifier
         start = GenePart(feature_type='start_codon', identifier=start_id, \
-                name=start_name, indices=indices, parent_id=start_parent_id)
+                indices=indices, parent_id=start_parent_id)
         self.add_other_feature(start)
 
     def add_stop_codon(self, indices):
-        stop_id = int(self.identifier) + 1000000001
-        stop_name = self.name + ':stop'
+        stop_id = self.identifier + ":stop"
         stop_parent_id = self.identifier
         stop = GenePart(feature_type='stop_codon', identifier=stop_id, \
-                name=stop_name, indices=indices, parent_id=stop_parent_id)
+                indices=indices, parent_id=stop_parent_id)
         self.add_other_feature(stop)
 
     def length_of_shortest_cds_segment(self):
@@ -166,7 +162,7 @@ class MRNA:
         result = seq_name + "\t" + source + "\t" + "mRNA" + "\t"
         result += str(self.indices[0]) + "\t" + str(self.indices[1]) + "\t"
         result += "." + "\t" + strand + "\t" + "." + "\t"
-        result += "ID=" + str(self.identifier) + ";Name=" + self.name
+        result += "ID=" + str(self.identifier)
         result += ";Parent=" + str(self.parent_id) + "\n"
         if self.exon:
             result += self.exon.to_gff(seq_name, source, strand)
@@ -193,7 +189,7 @@ class MRNA:
             phase = self.cds.get_phase(0)
             cdsEntry = FeatureTblEntry()
             cdsEntry.set_type("CDS")
-            cdsEntry.set_name(self.name)
+            cdsEntry.set_name(self.identifier)
             for coord in self.cds.indices:
                 cdsEntry.add_coordinates(coord[0], coord[1])
             cdsEntry.set_strand(strand)
@@ -205,7 +201,7 @@ class MRNA:
         if self.exon != None:
             exonEntry = FeatureTblEntry()
             exonEntry.set_type("mRNA")
-            exonEntry.set_name(self.name)
+            exonEntry.set_name(self.identifier)
             for coord in self.exon.indices:
                 exonEntry.add_coordinates(coord[0], coord[1])
             exonEntry.set_strand(strand)

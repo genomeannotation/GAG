@@ -44,12 +44,6 @@ class TestGenome(unittest.TestCase):
         self.genome.create_starts_and_stops()
         gene1.create_starts_and_stops.assert_called_with(fasta)
         
-    def test_obliterate_genes_related_to_mrnas(self):
-        gff = Mock()
-        self.genome.gff = gff
-        self.genome.obliterate_genes_related_to_mrnas(['foo', 'bar'])
-        gff.obliterate_genes_related_to_mrnas.assert_called_with(['foo', 'bar'])
-
     def setup_mocks_for_rename_maker_mrnas(self):
         self.maker_mrna = Mock()
         self.maker_mrna.name = 'maker-guy'

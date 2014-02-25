@@ -31,10 +31,8 @@ class GFF:
     def line_type(self, line):
         return line[2]
 
-    # returns a dict with id, name, parent_id (if present)
+    # returns a dict with id and parent_id (if present)
     def parse_attributes(self, attr):
-        if ';' not in attr:
-            return None
         split_attr = attr.split(';')
         try:
             keys = [val.split('=')[0] for val in split_attr]
@@ -50,7 +48,6 @@ class GFF:
 
         try:
             result['identifier'] = attr_dict['ID']
-            result['name'] = attr_dict['Name']
             if 'Parent' in attr_dict:
                 result['parent_id'] = attr_dict['Parent']
         except KeyError as ke:
@@ -129,7 +126,6 @@ class GFF:
         self.current_cds.add_indices(args['indices'])
         self.current_cds.add_phase(args['phase'])
         self.current_cds.add_identifier(args['identifier'])
-        self.current_cds.add_name(args['name'])
         if 'score' in args:
             self.current_cds.add_score(args['score'])
 
@@ -137,7 +133,6 @@ class GFF:
         args = self.extract_exon_args(line)
         self.current_exon.add_indices(args['indices'])
         self.current_exon.add_identifier(args['identifier'])
-        self.current_exon.add_name(args['name'])
         if 'score' in args:
             self.current_exon.add_score(args['score'])
 
@@ -222,6 +217,8 @@ class GFF:
     def read_file(self, reader):
         self.current_line = 0 # aaaand begin!
         for line in reader:
+            if len(line) == 0:
+                continue
             if self.give_up:
                 return
 
@@ -235,6 +232,8 @@ class GFF:
                         self.process_line(line)
             except:
                 print("\nException raised while reading GFF line: "+str(self.current_line)+"\n\n")
+                print("The line looks like this:\n")
+                print(line)
                 print(traceback.format_exc())
                 go_on = raw_input("\n\nAttempt to continue? (y/n): ")
                 if go_on != 'y' and go_on != 'Y': # Didn't select Y, get outta here!
@@ -249,24 +248,11 @@ class GFF:
 
     def remove_all_gene_segments(self, prefix):
         if len(prefix) > 0:
-            self.genes = [g for g in self.genes if not prefix in g.name]
-
-    # takes list of mrna names, returns list of gene names
-    def get_mrnas_parent_gene_names(self, mrnalist):
-        gene_names = []
-        for gene in self.genes:
-            for mrna in mrnalist:
-                if gene.contains_mrna_named(mrna) \
-                        and gene.name not in gene_names:
-                    gene_names.append(gene.name)
-        return gene_names
-
-    def gene_name_to_prefix(self, gene_name):
-        return gene_name.split('.')[0]
+            self.genes = [g for g in self.genes if not prefix in g.identifier]
 
     def prefix_match(self, gene, prefixes):
         for prefix in prefixes:
-            if prefix in gene.name:
+            if prefix in gene.identifier:
                 return True
         return False
 
@@ -274,11 +260,6 @@ class GFF:
         self.genes = \
                 [g for g in self.genes if not self.prefix_match(g, prefixes)]
 
-
-    def obliterate_genes_related_to_mrnas(self, mrna_names):
-        parent_genes = self.get_mrnas_parent_gene_names(mrna_names)
-        prefixes = [self.gene_name_to_prefix(g) for g in parent_genes]
-        self.remove_genes_by_prefixes(prefixes)
 
     def remove_genes_marked_for_removal(self):
         for gene in reversed(self.genes):

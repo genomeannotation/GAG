@@ -9,8 +9,8 @@ from src.gene import Gene
 class TestGene(unittest.TestCase):
 
     def setUp(self):
-        self.test_gene0 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[3734, 7436], strand='+', identifier=1, name="BDOR_007864")
-        self.test_gene1 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[3734, 7436], strand='+', identifier=1, name="BDOR_007864")
+        self.test_gene0 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[3734, 7436], strand='+', identifier=1)
+        self.test_gene1 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[3734, 7436], strand='+', identifier=1)
         self.fake_mrna1 = Mock()
         self.fake_mrna2 = Mock()
         self.test_gene1.add_mrna(self.fake_mrna1)
@@ -45,10 +45,10 @@ class TestGene(unittest.TestCase):
         self.test_gene1.remove_mrnas_with_cds_shorter_than(150)
         self.assertEquals(1, len(self.test_gene1.mrnas))
 
-    def test_contains_mrna_named(self):
-        self.fake_mrna1.name = "BDOR_foo"
-        self.assertTrue(self.test_gene1.contains_mrna_named("BDOR_foo"))
-        self.assertFalse(self.test_gene1.contains_mrna_named("no_such_mrna_name"))
+    def test_contains_mrna_with_id(self):
+        self.fake_mrna1.identifier = "BDOR_foo"
+        self.assertTrue(self.test_gene1.contains_mrna_with_id("BDOR_foo"))
+        self.assertFalse(self.test_gene1.contains_mrna_with_id("no_such_mrna_id"))
 
     def test_length_of_shortest_cds_segment(self):
         self.fake_mrna1.length_of_shortest_cds_segment.return_value = 358
@@ -89,13 +89,13 @@ class TestGene(unittest.TestCase):
         self.fake_mrna1.to_gff.return_value = "fake mrna1 to gff here:)\n"
         self.fake_mrna2.to_gff.return_value = "fake mrna2 to gff here:)\n"
         expected = "sctg_0080_0020\tmaker\tgene\t3734\t7436\t.\t+\t."
-        expected += "\tID=1;Name=BDOR_007864\n"
+        expected += "\tID=1\n"
         expected += "fake mrna1 to gff here:)\n"
         expected += "fake mrna2 to gff here:)\n"
         self.assertEquals(expected, self.test_gene1.to_gff())
 
     def test_str(self):
-        expected = "Gene (ID=1, Name=BDOR_007864, seq_name=sctg_0080_0020) containing 2 mrnas"
+        expected = "Gene (ID=1, seq_name=sctg_0080_0020) containing 2 mrnas"
         self.assertEquals(expected, str(self.test_gene1))
 
     def test_trim_end(self):
@@ -121,7 +121,7 @@ class TestGene(unittest.TestCase):
         
     def test_clean_up_indices(self):
         # if indices[0] < 1, set to 1 
-        nice_gene = Gene(seq_name='fooseq', source='maker', indices=[-23, 127], strand='-', identifier='foo', name='foo')
+        nice_gene = Gene(seq_name='fooseq', source='maker', indices=[-23, 127], strand='-', identifier='foo')
         mrna1 = Mock()
         mrna2 = Mock()
         nice_gene.add_mrna(mrna1)
@@ -135,7 +135,7 @@ class TestGene(unittest.TestCase):
 
         # if indices [1] < 1, mark for removal by setting
         # indices = [0, 0]
-        junk_gene = Gene(seq_name='barseq', source='maker', indices=[-400, -100], strand='-', identifier='bar', name='bar')
+        junk_gene = Gene(seq_name='barseq', source='maker', indices=[-400, -100], strand='-', identifier='bar')
         junk_gene.clean_up_indices()
         self.assertEquals(0, junk_gene.indices[0])
         self.assertEquals(0, junk_gene.indices[1])
@@ -155,11 +155,11 @@ class TestGene(unittest.TestCase):
         self.fake_mrna2.remove_first_cds_segment_if_shorter_than.assert_called_with(4)
         
     def test_remove_invalid_features(self):
-        gene = Gene(seq_name="sctg_foo", source='maker', indices=[100, 200], strand='-', identifier='foo_gene', name='gene1')
+        gene = Gene(seq_name="sctg_foo", source='maker', indices=[100, 200], strand='-', identifier='foo_gene')
         nice_mrna = Mock()
         nice_ind = PropertyMock(return_value = [100, 200])
         type(nice_mrna).indices = nice_ind
-        junk_mrna = MRNA(identifier='junk', name='junk', indices=[0, 0], parent_id='foo_gene')
+        junk_mrna = MRNA(identifier='junk', indices=[0, 0], parent_id='foo_gene')
         gene.add_mrna(junk_mrna)
         gene.add_mrna(nice_mrna) 
         self.assertEquals(2, len(gene.mrnas))
@@ -170,7 +170,7 @@ class TestGene(unittest.TestCase):
         nice_mrna.remove_invalid_features.assert_called_with()
 
     def test_trim(self):
-        gene = Gene(seq_name='sctg_foo', source='maker', indices=[100, 200], strand='-', identifier='foo_gene', name='gene1')
+        gene = Gene(seq_name='sctg_foo', source='maker', indices=[100, 200], strand='-', identifier='foo_gene')
         # set up mocks...
         nice_mrna = Mock()
         nice_ind = PropertyMock(return_value = [100, 200])

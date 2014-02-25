@@ -9,8 +9,8 @@ from src.gene import Gene
 class TestMRNA(unittest.TestCase):
 
     def setUp(self):
-        self.test_mrna0 = MRNA(identifier=2, name="BDOR_007864-RA", indices=[3734, 7436], parent_id=1)
-        self.test_mrna1 = MRNA(identifier=2, name="BDOR_007864-RA", indices=[3734, 7436], parent_id=1)
+        self.test_mrna0 = MRNA(identifier='bdor_foo', indices=[3734, 7436], parent_id=1)
+        self.test_mrna1 = MRNA(identifier=2, indices=[3734, 7436], parent_id=1)
         self.fake_exon = Mock()
         self.fake_cds = Mock()
         self.fake_start_codon = Mock()
@@ -82,7 +82,7 @@ class TestMRNA(unittest.TestCase):
         self.assertFalse(self.test_mrna1.has_stop())
 
     def test_str(self):
-        expected = "mRNA (ID=2, Name=BDOR_007864-RA) containing Exon, CDS and 1 other features"
+        expected = "mRNA (ID=2) containing Exon, CDS and 1 other features"
         self.assertEquals(expected, str(self.test_mrna1))
 
     def test_to_gff(self):
@@ -91,7 +91,7 @@ class TestMRNA(unittest.TestCase):
         self.fake_start_codon.to_gff.return_value = "...start codon to gff\n"
         expected = "sctg_0080_0020\tmaker\tmRNA\t"
         expected += "3734\t7436\t.\t+\t.\t"
-        expected += "ID=2;Name=BDOR_007864-RA;Parent=1\n"
+        expected += "ID=2;Parent=1\n"
         expected += "...exon to gff\n...cds to gff\n"
         expected += "...start codon to gff\n"
         actual = self.test_mrna1.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
@@ -102,11 +102,9 @@ class TestMRNA(unittest.TestCase):
 
     def test_remove_first_cds_segment_if_shorter_than(self):
         bad_indices = [[5,7], [10,20]]
-        names = ['foo1', 'foo2']
         phases = [0, 2]
         identifiers = [8, 9]
         self.fake_cds.indices = bad_indices
-        self.fake_cds.name = names
         self.fake_cds.phase = phases
         self.fake_cds.identifier = identifiers
         self.assertEquals(2, len(self.test_mrna1.cds.indices))
@@ -140,8 +138,8 @@ class TestMRNA(unittest.TestCase):
         self.fake_cds.adjust_phase.assert_called_with()
 
     def test_clean_up_indices(self):
-        nice_mrna = MRNA(identifier=1, name='foo', indices=[-10, 200], parent_id='foo')
-        junk_mrna = MRNA(identifier=2, name='bar', indices=[-300, -200], parent_id='bar')
+        nice_mrna = MRNA(identifier=1, indices=[-10, 200], parent_id='foo')
+        junk_mrna = MRNA(identifier=2, indices=[-300, -200], parent_id='bar')
         nice_mrna.clean_up_indices()
         self.assertEquals(1, nice_mrna.indices[0])
         self.assertEquals(200, nice_mrna.indices[1])
@@ -185,7 +183,7 @@ class TestMRNA(unittest.TestCase):
         self.assertFalse(self.test_mrna0.other_features)
 
     def test_remove_invalid_features(self):
-        mrna = MRNA(identifier=1, name='foo', indices=[20, 50], parent_id='foo') 
+        mrna = MRNA(identifier=1, indices=[20, 50], parent_id='foo') 
         # set up mocks...
         nice_exon = Mock()
         nice1 = PropertyMock(return_value = [10, 50])
@@ -225,7 +223,7 @@ class TestMRNA(unittest.TestCase):
         self.assertEquals(1, len(mrna.other_features))
 
     def test_is_maker_mrna(self):
-        maker_mrna = MRNA(identifier=1, name="maker-scaffold00080-est_gff_Cufflinks-gene-2.9-mRNA-1", indices=[3734, 7436], parent_id=1)
+        maker_mrna = MRNA(identifier='maker-foo-mrna-bar', indices=[3734, 7436], parent_id=1)
         self.assertFalse(self.test_mrna0.is_maker_mrna())
         self.assertTrue(maker_mrna.is_maker_mrna())
        
