@@ -190,7 +190,7 @@ class GagCmd(cmd.Cmd):
     def do_barfseq(self, line):
         self.output = try_catch(self.controller.barf_seq, line)
 
-    def help_barfcdsseq(self, line):
+    def help_barfcdsseq(self):
         print("Usage: barfcdsseq <mrna>\n")
         print("Prints CDS's whole sequence\n")
 
