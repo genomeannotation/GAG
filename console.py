@@ -153,6 +153,13 @@ class GagCmd(cmd.Cmd):
     def do_removegene(self, line):
         try_catch(self.controller.remove_gene, line)
 
+    def help_subsetgenome(self):
+        print("Usage: subsetgenome <sequence_id> [other sequence_ids...]\n")
+        print("Removes all sequences (and corresponding genes) except those specified\n")
+
+    def do_subsetgenome(self, line):
+        try_catch(self.controller.subset_genome, line)
+
     def help_trimregion(self):
         print("Usage: trimregion <seq_id> <start_index> <stop_index>\n")
         print("Removes subsequence from fasta and adjusts indices of features which follow region.\n")

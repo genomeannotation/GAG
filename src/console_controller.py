@@ -168,6 +168,13 @@ class ConsoleController:
     def create_starts_and_stops(self):
         self.genome.create_starts_and_stops() 
 
+    def subset_genome(self, line):
+        # parse args
+        args = line.split()
+        if args:
+            self.genome.fasta.subset_fasta(args)
+            self.genome.gff.subset_gff(args)
+
     def subset_fasta(self):
         # line parameter is not used, but Cmd likes to pass it so there it is.
         self.genome.fasta.subset_fasta(self.seqlist)

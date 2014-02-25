@@ -60,6 +60,17 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.create_starts_and_stops()
         mock_genome.create_starts_and_stops.assert_called_with()
 
+    def test_subset_genome(self):
+        mock_genome = Mock()
+        mock_gff = Mock()
+        mock_fasta = Mock()
+        mock_genome.gff = mock_gff
+        mock_genome.fasta = mock_fasta
+        self.ctrlr.genome = mock_genome
+        self.ctrlr.subset_genome('seq_foo')
+        mock_genome.fasta.subset_fasta.assert_called_with(['seq_foo'])
+        mock_genome.gff.subset_gff.assert_called_with(['seq_foo'])
+
     def test_remove_gene(self):
         mock_genome = Mock()
         self.ctrlr.genome = mock_genome
