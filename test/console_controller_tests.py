@@ -35,12 +35,12 @@ class TestConsoleController(unittest.TestCase):
 
     def test_read_fasta(self):
         self.assertFalse(self.ctrlr.genome.fasta)
-        self.ctrlr.read_fasta("demo/demo.fasta")
+        self.ctrlr.read_fasta("walkthrough/gag.fasta")
         self.assertTrue(self.ctrlr.genome.fasta)
 
     def test_read_gff(self):
         self.assertFalse(self.ctrlr.genome.gff)
-        self.ctrlr.read_gff("demo/demo.gff")
+        self.ctrlr.read_gff("walkthrough/gag.gff")
         self.assertTrue(self.ctrlr.genome.gff)
 
     def test_ducttape(self):
