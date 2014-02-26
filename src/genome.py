@@ -107,20 +107,25 @@ class Genome:
 
         self.gff.remove_genes_marked_for_removal()
 
+    def get_locus_tag(self):
+        firstgene = self.gff.genes[0]
+        gene_id = str(firstgene.identifier)
+        locus_tag = gene_id.split('_')[0]
+        return locus_tag
+
     def rename_maker_mrnas(self):
-        """Renames weird maker mRNA names to our cool and hip BDOR names.
+        """Renames weird maker mRNA ids to ids in the format <locus_tag>1000000
 
         """
 
-        # TODO: This BDOR business seems super specific to our project...
-
+        locus_tag = self.get_locus_tag()
         count = 1000000
         for gene in self.gff.genes:
             for mrna in gene.mrnas:
                 if mrna.is_maker_mrna():
-                    old_name = mrna.name
-                    new_name = 'BDOR_' + str(count)
-                    mrna.name = new_name
+                    old_name = mrna.identifier
+                    new_name = locus_tag + '_' + str(count)
+                    mrna.identifier = new_name
                     self.annot.rename_mrna(old_name, new_name)
                     count += 1
 

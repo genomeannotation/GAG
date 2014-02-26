@@ -133,7 +133,7 @@ class GagCmd(cmd.Cmd):
     def help_ducttape(self):
         print("Usage: ducttape\n")
         print("For the genome in memory, does the following:\n")
-        print("\t*Renames all 'maker' mRNAs, starting with 'BDOR_1000000'\n")
+        print("\t*Renames all 'maker' mRNAs, starting with '<locus_tag>_1000000'\n")
         print("\t*Removes each first CDS segment if its length is less than 4\n")
         print("\t*Verifies all start and stop codons by checking against the actual sequence; creates new features as necessary\n")
         print("\t*Verifies all 'frame' information for coding sequences by running a six-frame translation and checking the\n")

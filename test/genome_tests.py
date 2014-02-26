@@ -43,15 +43,24 @@ class TestGenome(unittest.TestCase):
         self.genome.gff = gff
         self.genome.create_starts_and_stops()
         gene1.create_starts_and_stops.assert_called_with(fasta)
+
+    def test_get_locus_tag(self):
+        mock_gene = Mock()
+        mock_gene.identifier = "FOO_1"
+        mock_gff = Mock()
+        mock_gff.genes = [mock_gene]
+        self.genome.gff = mock_gff
+        self.assertEqual('FOO', self.genome.get_locus_tag())
         
     def setup_mocks_for_rename_maker_mrnas(self):
         self.maker_mrna = Mock()
-        self.maker_mrna.name = 'maker-guy'
+        self.maker_mrna.identifier = 'maker-guy'
         self.maker_mrna.is_maker_mrna.return_value = True
         self.bdor_mrna = Mock()
-        self.bdor_mrna.name = 'bdor-guy'
+        self.bdor_mrna.identifier = 'bdor-guy'
         self.bdor_mrna.is_maker_mrna.return_value = False
         self.gene1 = Mock()
+        self.gene1.identifier = 'BDOR_1234'
         self.gene1.mrnas = [self.maker_mrna, self.bdor_mrna]
         self.other_mrna = Mock()
         self.other_mrna.is_maker_mrna.return_value = False
@@ -66,11 +75,11 @@ class TestGenome(unittest.TestCase):
 
     def test_rename_maker_mrnas(self):
         self.setup_mocks_for_rename_maker_mrnas()
-        self.assertEquals('maker-guy', self.maker_mrna.name)
+        self.assertEquals('maker-guy', self.maker_mrna.identifier)
         self.genome.rename_maker_mrnas()
-        self.assertEquals('BDOR_1000000', self.maker_mrna.name)
-        self.assertEquals('bdor-guy', self.bdor_mrna.name)
-        self.assertEquals('BDOR_1000001', self.other_maker.name)
+        self.assertEquals('BDOR_1000000', self.maker_mrna.identifier)
+        self.assertEquals('bdor-guy', self.bdor_mrna.identifier)
+        self.assertEquals('BDOR_1000001', self.other_maker.identifier)
         self.bdor_mrna.is_maker_mrna.assert_called_with()
         self.other_mrna.is_maker_mrna.assert_called_with()
 
