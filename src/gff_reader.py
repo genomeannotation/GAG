@@ -2,7 +2,7 @@
 
 import sys
 import traceback
-from src.gene_part import CDS, Exon
+from src.gene_part import GenePart, CDS, Exon
 from src.mrna import MRNA
 from src.gene import Gene
 
@@ -106,22 +106,15 @@ class GFFReader:
         result.update(attribs)
         return result
 
-    def remove_first_cds_segment_if_shorter_than(self, min_length):
-        if self.genes:
-            for gene in self.genes:
-                gene.remove_first_cds_segment_if_shorter_than(min_length)
-
-    def remove_mrnas_with_cds_shorter_than(self, min_length):
-        if self.genes:
-            to_remove = []
-            for gene in self.genes:
-                gene.remove_mrnas_with_cds_shorter_than(min_length)
-                if not gene.mrnas:
-                    to_remove.append(gene)
-            for g in to_remove:
-                self.genes.remove(g)
+    def extract_other_feature_args(self, line):
+        result = {'feature_type': line[2], 'indices': [int(line[3]), int(line[4])]}
+        attribs = self.parse_attributes(line[8])
+        result.update(attribs)
+        return result
 
     def update_cds(self, line):
+        if not self.current_cds:
+            return
         args = self.extract_cds_args(line)
         self.current_cds.add_indices(args['indices'])
         self.current_cds.add_phase(args['phase'])
@@ -130,6 +123,8 @@ class GFFReader:
             self.current_cds.add_score(args['score'])
 
     def update_exon(self, line):
+        if not self.current_exon:
+            return
         args = self.extract_exon_args(line)
         self.current_exon.add_indices(args['indices'])
         self.current_exon.add_identifier(args['identifier'])
@@ -196,6 +191,14 @@ class GFFReader:
             self.current_exon = Exon(**kwargs)
 
     def process_other_feature_line(self, line):
+        if not self.current_mrna:
+            sys.stderr.write("Trying to add feature but no mRNA to add it to.\n")
+            sys.stderr.write("Here is the line in question:\n")
+            sys.stderr.write(line)
+        else:
+            kwargs = self.extract_other_feature_args(line)
+            feat = GenePart(**kwargs)
+            self.current_mrna.other_features.append(feat)
         pass
 
     def wrap_up_gene(self):
@@ -228,8 +231,9 @@ class GFFReader:
                 if len(line) == 0 or line[0].startswith('#'):
                     continue
                 else:
-                    if self.validate_line(line):
-                        self.process_line(line)
+                    splitline = self.validate_line(line)
+                    if splitline:
+                        self.process_line(splitline)
             except:
                 print("\nException raised while reading GFF line: "+str(self.current_line)+"\n\n")
                 print("The line looks like this:\n")
@@ -239,40 +243,5 @@ class GFFReader:
                 if go_on != 'y' and go_on != 'Y': # Didn't select Y, get outta here!
                     return
         self.wrap_up_gene()
+        return self.genes
 
-    def subset_gff(self, seqlist):
-        self.genes = [g for g in self.genes if g.seq_name in seqlist]
-
-    def remove_empty_genes(self):
-        self.genes = [g for g in self.genes if not g.is_empty()]
-
-    def remove_all_gene_segments(self, prefix):
-        if len(prefix) > 0:
-            self.genes = [g for g in self.genes if not prefix in g.identifier]
-
-    def prefix_match(self, gene, prefixes):
-        for prefix in prefixes:
-            if prefix in gene.identifier:
-                return True
-        return False
-
-    def remove_genes_by_prefixes(self, prefixes):
-        self.genes = \
-                [g for g in self.genes if not self.prefix_match(g, prefixes)]
-
-
-    def remove_genes_marked_for_removal(self):
-        for gene in reversed(self.genes):
-            if gene.indices[0] == 0 and gene.indices[1] == 0:
-                self.genes.remove(gene)
-
-    def invalidate_region(self, seq, start, stop):
-        for gene in self.genes:
-            if gene.seq_name == seq:
-                gene.invalidate_region(start, stop)
-
-    def contains_gene_on_seq(self, seq_id):
-        for gene in self.genes:
-            if gene.seq_name == seq_id:
-                return True
-        return False
