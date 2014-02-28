@@ -7,9 +7,4 @@
 *~
 .gaghistory
 gag.config
-
-## keep test output local
-real_files/*
-TEST_RUN/*
-BdorOperation/*
-linux64.tbl2asn
+tags
