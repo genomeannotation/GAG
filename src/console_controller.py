@@ -11,6 +11,7 @@ from src.gff import GFF
 from src.genome import Genome
 from src.annotator import Annotator
 from src.translate import translate
+from src.gff_reader import GFFReader
 
 def foo():
     return 3
@@ -144,9 +145,10 @@ class ConsoleController:
 
     def read_gff(self, line):
         self.genome.gff = GFF()
+        reader = GFFReader()
         with open(line, 'rb') as gfffile:
-            gffreader = csv.reader(gfffile, delimiter='\t')
-            self.genome.gff.read_file(gffreader)
+            genes = reader.read_file(gfffile)
+            self.genome.gff.genes = genes
         return self.genome.gff
 
     def read_trinotate(self, line):

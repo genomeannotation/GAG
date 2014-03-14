@@ -45,7 +45,7 @@ class GFFReader:
             elif splitpair[0] == 'Parent':
                 result['parent_id'] = splitpair[1].strip()
             elif splitpair[0] == 'Note':
-                result['annotations'] = splitpair[1].strip()
+                result['annotations'] = [splitpair[1].strip()]
             #elif splitpair[0] == 'Dbxref':
                 # key 'Dbxref' has a list of values
             #    if 'Dbxref' in result:
@@ -78,7 +78,9 @@ class GFFReader:
         return result
 
     def extract_exon_args(self, line):
-        result = {'indices': [int(line[3]), int(line[4])], 'score': float(line[5])}
+        result = {'indices': [int(line[3]), int(line[4])]}
+        if line[5] != ".":
+            result.update({'score': float(line[5])})
         attribs = self.parse_attributes(line[8])
 
         if not attribs:

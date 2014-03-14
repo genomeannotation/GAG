@@ -171,11 +171,12 @@ class Gene:
         annotator.annotate_gene(geneEntry)
 
         # Add any annotations from gff
+        new_annos = []
         if self.annotations:
-            new_annos = []
+            print("annotations!")
             for anno in self.annotations:
+                print(anno)
                 new_annos.append(['product', anno])
-            geneEntry.add_annotations(new_annos)
 
         gene_has_start = True
         gene_has_stop = True
@@ -184,6 +185,8 @@ class Gene:
         for mrna in self.mrnas: 
             mrna_entries = mrna.to_tbl_entries(annotator, self.strand)
             for mrna_entry in mrna_entries:
+                mrna_entry.add_annotations(new_annos)
+
                 mrna_entry.set_seq_name(self.seq_name)
                 if mrna_entry.is_hypothetical():
                     hypothetical = True

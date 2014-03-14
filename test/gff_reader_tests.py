@@ -135,7 +135,7 @@ class TestGFFReader(unittest.TestCase):
         inbuff = io.BytesIO(text)
         genes = self.reader.read_file(inbuff)
         self.assertEqual(1, len(genes))
-        self.assertEqual('foo_annotation', genes[0].annotations)
+        self.assertEqual(['foo_annotation'], genes[0].annotations)
     
     def get_sample_text_with_annos(self):
         sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864;Note=foo_annotation\n"
