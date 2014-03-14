@@ -121,6 +121,7 @@ class TestGFFReader(unittest.TestCase):
     def test_process_other_feature_line(self):
         pass
 
+
     def test_read_file(self):
         text = self.get_sample_text()
         inbuff = io.BytesIO(text)
@@ -128,6 +129,17 @@ class TestGFFReader(unittest.TestCase):
         self.assertEqual(2, len(genes))
         self.assertEqual('BDOR_007864-RA', genes[0].mrnas[0].identifier)
         self.assertEqual([179489, 179691], genes[1].mrnas[0].cds.indices[2])
+
+    def test_read_file_with_annos(self):
+        text = self.get_sample_text_with_annos()
+        inbuff = io.BytesIO(text)
+        genes = self.reader.read_file(inbuff)
+        self.assertEqual(1, len(genes))
+        self.assertEqual('foo_annotation', genes[0].annotations)
+    
+    def get_sample_text_with_annos(self):
+        sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864;Note=foo_annotation\n"
+        return sample_text
 
     def get_sample_text(self):
         sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n"

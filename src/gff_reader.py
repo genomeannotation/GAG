@@ -31,28 +31,30 @@ class GFFReader:
         return line[2]
 
     # returns a dict with id and parent_id (if present)
-    # if not, returns empty dict
+    # dict also contains Note and Dbxref entries (if present)
+    # if no ID, returns empty dict
     def parse_attributes(self, attr):
-        split_attr = attr.split(';')
-        try:
-            keys = [val.split('=')[0] for val in split_attr]
-            vals = [val.split('=')[1] for val in split_attr]
-        except IndexError as ie:
-            sys.stderr.write("IndexError trying to split attributes: " + str(split_attr))
-            return None
-
-        
-        attr_dict = dict(zip(keys, vals)) # Our parameter dictionary
-        
         result = {}
+        split_attr = attr.split(';')
+        for pair in split_attr:
+            splitpair = pair.split('=')
+            if len(splitpair) < 2:
+                continue
+            if splitpair[0] == 'ID':
+                result['identifier'] = splitpair[1].strip()
+            elif splitpair[0] == 'Parent':
+                result['parent_id'] = splitpair[1].strip()
+            elif splitpair[0] == 'Note':
+                result['annotations'] = splitpair[1].strip()
+            #elif splitpair[0] == 'Dbxref':
+                # key 'Dbxref' has a list of values
+            #    if 'Dbxref' in result:
+            #        result['Dbxref'].append(splitpair[1])
+            #    else:
+            #        result['Dbxref'] = [splitpair[1]]
 
-        try:
-            result['identifier'] = attr_dict['ID'].strip()
-            if 'Parent' in attr_dict:
-                result['parent_id'] = attr_dict['Parent'].strip()
-        except KeyError as ke:
-            print("\nError reading GFF mRNA entry at line "+str(self.current_line)+": required attribute '"+ke.args[0]+"' doesn't exist.\n")
-
+        if 'identifier' not in result:
+            print("\nError reading GFF mRNA entry at line "+str(self.current_line)+": required attribute 'identifier' doesn't exist.\n")
             go_on = raw_input("\n\nAttempt to continue? (y/n): ")
             if go_on != 'y' and go_on != 'Y': # Didn't select Y, get outta here!
                 self.give_up = True
