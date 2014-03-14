@@ -170,6 +170,13 @@ class Gene:
         geneEntry.set_phase(0)
         annotator.annotate_gene(geneEntry)
 
+        # Add any annotations from gff
+        if self.annotations:
+            new_annos = []
+            for anno in self.annotations:
+                new_annos.append(['product', anno])
+            geneEntry.add_annotations(new_annos)
+
         gene_has_start = True
         gene_has_stop = True
         hypothetical = False
