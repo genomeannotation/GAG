@@ -13,13 +13,14 @@ def trimmed_completely(gene_inds, seq_inds):
 class Gene:
 
     def __init__(self, seq_name, source, indices, strand, \
-                 identifier, score=None):
+                 identifier, score=None, annotations=[]):
         self.seq_name = seq_name
         self.source = source
         self.indices = indices
         self.score = score
         self.strand = strand
         self.identifier = identifier
+        self.annotations = annotations
         self.mrnas = []
 
     def __str__(self):
@@ -148,7 +149,11 @@ class Gene:
         result += 'gene' + "\t" + str(self.indices[0]) + "\t"
         result += str(self.indices[1]) + "\t" + self.get_score()
         result += "\t" + self.strand + "\t" + "." + "\t"
-        result += "ID=" + str(self.identifier) + "\n"
+        result += "ID=" + str(self.identifier)
+        if self.annotations:
+            for anno in self.annotations:
+                result += ";Note=" + anno
+        result += "\n"
         for mrna in self.mrnas:
             result += mrna.to_gff(self.seq_name, self.source, self.strand)
         return result

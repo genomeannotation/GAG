@@ -94,6 +94,16 @@ class TestGene(unittest.TestCase):
         expected += "fake mrna2 to gff here:)\n"
         self.assertEquals(expected, self.test_gene1.to_gff())
 
+    def test_to_gff_with_anno(self):
+        self.fake_mrna1.to_gff.return_value = "fake mrna1 to gff here:)\n"
+        self.fake_mrna2.to_gff.return_value = "fake mrna2 to gff here:)\n"
+        expected = "sctg_0080_0020\tmaker\tgene\t3734\t7436\t.\t+\t."
+        expected += "\tID=1;Note=foo_annotation\n"
+        expected += "fake mrna1 to gff here:)\n"
+        expected += "fake mrna2 to gff here:)\n"
+        self.test_gene1.annotations = ["foo_annotation"]
+        self.assertEquals(expected, self.test_gene1.to_gff())
+
     def test_str(self):
         expected = "Gene (ID=1, seq_name=sctg_0080_0020) containing 2 mrnas"
         self.assertEquals(expected, str(self.test_gene1))
