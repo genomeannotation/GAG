@@ -76,7 +76,9 @@ class GFFReader:
         return result
 
     def extract_exon_args(self, line):
-        result = {'indices': [int(line[3]), int(line[4])], 'score': float(line[5])}
+        result = {'indices': [int(line[3]), int(line[4])]}
+        if line[5] != '.':
+            result['score'] = float(line[5])
         attribs = self.parse_attributes(line[8])
 
         if not attribs:

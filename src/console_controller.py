@@ -7,13 +7,11 @@ import csv
 import subprocess
 import glob
 from src.fasta import Fasta
+from src.gff_reader import GFFReader
 from src.gff import GFF
 from src.genome import Genome
 from src.annotator import Annotator
 from src.translate import translate
-
-def foo():
-    return 3
 
 class ConsoleController:
 
@@ -144,10 +142,9 @@ class ConsoleController:
 
     def read_gff(self, line):
         self.genome.gff = GFF()
-        with open(line, 'rb') as gfffile:
-            gffreader = csv.reader(gfffile, delimiter='\t')
-            self.genome.gff.read_file(gffreader)
-        return self.genome.gff
+        gffreader = GFFReader()
+        reader = open(line, 'rb')
+        self.genome.gff.genes = gffreader.read_file(reader)
 
     def read_trinotate(self, line):
         self.genome.annot = Annotator()

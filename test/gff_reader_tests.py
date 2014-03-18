@@ -128,12 +128,12 @@ class TestGFFReader(unittest.TestCase):
         self.assertEqual(2, len(genes))
         self.assertEqual('BDOR_007864-RA', genes[0].mrnas[0].identifier)
         self.assertEqual([179489, 179691], genes[1].mrnas[0].cds.indices[2])
-
+    
     def get_sample_text(self):
         sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n"
         sample_text += "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n"
-        sample_text += "scaffold00080\tmaker\texon\t106151\t106451\t0\t9\t+\t.\tID=BDOR_007864-RA:exon:0;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\texon\t106509\t106749\t0\t9\t+\t.\tID=BDOR_007864-RA:exon:1;Parent=BDOR_007864-RA\n"
+        sample_text += "scaffold00080\tmaker\texon\t106151\t106451\t0.9\t+\t.\tID=BDOR_007864-RA:exon:0;Parent=BDOR_007864-RA\n"
+        sample_text += "scaffold00080\tmaker\texon\t106509\t106749\t0.9\t+\t.\tID=BDOR_007864-RA:exon:1;Parent=BDOR_007864-RA\n"
         sample_text += "scaffold00080\tmaker\tCDS\t106151\t106451\t.\t+\t0\tID=BDOR_007864-RA:cds:0;Parent=BDOR_007864-RA\n"
         sample_text += "scaffold00080\tmaker\tCDS\t106509\t106749\t.\t+\t2\tID=BDOR_007864-RA:cds:1;Parent=BDOR_007864-RA\n"
         sample_text += "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RA\n"
@@ -141,8 +141,8 @@ class TestGFFReader(unittest.TestCase):
         sample_text += "scaffold00080\tmaker\tgene\t145206\t183302\t.\t+\t.\tID=BDOR_007866\n"
         sample_text += "scaffold00080\tmaker\tmRNA\t145206\t183302\t.\t+\t.\tID=BDOR_007866-RB;Parent=BDOR_007866\n"
         sample_text += "scaffold00080\tmaker\texon\t145206\t145282\t0.065333\t+\t.\tID=BDOR_007866-RB:exon:5;Parent=BDOR_007866-RB\n"
-        sample_text += "scaffold00080\tmaker\texon\t145607\t145865\t47\t919	+\t.\tID=BDOR_007866-RB:exon:6;Parent=BDOR_007866-RB\n"
-        sample_text += "scaffold00080\tmaker\texon\t145928\t146176\t67\t378	+\t.\tID=BDOR_007866-RB:exon:7;Parent=BDOR_007866-RB\n"
+        sample_text += "scaffold00080\tmaker\texon\t145607\t145865\t47.919\t+\t.\tID=BDOR_007866-RB:exon:6;Parent=BDOR_007866-RB\n"
+        sample_text += "scaffold00080\tmaker\texon\t145928\t146176\t67.378\t+\t.\tID=BDOR_007866-RB:exon:7;Parent=BDOR_007866-RB\n"
         sample_text += "scaffold00080\tmaker\tfive_prime_UTR\t145206\t145282\t.\t+\t.\tID=BDOR_007866-RB:UTR1;Parent=BDOR_007866-RB\n"
         sample_text += "scaffold00080\tmaker\tfive_prime_UTR\t145607\t145865\t.\t+\t.\tID=BDOR_007866-RB:UTR2;Parent=BDOR_007866-RB\n"
         sample_text += "scaffold00080\tmaker\tfive_prime_UTR\t145928\t146176\t.\t+\t.\tID=BDOR_007866-RB:UTR3;Parent=BDOR_007866-RB\n"
