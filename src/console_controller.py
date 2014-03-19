@@ -8,7 +8,6 @@ import subprocess
 import glob
 from src.fasta import Fasta
 from src.gff_reader import GFFReader
-from src.gff import GFF
 from src.genome import Genome
 from src.annotator import Annotator
 from src.translate import translate
@@ -30,7 +29,7 @@ class ConsoleController:
         
         # Write the gff
         with open(line+'/gag.gff', 'w') as gff:
-            for gene in self.genome.gff.genes:
+            for gene in self.genome.genes:
                 gff.write(gene.to_gff())
 
         # Write the fasta
@@ -117,10 +116,10 @@ class ConsoleController:
             result += "Fasta: " + str(self.genome.fasta)
         else:
             result += "Fasta: no fasta\n"
-        if self.genome.gff:
-            result += "GFF: " + str(self.genome.gff)
+        if self.genome.genes:
+            result += "Genes: " + str(len(self.genome.genes)) + " genes\n"
         else:
-            result += "GFF: no gff\n"
+            result += "Genes: no genes\n"
         return result
 
     def barftofile(self, line):
@@ -141,10 +140,9 @@ class ConsoleController:
         self.genome.fasta.read(open(line, 'r'))
 
     def read_gff(self, line):
-        self.genome.gff = GFF()
         gffreader = GFFReader()
         reader = open(line, 'rb')
-        self.genome.gff.genes = gffreader.read_file(reader)
+        self.genome.genes = gffreader.read_file(reader)
 
     def read_trinotate(self, line):
         self.genome.annot = Annotator()
@@ -156,11 +154,11 @@ class ConsoleController:
     def ducttape(self):
         min_first_cds_segment_length = 3
         min_cds_length = 150
-        if self.genome.gff:
+        if self.genome.genes:
             self.genome.rename_maker_mrnas()
-            self.genome.gff.remove_first_cds_segment_if_shorter_than(min_first_cds_segment_length)
+            self.genome.remove_first_cds_segment_if_shorter_than(min_first_cds_segment_length)
             self.genome.create_starts_and_stops() 
-            self.genome.gff.remove_mrnas_with_cds_shorter_than(min_cds_length)
+            self.genome.remove_mrnas_with_cds_shorter_than(min_cds_length)
 
     def create_starts_and_stops(self):
         self.genome.create_starts_and_stops() 
@@ -170,14 +168,11 @@ class ConsoleController:
         args = line.split()
         if args:
             self.genome.fasta.subset_fasta(args)
-            self.genome.gff.subset_gff(args)
+            self.genome.subset_genes(args)
 
     def subset_fasta(self):
         # line parameter is not used, but Cmd likes to pass it so there it is.
         self.genome.fasta.subset_fasta(self.seqlist)
-
-    def subset_gff(self):
-        self.genome.gff.subset_gff(self.seqlist)
 
     def duct_tape_seq_frames(self, line):
         result = ''
@@ -203,7 +198,7 @@ class ConsoleController:
 
         for name in args:
             eraseGenes = []
-            for gene in self.genome.gff.genes:
+            for gene in self.genome.genes:
                 erase = []
                 for mrna in gene.mrnas:
                     if mrna.name == name:
@@ -213,7 +208,7 @@ class ConsoleController:
                 if len(gene.mrnas) == 0:
                     eraseGenes.append(gene)
             for gene in eraseGenes:
-                self.genome.gff.genes.remove(gene)
+                self.genome.genes.remove(gene)
                         
     def remove_genes_marked_for_removal(self, line):
         self.genome.remove_genes_marked_for_removal()
@@ -222,7 +217,7 @@ class ConsoleController:
         self.genome.rename_maker_mrnas()
 
     def ducttape_mrna_seq_frame(self, name):
-        for gene in self.genome.gff.genes:
+        for gene in self.genome.genes:
             for mrna in gene.mrnas:
                 if mrna.name == name:
                     seq = self.genome.fasta.get_subseq(gene.seq_name, \
@@ -353,7 +348,7 @@ class ConsoleController:
 ## Output info to console
 
     def barf_gff(self, line):
-        for gene in self.genome.gff.genes:
+        for gene in self.genome.genes:
             if gene.name == line:
                 return gene.to_gff()
 
@@ -365,7 +360,7 @@ class ConsoleController:
     def barf_cds_seq(self, line):
         name = line
 
-        for gene in self.genome.gff.genes:
+        for gene in self.genome.genes:
             for mrna in gene.mrnas:
                 if mrna.name == name and mrna.cds:
                     return mrna.cds.extract_sequence(self.genome.fasta, \

@@ -13,43 +13,31 @@ class TestGenome(unittest.TestCase):
     def test_constructor(self):
         self.assertEqual('Genome', self.genome.__class__.__name__)
 
-    def test_remove_all_gene_segments(self):
-        self.assertFalse(self.genome.gff)
-        gff = Mock()
-        self.genome.gff = gff
-        self.assertTrue(self.genome.gff)
-        self.genome.remove_all_gene_segments("BDOR_foo")
-        gff.remove_all_gene_segments.assert_called_with("BDOR_foo")
-
     def test_remove_mrnas_with_cds_shorter_than(self):
-        gff = Mock()
-        self.genome.gff = gff
+        gene1 = Mock()
+        self.genome.genes = [gene1]
         self.genome.remove_mrnas_with_cds_shorter_than(150)
-        gff.remove_mrnas_with_cds_shorter_than.assert_called_with(150)
+        gene1.remove_mrnas_with_cds_shorter_than.assert_called_with(150)
 
     def test_remove_first_cds_segment_if_shorter_than(self):
-        gff = Mock()
-        self.genome.gff = gff
+        gene1 = Mock()
+        self.genome.genes = [gene1]
         self.genome.remove_first_cds_segment_if_shorter_than(4)
-        gff.remove_first_cds_segment_if_shorter_than.assert_called_with(4)
+        gene1.remove_first_cds_segment_if_shorter_than.assert_called_with(4)
 
     def test_create_starts_and_stops(self):
         fasta = Mock()
         self.genome.fasta = fasta
         gene1 = Mock()
         gene2 = Mock()
-        gff = Mock()
-        gff.genes = [gene1, gene2]
-        self.genome.gff = gff
+        self.genome.genes = [gene1, gene2]
         self.genome.create_starts_and_stops()
         gene1.create_starts_and_stops.assert_called_with(fasta)
 
     def test_get_locus_tag(self):
         mock_gene = Mock()
         mock_gene.identifier = "FOO_1"
-        mock_gff = Mock()
-        mock_gff.genes = [mock_gene]
-        self.genome.gff = mock_gff
+        self.genome.genes = [mock_gene]
         self.assertEqual('FOO', self.genome.get_locus_tag())
         
     def setup_mocks_for_rename_maker_mrnas(self):
@@ -68,9 +56,7 @@ class TestGenome(unittest.TestCase):
         self.other_maker.is_maker_mrna.return_value = True
         self.gene2 = Mock()
         self.gene2.mrnas = [self.other_mrna, self.other_maker]
-        self.gff = Mock()
-        self.gff.genes = [self.gene1, self.gene2]
-        self.genome.gff = self.gff
+        self.genome.genes = [self.gene1, self.gene2]
         self.genome.annot = Mock()
 
     def test_rename_maker_mrnas(self):
@@ -83,22 +69,13 @@ class TestGenome(unittest.TestCase):
         self.bdor_mrna.is_maker_mrna.assert_called_with()
         self.other_mrna.is_maker_mrna.assert_called_with()
 
-    def test_invalidate_region(self):
-        gff = Mock()
-        self.genome.gff = gff
-        self.assertTrue(self.genome.gff)
-        self.genome.invalidate_region('Scaffold_foo', 50, 100)
-        gff.invalidate_region.assert_called_with('Scaffold_foo', 50, 100)
-
-    def make_mock_genes_and_gff(self):
+    def make_mock_genes(self):
         self.gene1 = Mock()
         self.gene2 = Mock()
-        self.gff = Mock()
-        self.gff.genes = [self.gene1, self.gene2]
-        self.genome.gff = self.gff
+        self.genome.genes = [self.gene1, self.gene2]
 
     def test_trim_region(self):
-        self.make_mock_genes_and_gff()
+        self.make_mock_genes()
         self.gene1.seq_name = 'seq1'
         fasta = Mock()
         self.genome.fasta = fasta
@@ -108,14 +85,11 @@ class TestGenome(unittest.TestCase):
 
     def test_remove_seq(self):
         self.genome.fasta = Mock()
-        gff = Mock()
-        gff.contains_gene_on_seq.return_value = False
-        self.genome.gff = gff
         self.genome.remove_seq('seq1')
         self.genome.fasta.remove_seq.assert_called_with('seq1')
 
     def test_get_gene_seq_info(self):
-        self.make_mock_genes_and_gff()
+        self.make_mock_genes()
         self.gene1.seq_name = 'seq1'
         self.gene1.indices = [1, 50]
         self.gene1.name = 'BDOR_FOO'
@@ -127,37 +101,13 @@ class TestGenome(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def setup_mock_genes_with_name_indices_seq_name(self):
-        self.make_mock_genes_and_gff()
+        self.make_mock_genes()
         self.gene1.seq_name = 'seq1'
         self.gene1.indices = [1, 50]
         self.gene1.name = 'BDOR_FOO'
         self.gene2.seq_name = 'seq1'
         self.gene2.indices = [100, 150]
         self.gene2.name = 'BDOR_BAR'
-
-    def test_check_gene_for_invalid_begin_or_end(self):
-        self.setup_mock_genes_with_name_indices_seq_name()
-        fasta = Mock()
-        self.genome.fasta = fasta
-        self.genome.fasta.how_many_Ns_forward.return_value = 5
-        self.genome.fasta.how_many_Ns_backward.return_value = 0
-        self.genome.check_gene_for_invalid_begin_or_end('BDOR_FOO')
-        self.gff.invalidate_region.assert_called_with('seq1', 1, 5)
-
-    def test_check_gene_for_invalid_begin_or_end_invalid_end(self):
-        self.setup_mock_genes_with_name_indices_seq_name()
-        fasta = Mock()
-        self.genome.fasta = fasta
-        self.genome.fasta.how_many_Ns_forward.return_value = 0
-        self.genome.fasta.how_many_Ns_backward.return_value = 10
-        self.genome.check_gene_for_invalid_begin_or_end('BDOR_BAR')
-        self.gff.invalidate_region.assert_called_with('seq1', 141, 150)
-
-
-
-        
-
-
 
 
 

@@ -5,13 +5,13 @@ from src.annotator import Annotator
 class Genome:
 
     """Genome is the master class for storing all of the data in a genome.
-    It owns and provides access to the fasta and gff.
+    It owns and provides access to the fasta and genes.
     
     """
 
     def __init__(self):
         self.fasta = None
-        self.gff = None
+        self.genes = []
         self.annot = None
         self.entries = []
 
@@ -21,18 +21,23 @@ class Genome:
         a gene to contain no mRNAs, the gene will also be removed.
 
         """
-
-        if self.gff:
-            self.gff.remove_mrnas_with_cds_shorter_than(min_length)
+        if self.genes:
+            to_remove = []
+            for gene in self.genes:
+                gene.remove_mrnas_with_cds_shorter_than(min_length)
+                if not gene.mrnas:
+                    to_remove.append(gene)
+            for g in to_remove:
+                self.genes.remove(g)
 
     def remove_first_cds_segment_if_shorter_than(self, min_length):
         """Removes only the first CDS segment if it's shorter than min_length. If
         this causes a gene to contain no mRNAs, the gene will also be removed.
 
         """
-
-        if self.gff:
-            self.gff.remove_first_cds_segment_if_shorter_than(min_length)
+        if self.genes:
+            for gene in self.genes:
+                gene.remove_first_cds_segment_if_shorter_than(min_length)
 
     # maybe should be called 
     #  'create_start_codon_GenePart if sequence contains start codon'
@@ -43,7 +48,7 @@ class Genome:
 
         """
 
-        for gene in self.gff.genes:
+        for gene in self.genes:
             gene.create_starts_and_stops(self.fasta)
 
     def write_string(self, genes = None, errors = None):
@@ -53,7 +58,7 @@ class Genome:
 
         output = ''
 
-        if self.fasta == None or self.gff == None:
+        if self.fasta == None or self.genes == None:
             return output
         if self.annot == None:
             self.annot = Annotator()
@@ -65,7 +70,7 @@ class Genome:
                 return output
 
             entries = []
-            for gene in self.gff.genes:
+            for gene in self.genes:
                 if gene.seq_name != seq[0]:
                     continue
 
@@ -96,19 +101,20 @@ class Genome:
         at all, it will be removed.
 
         """
-
-        self.gff.remove_all_gene_segments(prefix)
+        if len(prefix) > 0:
+            self.genes = [g for g in self.genes if not prefix in g.identifier]
 
     def remove_genes_marked_for_removal(self):
         """Removes all genes previously marked for removal, by setting their indices at
         [0, 0]
 
         """
-
-        self.gff.remove_genes_marked_for_removal()
+        for gene in reversed(self.genes):
+            if gene.indices[0] == 0 and gene.indices[1] == 0:
+                self.genes.remove(gene)
 
     def get_locus_tag(self):
-        firstgene = self.gff.genes[0]
+        firstgene = self.genes[0]
         gene_id = str(firstgene.identifier)
         locus_tag = gene_id.split('_')[0]
         return locus_tag
@@ -120,7 +126,7 @@ class Genome:
 
         locus_tag = self.get_locus_tag()
         count = 1000000
-        for gene in self.gff.genes:
+        for gene in self.genes:
             for mrna in gene.mrnas:
                 if mrna.is_maker_mrna():
                     old_name = mrna.identifier
@@ -135,8 +141,10 @@ class Genome:
         removed.
 
         """
-
-        self.gff.invalidate_region(seq, start, stop)
+        
+        for gene in self.genes:
+            if gene.seq_name == seq:
+                gene.invalidate_region(start, stop)
 
     def trim_region(self, seq, start, stop):
         """Removes a region from a specified sequence. The GFF indices will be adjusted
@@ -146,9 +154,9 @@ class Genome:
 
         if self.fasta:
             self.fasta.trim_seq(seq, start, stop)
-        if self.gff and self.gff.genes:
+        if self.genes:
             offset = -(stop - start + 1)
-            for gene in self.gff.genes:
+            for gene in self.genes:
                 if gene.seq_name == seq:
                     gene.adjust_indices(offset, stop)
 
@@ -158,7 +166,7 @@ class Genome:
 
         """
 
-        if force or not self.gff.contains_gene_on_seq(seq_id):
+        if force or not self.contains_gene_on_seq(seq_id):
             self.fasta.remove_seq(seq_id)
         else:
             print("Sorry, that sequence contains features. \
@@ -169,7 +177,7 @@ class Genome:
 
         """
 
-        for gene in self.gff.genes:
+        for gene in self.genes:
             if gene.name == gene_name:
                 return [gene.seq_name, gene.indices]
 
@@ -192,3 +200,8 @@ class Genome:
         if bases_backward != 0:
             self.invalidate_region(seq_id, end-bases_backward+1, end)
 
+    def contains_gene_on_seq(self, seq_id):
+        for gene in self.genes:
+            if gene.seq_name == seq_id:
+                return True
+        return False

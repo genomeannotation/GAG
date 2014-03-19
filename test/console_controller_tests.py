@@ -15,21 +15,17 @@ class TestConsoleController(unittest.TestCase):
         self.assertEqual('ConsoleController', self.ctrlr.__class__.__name__)
 
     def test_status(self):
-        expected = "Fasta: no fasta\nGFF: no gff\n"
+        expected = "Fasta: no fasta\nGenes: no genes\n"
         self.assertEquals(expected, self.ctrlr.status())
 
-        expected2 = "Fasta: Fasta containing 5 sequences\nGFF: GFF containing 20 genes\n"
+        expected2 = "Fasta: Fasta containing 5 sequences\nGenes: 2 genes\n"
         def fastastring(self):
             return "Fasta containing 5 sequences\n"
-        def gffstring(self):
-            return "GFF containing 20 genes\n"
         mock_genome = Mock()
         mock_fasta = Mock()
         mock_fasta.__str__ = fastastring
         type(mock_genome).fasta = mock_fasta
-        mock_gff = Mock()
-        mock_gff.__str__ = gffstring
-        type(mock_genome).gff = mock_gff
+        mock_genome.genes = [Mock(), Mock()]
         self.ctrlr.genome = mock_genome
         self.assertEquals(expected2, self.ctrlr.status())
 
@@ -39,20 +35,18 @@ class TestConsoleController(unittest.TestCase):
         self.assertTrue(self.ctrlr.genome.fasta)
 
     def test_read_gff(self):
-        self.assertFalse(self.ctrlr.genome.gff)
+        self.assertFalse(self.ctrlr.genome.genes)
         self.ctrlr.read_gff("walkthrough/gag.gff")
-        self.assertTrue(self.ctrlr.genome.gff)
+        self.assertTrue(self.ctrlr.genome.genes)
 
     def test_ducttape(self):
         mock_genome = Mock()
-        mock_gff = Mock()
-        mock_genome.gff = mock_gff
         self.ctrlr.genome = mock_genome
         self.ctrlr.ducttape()
         mock_genome.rename_maker_mrnas.assert_called_with()
-        mock_gff.remove_first_cds_segment_if_shorter_than.assert_called_with(3)
+        mock_genome.remove_first_cds_segment_if_shorter_than.assert_called_with(3)
         mock_genome.create_starts_and_stops.assert_called_with()
-        mock_gff.remove_mrnas_with_cds_shorter_than.assert_called_with(150)
+        mock_genome.remove_mrnas_with_cds_shorter_than.assert_called_with(150)
 
     def test_create_starts_and_stops(self):
         mock_genome = Mock()
@@ -62,14 +56,12 @@ class TestConsoleController(unittest.TestCase):
 
     def test_subset_genome(self):
         mock_genome = Mock()
-        mock_gff = Mock()
         mock_fasta = Mock()
-        mock_genome.gff = mock_gff
         mock_genome.fasta = mock_fasta
         self.ctrlr.genome = mock_genome
         self.ctrlr.subset_genome('seq_foo')
         mock_genome.fasta.subset_fasta.assert_called_with(['seq_foo'])
-        mock_genome.gff.subset_gff.assert_called_with(['seq_foo'])
+        mock_genome.subset_genes.assert_called_with(['seq_foo'])
 
     def test_remove_gene(self):
         mock_genome = Mock()
