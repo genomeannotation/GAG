@@ -205,3 +205,6 @@ class Genome:
             if gene.seq_name == seq_id:
                 return True
         return False
+
+    def subset_genes(self, seqlist):
+        self.genes = [g for g in self.genes if g.seq_name in seqlist]
