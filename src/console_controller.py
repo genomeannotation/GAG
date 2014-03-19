@@ -201,7 +201,7 @@ class ConsoleController:
             for gene in self.genome.genes:
                 erase = []
                 for mrna in gene.mrnas:
-                    if mrna.name == name:
+                    if mrna.identifier == name:
                         erase.append(mrna)
                 for mrna in erase:
                     gene.mrnas.remove(mrna)
@@ -219,7 +219,7 @@ class ConsoleController:
     def ducttape_mrna_seq_frame(self, name):
         for gene in self.genome.genes:
             for mrna in gene.mrnas:
-                if mrna.name == name:
+                if mrna.identifier == name:
                     seq = self.genome.fasta.get_subseq(gene.seq_name, \
                             [mrna.cds.indices[0]]) #first segment
                     if seq == None:
@@ -349,7 +349,7 @@ class ConsoleController:
 
     def barf_gff(self, line):
         for gene in self.genome.genes:
-            if gene.name == line:
+            if gene.identifier == line:
                 return gene.to_gff()
 
     def barf_seq(self, line):
@@ -362,7 +362,7 @@ class ConsoleController:
 
         for gene in self.genome.genes:
             for mrna in gene.mrnas:
-                if mrna.name == name and mrna.cds:
+                if mrna.identifier == name and mrna.cds:
                     return mrna.cds.extract_sequence(self.genome.fasta, \
                             gene.seq_name, gene.strand)
 
