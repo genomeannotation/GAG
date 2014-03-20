@@ -173,7 +173,7 @@ class GagCmd(cmd.Cmd):
         print("Removes sequence from fasta, only if the sequence contains no features or if the -F option is used.\n")
 
     def do_removeseq(self, line):
-        try_catch(self.controller.remove_seq, line)
+        self.output = try_catch(self.controller.remove_seq, line)
 
     def help_invalidateregion(self):
         print("Usage: invalidateregion <seq_id> <start> <stop>\n")

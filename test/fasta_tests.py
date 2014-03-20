@@ -95,6 +95,8 @@ class TestFasta(unittest.TestCase):
     def test_how_many_Ns_backward_returns_zero_if_no_Ns(self):
         self.assertEqual(0, self.fasta1.how_many_Ns_backward('seq1', 3))
 
+    def test_contains_seq_id(self):
+        self.assertTrue(self.fasta1.contains_seq_id("seq1"))
 
         
 

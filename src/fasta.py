@@ -76,7 +76,11 @@ class Fasta:
         self.entries = [e for e in self.entries if e[0] in seqlist]
 
     def remove_seq(self, seq_id):
-        self.entries = [e for e in self.entries if e[0] != seq_id]
+        if self.contains_seq_id(seq_id):
+            self.entries = [e for e in self.entries if e[0] != seq_id]
+            return "Removed seq " + seq_id
+        else:
+            return "Seq_id not found: " + seq_id
 
     # Given a position in the fasta, returns the number of Ns 
     # from that position forward 
@@ -113,5 +117,11 @@ class Fasta:
                 else:
                     count += 1
             return count
+
+    def contains_seq_id(self, seq_id):
+        for entry in self.entries:
+            if entry[0] == seq_id:
+                return True
+        return False
 
 

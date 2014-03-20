@@ -167,10 +167,10 @@ class Genome:
         """
 
         if force or not self.contains_gene_on_seq(seq_id):
-            self.fasta.remove_seq(seq_id)
+            return self.fasta.remove_seq(seq_id)
         else:
-            print("Sorry, that sequence contains features. \
-                    Try '-F' to force removal\n")
+            return "Sorry, that sequence contains features. " + \
+                    "Try '-F' to force removal.\n"
 
     def get_gene_seq_info(self, gene_name):
         """Fetch the name and indices of a gene as a tuple.

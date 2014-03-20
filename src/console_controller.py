@@ -315,14 +315,22 @@ class ConsoleController:
                     self.genome.trim_region(seq, start, stop)
 
     def remove_seq(self, line):
-        args = []
         if len(line) > 0:
+            args = []
             args = line.split()
             seq_id = args[0]
-            if len(args) == 2 and args[1] == '-F':
-                self.genome.remove_seq(seq_id, force=True)
+            if len(args) == 2: 
+                if args[0] == '-F':
+                    seq_id = args[1]
+                elif args[1] == '-F':
+                    seq_id = args[0]
+                else:
+                    return "Usage: removeseq [-F] <seq_id>\n"
+                return self.genome.remove_seq(seq_id, force=True)
             else:
-                self.genome.remove_seq(seq_id)
+                return self.genome.remove_seq(seq_id)
+        else:
+            return "Usage: removeseq [-F] <seq_id>\n"
 
     def check_gene_for_invalid_begin_or_end(self, line):
         args = []
