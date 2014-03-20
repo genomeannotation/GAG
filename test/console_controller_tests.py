@@ -120,6 +120,11 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.invalidate_region('seq1 5 10')
         mock_genome.invalidate_region.assert_called_with('seq1', 5, 10)
 
+    def test_barfseq_no_args(self):
+        line = ""
+        # Shouldn't throw error
+        self.assertTrue(self.ctrlr.barf_seq(line))
+
 
 
 ##########################

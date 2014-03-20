@@ -354,6 +354,8 @@ class ConsoleController:
 
     def barf_seq(self, line):
         args = line.split(' ')
+        if len(args) != 3:
+            return "Usage: barfseq <seq_id> <start_index> <end_index>\n"
         return str(self.genome.fasta.get_subseq(args[0], \
                 [[int(args[1]), int(args[2])]]))+'\n'
 
