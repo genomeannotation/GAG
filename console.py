@@ -82,8 +82,9 @@ class GagCmd(cmd.Cmd):
         try_catch(self.controller.barf_folder, line)
 
     def help_loadfolder(self):
-        print("Usage: loadfolder <directory>\n")
-        print("Reads in a gff, fasta and trinotate file from the specified directory.\n")
+        print("\nUsage: loadfolder [directory]")
+        print("Reads in a gff, fasta and trinotate file from the specified directory.")
+        print("If no directory is supplied, uses current working directory.\n")
 
     def do_loadfolder(self, line):
         try_catch(self.controller.load_folder, line)

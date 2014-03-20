@@ -40,6 +40,8 @@ class ConsoleController:
         self.genome.annot.write_to_file(line+'/gag.trinotate')
         
     def load_folder(self, line):
+        if not line:
+            line = "."
         # Get filenames
         gffs = glob.glob(line + '/*.gff')
         fastas = glob.glob(line + '/*.fasta')
