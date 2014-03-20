@@ -218,7 +218,7 @@ class GagCmd(cmd.Cmd):
         print("Write a sweet feature table to the specified file.\n")
 
     def do_writetbl(self, line):
-        try_catch(self.controller.write_tbl, line)
+        self.output = try_catch(self.controller.write_tbl, line)
 
 
 ########################################################################

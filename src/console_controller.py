@@ -374,9 +374,12 @@ class ConsoleController:
 ## Output info to file
 
     def write_tbl(self, line):
+        if os.path.exists(line):
+            return line + "already exists; please try another filename\n"
         with open(line, 'w') as outFile:
             outFile.write(self.genome.write_string())
             outFile.close()
+        return ".tbl file written to " + line + "\n"
 
     def write_fasta(self, line):
         with open(line, 'w') as outFile:
