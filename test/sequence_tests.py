@@ -64,7 +64,8 @@ class TestSequence(unittest.TestCase):
         self.assertEquals(0, len(self.seq1.genes))
 
     def test_get_subseq(self):
-        pass
+        self.assertEquals("ATTA", self.seq1.get_subseq(2, 5))
+
 
 ##########################
 def suite():

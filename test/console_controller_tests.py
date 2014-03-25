@@ -102,6 +102,7 @@ class TestConsoleController(unittest.TestCase):
 
 
     def test_trim_region(self):
+        # TODO this isn't quite right ... gene.trim needs looking at.
         self.setup_seqs_and_genes()
         self.assertEquals(8, len(self.ctrlr.seqs[2].bases))
         #self.ctrlr.trim_region("seq3 1 3")
@@ -144,9 +145,12 @@ class TestConsoleController(unittest.TestCase):
         pass
         line = ""
         # Shouldn't throw error
-        #self.assertTrue(self.ctrlr.barf_seq(line))
-        # TODO after add Sequence.get_subseq
+        self.assertTrue(self.ctrlr.barf_seq(line))
 
+    def test_barfseq(self):
+        self.setup_seqs()
+        result = self.ctrlr.barf_seq("seq1 1 3")
+        self.assertEquals("GAT", result)
 
 
 ##########################

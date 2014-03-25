@@ -29,15 +29,18 @@ class ConsoleController:
         
         # Write the gff
         with open(line+'/gag.gff', 'w') as gff:
-            for gene in self.genome.genes:
-                gff.write(gene.to_gff())
+            for seq in self.seqs:
+                for gene in seq.genes:
+                    gff.write(gene.to_gff())
 
         # Write the fasta
         with open(line+'/gag.fasta', 'w') as fasta:
-            fasta.write(self.genome.fasta.write_string())
+            for seq in self.seqs:
+                fasta.write(seq.to_fasta())
 
         # Write the annotations
-        self.genome.annot.write_to_file(line+'/gag.trinotate')
+        #self.genome.annot.write_to_file(line+'/gag.trinotate')
+        # TODO
         
     def load_folder(self, line):
         if not line:
@@ -148,13 +151,15 @@ class ConsoleController:
 ## Manipulate genome
 
     def ducttape(self):
-        min_first_cds_segment_length = 3
-        min_cds_length = 150
-        if self.genome.genes:
-            self.genome.rename_maker_mrnas()
-            self.genome.remove_first_cds_segment_if_shorter_than(min_first_cds_segment_length)
-            self.genome.create_starts_and_stops() 
-            self.genome.remove_mrnas_with_cds_shorter_than(min_cds_length)
+        # TODO
+        pass
+        #min_first_cds_segment_length = 3
+        #min_cds_length = 150
+        #if self.genome.genes:
+            #self.genome.rename_maker_mrnas()
+            #self.genome.remove_first_cds_segment_if_shorter_than(min_first_cds_segment_length)
+            #self.genome.create_starts_and_stops() 
+            #self.genome.remove_mrnas_with_cds_shorter_than(min_cds_length)
 
     def create_starts_and_stops(self):
         self.genome.create_starts_and_stops() 
@@ -164,10 +169,6 @@ class ConsoleController:
         args = line.split()
         if args:
             self.seqs = [s for s in self.seqs if s.header in args]
-
-    def subset_fasta(self):
-        # line parameter is not used, but Cmd likes to pass it so there it is.
-        self.genome.fasta.subset_fasta(self.seqlist)
 
     def duct_tape_seq_frames(self, line):
         result = ''
@@ -361,26 +362,30 @@ class ConsoleController:
 ## Output info to console
 
     def barf_gff(self, line):
-        for gene in self.genome.genes:
-            if gene.identifier == line:
-                return gene.to_gff()
+        for seq in self.seqs:
+            for gene in seq.genes:
+                if gene.identifier == line:
+                    return gene.to_gff()
 
     def barf_seq(self, line):
         args = line.split(' ')
         if len(args) != 3:
             return "Usage: barfseq <seq_id> <start_index> <end_index>\n"
-        return str(self.genome.fasta.get_subseq(args[0], \
-                [[int(args[1]), int(args[2])]]))+'\n'
+        seq_id = args[0]
+        start = int(args[1])
+        stop = int(args[2])
+        for seq in self.seqs:
+            if seq.header == seq_id:
+                return seq.get_subseq(start, stop)
 
     def barf_cds_seq(self, line):
         name = line
-
-        for gene in self.genome.genes:
-            for mrna in gene.mrnas:
-                if mrna.identifier == name and mrna.cds:
-                    return mrna.cds.extract_sequence(self.genome.fasta, \
-                            gene.seq_name, gene.strand)
-
+        for seq in self.seqs:
+            for gene in seq.genes:
+                for mrna in gene.mrnas:
+                    if mrna.identifier == name and mrna.cds:
+                        return mrna.cds.extract_sequence(self.genome.fasta, \
+                                gene.seq_name, gene.strand)
         return "Error: Couldn't find mRNA.\n"
 
     def barf_gene_tbl(self, line):
@@ -398,7 +403,8 @@ class ConsoleController:
 
     def write_fasta(self, line):
         with open(line, 'w') as outFile:
-            outFile.write(self.genome.fasta.write_string())
+            for seq in self.seqs:
+                outFile.write(seq.to_fasta())
 
 ## Utilities
 
