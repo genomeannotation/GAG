@@ -12,6 +12,7 @@ import test.console_controller_tests
 import test.annotator_tests
 import test.translate_tests
 import test.gff_reader_tests
+import test.sequence_tests
 
 # get suites from test modules
 suite1 = test.fasta_tests.suite()
@@ -24,6 +25,7 @@ suite7 = test.console_controller_tests.suite()
 suite8 = test.annotator_tests.suite()
 suite9 = test.translate_tests.suite()
 suite10 = test.gff_reader_tests.suite()
+suite11 = test.sequence_tests.suite()
 
 # collect suites in a TestSuite object
 suite = unittest.TestSuite()
@@ -37,6 +39,7 @@ suite.addTest(suite7)
 suite.addTest(suite8)
 suite.addTest(suite9)
 suite.addTest(suite10)
+suite.addTest(suite11)
 
 # run suite
 unittest.TextTestRunner(verbosity=2).run(suite)
