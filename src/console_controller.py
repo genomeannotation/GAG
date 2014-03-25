@@ -6,7 +6,7 @@ import sys
 import csv
 import subprocess
 import glob
-from src.fasta import Fasta
+from src.fasta_reader import FastaReader
 from src.gff_reader import GFFReader
 from src.genome import Genome
 from src.annotator import Annotator
@@ -17,7 +17,7 @@ class ConsoleController:
 ## Setup, loading and saving sessions
 
     def __init__(self):
-        self.genome = Genome()
+        self.seqs = []
         self.input = ''
 
     def barf_folder(self, line):
@@ -113,16 +113,7 @@ class ConsoleController:
 ## Assorted utilities
 
     def status(self):
-        result = ""
-        if self.genome.fasta:
-            result += "Fasta: " + str(self.genome.fasta)
-        else:
-            result += "Fasta: no fasta\n"
-        if self.genome.genes:
-            result += "Genes: " + str(len(self.genome.genes)) + " genes\n"
-        else:
-            result += "Genes: no genes\n"
-        return result
+        pass
 
     def barftofile(self, line):
         args = line.split()
@@ -138,17 +129,20 @@ class ConsoleController:
 ## Reading in files
 
     def read_fasta(self, line):
-        self.genome.fasta = Fasta()
-        self.genome.fasta.read(open(line, 'r'))
+        reader = FastaReader()
+        self.seqs = reader.read(open(line, 'r'))
 
     def read_gff(self, line):
         gffreader = GFFReader()
         reader = open(line, 'rb')
-        self.genome.genes = gffreader.read_file(reader)
+        genes = gffreader.read_file(reader)
+        for gene in genes:
+            self.add_gene(gene)
 
     def read_trinotate(self, line):
         self.genome.annot = Annotator()
         self.genome.annot.read_from_file(line)
+
 
 
 ## Manipulate genome
@@ -169,8 +163,7 @@ class ConsoleController:
         # parse args
         args = line.split()
         if args:
-            self.genome.fasta.subset_fasta(args)
-            self.genome.subset_genes(args)
+            self.seqs = [s for s in self.seqs if s.header not in args]
 
     def subset_fasta(self):
         # line parameter is not used, but Cmd likes to pass it so there it is.
@@ -397,3 +390,9 @@ class ConsoleController:
         with open(line, 'w') as outFile:
             outFile.write(self.genome.fasta.write_string())
 
+## Utilities
+
+    def add_gene(self, gene):
+        for seq in self.seqs:
+            if seq.header == gene.seq_name:
+                seq.genes.append(gene)

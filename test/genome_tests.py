@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import unittest
-from src.fasta import Fasta
 from src.genome import Genome
 from mock import Mock
 

@@ -2,7 +2,7 @@
 
 # import all the lovely files
 import unittest
-import test.fasta_tests
+import test.fasta_reader_tests
 import test.gene_part_tests
 import test.mrna_tests
 import test.gene_tests
@@ -15,7 +15,7 @@ import test.gff_reader_tests
 import test.sequence_tests
 
 # get suites from test modules
-suite1 = test.fasta_tests.suite()
+suite1 = test.fasta_reader_tests.suite()
 suite2 = test.gene_part_tests.suite()
 suite3 = test.mrna_tests.suite()
 suite4 = test.gene_tests.suite()
