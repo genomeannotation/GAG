@@ -24,6 +24,21 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.seqs.append(Sequence("seq2", "ATTAC"))
         self.ctrlr.seqs.append(Sequence("seq3", "ACGTACGT"))
 
+    def setup_seqs_and_genes(self):
+        self.setup_seqs()
+        gene1 = Mock()
+        gene1.seq_name = "seq2"
+        gene1.identifier = "gene1"
+        self.ctrlr.add_gene(gene1)
+        gene2 = Mock()
+        gene2.seq_name = "seq2"
+        gene2.identifier = "gene2"
+        self.ctrlr.add_gene(gene2)
+        gene3 = Mock()
+        gene3.seq_name = "seq3"
+        gene3.identifier = "gene3"
+        self.ctrlr.add_gene(gene3)
+
     def test_add_gene(self):
         self.setup_seqs()
         gene1 = Mock()
@@ -54,30 +69,22 @@ class TestConsoleController(unittest.TestCase):
         self.setup_seqs()
         self.assertEquals(3, len(self.ctrlr.seqs))
         self.ctrlr.subset_genome("seq1 seq3")
-        self.assertEquals(1, len(self.ctrlr.seqs))
+        self.assertEquals(2, len(self.ctrlr.seqs))
 
     def test_remove_gene(self):
-        pass
-        #mock_genome = Mock()
-        #self.ctrlr.genome = mock_genome
-        #self.ctrlr.remove_gene("BDOR_foo")
-        #mock_genome.remove_all_gene_segments.assert_called_with("BDOR_foo")
+        self.setup_seqs_and_genes()
+        self.assertEquals(2, len(self.ctrlr.seqs[1].genes))
+        self.ctrlr.remove_gene("gene2")
+        self.assertEquals(1, len(self.ctrlr.seqs[1].genes))
 
-    def test_remove_all_gene_segments_multiline(self):
-        pass
-        #mock_genome = Mock()
-        #self.ctrlr.genome = mock_genome
-        #self.ctrlr.remove_gene("BDOR_foo\nBDOR_bar\nBDOR_sandwich")
-        #calls = mock_genome.mock_calls
+    def test_remove_all_genes_multiline(self):
+        self.setup_seqs_and_genes()
+        self.assertEquals(2, len(self.ctrlr.seqs[1].genes))
+        self.assertEquals(1, len(self.ctrlr.seqs[2].genes))
+        self.ctrlr.remove_gene("gene2\ngene1")
+        self.assertEquals(0, len(self.ctrlr.seqs[1].genes))
+        self.assertEquals(1, len(self.ctrlr.seqs[2].genes))
 
-        # build a list of arguments to all calls to mock_genome
-        #argslist = []
-        #for call in calls:
-        #    argslist.append(call[1][0])
-
-        #self.assertTrue("BDOR_foo" in argslist)
-        #self.assertTrue("BDOR_bar" in argslist)
-        #self.assertTrue("BDOR_sandwich" in argslist)
 
     def test_rename_maker_mrnas(self):
         pass
@@ -87,25 +94,37 @@ class TestConsoleController(unittest.TestCase):
         #mock_genome.rename_maker_mrnas.assert_called_with()
 
     def test_remove_mrnas_with_cds_shorter_than(self):
-        pass
-        #mock_genome = Mock()
-        #self.ctrlr.genome = mock_genome
-        #self.ctrlr.remove_mrnas_with_cds_shorter_than(150)
-        #mock_genome.remove_mrnas_with_cds_shorter_than.assert_called_with(150)
+        self.setup_seqs_and_genes()
+        self.ctrlr.remove_mrnas_with_cds_shorter_than(150)
+        for seq in self.ctrlr.seqs:
+            for gene in seq.genes:
+                gene.remove_mrnas_with_cds_shorter_than.assert_called_with(150)
+
 
     def test_trim_region(self):
-        pass
-        #mock_genome = Mock()
-        #self.ctrlr.genome = mock_genome
-        #self.ctrlr.trim_region('seq1 5 8')
-        #mock_genome.trim_region.assert_called_with('seq1', 5, 8)
+        self.setup_seqs_and_genes()
+        self.assertEquals(8, len(self.ctrlr.seqs[2].bases))
+        #self.ctrlr.trim_region("seq3 1 3")
+        #self.assertEquals(5, len(self.ctrlr.seqs[2].bases))
+        # TODO after add Sequence.trim()
+        #self.ctrlr.seqs.append(Sequence("seq1", "GATTACA"))
+        #self.ctrlr.seqs.append(Sequence("seq2", "ATTAC"))
+        #self.ctrlr.seqs.append(Sequence("seq3", "ACGTACGT"))
 
     def test_remove_seq(self):
-        pass
-        #mock_genome = Mock()
-        #self.ctrlr.genome = mock_genome
-        #self.ctrlr.remove_seq('seq1')
-        #mock_genome.remove_seq.assert_called_with('seq1')
+        self.setup_seqs()
+        self.assertEquals(3, len(self.ctrlr.seqs))
+        self.ctrlr.remove_seq("seq2")
+        self.assertEquals(2, len(self.ctrlr.seqs))
+
+    def test_remove_seq_force_necessary(self):
+        self.setup_seqs_and_genes()
+        self.assertEquals(3, len(self.ctrlr.seqs))
+        self.ctrlr.remove_seq("seq2")
+        for seq in self.ctrlr.seqs:
+            print(seq.header)
+        self.assertEquals(3, len(self.ctrlr.seqs))
+
 
     def test_check_gene_for_invalid_begin_or_end(self):
         pass

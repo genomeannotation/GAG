@@ -163,7 +163,7 @@ class ConsoleController:
         # parse args
         args = line.split()
         if args:
-            self.seqs = [s for s in self.seqs if s.header not in args]
+            self.seqs = [s for s in self.seqs if s.header in args]
 
     def subset_fasta(self):
         # line parameter is not used, but Cmd likes to pass it so there it is.
@@ -273,12 +273,14 @@ class ConsoleController:
             args = line.split()
         else:
             args = self.input.split('\n')
-        for arg in args:
-            self.genome.remove_all_gene_segments(arg)
+        for seq in self.seqs:
+            seq.genes = [g for g in seq.genes if g.identifier not in args]
 
     def remove_mrnas_with_cds_shorter_than(self, line):
         min_length = int(line)
-        self.genome.remove_mrnas_with_cds_shorter_than(min_length)
+        for seq in self.seqs:
+            for gene in seq.genes:
+                gene.remove_mrnas_with_cds_shorter_than(min_length)
 
     def trim_region(self, line):
         args = []
@@ -313,17 +315,25 @@ class ConsoleController:
             args = line.split()
             seq_id = args[0]
             if len(args) == 2: 
+                if args[0] != '-F' and args[1] != '-F':
+                    sys.stderr.write("Usage: removeseq [-F] <seq_id>\n")
+                    return
                 if args[0] == '-F':
                     seq_id = args[1]
                 elif args[1] == '-F':
                     seq_id = args[0]
-                else:
-                    return "Usage: removeseq [-F] <seq_id>\n"
-                return self.genome.remove_seq(seq_id, force=True)
+                self.seqs = [s for s in self.seqs if s.header != seq_id]
             else:
-                return self.genome.remove_seq(seq_id)
+                print("**************************************************************")
+                print("seq id is " + seq_id)
+                for seq in self.seqs:
+                    print("header, genes")
+                    print(seq.header)
+                    print(seq.genes)
+                # Remove seq only if it has no genes
+                self.seqs = [s for s in self.seqs if not (s.header == seq_id and not s.genes)]
         else:
-            return "Usage: removeseq [-F] <seq_id>\n"
+            sys.stderr.write("Usage: removeseq [-F] <seq_id>\n")
 
     def check_gene_for_invalid_begin_or_end(self, line):
         args = []
