@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import unittest
+from mock import Mock
 from src.sequence import Sequence
 
 class TestSequence(unittest.TestCase):
@@ -11,9 +12,6 @@ class TestSequence(unittest.TestCase):
     def test_string(self):
         expected = "Sequence seq1 of length 7 containing 0 genes\n"
         self.assertEquals(expected, str(self.seq1))
-
-    def setup_bad_seq(self):
-        badseq = Sequence('seq1', 'NNnNNGATTACA')
 
     def test_how_many_Ns_forward(self):
         badseq = Sequence('seq1', 'NNnNNGATTACA')
@@ -30,7 +28,27 @@ class TestSequence(unittest.TestCase):
     def test_how_many_Ns_backward_returns_zero_if_no_Ns(self):
         self.assertEqual(0, self.seq1.how_many_Ns_backward(3))
 
+    def test_add_gene(self):
+        self.assertEqual(0, len(self.seq1.genes))
+        mockgene = Mock()
+        self.seq1.add_gene(mockgene)
+        self.assertEqual(1, len(self.seq1.genes))
 
+    def test_remove_gene(self):
+        mockgene = Mock()
+        mockgene.identifier = "foo_gene"
+        self.seq1.add_gene(mockgene)
+        self.assertEqual(1, len(self.seq1.genes))
+        self.seq1.remove_gene("foo_gene")
+        self.assertEqual(0, len(self.seq1.genes))
+
+    def test_remove_gene_fails_if_no_match(self):
+        mockgene = Mock()
+        mockgene.identifier = "foo_gene"
+        self.seq1.add_gene(mockgene)
+        self.assertEqual(1, len(self.seq1.genes))
+        self.seq1.remove_gene("bar_gene")
+        self.assertEqual(1, len(self.seq1.genes))
 
 ##########################
 def suite():

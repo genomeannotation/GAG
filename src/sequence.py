@@ -15,6 +15,12 @@ class Sequence:
         result += " genes\n"
         return result
 
+    def add_gene(self, gene):
+        self.genes.append(gene)
+
+    def remove_gene(self, gene_id):
+        self.genes = [g for g in self.genes if g.identifier != gene_id]
+
     def to_fasta(self):
         result = '>' + self.header + '\n'
         result += self.bases + '\n'
