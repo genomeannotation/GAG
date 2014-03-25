@@ -50,6 +50,22 @@ class TestSequence(unittest.TestCase):
         self.seq1.remove_gene("bar_gene")
         self.assertEqual(1, len(self.seq1.genes))
 
+    def test_trim(self):
+        self.assertEquals("GATTACA", self.seq1.bases)
+        self.seq1.trim(1, 4)
+        self.assertEquals("ACA", self.seq1.bases)
+
+    def test_trim_trims_gene(self):
+        mockgene = Mock()
+        mockgene.indices = [3, 7]
+        self.seq1.add_gene(mockgene)
+        self.assertEquals(1, len(self.seq1.genes))
+        self.seq1.trim(1, 4)
+        self.assertEquals(0, len(self.seq1.genes))
+
+    def test_get_subseq(self):
+        pass
+
 ##########################
 def suite():
     suite = unittest.TestSuite()

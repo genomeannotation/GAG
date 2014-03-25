@@ -60,3 +60,17 @@ class Sequence:
                     count += 1
             return count
 
+    def trim(self, start, stop):
+        if stop > len(self.bases):
+            sys.stderr.write("Sequence.trim called on sequence that is too short;"+\
+                    " doing nothing.")
+            return
+        self.bases = self.bases[:start-1] + self.bases[stop:]
+        offset = -(stop - start + 1)
+        to_remove = []
+        for gene in self.genes:
+            for index in gene.indices:
+                if index >= start and index <= stop:
+                    to_remove.append(gene)
+        self.genes = [g for g in self.genes if g not in to_remove]
+        
