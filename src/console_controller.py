@@ -8,7 +8,6 @@ import subprocess
 import glob
 from src.fasta_reader import FastaReader
 from src.gff_reader import GFFReader
-from src.genome import Genome
 from src.annotator import Annotator
 from src.translate import translate
 
