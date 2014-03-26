@@ -18,6 +18,7 @@ class ConsoleController:
 
     def __init__(self):
         self.seqs = []
+        self.annot = Annotator()
         self.input = ''
 
     def barf_folder(self, line):
@@ -39,8 +40,7 @@ class ConsoleController:
                 fasta.write(seq.to_fasta())
 
         # Write the annotations
-        #self.genome.annot.write_to_file(line+'/gag.trinotate')
-        # TODO
+        self.annot.write_to_file(line+'/gag.trinotate')
         
     def load_folder(self, line):
         if not line:
@@ -143,8 +143,7 @@ class ConsoleController:
             self.add_gene(gene)
 
     def read_trinotate(self, line):
-        self.genome.annot = Annotator()
-        self.genome.annot.read_from_file(line)
+        self.annot.read_from_file(line)
 
 
 
@@ -162,7 +161,10 @@ class ConsoleController:
             #self.genome.remove_mrnas_with_cds_shorter_than(min_cds_length)
 
     def create_starts_and_stops(self):
-        self.genome.create_starts_and_stops() 
+        #TODO pleeeeeease pass seq.bases instead of whole seq.
+        for seq in self.seqs:
+            for gene in seq.genes:
+                gene.create_starts_and_stops(seq)
 
     def subset_genome(self, line):
         # parse args
@@ -192,80 +194,77 @@ class ConsoleController:
         else:
             args = self.input.split('\n')
 
-        for name in args:
-            eraseGenes = []
-            for gene in self.genome.genes:
-                erase = []
-                for mrna in gene.mrnas:
-                    if mrna.identifier == name:
-                        erase.append(mrna)
-                for mrna in erase:
-                    gene.mrnas.remove(mrna)
-                if len(gene.mrnas) == 0:
-                    eraseGenes.append(gene)
-            for gene in eraseGenes:
-                self.genome.genes.remove(gene)
+        for seq in self.seqs:
+            for gene in seq.genes:
+                gene.mrnas = [m for m in gene.mrnas if m.identifier not in args]
                         
-    def remove_genes_marked_for_removal(self, line):
-        self.genome.remove_genes_marked_for_removal()
-
     def rename_maker_mrnas(self):
-        self.genome.rename_maker_mrnas()
+        locus_tag = self.get_locus_tag()
+        count = 1000000
+        for seq in self.seqs:
+            for gene in seq.genes:
+                for mrna in gene.mrnas:
+                    if mrna.is_maker_mrna():
+                        old_name = mrna.identifier
+                        new_name = locus_tag + '_' + str(count)
+                        mrna.identifier = new_name
+                        self.annot.rename_mrna(old_name, new_name)
+                        count += 1
 
     def ducttape_mrna_seq_frame(self, name):
-        for gene in self.genome.genes:
-            for mrna in gene.mrnas:
-                if mrna.identifier == name:
-                    seq = self.genome.fasta.get_subseq(gene.seq_name, \
-                            [mrna.cds.indices[0]]) #first segment
-                    if seq == None:
-                        return "Failed to fix "+name+\
-                               ": sequence does not exist.\n" 
-                    elif len(seq) < 6:
-                        return "Failed to fix "+name+\
-                               ": sequence less than 6 base pairs.\n"
-
-                    pseq1 = translate(seq, 1, '+')
-                    pseq2 = translate(seq, 2, '+')
-                    pseq3 = translate(seq, 3, '+')
-                    nseq1 = translate(seq, 1, '-')
-                    nseq2 = translate(seq, 2, '-')
-                    nseq3 = translate(seq, 3, '-')
-
-                    annotEntry = self.genome.annot.get_entry(name)
-                    if annotEntry:
-                        pepSeq = annotEntry[9]
-                        if pepSeq == None:
+        for seq in self.seqs:
+            for gene in seq.genes:
+                for mrna in gene.mrnas:
+                    if mrna.identifier == name:
+                        subseq = seq.get_subseq(mrna.cds.indices[0], mrna.cds.indices[1]) #first segment
+                        if subseq == None:
                             return "Failed to fix "+name+\
-                                   ": trinotate missing peptide sequence.\n"
+                                   ": sequence does not exist.\n" 
+                        elif len(subseq) < 6:
+                            return "Failed to fix "+name+\
+                                   ": sequence less than 6 base pairs.\n"
 
-                        oldphase = mrna.cds.phase[0]
-                        if pseq1 and pepSeq.find(pseq1[:-1]) == 0:
-                            gene.strand = '+'
-                            mrna.cds.phase[0] = 0
-                        elif pseq2 and pepSeq.find(pseq2[:-1]) == 0:
-                            gene.strand = '+'
-                            mrna.cds.phase[0] = 1
-                        elif pseq3 and pepSeq.find(pseq3[:-1]) == 0:
-                            gene.strand = '+'
-                            mrna.cds.phase[0] = 2
-                        elif nseq1 and pepSeq.find(nseq1[:-1]) == 0:
-                            gene.strand = '-'
-                            mrna.cds.phase[0] = 0
-                        elif nseq2 and pepSeq.find(nseq2[:-1]) == 0:
-                            gene.strand = '-'
-                            mrna.cds.phase[0] = 1
-                        elif nseq3 and pepSeq.find(nseq3[:-1]) == 0:
-                            gene.strand = '-'
-                            mrna.cds.phase[0] = 2
+                        pseq1 = translate(subseq, 1, '+')
+                        pseq2 = translate(subseq, 2, '+')
+                        pseq3 = translate(subseq, 3, '+')
+                        nseq1 = translate(subseq, 1, '-')
+                        nseq2 = translate(subseq, 2, '-')
+                        nseq3 = translate(subseq, 3, '-')
+
+                        annotEntry = self.annot.get_entry(name)
+                        if annotEntry:
+                            pepSeq = annotEntry[9]
+                            if pepSeq == None:
+                                return "Failed to fix "+name+\
+                                       ": trinotate missing peptide sequence.\n"
+
+                            oldphase = mrna.cds.phase[0]
+                            if pseq1 and pepSeq.find(pseq1[:-1]) == 0:
+                                gene.strand = '+'
+                                mrna.cds.phase[0] = 0
+                            elif pseq2 and pepSeq.find(pseq2[:-1]) == 0:
+                                gene.strand = '+'
+                                mrna.cds.phase[0] = 1
+                            elif pseq3 and pepSeq.find(pseq3[:-1]) == 0:
+                                gene.strand = '+'
+                                mrna.cds.phase[0] = 2
+                            elif nseq1 and pepSeq.find(nseq1[:-1]) == 0:
+                                gene.strand = '-'
+                                mrna.cds.phase[0] = 0
+                            elif nseq2 and pepSeq.find(nseq2[:-1]) == 0:
+                                gene.strand = '-'
+                                mrna.cds.phase[0] = 1
+                            elif nseq3 and pepSeq.find(nseq3[:-1]) == 0:
+                                gene.strand = '-'
+                                mrna.cds.phase[0] = 2
+                            else:
+                                return "Failed to fix "+name+\
+                                       ": no matching translation.\n"
+                            return "Fixed "+name+" from phase "+str(oldphase)+\
+                                   " to phase "+str(mrna.cds.phase[0])+"\n"
                         else:
                             return "Failed to fix "+name+\
-                                   ": no matching translation.\n"
-                        return "Fixed "+name+" from phase "+str(oldphase)+\
-                               " to phase "+str(mrna.cds.phase[0])+"\n"
-                    else:
-                        return "Failed to fix "+name+\
-                               ": trinotate entry doesn't exist.\n"
+                                   ": trinotate entry doesn't exist.\n"
         return "Failed to fix "+name+": mRNA doesn't exist.\n"
 
     def remove_gene(self, line):
@@ -291,10 +290,12 @@ class ConsoleController:
                 sys.stderr.write("Error: ConsoleController.trim_region \
                                   requires 3 args\n")
             else:
-                seq = args[0]
+                seq_name = args[0]
                 start = int(args[1])
                 stop = int(args[2])
-                self.genome.trim_region(seq, start, stop)
+                for seq in self.seqs:
+                    if seq.header == seq_name:
+                        seq.trim_region(start, stop)
         else:
             lines = self.input.split('\n')
             for entry in lines:
@@ -305,10 +306,13 @@ class ConsoleController:
                     sys.stderr.write("This was the input: " + entry + "\n")
                     sys.stderr.write("Moving on to next input...\n")
                 else:
-                    seq = entries[0]
+                    # TODO too many loops, could be nicer
+                    seq_name = entries[0]
                     start = int(entries[1])
                     stop = int(entries[2])
-                    self.genome.trim_region(seq, start, stop)
+                    for seq in self.seqs:
+                        if seq.header == seq_name:
+                            seq.trim_region(start, stop)
 
     def remove_seq(self, line):
         if len(line) > 0:
@@ -337,26 +341,39 @@ class ConsoleController:
             sys.stderr.write("Usage: removeseq [-F] <seq_id>\n")
 
     def check_gene_for_invalid_begin_or_end(self, line):
-        args = []
-        if len(line) > 0:
-            args = line.split()
-        else:
-            args = self.input.split('\n')
-        for arg in args:
-            self.genome.check_gene_for_invalid_begin_or_end(arg)
+        # TODO this should probably just check all genes instead of taking args
+        #args = []
+        #if len(line) > 0:
+            #args = line.split()
+        #else:
+            #args = self.input.split('\n')
+        #for arg in args:
+            #self.genome.check_gene_for_invalid_begin_or_end(arg)
+        pass
 
     def invalidate_region(self, line):
         if len(line) > 0:
             args = line.split()
-            self.genome.invalidate_region(args[0], int(args[1]), int(args[2]))
+            seq_name = args[0]
+            start = args[1]
+            stop = args[2]
+            for seq in self.seqs:
+                if seq.header == seq_name:
+                    for gene in seq.genes:
+                        gene.invalidate_region(start, stop)
         else:
             lines = self.input.split('\n')
             for line in lines:
                 args = line.split()
                 if not args:
                     continue
-                self.genome.invalidate_region(args[0], \
-                        int(args[1]), int(args[2]))
+                seq_name = args[0]
+                start = args[1]
+                stop = args[2]
+                for seq in self.seqs:
+                    if seq.header == seq_name:
+                        for gene in seq.genes:
+                            gene.invalidate_region(start, stop)
 
 
 ## Output info to console
@@ -384,12 +401,17 @@ class ConsoleController:
             for gene in seq.genes:
                 for mrna in gene.mrnas:
                     if mrna.identifier == name and mrna.cds:
-                        return mrna.cds.extract_sequence(self.genome.fasta, \
-                                gene.seq_name, gene.strand)
+                        return mrna.cds.extract_sequence(seq, gene.strand)
         return "Error: Couldn't find mRNA.\n"
 
     def barf_gene_tbl(self, line):
-        return self.genome.write_string(set(line.split()))
+        # TODO this used to take multiple gene_ids? but do we care?
+        output = ">Feature SeqId\n"
+        for seq in self.seqs:
+            for gene in seq.genes:
+                if gene.identifier == line:
+                    output += gene.to_tbl()
+        return output
 
 ## Output info to file
 
@@ -397,7 +419,9 @@ class ConsoleController:
         if os.path.exists(line):
             return line + "already exists; please try another filename\n"
         with open(line, 'w') as outFile:
-            outFile.write(self.genome.write_string())
+            outFile.write(">Feature SeqId\n")
+            for seq in self.seqs:
+                outFile.write(seq.to_tbl())
             outFile.close()
         return ".tbl file written to " + line + "\n"
 
@@ -412,3 +436,10 @@ class ConsoleController:
         for seq in self.seqs:
             if seq.header == gene.seq_name:
                 seq.genes.append(gene)
+
+    def get_locus_tag(self):
+        for seq in self.seqs:
+            for gene in seq.genes:
+                gene_id = str(gene.identifier)
+                locus_tag = gene_id.split('_')[0]
+                return locus_tag

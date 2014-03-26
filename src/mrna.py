@@ -64,10 +64,12 @@ class MRNA:
         for feat in self.other_features:
             feat.clean_up_indices()
 
-    def create_start_and_stop_if_necessary(self, fasta, seq_name, phase):
+    def create_start_and_stop_if_necessary(self, seq_object, phase):
+        # TODO I'd rather pass seq.bases than the object itself, since
+        # the object owns this mrna...
         if not self.cds:
             return
-        seq = self.cds.extract_sequence(fasta, seq_name, phase)
+        seq = self.cds.extract_sequence(seq_object, phase)
         if translate.has_start_codon(seq):
             indices = self.cds.get_start_indices(phase)
             self.add_start_codon(indices)

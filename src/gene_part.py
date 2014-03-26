@@ -231,18 +231,18 @@ class CDS(GenePart):
             elif start <= index[1] and stop >= index[1]:
                 index[1] = start-1
 
-    def extract_sequence(self, fasta, seq_name, strand):
+    def extract_sequence(self, seq_object, strand):
         seq = ''
         if strand == '+':
             for i in xrange(len(self.indices)):
                 index_pair = self.indices[i]
-                subseq = fasta.get_subseq(seq_name, [index_pair])
+                subseq = seq_object.get_subseq(index_pair[0], index_pair[1])
                 if subseq:
                     seq += subseq
         elif strand == '-':
             for i in xrange(len(self.indices)):
                 index_pair = self.indices[i]
-                non_reversed_seq = fasta.get_subseq(seq_name, [index_pair])
+                non_reversed_seq = seq_object.get_subseq(index_pair[0], index_pair[1])
                 if non_reversed_seq:
                     seq += translate.reverse_complement(non_reversed_seq)
         return seq

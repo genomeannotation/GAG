@@ -156,7 +156,7 @@ class TestMRNA(unittest.TestCase):
         exon.clean_up_indices.assert_called_with()
 
     def test_create_start_and_stop_if_necessary(self):
-        fasta = Mock()
+        seq_object = Mock()
         cds = Mock()
         cds.extract_sequence.return_value = 'atgtag' # startstop
         cds.get_start_indices.return_value = 20
@@ -165,12 +165,12 @@ class TestMRNA(unittest.TestCase):
         seq_name = 'seq_foo'
         strand = '+'
         self.assertFalse(self.test_mrna0.other_features)
-        self.test_mrna0.create_start_and_stop_if_necessary(fasta, seq_name, strand)
+        self.test_mrna0.create_start_and_stop_if_necessary(seq_object, strand)
         self.assertTrue(self.test_mrna0.other_features)
         self.assertEquals(2, len(self.test_mrna0.other_features))
 
     def test_create_start_and_stop_when_no_start_or_stop(self):
-        fasta = Mock()
+        seq_object = Mock()
         cds = Mock()
         cds.extract_sequence.return_value = 'tagatg' # no start or stop
         cds.get_start_indices.return_value = 20
@@ -179,7 +179,7 @@ class TestMRNA(unittest.TestCase):
         seq_name = 'seq_foo'
         strand = '+'
         self.assertFalse(self.test_mrna0.other_features)
-        self.test_mrna0.create_start_and_stop_if_necessary(fasta, seq_name, strand)
+        self.test_mrna0.create_start_and_stop_if_necessary(seq_object, strand)
         self.assertFalse(self.test_mrna0.other_features)
 
     def test_remove_invalid_features(self):

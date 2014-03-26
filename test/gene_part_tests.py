@@ -182,28 +182,22 @@ class TestCDS(unittest.TestCase):
         self.assertEquals(expected, self.test_cds1.get_stop_indices('-'))
 
     def test_extract_sequence_pos_strand(self):
-        fasta = Mock()
-        fasta.get_subseq.return_value = 'GATTACA'
+        seq_object = Mock()
+        seq_object.get_subseq.return_value = 'GATTACA'
         strand = '+'
         seq_name = 'seq1'
-        seq = self.test_cds1.extract_sequence(fasta, seq_name, strand)
+        seq = self.test_cds1.extract_sequence(seq_object, strand)
         expected = 'GATTACAGATTACAGATTACAGATTACAGATTACA'
         self.assertEquals(expected, seq)
 
     def test_extract_sequence_neg_strand(self):
-        fasta = Mock()
-        fasta.get_subseq.return_value = 'GATTACA'
+        seq_object = Mock()
+        seq_object.get_subseq.return_value = 'GATTACA'
         strand = '-'
         seq_name = 'seq1'
-        seq = self.test_cds1.extract_sequence(fasta, seq_name, strand)
+        seq = self.test_cds1.extract_sequence(seq_object, strand)
         expected = 'TGTAATCTGTAATCTGTAATCTGTAATCTGTAATC'
         self.assertEquals(expected, seq)
-        calls = fasta.mock_calls
-        # build a list of arguments to all calls to fasta
-        first_call_args = calls[0][1]
-        self.assertTrue('seq1' in first_call_args)
-        second_call_args = calls[1][1]
-        self.assertTrue([[4092, 4332]] in second_call_args) 
 
     def test_cds_constructor(self):
         self.assertEquals('CDS', self.test_cds0.__class__.__name__)
