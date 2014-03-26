@@ -23,7 +23,7 @@ class ConsoleController:
 
     def barf_folder(self, line):
         if len(line) == 0:
-            print("Usage: barffolder <directory>\n")
+            sys.stderr.write("Usage: barffolder <directory>\n")
             return
 
         os.system('mkdir '+line)
@@ -43,6 +43,7 @@ class ConsoleController:
         self.annot.write_to_file(line+'/gag.trinotate')
         
     def load_folder(self, line):
+        # TODO messages like "reading fasta ... N sequences. reading gff... etc."
         if not line:
             line = "."
         # Get filenames
@@ -50,18 +51,18 @@ class ConsoleController:
         fastas = glob.glob(line + '/*.fasta')
         trinotates = glob.glob(line + '/*.trinotate')
 
-        # Read the gff
-        if gffs:
-            self.read_gff(gffs[0])
-        else:
-            sys.stderr.write("Couldn't find .gff file in " + line + "\n")
-            return
-
         # Read the fasta
         if fastas:
             self.read_fasta(fastas[0])
         else:
             sys.stderr.write("Couldn't find .fasta file in " + line + "\n")
+            return
+
+        # Read the gff
+        if gffs:
+            self.read_gff(gffs[0])
+        else:
+            sys.stderr.write("Couldn't find .gff file in " + line + "\n")
             return
 
         # Read the annotations
@@ -116,7 +117,7 @@ class ConsoleController:
 ## Assorted utilities
 
     def status(self):
-        pass
+        return "Number of seqs: " + str(len(self.seqs))
 
     def barftofile(self, line):
         args = line.split()
@@ -315,30 +316,8 @@ class ConsoleController:
                             seq.trim_region(start, stop)
 
     def remove_seq(self, line):
-        if len(line) > 0:
-            args = []
-            args = line.split()
-            seq_id = args[0]
-            if len(args) == 2: 
-                if args[0] != '-F' and args[1] != '-F':
-                    sys.stderr.write("Usage: removeseq [-F] <seq_id>\n")
-                    return
-                if args[0] == '-F':
-                    seq_id = args[1]
-                elif args[1] == '-F':
-                    seq_id = args[0]
-                self.seqs = [s for s in self.seqs if s.header != seq_id]
-            else:
-                print("**************************************************************")
-                print("seq id is " + seq_id)
-                for seq in self.seqs:
-                    print("header, genes")
-                    print(seq.header)
-                    print(seq.genes)
-                # Remove seq only if it has no genes
-                self.seqs = [s for s in self.seqs if not (s.header == seq_id and not s.genes)]
-        else:
-            sys.stderr.write("Usage: removeseq [-F] <seq_id>\n")
+        # TODO take multiple args?
+        self.seqs = [s for s in self.seqs if s.header != line]
 
     def check_gene_for_invalid_begin_or_end(self, line):
         # TODO this should probably just check all genes instead of taking args
@@ -352,6 +331,8 @@ class ConsoleController:
         pass
 
     def invalidate_region(self, line):
+        # TODO return error messages on invalid args
+        # TODO not working
         if len(line) > 0:
             args = line.split()
             seq_name = args[0]
@@ -417,7 +398,7 @@ class ConsoleController:
 
     def write_tbl(self, line):
         if os.path.exists(line):
-            return line + "already exists; please try another filename\n"
+            return line + " already exists; please try another filename\n"
         with open(line, 'w') as outFile:
             outFile.write(">Feature SeqId\n")
             for seq in self.seqs:

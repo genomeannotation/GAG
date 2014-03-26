@@ -60,7 +60,7 @@ class Sequence:
                     count += 1
             return count
 
-    def trim(self, start, stop):
+    def trim_region(self, start, stop):
         if stop > len(self.bases):
             sys.stderr.write("Sequence.trim called on sequence that is too short;"+\
                     " doing nothing.")
@@ -68,6 +68,7 @@ class Sequence:
         self.bases = self.bases[:start-1] + self.bases[stop:]
         offset = -(stop - start + 1)
         to_remove = []
+        # TODO don't autoremove them; adjust indices and verify
         for gene in self.genes:
             for index in gene.indices:
                 if index >= start and index <= stop:
@@ -78,3 +79,9 @@ class Sequence:
         if stop > len(self.bases):
             return ""
         return self.bases[start-1:stop]
+
+    def to_tbl(self):
+        result = ""
+        for gene in self.genes:
+            result += gene.to_tbl()
+        return result

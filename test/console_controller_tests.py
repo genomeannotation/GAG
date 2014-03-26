@@ -122,10 +122,7 @@ class TestConsoleController(unittest.TestCase):
         self.setup_seqs_and_genes()
         self.assertEquals(3, len(self.ctrlr.seqs))
         self.ctrlr.remove_seq("seq2")
-        for seq in self.ctrlr.seqs:
-            print(seq.header)
-        self.assertEquals(3, len(self.ctrlr.seqs))
-
+        self.assertEquals(2, len(self.ctrlr.seqs))
 
     def test_check_gene_for_invalid_begin_or_end(self):
         pass

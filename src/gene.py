@@ -193,5 +193,8 @@ class Gene:
         entries.extend(temp_entries)
         return entries
 
+    def to_tbl(self):
+        # TODO
+        return ""
 
 
