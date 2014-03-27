@@ -188,6 +188,7 @@ class CDS(GenePart):
         for i in range(len(self.phase)):
             if self.indices[i][0] < 1:
                 self.phase[i] = (self.phase[i] + self.indices[i][0] + -1) %3
+         
     # Returns first and third indices regardless of whether 
     # CDS actually has a start codon
     def get_start_indices(self, phase):
@@ -247,6 +248,10 @@ class CDS(GenePart):
                     seq += translate.reverse_complement(non_reversed_seq)
         return seq
 
+    def test_to_tbl(self, strand):
+        # TODO
+        return ""
+
 
 
 class Exon(GenePart):
@@ -256,3 +261,6 @@ class Exon(GenePart):
         GenePart.__init__(self, **kwargs)
         self.annotations = []
 
+    def to_tbl(self, strand):
+        # TODO
+        return ""

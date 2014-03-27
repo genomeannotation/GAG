@@ -343,6 +343,9 @@ class TestCDS(unittest.TestCase):
         actual = test_cds2.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
         self.assertEquals(expected, actual)
 
+    def test_to_tbl(self):
+        pass
+
 
 class TestExon(unittest.TestCase):
 
@@ -405,6 +408,19 @@ class TestExon(unittest.TestCase):
         expected = expected1 + expected2 + expected3 + expected4 + expected5
         actual = self.test_exon1.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
         self.assertEquals(expected, actual)
+
+    def test_to_tbl_positive(self):
+        expected = "3734\t4034\tmRNA\n"
+        expected += "4092\t4332\n"
+        expected += "4399\t5185\n"
+        expected += "5249\t6565\n"
+        expected += "6630\t7436\n"
+        expected += "\t\t\tproduct\thypothetical protein\n"  # TODO annotations :)
+        #self.assertEquals(self.test_exon1.to_tbl("+"), expected)
+
+    def test_to_tbl_positive_partial(self):
+        # TODO
+        pass
 
         
 

@@ -125,7 +125,8 @@ class Sequence:
                     return mrna.cds.extract_sequence(self, gene.strand)
 
     def to_tbl(self):
-        result = ""
+        result = "1\t" + str(len(self.bases)) + "\tREFERENCE\n"
+        result += "\t\t\tPBARC\t12345\n"
         for gene in self.genes:
             result += gene.to_tbl()
         return result
