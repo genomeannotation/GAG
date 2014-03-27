@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import math
+import copy
 import sys
 import src.translate as translate
 
@@ -9,6 +10,53 @@ def length_of_segment(index_pair):
 
 def adjust_index_pair(index_pair, n):
     return [i + n for i in index_pair]
+
+def get_reversed_indices(indices):
+    indices.reverse()
+    [ind.reverse() for ind in indices]
+    return indices
+
+def one_line_indices_entry(indices, has_start, has_stop, is_cds):
+    output = ""
+    if not has_start:
+        output += "<"
+    output += str(indices[0]) + "\t"
+    if not has_stop:
+        output += ">"
+    output += str(indices[1]) + "\t"
+    if is_cds:
+        output += "CDS\n"
+    else:
+        output += "mRNA\n"
+    return output
+
+def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, phase=0):
+    output = ""
+    if strand == "-":
+        indices = get_reversed_indices(indices)
+    if len(indices) == 1:
+        output += one_line_indices_entry(indices, has_start, has_stop, is_cds)
+    else:
+        # Write first line of coordinates
+        if not has_start:
+            output += "<"
+        output += str(indices[0][0]) + "\t" + str(indices[0][1]) + "\t" 
+        if is_cds:
+            output += "CDS\n"
+        else:
+            output += "mRNA\n"
+        # Write middle lines
+        for index_pair in indices[1:-1]:
+            output += str(index_pair[0]) + "\t" + str(index_pair[1]) + "\n"
+        # Write last line of coordinates
+        output += str(indices[-1][0]) + "\t"
+        if not has_stop:
+            output += ">"
+        output += str(indices[-1][1]) + "\n"
+    if is_cds:
+        output += "\t\t\tcodon_start\t" + str(phase+1) + "\n"
+    output += "\t\t\tproduct\thypothetical protein\n"
+    return output
 
 class GenePart:
     def __init__(self, feature_type=None, identifier=None,\
@@ -248,10 +296,9 @@ class CDS(GenePart):
                     seq += translate.reverse_complement(non_reversed_seq)
         return seq
 
-    def test_to_tbl(self, strand):
-        # TODO
-        return ""
-
+    def to_tbl(self, strand, has_start, has_stop, phase):
+        indices = copy.deepcopy(self.indices)
+        return write_tbl_entry(indices, strand, has_start, has_stop, True, phase)
 
 
 class Exon(GenePart):
@@ -261,6 +308,7 @@ class Exon(GenePart):
         GenePart.__init__(self, **kwargs)
         self.annotations = []
 
-    def to_tbl(self, strand):
-        # TODO
-        return ""
+    def to_tbl(self, strand, has_start, has_stop):
+        indices = copy.deepcopy(self.indices)
+        return write_tbl_entry(indices, strand, has_start, has_stop, False)
+

@@ -2,7 +2,7 @@
 
 import unittest
 from mock import Mock, PropertyMock
-from src.gene_part import GenePart, CDS, Exon
+from src.gene_part import GenePart, CDS, Exon, get_reversed_indices
 from src.mrna import MRNA
 from src.gene import Gene
 
@@ -343,8 +343,15 @@ class TestCDS(unittest.TestCase):
         actual = test_cds2.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
         self.assertEquals(expected, actual)
 
-    def test_to_tbl(self):
-        pass
+    def test_to_tbl_positive_complete(self):
+        expected = "3734\t4034\tCDS\n"
+        expected += "4092\t4332\n"
+        expected += "4399\t5185\n"
+        expected += "5249\t6565\n"
+        expected += "6630\t7436\n"
+        expected += "\t\t\tcodon_start\t2\n"
+        expected += "\t\t\tproduct\thypothetical protein\n"  # TODO annotations :)
+        self.assertEquals(self.test_cds1.to_tbl("+", True, True, 1), expected)
 
 
 class TestExon(unittest.TestCase):
@@ -365,7 +372,6 @@ class TestExon(unittest.TestCase):
             self.test_exon1.add_identifier(ident)
         for score in self.extra_scores:
             self.test_exon1.add_score(score)
-
 
     def test_constructor(self):
         self.assertEquals('Exon', self.test_exon1.__class__.__name__)
@@ -409,18 +415,46 @@ class TestExon(unittest.TestCase):
         actual = self.test_exon1.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
         self.assertEquals(expected, actual)
 
-    def test_to_tbl_positive(self):
+    def test_to_tbl_positive_complete(self):
         expected = "3734\t4034\tmRNA\n"
         expected += "4092\t4332\n"
         expected += "4399\t5185\n"
         expected += "5249\t6565\n"
         expected += "6630\t7436\n"
         expected += "\t\t\tproduct\thypothetical protein\n"  # TODO annotations :)
-        #self.assertEquals(self.test_exon1.to_tbl("+"), expected)
+        self.assertEquals(self.test_exon1.to_tbl("+", True, True), expected)
 
-    def test_to_tbl_positive_partial(self):
-        # TODO
-        pass
+    def test_to_tbl_positive_no_start(self):
+        expected = "<3734\t4034\tmRNA\n"
+        expected += "4092\t4332\n"
+        expected += "4399\t5185\n"
+        expected += "5249\t6565\n"
+        expected += "6630\t7436\n"
+        expected += "\t\t\tproduct\thypothetical protein\n"  # TODO annotations :)
+        self.assertEquals(self.test_exon1.to_tbl("+", False, True), expected)
+
+    def test_to_tbl_negative_complete(self):
+        expected = "7436\t6630\tmRNA\n"
+        expected += "6565\t5249\n"
+        expected += "5185\t4399\n"
+        expected += "4332\t4092\n"
+        expected += "4034\t3734\n"
+        expected += "\t\t\tproduct\thypothetical protein\n"
+        self.assertEquals(self.test_exon1.to_tbl("-", True, True), expected)
+
+    def test_to_tbl_negative_no_start_no_stop(self):
+        expected = "<7436\t6630\tmRNA\n"
+        expected += "6565\t5249\n"
+        expected += "5185\t4399\n"
+        expected += "4332\t4092\n"
+        expected += "4034\t>3734\n"
+        expected += "\t\t\tproduct\thypothetical protein\n"
+        self.assertEquals(self.test_exon1.to_tbl("-", False, False), expected)
+
+    def test_get_reversed_indices(self):
+        indices = [[1, 10], [20, 30], [40, 50]]
+        expected = [[50, 40], [30, 20], [10, 1]]
+        self.assertEquals(get_reversed_indices(indices), expected)
 
         
 
