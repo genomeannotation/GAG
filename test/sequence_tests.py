@@ -115,6 +115,9 @@ class TestSequence(unittest.TestCase):
         self.assertEquals(stats["longest_gene"], "foo_gene1:20")
         self.assertEquals(stats["longest_mRNA"], "foo_gene2-RA:5")
         self.assertEquals(stats["longest_CDS"], "foo_gene1-RA:CDS:5")
+        self.assertEquals(stats["shortest_gene"], "foo_gene2:10")
+        self.assertEquals(stats["shortest_mRNA"], "foo_gene1-RA:2")
+        self.assertEquals(stats["shortest_CDS"], "foo_gene2-RB:CDS:3")
 
 
 

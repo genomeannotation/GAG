@@ -197,6 +197,35 @@ class Sequence:
                     longest = mrna.cds
         return longest.identifier[0]+":"+str(length)
         
+    def get_shortest_gene(self):
+        length = 0
+        shortest = None
+        for gene in self.genes:
+            if gene.length() < length or shortest == None:
+                length = gene.length()
+                shortest = gene
+        return shortest.identifier+":"+str(length)
+        
+    def get_shortest_mrna(self):
+        length = 0
+        shortest = None
+        for gene in self.genes:
+            for mrna in gene.mrnas:
+                if mrna.length() < length or shortest == None:
+                    length = mrna.length()
+                    shortest = mrna
+        return shortest.identifier+":"+str(length)
+        
+    def get_shortest_cds(self):
+        length = 0
+        shortest = None
+        for gene in self.genes:
+            for mrna in gene.mrnas:
+                if mrna.cds != None and (mrna.cds.length() < length or shortest == None):
+                    length = mrna.cds.length()
+                    shortest = mrna.cds
+        return shortest.identifier[0]+":"+str(length)
+        
     def stats(self):
         stats = dict()
         
@@ -207,5 +236,8 @@ class Sequence:
         stats["longest_gene"] = self.get_longest_gene()
         stats["longest_mRNA"] = self.get_longest_mrna()
         stats["longest_CDS"] = self.get_longest_cds()
+        stats["shortest_gene"] = self.get_shortest_gene()
+        stats["shortest_mRNA"] = self.get_shortest_mrna()
+        stats["shortest_CDS"] = self.get_shortest_cds()
         
         return stats
