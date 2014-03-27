@@ -201,7 +201,7 @@ class Gene:
         output = str(indices[0]) + "\t" + str(indices[1]) + "\t" + "gene\n"
         output += "\t\t\tlocus_tag\t" + self.identifier + "\n"
         for mrna in self.mrnas:
-            output += mrna.to_tbl()
+            output += mrna.to_tbl(self.strand)
         return output
 
 

@@ -226,8 +226,12 @@ class TestMRNA(unittest.TestCase):
         maker_mrna = MRNA(identifier='maker-foo-mrna-bar', indices=[3734, 7436], parent_id=1)
         self.assertFalse(self.test_mrna0.is_maker_mrna())
         self.assertTrue(maker_mrna.is_maker_mrna())
-       
 
+    def test_to_gff(self):
+        self.fake_exon.to_tbl.return_value = "fake_exon_to_tbl...\n"
+        self.fake_cds.to_tbl.return_value = "fake_cds_to_tbl...\n"
+        expected = "fake_exon_to_tbl...\nfake_cds_to_tbl...\n"
+        self.assertEquals(self.test_mrna1.to_tbl("+"), expected)
 
 
 ##########################

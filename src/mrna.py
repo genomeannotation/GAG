@@ -213,3 +213,11 @@ class MRNA:
             entries.append(exonEntry)
 
         return entries
+
+    def to_tbl(self, strand):
+        output = ""
+        if self.exon:
+            output += self.exon.to_tbl()
+        if self.cds:
+            output += self.cds.to_tbl()
+        return output
