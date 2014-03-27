@@ -189,7 +189,7 @@ class GagCmd(cmd.Cmd):
         print("Prints gff entry for corresponding gene to console.\n")
 
     def do_barfgenegff(self, line):
-        self.output = try_catch(self.controller.barf_gff, line)
+        self.output = try_catch(self.controller.barf_gene_gff, line)
 
     def help_barfseq(self):
         print("Usage: barfseq <seq_id> <start_index> <end_index>\n")

@@ -21,6 +21,25 @@ class Sequence:
     def remove_gene(self, gene_id):
         self.genes = [g for g in self.genes if g.identifier != gene_id]
 
+    def contains_gene(self, gene_id):
+        for gene in self.genes:
+            if gene.identifier == gene_id:
+                return True
+        return False
+
+    def contains_mrna(self, mrna_id):
+        for gene in self.genes:
+            for mrna in gene.mrnas:
+                if mrna.identifier == mrna_id:
+                    return True
+        return False
+
+    def get_locus_tag(self):
+        for gene in self.genes:
+            gene_id = str(gene.identifier)
+            locus_tag = gene_id.split('_')[0]
+            return locus_tag
+
     def to_fasta(self):
         result = '>' + self.header + '\n'
         result += self.bases + '\n'
@@ -80,8 +99,51 @@ class Sequence:
             return ""
         return self.bases[start-1:stop]
 
+    def create_starts_and_stops(self):
+        for gene in self.genes:
+            gene.create_starts_and_stops(self)
+
+    def remove_mrna(self, args):
+        for gene in self.genes:
+            gene.mrnas = [m for m in gene.mrnas if m.identifier not in args]
+
+    def remove_gene(self, args):
+        self.genes = [g for g in self.genes if g.identifier not in args]
+
+    def remove_mrnas_with_cds_shorter_than(self, min_length):
+        for gene in self.genes:
+            gene.remove_mrnas_with_cds_shorter_than(min_length)
+
+    def invalidate_region(self, start, stop):
+        for gene in seq.genes:
+            gene.invalidate_region(start, stop)
+
+    def extract_cds_seq(self, mrna_id):
+        for gene in self.genes:
+            for mrna in gene.mrnas:
+                if mrna.identifier == name and mrna.cds:
+                    return mrna.cds.extract_sequence(seq, gene.strand)
+
     def to_tbl(self):
         result = ""
         for gene in self.genes:
             result += gene.to_tbl()
         return result
+
+    def to_gff(self):
+        result = ""
+        for gene in self.genes:
+            result += gene.to_gff()
+        return result
+
+    def gene_to_gff(self, gene_id):
+        for gene in self.genes:
+            if gene.identifier == gene_id:
+                return gene.to_gff()
+        return ""
+
+    def gene_to_tbl(self, gene_id):
+        for gene in self.genes:
+            if gene.identifier == gene_id:
+                return gene.to_tbl()
+        return ""

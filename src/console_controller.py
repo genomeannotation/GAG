@@ -30,8 +30,7 @@ class ConsoleController:
         # Write the gff
         with open(line+'/gag.gff', 'w') as gff:
             for seq in self.seqs:
-                for gene in seq.genes:
-                    gff.write(gene.to_gff())
+                gff.write(seq.to_gff())
 
         # Write the fasta
         with open(line+'/gag.fasta', 'w') as fasta:
@@ -163,8 +162,7 @@ class ConsoleController:
     def create_starts_and_stops(self):
         #TODO pleeeeeease pass seq.bases instead of whole seq.
         for seq in self.seqs:
-            for gene in seq.genes:
-                gene.create_starts_and_stops(seq)
+            seq.create_starts_and_stops()
 
     def subset_genome(self, line):
         # parse args
@@ -195,8 +193,7 @@ class ConsoleController:
             args = self.input.split('\n')
 
         for seq in self.seqs:
-            for gene in seq.genes:
-                gene.mrnas = [m for m in gene.mrnas if m.identifier not in args]
+            seq.remove_mrna(args)
                         
     def rename_maker_mrnas(self):
         locus_tag = self.get_locus_tag()
@@ -274,13 +271,12 @@ class ConsoleController:
         else:
             args = self.input.split('\n')
         for seq in self.seqs:
-            seq.genes = [g for g in seq.genes if g.identifier not in args]
+            seq.remove_gene(args)
 
     def remove_mrnas_with_cds_shorter_than(self, line):
         min_length = int(line)
         for seq in self.seqs:
-            for gene in seq.genes:
-                gene.remove_mrnas_with_cds_shorter_than(min_length)
+            seq.remove_mrnas_with_cds_shorter_than(min_length)
 
     def trim_region(self, line):
         args = []
@@ -339,8 +335,7 @@ class ConsoleController:
             stop = args[2]
             for seq in self.seqs:
                 if seq.header == seq_name:
-                    for gene in seq.genes:
-                        gene.invalidate_region(start, stop)
+                    seq.invalidate_region(start, stop)
         else:
             lines = self.input.split('\n')
             for line in lines:
@@ -352,17 +347,15 @@ class ConsoleController:
                 stop = args[2]
                 for seq in self.seqs:
                     if seq.header == seq_name:
-                        for gene in seq.genes:
-                            gene.invalidate_region(start, stop)
+                        seq.invalidate_region(start, stop)
 
 
 ## Output info to console
 
-    def barf_gff(self, line):
+    def barf_gene_gff(self, line):
         for seq in self.seqs:
-            for gene in seq.genes:
-                if gene.identifier == line:
-                    return gene.to_gff()
+            if seq.contains_gene(line):
+                return seq.gene_to_gff(line)
 
     def barf_seq(self, line):
         args = line.split(' ')
@@ -378,19 +371,16 @@ class ConsoleController:
     def barf_cds_seq(self, line):
         name = line
         for seq in self.seqs:
-            for gene in seq.genes:
-                for mrna in gene.mrnas:
-                    if mrna.identifier == name and mrna.cds:
-                        return mrna.cds.extract_sequence(seq, gene.strand)
+            if seq.contains_mrna(name):
+                return seq.extract_cds_seq(name)
         return "Error: Couldn't find mRNA.\n"
 
     def barf_gene_tbl(self, line):
         # TODO this used to take multiple gene_ids? but do we care?
         output = ">Feature SeqId\n"
         for seq in self.seqs:
-            for gene in seq.genes:
-                if gene.identifier == line:
-                    output += gene.to_tbl()
+            if seq.contains_gene(line):
+                output += seq.gene_to_tbl(line)
         return output
 
 ## Output info to file
@@ -415,11 +405,13 @@ class ConsoleController:
     def add_gene(self, gene):
         for seq in self.seqs:
             if seq.header == gene.seq_name:
-                seq.genes.append(gene)
+                seq.add_gene(gene)
 
     def get_locus_tag(self):
+        locus_tag = ""
         for seq in self.seqs:
-            for gene in seq.genes:
-                gene_id = str(gene.identifier)
-                locus_tag = gene_id.split('_')[0]
-                return locus_tag
+            if locus_tag:
+                break
+            else:
+                locus_tag = seq.get_locus_tag()
+        return locus_tag
