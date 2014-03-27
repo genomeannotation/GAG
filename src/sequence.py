@@ -149,3 +149,10 @@ class Sequence:
             if gene.identifier == gene_id:
                 return gene.to_tbl()
         return ""
+        
+    def stats(self):
+        stats = dict()
+        
+        stats["seq_length"] = len(self.bases)
+        
+        return stats

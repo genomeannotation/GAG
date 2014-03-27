@@ -73,6 +73,10 @@ class TestSequence(unittest.TestCase):
         expected += "\t\t\tPBARC\t12345\n"
         expected += "mockgene to tbl"
         self.assertEquals(tbl, expected)
+        
+    def test_stats(self):
+        stats = self.seq1.stats()
+        self.assertEquals(stats["seq_length"], 7)
 
 
 
