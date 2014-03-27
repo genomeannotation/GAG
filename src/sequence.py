@@ -39,6 +39,7 @@ class Sequence:
             gene_id = str(gene.identifier)
             locus_tag = gene_id.split('_')[0]
             return locus_tag
+        return ""
 
     def to_fasta(self):
         result = '>' + self.header + '\n'
