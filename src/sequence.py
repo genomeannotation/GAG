@@ -168,6 +168,15 @@ class Sequence:
                     count+=1
         return count
         
+    def get_longest_gene(self):
+        length = 0
+        longest = None
+        for gene in self.genes:
+            if gene.length() > length:
+                length = gene.length()
+                longest = gene
+        return gene.identifier+":"+str(length)
+        
     def stats(self):
         stats = dict()
         
@@ -175,5 +184,6 @@ class Sequence:
         stats["num_genes"] = len(self.genes)
         stats["num_mRNA"] = self.get_num_mrna()
         stats["num_CDS"] = self.get_num_cds()
+        stats["longest_gene"] = self.get_longest_gene()
         
         return stats

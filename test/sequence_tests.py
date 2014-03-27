@@ -20,6 +20,7 @@ class TestSequence(unittest.TestCase):
         mockgene.mrnas = [Mock()]
         mockgene.mrnas[0].cds = Mock()
         mockgene.mrnas[0].exon = Mock()
+        mockgene.length = Mock(return_value=20)
         self.seq1.add_gene(mockgene)
         
     def add_mock_gene_with_2_mrnas(self):
@@ -30,6 +31,7 @@ class TestSequence(unittest.TestCase):
         mockgene.mrnas[0].exon = None
         mockgene.mrnas[1].cds = Mock()
         mockgene.mrnas[1].exon = Mock()
+        mockgene.length = Mock(return_value=10)
         self.seq1.add_gene(mockgene)
 
     def test_string(self):
@@ -100,6 +102,7 @@ class TestSequence(unittest.TestCase):
         self.assertEquals(stats["num_genes"], 2)
         self.assertEquals(stats["num_mRNA"], 3)
         self.assertEquals(stats["num_CDS"], 2)
+        self.assertEquals(stats["longest_gene"], "foo_gene:20")
 
 
 
