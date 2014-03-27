@@ -153,11 +153,19 @@ class Sequence:
 ###################################################################################################
 # Statsy type stuff
 
-    def get_num_mrnas(self):
+    def get_num_mrna(self):
         count = 0
         for gene in self.genes:
             for mrna in gene.mrnas:
                 count+=1
+        return count
+        
+    def get_num_cds(self):
+        count = 0
+        for gene in self.genes:
+            for mrna in gene.mrnas:
+                if mrna.cds != None:
+                    count+=1
         return count
         
     def stats(self):
@@ -165,6 +173,7 @@ class Sequence:
         
         stats["seq_length"] = len(self.bases)
         stats["num_genes"] = len(self.genes)
-        stats["num_mRNAs"] = self.get_num_mrnas()
+        stats["num_mRNA"] = self.get_num_mrna()
+        stats["num_CDS"] = self.get_num_cds()
         
         return stats

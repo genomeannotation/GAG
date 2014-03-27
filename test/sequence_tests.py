@@ -18,12 +18,18 @@ class TestSequence(unittest.TestCase):
         mockgene = Mock()
         mockgene.identifier = "foo_gene"
         mockgene.mrnas = [Mock()]
+        mockgene.mrnas[0].cds = Mock()
+        mockgene.mrnas[0].exon = Mock()
         self.seq1.add_gene(mockgene)
         
     def add_mock_gene_with_2_mrnas(self):
         mockgene = Mock()
         mockgene.identifier = "foo_gene"
         mockgene.mrnas = [Mock(), Mock()]
+        mockgene.mrnas[0].cds = None
+        mockgene.mrnas[0].exon = None
+        mockgene.mrnas[1].cds = Mock()
+        mockgene.mrnas[1].exon = Mock()
         self.seq1.add_gene(mockgene)
 
     def test_string(self):
@@ -92,7 +98,8 @@ class TestSequence(unittest.TestCase):
         stats = self.seq1.stats()
         self.assertEquals(stats["seq_length"], 7)
         self.assertEquals(stats["num_genes"], 2)
-        self.assertEquals(stats["num_mRNAs"], 3)
+        self.assertEquals(stats["num_mRNA"], 3)
+        self.assertEquals(stats["num_CDS"], 2)
 
 
 
