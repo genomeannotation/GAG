@@ -13,6 +13,18 @@ class TestSequence(unittest.TestCase):
         mockgene = Mock()
         mockgene.identifier = "foo_gene"
         self.seq1.add_gene(mockgene)
+        
+    def add_mock_gene_with_1_mrna(self):
+        mockgene = Mock()
+        mockgene.identifier = "foo_gene"
+        mockgene.mrnas = [Mock()]
+        self.seq1.add_gene(mockgene)
+        
+    def add_mock_gene_with_2_mrnas(self):
+        mockgene = Mock()
+        mockgene.identifier = "foo_gene"
+        mockgene.mrnas = [Mock(), Mock()]
+        self.seq1.add_gene(mockgene)
 
     def test_string(self):
         expected = "Sequence seq1 of length 7 containing 0 genes\n"
@@ -75,8 +87,12 @@ class TestSequence(unittest.TestCase):
         self.assertEquals(tbl, expected)
         
     def test_stats(self):
+        self.add_mock_gene_with_1_mrna()
+        self.add_mock_gene_with_2_mrnas()
         stats = self.seq1.stats()
         self.assertEquals(stats["seq_length"], 7)
+        self.assertEquals(stats["num_genes"], 2)
+        self.assertEquals(stats["num_mRNAs"], 3)
 
 
 

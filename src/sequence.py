@@ -150,9 +150,21 @@ class Sequence:
                 return gene.to_tbl()
         return ""
         
+###################################################################################################
+# Statsy type stuff
+
+    def get_num_mrnas(self):
+        count = 0
+        for gene in self.genes:
+            for mrna in gene.mrnas:
+                count+=1
+        return count
+        
     def stats(self):
         stats = dict()
         
         stats["seq_length"] = len(self.bases)
+        stats["num_genes"] = len(self.genes)
+        stats["num_mRNAs"] = self.get_num_mrnas()
         
         return stats
