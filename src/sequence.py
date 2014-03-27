@@ -226,6 +226,13 @@ class Sequence:
                     shortest = mrna.cds
         return shortest.identifier[0]+":"+str(length)
         
+    def get_total_mrna_length(self):
+        length = 0
+        for gene in self.genes:
+            for mrna in gene.mrnas:
+                length += mrna.length()
+        return length
+        
     def stats(self):
         stats = dict()
         
@@ -239,5 +246,6 @@ class Sequence:
         stats["shortest_gene"] = self.get_shortest_gene()
         stats["shortest_mRNA"] = self.get_shortest_mrna()
         stats["shortest_CDS"] = self.get_shortest_cds()
+        stats["total_mRNA_length"] = self.get_total_mrna_length()
         
         return stats
