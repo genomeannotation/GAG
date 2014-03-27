@@ -14,23 +14,29 @@ class TestSequence(unittest.TestCase):
         mockgene.identifier = "foo_gene"
         self.seq1.add_gene(mockgene)
         
-    def add_mock_gene_with_1_mrna(self):
+    def add_mock_gene_with_1_mrna(self, name):
         mockgene = Mock()
-        mockgene.identifier = "foo_gene"
+        mockgene.identifier = name
         mockgene.mrnas = [Mock()]
+        mockgene.mrnas[0].identifier = name+"-RA"
         mockgene.mrnas[0].cds = Mock()
         mockgene.mrnas[0].exon = Mock()
+        mockgene.mrnas[0].length = Mock(return_value=2)
         mockgene.length = Mock(return_value=20)
         self.seq1.add_gene(mockgene)
         
-    def add_mock_gene_with_2_mrnas(self):
+    def add_mock_gene_with_2_mrnas(self, name):
         mockgene = Mock()
-        mockgene.identifier = "foo_gene"
+        mockgene.identifier = name
         mockgene.mrnas = [Mock(), Mock()]
+        mockgene.mrnas[0].identifier = name+"-RA"
         mockgene.mrnas[0].cds = None
         mockgene.mrnas[0].exon = None
+        mockgene.mrnas[0].length = Mock(return_value=5)
+        mockgene.mrnas[1].identifier = name+"-RB"
         mockgene.mrnas[1].cds = Mock()
         mockgene.mrnas[1].exon = Mock()
+        mockgene.mrnas[1].length = Mock(return_value=2)
         mockgene.length = Mock(return_value=10)
         self.seq1.add_gene(mockgene)
 
@@ -95,14 +101,15 @@ class TestSequence(unittest.TestCase):
         self.assertEquals(tbl, expected)
         
     def test_stats(self):
-        self.add_mock_gene_with_1_mrna()
-        self.add_mock_gene_with_2_mrnas()
+        self.add_mock_gene_with_1_mrna("foo_gene1")
+        self.add_mock_gene_with_2_mrnas("foo_gene2")
         stats = self.seq1.stats()
         self.assertEquals(stats["seq_length"], 7)
         self.assertEquals(stats["num_genes"], 2)
         self.assertEquals(stats["num_mRNA"], 3)
         self.assertEquals(stats["num_CDS"], 2)
-        self.assertEquals(stats["longest_gene"], "foo_gene:20")
+        self.assertEquals(stats["longest_gene"], "foo_gene1:20")
+        self.assertEquals(stats["longest_mRNA"], "foo_gene2-RA:5")
 
 
 
