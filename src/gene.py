@@ -194,7 +194,15 @@ class Gene:
         return entries
 
     def to_tbl(self):
-        # TODO
-        return ""
+        if self.strand == "-":
+            indices = [self.indices[1], self.indices[0]]
+        else:
+            indices = self.indices
+        output = str(indices[0]) + "\t" + str(indices[1]) + "\t" + "gene\n"
+        output += "\t\t\tlocus_tag\t" + self.identifier + "\n"
+        for mrna in self.mrnas:
+            output += mrna.to_tbl()
+        return output
+
 
 

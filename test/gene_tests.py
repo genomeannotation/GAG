@@ -209,6 +209,29 @@ class TestGene(unittest.TestCase):
         self.assertEquals(0, len(self.test_gene1.mrnas))
         self.assertEquals([0, 0], self.test_gene1.indices)
 
+    def test_to_tbl_positive(self):
+        gene = Gene("seq1", "maker", [1, 50], "+", "foo_gene_1")
+        mrna1 = Mock()
+        mrna1.to_tbl.return_value = "mrna1_to_tbl...\n"
+        mrna2 = Mock()
+        mrna2.to_tbl.return_value = "mrna2_to_tbl...\n"
+        gene.add_mrna(mrna1)
+        gene.add_mrna(mrna2)
+        expected = "1\t50\tgene\n\t\t\tlocus_tag\tfoo_gene_1\nmrna1_to_tbl...\nmrna2_to_tbl...\n"
+        self.assertEquals(gene.to_tbl(), expected)
+
+    def test_to_tbl_negative(self):
+        gene = Gene("seq1", "maker", [1, 50], "-", "foo_gene_1")
+        mrna1 = Mock()
+        mrna1.to_tbl.return_value = "mrna1_to_tbl...\n"
+        mrna2 = Mock()
+        mrna2.to_tbl.return_value = "mrna2_to_tbl...\n"
+        gene.add_mrna(mrna1)
+        gene.add_mrna(mrna2)
+        expected = "50\t1\tgene\n\t\t\tlocus_tag\tfoo_gene_1\nmrna1_to_tbl...\nmrna2_to_tbl...\n"
+        self.assertEquals(gene.to_tbl(), expected)
+
+
 ##########################
 def suite():
     suite = unittest.TestSuite()
