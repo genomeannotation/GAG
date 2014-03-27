@@ -121,8 +121,8 @@ class Sequence:
     def extract_cds_seq(self, mrna_id):
         for gene in self.genes:
             for mrna in gene.mrnas:
-                if mrna.identifier == name and mrna.cds:
-                    return mrna.cds.extract_sequence(seq, gene.strand)
+                if mrna.identifier == mrna_id and mrna.cds:
+                    return mrna.cds.extract_sequence(self, gene.strand)
 
     def to_tbl(self):
         result = ""

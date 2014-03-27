@@ -53,6 +53,7 @@ class ConsoleController:
         if fastas:
             sys.stderr.write("Reading fasta...\n")
             self.read_fasta(fastas[0])
+            sys.stderr.write("Done.\n")
         else:
             sys.stderr.write("Couldn't find .fasta file in " + line + "\n")
             return
@@ -61,6 +62,7 @@ class ConsoleController:
         if gffs:
             sys.stderr.write("Reading gff...\n")
             self.read_gff(gffs[0])
+            sys.stderr.write("Done.\n")
         else:
             sys.stderr.write("Couldn't find .gff file in " + line + "\n")
             return
@@ -69,6 +71,7 @@ class ConsoleController:
         if trinotates:
             sys.stderr.write("Reading trinotate...\n")
             self.read_trinotate(line+'/gag.trinotate')
+            sys.stderr.write("Done.\n")
         else:
             sys.stderr.write("Did not find .trinotate file; no functional annotations available.\n")
 
