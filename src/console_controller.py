@@ -41,16 +41,17 @@ class ConsoleController:
         self.annot.write_to_file(line+'/gag.trinotate')
         
     def load_folder(self, line):
-        # TODO messages like "reading fasta ... N sequences. reading gff... etc."
         if not line:
             line = "."
         # Get filenames
+        sys.stderr.write("Locating files...\n")
         gffs = glob.glob(line + '/*.gff')
         fastas = glob.glob(line + '/*.fasta')
         trinotates = glob.glob(line + '/*.trinotate')
 
         # Read the fasta
         if fastas:
+            sys.stderr.write("Reading fasta...\n")
             self.read_fasta(fastas[0])
         else:
             sys.stderr.write("Couldn't find .fasta file in " + line + "\n")
@@ -58,6 +59,7 @@ class ConsoleController:
 
         # Read the gff
         if gffs:
+            sys.stderr.write("Reading gff...\n")
             self.read_gff(gffs[0])
         else:
             sys.stderr.write("Couldn't find .gff file in " + line + "\n")
@@ -65,6 +67,7 @@ class ConsoleController:
 
         # Read the annotations
         if trinotates:
+            sys.stderr.write("Reading trinotate...\n")
             self.read_trinotate(line+'/gag.trinotate')
         else:
             sys.stderr.write("Did not find .trinotate file; no functional annotations available.\n")
