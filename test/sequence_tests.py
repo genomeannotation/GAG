@@ -20,6 +20,8 @@ class TestSequence(unittest.TestCase):
         mockgene.mrnas = [Mock()]
         mockgene.mrnas[0].identifier = name+"-RA"
         mockgene.mrnas[0].cds = Mock()
+        mockgene.mrnas[0].cds.identifier = [name+"-RA:CDS"]
+        mockgene.mrnas[0].cds.length = Mock(return_value=5)
         mockgene.mrnas[0].exon = Mock()
         mockgene.mrnas[0].length = Mock(return_value=2)
         mockgene.length = Mock(return_value=20)
@@ -35,6 +37,8 @@ class TestSequence(unittest.TestCase):
         mockgene.mrnas[0].length = Mock(return_value=5)
         mockgene.mrnas[1].identifier = name+"-RB"
         mockgene.mrnas[1].cds = Mock()
+        mockgene.mrnas[1].cds.identifier = [name+"-RB:CDS"]
+        mockgene.mrnas[1].cds.length = Mock(return_value=3)
         mockgene.mrnas[1].exon = Mock()
         mockgene.mrnas[1].length = Mock(return_value=2)
         mockgene.length = Mock(return_value=10)
@@ -110,6 +114,7 @@ class TestSequence(unittest.TestCase):
         self.assertEquals(stats["num_CDS"], 2)
         self.assertEquals(stats["longest_gene"], "foo_gene1:20")
         self.assertEquals(stats["longest_mRNA"], "foo_gene2-RA:5")
+        self.assertEquals(stats["longest_CDS"], "foo_gene1-RA:CDS:5")
 
 
 
