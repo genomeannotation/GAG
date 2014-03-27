@@ -217,7 +217,7 @@ class MRNA:
     def to_tbl(self, strand):
         output = ""
         if self.exon:
-            output += self.exon.to_tbl()
+            output += self.exon.to_tbl(strand)
         if self.cds:
-            output += self.cds.to_tbl()
+            output += self.cds.to_tbl(strand)
         return output
