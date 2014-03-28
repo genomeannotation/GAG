@@ -10,7 +10,7 @@ class TestFilterManager(unittest.TestCase):
         self.filter_mgr = FilterManager()
         
     def test_modify_filter_arg(self):
-        self.filter_mgr.modify_filter_arg('min_cds_length', 'min_length', '30')
+        self.filter_mgr.set_filter_arg('min_cds_length', 'min_length', '30')
         self.assertEqual(self.filter_mgr.get_filter_arg('min_cds_length', 'min_length'), 30)
 
 

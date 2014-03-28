@@ -15,8 +15,9 @@ class FilterManager:
         for filt in self.filters:
             filt.apply(seq)
     
+    def set_filter_arg(self, filter_name, filter_arg, val):
+        setattr(self.filters[filter_name], filter_arg, ast.literal_eval(val))
+    
     def get_filter_arg(self, filter_name, filter_arg):
         return getattr(self.filters[filter_name], filter_arg)
-    
-    def modify_filter_arg(self, filter_name, filter_arg, val):
-        setattr(self.filters[filter_name], filter_arg, ast.literal_eval(val))
+   

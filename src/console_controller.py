@@ -77,6 +77,15 @@ class ConsoleController:
         else:
             sys.stderr.write("Did not find .trinotate file; no functional annotations available.\n")
 
+    def set_filter_arg(self, filter_name, filter_arg, val):
+        self.filter_mgr.set_filter_arg(filter_name, filter_arg, val)
+        
+    def get_filter_arg(self, filter_name, filter_arg):
+        return str(self.filter_mgr.get_filter_arg(filter_name, filter_arg))
+        
+    def apply_filters(self):
+        for seq in self.seqs:
+            self.filter_mgr.apply_filters(seq)
 
     def ls(self, line):
         proc = subprocess.Popen(['ls '+line], stdout=subprocess.PIPE, \

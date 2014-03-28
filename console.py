@@ -11,7 +11,7 @@ from src.console_controller import ConsoleController
 def try_catch(command, args):
     try:
         if args is not None:
-            return command(args) 
+            return command(*args) 
         else:
             return command()
     except:
@@ -94,6 +94,24 @@ class GagCmd(cmd.Cmd):
 
     def do_exit(self, line):
         return True
+        
+    def help_modifyfilterarg(self):
+        print("\nUsage: modifyfilterarg <filter_name> <filter_arg> <value>\n\nSets a specified filter argument to a specified value.\n")
+    
+    def do_setfilterarg(self, line):
+        try_catch(self.controller.set_filter_arg, line.split(' '))
+    
+    def help_getfilterarg(self):
+        print("\nUsage: getfilterarg <filter_name> <filter_arg> <value>\n\nOutputs the value of the specified filter argument.\n")
+    
+    def do_getfilterarg(self, line):
+        self.output = try_catch(self.controller.get_filter_arg, line.split(' '))
+        
+    def help_applyfilters(self):
+        print("Applies all filters to the genome\n")
+    
+    def do_applyfilters(self, line):
+        try_catch(self.controller.apply_filters, None) 
 
     def do_ls(self, line):
         self.output = self.controller.ls(line)
