@@ -99,7 +99,8 @@ class TestSequence(unittest.TestCase):
         self.add_mock_gene()
         self.seq1.genes[0].to_tbl.return_value = "mockgene to tbl"
         tbl = self.seq1.to_tbl()
-        expected = "1\t7\tREFERENCE\n"
+        expected = ">Feature seq1\n"
+        expected += "1\t7\tREFERENCE\n"
         expected += "\t\t\tPBARC\t12345\n"
         expected += "mockgene to tbl"
         self.assertEquals(tbl, expected)
