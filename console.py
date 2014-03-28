@@ -235,6 +235,13 @@ class GagCmd(cmd.Cmd):
     def do_barfgenetbl(self, line):
         self.output = try_catch(self.controller.barf_gene_tbl, [line])
 
+    def help_stats(self):
+        print("Usage: stats\n")
+        print("Prints summary statistics about original genome (from file)" +\
+                " and modified genome (filters applied). May take a moment to run.")
+
+    def do_stats(self, line):
+        self.output = try_catch(self.controller.stats, None)
 
 ## Output info to file
 

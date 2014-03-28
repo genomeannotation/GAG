@@ -10,6 +10,7 @@ from src.fasta_reader import FastaReader
 from src.gff_reader import GFFReader
 from src.annotator import Annotator
 from src.filter_manager import FilterManager
+from src.stats_manager import StatsManager
 from src.translate import translate
 
 class ConsoleController:
@@ -20,6 +21,7 @@ class ConsoleController:
         self.seqs = []
         self.annot = Annotator()
         self.filter_mgr = FilterManager()
+        self.stats_mgr = StatsManager()
         self.input = ''
 
     def barf_folder(self, line):
@@ -76,6 +78,12 @@ class ConsoleController:
             sys.stderr.write("Done.\n")
         else:
             sys.stderr.write("Did not find .trinotate file; no functional annotations available.\n")
+
+        # Read in stats
+        sys.stderr.write("Calculating statistics on genome...\n")
+        for seq in self.seqs:
+            self.stats_mgr.update_ref(seq.stats())
+        sys.stderr.write("Done.\n\n")
 
     def set_filter_arg(self, filter_name, filter_arg, val):
         self.filter_mgr.set_filter_arg(filter_name, filter_arg, val)
@@ -402,6 +410,10 @@ class ConsoleController:
             if seq.contains_gene(line):
                 output += seq.gene_to_tbl(line)
         return output
+
+    def stats(self):
+        # TODO deepcopy, filter and call stats_mgr.update_alt on each seq
+        return self.stats_mgr.summary()
 
 ## Output info to file
 
