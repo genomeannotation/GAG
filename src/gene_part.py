@@ -35,7 +35,7 @@ def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, phase=0):
     if strand == "-":
         indices = get_reversed_indices(indices)
     if len(indices) == 1:
-        output += one_line_indices_entry(indices, has_start, has_stop, is_cds)
+        output += one_line_indices_entry(indices[0], has_start, has_stop, is_cds)
     else:
         # Write first line of coordinates
         if not has_start:
