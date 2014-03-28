@@ -83,6 +83,9 @@ class ConsoleController:
     def get_filter_arg(self, filter_name, filter_arg):
         return str(self.filter_mgr.get_filter_arg(filter_name, filter_arg))
         
+    def get_filter_help(self, filter_name):
+        return self.filter_mgr.get_filter_help(filter_name)
+        
     def apply_filters(self):
         for seq in self.seqs:
             self.filter_mgr.apply_filters(seq)
