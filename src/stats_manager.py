@@ -37,7 +37,9 @@ class StatsManager:
         for stat in self.increment_stats:
             old[stat] += new[stat]
         for stat in self.min_stats:
-            if new[stat] < old[stat]:
+            if old[stat] == 0:
+                old[stat] = new[stat]
+            elif new[stat] < old[stat]:
                 old[stat] = new[stat]
         for stat in self.max_stats:
             if new[stat] > old[stat]:
@@ -51,14 +53,14 @@ class StatsManager:
             if len(stat) > 10:
                 result += stat + ":\t"
             else: result += stat + ":\t\t"
-            result += str(self.ref_stats[stat])
-            result += "\t\t" + str(self.alt_stats[stat]) + "\n"
+            result += str(int(self.ref_stats[stat]))
+            result += "\t\t" + str(int(self.alt_stats[stat])) + "\n"
         for stat in self.min_stats:
-            result += stat + ":\t\t" + str(self.ref_stats[stat])
-            result += "\t\t" + str(self.alt_stats[stat]) + "\n"
+            result += stat + ":\t\t" + str(int(self.ref_stats[stat]))
+            result += "\t\t" + str(int(self.alt_stats[stat])) + "\n"
         for stat in self.max_stats:
-            result += stat + ":\t\t" + str(self.ref_stats[stat])
-            result += "\t\t" + str(self.alt_stats[stat]) + "\n"
+            result += stat + ":\t\t" + str(int(self.ref_stats[stat]))
+            result += "\t\t" + str(int(self.alt_stats[stat])) + "\n"
         return result
 
 
