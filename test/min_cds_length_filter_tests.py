@@ -4,7 +4,7 @@ import unittest
 from mock import Mock
 from src.min_cds_length_filter import MinCDSLengthFilter
 
-class TestSequence(unittest.TestCase):
+class TestMinCDSLengthFilter(unittest.TestCase):
 
     def setUp(self):
         self.filter = MinCDSLengthFilter(30)
@@ -41,7 +41,7 @@ class TestSequence(unittest.TestCase):
 ##########################
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestSequence))
+    suite.addTest(unittest.makeSuite(TestMinCDSLengthFilter))
     return suite
 
 if __name__ == '__main__':
