@@ -18,7 +18,7 @@ class FilterManager:
             self.filter_args[filt_name] = [attr for attr in dir(filt) if not callable(getattr(filt, attr)) and not attr.startswith("__")]
 
     def apply_filters(self, seq):
-        for filt in self.filters:
+        for filt in self.filters.values():
             filt.apply(seq)
     
     def set_filter_arg(self, filter_name, filter_arg, val):

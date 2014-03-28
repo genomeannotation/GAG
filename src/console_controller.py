@@ -6,6 +6,7 @@ import sys
 import csv
 import subprocess
 import glob
+import copy
 from src.fasta_reader import FastaReader
 from src.gff_reader import GFFReader
 from src.annotator import Annotator
@@ -413,6 +414,13 @@ class ConsoleController:
 
     def stats(self):
         # TODO deepcopy, filter and call stats_mgr.update_alt on each seq
+        # TODO the following command should be set by user or from config file;
+        #      this is just for testing purposes...
+        self.filter_mgr.set_filter_arg('min_cds_length', 'min_length', '30')
+        for seq in self.seqs:
+            cseq = copy.deepcopy(seq)
+            self.filter_mgr.apply_filters(cseq)
+            self.stats_mgr.update_alt(cseq.stats())
         return self.stats_mgr.summary()
 
 ## Output info to file
