@@ -150,13 +150,13 @@ class MRNA:
 
     def has_start(self):
         for feature in self.other_features:
-            if feature.feature_type is 'start_codon':
+            if feature.feature_type == 'start_codon':
                 return True
         return False
 
     def has_stop(self):
         for feature in self.other_features:
-            if feature.feature_type is 'stop_codon':
+            if feature.feature_type == 'stop_codon':
                 return True
         return False
 
@@ -215,9 +215,11 @@ class MRNA:
         return entries
 
     def to_tbl(self, strand):
+        has_start = self.has_start()
+        has_stop = self.has_stop()
         output = ""
         if self.exon:
-            output += self.exon.to_tbl(strand)
+            output += self.exon.to_tbl(strand, has_start, has_stop)
         if self.cds:
-            output += self.cds.to_tbl(strand)
+            output += self.cds.to_tbl(strand, has_start, has_stop)
         return output

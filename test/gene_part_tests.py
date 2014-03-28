@@ -351,7 +351,8 @@ class TestCDS(unittest.TestCase):
         expected += "6630\t7436\n"
         expected += "\t\t\tcodon_start\t2\n"
         expected += "\t\t\tproduct\thypothetical protein\n"  # TODO annotations :)
-        self.assertEquals(self.test_cds1.to_tbl("+", True, True, 1), expected)
+        self.test_cds1.phase[0] = 1
+        self.assertEquals(self.test_cds1.to_tbl("+", True, True), expected)
 
     def test_to_tbl_negative_complete(self):
         expected = "7436\t6630\tCDS\n"
@@ -361,7 +362,7 @@ class TestCDS(unittest.TestCase):
         expected += "4034\t3734\n"
         expected += "\t\t\tcodon_start\t1\n"
         expected += "\t\t\tproduct\thypothetical protein\n"
-        self.assertEquals(self.test_cds1.to_tbl("-", True, True, 0), expected)
+        self.assertEquals(self.test_cds1.to_tbl("-", True, True), expected)
 
     def test_to_tbl_negative_no_start_no_stop(self):
         expected = "<7436\t6630\tCDS\n"
@@ -371,7 +372,8 @@ class TestCDS(unittest.TestCase):
         expected += "4034\t>3734\n"
         expected += "\t\t\tcodon_start\t3\n"
         expected += "\t\t\tproduct\thypothetical protein\n"
-        self.assertEquals(self.test_cds1.to_tbl("-", False, False, 2), expected)
+        self.test_cds1.phase[0] = 2
+        self.assertEquals(self.test_cds1.to_tbl("-", False, False), expected)
 
 
 class TestExon(unittest.TestCase):
