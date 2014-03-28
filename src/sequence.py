@@ -176,7 +176,7 @@ class Sequence:
             if gene.length() > length:
                 length = gene.length()
                 longest = gene
-        return longest.identifier+":"+str(length)
+        return length
         
     def get_longest_mrna(self):
         length = 0
@@ -186,7 +186,7 @@ class Sequence:
                 if mrna.length() > length:
                     length = mrna.length()
                     longest = mrna
-        return longest.identifier+":"+str(length)
+        return length
         
     def get_longest_cds(self):
         length = 0
@@ -196,7 +196,7 @@ class Sequence:
                 if mrna.cds != None and mrna.cds.length() > length:
                     length = mrna.cds.length()
                     longest = mrna.cds
-        return longest.identifier[0]+":"+str(length)
+        return length
         
     def get_shortest_gene(self):
         length = 0
@@ -205,7 +205,7 @@ class Sequence:
             if gene.length() < length or shortest == None:
                 length = gene.length()
                 shortest = gene
-        return shortest.identifier+":"+str(length)
+        return length
         
     def get_shortest_mrna(self):
         length = 0
@@ -215,7 +215,7 @@ class Sequence:
                 if mrna.length() < length or shortest == None:
                     length = mrna.length()
                     shortest = mrna
-        return shortest.identifier+":"+str(length)
+        return length
         
     def get_shortest_cds(self):
         length = 0
@@ -225,7 +225,7 @@ class Sequence:
                 if mrna.cds != None and (mrna.cds.length() < length or shortest == None):
                     length = mrna.cds.length()
                     shortest = mrna.cds
-        return shortest.identifier[0]+":"+str(length)
+        return length
         
     def get_total_mrna_length(self):
         length = 0
