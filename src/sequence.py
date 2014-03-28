@@ -116,7 +116,7 @@ class Sequence:
             gene.remove_mrnas_with_cds_shorter_than(min_length)
 
     def invalidate_region(self, start, stop):
-        for gene in seq.genes:
+        for gene in self.genes:
             gene.invalidate_region(start, stop)
 
     def extract_cds_seq(self, mrna_id):
