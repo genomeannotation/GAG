@@ -33,13 +33,14 @@ class GFFReader:
     # returns a dict with id and parent_id (if present)
     # if not, returns empty dict
     def parse_attributes(self, attr):
-        split_attr = attr.split(';')
+	# Sanitize and split attributes up
+        split_attr = attr.strip(' \t\n;').split(';')
         try:
             keys = [val.split('=')[0] for val in split_attr]
             vals = [val.split('=')[1] for val in split_attr]
         except IndexError as ie:
             sys.stderr.write("IndexError trying to split attributes: " + str(split_attr))
-            return None
+            return dict()
 
         
         attr_dict = dict(zip(keys, vals)) # Our parameter dictionary
