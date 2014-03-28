@@ -7,7 +7,7 @@ def validate_dicts(old, new):
 class StatsManager:
 
     increment_stats = ["seq_length", "num_genes", "num_mRNA", "num_CDS",\
-            "total_gene_length", "total_mRNA_length", "total_mRNA_length"]    
+            "total_gene_length", "total_mRNA_length", "total_CDS_length"]    
     min_stats = ["shortest_gene", "shortest_mRNA", "shortest_CDS"]
     max_stats = ["longest_gene", "longest_mRNA", "longest_CDS"]
 
@@ -42,4 +42,24 @@ class StatsManager:
         for stat in self.max_stats:
             if new[stat] > old[stat]:
                 old[stat] = new[stat]
+
+    def summary(self):
+        result = "\t\tReference Genome\tModified Genome\n"
+        result += "\t\t----------------\t---------------\n"
+        for stat in self.increment_stats:
+            # Subtract a tab for longer stat names #KindaGhetto
+            if len(stat) > 10:
+                result += stat + ":\t"
+            else: result += stat + ":\t\t"
+            result += str(self.ref_stats[stat])
+            result += "\t\t" + str(self.alt_stats[stat]) + "\n"
+        for stat in self.min_stats:
+            result += stat + ":\t\t" + str(self.ref_stats[stat])
+            result += "\t\t" + str(self.alt_stats[stat]) + "\n"
+        for stat in self.max_stats:
+            result += stat + ":\t\t" + str(self.ref_stats[stat])
+            result += "\t\t" + str(self.alt_stats[stat]) + "\n"
+        return result
+
+
 

@@ -55,24 +55,28 @@ class TestStatsManager(unittest.TestCase):
         self.assertEquals(self.mgr.ref_stats["shortest_CDS"], 3)
         self.assertEquals(self.mgr.ref_stats["longest_gene"], 30)
 
-
-''' 
-    def stats(self):
-        stats = dict()
-        
-        stats["seq_length"] = len(self.bases)
-        stats["num_genes"] = len(self.genes)
-        stats["num_mRNA"] = self.get_num_mrna()
-        stats["num_CDS"] = self.get_num_cds()
-        stats["longest_gene"] = self.get_longest_gene()
-        stats["longest_mRNA"] = self.get_longest_mrna()
-        stats["longest_CDS"] = self.get_longest_cds()
-        stats["shortest_gene"] = self.get_shortest_gene()
-        stats["shortest_mRNA"] = self.get_shortest_mrna()
-        stats["shortest_CDS"] = self.get_shortest_cds()
-        stats["total_mRNA_length"] = self.get_total_mrna_length()
-        stats["total_CDS_length"] = self.get_total_cds_length()
-'''
+    def test_summary(self):
+        self.populate_ref()
+        expected = "\t\tReference Genome\tModified Genome\n"
+        expected += "\t\t----------------\t---------------\n"
+        expected += "seq_length:\t\t100\t\t0\n"
+        expected += "num_genes:\t\t5\t\t0\n"
+        expected += "num_mRNA:\t\t7\t\t0\n"
+        expected += "num_CDS:\t\t7\t\t0\n"
+        # The next three lines have longer stat-names,
+        # so fewer tabs so things will line up.
+        # Is there a smarter way to do that?
+        expected += "total_gene_length:\t70\t\t0\n"
+        expected += "total_mRNA_length:\t70\t\t0\n"
+        expected += "total_CDS_length:\t60\t\t0\n"
+        expected += "shortest_gene:\t\t10\t\t0\n"
+        expected += "shortest_mRNA:\t\t10\t\t0\n"
+        expected += "shortest_CDS:\t\t6\t\t0\n"
+        expected += "longest_gene:\t\t25\t\t0\n"
+        expected += "longest_mRNA:\t\t25\t\t0\n"
+        expected += "longest_CDS:\t\t20\t\t0\n"
+        summary = self.mgr.summary()
+        self.assertEquals(summary, expected)
 
 
 ##########################
