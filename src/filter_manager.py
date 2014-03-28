@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
+# All the filters
+from src.min_cds_length_filter import MinCDSLengthFilter
+
 class FilterManager:
 
     def __init__(self):
         self.filters = []
-        return
-        
-    def add_filter(self, filt):
-        self.filters.append(filt)
+        self.filters.append(MinCDSLengthFilter())
         
     def apply_filters(self, seq):
         for filt in filters:

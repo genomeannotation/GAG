@@ -9,6 +9,7 @@ import glob
 from src.fasta_reader import FastaReader
 from src.gff_reader import GFFReader
 from src.annotator import Annotator
+from src.filter_manager import FilterManager
 from src.translate import translate
 
 class ConsoleController:
@@ -18,6 +19,7 @@ class ConsoleController:
     def __init__(self):
         self.seqs = []
         self.annot = Annotator()
+        self.filter_mgr = FilterManager()
         self.input = ''
 
     def barf_folder(self, line):
