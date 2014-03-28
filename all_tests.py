@@ -15,6 +15,7 @@ import test.gff_reader_tests
 import test.sequence_tests
 import test.filter_manager_tests
 import test.min_cds_length_filter_tests
+import test.stats_manager_tests
 
 # get suites from test modules
 suite1 = test.fasta_reader_tests.suite()
@@ -30,6 +31,7 @@ suite10 = test.gff_reader_tests.suite()
 suite11 = test.sequence_tests.suite()
 suite12 = test.filter_manager_tests.suite()
 suite13 = test.min_cds_length_filter_tests.suite()
+suite14 = test.stats_manager_tests.suite()
 
 # collect suites in a TestSuite object
 suite = unittest.TestSuite()
@@ -46,6 +48,7 @@ suite.addTest(suite10)
 suite.addTest(suite11)
 suite.addTest(suite12)
 suite.addTest(suite13)
+suite.addTest(suite14)
 
 # run suite
 unittest.TextTestRunner(verbosity=2).run(suite)
