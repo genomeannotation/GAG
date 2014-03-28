@@ -6,7 +6,8 @@ def validate_dicts(old, new):
 
 class StatsManager:
 
-    increment_stats = ["seq_length", "num_genes", "num_mRNA", "num_CDS", "total_gene_length", "total_mRNA_length", "total_mRNA_length"]    
+    increment_stats = ["seq_length", "num_genes", "num_mRNA", "num_CDS",\
+            "total_gene_length", "total_mRNA_length", "total_mRNA_length"]    
     min_stats = ["shortest_gene", "shortest_mRNA", "shortest_CDS"]
     max_stats = ["longest_gene", "longest_mRNA", "longest_CDS"]
 
