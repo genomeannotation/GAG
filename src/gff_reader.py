@@ -16,6 +16,7 @@ class GFFReader:
         self.current_cds = None
         self.current_line = 0 # Not even reading a file yet
         self.give_up = False # we are strong for now
+        self.skipped_features = 0
 
     def validate_line(self, line):
         """Returns list of fields if valid, empty list if not."""
@@ -144,8 +145,10 @@ class GFFReader:
             self.process_cds_line(line)
         elif ltype == 'exon':
             self.process_exon_line(line)
-        else:
+        elif ltype == 'start_codon' or ltype == 'stop_codon':
             self.process_other_feature_line(line)
+	else:
+            self.skipped_features += 1
 
     def process_gene_line(self, line):
         if self.current_gene:
@@ -246,5 +249,7 @@ class GFFReader:
                 if go_on != 'y' and go_on != 'Y': # Didn't select Y, get outta here!
                     return
         self.wrap_up_gene()
+	if self.skipped_features > 0:
+	    print("Warning: skipped "+str(self.skipped_features)+" uninteresting features.")
         return self.genes
 
