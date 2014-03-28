@@ -34,17 +34,6 @@ class TestGene(unittest.TestCase):
         self.test_gene0.add_mrna(self.fake_mrna2)
         self.assertEquals(2, len(self.test_gene0.mrnas))
 
-    def test_remove_mrnas_with_cds_shorter_than(self):
-        self.assertEquals(2, len(self.test_gene1.mrnas))
-        cds1 = Mock()
-        cds1.length.return_value = 149
-        cds2 = Mock()
-        cds2.length.return_value = 151
-        self.fake_mrna1.cds = cds1
-        self.fake_mrna2.cds = cds2
-        self.test_gene1.remove_mrnas_with_cds_shorter_than(150)
-        self.assertEquals(1, len(self.test_gene1.mrnas))
-
     def test_contains_mrna_with_id(self):
         self.fake_mrna1.identifier = "BDOR_foo"
         self.assertTrue(self.test_gene1.contains_mrna_with_id("BDOR_foo"))

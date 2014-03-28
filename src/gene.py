@@ -50,18 +50,6 @@ class Gene:
                 return True
         return False
 
-    def remove_mrnas_with_cds_shorter_than(self, min_length):
-        to_remove = []
-        if self.mrnas:
-            for mrna in self.mrnas:
-                if mrna.cds:
-                    if mrna.cds.length() < min_length:
-                        to_remove.append(mrna)
-                else:
-                    to_remove.append(mrna)
-        for m in to_remove:
-            self.mrnas.remove(m)
-
     def trim_end(self, endindex):
         if self.indices[0] > endindex:
             self.indices[0] = 0
