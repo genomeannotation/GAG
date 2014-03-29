@@ -54,6 +54,17 @@ class ConsoleController:
         fastas = glob.glob(line + '/*.fasta')
         trinotates = glob.glob(line + '/*.trinotate')
 
+        # Make sure there's only one of each file type
+        if len(gffs) > 1:
+            sys.stderr.write("Found more than one gff file; no genome loaded.\n")
+            return
+        elif len(fastas) > 1:
+            sys.stderr.write("Found more than one fasta file; no genome loaded.\n")
+            return
+        elif len(trinotates) > 1:
+            sys.stderr.write("Found more than one trinotate file; no genome loaded.\n")
+            return
+
         # Read the fasta
         if fastas:
             sys.stderr.write("Reading fasta...\n")
