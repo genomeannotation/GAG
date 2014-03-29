@@ -255,5 +255,9 @@ class GagCmd(cmd.Cmd):
 
 ########################################################################
 
+def get_greeting():
+    logo = "................................................................   .       .    \n........................................,,........................  .... .  ....\n..............~++=:,............... ..=OMNZ:....... ....... ..:=?77I=,... .. ...\n...........:7DMMMMMMD7:............. ~DMMMMZ...............=$DMMMMMMMM8+........\n.........:7NMMMMMMMMMMN7,............$MMMMMN=. ....... ..~ZMMMMMMMMMMMMZ,.   ...\n........?NMMMNZ+~+IONMMN?....... ...INMMNMMMI .. .......INMMMDZ?~,,:+I?:. . .  .\n.......+NMMN7:  ... :?$I: .........INMMNZMMMZ.........:$MMMD?........   ........\n......:8MMM?..........  ..........7MMMD+=NMM8,... .. :OMMMO~ ...................\n......7MMMZ,.....................7MMMD= ,8MMM? ......ZMMMZ,.....................\n.....:8MMN+....................,$MMMN+.. IMMMO......~NMMD~ ....,+$ZI+==~,.......\n.....~DMMD~....~7OZ$Z8NNZ:....+DMMMD$I?~:~DMMN+. ...+NMM8......IMMMMMMMMO: ..  .\n......$MMM8:. ,OMMMMMMMMN=...INMMN$$MMMMMMMMMMZ.....~DMMMI.....~8MMMMMMMZ: ...  \n......,ZMMMD?,.?NMMMMMNZ~. .INMMD+.=ONMMMMMMMMN~. ...+DMMM$:.  ..,=$MMMD: ...   \n.......,$MMMMM87+IONMMMI...?NMMN= ....:=+??OMMM$..... =8MMMM87=,.,+8MMMZ.  .   .\n.........+8MMMMMMMMMMMO~. ~DMMN?...... . ..=NMM$.......:$NMMMMMMNMMMMMO:.... . .\n...........:I8NMMMMNO+,...:OMD?. ....... ...+Z7~.........:I8NMMMMMMMDI,    .   .\n............. .:~~:. ......,,,.. . ... . . . ..  . ... . .  .~?7$7?~.        .  \n................................ . . .   . . .   . . .   . . .         .       .\n................. ....... ......   . .     . .     . .     . .         .       ."
+    return logo + "\nWelcome to the GAG console!"
+
 if __name__ == '__main__':
-    GagCmd().cmdloop("Welcome to the GAG console!")
+    GagCmd().cmdloop(get_greeting())

@@ -455,3 +455,4 @@ class ConsoleController:
             else:
                 locus_tag = seq.get_locus_tag()
         return locus_tag
+    
