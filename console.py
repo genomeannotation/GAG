@@ -30,7 +30,7 @@ class GagCmd(cmd.Cmd):
         try:
             readline.read_history_file('.gaghistory')
         except IOError:
-            sys.stderr.write("No .gaghistory file available...")
+            sys.stderr.write("No .gaghistory file available...\n")
         self.controller = ConsoleController() 
 
     def precmd(self, line):
