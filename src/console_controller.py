@@ -413,7 +413,7 @@ class ConsoleController:
         return output
 
     def stats(self):
-        # TODO deepcopy, filter and call stats_mgr.update_alt on each seq
+        sys.stderr.write("Calculating statistics on genome...\n")
         # TODO the following command should be set by user or from config file;
         #      this is just for testing purposes...
         self.filter_mgr.set_filter_arg('min_cds_length', 'min_length', '30')

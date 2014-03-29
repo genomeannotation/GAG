@@ -39,7 +39,7 @@ class StatsManager:
         for stat in self.min_stats:
             if old[stat] == 0:
                 old[stat] = new[stat]
-            elif new[stat] < old[stat]:
+            elif new[stat] < old[stat] and new[stat] != 0:
                 old[stat] = new[stat]
         for stat in self.max_stats:
             if new[stat] > old[stat]:
