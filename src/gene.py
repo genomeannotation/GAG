@@ -32,7 +32,7 @@ class Gene:
         return result
 
     def is_empty(self):
-        return self.indices == [0, 0]
+        return len([mrna for mrna in self.mrnas if not mrna.death_flagged]) == 0
         
     def add_annotation(self, key, value):
         self.annotations.append([key, value])
@@ -135,7 +135,10 @@ class Gene:
             self.clean_up_indices()
             self.remove_invalid_features()
 
-    def to_gff(self):
+    def to_gff(self, death_flagged_stuff=False):
+        if not death_flagged_stuff and self.death_flagged:
+            return ""
+    
         result = self.seq_name + "\t" + self.source + "\t"
         result += 'gene' + "\t" + str(self.indices[0]) + "\t"
         result += str(self.indices[1]) + "\t" + self.get_score()
@@ -145,7 +148,7 @@ class Gene:
             result += ';'+annot[0]+'='+annot[1]
         result += '\n'
         for mrna in self.mrnas:
-            result += mrna.to_gff(self.seq_name, self.source, self.strand)
+            result += mrna.to_gff(self.seq_name, self.source, self.strand, death_flagged_stuff)
         return result
 
     def to_tbl_entries(self, annotator):
@@ -190,6 +193,9 @@ class Gene:
         return entries
 
     def to_tbl(self):
+        if self.death_flagged:
+            return ""
+    
         if self.strand == "-":
             indices = [self.indices[1], self.indices[0]]
         else:
