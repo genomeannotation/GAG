@@ -18,6 +18,7 @@ class MRNA:
         self.cds = None
         self.other_features = []
         self.annotations = []
+        self.death_flagged = False
 
     def __str__(self):
         result = "mRNA (ID=" + str(self.identifier) + ") containing "
@@ -169,7 +170,10 @@ class MRNA:
         result += str(self.indices[0]) + "\t" + str(self.indices[1]) + "\t"
         result += "." + "\t" + strand + "\t" + "." + "\t"
         result += "ID=" + str(self.identifier)
-        result += ";Parent=" + str(self.parent_id) + "\n"
+        result += ";Parent=" + str(self.parent_id)
+        for annot in self.annotations:
+            result += ';'+annot[0]+'='+annot[1]
+        result += '\n'
         if self.exon:
             result += self.exon.to_gff(seq_name, source, strand)
         if self.cds:

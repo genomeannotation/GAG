@@ -22,6 +22,7 @@ class Gene:
         self.identifier = identifier
         self.mrnas = []
         self.annotations = []
+        self.death_flagged = False
 
     def __str__(self):
         result = "Gene (ID=" + str(self.identifier) 

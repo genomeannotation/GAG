@@ -91,9 +91,10 @@ class TestMRNA(unittest.TestCase):
         self.fake_start_codon.to_gff.return_value = "...start codon to gff\n"
         expected = "sctg_0080_0020\tmaker\tmRNA\t"
         expected += "3734\t7436\t.\t+\t.\t"
-        expected += "ID=2;Parent=1\n"
+        expected += "ID=2;Parent=1;foo=dog\n"
         expected += "...exon to gff\n...cds to gff\n"
         expected += "...start codon to gff\n"
+        self.test_mrna1.add_annotation('foo', 'dog')
         actual = self.test_mrna1.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
         self.assertEquals(expected, actual)
         self.fake_exon.to_gff.assert_called_with("sctg_0080_0020", "maker", '+')
