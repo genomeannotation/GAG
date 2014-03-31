@@ -139,7 +139,10 @@ class Gene:
         result += 'gene' + "\t" + str(self.indices[0]) + "\t"
         result += str(self.indices[1]) + "\t" + self.get_score()
         result += "\t" + self.strand + "\t" + "." + "\t"
-        result += "ID=" + str(self.identifier) + "\n"
+        result += "ID=" + str(self.identifier)
+        for annot in self.annotations:
+            result += ';'+annot[0]+'='+annot[1]
+        result += '\n'
         for mrna in self.mrnas:
             result += mrna.to_gff(self.seq_name, self.source, self.strand)
         return result
@@ -192,6 +195,8 @@ class Gene:
             indices = self.indices
         output = str(indices[0]) + "\t" + str(indices[1]) + "\t" + "gene\n"
         output += "\t\t\tlocus_tag\t" + self.identifier + "\n"
+        for annot in self.annotations:
+            output += '\t\t\t'+annot[0]+'\t'+annot[1]+'\n'
         for mrna in self.mrnas:
             output += mrna.to_tbl(self.strand)
         return output

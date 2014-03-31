@@ -78,9 +78,10 @@ class TestGene(unittest.TestCase):
         self.fake_mrna1.to_gff.return_value = "fake mrna1 to gff here:)\n"
         self.fake_mrna2.to_gff.return_value = "fake mrna2 to gff here:)\n"
         expected = "sctg_0080_0020\tmaker\tgene\t3734\t7436\t.\t+\t."
-        expected += "\tID=1\n"
+        expected += "\tID=1;foo=dog\n"
         expected += "fake mrna1 to gff here:)\n"
         expected += "fake mrna2 to gff here:)\n"
+        self.test_gene1.add_annotation('foo', 'dog')
         self.assertEquals(expected, self.test_gene1.to_gff())
 
     def test_str(self):
@@ -200,13 +201,14 @@ class TestGene(unittest.TestCase):
 
     def test_to_tbl_positive(self):
         gene = Gene("seq1", "maker", [1, 50], "+", "foo_gene_1")
+        gene.add_annotation('foo', 'dog')
         mrna1 = Mock()
         mrna1.to_tbl.return_value = "mrna1_to_tbl...\n"
         mrna2 = Mock()
         mrna2.to_tbl.return_value = "mrna2_to_tbl...\n"
         gene.add_mrna(mrna1)
         gene.add_mrna(mrna2)
-        expected = "1\t50\tgene\n\t\t\tlocus_tag\tfoo_gene_1\nmrna1_to_tbl...\nmrna2_to_tbl...\n"
+        expected = "1\t50\tgene\n\t\t\tlocus_tag\tfoo_gene_1\n\t\t\tfoo\tdog\nmrna1_to_tbl...\nmrna2_to_tbl...\n"
         self.assertEquals(gene.to_tbl(), expected)
 
     def test_to_tbl_negative(self):
