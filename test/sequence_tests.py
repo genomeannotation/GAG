@@ -12,11 +12,14 @@ class TestSequence(unittest.TestCase):
     def add_mock_gene(self):
         mockgene = Mock()
         mockgene.identifier = "foo_gene"
+        mockgene.death_flagged = False
+        mockgene.get_valid_mrnas = Mock(return_value=[])
         self.seq1.add_gene(mockgene)
         
     def add_mock_gene_with_1_mrna(self, name):
         mockgene = Mock()
         mockgene.identifier = name
+        mockgene.death_flagged = False
         mockgene.mrnas = [Mock()]
         mockgene.mrnas[0].identifier = name+"-RA"
         mockgene.mrnas[0].cds = Mock()
@@ -24,12 +27,14 @@ class TestSequence(unittest.TestCase):
         mockgene.mrnas[0].cds.length = Mock(return_value=5)
         mockgene.mrnas[0].exon = Mock()
         mockgene.mrnas[0].length = Mock(return_value=2)
+        mockgene.get_valid_mrnas = Mock(return_value=mockgene.mrnas)
         mockgene.length = Mock(return_value=20)
         self.seq1.add_gene(mockgene)
         
     def add_mock_gene_with_2_mrnas(self, name):
         mockgene = Mock()
         mockgene.identifier = name
+        mockgene.death_flagged = False
         mockgene.mrnas = [Mock(), Mock()]
         mockgene.mrnas[0].identifier = name+"-RA"
         mockgene.mrnas[0].cds = None
@@ -41,6 +46,7 @@ class TestSequence(unittest.TestCase):
         mockgene.mrnas[1].cds.length = Mock(return_value=3)
         mockgene.mrnas[1].exon = Mock()
         mockgene.mrnas[1].length = Mock(return_value=2)
+        mockgene.get_valid_mrnas = Mock(return_value=mockgene.mrnas)
         mockgene.length = Mock(return_value=10)
         self.seq1.add_gene(mockgene)
 

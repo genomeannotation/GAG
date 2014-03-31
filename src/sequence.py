@@ -33,6 +33,9 @@ class Sequence:
                 if mrna.identifier == mrna_id:
                     return True
         return False
+        
+    def get_valid_genes(self):
+        return [gene for gene in self.genes if not gene.death_flagged]
 
     def get_locus_tag(self):
         for gene in self.genes:
@@ -156,15 +159,14 @@ class Sequence:
 
     def get_num_mrna(self):
         count = 0
-        for gene in self.genes:
-            for mrna in gene.mrnas:
-                count+=1
+        for gene in self.get_valid_genes():
+            count += len(gene.get_valid_mrnas())
         return count
         
     def get_num_cds(self):
         count = 0
-        for gene in self.genes:
-            for mrna in gene.mrnas:
+        for gene in self.get_valid_genes():
+            for mrna in gene.get_valid_mrnas():
                 if mrna.cds != None:
                     count+=1
         return count
@@ -172,7 +174,7 @@ class Sequence:
     def get_longest_gene(self):
         length = 0
         longest = None
-        for gene in self.genes:
+        for gene in self.get_valid_genes():
             if gene.length() > length:
                 length = gene.length()
                 longest = gene
@@ -181,8 +183,8 @@ class Sequence:
     def get_longest_mrna(self):
         length = 0
         longest = None
-        for gene in self.genes:
-            for mrna in gene.mrnas:
+        for gene in self.get_valid_genes():
+            for mrna in gene.get_valid_mrnas():
                 if mrna.length() > length:
                     length = mrna.length()
                     longest = mrna
@@ -191,8 +193,8 @@ class Sequence:
     def get_longest_cds(self):
         length = 0
         longest = None
-        for gene in self.genes:
-            for mrna in gene.mrnas:
+        for gene in self.get_valid_genes():
+            for mrna in gene.get_valid_mrnas():
                 if mrna.cds != None and mrna.cds.length() > length:
                     length = mrna.cds.length()
                     longest = mrna.cds
@@ -201,7 +203,7 @@ class Sequence:
     def get_shortest_gene(self):
         length = 0
         shortest = None
-        for gene in self.genes:
+        for gene in self.get_valid_genes():
             if gene.length() < length or shortest == None:
                 length = gene.length()
                 shortest = gene
@@ -210,8 +212,8 @@ class Sequence:
     def get_shortest_mrna(self):
         length = 0
         shortest = None
-        for gene in self.genes:
-            for mrna in gene.mrnas:
+        for gene in self.get_valid_genes():
+            for mrna in gene.get_valid_mrnas():
                 if mrna.length() < length or shortest == None:
                     length = mrna.length()
                     shortest = mrna
@@ -220,8 +222,8 @@ class Sequence:
     def get_shortest_cds(self):
         length = 0
         shortest = None
-        for gene in self.genes:
-            for mrna in gene.mrnas:
+        for gene in self.get_valid_genes():
+            for mrna in gene.get_valid_mrnas():
                 if mrna.cds != None and (mrna.cds.length() < length or shortest == None):
                     length = mrna.cds.length()
                     shortest = mrna.cds
@@ -229,22 +231,22 @@ class Sequence:
 
     def get_total_gene_length(self):
         length = 0
-        for gene in self.genes:
+        for gene in self.get_valid_genes():
             length += gene.length()
         return length
 
         
     def get_total_mrna_length(self):
         length = 0
-        for gene in self.genes:
-            for mrna in gene.mrnas:
+        for gene in self.get_valid_genes():
+            for mrna in gene.get_valid_mrnas():
                 length += mrna.length()
         return length
         
     def get_total_cds_length(self):
         length = 0
-        for gene in self.genes:
-            for mrna in gene.mrnas:
+        for gene in self.get_valid_genes():
+            for mrna in gene.get_valid_mrnas():
                 if mrna.cds != None:
                     length += mrna.cds.length()
         return length

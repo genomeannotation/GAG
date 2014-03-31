@@ -32,7 +32,10 @@ class Gene:
         return result
 
     def is_empty(self):
-        return len([mrna for mrna in self.mrnas if not mrna.death_flagged]) == 0
+        return len(self.get_valid_mrnas()) == 0
+        
+    def get_valid_mrnas(self):
+        return [mrna for mrna in self.mrnas if not mrna.death_flagged]
         
     def add_annotation(self, key, value):
         self.annotations.append([key, value])
