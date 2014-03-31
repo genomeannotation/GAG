@@ -11,12 +11,11 @@ class TestStatsManager(unittest.TestCase):
     def test_initialize(self):
         self.assertEquals(self.mgr.ref_stats["num_CDS"], 0)
 
-    def test_clear_ref(self):
-        self.populate_ref()
-        self.assertEquals(self.mgr.ref_stats["num_CDS"], 7)
-        self.mgr.clear_ref()
-        self.assertEquals(self.mgr.ref_stats["num_CDS"], 0)
-
+    def test_clear_alt(self):
+        self.mgr.update_alt(self.get_new_dict())
+        self.assertEquals(self.mgr.alt_stats["num_CDS"], 1)
+        self.mgr.clear_alt()
+        self.assertEquals(self.mgr.alt_stats["num_CDS"], 0)
 
     def populate_ref(self):
         self.mgr.ref_stats["seq_length"] = 100

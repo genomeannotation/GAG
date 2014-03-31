@@ -21,8 +21,8 @@ class StatsManager:
         for stat in self.increment_stats + self.min_stats + self.max_stats:
             d[stat] = 0
 
-    def clear_ref(self):
-        self.initialize_dict(self.ref_stats)
+    def clear_alt(self):
+        self.initialize_dict(self.alt_stats)
 
     def update_ref(self, stats):
         self.update_stats(self.ref_stats, stats)

@@ -424,7 +424,7 @@ class ConsoleController:
         return output
 
     def stats(self):
-        self.stats_mgr.clear_ref()
+        self.stats_mgr.clear_alt()
         sys.stderr.write("Calculating statistics on genome...\n")
         for seq in self.seqs:
             cseq = copy.deepcopy(seq)
