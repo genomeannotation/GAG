@@ -16,13 +16,19 @@ class FilterManager:
         self.filter_args = dict()
         for filt_name, filt in self.filters.items():
             self.filter_args[filt_name] = [attr for attr in dir(filt) if not callable(getattr(filt, attr)) and not attr.startswith("__")]
+        
+        # Starts out dirty
+        dirty = True
 
     def apply_filters(self, seq):
         for filt in self.filters.values():
             filt.apply(seq)
     
     def set_filter_arg(self, filter_name, filter_arg, val):
-        setattr(self.filters[filter_name], filter_arg, ast.literal_eval(val))
+        val = ast.literal_eval(val)
+        if self.get_filter_arg(filter_name, filter_arg) != val:
+            self.dirty = True
+        setattr(self.filters[filter_name], filter_arg, val)
     
     def get_filter_arg(self, filter_name, filter_arg):
         return getattr(self.filters[filter_name], filter_arg)

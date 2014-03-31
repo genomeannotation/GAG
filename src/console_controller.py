@@ -109,6 +109,7 @@ class ConsoleController:
     def apply_filters(self):
         for seq in self.seqs:
             self.filter_mgr.apply_filters(seq)
+        self.filter_mgr.dirty = False
 
     def ls(self, line):
         proc = subprocess.Popen(['ls '+line], stdout=subprocess.PIPE, \
