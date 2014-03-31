@@ -109,7 +109,6 @@ class ConsoleController:
     def apply_filters(self):
         for seq in self.seqs:
             self.filter_mgr.apply_filters(seq)
-        self.filter_mgr.dirty = False
 
     def ls(self, line):
         proc = subprocess.Popen(['ls '+line], stdout=subprocess.PIPE, \
@@ -425,12 +424,14 @@ class ConsoleController:
         return output
 
     def stats(self):
-        self.stats_mgr.clear_alt()
-        sys.stderr.write("Calculating statistics on genome...\n")
-        for seq in self.seqs:
-            cseq = copy.deepcopy(seq)
-            self.filter_mgr.apply_filters(cseq)
-            self.stats_mgr.update_alt(cseq.stats())
+        if self.filter_mgr.dirty:
+            self.stats_mgr.clear_alt()
+            sys.stderr.write("Calculating statistics on genome...\n")
+            for seq in self.seqs:
+                cseq = copy.deepcopy(seq)
+                self.filter_mgr.apply_filters(cseq)
+                self.stats_mgr.update_alt(cseq.stats())
+            self.filter_mgr.dirty = False
         return self.stats_mgr.summary()
 
 ## Output info to file
