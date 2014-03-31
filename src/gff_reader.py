@@ -10,8 +10,8 @@ class GFFReader:
 
     def __init__(self):
         self.genes = []
-        self.current_gene = None
-        self.current_mrnas = []
+        self.mrnas = {}
+        self.orphas = []
         self.current_line = 0 # Not even reading a file yet
         self.give_up = False # we are strong for now
         self.skipped_features = 0
@@ -21,7 +21,10 @@ class GFFReader:
         splitline = line.split('\t')
         if len(splitline) is not 9:
             return []
-        if not 'ID' in splitline[8]:
+        if not "ID" in splitline[8]:
+            return []
+        # Everything except genes must have parent id
+        if not "Parent" in splitline[8] and not splitline[2] == "gene":
             return []
         return splitline
 
@@ -146,55 +149,46 @@ class GFFReader:
             self.skipped_features += 1
 
     def process_gene_line(self, line):
-        if self.current_gene:
-            self.wrap_up_gene()
-            self.process_gene_line(line)
-        else:
-            kwargs = self.extract_gene_args(line)
-
-            if not kwargs:
-                return
-
-            self.current_gene = Gene(**kwargs)
+        kwargs = self.extract_gene_args(line)
+        if not kwargs:
+            return
+        # TODO map?
+        self.genes.append(Gene(**kwargs))
 
     def process_mrna_line(self, line):
-        # self.current_mrnas_contains(line) or whatever
-        if self.current_mrna:
-            self.wrap_up_mrna()
-            self.process_mrna_line(line)
-        else:
-            kwargs = self.extract_mrna_args(line)
-
-            if not kwargs:
-                return
-
-            self.current_mrna = MRNA(**kwargs)
+        kwargs = self.extract_mrna_args(line)
+        if not kwargs:
+            return
+        mrna_id = kwargs['identifier']
+        self.mrnas[mrna_id] = MRNA(**kwargs)
 
     def process_cds_line(self, line):
-        # get parent id;
-        # update mrna cds?
-        if self.current_cds:
-            self.update_cds(line)
+        kwargs = self.extract_cds_args(line)
+        if not kwargs:
+            return
+        parent_id = kwargs['parent_id']
+        if parent_id not in self.mrnas:
+            self.orphans.append(line)
+            return
+        parent_mrna = self.mrnas[parent_id]
+        if parent_mrna.cds:
+            self.update_cds(line, parent_mrna.cds)
         else:
-            kwargs = self.extract_cds_args(line)
-
-            if not kwargs:
-                return
-
-            self.current_cds = CDS(**kwargs)
+            parent_mrna.cds = CDS(**kwargs)
 
     def process_exon_line(self, line):
-        # get parent id;
-        # update mrna exon?
-        if self.current_exon:
-            self.update_exon(line)
+        kwargs = self.extract_exon_args(line)
+        if not kwargs:
+            return
+        parent_id = kwargs['parent_id']
+        if parent_id not in self.mrnas:
+            self.orphans.append(line)
+            return
+        parent_mrna = self.mrnas[parent_id]
+        if parent_mrna.exon:
+            self.update_exon(line, parent_mrna.exon)
         else:
-            kwargs = self.extract_exon_args(line)
-
-            if not kwargs:
-                return
-
-            self.current_exon = Exon(**kwargs)
+            parent_mrna.exon = Exon(**kwargs)
 
     def process_other_feature_line(self, line):
         # get parent id;
@@ -219,30 +213,18 @@ class GFFReader:
     def read_file(self, reader):
         self.current_line = 0 # aaaand begin!
         for line in reader:
-            if len(line) == 0:
+            if len(line) == 0 or line[0].startswith('#'):
                 continue
             if self.give_up:
                 return
 
             self.current_line += 1
+            
+            splitline = self.validate_line(line)
+            if splitline:
+                self.process_line(splitline)
 
-            try:
-                if len(line) == 0 or line[0].startswith('#'):
-                    continue
-                else:
-                    splitline = self.validate_line(line)
-                    if splitline:
-                        self.process_line(splitline)
-            except:
-                print("\nException raised while reading GFF line: "+str(self.current_line)+"\n\n")
-                print("The line looks like this:\n")
-                print(line)
-                print(traceback.format_exc())
-                go_on = raw_input("\n\nAttempt to continue? (y/n): ")
-                if go_on != 'y' and go_on != 'Y': # Didn't select Y, get outta here!
-                    return
-        self.wrap_up_gene()
-	if self.skipped_features > 0:
-	    print("Warning: skipped "+str(self.skipped_features)+" uninteresting features.")
+        if self.skipped_features > 0:
+            print("Warning: skipped "+str(self.skipped_features)+" uninteresting features.")
         return self.genes
 
