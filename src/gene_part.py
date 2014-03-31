@@ -30,7 +30,7 @@ def one_line_indices_entry(indices, has_start, has_stop, is_cds):
         output += "mRNA\n"
     return output
 
-def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, phase=0):
+def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, annotations = [], phase=0):
     output = ""
     if strand == "-":
         indices = get_reversed_indices(indices)
@@ -56,6 +56,11 @@ def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, phase=0):
     if is_cds:
         output += "\t\t\tcodon_start\t" + str(phase+1) + "\n"
     output += "\t\t\tproduct\thypothetical protein\n"
+    
+    # Write the annotations
+    for annot in annotations:
+        output += '\t\t\t'+annot[0]+'\t'+annot[1]+'\n'
+    
     return output
 
 class GenePart:
@@ -72,6 +77,7 @@ class GenePart:
         if score is not None:
             self.score.append(score)
         self.parent_id = parent_id
+        self.annotations = []
 
     def __str__(self):
         result = self.feature_type + " (first ID="
@@ -89,6 +95,9 @@ class GenePart:
 
     def add_score(self, score):
         self.score.append(score)
+        
+    def add_annotation(self, key, value):
+        self.annotations.append([key, value])
 
     def length(self):
         length = 0
@@ -197,7 +206,10 @@ class GenePart:
         if len(self.identifier) <= i or self.parent_id is None:
             return None
         entry = "ID=" + str(self.identifier[i]) + ";"
-        entry += "Parent=" + str(self.parent_id) + "\n"
+        entry += "Parent=" + str(self.parent_id)
+        for annot in self.annotations:
+            entry += ';'+annot[0]+'='+annot[1]
+        entry += '\n'
         return entry
 
     def to_gff(self, seq_name, source, strand):
@@ -221,7 +233,6 @@ class CDS(GenePart):
         self.phase = []
         if phase is not None:
             self.phase.append(phase)
-        self.annotations = []
 
     def get_phase(self, i):
         if self.phase and len(self.phase) > i:
@@ -299,7 +310,7 @@ class CDS(GenePart):
     def to_tbl(self, strand, has_start, has_stop):
         indices = copy.deepcopy(self.indices)
         phase = self.phase[0]
-        return write_tbl_entry(indices, strand, has_start, has_stop, True, phase)
+        return write_tbl_entry(indices, strand, has_start, has_stop, True, self.annotations, phase)
 
 
 class Exon(GenePart):
@@ -307,9 +318,8 @@ class Exon(GenePart):
     def __init__(self, **kwargs):
         kwargs['feature_type'] = 'exon'
         GenePart.__init__(self, **kwargs)
-        self.annotations = []
 
     def to_tbl(self, strand, has_start, has_stop):
         indices = copy.deepcopy(self.indices)
-        return write_tbl_entry(indices, strand, has_start, has_stop, False)
+        return write_tbl_entry(indices, strand, has_start, has_stop, False, self.annotations)
 

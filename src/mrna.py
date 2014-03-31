@@ -17,6 +17,7 @@ class MRNA:
         self.exon = None
         self.cds = None
         self.other_features = []
+        self.annotations = []
 
     def __str__(self):
         result = "mRNA (ID=" + str(self.identifier) + ") containing "
@@ -28,6 +29,9 @@ class MRNA:
             result += "and " + str(len(self.other_features)) 
             result += " other features"
         return result
+        
+    def add_annotation(self, key, value):
+        self.annotations.append([key, value])
 
     def length(self):
         return length_of_segment(self.indices)

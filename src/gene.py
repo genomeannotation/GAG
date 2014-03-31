@@ -21,6 +21,7 @@ class Gene:
         self.strand = strand
         self.identifier = identifier
         self.mrnas = []
+        self.annotations = []
 
     def __str__(self):
         result = "Gene (ID=" + str(self.identifier) 
@@ -31,6 +32,9 @@ class Gene:
 
     def is_empty(self):
         return self.indices == [0, 0]
+        
+    def add_annotation(self, key, value):
+        self.annotations.append([key, value])
 
     def length(self):
         return length_of_segment(self.indices)

@@ -309,12 +309,13 @@ class TestCDS(unittest.TestCase):
         self.assertEquals(expected, self.test_cds1.indices[0])
 
     def test_to_gff(self):
-        expected1 = "sctg_0080_0020\tmaker\tCDS\t3734\t4034\t.\t+\t0\tID=8;Parent=2\n"
-        expected2 = "sctg_0080_0020\tmaker\tCDS\t4092\t4332\t.\t+\t2\tID=9;Parent=2\n"
-        expected3 = "sctg_0080_0020\tmaker\tCDS\t4399\t5185\t.\t+\t1\tID=10;Parent=2\n"
-        expected4 = "sctg_0080_0020\tmaker\tCDS\t5249\t6565\t.\t+\t0\tID=11;Parent=2\n"
-        expected5 = "sctg_0080_0020\tmaker\tCDS\t6630\t7436\t.\t+\t0\tID=12;Parent=2\n"
+        expected1 = "sctg_0080_0020\tmaker\tCDS\t3734\t4034\t.\t+\t0\tID=8;Parent=2;foo=dog\n"
+        expected2 = "sctg_0080_0020\tmaker\tCDS\t4092\t4332\t.\t+\t2\tID=9;Parent=2;foo=dog\n"
+        expected3 = "sctg_0080_0020\tmaker\tCDS\t4399\t5185\t.\t+\t1\tID=10;Parent=2;foo=dog\n"
+        expected4 = "sctg_0080_0020\tmaker\tCDS\t5249\t6565\t.\t+\t0\tID=11;Parent=2;foo=dog\n"
+        expected5 = "sctg_0080_0020\tmaker\tCDS\t6630\t7436\t.\t+\t0\tID=12;Parent=2;foo=dog\n"
         expected = expected1 + expected2 + expected3 + expected4 + expected5
+        self.test_cds1.add_annotation('foo','dog') # Make sure our annotations are working
         actual = self.test_cds1.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
         self.assertEquals(expected, actual)
         # what if identifier, parent_id are strings? does it matter?
@@ -350,8 +351,10 @@ class TestCDS(unittest.TestCase):
         expected += "5249\t6565\n"
         expected += "6630\t7436\n"
         expected += "\t\t\tcodon_start\t2\n"
-        expected += "\t\t\tproduct\thypothetical protein\n"  # TODO annotations :)
+        expected += "\t\t\tproduct\thypothetical protein\n"
+        expected += "\t\t\tfoo\tdog\n"
         self.test_cds1.phase[0] = 1
+        self.test_cds1.add_annotation('foo', 'dog')
         self.assertEquals(self.test_cds1.to_tbl("+", True, True), expected)
 
     def test_to_tbl_negative_complete(self):
