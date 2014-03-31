@@ -154,6 +154,34 @@ class TestGFFReader(unittest.TestCase):
         sample_text += "scaffold00080\tmaker\tstop_codon\t183022\t183024\t.\t+\t.\tID=BDOR_007866-RB:stop2;Parent=BDOR_007866-RB\n"
         return sample_text
 
+    def get_out_of_order_text(self):
+        sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n"
+        sample_text += "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n"
+        sample_text += "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n"
+        sample_text += "scaffold00080\tmaker\texon\t106151\t106451\t0.9\t+\t.\tID=BDOR_007864-RA:exon:0;Parent=BDOR_007864-RA\n"
+        sample_text += "scaffold00080\tmaker\texon\t106509\t106749\t0.9\t+\t.\tID=BDOR_007864-RA:exon:1;Parent=BDOR_007864-RA\n"
+        sample_text += "scaffold00080\tmaker\tCDS\t106151\t106451\t.\t+\t0\tID=BDOR_007864-RA:cds:0;Parent=BDOR_007864-RA\n"
+        sample_text += "scaffold00080\tmaker\tCDS\t106509\t106749\t.\t+\t2\tID=BDOR_007864-RA:cds:1;Parent=BDOR_007864-RA\n"
+        sample_text += "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RA\n"
+        sample_text += "scaffold00080\tmaker\tstop_codon\t109851\t109853\t.\t+\t.\tID=BDOR_007864-RA:stop2;Parent=BDOR_007864-RA\n"
+        sample_text += "scaffold00080\tmaker\texon\t106151\t106451\t0.9\t+\t.\tID=BDOR_007864-RA:exon:0;Parent=BDOR_007864-RB\n"
+        sample_text += "scaffold00080\tmaker\texon\t106509\t106749\t0.9\t+\t.\tID=BDOR_007864-RA:exon:1;Parent=BDOR_007864-RB\n"
+        sample_text += "scaffold00080\tmaker\tCDS\t106151\t106451\t.\t+\t0\tID=BDOR_007864-RA:cds:0;Parent=BDOR_007864-RB\n"
+        sample_text += "scaffold00080\tmaker\tCDS\t106509\t106749\t.\t+\t2\tID=BDOR_007864-RA:cds:1;Parent=BDOR_007864-RB\n"
+        sample_text += "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RB\n"
+        sample_text += "scaffold00080\tmaker\tstop_codon\t109851\t109853\t.\t+\t.\tID=BDOR_007864-RA:stop2;Parent=BDOR_007864-RB\n"
+        return sample_text
+        
+    def test_read_file(self):
+        text = self.get_out_of_order_text()
+        inbuff = io.BytesIO(text)
+        genes = self.reader.read_file(inbuff)
+        self.assertEqual(1, len(genes))
+        self.assertEqual('BDOR_007864-RA', genes[0].mrnas[0].identifier)
+        self.assertEqual(2, len(genes[0].mrnas))
+        self.assertEqual(2, len(genes[0].mrnas[0].exon.indices))
+        self.assertEqual(2, len(genes[0].mrnas[1].exon.indices))
+
         
 ##########################
 def suite():

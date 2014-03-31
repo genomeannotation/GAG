@@ -11,9 +11,7 @@ class GFFReader:
     def __init__(self):
         self.genes = []
         self.current_gene = None
-        self.current_mrna = None
-        self.current_exon = None
-        self.current_cds = None
+        self.current_mrnas = []
         self.current_line = 0 # Not even reading a file yet
         self.give_up = False # we are strong for now
         self.skipped_features = 0
@@ -31,10 +29,11 @@ class GFFReader:
         """Returns type of feature, as denoted by 3rd field in list."""
         return line[2]
 
-    # returns a dict with id and parent_id (if present)
-    # if not, returns empty dict
     def parse_attributes(self, attr):
-	# Sanitize and split attributes up
+        """Returns a dict with id and parent_id (if present)
+        if not, returns empty dict
+        """
+        # Sanitize and split attributes up
         split_attr = attr.strip(' \t\n;').split(';')
         try:
             keys = [val.split('=')[0] for val in split_attr]
@@ -116,24 +115,20 @@ class GFFReader:
         result.update(attribs)
         return result
 
-    def update_cds(self, line):
-        if not self.current_cds:
-            return
+    def update_cds(self, line, cds):
         args = self.extract_cds_args(line)
-        self.current_cds.add_indices(args['indices'])
-        self.current_cds.add_phase(args['phase'])
-        self.current_cds.add_identifier(args['identifier'])
+        cds.add_indices(args['indices'])
+        cds.add_phase(args['phase'])
+        cds.add_identifier(args['identifier'])
         if 'score' in args:
-            self.current_cds.add_score(args['score'])
+            cds.add_score(args['score'])
 
-    def update_exon(self, line):
-        if not self.current_exon:
-            return
+    def update_exon(self, line, exon):
         args = self.extract_exon_args(line)
-        self.current_exon.add_indices(args['indices'])
-        self.current_exon.add_identifier(args['identifier'])
+        exon.add_indices(args['indices'])
+        exon.add_identifier(args['identifier'])
         if 'score' in args:
-            self.current_exon.add_score(args['score'])
+            exon.add_score(args['score'])
 
     def process_line(self, line):
         ltype = self.line_type(line)
@@ -163,6 +158,7 @@ class GFFReader:
             self.current_gene = Gene(**kwargs)
 
     def process_mrna_line(self, line):
+        # self.current_mrnas_contains(line) or whatever
         if self.current_mrna:
             self.wrap_up_mrna()
             self.process_mrna_line(line)
@@ -175,6 +171,8 @@ class GFFReader:
             self.current_mrna = MRNA(**kwargs)
 
     def process_cds_line(self, line):
+        # get parent id;
+        # update mrna cds?
         if self.current_cds:
             self.update_cds(line)
         else:
@@ -186,6 +184,8 @@ class GFFReader:
             self.current_cds = CDS(**kwargs)
 
     def process_exon_line(self, line):
+        # get parent id;
+        # update mrna exon?
         if self.current_exon:
             self.update_exon(line)
         else:
@@ -197,6 +197,8 @@ class GFFReader:
             self.current_exon = Exon(**kwargs)
 
     def process_other_feature_line(self, line):
+        # get parent id;
+        # update mrna other feature?
         if not self.current_mrna:
             sys.stderr.write("Trying to add feature but no mRNA to add it to.\n")
             sys.stderr.write("Here is the line in question:\n")
@@ -208,20 +210,11 @@ class GFFReader:
         pass
 
     def wrap_up_gene(self):
-        if self.current_mrna:
-            self.wrap_up_mrna()
+        for mrna in self.current_mrnas:
+            self.current_gene.add_mrna(mrna)
         self.genes.append(self.current_gene)
         self.current_gene = None
-
-    def wrap_up_mrna(self):
-        if self.current_cds:
-            self.current_mrna.set_cds(self.current_cds)
-            self.current_cds = None
-        if self.current_exon:
-            self.current_mrna.set_exon(self.current_exon)
-            self.current_exon = None
-        self.current_gene.add_mrna(self.current_mrna)
-        self.current_mrna = None
+        self.current_mrnas[:] = []
 
     def read_file(self, reader):
         self.current_line = 0 # aaaand begin!
