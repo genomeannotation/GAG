@@ -424,10 +424,8 @@ class ConsoleController:
         return output
 
     def stats(self):
+        self.stats_mgr.clear_ref()
         sys.stderr.write("Calculating statistics on genome...\n")
-        # TODO the following command should be set by user or from config file;
-        #      this is just for testing purposes...
-        self.filter_mgr.set_filter_arg('min_cds_length', 'min_length', '30')
         for seq in self.seqs:
             cseq = copy.deepcopy(seq)
             self.filter_mgr.apply_filters(cseq)

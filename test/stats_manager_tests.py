@@ -11,6 +11,13 @@ class TestStatsManager(unittest.TestCase):
     def test_initialize(self):
         self.assertEquals(self.mgr.ref_stats["num_CDS"], 0)
 
+    def test_clear_ref(self):
+        self.populate_ref()
+        self.assertEquals(self.mgr.ref_stats["num_CDS"], 7)
+        self.mgr.clear_ref()
+        self.assertEquals(self.mgr.ref_stats["num_CDS"], 0)
+
+
     def populate_ref(self):
         self.mgr.ref_stats["seq_length"] = 100
         self.mgr.ref_stats["num_genes"] = 5
