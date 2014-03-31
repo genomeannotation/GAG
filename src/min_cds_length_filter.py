@@ -10,4 +10,5 @@ class MinCDSLengthFilter:
         for gene in seq.genes:
             for mrna in gene.mrnas:
                 if mrna.cds != None and mrna.cds.length() < self.min_length:
-                    mrna.cds = None # Destroy the cds
+                    mrna.cds.add_annotation("invalidated", "didn't pass min_cds_length filter of "+str(self.min_length))
+                    mrna.death_flagged = True # Destroy the mRNA that the cds lives on

@@ -21,19 +21,23 @@ class TestMinCDSLengthFilter(unittest.TestCase):
         seq.genes[1].mrnas = [Mock(), Mock()]
         
         # Give the mock mrnas some cds's
+        seq.genes[0].mrnas[0].death_flagged = False
         seq.genes[0].mrnas[0].cds = Mock()
         seq.genes[0].mrnas[0].cds.length = Mock(return_value=50)
         
+        seq.genes[1].mrnas[0].death_flagged = False
         seq.genes[1].mrnas[0].cds = None
         
+        seq.genes[1].mrnas[1].death_flagged = False
         seq.genes[1].mrnas[1].cds = Mock()
         seq.genes[1].mrnas[1].cds.length = Mock(return_value=20)
         
         # Apply the filter
         self.filter.apply(seq)
         
-        self.assertNotEqual(seq.genes[0].mrnas[0].cds, None)
-        self.assertEqual(seq.genes[1].mrnas[1].cds, None)
+        self.assertFalse(seq.genes[0].mrnas[0].death_flagged)
+        self.assertFalse(seq.genes[1].mrnas[0].death_flagged)
+        self.assertTrue(seq.genes[1].mrnas[1].death_flagged)
 
 
 
