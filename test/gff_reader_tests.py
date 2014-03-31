@@ -106,10 +106,10 @@ class TestGFFReader(unittest.TestCase):
         text = self.get_sample_text()
         inbuff = io.BytesIO(text)
         genes = self.reader.read_file(inbuff)
-        self.assertEqual(2, len(genes))
-        self.assertEqual('BDOR_007864-RA', genes[0].mrnas[0].identifier)
-        self.assertEqual([179489, 179691], genes[1].mrnas[0].cds.indices[2])
-    
+        self.assertEquals(2, len(genes))
+        self.assertEquals('BDOR_007864-RA', genes[0].mrnas[0].identifier)
+        self.assertEquals([179489, 179691], genes[1].mrnas[0].cds.indices[2])
+
     def get_sample_text(self):
         sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n"
         sample_text += "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n"
@@ -153,7 +153,7 @@ class TestGFFReader(unittest.TestCase):
         sample_text += "scaffold00080\tmaker\tstop_codon\t109851\t109853\t.\t+\t.\tID=BDOR_007864-RA:stop2;Parent=BDOR_007864-RB\n"
         return sample_text
         
-    def test_read_file(self):
+    def test_read_file_out_of_order(self):
         text = self.get_out_of_order_text()
         inbuff = io.BytesIO(text)
     #    genes = self.reader.read_file(inbuff)

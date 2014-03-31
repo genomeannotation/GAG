@@ -9,9 +9,9 @@ from src.gene import Gene
 class GFFReader:
 
     def __init__(self):
-        self.genes = []
+        self.genes = {}
         self.mrnas = {}
-        self.orphas = []
+        self.orphans = []
         self.current_line = 0 # Not even reading a file yet
         self.give_up = False # we are strong for now
         self.skipped_features = 0
@@ -152,8 +152,8 @@ class GFFReader:
         kwargs = self.extract_gene_args(line)
         if not kwargs:
             return
-        # TODO map?
-        self.genes.append(Gene(**kwargs))
+        gene_id = kwargs['identifier']
+        self.genes[gene_id] = Gene(**kwargs)
 
     def process_mrna_line(self, line):
         kwargs = self.extract_mrna_args(line)
@@ -191,27 +191,20 @@ class GFFReader:
             parent_mrna.exon = Exon(**kwargs)
 
     def process_other_feature_line(self, line):
-        # get parent id;
-        # update mrna other feature?
-        if not self.current_mrna:
-            sys.stderr.write("Trying to add feature but no mRNA to add it to.\n")
-            sys.stderr.write("Here is the line in question:\n")
-            sys.stderr.write(line)
-        else:
-            kwargs = self.extract_other_feature_args(line)
-            feat = GenePart(**kwargs)
-            self.current_mrna.other_features.append(feat)
-        pass
-
-    def wrap_up_gene(self):
-        for mrna in self.current_mrnas:
-            self.current_gene.add_mrna(mrna)
-        self.genes.append(self.current_gene)
-        self.current_gene = None
-        self.current_mrnas[:] = []
+        kwargs = self.extract_other_feature_args(line)
+        if not kwargs:
+            return
+        parent_id = kwargs['parent_id']
+        if parent_id not in self.mrnas:
+            self.orphans.append(line)
+            return
+        parent_mrna = self.mrnas[parent_id]
+        parent_mrna.other_features.append(GenePart(**kwargs))
 
     def read_file(self, reader):
         self.current_line = 0 # aaaand begin!
+        # First pass, pulling out all genes and mRNAs
+        #  and placing child features if possible
         for line in reader:
             if len(line) == 0 or line[0].startswith('#'):
                 continue
@@ -219,12 +212,21 @@ class GFFReader:
                 return
 
             self.current_line += 1
-            
             splitline = self.validate_line(line)
             if splitline:
                 self.process_line(splitline)
 
+        # Second pass, placing child features which 
+        # preceded their parents in the first pass
+        for splitline in self.orphans:
+            self.process_line(splitline)
+           
+        # Add mRNAs to their parent genes
+        for mrna in self.mrnas.values():
+            parent_gene = self.genes[mrna.parent_id]
+            parent_gene.mrnas.append(mrna)
+
         if self.skipped_features > 0:
             print("Warning: skipped "+str(self.skipped_features)+" uninteresting features.")
-        return self.genes
+        return self.genes.values()
 
