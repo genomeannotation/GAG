@@ -128,6 +128,10 @@ class TestSequence(unittest.TestCase):
         self.assertEquals(stats["total_gene_length"], 30)
         self.assertEquals(stats["total_mRNA_length"], 9)
         self.assertEquals(stats["total_CDS_length"], 8)
+        
+        self.seq1.genes[0].death_flagged = True
+        stats = self.seq1.stats()
+        self.assertEquals(stats["num_genes"], 1)
 
 
 

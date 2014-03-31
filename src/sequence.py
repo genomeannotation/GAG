@@ -255,7 +255,7 @@ class Sequence:
         stats = dict()
         
         stats["seq_length"] = len(self.bases)
-        stats["num_genes"] = len(self.genes)
+        stats["num_genes"] = len(self.get_valid_genes())
         stats["num_mRNA"] = self.get_num_mrna()
         stats["num_CDS"] = self.get_num_cds()
         stats["longest_gene"] = self.get_longest_gene()
