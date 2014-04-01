@@ -10,14 +10,14 @@ def length_of_segment(index_pair):
 
 class MRNA:
 
-    def __init__(self, identifier, indices, parent_id):
+    def __init__(self, identifier, indices, parent_id, annotations=[]):
         self.identifier = identifier
         self.indices = indices
         self.parent_id = parent_id
         self.exon = None
         self.cds = None
         self.other_features = []
-        self.annotations = []
+        self.annotations = annotations
         self.death_flagged = False
 
     def __str__(self):

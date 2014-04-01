@@ -21,6 +21,9 @@ class TestMRNA(unittest.TestCase):
     def test_constructor(self):
         self.assertEqual('MRNA', self.test_mrna0.__class__.__name__)
 
+    def test_constructor_takes_annotations(self):
+        self.assertTrue(MRNA(identifier="foo", indices=[1, 10], parent_id="bar", annotations=[["Dbxref", "pfam:foo"]]))
+
     def test_length(self):
         self.assertEqual(3703, self.test_mrna0.length())
 

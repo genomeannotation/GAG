@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import unittest
+import pdb
 import io
 from mock import Mock, patch, PropertyMock
 from src.gff_reader import *
@@ -186,6 +187,27 @@ class TestGFFReader(unittest.TestCase):
         genes = self.reader.read_file(inbuff)
         self.assertEqual(1, len(genes))
         
+    def get_annotated_gff(self):
+        result = "Scaffold1\tI5K\tgene\t133721\t162851\t.\t-\t.\tID=AGLA000002;Name=AglaTmpM000002;\n"
+        result += "Scaffold1\tI5K\tmRNA\t133721\t162851\t.\t-\t.\tID=AGLA000002-RA;Name=AglaTmpM000002-RA;Parent=AGLA000002;Dbxref=PRINTS:PR00075;\n"
+        result += "Scaffold1\tI5K\texon\t133721\t135519\t.\t-\t.\tID=AGLA000002-RA-EXON01;Parent=AGLA000002-RA;\n"
+        result += "Scaffold1\tI5K\texon\t140163\t140635\t.\t-\t.\tID=AGLA000002-RA-EXON02;Parent=AGLA000002-RA;\n"
+        result += "Scaffold1\tI5K\texon\t147266\t147396\t.\t-\t.\tID=AGLA000002-RA-EXON03;Parent=AGLA000002-RA;\n"
+        result += "Scaffold1\tI5K\texon\t152757\t152979\t.\t-\t.\tID=AGLA000002-RA-EXON04;Parent=AGLA000002-RA;\n"
+        result += "Scaffold1\tI5K\texon\t162720\t162762\t.\t-\t.\tID=AGLA000002-RA-EXON05;Parent=AGLA000002-RA;\n"
+        result += "Scaffold1\tI5K\texon\t162825\t162851\t.\t-\t.\tID=AGLA000002-RA-EXON06;Parent=AGLA000002-RA;\n"
+        result += "Scaffold1\tI5K\tCDS\t140426\t140635\t.\t-\t0\tID=AGLA000002-RA-CDS01;Parent=AGLA000002-RA;\n"
+        result += "Scaffold1\tI5K\tCDS\t147266\t147396\t.\t-\t2\tID=AGLA000002-RA-CDS02;Parent=AGLA000002-RA;\n"
+        result += "Scaffold1\tI5K\tCDS\t152757\t152976\t.\t-\t0\tID=AGLA000002-RA-CDS03;Parent=AGLA000002-RA;\n"
+        return result
+
+    def test_read_file_annotated(self):
+        text = self.get_annotated_gff()
+        inbuff = io.BytesIO(text)
+        genes = self.reader.read_file(inbuff)
+        self.assertEquals(1, len(genes))
+        self.assertEquals(["Dbxref", "PRINTS:PR00075"], genes[0].mrnas[0].annotations[0])
+
 ##########################
 def suite():
     suite = unittest.TestSuite()

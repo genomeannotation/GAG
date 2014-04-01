@@ -226,6 +226,8 @@ class TestGene(unittest.TestCase):
         expected = "50\t1\tgene\n\t\t\tlocus_tag\tfoo_gene_1\nmrna1_to_tbl...\nmrna2_to_tbl...\n"
         self.assertEquals(gene.to_tbl(), expected)
 
+        
+
 
 ##########################
 def suite():
