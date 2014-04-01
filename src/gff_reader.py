@@ -203,6 +203,7 @@ class GFFReader:
 
     def read_file(self, reader):
         self.current_line = 0 # aaaand begin!
+
         # First pass, pulling out all genes and mRNAs
         #  and placing child features if possible
         for line in reader:
@@ -218,6 +219,7 @@ class GFFReader:
 
         # Second pass, placing child features which 
         # preceded their parents in the first pass
+        # TODO infinite loop if no parent found
         for splitline in self.orphans:
             self.process_line(splitline)
            
