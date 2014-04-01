@@ -2,6 +2,7 @@
 
 import sys
 import traceback
+import copy
 from src.gene_part import GenePart, CDS, Exon
 from src.mrna import MRNA
 from src.gene import Gene
@@ -219,8 +220,8 @@ class GFFReader:
 
         # Second pass, placing child features which 
         # preceded their parents in the first pass
-        # TODO infinite loop if no parent found
-        for splitline in self.orphans:
+        orphans = copy.deepcopy(self.orphans)
+        for splitline in orphans:
             self.process_line(splitline)
            
         # Add mRNAs to their parent genes
