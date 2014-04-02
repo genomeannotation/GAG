@@ -1,5 +1,37 @@
 #!/usr/bin/env python
 
+def format_column(column, spacing):
+    # First, get the uniform length
+    longest = 0
+    for item in column:
+        length = len(item)+spacing
+        if length > longest:
+            longest = length
+    # Now format
+    return [item+(' '*(longest-len(item))) for item in column]
+
+def format_columns(column_names, key_order, dicts, spacing = 3):
+    # Build key column
+    columns = [['', '']]
+    columns[0].extend(key_order)
+    columns[0] = format_column(columns[0], spacing)
+    
+    # Notes: Python automatically sorts dictionary contents by key, so this will work.
+    # TODO: Nevertheless, make this code less hacky
+    
+    for i, dic in enumerate(dicts):
+        new_column = [column_names[i], '-'*len(column_names[i])]
+        new_column.extend([str(dic[key]) for key in key_order])
+        columns.append(format_column(new_column, spacing))
+        
+    # Finally, stringify the table
+    tbl_str = ''
+    for i in range(len(columns[0])): # For each row
+        for column in columns: # For each column
+            tbl_str += column[i]
+        tbl_str += '\n'
+    return tbl_str
+
 def validate_dicts(old, new):
     # TODO check keys?
     return len(old) == len(new)
@@ -45,22 +77,8 @@ class StatsManager:
                 old[stat] = new[stat]
 
     def summary(self):
-        result = "\t\tReference Genome\tModified Genome\n"
-        result += "\t\t----------------\t---------------\n"
-        for stat in self.increment_stats:
-            # Subtract a tab for longer stat names #KindaGhetto
-            if len(stat) > 10:
-                result += stat + ":\t"
-            else: result += stat + ":\t\t"
-            result += str(int(self.ref_stats[stat]))
-            result += "\t\t" + str(int(self.alt_stats[stat])) + "\n"
-        for stat in self.min_stats:
-            result += stat + ":\t\t" + str(int(self.ref_stats[stat]))
-            result += "\t\t" + str(int(self.alt_stats[stat])) + "\n"
-        for stat in self.max_stats:
-            result += stat + ":\t\t" + str(int(self.ref_stats[stat]))
-            result += "\t\t" + str(int(self.alt_stats[stat])) + "\n"
-        return result
+        stats_order = [key for keys in [self.increment_stats, self.min_stats, self.max_stats] for key in keys]
+        return format_columns(["Reference Genome", "Modified Genome"], stats_order, [self.ref_stats, self.alt_stats], 5)
 
 
 

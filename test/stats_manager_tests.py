@@ -2,6 +2,8 @@
 
 import unittest
 from src.stats_manager import StatsManager
+from src.stats_manager import format_column
+from src.stats_manager import format_columns
 
 class TestStatsManager(unittest.TestCase):
 
@@ -63,26 +65,37 @@ class TestStatsManager(unittest.TestCase):
 
     def test_summary(self):
         self.populate_ref()
-        expected = "\t\tReference Genome\tModified Genome\n"
-        expected += "\t\t----------------\t---------------\n"
-        expected += "seq_length:\t\t100\t\t0\n"
-        expected += "num_genes:\t\t5\t\t0\n"
-        expected += "num_mRNA:\t\t7\t\t0\n"
-        expected += "num_CDS:\t\t7\t\t0\n"
-        # The next three lines have longer stat-names,
-        # so fewer tabs so things will line up.
-        # Is there a smarter way to do that?
-        expected += "total_gene_length:\t70\t\t0\n"
-        expected += "total_mRNA_length:\t70\t\t0\n"
-        expected += "total_CDS_length:\t60\t\t0\n"
-        expected += "shortest_gene:\t\t10\t\t0\n"
-        expected += "shortest_mRNA:\t\t10\t\t0\n"
-        expected += "shortest_CDS:\t\t6\t\t0\n"
-        expected += "longest_gene:\t\t25\t\t0\n"
-        expected += "longest_mRNA:\t\t25\t\t0\n"
-        expected += "longest_CDS:\t\t20\t\t0\n"
+        expected =  "                      Reference Genome     Modified Genome     \n"
+        expected += "                      ----------------     ---------------     \n"
+        expected += "seq_length            100                  0                   \n"
+        expected += "num_genes             5                    0                   \n"
+        expected += "num_mRNA              7                    0                   \n"
+        expected += "num_CDS               7                    0                   \n"
+        expected += "total_gene_length     70                   0                   \n"
+        expected += "total_mRNA_length     70                   0                   \n"
+        expected += "total_CDS_length      60                   0                   \n"
+        expected += "shortest_gene         10                   0                   \n"
+        expected += "shortest_mRNA         10                   0                   \n"
+        expected += "shortest_CDS          6                    0                   \n"
+        expected += "longest_gene          25                   0                   \n"
+        expected += "longest_mRNA          25                   0                   \n"
+        expected += "longest_CDS           20                   0                   \n"
         summary = self.mgr.summary()
         self.assertEquals(summary, expected)
+        
+    def test_format_column(self):
+        column = ['a', 'sd', 'asdf']
+        self.assertEquals(format_column(column, 5), ['a        ', 'sd       ', 'asdf     '])
+        
+    def test_format_columns(self):
+        desired_tbl = '    columnA columnB \n' \
+                      '    ------- ------- \n' \
+                      'dog 24      4222    \n' \
+                      'foo 4232234 84      \n'
+        column_names = ['columnA', 'columnB']
+        dictA = {'foo' : 4232234, 'dog' : 24}
+        dictB = {'foo' : 84, 'dog' : 4222}
+        self.assertEquals(format_columns(column_names, ['dog', 'foo'], [dictA, dictB], 1), desired_tbl)
 
 
 ##########################
