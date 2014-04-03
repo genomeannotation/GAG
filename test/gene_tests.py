@@ -50,6 +50,14 @@ class TestGene(unittest.TestCase):
         self.fake_mrna1.length_of_shortest_cds_segment.assert_called_with()
         self.fake_mrna2.length_of_shortest_cds_segment.assert_called_with()
 
+    def test_get_partial_info(self):
+        self.fake_mrna1.has_stop.return_value = True
+        self.fake_mrna1.has_start.return_value = True
+        self.fake_mrna2.has_stop.return_value = False
+        self.fake_mrna2.has_start.return_value = True
+        results = self.test_gene1.get_partial_info()
+        self.assertEquals(1, results["complete"])
+
     def test_adjust_indices(self):
         self.test_gene1.adjust_indices(16)
         self.fake_mrna1.adjust_indices.assert_called_with(16, 1)

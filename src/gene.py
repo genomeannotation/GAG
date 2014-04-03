@@ -138,6 +138,22 @@ class Gene:
             self.clean_up_indices()
             self.remove_invalid_features()
 
+    def get_partial_info(self):
+        results = {"complete": 0, "start_no_stop": 0, "stop_no_start": 0, "no_stop_no_start": 0}
+        for mrna in self.mrnas:
+            if mrna.has_start():
+                if mrna.has_stop():
+                    results["complete"] += 1
+                else:
+                    results["start_no_stop"] += 1
+            else:
+                # No start ...
+                if mrna.has_stop():
+                    results["stop_no_start"] += 1
+                else:
+                    results["no_stop_no_start"] += 1
+        return results
+
     def to_gff(self, death_flagged_stuff=False):
         if not death_flagged_stuff and self.death_flagged:
             return ""
