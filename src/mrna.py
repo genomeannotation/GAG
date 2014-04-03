@@ -186,6 +186,17 @@ class MRNA:
             total += length_of_segment(index_pair)
         return total
 
+    def get_longest_intron(self):
+        longest = 0
+        last_end = 0
+        for index_pair in self.exon.indices:
+            if last_end != 0:
+                this_intron = index_pair[0] - last_end + 1
+                if this_intron > longest:
+                    longest = this_intron
+            last_end = index_pair[1]
+        return longest
+
     def get_total_intron_length(self):
         total = 0
         last_end = 0
