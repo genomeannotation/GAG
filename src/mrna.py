@@ -172,6 +172,13 @@ class MRNA:
                 longest = length_of_segment(index_pair)
         return longest
 
+    def get_shortest_exon(self):
+        shortest = 0
+        for index_pair in self.exon.indices:
+            length = length_of_segment(index_pair)
+            if shortest == 0 or length_of_segment(index_pair) < shortest:
+                shortest = length_of_segment(index_pair)
+        return shortest
 
     def to_gff(self, seq_name, source, strand, death_flagged_stuff=False):
         if not death_flagged_stuff and self.death_flagged:
