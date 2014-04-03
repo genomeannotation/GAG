@@ -197,6 +197,17 @@ class MRNA:
             last_end = index_pair[1]
         return longest
 
+    def get_shortest_intron(self):
+        shortest = 0
+        last_end = 0
+        for index_pair in self.exon.indices:
+            if last_end != 0:
+                this_intron = index_pair[0] - last_end + 1
+                if shortest == 0 or this_intron < shortest:
+                    shortest = this_intron
+            last_end = index_pair[1]
+        return shortest
+
     def get_total_intron_length(self):
         total = 0
         last_end = 0
