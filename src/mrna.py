@@ -180,6 +180,12 @@ class MRNA:
                 shortest = length_of_segment(index_pair)
         return shortest
 
+    def get_total_exon_length(self):
+        total = 0
+        for index_pair in self.exon.indices:
+            total += length_of_segment(index_pair)
+        return total
+
     def to_gff(self, seq_name, source, strand, death_flagged_stuff=False):
         if not death_flagged_stuff and self.death_flagged:
             return ""

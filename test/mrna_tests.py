@@ -245,6 +245,11 @@ class TestMRNA(unittest.TestCase):
         self.fake_exon.indices = [[1, 5], [11, 16], [21, 27]]
         self.assertEquals(5, self.test_mrna1.get_shortest_exon())
 
+    def test_get_total_exon_length(self):
+        self.fake_exon.indices = [[1, 5], [11, 16], [21, 27]]
+        self.assertEquals(18, self.test_mrna1.get_total_exon_length())
+
+
 
 
 ##########################
