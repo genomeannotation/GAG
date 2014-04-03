@@ -237,17 +237,26 @@ class TestMRNA(unittest.TestCase):
         expected = "fake_exon_to_tbl...\nfake_cds_to_tbl...\n"
         self.assertEquals(self.test_mrna1.to_tbl("+"), expected)
 
-    def test_get_longest_exon(self):
+    def set_fake_exon_indices(self):
         self.fake_exon.indices = [[1, 5], [11, 16], [21, 27]]
+
+    def test_get_longest_exon(self):
+        self.set_fake_exon_indices()
         self.assertEquals(7, self.test_mrna1.get_longest_exon())
 
     def test_get_shortest_exon(self):
+        self.set_fake_exon_indices()
         self.fake_exon.indices = [[1, 5], [11, 16], [21, 27]]
         self.assertEquals(5, self.test_mrna1.get_shortest_exon())
 
     def test_get_total_exon_length(self):
+        self.set_fake_exon_indices()
         self.fake_exon.indices = [[1, 5], [11, 16], [21, 27]]
         self.assertEquals(18, self.test_mrna1.get_total_exon_length())
+
+    def test_get_total_intron_length(self):
+        self.set_fake_exon_indices()
+        self.assertEquals(13, self.test_mrna1.get_total_intron_length())
 
 
 

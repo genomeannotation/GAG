@@ -186,6 +186,15 @@ class MRNA:
             total += length_of_segment(index_pair)
         return total
 
+    def get_total_intron_length(self):
+        total = 0
+        last_end = 0
+        for index_pair in self.exon.indices:
+            if last_end != 0:
+                total += index_pair[0] - last_end + 1
+            last_end = index_pair[1]
+        return total
+
     def to_gff(self, seq_name, source, strand, death_flagged_stuff=False):
         if not death_flagged_stuff and self.death_flagged:
             return ""
