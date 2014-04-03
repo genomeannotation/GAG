@@ -165,6 +165,14 @@ class MRNA:
                 return True
         return False
 
+    def get_longest_exon(self):
+        longest = 0
+        for index_pair in self.exon.indices:
+            if length_of_segment(index_pair) > longest:
+                longest = length_of_segment(index_pair)
+        return longest
+
+
     def to_gff(self, seq_name, source, strand, death_flagged_stuff=False):
         if not death_flagged_stuff and self.death_flagged:
             return ""

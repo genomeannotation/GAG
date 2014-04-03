@@ -110,7 +110,7 @@ class TestSequence(unittest.TestCase):
         expected += "\t\t\tPBARC\t12345\n"
         expected += "mockgene to tbl"
         self.assertEquals(tbl, expected)
-        
+
     def test_stats(self):
         self.add_mock_gene_with_1_mrna("foo_gene1")
         self.add_mock_gene_with_2_mrnas("foo_gene2")
