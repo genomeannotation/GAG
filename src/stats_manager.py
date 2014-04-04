@@ -34,19 +34,18 @@ def format_columns(column_names, key_order, dicts, spacing = 3):
 
 def validate_dicts(old, new):
     if len(old) != len(new):
-        print("not valid -- old len / new len = " + str(len(old)) + " / " + str(len(new)))
         return False
     oldkeys = old.keys()
     newkeys = new.keys()
     for key in oldkeys:
         if key not in newkeys:
-            print("not valid! " + key + " not in " + str(newkeys))
             return False
     return True
 
 class StatsManager:
 
     increment_stats = ["seq_length", "num_genes", "num_mRNA", "num_exons", "num_CDS",\
+            "CDS: complete", "CDS: start, no stop", "CDS: stop, no start", "CDS: no stop, no start",\
             "total_gene_length", "total_mRNA_length", "total_exon_length",\
             "total_intron_length", "total_CDS_length"]    
     min_stats = ["shortest_gene", "shortest_mRNA", "shortest_exon", "shortest_intron", "shortest_CDS"]
