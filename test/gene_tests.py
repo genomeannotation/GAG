@@ -50,6 +50,21 @@ class TestGene(unittest.TestCase):
         self.fake_mrna1.length_of_shortest_cds_segment.assert_called_with()
         self.fake_mrna2.length_of_shortest_cds_segment.assert_called_with()
 
+    def test_get_longest_exon(self):
+        self.fake_mrna1.get_longest_exon.return_value = 10
+        self.fake_mrna2.get_longest_exon.return_value = 20
+        self.assertEquals(20, self.test_gene1.get_longest_exon())
+
+    def test_get_shortest_exon(self):
+        self.fake_mrna1.get_shortest_exon.return_value = 5
+        self.fake_mrna2.get_shortest_exon.return_value = 8
+        self.assertEquals(5, self.test_gene1.get_shortest_exon())
+
+    def test_get_total_exon_length(self):
+        self.fake_mrna1.get_total_exon_length.return_value = 15
+        self.fake_mrna2.get_total_exon_length.return_value = 25
+        self.assertEquals(40, self.test_gene1.get_total_exon_length())
+
     def test_get_partial_info(self):
         self.fake_mrna1.has_stop.return_value = True
         self.fake_mrna1.has_start.return_value = True

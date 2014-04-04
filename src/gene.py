@@ -58,6 +58,28 @@ class Gene:
                 return True
         return False
 
+    def get_longest_exon(self):
+        longest = 0
+        for mrna in self.mrnas:
+            length = mrna.get_longest_exon()
+            if length > longest:
+                longest = length
+        return longest
+
+    def get_shortest_exon(self):
+        shortest = 0
+        for mrna in self.mrnas:
+            length = mrna.get_shortest_exon()
+            if shortest == 0 or length < shortest:
+                shortest = length
+        return shortest
+
+    def get_total_exon_length(self):
+        total = 0
+        for mrna in self.mrnas:
+            total += mrna.get_total_exon_length()
+        return total
+
     def trim_end(self, endindex):
         if self.indices[0] > endindex:
             self.indices[0] = 0
