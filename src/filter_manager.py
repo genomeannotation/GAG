@@ -3,7 +3,7 @@
 import ast
 
 # All the filters
-from src.cds_length_range_filter import CDSLengthRangeFilter
+from src.filters import CDSLengthRangeFilter
 
 class FilterManager:
 

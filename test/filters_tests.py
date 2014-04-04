@@ -4,12 +4,11 @@ import unittest
 from mock import Mock
 from src.cds_length_range_filter import CDSLengthRangeFilter
 
-class TestCDSLengthRangeFilter(unittest.TestCase):
-
-    def setUp(self):
-        self.filter = CDSLengthRangeFilter(30, 60)
+class TestFilters(unittest.TestCase):
         
-    def test_filter(self):
+    def test_cds_length_range_filter(self):
+        cds_length_range = CDSLengthRangeFilter(30, 60)
+    
         # Create a mock sequence
         seq = Mock()
         
@@ -38,7 +37,7 @@ class TestCDSLengthRangeFilter(unittest.TestCase):
         seq.genes[2].mrnas[0].cds.length = Mock(return_value=70)
         
         # Apply the filter
-        self.filter.apply(seq)
+        cds_length_range.apply(seq)
         
         self.assertFalse(seq.genes[0].mrnas[0].death_flagged)
         self.assertFalse(seq.genes[1].mrnas[0].death_flagged)
@@ -51,7 +50,7 @@ class TestCDSLengthRangeFilter(unittest.TestCase):
 ##########################
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestCDSLengthRangeFilter))
+    suite.addTest(unittest.makeSuite(TestFilters))
     return suite
 
 if __name__ == '__main__':
