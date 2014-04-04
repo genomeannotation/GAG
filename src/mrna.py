@@ -194,7 +194,7 @@ class MRNA:
         last_end = 0
         for index_pair in self.exon.indices:
             if last_end != 0:
-                this_intron = index_pair[0] - last_end + 1
+                this_intron = abs(index_pair[0] - last_end) + 1
                 if this_intron > longest:
                     longest = this_intron
             last_end = index_pair[1]
@@ -205,7 +205,7 @@ class MRNA:
         last_end = 0
         for index_pair in self.exon.indices:
             if last_end != 0:
-                this_intron = index_pair[0] - last_end + 1
+                this_intron = abs(index_pair[0] - last_end) + 1
                 if shortest == 0 or this_intron < shortest:
                     shortest = this_intron
             last_end = index_pair[1]
@@ -216,7 +216,7 @@ class MRNA:
         last_end = 0
         for index_pair in self.exon.indices:
             if last_end != 0:
-                total += index_pair[0] - last_end + 1
+                total += abs(index_pair[0] - last_end) + 1
             last_end = index_pair[1]
         return total
 
