@@ -2,23 +2,24 @@
 
 import unittest
 from mock import Mock
-from src.min_cds_length_filter import MinCDSLengthFilter
+from src.cds_length_range_filter import CDSLengthRangeFilter
 
-class TestMinCDSLengthFilter(unittest.TestCase):
+class TestCDSLengthRangeFilter(unittest.TestCase):
 
     def setUp(self):
-        self.filter = MinCDSLengthFilter(30)
+        self.filter = CDSLengthRangeFilter(30, 60)
         
     def test_filter(self):
         # Create a mock sequence
         seq = Mock()
         
         # Give the mock sequence some mock genes
-        seq.genes = [Mock(), Mock()]
+        seq.genes = [Mock(), Mock(), Mock()]
         
         # Give the mock genes some mrnas
         seq.genes[0].mrnas = [Mock()]
         seq.genes[1].mrnas = [Mock(), Mock()]
+        seq.genes[2].mrnas = [Mock()]
         
         # Give the mock mrnas some cds's
         seq.genes[0].mrnas[0].death_flagged = False
@@ -32,12 +33,17 @@ class TestMinCDSLengthFilter(unittest.TestCase):
         seq.genes[1].mrnas[1].cds = Mock()
         seq.genes[1].mrnas[1].cds.length = Mock(return_value=20)
         
+        seq.genes[2].mrnas[0].death_flagged = False
+        seq.genes[2].mrnas[0].cds = Mock()
+        seq.genes[2].mrnas[0].cds.length = Mock(return_value=70)
+        
         # Apply the filter
         self.filter.apply(seq)
         
         self.assertFalse(seq.genes[0].mrnas[0].death_flagged)
         self.assertFalse(seq.genes[1].mrnas[0].death_flagged)
         self.assertTrue(seq.genes[1].mrnas[1].death_flagged)
+        self.assertTrue(seq.genes[2].mrnas[0].death_flagged)
 
 
 
@@ -45,7 +51,7 @@ class TestMinCDSLengthFilter(unittest.TestCase):
 ##########################
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestMinCDSLengthFilter))
+    suite.addTest(unittest.makeSuite(TestCDSLengthRangeFilter))
     return suite
 
 if __name__ == '__main__':

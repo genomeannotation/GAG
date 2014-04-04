@@ -3,14 +3,14 @@
 import ast
 
 # All the filters
-from src.min_cds_length_filter import MinCDSLengthFilter
+from src.cds_length_range_filter import CDSLengthRangeFilter
 
 class FilterManager:
 
     def __init__(self):
         # Build filters
         self.filters = dict()
-        self.filters['min_cds_length'] = MinCDSLengthFilter()
+        self.filters['cds_length_range'] = CDSLengthRangeFilter()
         
         # Build args
         self.filter_args = dict()
