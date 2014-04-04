@@ -424,6 +424,7 @@ class ConsoleController:
         return output
 
     def stats(self):
+        first_line = "Number of sequences:   " + str(len(self.seqs)) + "\n"
         if self.filter_mgr.dirty:
             self.stats_mgr.clear_alt()
             sys.stderr.write("Calculating statistics on genome...\n")
@@ -432,7 +433,7 @@ class ConsoleController:
                 self.filter_mgr.apply_filters(cseq)
                 self.stats_mgr.update_alt(cseq.stats())
             self.filter_mgr.dirty = False
-        return self.stats_mgr.summary()
+        return first_line + self.stats_mgr.summary()
 
 ## Output info to file
 

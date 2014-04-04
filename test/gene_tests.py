@@ -65,6 +65,9 @@ class TestGene(unittest.TestCase):
         self.fake_mrna2.get_total_exon_length.return_value = 25
         self.assertEquals(40, self.test_gene1.get_total_exon_length())
 
+    def test_get_num_exons(self):
+        pass
+
     def test_get_partial_info(self):
         self.fake_mrna1.has_stop.return_value = True
         self.fake_mrna1.has_start.return_value = True
