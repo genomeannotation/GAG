@@ -166,7 +166,6 @@ class TestSequence(unittest.TestCase):
         stats = self.seq1.stats()
         self.assertEquals(stats["num_genes"], 1)
 
-        #results = {"complete": 0, "start_no_stop": 0, "stop_no_start": 0, "no_stop_no_start": 0}
 
 
 ##########################
