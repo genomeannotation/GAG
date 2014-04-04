@@ -86,6 +86,28 @@ class Gene:
             total += mrna.get_num_exons()
         return total
 
+    def get_longest_intron(self):
+        longest = 0
+        for mrna in self.mrnas:
+            length = mrna.get_longest_intron()
+            if length > longest:
+                longest = length
+        return longest
+
+    def get_shortest_intron(self):
+        shortest = 0
+        for mrna in self.mrnas:
+            length = mrna.get_shortest_intron()
+            if shortest == 0 or length < shortest:
+                shortest = length
+        return shortest
+
+    def get_total_intron_length(self):
+        total = 0
+        for mrna in self.mrnas:
+            total += mrna.get_total_intron_length()
+        return total
+    
     def trim_end(self, endindex):
         if self.indices[0] > endindex:
             self.indices[0] = 0

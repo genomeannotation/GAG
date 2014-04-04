@@ -31,8 +31,11 @@ class TestSequence(unittest.TestCase):
         mockgene.length = Mock(return_value=20)
         mockgene.get_num_exons.return_value = 5
         mockgene.get_longest_exon.return_value = 20
+        mockgene.get_longest_intron.return_value = 20
         mockgene.get_shortest_exon.return_value = 8
+        mockgene.get_shortest_intron.return_value = 8
         mockgene.get_total_exon_length.return_value = 15
+        mockgene.get_total_intron_length.return_value = 15
         self.seq1.add_gene(mockgene)
         
     def add_mock_gene_with_2_mrnas(self, name):
@@ -54,8 +57,11 @@ class TestSequence(unittest.TestCase):
         mockgene.length = Mock(return_value=10)
         mockgene.get_num_exons.return_value = 4
         mockgene.get_longest_exon.return_value = 10
+        mockgene.get_longest_intron.return_value = 10
         mockgene.get_shortest_exon.return_value = 5
+        mockgene.get_shortest_intron.return_value = 5
         mockgene.get_total_exon_length.return_value = 25
+        mockgene.get_total_intron_length.return_value = 25
         self.seq1.add_gene(mockgene)
 
     def test_string(self):
@@ -131,14 +137,17 @@ class TestSequence(unittest.TestCase):
         self.assertEquals(stats["longest_gene"], 20)
         self.assertEquals(stats["longest_mRNA"], 5)
         self.assertEquals(stats["longest_exon"], 20)
+        self.assertEquals(stats["longest_intron"], 20)
         self.assertEquals(stats["longest_CDS"], 5)
         self.assertEquals(stats["shortest_gene"], 10)
         self.assertEquals(stats["shortest_mRNA"], 2)
         self.assertEquals(stats["shortest_exon"], 5)
+        self.assertEquals(stats["shortest_intron"], 5)
         self.assertEquals(stats["shortest_CDS"], 3)
         self.assertEquals(stats["total_gene_length"], 30)
         self.assertEquals(stats["total_mRNA_length"], 9)
         self.assertEquals(stats["total_exon_length"], 40)
+        self.assertEquals(stats["total_intron_length"], 40)
         self.assertEquals(stats["total_CDS_length"], 8)
         
         self.seq1.genes[0].death_flagged = True

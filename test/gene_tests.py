@@ -70,6 +70,21 @@ class TestGene(unittest.TestCase):
         self.fake_mrna2.get_num_exons.return_value = 4
         self.assertEquals(9, self.test_gene1.get_num_exons())
 
+    def test_get_longest_intron(self):
+        self.fake_mrna1.get_longest_intron.return_value = 8
+        self.fake_mrna2.get_longest_intron.return_value = 10
+        self.assertEquals(10, self.test_gene1.get_longest_intron())
+
+    def test_get_shortest_intron(self):
+        self.fake_mrna1.get_shortest_intron.return_value = 5
+        self.fake_mrna2.get_shortest_intron.return_value = 8
+        self.assertEquals(5, self.test_gene1.get_shortest_intron())
+
+    def test_get_total_intron_length(self):
+        self.fake_mrna1.get_total_intron_length.return_value = 15
+        self.fake_mrna2.get_total_intron_length.return_value = 25
+        self.assertEquals(40, self.test_gene1.get_total_intron_length())
+
     def test_get_partial_info(self):
         self.fake_mrna1.has_stop.return_value = True
         self.fake_mrna1.has_start.return_value = True

@@ -218,6 +218,28 @@ class Sequence:
             total += gene.get_total_exon_length()
         return total
         
+    def get_longest_intron(self):
+        longest = 0
+        for gene in self.get_valid_genes():
+            length = gene.get_longest_intron()
+            if length > longest:
+                longest = length
+        return longest
+
+    def get_shortest_intron(self):
+        shortest = 0
+        for gene in self.get_valid_genes():
+            length = gene.get_shortest_intron()
+            if shortest == 0 or length < shortest:
+                shortest = length
+        return shortest
+
+    def get_total_intron_length(self):
+        total = 0
+        for gene in self.get_valid_genes():
+            total += gene.get_total_intron_length()
+        return total
+        
     def get_longest_cds(self):
         length = 0
         longest = None
@@ -290,14 +312,17 @@ class Sequence:
         stats["longest_gene"] = self.get_longest_gene()
         stats["longest_mRNA"] = self.get_longest_mrna()
         stats["longest_exon"] = self.get_longest_exon()
+        stats["longest_intron"] = self.get_longest_intron()
         stats["longest_CDS"] = self.get_longest_cds()
         stats["shortest_gene"] = self.get_shortest_gene()
         stats["shortest_mRNA"] = self.get_shortest_mrna()
         stats["shortest_exon"] = self.get_shortest_exon()
+        stats["shortest_intron"] = self.get_shortest_intron()
         stats["shortest_CDS"] = self.get_shortest_cds()
         stats["total_gene_length"] = self.get_total_gene_length()
         stats["total_mRNA_length"] = self.get_total_mrna_length()
         stats["total_exon_length"] = self.get_total_exon_length()
+        stats["total_intron_length"] = self.get_total_intron_length()
         stats["total_CDS_length"] = self.get_total_cds_length()
         
         return stats
