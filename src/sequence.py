@@ -176,6 +176,17 @@ class Sequence:
                 if mrna.cds != None:
                     count+=1
         return count
+
+    def get_cds_partial_info(self):
+        results = {"CDS: complete": 0, "CDS: start, no stop": 0,\
+                "CDS: stop, no start": 0, "CDS: no stop, no start": 0}
+        for gene in self.get_valid_genes():
+            partial_info = gene.get_partial_info()
+            results["CDS: complete"] += partial_info["complete"]
+            results["CDS: start, no stop"] += partial_info["start_no_stop"]
+            results["CDS: stop, no start"] += partial_info["stop_no_start"]
+            results["CDS: no stop, no start"] += partial_info["no_stop_no_start"]
+        return results
         
     def get_longest_gene(self):
         length = 0
@@ -285,7 +296,6 @@ class Sequence:
             length += gene.length()
         return length
 
-        
     def get_total_mrna_length(self):
         length = 0
         for gene in self.get_valid_genes():
@@ -303,26 +313,31 @@ class Sequence:
         
     def stats(self):
         stats = dict()
+        cds_partial_info = self.get_cds_partial_info()
         
         stats["seq_length"] = len(self.bases)
         stats["num_genes"] = len(self.get_valid_genes())
-        stats["num_mRNA"] = self.get_num_mrna()
-        stats["num_exons"] = self.get_num_exons()
-        stats["num_CDS"] = self.get_num_cds()
-        stats["longest_gene"] = self.get_longest_gene()
-        stats["longest_mRNA"] = self.get_longest_mrna()
-        stats["longest_exon"] = self.get_longest_exon()
-        stats["longest_intron"] = self.get_longest_intron()
-        stats["longest_CDS"] = self.get_longest_cds()
-        stats["shortest_gene"] = self.get_shortest_gene()
-        stats["shortest_mRNA"] = self.get_shortest_mrna()
-        stats["shortest_exon"] = self.get_shortest_exon()
-        stats["shortest_intron"] = self.get_shortest_intron()
-        stats["shortest_CDS"] = self.get_shortest_cds()
-        stats["total_gene_length"] = self.get_total_gene_length()
-        stats["total_mRNA_length"] = self.get_total_mrna_length()
-        stats["total_exon_length"] = self.get_total_exon_length()
-        stats["total_intron_length"] = self.get_total_intron_length()
-        stats["total_CDS_length"] = self.get_total_cds_length()
+        stats["num_mRNA"] = int(self.get_num_mrna())
+        stats["num_exons"] = int(self.get_num_exons())
+        stats["num_CDS"] = int(self.get_num_cds())
+        stats["CDS: complete"] = int(cds_partial_info["CDS: complete"])
+        stats["CDS: start, no stop"] = int(cds_partial_info["CDS: start, no stop"])
+        stats["CDS: stop, no start"] = int(cds_partial_info["CDS: stop, no start"])
+        stats["CDS: no stop, no start"] = int(cds_partial_info["CDS: no stop, no start"])
+        stats["longest_gene"] = int(self.get_longest_gene())
+        stats["longest_mRNA"] = int(self.get_longest_mrna())
+        stats["longest_exon"] = int(self.get_longest_exon())
+        stats["longest_intron"] = int(self.get_longest_intron())
+        stats["longest_CDS"] = int(self.get_longest_cds())
+        stats["shortest_gene"] = int(self.get_shortest_gene())
+        stats["shortest_mRNA"] = int(self.get_shortest_mrna())
+        stats["shortest_exon"] = int(self.get_shortest_exon())
+        stats["shortest_intron"] = int(self.get_shortest_intron())
+        stats["shortest_CDS"] = int(self.get_shortest_cds())
+        stats["total_gene_length"] = int(self.get_total_gene_length())
+        stats["total_mRNA_length"] = int(self.get_total_mrna_length())
+        stats["total_exon_length"] = int(self.get_total_exon_length())
+        stats["total_intron_length"] = int(self.get_total_intron_length())
+        stats["total_CDS_length"] = int(self.get_total_cds_length())
         
         return stats
