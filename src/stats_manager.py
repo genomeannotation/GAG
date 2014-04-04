@@ -47,9 +47,10 @@ def validate_dicts(old, new):
 class StatsManager:
 
     increment_stats = ["seq_length", "num_genes", "num_mRNA", "num_exons", "num_CDS",\
-            "total_gene_length", "total_mRNA_length", "total_exon_length", "total_CDS_length"]    
-    min_stats = ["shortest_gene", "shortest_mRNA", "shortest_exon", "shortest_CDS"]
-    max_stats = ["longest_gene", "longest_mRNA", "longest_exon", "longest_CDS"]
+            "total_gene_length", "total_mRNA_length", "total_exon_length",\
+            "total_intron_length", "total_CDS_length"]    
+    min_stats = ["shortest_gene", "shortest_mRNA", "shortest_exon", "shortest_intron", "shortest_CDS"]
+    max_stats = ["longest_gene", "longest_mRNA", "longest_exon", "longest_intron", "longest_CDS"]
 
     def __init__(self):
         self.ref_stats = {}
