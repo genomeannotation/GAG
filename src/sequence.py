@@ -162,6 +162,12 @@ class Sequence:
         for gene in self.get_valid_genes():
             count += len(gene.get_valid_mrnas())
         return count
+
+    def get_num_exons(self):
+        count = 0
+        for gene in self.get_valid_genes():
+            count += gene.get_num_exons()
+        return count
         
     def get_num_cds(self):
         count = 0
@@ -257,6 +263,7 @@ class Sequence:
         stats["seq_length"] = len(self.bases)
         stats["num_genes"] = len(self.get_valid_genes())
         stats["num_mRNA"] = self.get_num_mrna()
+        stats["num_exons"] = self.get_num_exons()
         stats["num_CDS"] = self.get_num_cds()
         stats["longest_gene"] = self.get_longest_gene()
         stats["longest_mRNA"] = self.get_longest_mrna()

@@ -23,15 +23,19 @@ class TestStatsManager(unittest.TestCase):
         self.mgr.ref_stats["seq_length"] = 100
         self.mgr.ref_stats["num_genes"] = 5
         self.mgr.ref_stats["num_mRNA"] = 7
+        self.mgr.ref_stats["num_exons"] = 7
         self.mgr.ref_stats["num_CDS"] = 7
         self.mgr.ref_stats["longest_gene"] = 25
         self.mgr.ref_stats["longest_mRNA"] = 25
+        self.mgr.ref_stats["longest_exon"] = 21
         self.mgr.ref_stats["longest_CDS"] = 20
         self.mgr.ref_stats["shortest_gene"] = 10
         self.mgr.ref_stats["shortest_mRNA"] = 10
+        self.mgr.ref_stats["shortest_exon"] = 8
         self.mgr.ref_stats["shortest_CDS"] = 6
         self.mgr.ref_stats["total_gene_length"] = 70
         self.mgr.ref_stats["total_mRNA_length"] = 70
+        self.mgr.ref_stats["total_exon_length"] = 65
         self.mgr.ref_stats["total_CDS_length"] = 60
 
     def get_new_dict(self):
@@ -39,15 +43,19 @@ class TestStatsManager(unittest.TestCase):
         d["seq_length"] = 50
         d["num_genes"] = 1
         d["num_mRNA"] = 1
+        d["num_exons"] = 1
         d["num_CDS"] = 1
         d["longest_gene"] = 30
         d["longest_mRNA"] = 30
+        d["longest_exon"] = 9
         d["longest_CDS"] = 8
         d["shortest_gene"] = 5
         d["shortest_mRNA"] = 5
+        d["shortest_exon"] = 2
         d["shortest_CDS"] = 3
         d["total_gene_length"] = 15
         d["total_mRNA_length"] = 15
+        d["total_exon_length"] = 15
         d["total_CDS_length"] = 10
         return d
 
@@ -70,15 +78,19 @@ class TestStatsManager(unittest.TestCase):
         expected += "seq_length            100                  0                   \n"
         expected += "num_genes             5                    0                   \n"
         expected += "num_mRNA              7                    0                   \n"
+        expected += "num_exons             7                    0                   \n"
         expected += "num_CDS               7                    0                   \n"
         expected += "total_gene_length     70                   0                   \n"
         expected += "total_mRNA_length     70                   0                   \n"
+        expected += "total_exon_length     65                   0                   \n"
         expected += "total_CDS_length      60                   0                   \n"
         expected += "shortest_gene         10                   0                   \n"
         expected += "shortest_mRNA         10                   0                   \n"
+        expected += "shortest_exon         8                    0                   \n"
         expected += "shortest_CDS          6                    0                   \n"
         expected += "longest_gene          25                   0                   \n"
         expected += "longest_mRNA          25                   0                   \n"
+        expected += "longest_exon          21                   0                   \n"
         expected += "longest_CDS           20                   0                   \n"
         summary = self.mgr.summary()
         self.assertEquals(summary, expected)

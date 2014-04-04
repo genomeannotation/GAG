@@ -29,6 +29,7 @@ class TestSequence(unittest.TestCase):
         mockgene.mrnas[0].length = Mock(return_value=2)
         mockgene.get_valid_mrnas = Mock(return_value=mockgene.mrnas)
         mockgene.length = Mock(return_value=20)
+        mockgene.get_num_exons.return_value = 5
         self.seq1.add_gene(mockgene)
         
     def add_mock_gene_with_2_mrnas(self, name):
@@ -48,6 +49,7 @@ class TestSequence(unittest.TestCase):
         mockgene.mrnas[1].length = Mock(return_value=2)
         mockgene.get_valid_mrnas = Mock(return_value=mockgene.mrnas)
         mockgene.length = Mock(return_value=10)
+        mockgene.get_num_exons.return_value = 4
         self.seq1.add_gene(mockgene)
 
     def test_string(self):
