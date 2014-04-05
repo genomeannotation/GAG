@@ -57,9 +57,10 @@ class StatsManager:
             "mean mRNA length": ["total_mRNA_length", "num_mRNA"],\
             "mean exon length": ["total_exon_length", "num_exons"],\
             "mean intron length": ["total_intron_length", "num_introns"],\
-            "mean CDS length": ["total_CDS_length", "num_CDS"]}
+            "mean CDS length": ["total_CDS_length", "num_CDS"],\
+            "prop. of genome covered by genes": ["total_gene_length", "seq_length"]}
     calc_stats = ["mean gene length", "mean mRNA length", "mean exon length", "mean intron length",\
-            "mean CDS length"]
+            "mean CDS length", "prop. of genome covered by genes"]
 
     def __init__(self):
         self.ref_stats = {}
