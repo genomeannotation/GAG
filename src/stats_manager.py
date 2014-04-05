@@ -33,12 +33,10 @@ def format_columns(column_names, key_order, dicts, spacing = 3):
     return tbl_str
 
 def validate_dicts(old, new):
-    if len(old) != len(new):
-        return False
     oldkeys = old.keys()
     newkeys = new.keys()
-    for key in oldkeys:
-        if key not in newkeys:
+    for key in newkeys:
+        if key not in oldkeys:
             return False
     return True
 
@@ -50,6 +48,12 @@ class StatsManager:
             "total_intron_length", "total_CDS_length"]    
     min_stats = ["shortest_gene", "shortest_mRNA", "shortest_exon", "shortest_intron", "shortest_CDS"]
     max_stats = ["longest_gene", "longest_mRNA", "longest_exon", "longest_intron", "longest_CDS"]
+    """
+    calc_stats = ["mean gene length", "mean mRNA length", "mean exon length", "mean intron length",\
+            "mean CDS length", "% of genome covered by genes", "% of genome covered by CDS",\
+            "mRNAs per gene", "exons per mRNA", "introns per mRNA"]
+            """
+    calc_stats = ["mean gene length"]
 
     def __init__(self):
         self.ref_stats = {}
@@ -58,7 +62,7 @@ class StatsManager:
         self.initialize_dict(self.alt_stats)
 
     def initialize_dict(self, d):
-        for stat in self.increment_stats + self.min_stats + self.max_stats:
+        for stat in self.increment_stats + self.min_stats + self.max_stats + self.calc_stats:
             d[stat] = 0
 
     def clear_alt(self):
@@ -85,7 +89,7 @@ class StatsManager:
                 old[stat] = new[stat]
 
     def summary(self):
-        stats_order = [key for keys in [self.increment_stats, self.min_stats, self.max_stats] for key in keys]
+        stats_order = [key for keys in [self.increment_stats, self.min_stats, self.max_stats, self.calc_stats] for key in keys]
         return format_columns(["Reference Genome", "Modified Genome"], stats_order, [self.ref_stats, self.alt_stats], 5)
 
 

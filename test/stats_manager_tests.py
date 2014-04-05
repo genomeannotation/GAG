@@ -16,8 +16,8 @@ class TestStatsManager(unittest.TestCase):
     def test_clear_alt(self):
         self.mgr.update_alt(self.get_new_dict())
         self.assertEquals(self.mgr.alt_stats["num_CDS"], 1)
-        #self.mgr.clear_alt()
-        #self.assertEquals(self.mgr.alt_stats["num_CDS"], 0)
+        self.mgr.clear_alt()
+        self.assertEquals(self.mgr.alt_stats["num_CDS"], 0)
 
     def populate_ref(self):
         self.mgr.ref_stats["seq_length"] = 100
@@ -113,6 +113,7 @@ class TestStatsManager(unittest.TestCase):
         expected += "longest_exon               21                   0                   \n"
         expected += "longest_intron             21                   0                   \n"
         expected += "longest_CDS                20                   0                   \n"
+        expected += "mean gene length           0                    0                   \n"
         summary = self.mgr.summary()
         self.assertEquals(summary, expected)
         
