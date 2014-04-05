@@ -114,6 +114,8 @@ class TestStatsManager(unittest.TestCase):
         expected += "longest_intron             21                   0                   \n"
         expected += "longest_CDS                20                   0                   \n"
         expected += "mean gene length           14.0                 0                   \n"
+        expected += "mean mRNA length           10.0                 0                   \n"
+        expected += "mean exon length           9.28571428571        0                   \n"
         summary = self.mgr.summary()
         self.assertEquals(summary, expected)
         

@@ -53,8 +53,10 @@ class StatsManager:
             "mean CDS length", "% of genome covered by genes", "% of genome covered by CDS",\
             "mRNAs per gene", "exons per mRNA", "introns per mRNA"]
             """
-    calc_stats_formulae = {"mean gene length": ["total_gene_length", "num_genes"]}
-    calc_stats = calc_stats_formulae.keys()
+    calc_stats_formulae = {"mean gene length": ["total_gene_length", "num_genes"],\
+            "mean mRNA length": ["total_mRNA_length", "num_mRNA"],\
+            "mean exon length": ["total_exon_length", "num_exons"]}
+    calc_stats = ["mean gene length", "mean mRNA length", "mean exon length"]
 
     def __init__(self):
         self.ref_stats = {}

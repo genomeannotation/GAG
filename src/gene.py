@@ -107,6 +107,12 @@ class Gene:
         for mrna in self.mrnas:
             total += mrna.get_total_intron_length()
         return total
+
+    def get_num_introns(self):
+        total = 0
+        for mrna in self.mrnas:
+            total += mrna.get_num_introns()
+        return total
     
     def trim_end(self, endindex):
         if self.indices[0] > endindex:

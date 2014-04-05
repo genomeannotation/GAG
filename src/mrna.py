@@ -220,6 +220,9 @@ class MRNA:
             last_end = index_pair[1]
         return total
 
+    def get_num_introns(self):
+        return len(self.exon.indices) - 1
+
     def to_gff(self, seq_name, source, strand, death_flagged_stuff=False):
         if not death_flagged_stuff and self.death_flagged:
             return ""

@@ -85,6 +85,11 @@ class TestGene(unittest.TestCase):
         self.fake_mrna2.get_total_intron_length.return_value = 25
         self.assertEquals(40, self.test_gene1.get_total_intron_length())
 
+    def test_get_num_introns(self):
+        self.fake_mrna1.get_num_introns.return_value = 3
+        self.fake_mrna2.get_num_introns.return_value = 2
+        self.assertEquals(5, self.test_gene1.get_num_introns())
+
     def test_get_partial_info(self):
         self.fake_mrna1.has_stop.return_value = True
         self.fake_mrna1.has_start.return_value = True

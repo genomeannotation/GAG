@@ -31,6 +31,7 @@ class TestSequence(unittest.TestCase):
         mockgene.length = Mock(return_value=20)
         mockgene.get_partial_info.return_value = {"complete": 1, "start_no_stop": 0, "stop_no_start": 1, "no_stop_no_start": 1}
         mockgene.get_num_exons.return_value = 5
+        mockgene.get_num_introns.return_value = 4
         mockgene.get_longest_exon.return_value = 20
         mockgene.get_longest_intron.return_value = 20
         mockgene.get_shortest_exon.return_value = 8
@@ -58,6 +59,7 @@ class TestSequence(unittest.TestCase):
         mockgene.length = Mock(return_value=10)
         mockgene.get_partial_info.return_value = {"complete": 0, "start_no_stop": 1, "stop_no_start": 1, "no_stop_no_start": 1}
         mockgene.get_num_exons.return_value = 4
+        mockgene.get_num_introns.return_value = 3
         mockgene.get_longest_exon.return_value = 10
         mockgene.get_longest_intron.return_value = 10
         mockgene.get_shortest_exon.return_value = 5
@@ -141,6 +143,7 @@ class TestSequence(unittest.TestCase):
         self.assertEquals(stats["num_genes"], 2)
         self.assertEquals(stats["num_mRNA"], 3)
         self.assertEquals(stats["num_exons"], 9)
+        self.assertEquals(stats["num_introns"], 7)
         self.assertEquals(stats["num_CDS"], 2)
         self.assertEquals(stats["CDS: complete"], 1)
         self.assertEquals(stats["CDS: start, no stop"], 1)

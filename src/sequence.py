@@ -250,6 +250,12 @@ class Sequence:
         for gene in self.get_valid_genes():
             total += gene.get_total_intron_length()
         return total
+
+    def get_num_introns(self):
+        total = 0
+        for gene in self.get_valid_genes():
+            total += gene.get_num_introns()
+        return total
         
     def get_longest_cds(self):
         length = 0
@@ -319,6 +325,7 @@ class Sequence:
         stats["num_genes"] = len(self.get_valid_genes())
         stats["num_mRNA"] = int(self.get_num_mrna())
         stats["num_exons"] = int(self.get_num_exons())
+        stats["num_introns"] = int(self.get_num_introns())
         stats["num_CDS"] = int(self.get_num_cds())
         stats["CDS: complete"] = int(cds_partial_info["CDS: complete"])
         stats["CDS: start, no stop"] = int(cds_partial_info["CDS: start, no stop"])

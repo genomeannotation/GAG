@@ -268,6 +268,10 @@ class TestMRNA(unittest.TestCase):
         self.set_fake_exon_indices()
         self.assertEquals(13, self.test_mrna1.get_total_intron_length())
 
+    def test_get_num_introns(self):
+        self.set_fake_exon_indices()
+        self.assertEquals(2, self.test_mrna1.get_num_introns())
+
 
 
 ##########################
