@@ -53,7 +53,8 @@ class StatsManager:
             "mean CDS length", "% of genome covered by genes", "% of genome covered by CDS",\
             "mRNAs per gene", "exons per mRNA", "introns per mRNA"]
             """
-    calc_stats = ["mean gene length"]
+    calc_stats_formulae = {"mean gene length": ["total_gene_length", "num_genes"]}
+    calc_stats = calc_stats_formulae.keys()
 
     def __init__(self):
         self.ref_stats = {}
@@ -88,7 +89,20 @@ class StatsManager:
             if new[stat] > old[stat]:
                 old[stat] = new[stat]
 
+    def calculate_stat(self, stat):
+        dividend_key = self.calc_stats_formulae[stat][0]
+        divisor_key = self.calc_stats_formulae[stat][1]
+        # Calculate for reference genome
+        dividend = self.ref_stats[dividend_key]
+        divisor = self.ref_stats[divisor_key]
+        if divisor == 0:
+            self.ref_stats[stat] = 0
+        else:
+            self.ref_stats[stat] = float(dividend) / float(divisor)
+
     def summary(self):
+        for stat in self.calc_stats:
+            self.calculate_stat(stat)
         stats_order = [key for keys in [self.increment_stats, self.min_stats, self.max_stats, self.calc_stats] for key in keys]
         return format_columns(["Reference Genome", "Modified Genome"], stats_order, [self.ref_stats, self.alt_stats], 5)
 
