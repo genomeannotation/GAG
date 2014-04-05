@@ -124,6 +124,7 @@ class TestStatsManager(unittest.TestCase):
         expected += "prop. of genome covered by genes     0.7                  0                   \n"
         expected += "prop. of genome covered by CDS       0.6                  0                   \n"
         expected += "mRNAs per gene                       1.4                  0                   \n"
+        expected += "exons per mRNA                       1.0                  0                   \n"
         summary = self.mgr.summary()
         self.assertEquals(summary, expected)
         
