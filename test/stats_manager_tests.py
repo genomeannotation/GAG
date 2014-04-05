@@ -122,6 +122,7 @@ class TestStatsManager(unittest.TestCase):
         expected += "mean intron length                   9.28571428571        0                   \n"
         expected += "mean CDS length                      8.57142857143        0                   \n"
         expected += "prop. of genome covered by genes     0.7                  0                   \n"
+        expected += "prop. of genome covered by CDS       0.6                  0                   \n"
         summary = self.mgr.summary()
         self.assertEquals(summary, expected)
         
