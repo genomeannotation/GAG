@@ -42,7 +42,7 @@ def validate_dicts(old, new):
 
 class StatsManager:
 
-    increment_stats = ["seq_length", "num_genes", "num_mRNA", "num_exons", "num_CDS",\
+    increment_stats = ["seq_length", "num_genes", "num_mRNA", "num_exons", "num_introns", "num_CDS",\
             "CDS: complete", "CDS: start, no stop", "CDS: stop, no start", "CDS: no stop, no start",\
             "total_gene_length", "total_mRNA_length", "total_exon_length",\
             "total_intron_length", "total_CDS_length"]    
@@ -55,8 +55,9 @@ class StatsManager:
             """
     calc_stats_formulae = {"mean gene length": ["total_gene_length", "num_genes"],\
             "mean mRNA length": ["total_mRNA_length", "num_mRNA"],\
-            "mean exon length": ["total_exon_length", "num_exons"]}
-    calc_stats = ["mean gene length", "mean mRNA length", "mean exon length"]
+            "mean exon length": ["total_exon_length", "num_exons"],\
+            "mean intron length": ["total_intron_length", "num_introns"]}
+    calc_stats = ["mean gene length", "mean mRNA length", "mean exon length", "mean intron length"]
 
     def __init__(self):
         self.ref_stats = {}

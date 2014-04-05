@@ -24,6 +24,7 @@ class TestStatsManager(unittest.TestCase):
         self.mgr.ref_stats["num_genes"] = 5
         self.mgr.ref_stats["num_mRNA"] = 7
         self.mgr.ref_stats["num_exons"] = 7
+        self.mgr.ref_stats["num_introns"] = 7
         self.mgr.ref_stats["num_CDS"] = 7
         self.mgr.ref_stats["CDS: complete"] = 3
         self.mgr.ref_stats["CDS: start, no stop"] = 1
@@ -51,6 +52,7 @@ class TestStatsManager(unittest.TestCase):
         d["num_genes"] = 1
         d["num_mRNA"] = 1
         d["num_exons"] = 1
+        d["num_introns"] = 1
         d["num_CDS"] = 1
         d["CDS: complete"] = 3
         d["CDS: start, no stop"] = 1
@@ -93,6 +95,7 @@ class TestStatsManager(unittest.TestCase):
         expected += "num_genes                  5                    0                   \n"
         expected += "num_mRNA                   7                    0                   \n"
         expected += "num_exons                  7                    0                   \n"
+        expected += "num_introns                7                    0                   \n"
         expected += "num_CDS                    7                    0                   \n"
         expected += "CDS: complete              3                    0                   \n"
         expected += "CDS: start, no stop        1                    0                   \n"
@@ -116,6 +119,7 @@ class TestStatsManager(unittest.TestCase):
         expected += "mean gene length           14.0                 0                   \n"
         expected += "mean mRNA length           10.0                 0                   \n"
         expected += "mean exon length           9.28571428571        0                   \n"
+        expected += "mean intron length         9.28571428571        0                   \n"
         summary = self.mgr.summary()
         self.assertEquals(summary, expected)
         
