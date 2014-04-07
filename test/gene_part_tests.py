@@ -103,16 +103,31 @@ class TestGenePart(unittest.TestCase):
         self.assertEquals(0, len(testgp.indices))
         self.assertEquals(0, len(testgp.identifier))
 
-    def test_invalidate_region(self):
-        expected = [[0, 0], [71, 89]]
-        self.gp2.invalidate_region(1, 44)
-        self.gp2.invalidate_region(50, 70)
-        self.gp2.invalidate_region(90, 110)
-        self.assertEquals(expected, self.gp2.indices)
+    def test_invalidate_region_in_lineup_invalidates(self):
+        good = self.gp2.invalidate_region(1, 44)
+        self.assertFalse(good)
+        
+    def test_invalidate_region_in_middle_invalidates(self):
+        good = self.gp2.invalidate_region(5, 40)
+        self.assertFalse(good)
+        
+    def test_invalidate_region_in_containing_invalidates(self):
+        good = self.gp2.invalidate_region(60, 110) # starts out 65 - 103
+        self.assertFalse(good)
 
     def test_invalidate_region_chops_off_beginning(self):
         expected = [[5, 44], [65, 103]]
-        self.gp2.invalidate_region(1, 4)
+        good = self.gp2.invalidate_region(1, 4) # starts out 1-44, 65-103
+        self.assertEqual(expected, self.gp2.indices)
+        
+    def test_invalidate_region_chops_off_end(self):
+        expected = [[1, 40], [65, 103]]
+        good = self.gp2.invalidate_region(41, 50) # starts out 1-44, 65-103
+        self.assertEqual(expected, self.gp2.indices)
+        
+    def test_invalidate_region_chops_multiple_indices(self):
+        expected = [[1, 40], [70, 103]]
+        good = self.gp2.invalidate_region(41, 69) # starts out 1-44, 65-103
         self.assertEqual(expected, self.gp2.indices)
 
     def test_generate_attribute_entry(self):

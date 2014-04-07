@@ -154,18 +154,17 @@ class GenePart:
             elif index_pair[1] > endindex:
                 self.indices[i][1] = endindex
 
+    # Returns true if it survives invalidation. Returns false if the mRNA it lives on needs to die
     def invalidate_region(self, start, stop):
         for i, index in enumerate(self.indices):
             # Index range contained in invalid region, 
             # mark for removal
             if start <= index[0] and stop >= index[1]:
-                index[0] = 0
-                index[1] = 0
+                return False
             # Invalid region is in the middle of the index range, 
             # mark for removal
             elif start > index[0] and stop < index[1]:
-                index[0] = 0
-                index[1] = 0
+                return False
             # The beginning is in the invalid region, 
             # trim beginning forward to invalid sequence stop
             elif start <= index[0] and stop >= index[0]:
@@ -174,6 +173,7 @@ class GenePart:
             # trim end back to invalid seq start
             elif start <= index[1] and stop >= index[1]:
                 index[1] = start-1
+        return True
 
 
     def clean_up_indices(self):
@@ -274,13 +274,11 @@ class CDS(GenePart):
             # index range contained in invalid region, 
             # mark for removal
             if start <= index[0] and stop >= index[1]:
-                index[0] = 0
-                index[1] = 0
+                return False
             # Invalid region is in the middle of the index range, 
             # mark for removal
             elif start > index[0] and stop < index[1]:
-                index[0] = 0
-                index[1] = 0
+                return False
             # The beginning is in the invalid region, 
             # trim beginning forward to invalid sequence stop
             elif start <= index[0] and stop >= index[0]:
@@ -290,6 +288,7 @@ class CDS(GenePart):
             # trim end back to invalid seq start
             elif start <= index[1] and stop >= index[1]:
                 index[1] = start-1
+        return True
 
     def extract_sequence(self, seq_object, strand):
         seq = ''

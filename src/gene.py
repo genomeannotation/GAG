@@ -181,8 +181,11 @@ class Gene:
             self.indices[1] = start-1
 
         for mrna in self.mrnas:
-            mrna.cds.invalidate_region(start, stop)
-            mrna.exon.invalidate_region(start, stop)
+            #invalidate_region will return false if the feature doesn't survive invalidation
+            if not mrna.cds.invalidate_region(start, stop):
+                mrna.death_flagged = True
+            if not mrna.exon.invalidate_region(start, stop):
+                mrna.death_flagged = True
 
     def trim(self, new_indices):
         if trimmed_completely(self.indices, new_indices):
