@@ -126,7 +126,10 @@ class StatsManager:
         for stat in self.calc_stats:
             self.calculate_stat(stat)
         stats_order = [key for keys in [self.increment_stats, self.min_stats, self.max_stats, self.calc_stats] for key in keys]
-        return format_columns(["Reference Genome", "Modified Genome"], stats_order, [self.ref_stats, self.alt_stats], 5)
+        if self.alt_is_empty():
+            return format_columns(["Reference Genome", "Modified Genome"], stats_order, [self.ref_stats], 5)
+        else:
+            return format_columns(["Reference Genome", "Modified Genome"], stats_order, [self.ref_stats, self.alt_stats], 5)
 
 
 
