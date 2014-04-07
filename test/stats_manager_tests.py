@@ -83,7 +83,11 @@ class TestStatsManager(unittest.TestCase):
         d["total_intron_length"] = 15
         d["total_CDS_length"] = 10
         return d
-
+    
+    def test_alt_is_empty(self):
+        self.assertTrue(self.mgr.alt_is_empty())
+        self.mgr.update_alt(self.get_new_dict())
+        self.assertFalse(self.mgr.alt_is_empty())
         
     def test_update_ref(self):
         self.populate_ref()

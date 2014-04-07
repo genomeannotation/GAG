@@ -48,11 +48,6 @@ class StatsManager:
             "total_intron_length", "total_CDS_length"]    
     min_stats = ["shortest_gene", "shortest_mRNA", "shortest_exon", "shortest_intron", "shortest_CDS"]
     max_stats = ["longest_gene", "longest_mRNA", "longest_exon", "longest_intron", "longest_CDS"]
-    """
-    calc_stats = ["mean gene length", "mean mRNA length", "mean exon length", "mean intron length",\
-            "mean CDS length", "% of genome covered by genes", "% of genome covered by CDS",\
-            "mRNAs per gene", "exons per mRNA", "introns per mRNA"]
-            """
     calc_stats_formulae = {"mean gene length": ["total_gene_length", "num_genes"],\
             "mean mRNA length": ["total_mRNA_length", "num_mRNA"],\
             "mean exon length": ["total_exon_length", "num_exons"],\
@@ -75,6 +70,12 @@ class StatsManager:
     def initialize_dict(self, d):
         for stat in self.increment_stats + self.min_stats + self.max_stats + self.calc_stats:
             d[stat] = 0
+
+    def alt_is_empty(self):
+        for value in self.alt_stats.values():
+            if value != 0:
+                return False
+        return True
 
     def clear_alt(self):
         self.initialize_dict(self.alt_stats)
