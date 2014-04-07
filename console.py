@@ -119,24 +119,6 @@ class GagCmd(cmd.Cmd):
     def do_getfilterhelp(self, line):
         self.output = '\n'+try_catch(self.controller.get_filter_help, [line.strip()])+'\n'
 
-    def do_ls(self, line):
-        self.output = self.controller.ls(line)
-
-    def do_cat(self, line):
-        self.output = self.controller.cat(line)
-
-    def do_grep(self, line):
-        self.output = self.controller.grep(line)
-
-    def do_sed(self, line):
-        self.output = self.controller.sed(line)
-
-    def do_sort(self, line):
-        self.output = self.controller.sort(line)
-
-    def do_uniq(self, line):
-        self.output = self.controller.uniq(line)
-
     def do_barf(self, line):
         self.output = self.controller.barf(line)
 

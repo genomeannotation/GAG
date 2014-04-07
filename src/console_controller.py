@@ -111,42 +111,6 @@ class ConsoleController:
         for seq in self.seqs:
             self.filter_mgr.apply_filters(seq)
 
-    def ls(self, line):
-        proc = subprocess.Popen(['ls '+line], stdout=subprocess.PIPE, \
-                stdin=subprocess.PIPE, shell=True)
-        (out, err) = proc.communicate(self.input)
-        return out
-
-    def cat(self, line):
-        proc = subprocess.Popen(['cat '+line], stdout=subprocess.PIPE, \
-                stdin=subprocess.PIPE, shell=True)
-        (out, err) = proc.communicate(self.input)
-        return out
-
-    def grep(self, line):
-        proc = subprocess.Popen(['grep '+line], stdout=subprocess.PIPE, \
-                stdin=subprocess.PIPE, shell=True)
-        (out, err) = proc.communicate(self.input)
-        return out
-
-    def sed(self, line):
-        proc = subprocess.Popen(['sed '+line], stdout=subprocess.PIPE, \
-                stdin=subprocess.PIPE, shell=True)
-        (out, err) = proc.communicate(self.input)
-        return out
-
-    def sort(self, line):
-        proc = subprocess.Popen(['sort '+line], stdout=subprocess.PIPE, \
-                stdin=subprocess.PIPE, shell=True)
-        (out, err) = proc.communicate(self.input)
-        return out
-
-    def uniq(self, line):
-        proc = subprocess.Popen(['uniq '+line], stdout=subprocess.PIPE, \
-                stdin=subprocess.PIPE, shell=True)
-        (out, err) = proc.communicate(self.input)
-        return out
-
     def barf(self, line):
         proc = subprocess.Popen(['echo '+line], stdout=subprocess.PIPE, \
                 stdin=subprocess.PIPE, shell=True)
@@ -184,7 +148,6 @@ class ConsoleController:
 
     def read_trinotate(self, line):
         self.annot.read_from_file(line)
-
 
 
 ## Manipulate genome
