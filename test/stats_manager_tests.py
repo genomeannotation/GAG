@@ -19,6 +19,16 @@ class TestStatsManager(unittest.TestCase):
         self.mgr.clear_alt()
         self.assertEquals(self.mgr.alt_stats["num_CDS"], 0)
 
+    def test_clear_all(self):
+        self.populate_ref()
+        self.mgr.update_alt(self.get_new_dict())
+        self.assertEquals(self.mgr.alt_stats["num_CDS"], 1)
+        self.assertEquals(self.mgr.ref_stats["num_CDS"], 7)
+        self.mgr.clear_all()
+        self.assertEquals(self.mgr.alt_stats["num_CDS"], 0)
+        self.assertEquals(self.mgr.ref_stats["num_CDS"], 0)
+
+
     def populate_ref(self):
         self.mgr.ref_stats["seq_length"] = 100
         self.mgr.ref_stats["num_genes"] = 5

@@ -79,6 +79,10 @@ class StatsManager:
     def clear_alt(self):
         self.initialize_dict(self.alt_stats)
 
+    def clear_all(self):
+        self.initialize_dict(self.ref_stats)
+        self.initialize_dict(self.alt_stats)
+
     def update_ref(self, stats):
         self.update_stats(self.ref_stats, stats)
 
