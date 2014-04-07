@@ -114,6 +114,13 @@ class StatsManager:
             self.ref_stats[stat] = 0
         else:
             self.ref_stats[stat] = float(dividend) / float(divisor)
+        # Calculate for modified genome
+        dividend = self.alt_stats[dividend_key]
+        divisor = self.alt_stats[divisor_key]
+        if divisor == 0:
+            self.alt_stats[stat] = 0
+        else:
+            self.alt_stats[stat] = float(dividend) / float(divisor)
 
     def summary(self):
         for stat in self.calc_stats:
