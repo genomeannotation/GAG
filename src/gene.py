@@ -12,7 +12,7 @@ def trimmed_completely(gene_inds, seq_inds):
 
 class Gene:
 
-    def __init__(self, seq_name, source, indices, strand, identifier, anno=None, score=None):
+    def __init__(self, seq_name, source, indices, strand, identifier, annotations=None, score=None):
         self.seq_name = seq_name
         self.source = source
         self.indices = indices
@@ -20,10 +20,10 @@ class Gene:
         self.strand = strand
         self.identifier = identifier
         self.mrnas = []
-        if not anno:
+        if not annotations:
             self.annotations = []
         else:
-            self.annotations = anno
+            self.annotations = annotations
         self.death_flagged = False
 
     def __str__(self):
