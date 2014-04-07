@@ -22,17 +22,21 @@ class TestFilters(unittest.TestCase):
         seq.genes[2].mrnas = [Mock()]
         
         # Give the mock mrnas some cds's
+        seq.genes[0].mrnas[0].identifier = 'foo1-RA'
         seq.genes[0].mrnas[0].death_flagged = False
         seq.genes[0].mrnas[0].cds = Mock()
         seq.genes[0].mrnas[0].cds.length = Mock(return_value=50)
         
+        seq.genes[1].mrnas[0].identifier = 'foo2-RA'
         seq.genes[1].mrnas[0].death_flagged = False
         seq.genes[1].mrnas[0].cds = None
         
+        seq.genes[1].mrnas[1].identifier = 'foo2-RB'
         seq.genes[1].mrnas[1].death_flagged = False
         seq.genes[1].mrnas[1].cds = Mock()
         seq.genes[1].mrnas[1].cds.length = Mock(return_value=20)
         
+        seq.genes[2].mrnas[0].identifier = 'foo3-RA'
         seq.genes[2].mrnas[0].death_flagged = False
         seq.genes[2].mrnas[0].cds = Mock()
         seq.genes[2].mrnas[0].cds.length = Mock(return_value=70)
@@ -41,7 +45,7 @@ class TestFilters(unittest.TestCase):
         cds_length_range.apply(seq)
         
         self.assertFalse(seq.genes[0].mrnas[0].death_flagged)
-        self.assertFalse(seq.genes[1].mrnas[0].death_flagged)
+        self.assertTrue(seq.genes[1].mrnas[0].death_flagged)
         self.assertTrue(seq.genes[1].mrnas[1].death_flagged)
         self.assertTrue(seq.genes[2].mrnas[0].death_flagged)
         
@@ -57,19 +61,29 @@ class TestFilters(unittest.TestCase):
         
         # Give the mock genes some mrnas
         seq.genes[0].mrnas = [Mock()]
-        seq.genes[1].mrnas = [Mock()]
+        seq.genes[1].mrnas = [Mock(), Mock()]
         seq.genes[2].mrnas = [Mock()]
         
         # Give the mock mrnas some exon's
+        seq.genes[0].mrnas[0].identifier = 'foo1-RA'
         seq.genes[0].mrnas[0].death_flagged = False
+        seq.genes[0].mrnas[0].exon = Mock()
         seq.genes[0].mrnas[0].get_shortest_exon = Mock(return_value=50)
         seq.genes[0].mrnas[0].get_longest_exon = Mock(return_value=50)
         
+        seq.genes[1].mrnas[0].identifier = 'foo2-RA'
         seq.genes[1].mrnas[0].death_flagged = False
+        seq.genes[1].mrnas[0].exon = Mock()
         seq.genes[1].mrnas[0].get_shortest_exon = Mock(return_value=30)
         seq.genes[1].mrnas[0].get_longest_exon = Mock(return_value=30)
         
+        seq.genes[1].mrnas[1].identifier = 'foo2-RB'
+        seq.genes[1].mrnas[1].death_flagged = False
+        seq.genes[1].mrnas[1].exon = None
+        
+        seq.genes[2].mrnas[0].identifier = 'foo3-RA'
         seq.genes[2].mrnas[0].death_flagged = False
+        seq.genes[2].mrnas[0].exon = Mock()
         seq.genes[2].mrnas[0].get_shortest_exon = Mock(return_value=70)
         seq.genes[2].mrnas[0].get_longest_exon = Mock(return_value=70)
         
@@ -78,6 +92,7 @@ class TestFilters(unittest.TestCase):
         
         self.assertFalse(seq.genes[0].mrnas[0].death_flagged)
         self.assertFalse(seq.genes[1].mrnas[0].death_flagged)
+        self.assertTrue(seq.genes[1].mrnas[1].death_flagged)
         self.assertTrue(seq.genes[2].mrnas[0].death_flagged)
 
 

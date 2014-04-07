@@ -3,7 +3,7 @@
 import ast
 
 # All the filters
-from src.filters import CDSLengthRangeFilter
+from src.filters import *
 
 class FilterManager:
 
@@ -11,6 +11,8 @@ class FilterManager:
         # Build filters
         self.filters = dict()
         self.filters['cds_length_range'] = CDSLengthRangeFilter()
+        self.filters['exon_length_range'] = ExonLengthRangeFilter()
+        self.filters['intron_length_range'] = IntronLengthRangeFilter()
         
         # Build args
         self.filter_args = dict()
