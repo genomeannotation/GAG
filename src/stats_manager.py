@@ -40,6 +40,12 @@ def validate_dicts(old, new):
             return False
     return True
 
+def format_percent(value):
+    # value should be a float between 0 and 1
+    trimmed = round(value, 3)
+    return trimmed * 100
+
+
 class StatsManager:
 
     increment_stats = ["seq_length", "num_genes", "num_mRNA", "num_exons", "num_introns", "num_CDS",\
@@ -113,14 +119,22 @@ class StatsManager:
         if divisor == 0:
             self.ref_stats[stat] = 0
         else:
-            self.ref_stats[stat] = float(dividend) / float(divisor)
+            raw_value = float(dividend) / float(divisor)
+            if "%" in stat:
+                self.ref_stats[stat] = format_percent(raw_value)
+            else:
+                self.ref_stats[stat] = int(round(raw_value))
         # Calculate for modified genome
         dividend = self.alt_stats[dividend_key]
         divisor = self.alt_stats[divisor_key]
         if divisor == 0:
             self.alt_stats[stat] = 0
         else:
-            self.alt_stats[stat] = float(dividend) / float(divisor)
+            raw_value = float(dividend) / float(divisor)
+            if "%" in stat:
+                self.alt_stats[stat] = format_percent(raw_value)
+            else:
+                self.alt_stats[stat] = int(round(raw_value))
 
     def summary(self):
         for stat in self.calc_stats:
