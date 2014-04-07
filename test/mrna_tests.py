@@ -256,6 +256,10 @@ class TestMRNA(unittest.TestCase):
         self.set_fake_exon_indices()
         self.assertEquals(3, self.test_mrna1.get_num_exons())
 
+    def test_get_num_exons_if_no_exons(self):
+        # test_mrna0 has no exon
+        self.assertEquals(0, self.test_mrna0.get_num_exons())
+
     def test_get_longest_intron(self):
         self.set_fake_exon_indices()
         self.assertEquals(7, self.test_mrna1.get_longest_intron())

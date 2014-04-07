@@ -196,7 +196,10 @@ class MRNA:
         return total
 
     def get_num_exons(self):
-        return len(self.exon.indices)
+        if self.exon:
+            return len(self.exon.indices)
+        else:
+            return 0
 
     def get_longest_intron(self):
         longest = 0
@@ -230,7 +233,10 @@ class MRNA:
         return total
 
     def get_num_introns(self):
-        return len(self.exon.indices) - 1
+        if self.exon:
+            return len(self.exon.indices) - 1
+        else:
+            return 0
 
     def to_gff(self, seq_name, source, strand, death_flagged_stuff=False):
         if not death_flagged_stuff and self.death_flagged:
