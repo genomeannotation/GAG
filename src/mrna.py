@@ -202,6 +202,8 @@ class MRNA:
             return 0
 
     def get_longest_intron(self):
+        if not self.exon:
+            return 0
         longest = 0
         last_end = 0
         for index_pair in self.exon.indices:
@@ -213,6 +215,8 @@ class MRNA:
         return longest
 
     def get_shortest_intron(self):
+        if not self.exon:
+            return 0
         shortest = 0
         last_end = 0
         for index_pair in self.exon.indices:
@@ -224,6 +228,8 @@ class MRNA:
         return shortest
 
     def get_total_intron_length(self):
+        if not self.exon:
+            return 0
         total = 0
         last_end = 0
         for index_pair in self.exon.indices:
