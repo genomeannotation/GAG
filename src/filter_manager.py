@@ -40,7 +40,7 @@ class FilterManager:
         if filter_name == "":
             args_help = ''
             for filt_name, args in self.filter_args.items():
-                args_help += filt_name+": " + ", ".join(args)
+                args_help += filt_name+": " + ", ".join(args)+'\n'
             return args_help
         elif filter_name in self.filters:
             return filter_name+": " + ", ".join(self.filter_args[filter_name])
