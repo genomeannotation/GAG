@@ -166,6 +166,9 @@ class MRNA:
         return False
 
     def get_longest_exon(self):
+        if not self.exon:
+            return 0
+    
         longest = 0
         for index_pair in self.exon.indices:
             if length_of_segment(index_pair) > longest:
@@ -173,6 +176,9 @@ class MRNA:
         return longest
 
     def get_shortest_exon(self):
+        if not self.exon:
+            return 0
+    
         shortest = 0
         for index_pair in self.exon.indices:
             length = length_of_segment(index_pair)
@@ -181,6 +187,9 @@ class MRNA:
         return shortest
 
     def get_total_exon_length(self):
+        if not self.exon:
+            return 0
+    
         total = 0
         for index_pair in self.exon.indices:
             total += length_of_segment(index_pair)
