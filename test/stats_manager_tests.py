@@ -83,7 +83,11 @@ class TestStatsManager(unittest.TestCase):
         d["total_intron_length"] = 15
         d["total_CDS_length"] = 10
         return d
-
+    
+    def test_alt_is_empty(self):
+        self.assertTrue(self.mgr.alt_is_empty())
+        self.mgr.update_alt(self.get_new_dict())
+        self.assertFalse(self.mgr.alt_is_empty())
         
     def test_update_ref(self):
         self.populate_ref()
@@ -95,46 +99,89 @@ class TestStatsManager(unittest.TestCase):
         self.assertEquals(self.mgr.ref_stats["seq_length"], 150)
         self.assertEquals(self.mgr.ref_stats["shortest_CDS"], 3)
         self.assertEquals(self.mgr.ref_stats["longest_gene"], 30)
-
-    def test_summary(self):
+    
+    def test_summary_with_modifications(self):
         self.populate_ref()
+        self.mgr.update_alt(self.get_new_dict())
         expected =  "                                     Reference Genome     Modified Genome     \n"
         expected += "                                     ----------------     ---------------     \n"
-        expected += "seq_length                           100                  0                   \n"
-        expected += "num_genes                            5                    0                   \n"
-        expected += "num_mRNA                             7                    0                   \n"
-        expected += "num_exons                            7                    0                   \n"
-        expected += "num_introns                          7                    0                   \n"
-        expected += "num_CDS                              7                    0                   \n"
-        expected += "CDS: complete                        3                    0                   \n"
-        expected += "CDS: start, no stop                  1                    0                   \n"
-        expected += "CDS: stop, no start                  1                    0                   \n"
-        expected += "CDS: no stop, no start               2                    0                   \n"
-        expected += "total_gene_length                    70                   0                   \n"
-        expected += "total_mRNA_length                    70                   0                   \n"
-        expected += "total_exon_length                    65                   0                   \n"
-        expected += "total_intron_length                  65                   0                   \n"
-        expected += "total_CDS_length                     60                   0                   \n"
-        expected += "shortest_gene                        10                   0                   \n"
-        expected += "shortest_mRNA                        10                   0                   \n"
-        expected += "shortest_exon                        8                    0                   \n"
-        expected += "shortest_intron                      8                    0                   \n"
-        expected += "shortest_CDS                         6                    0                   \n"
-        expected += "longest_gene                         25                   0                   \n"
-        expected += "longest_mRNA                         25                   0                   \n"
-        expected += "longest_exon                         21                   0                   \n"
-        expected += "longest_intron                       21                   0                   \n"
-        expected += "longest_CDS                          20                   0                   \n"
-        expected += "mean gene length                     14.0                 0                   \n"
-        expected += "mean mRNA length                     10.0                 0                   \n"
-        expected += "mean exon length                     9.28571428571        0                   \n"
-        expected += "mean intron length                   9.28571428571        0                   \n"
-        expected += "mean CDS length                      8.57142857143        0                   \n"
-        expected += "prop. of genome covered by genes     0.7                  0                   \n"
-        expected += "prop. of genome covered by CDS       0.6                  0                   \n"
-        expected += "mRNAs per gene                       1.4                  0                   \n"
-        expected += "exons per mRNA                       1.0                  0                   \n"
-        expected += "introns per mRNA                     1.0                  0                   \n"
+        expected += "seq_length                           100                  50                  \n"
+        expected += "num_genes                            5                    1                   \n"
+        expected += "num_mRNA                             7                    1                   \n"
+        expected += "num_exons                            7                    1                   \n"
+        expected += "num_introns                          7                    1                   \n"
+        expected += "num_CDS                              7                    1                   \n"
+        expected += "CDS: complete                        3                    3                   \n"
+        expected += "CDS: start, no stop                  1                    1                   \n"
+        expected += "CDS: stop, no start                  1                    1                   \n"
+        expected += "CDS: no stop, no start               2                    2                   \n"
+        expected += "total_gene_length                    70                   15                  \n"
+        expected += "total_mRNA_length                    70                   15                  \n"
+        expected += "total_exon_length                    65                   15                  \n"
+        expected += "total_intron_length                  65                   15                  \n"
+        expected += "total_CDS_length                     60                   10                  \n"
+        expected += "shortest_gene                        10                   5                   \n"
+        expected += "shortest_mRNA                        10                   5                   \n"
+        expected += "shortest_exon                        8                    2                   \n"
+        expected += "shortest_intron                      8                    2                   \n"
+        expected += "shortest_CDS                         6                    3                   \n"
+        expected += "longest_gene                         25                   30                  \n"
+        expected += "longest_mRNA                         25                   30                  \n"
+        expected += "longest_exon                         21                   9                   \n"
+        expected += "longest_intron                       21                   9                   \n"
+        expected += "longest_CDS                          20                   8                   \n"
+        expected += "mean gene length                     14.0                 15.0                \n"
+        expected += "mean mRNA length                     10.0                 15.0                \n"
+        expected += "mean exon length                     9.28571428571        15.0                \n"
+        expected += "mean intron length                   9.28571428571        15.0                \n"
+        expected += "mean CDS length                      8.57142857143        10.0                \n"
+        expected += "prop. of genome covered by genes     0.7                  0.3                 \n"
+        expected += "prop. of genome covered by CDS       0.6                  0.2                 \n"
+        expected += "mRNAs per gene                       1.4                  1.0                 \n"
+        expected += "exons per mRNA                       1.0                  1.0                 \n"
+        expected += "introns per mRNA                     1.0                  1.0                 \n"
+        summary = self.mgr.summary()
+        self.assertEquals(summary, expected)
+
+    def test_summary_without_modifications(self):
+        self.populate_ref()
+        expected =  "                                     Genome            \n"
+        expected += "                                     ------            \n"
+        expected += "seq_length                           100               \n"
+        expected += "num_genes                            5                 \n"
+        expected += "num_mRNA                             7                 \n"
+        expected += "num_exons                            7                 \n"
+        expected += "num_introns                          7                 \n"
+        expected += "num_CDS                              7                 \n"
+        expected += "CDS: complete                        3                 \n"
+        expected += "CDS: start, no stop                  1                 \n"
+        expected += "CDS: stop, no start                  1                 \n"
+        expected += "CDS: no stop, no start               2                 \n"
+        expected += "total_gene_length                    70                \n"
+        expected += "total_mRNA_length                    70                \n"
+        expected += "total_exon_length                    65                \n"
+        expected += "total_intron_length                  65                \n"
+        expected += "total_CDS_length                     60                \n"
+        expected += "shortest_gene                        10                \n"
+        expected += "shortest_mRNA                        10                \n"
+        expected += "shortest_exon                        8                 \n"
+        expected += "shortest_intron                      8                 \n"
+        expected += "shortest_CDS                         6                 \n"
+        expected += "longest_gene                         25                \n"
+        expected += "longest_mRNA                         25                \n"
+        expected += "longest_exon                         21                \n"
+        expected += "longest_intron                       21                \n"
+        expected += "longest_CDS                          20                \n"
+        expected += "mean gene length                     14.0              \n"
+        expected += "mean mRNA length                     10.0              \n"
+        expected += "mean exon length                     9.28571428571     \n"
+        expected += "mean intron length                   9.28571428571     \n"
+        expected += "mean CDS length                      8.57142857143     \n"
+        expected += "prop. of genome covered by genes     0.7               \n"
+        expected += "prop. of genome covered by CDS       0.6               \n"
+        expected += "mRNAs per gene                       1.4               \n"
+        expected += "exons per mRNA                       1.0               \n"
+        expected += "introns per mRNA                     1.0               \n"
         summary = self.mgr.summary()
         self.assertEquals(summary, expected)
         
