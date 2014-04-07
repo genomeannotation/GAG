@@ -91,11 +91,12 @@ class ConsoleController:
         else:
             sys.stderr.write("Did not find .trinotate file; no functional annotations available.\n")
 
-        # Read in stats
-        sys.stderr.write("Calculating statistics on genome...\n")
+        # Clear stats; read in new stats; display stats on reference genome
+        self.stats_mgr.clear_all()
         for seq in self.seqs:
             self.stats_mgr.update_ref(seq.stats())
         sys.stderr.write("Done.\n\n")
+        sys.stdout.write(self.stats())
 
     def set_filter_arg(self, filter_name, filter_arg, val):
         self.filter_mgr.set_filter_arg(filter_name, filter_arg, val)
@@ -431,6 +432,7 @@ class ConsoleController:
             for seq in self.seqs:
                 cseq = copy.deepcopy(seq)
                 self.filter_mgr.apply_filters(cseq)
+                print("updating alt")
                 self.stats_mgr.update_alt(cseq.stats())
             self.filter_mgr.dirty = False
         return first_line + self.stats_mgr.summary()

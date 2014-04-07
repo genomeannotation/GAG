@@ -28,7 +28,6 @@ class TestStatsManager(unittest.TestCase):
         self.assertEquals(self.mgr.alt_stats["num_CDS"], 0)
         self.assertEquals(self.mgr.ref_stats["num_CDS"], 0)
 
-
     def populate_ref(self):
         self.mgr.ref_stats["seq_length"] = 100
         self.mgr.ref_stats["num_genes"] = 5
