@@ -20,6 +20,12 @@ def try_catch(command, args):
 
 class GagCmd(cmd.Cmd):
 
+    load_greeting = "Welcome to the GAG LOAD prompt.\n"+\
+            "Type the path to a folder containing your .fasta and .gff files.\n"+\
+            "To use the current directory, just hit enter.\n"+\
+            "You can type 'back' at any time to return to the main GAG console.\n"+\
+            "You'll be returned automatically once your genome is loaded.\n"
+
 ## Setup, loading and saving sessions, exit, etc.
 
     def __init__(self):
@@ -49,13 +55,13 @@ class GagCmd(cmd.Cmd):
     def do_barffolder(self, line):
         self.output = try_catch(self.controller.barf_folder, [line])
 
-    def help_loadfolder(self):
-        print("\nUsage: loadfolder [directory]")
-        print("Reads in a gff, fasta and trinotate file from the specified directory.")
-        print("If no directory is supplied, uses current working directory.\n")
+    def help_load(self):
+        print("This command takes you the GAG LOAD prompt. There you can specify the location of")
+        print("your files and load them into memory.")
 
-    def do_loadfolder(self, line):
-        try_catch(self.controller.load_folder, [line])
+    def do_load(self, line):
+        loadcmd = LoadCmd(self.prompt, self.controller)
+        loadcmd.cmdloop(self.load_greeting)
 
     def help_exit(self):
         print("Exit this console.\n")
@@ -211,6 +217,48 @@ def get_greeting():
     message += "Type 'help' for available commands.\n"
 
     return logo + message
+
+##############################################
+
+class LoadCmd(cmd.Cmd):
+
+    def __init__(self, prompt_prefix, controller):
+        cmd.Cmd.__init__(self)
+        self.prompt = prompt_prefix[:-2] + " LOAD> "
+        self.controller = controller
+        readline.set_history_length(1000)
+        try:
+            readline.read_history_file('.gaghistory')
+        except IOError:
+            sys.stderr.write("No .gaghistory file available...\n")
+
+    def precmd(self, line):
+        readline.write_history_file('.gaghistory')
+        return cmd.Cmd.precmd(self, line)
+
+    def postcmd(self, stop, line):
+        if hasattr(self, 'output') and self.output:
+            print self.output
+            self.output = None
+        return stop
+
+    def help_back(self):
+        print("Exit this console and return to the main GAG console.\n")
+
+    def do_back(self, line):
+        return True
+
+    def help_load(self):
+        print("You're at the GAG LOAD prompt. Type the name or path of a folder containing a .fasta and .gff file.")
+        print("Or, type 'back' to return to the main GAG prompt.\n")
+
+    def default(self, line):
+        # TODO wipe controller.seqs clean?
+        self.output = try_catch(self.controller.load_folder, [line])
+        if self.controller.seqs:
+            return True
+            
+################################################
 
 if __name__ == '__main__':
     GagCmd().cmdloop(get_greeting())
