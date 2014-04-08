@@ -446,6 +446,8 @@ class ConsoleController:
     def write_tbl(self, line):
         if not self.seqs:
             return self.no_genome_message
+        elif not line:
+            return "Usage: writetbl <filename>\n"
         else:
             if os.path.exists(line):
                 return line + " already exists; please try another filename\n"
