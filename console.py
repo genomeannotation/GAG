@@ -79,7 +79,7 @@ class GagCmd(cmd.Cmd):
         print("Writes gff, fasta and trinotate files to the specified directory.\n")
 
     def do_barffolder(self, line):
-        try_catch(self.controller.barf_folder, [line])
+        self.output = try_catch(self.controller.barf_folder, [line])
 
     def help_loadfolder(self):
         print("\nUsage: loadfolder [directory]")
@@ -165,14 +165,14 @@ class GagCmd(cmd.Cmd):
         print("Removes all sequences (and corresponding genes) except those specified\n")
 
     def do_subsetgenome(self, line):
-        try_catch(self.controller.subset_genome, [line])
+        self.output = try_catch(self.controller.subset_genome, [line])
 
     def help_trimregion(self):
         print("Usage: trimregion <seq_id> <start_index> <stop_index>\n")
         print("Removes subsequence from fasta and adjusts indices of features which follow region.\n")
 
     def do_trimregion(self, line):
-        try_catch(self.controller.trim_region, [line])
+        self.output = try_catch(self.controller.trim_region, [line])
 
     def help_removeseq(self):
         print("Usage: removeseq <seq_id> [-F]\n")
@@ -186,7 +186,7 @@ class GagCmd(cmd.Cmd):
         print("Truncates or removes any feature located on region to be invalidated\n")
 
     def do_invalidateregion(self, line):
-        try_catch(self.controller.invalidate_region, [line])
+        self.output = try_catch(self.controller.invalidate_region, [line])
 
 ## Output info to console
 
@@ -239,7 +239,10 @@ class GagCmd(cmd.Cmd):
 
 def get_greeting():
     logo = "................................................................   .       .    \n........................................,,........................  .... .  ....\n..............~++=:,............... ..=OMNZ:....... ....... ..:=?77I=,... .. ...\n...........:7DMMMMMMD7:............. ~DMMMMZ...............=$DMMMMMMMM8+........\n.........:7NMMMMMMMMMMN7,............$MMMMMN=. ....... ..~ZMMMMMMMMMMMMZ,.   ...\n........?NMMMNZ+~+IONMMN?....... ...INMMNMMMI .. .......INMMMDZ?~,,:+I?:. . .  .\n.......+NMMN7:  ... :?$I: .........INMMNZMMMZ.........:$MMMD?........   ........\n......:8MMM?..........  ..........7MMMD+=NMM8,... .. :OMMMO~ ...................\n......7MMMZ,.....................7MMMD= ,8MMM? ......ZMMMZ,.....................\n.....:8MMN+....................,$MMMN+.. IMMMO......~NMMD~ ....,+$ZI+==~,.......\n.....~DMMD~....~7OZ$Z8NNZ:....+DMMMD$I?~:~DMMN+. ...+NMM8......IMMMMMMMMO: ..  .\n......$MMM8:. ,OMMMMMMMMN=...INMMN$$MMMMMMMMMMZ.....~DMMMI.....~8MMMMMMMZ: ...  \n......,ZMMMD?,.?NMMMMMNZ~. .INMMD+.=ONMMMMMMMMN~. ...+DMMM$:.  ..,=$MMMD: ...   \n.......,$MMMMM87+IONMMMI...?NMMN= ....:=+??OMMM$..... =8MMMM87=,.,+8MMMZ.  .   .\n.........+8MMMMMMMMMMMO~. ~DMMN?...... . ..=NMM$.......:$NMMMMMMNMMMMMO:.... . .\n...........:I8NMMMMNO+,...:OMD?. ....... ...+Z7~.........:I8NMMMMMMMDI,    .   .\n............. .:~~:. ......,,,.. . ... . . . ..  . ... . .  .~?7$7?~.        .  \n................................ . . .   . . .   . . .   . . .         .       .\n................. ....... ......   . .     . .     . .     . .         .       ."
-    return logo + "\nWelcome to the GAG console!"
+    message = "\nWelcome to the GAG console!\n"
+    message += "Type 'help' for available commands.\n"
+
+    return logo + message
 
 if __name__ == '__main__':
     GagCmd().cmdloop(get_greeting())

@@ -16,6 +16,9 @@ from src.translate import translate
 
 class ConsoleController:
 
+    no_genome_message = "It looks like no genome is currently loaded. Try the 'loadfolder' command.\n"+\
+            "Type 'help loadfolder' to learn how to use it, or just 'help' for general advice.\n"
+
 ## Setup, loading and saving sessions
 
     def __init__(self):
@@ -26,24 +29,26 @@ class ConsoleController:
         self.input = ''
 
     def barf_folder(self, line):
-        if len(line) == 0:
+        if not self.seqs:
+            return self.no_genome_message
+        elif len(line) == 0:
             sys.stderr.write("Usage: barffolder <directory>\n")
             return
+        else:
+            os.system('mkdir '+line)
+            
+            # Write the gff
+            with open(line+'/gag.gff', 'w') as gff:
+                for seq in self.seqs:
+                    gff.write(seq.to_gff())
 
-        os.system('mkdir '+line)
-        
-        # Write the gff
-        with open(line+'/gag.gff', 'w') as gff:
-            for seq in self.seqs:
-                gff.write(seq.to_gff())
+            # Write the fasta
+            with open(line+'/gag.fasta', 'w') as fasta:
+                for seq in self.seqs:
+                    fasta.write(seq.to_fasta())
 
-        # Write the fasta
-        with open(line+'/gag.fasta', 'w') as fasta:
-            for seq in self.seqs:
-                fasta.write(seq.to_fasta())
-
-        # Write the annotations
-        self.annot.write_to_file(line+'/gag.trinotate')
+            # Write the annotations
+            self.annot.write_to_file(line+'/gag.trinotate')
         
     def load_folder(self, line):
         if not line:
@@ -120,7 +125,10 @@ class ConsoleController:
 ## Assorted utilities
 
     def status(self):
-        return "Number of seqs: " + str(len(self.seqs))
+        if not self.seqs:
+            return self.no_genome_message
+        else:
+            return "Number of seqs: " + str(len(self.seqs))
 
     def barftofile(self, line):
         args = line.split()
@@ -164,15 +172,21 @@ class ConsoleController:
             #self.genome.remove_mrnas_with_cds_shorter_than(min_cds_length)
 
     def create_starts_and_stops(self):
-        #TODO pleeeeeease pass seq.bases instead of whole seq.
-        for seq in self.seqs:
-            seq.create_starts_and_stops()
+        if not self.seqs:
+            return self.no_genome_message
+        else:
+            #TODO pleeeeeease pass seq.bases instead of whole seq.
+            for seq in self.seqs:
+                seq.create_starts_and_stops()
 
     def subset_genome(self, line):
-        # parse args
-        args = line.split()
-        if args:
-            self.seqs = [s for s in self.seqs if s.header in args]
+        if not self.seqs:
+            return self.no_genome_message
+        else:
+            # parse args
+            args = line.split()
+            if args:
+                self.seqs = [s for s in self.seqs if s.header in args]
 
     def duct_tape_seq_frames(self, line):
         result = ''
@@ -269,13 +283,16 @@ class ConsoleController:
         return "Failed to fix "+name+": mRNA doesn't exist.\n"
 
     def remove_gene(self, line):
-        args = []
-        if len(line) > 0:
-            args = line.split()
+        if not self.seqs:
+            return self.no_genome_message
         else:
-            args = self.input.split('\n')
-        for seq in self.seqs:
-            seq.remove_gene(args)
+            args = []
+            if len(line) > 0:
+                args = line.split()
+            else:
+                args = self.input.split('\n')
+            for seq in self.seqs:
+                seq.remove_gene(args)
 
     def remove_mrnas_with_cds_shorter_than(self, line):
         min_length = int(line)
@@ -283,40 +300,46 @@ class ConsoleController:
             seq.remove_mrnas_with_cds_shorter_than(min_length)
 
     def trim_region(self, line):
-        args = []
-        if len(line) > 0:
-            args = line.split()
-            if len(args) != 3:
-                sys.stderr.write("Error: ConsoleController.trim_region \
-                                  requires 3 args\n")
-            else:
-                seq_name = args[0]
-                start = int(args[1])
-                stop = int(args[2])
-                for seq in self.seqs:
-                    if seq.header == seq_name:
-                        seq.trim_region(start, stop)
+        if not self.seqs:
+            return self.no_genome_message
         else:
-            lines = self.input.split('\n')
-            for entry in lines:
-                entries = entry.split()
-                if len(entries) != 3:
-                    sys.stderr.write("Error: ConsoleController.trim_region " +
-                                      "requires 3 args\n")
-                    sys.stderr.write("This was the input: " + entry + "\n")
-                    sys.stderr.write("Moving on to next input...\n")
+            args = []
+            if len(line) > 0:
+                args = line.split()
+                if len(args) != 3:
+                    sys.stderr.write("Error: ConsoleController.trim_region \
+                                      requires 3 args\n")
                 else:
-                    # TODO too many loops, could be nicer
-                    seq_name = entries[0]
-                    start = int(entries[1])
-                    stop = int(entries[2])
+                    seq_name = args[0]
+                    start = int(args[1])
+                    stop = int(args[2])
                     for seq in self.seqs:
                         if seq.header == seq_name:
                             seq.trim_region(start, stop)
+            else:
+                lines = self.input.split('\n')
+                for entry in lines:
+                    entries = entry.split()
+                    if len(entries) != 3:
+                        sys.stderr.write("Error: ConsoleController.trim_region " +
+                                          "requires 3 args\n")
+                        sys.stderr.write("This was the input: " + entry + "\n")
+                        sys.stderr.write("Moving on to next input...\n")
+                    else:
+                        # TODO too many loops, could be nicer
+                        seq_name = entries[0]
+                        start = int(entries[1])
+                        stop = int(entries[2])
+                        for seq in self.seqs:
+                            if seq.header == seq_name:
+                                seq.trim_region(start, stop)
 
     def remove_seq(self, line):
-        # TODO take multiple args?
-        self.seqs = [s for s in self.seqs if s.header != line]
+        if not self.seqs:
+            return self.no_genome_message
+        else:
+            # TODO take multiple args?
+            self.seqs = [s for s in self.seqs if s.header != line]
 
     def check_gene_for_invalid_begin_or_end(self, line):
         # TODO this should probably just check all genes instead of taking args
@@ -330,92 +353,116 @@ class ConsoleController:
         pass
 
     def invalidate_region(self, line):
-        # TODO return error messages on invalid args
-        # TODO not working
-        if len(line) > 0:
-            args = line.split()
-            seq_name = args[0]
-            start = args[1]
-            stop = args[2]
-            for seq in self.seqs:
-                if seq.header == seq_name:
-                    seq.invalidate_region(start, stop)
+        if not self.seqs:
+            return self.no_genome_message
         else:
-            lines = self.input.split('\n')
-            for line in lines:
+            # TODO return error messages on invalid args
+            # TODO not working
+            if len(line) > 0:
                 args = line.split()
-                if not args:
-                    continue
                 seq_name = args[0]
                 start = args[1]
                 stop = args[2]
                 for seq in self.seqs:
                     if seq.header == seq_name:
                         seq.invalidate_region(start, stop)
+            else:
+                lines = self.input.split('\n')
+                for line in lines:
+                    args = line.split()
+                    if not args:
+                        continue
+                    seq_name = args[0]
+                    start = args[1]
+                    stop = args[2]
+                    for seq in self.seqs:
+                        if seq.header == seq_name:
+                            seq.invalidate_region(start, stop)
 
 
 ## Output info to console
 
     def barf_gene_gff(self, line):
-        for seq in self.seqs:
-            if seq.contains_gene(line):
-                return seq.gene_to_gff(line)
+        if not self.seqs:
+            return self.no_genome_message
+        else:
+            for seq in self.seqs:
+                if seq.contains_gene(line):
+                    return seq.gene_to_gff(line)
 
     def barf_seq(self, line):
-        args = line.split(' ')
-        if len(args) != 3:
-            return "Usage: barfseq <seq_id> <start_index> <end_index>\n"
-        seq_id = args[0]
-        start = int(args[1])
-        stop = int(args[2])
-        for seq in self.seqs:
-            if seq.header == seq_id:
-                return seq.get_subseq(start, stop)
+        if not self.seqs:
+            return self.no_genome_message
+        else:
+            args = line.split(' ')
+            if len(args) != 3:
+                return "Usage: barfseq <seq_id> <start_index> <end_index>\n"
+            seq_id = args[0]
+            start = int(args[1])
+            stop = int(args[2])
+            for seq in self.seqs:
+                if seq.header == seq_id:
+                    return seq.get_subseq(start, stop)
 
     def barf_cds_seq(self, line):
-        name = line
-        for seq in self.seqs:
-            if seq.contains_mrna(name):
-                return seq.extract_cds_seq(name)
-        return "Error: Couldn't find mRNA.\n"
+        if not self.seqs:
+            return self.no_genome_message
+        else:
+            name = line
+            for seq in self.seqs:
+                if seq.contains_mrna(name):
+                    return seq.extract_cds_seq(name)
+            return "Error: Couldn't find mRNA.\n"
 
     def barf_gene_tbl(self, line):
-        # TODO this used to take multiple gene_ids? but do we care?
-        output = ">Feature SeqId\n"
-        for seq in self.seqs:
-            if seq.contains_gene(line):
-                output += seq.gene_to_tbl(line)
-        return output
+        if not self.seqs:
+            return self.no_genome_message
+        else:
+            # TODO this used to take multiple gene_ids? but do we care?
+            output = ">Feature SeqId\n"
+            for seq in self.seqs:
+                if seq.contains_gene(line):
+                    output += seq.gene_to_tbl(line)
+            return output
 
     def stats(self):
-        first_line = "Number of sequences:   " + str(len(self.seqs)) + "\n"
-        if self.filter_mgr.dirty:
-            self.stats_mgr.clear_alt()
-            sys.stderr.write("Calculating statistics on genome...\n")
-            for seq in self.seqs:
-                cseq = copy.deepcopy(seq)
-                self.filter_mgr.apply_filters(cseq)
-                print("updating alt")
-                self.stats_mgr.update_alt(cseq.stats())
-            self.filter_mgr.dirty = False
-        return first_line + self.stats_mgr.summary()
+        if not self.seqs:
+            return self.no_genome_message
+        else:
+            first_line = "Number of sequences:   " + str(len(self.seqs)) + "\n"
+            if self.filter_mgr.dirty:
+                self.stats_mgr.clear_alt()
+                sys.stderr.write("Calculating statistics on genome...\n")
+                for seq in self.seqs:
+                    cseq = copy.deepcopy(seq)
+                    self.filter_mgr.apply_filters(cseq)
+                    print("updating alt")
+                    self.stats_mgr.update_alt(cseq.stats())
+                self.filter_mgr.dirty = False
+            return first_line + self.stats_mgr.summary()
 
 ## Output info to file
 
     def write_tbl(self, line):
-        if os.path.exists(line):
-            return line + " already exists; please try another filename\n"
-        with open(line, 'w') as outFile:
-            outFile.write(">Feature SeqId\n")
-            for seq in self.seqs:
-                outFile.write(seq.to_tbl())
-            outFile.close()
-        return ".tbl file written to " + line + "\n"
+        if not self.seqs:
+            return self.no_genome_message
+        else:
+            if os.path.exists(line):
+                return line + " already exists; please try another filename\n"
+            with open(line, 'w') as outFile:
+                outFile.write(">Feature SeqId\n")
+                for seq in self.seqs:
+                    outFile.write(seq.to_tbl())
+                outFile.close()
+            return ".tbl file written to " + line + "\n"
 
     def write_fasta(self, line):
-        with open(line, 'w') as outFile:
-            for seq in self.seqs:
-                outFile.write(seq.to_fasta())
+        if not self.seqs:
+            return self.no_genome_message
+        else:
+            with open(line, 'w') as outFile:
+                for seq in self.seqs:
+                    outFile.write(seq.to_fasta())
 
 ## Utilities
 
