@@ -12,7 +12,9 @@ class TestGene(unittest.TestCase):
         self.test_gene0 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[3734, 7436], strand='+', identifier=1)
         self.test_gene1 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[3734, 7436], strand='+', identifier=1)
         self.fake_mrna1 = Mock()
+        self.fake_mrna1.death_flagged = False
         self.fake_mrna2 = Mock()
+        self.fake_mrna2.death_flagged = False
         self.test_gene1.add_mrna(self.fake_mrna1)
         self.test_gene1.add_mrna(self.fake_mrna2)
 

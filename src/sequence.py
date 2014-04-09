@@ -216,10 +216,10 @@ class Sequence:
         return longest
 
     def get_shortest_exon(self):
-        shortest = 0
+        shortest = -1
         for gene in self.get_valid_genes():
             length = gene.get_shortest_exon()
-            if shortest == 0 or length < shortest:
+            if length < shortest or shortest == -1:
                 shortest = length
         return shortest
 

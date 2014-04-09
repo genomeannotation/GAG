@@ -62,7 +62,7 @@ class Gene:
 
     def get_longest_exon(self):
         longest = 0
-        for mrna in self.mrnas:
+        for mrna in self.get_valid_mrnas():
             length = mrna.get_longest_exon()
             if length > longest:
                 longest = length
@@ -70,7 +70,7 @@ class Gene:
 
     def get_shortest_exon(self):
         shortest = 0
-        for mrna in self.mrnas:
+        for mrna in self.get_valid_mrnas():
             length = mrna.get_shortest_exon()
             if shortest == 0 or length < shortest:
                 shortest = length
@@ -78,19 +78,19 @@ class Gene:
 
     def get_total_exon_length(self):
         total = 0
-        for mrna in self.mrnas:
+        for mrna in self.get_valid_mrnas():
             total += mrna.get_total_exon_length()
         return total
     
     def get_num_exons(self):
         total = 0
-        for mrna in self.mrnas:
+        for mrna in self.get_valid_mrnas():
             total += mrna.get_num_exons()
         return total
 
     def get_longest_intron(self):
         longest = 0
-        for mrna in self.mrnas:
+        for mrna in self.get_valid_mrnas():
             length = mrna.get_longest_intron()
             if length > longest:
                 longest = length
@@ -98,7 +98,7 @@ class Gene:
 
     def get_shortest_intron(self):
         shortest = 0
-        for mrna in self.mrnas:
+        for mrna in self.get_valid_mrnas():
             length = mrna.get_shortest_intron()
             if shortest == 0 or length < shortest:
                 shortest = length
@@ -106,13 +106,13 @@ class Gene:
 
     def get_total_intron_length(self):
         total = 0
-        for mrna in self.mrnas:
+        for mrna in self.get_valid_mrnas():
             total += mrna.get_total_intron_length()
         return total
 
     def get_num_introns(self):
         total = 0
-        for mrna in self.mrnas:
+        for mrna in self.get_valid_mrnas():
             total += mrna.get_num_introns()
         return total
     
@@ -201,7 +201,7 @@ class Gene:
 
     def get_partial_info(self):
         results = {"complete": 0, "start_no_stop": 0, "stop_no_start": 0, "no_stop_no_start": 0}
-        for mrna in self.mrnas:
+        for mrna in self.get_valid_mrnas():
             if mrna.has_start():
                 if mrna.has_stop():
                     results["complete"] += 1
