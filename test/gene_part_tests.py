@@ -79,16 +79,6 @@ class TestGenePart(unittest.TestCase):
         # what if no indices?
         self.assertFalse(self.gp1.length_of_shortest_segment())
 
-    def test_trim_end(self):
-        self.gp2.trim_end(100)
-        self.assertEquals(65, self.gp2.indices[1][0]) #unchanged
-        self.assertEquals(100, self.gp2.indices[1][1])
-        self.gp2.trim_end(30)
-        # should mark second segment for removal
-        # by setting indices = [0, 0]
-        self.assertEquals([0,0], self.gp2.indices[1])
-        self.assertEquals([1, 30], self.gp2.indices[0])
-
     def test_remove_trimmed_segments(self):
         testgp = Exon(identifier='foo', indices=[0, 0], parent_id='foo')
         testgp.add_identifier('foo2')

@@ -144,16 +144,6 @@ class GenePart:
             elif index_pair[1] >= start_index:
                 self.indices[i][1] += n
 
-    def trim_end(self, endindex):
-        for i, index_pair in enumerate(self.indices):
-            if index_pair[0] > endindex:
-                # entire segment is past cutoff;
-                # mark for removal
-                self.indices[i][0] = 0
-                self.indices[i][1] = 0
-            elif index_pair[1] > endindex:
-                self.indices[i][1] = endindex
-
     # Returns true if it survives invalidation. Returns false if the mRNA it lives on needs to die
     def invalidate_region(self, start, stop):
         for i, index in enumerate(self.indices):
