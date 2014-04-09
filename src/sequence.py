@@ -92,6 +92,7 @@ class Sequence:
         self.bases = self.bases[:start-1] + self.bases[stop:]
         to_remove = []
         # Trim genes; remove any gene that loses its mRNAs in the process
+        # TODO if region *contains* gene, just remove gene.
         for gene in self.genes:
             gene.trim_region(start, stop)
             if not gene.mrnas:

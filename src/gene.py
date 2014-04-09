@@ -172,25 +172,37 @@ class Gene:
                 mrna.death_flagged = True
 
     def trim_region(self, start, stop):
-        # TODO # What if trimmed region contains gene entirely?
+        """Adjusts indices of gene and its features to account for removal of a seq region.
+
+        If trimmed region intersects an mRNA, the mRNA is removed.
+        If trimmed region occurs after the gene, nothing happens."""
         # Do nothing if trimmed region comes after gene
-        if start > self.indices[0]:
+        if start > self.indices[1]:
             return
         # If trimmed region came before beginning of gene, just adjust indices
         # and call adjust_indices on child mRNAs
-        elif stop < self.indices[1]:
+        elif stop < self.indices[0]:
             offset = -(stop - start + 1)
             self.adjust_indices(offset)
             for mrna in self.mrnas:
                 mrna.adjust_indices(offset)
-            return
-        # If trimmed region includes gene, be careful
-        # Remove any mRNAs that intersect the trimmed region,
-        # then adjust indices on self and any remaining mRNAs
+        # If trimmed region includes gene, be careful.
         else:
-            
-            # TODO
-            return
+            # Remove any mRNAs that intersect the trimmed region,
+            to_remove = []
+            for mrna in self.mrnas:
+                if mrna.indices_intersect_mrna([start, stop]):
+                    to_remove.append(mrna)
+            self.mrnas = [m for m in self.mrnas if m not in to_remove]
+            # Move beginning index of gene to one base past the trimmed region
+            print(str(self.indices))
+            self.indices[0] = stop + 1
+            print(str(self.indices))
+            # Adjust indices on self and remaining mRNAs
+            offset = -(stop - start + 1)
+            self.adjust_indices(offset, start)
+            for mrna in self.mrnas:
+                mrna.adjust_indices(offset, start)
 
     def get_partial_info(self):
         results = {"complete": 0, "start_no_stop": 0, "stop_no_start": 0, "no_stop_no_start": 0}
