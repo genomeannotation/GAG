@@ -14,8 +14,8 @@ class TestMRNA(unittest.TestCase):
         self.fake_exon = Mock()
         self.fake_cds = Mock()
         self.fake_start_codon = Mock()
-        self.test_mrna1.set_exon(self.fake_exon)
-        self.test_mrna1.set_cds(self.fake_cds)
+        self.test_mrna1.exon = self.fake_exon
+        self.test_mrna1.cds = self.fake_cds
         self.test_mrna1.add_other_feature(self.fake_start_codon)
 
     def test_constructor(self):
@@ -27,16 +27,6 @@ class TestMRNA(unittest.TestCase):
     def test_length(self):
         self.assertEqual(3703, self.test_mrna0.length())
 
-    def test_set_exon(self):
-        self.assertFalse(self.test_mrna0.exon)
-        self.test_mrna0.set_exon(self.fake_exon)
-        self.assertTrue(self.test_mrna0.exon)
-
-    def test_set_cds(self):
-        self.assertFalse(self.test_mrna0.cds)
-        self.test_mrna0.set_cds(self.fake_cds)
-        self.assertTrue(self.test_mrna0.cds)
-       
     def test_add_other_feature(self): 
         self.assertEquals(0, len(self.test_mrna0.other_features))
         self.test_mrna0.add_other_feature(self.fake_start_codon)
@@ -151,7 +141,7 @@ class TestMRNA(unittest.TestCase):
         codon = Mock()
         exon = Mock()
         nice_mrna.add_other_feature(codon)
-        nice_mrna.set_exon(exon)
+        nice_mrna.exon = exon
         nice_mrna.clean_up_indices()
         codon.clean_up_indices.assert_called_with()
         exon.clean_up_indices.assert_called_with()
@@ -208,8 +198,8 @@ class TestMRNA(unittest.TestCase):
         type(nice_utr).indices = nice2
 
         # add mock features
-        mrna.set_exon(nice_exon)
-        mrna.set_cds(empty_cds)
+        mrna.exon = nice_exon
+        mrna.cds = empty_cds
         mrna.add_other_feature(empty_stop_codon)
         mrna.add_other_feature(nice_utr)
         mrna.add_other_feature(invalid_start_codon)

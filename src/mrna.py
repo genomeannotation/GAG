@@ -131,13 +131,6 @@ class MRNA:
         for j in reversed(invalid_features):
             self.other_features.pop(j)
 
-
-    def set_exon(self, exon):
-        self.exon = exon
-
-    def set_cds(self, cds):
-        self.cds = cds
-
     def add_other_feature(self, feature):
         self.other_features.append(feature)
 
