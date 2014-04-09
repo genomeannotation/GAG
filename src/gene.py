@@ -29,9 +29,6 @@ class Gene:
         result += " mrnas"
         return result
 
-    def is_empty(self):
-        return len(self.get_valid_mrnas()) == 0
-        
     def get_valid_mrnas(self):
         return [mrna for mrna in self.mrnas if not mrna.death_flagged]
         
@@ -46,15 +43,6 @@ class Gene:
             return self.score
         else:
             return '.'
-
-    def add_mrna(self, mrna):
-        self.mrnas.append(mrna)
-
-    def contains_mrna_with_id(self, identifier):
-        for mrna in self.mrnas:
-            if mrna.identifier == identifier:
-                return True
-        return False
 
     def get_longest_exon(self):
         longest = 0

@@ -15,35 +15,14 @@ class TestGene(unittest.TestCase):
         self.fake_mrna1.death_flagged = False
         self.fake_mrna2 = Mock()
         self.fake_mrna2.death_flagged = False
-        self.test_gene1.add_mrna(self.fake_mrna1)
-        self.test_gene1.add_mrna(self.fake_mrna2)
+        self.test_gene1.mrnas.append(self.fake_mrna1)
+        self.test_gene1.mrnas.append(self.fake_mrna2)
 
     def test_constructor(self):
         self.assertEqual('Gene', self.test_gene0.__class__.__name__)
 
-    def test_is_empty(self):
-        self.assertTrue(self.test_gene0.is_empty())
-        for mrna in self.test_gene1.mrnas:
-            mrna.death_flagged = False
-        self.assertFalse(self.test_gene1.is_empty())
-        for mrna in self.test_gene1.mrnas:
-            mrna.death_flagged = True
-        self.assertTrue(self.test_gene1.is_empty())
-
     def test_length(self):
         self.assertEqual(3703, self.test_gene0.length())
-
-    def test_add_mrna(self):
-        self.assertEquals(0, len(self.test_gene0.mrnas))
-        self.test_gene0.add_mrna(self.fake_mrna1)
-        self.assertEquals(1, len(self.test_gene0.mrnas))
-        self.test_gene0.add_mrna(self.fake_mrna2)
-        self.assertEquals(2, len(self.test_gene0.mrnas))
-
-    def test_contains_mrna_with_id(self):
-        self.fake_mrna1.identifier = "BDOR_foo"
-        self.assertTrue(self.test_gene1.contains_mrna_with_id("BDOR_foo"))
-        self.assertFalse(self.test_gene1.contains_mrna_with_id("no_such_mrna_id"))
 
     def test_length_of_shortest_cds_segment(self):
         self.fake_mrna1.length_of_shortest_cds_segment.return_value = 358
@@ -178,8 +157,8 @@ class TestGene(unittest.TestCase):
         nice_gene = Gene(seq_name='fooseq', source='maker', indices=[-23, 127], strand='-', identifier='foo')
         mrna1 = Mock()
         mrna2 = Mock()
-        nice_gene.add_mrna(mrna1)
-        nice_gene.add_mrna(mrna2)
+        nice_gene.mrnas.append(mrna1)
+        nice_gene.mrnas.append(mrna2)
         nice_gene.clean_up_indices()
         self.assertEquals(1, nice_gene.indices[0])
         self.assertEquals(127, nice_gene.indices[1])
@@ -214,8 +193,8 @@ class TestGene(unittest.TestCase):
         nice_ind = PropertyMock(return_value = [100, 200])
         type(nice_mrna).indices = nice_ind
         junk_mrna = MRNA(identifier='junk', indices=[0, 0], parent_id='foo_gene')
-        gene.add_mrna(junk_mrna)
-        gene.add_mrna(nice_mrna) 
+        gene.mrnas.append(junk_mrna)
+        gene.mrnas.append(nice_mrna) 
         self.assertEquals(2, len(gene.mrnas))
         # should remove junk_mrna, keeping nice_mrna
         gene.remove_invalid_features()
@@ -231,8 +210,8 @@ class TestGene(unittest.TestCase):
         mrna1.to_tbl.return_value = "mrna1_to_tbl...\n"
         mrna2 = Mock()
         mrna2.to_tbl.return_value = "mrna2_to_tbl...\n"
-        gene.add_mrna(mrna1)
-        gene.add_mrna(mrna2)
+        gene.mrnas.append(mrna1)
+        gene.mrnas.append(mrna2)
         expected = "1\t50\tgene\n\t\t\tlocus_tag\tfoo_gene_1\n\t\t\tfoo\tdog\nmrna1_to_tbl...\nmrna2_to_tbl...\n"
         self.assertEquals(gene.to_tbl(), expected)
 
@@ -253,8 +232,8 @@ class TestGene(unittest.TestCase):
         mrna1.to_tbl.return_value = "mrna1_to_tbl...\n"
         mrna2 = Mock()
         mrna2.to_tbl.return_value = "mrna2_to_tbl...\n"
-        gene.add_mrna(mrna1)
-        gene.add_mrna(mrna2)
+        gene.mrnas.append(mrna1)
+        gene.mrnas.append(mrna2)
         expected = "50\t1\tgene\n\t\t\tlocus_tag\tfoo_gene_1\nmrna1_to_tbl...\nmrna2_to_tbl...\n"
         self.assertEquals(gene.to_tbl(), expected)
 
