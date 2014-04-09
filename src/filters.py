@@ -59,3 +59,19 @@ class IntronLengthRangeFilter:
                 elif self.max_length > 0 and mrna.get_longest_intron() > self.max_length:
                     mrna.exon.add_annotation("invalidated", "didn't pass intron_length_range with intron longer than "+str(self.max_length))
                     mrna.death_flagged = True # Destroy the mRNA that the intron lives on
+                    
+class GeneLengthRangeFilter:
+
+    def __init__(self, min_length = 0, max_length=0):
+        self.min_length = min_length
+        self.max_length = max_length
+        return
+        
+    def apply(self, seq):
+        for gene in seq.genes:
+            if gene.get_length() < self.min_length:
+                gene.add_annotation("invalidated", "didn't pass gene_length_range with gene shorter than "+str(self.min_length))
+                gene.death_flagged = True # Destroy the gene
+            elif self.max_length > 0 and gene.get_length() > self.max_length:
+                gene.add_annotation("invalidated", "didn't pass gene_length_range with gene longer than "+str(self.max_length))
+                gene.death_flagged = True # Destroy the gene

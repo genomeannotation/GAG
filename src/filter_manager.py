@@ -13,6 +13,7 @@ class FilterManager:
         self.filters['cds_length_range'] = CDSLengthRangeFilter()
         self.filters['exon_length_range'] = ExonLengthRangeFilter()
         self.filters['intron_length_range'] = IntronLengthRangeFilter()
+        self.filters['gene_length_range'] = IntronLengthRangeFilter()
         
         # Build args
         self.filter_args = dict()

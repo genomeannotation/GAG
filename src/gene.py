@@ -42,7 +42,7 @@ class Gene:
     def add_annotation(self, key, value):
         self.annotations.append([key, value])
 
-    def length(self):
+    def get_length(self):
         return length_of_segment(self.indices)
 
     def get_score(self):

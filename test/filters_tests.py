@@ -139,6 +139,36 @@ class TestFilters(unittest.TestCase):
         self.assertFalse(seq.genes[1].mrnas[0].death_flagged)
         self.assertTrue(seq.genes[1].mrnas[1].death_flagged)
         self.assertTrue(seq.genes[2].mrnas[0].death_flagged)
+        
+    def test_gene_length_range_filter(self):
+        gene_length_range = GeneLengthRangeFilter(30, 60)
+    
+        # Create a mock sequence
+        seq = Mock()
+        
+        # Give the mock sequence some mock genes
+        seq.genes = [Mock(), Mock(), Mock(), Mock(), Mock()]
+        
+        seq.genes[0].death_flagged = False
+        seq.genes[1].death_flagged = False
+        seq.genes[2].death_flagged = False
+        seq.genes[3].death_flagged = False
+        seq.genes[4].death_flagged = False
+        
+        seq.genes[0].get_length = Mock(return_value=20)
+        seq.genes[1].get_length = Mock(return_value=30)
+        seq.genes[2].get_length = Mock(return_value=45)
+        seq.genes[3].get_length = Mock(return_value=60)
+        seq.genes[4].get_length = Mock(return_value=70)
+        
+        # Apply the filter
+        gene_length_range.apply(seq)
+        
+        self.assertTrue(seq.genes[0].death_flagged)
+        self.assertFalse(seq.genes[1].death_flagged)
+        self.assertFalse(seq.genes[2].death_flagged)
+        self.assertFalse(seq.genes[3].death_flagged)
+        self.assertTrue(seq.genes[4].death_flagged)
 
 
 
