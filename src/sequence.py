@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import sys
+
 class Sequence:
 
     def __init__(self, header="", bases=""):
@@ -91,8 +93,9 @@ class Sequence:
         # Remove bases from sequence
         self.bases = self.bases[:start-1] + self.bases[stop:]
         to_remove = []
+        # Remove any genes that are entirely contained in the trimmed region
+        self.genes = [g for g in self.genes if not (start <= g.indices[0] and stop >= g.indices[1])]
         # Trim genes; remove any gene that loses its mRNAs in the process
-        # TODO if region *contains* gene, just remove gene.
         for gene in self.genes:
             gene.trim_region(start, stop)
             if not gene.mrnas:

@@ -12,6 +12,7 @@ class TestSequence(unittest.TestCase):
     def add_mock_gene(self):
         mockgene = Mock()
         mockgene.identifier = "foo_gene"
+        mockgene.indices = [2, 4]
         mockgene.death_flagged = False
         mockgene.get_valid_mrnas = Mock(return_value=[])
         self.seq1.add_gene(mockgene)
@@ -110,8 +111,14 @@ class TestSequence(unittest.TestCase):
 
     def test_trim_region_trims_gene(self):
         self.add_mock_gene()
-        self.seq1.trim_region(1, 4)
-        self.seq1.genes[0].trim_region.assert_called_with(1, 4)
+        self.seq1.trim_region(2, 3)
+        self.seq1.genes[0].trim_region.assert_called_with(2, 3)
+
+    def test_trim_region_removes_gene_contained_in_trimmed_region(self):
+        self.add_mock_gene()
+        self.assertEquals(1, len(self.seq1.genes))
+        self.seq1.trim_region(1, 5)
+        self.assertEquals(0, len(self.seq1.genes))
 
     def test_get_subseq(self):
         self.assertEquals("ATTA", self.seq1.get_subseq(2, 5))
