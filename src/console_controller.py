@@ -160,17 +160,6 @@ class ConsoleController:
 
 ## Manipulate genome
 
-    def ducttape(self):
-        # TODO
-        pass
-        #min_first_cds_segment_length = 3
-        #min_cds_length = 150
-        #if self.genome.genes:
-            #self.genome.rename_maker_mrnas()
-            #self.genome.remove_first_cds_segment_if_shorter_than(min_first_cds_segment_length)
-            #self.genome.create_starts_and_stops() 
-            #self.genome.remove_mrnas_with_cds_shorter_than(min_cds_length)
-
     def create_starts_and_stops(self):
         if not self.seqs:
             return self.no_genome_message
@@ -457,14 +446,6 @@ class ConsoleController:
                     outFile.write(seq.to_tbl())
                 outFile.close()
             return ".tbl file written to " + line + "\n"
-
-    def write_fasta(self, line):
-        if not self.seqs:
-            return self.no_genome_message
-        else:
-            with open(line, 'w') as outFile:
-                for seq in self.seqs:
-                    outFile.write(seq.to_fasta())
 
 ## Utilities
 
