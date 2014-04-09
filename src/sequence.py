@@ -90,6 +90,7 @@ class Sequence:
             return
         self.bases = self.bases[:start-1] + self.bases[stop:]
         offset = -(stop - start + 1)
+        # TODO hello, update features' indices by offset, duh.
         to_remove = []
         # TODO don't autoremove them; adjust indices and verify
         for gene in self.genes:

@@ -11,6 +11,24 @@ def length_of_segment(index_pair):
 def adjust_index_pair(index_pair, n):
     return [i + n for i in index_pair]
 
+def get_min_value(indices_list):
+    """Returns the smallest value in a list of lists (of indices)"""
+    min_value = indices_list[0][0]
+    for pair in indices_list:
+        for index in pair:
+            if index < min_value:
+                min_value = index
+    return min_value
+
+def get_max_value(indices_list):
+    """Returns the largest value in a list of lists (of indices)"""
+    max_value = indices_list[0][0]
+    for pair in indices_list:
+        for index in pair:
+            if index > max_value:
+                max_value = index
+    return max_value
+
 def get_reversed_indices(indices):
     indices.reverse()
     [ind.reverse() for ind in indices]
@@ -247,6 +265,20 @@ class CDS(GenePart):
         for i in range(len(self.phase)):
             if self.indices[i][0] < 1:
                 self.phase[i] = (self.phase[i] + self.indices[i][0] + -1) %3
+
+    def indices_intersect_cds(self, indices):
+        if len(indices) != 2 or not self.indices:
+            return False
+        begin = indices[0]
+        end = indices[1]
+        selfmin = get_min_value(self.indices)
+        selfmax = get_max_value(self.indices)
+        if selfmin < begin and selfmax > begin:
+            return True
+        elif selfmin < end and selfmax > end:
+            return True
+        else:
+            return False
          
     # Returns first and third indices regardless of whether 
     # CDS actually has a start codon

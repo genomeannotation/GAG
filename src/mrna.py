@@ -165,6 +165,90 @@ class MRNA:
                 return True
         return False
 
+    def indices_intersect_cds(self, indices):
+        if len(indices) != 2 or not self.cds:
+            return False
+        begin = indices[0]
+        end = indices[1]
+        # TODO
+        # get begin and end for cds; check and return a value
+        return False 
+
+    def to_gff(self, seq_name, source, strand, death_flagged_stuff=False):
+        if not death_flagged_stuff and self.death_flagged:
+            return ""
+    
+        result = seq_name + "\t" + source + "\t" + "mRNA" + "\t"
+        result += str(self.indices[0]) + "\t" + str(self.indices[1]) + "\t"
+        result += "." + "\t" + strand + "\t" + "." + "\t"
+        result += "ID=" + str(self.identifier)
+        result += ";Parent=" + str(self.parent_id)
+        for annot in self.annotations:
+            result += ';'+annot[0]+'='+annot[1]
+        result += '\n'
+        if self.exon:
+            result += self.exon.to_gff(seq_name, source, strand)
+        if self.cds:
+            result += self.cds.to_gff(seq_name, source, strand)
+        for other in self.other_features:
+            result += other.to_gff(seq_name, source, strand)
+        return result
+
+    def to_tbl_entries(self, annotator, strand):
+        entries = []
+
+        has_start = False
+        has_stop = False
+
+        for other in self.other_features:
+            if other.feature_type == 'start_codon':
+                has_start = True
+            elif other.feature_type == 'stop_codon':
+                has_stop = True
+
+        phase = 0
+        if self.cds != None:
+            phase = self.cds.get_phase(0)
+            cdsEntry = FeatureTblEntry()
+            cdsEntry.set_type("CDS")
+            cdsEntry.set_name(self.identifier)
+            for coord in self.cds.indices:
+                cdsEntry.add_coordinates(coord[0], coord[1])
+            cdsEntry.set_strand(strand)
+            cdsEntry.set_phase(phase)
+            cdsEntry.set_partial_info(has_start, has_stop)
+            annotator.annotate_cds(cdsEntry)
+            entries.append(cdsEntry)
+
+        if self.exon != None:
+            exonEntry = FeatureTblEntry()
+            exonEntry.set_type("mRNA")
+            exonEntry.set_name(self.identifier)
+            for coord in self.exon.indices:
+                exonEntry.add_coordinates(coord[0], coord[1])
+            exonEntry.set_strand(strand)
+            exonEntry.set_phase(phase)
+            exonEntry.set_partial_info(has_start, has_stop)
+            annotator.annotate_mrna(exonEntry)
+            entries.append(exonEntry)
+
+        return entries
+
+    def to_tbl(self, strand):
+        if self.death_flagged:
+            return ""
+    
+        has_start = self.has_start()
+        has_stop = self.has_stop()
+        output = ""
+        if self.exon:
+            output += self.exon.to_tbl(strand, has_start, has_stop)
+        if self.cds:
+            output += self.cds.to_tbl(strand, has_start, has_stop)
+        return output
+
+    ## STATS STUFF ##
+
     def get_longest_exon(self):
         if not self.exon:
             return 0
@@ -243,76 +327,3 @@ class MRNA:
             return len(self.exon.indices) - 1
         else:
             return 0
-
-    def to_gff(self, seq_name, source, strand, death_flagged_stuff=False):
-        if not death_flagged_stuff and self.death_flagged:
-            return ""
-    
-        result = seq_name + "\t" + source + "\t" + "mRNA" + "\t"
-        result += str(self.indices[0]) + "\t" + str(self.indices[1]) + "\t"
-        result += "." + "\t" + strand + "\t" + "." + "\t"
-        result += "ID=" + str(self.identifier)
-        result += ";Parent=" + str(self.parent_id)
-        for annot in self.annotations:
-            result += ';'+annot[0]+'='+annot[1]
-        result += '\n'
-        if self.exon:
-            result += self.exon.to_gff(seq_name, source, strand)
-        if self.cds:
-            result += self.cds.to_gff(seq_name, source, strand)
-        for other in self.other_features:
-            result += other.to_gff(seq_name, source, strand)
-        return result
-
-    def to_tbl_entries(self, annotator, strand):
-        entries = []
-
-        has_start = False
-        has_stop = False
-
-        for other in self.other_features:
-            if other.feature_type == 'start_codon':
-                has_start = True
-            elif other.feature_type == 'stop_codon':
-                has_stop = True
-
-        phase = 0
-        if self.cds != None:
-            phase = self.cds.get_phase(0)
-            cdsEntry = FeatureTblEntry()
-            cdsEntry.set_type("CDS")
-            cdsEntry.set_name(self.identifier)
-            for coord in self.cds.indices:
-                cdsEntry.add_coordinates(coord[0], coord[1])
-            cdsEntry.set_strand(strand)
-            cdsEntry.set_phase(phase)
-            cdsEntry.set_partial_info(has_start, has_stop)
-            annotator.annotate_cds(cdsEntry)
-            entries.append(cdsEntry)
-
-        if self.exon != None:
-            exonEntry = FeatureTblEntry()
-            exonEntry.set_type("mRNA")
-            exonEntry.set_name(self.identifier)
-            for coord in self.exon.indices:
-                exonEntry.add_coordinates(coord[0], coord[1])
-            exonEntry.set_strand(strand)
-            exonEntry.set_phase(phase)
-            exonEntry.set_partial_info(has_start, has_stop)
-            annotator.annotate_mrna(exonEntry)
-            entries.append(exonEntry)
-
-        return entries
-
-    def to_tbl(self, strand):
-        if self.death_flagged:
-            return ""
-    
-        has_start = self.has_start()
-        has_stop = self.has_stop()
-        output = ""
-        if self.exon:
-            output += self.exon.to_tbl(strand, has_start, has_stop)
-        if self.cds:
-            output += self.cds.to_tbl(strand, has_start, has_stop)
-        return output
