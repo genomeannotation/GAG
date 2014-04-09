@@ -20,12 +20,6 @@ def try_catch(command, args):
 
 class GagCmd(cmd.Cmd):
 
-    load_greeting = "Welcome to the GAG LOAD prompt.\n"+\
-            "Type the path to a folder containing your .fasta and .gff files.\n"+\
-            "To use the current directory, just hit enter.\n"+\
-            "You can type 'back' at any time to return to the main GAG console.\n"+\
-            "You'll be returned automatically once your genome is loaded.\n"
-
 ## Setup, loading and saving sessions, exit, etc.
 
     def __init__(self):
@@ -61,7 +55,7 @@ class GagCmd(cmd.Cmd):
 
     def do_load(self, line):
         loadcmd = LoadCmd(self.prompt, self.controller)
-        loadcmd.cmdloop(self.load_greeting)
+        loadcmd.cmdloop()
 
     def help_exit(self):
         print("Exit this console.\n")
@@ -222,10 +216,17 @@ def get_greeting():
 
 class LoadCmd(cmd.Cmd):
 
+    intro = "Welcome to the GAG LOAD prompt.\n"+\
+            "Type the path to a folder containing your .fasta and .gff files.\n"+\
+            "To use the current directory, just hit enter.\n"+\
+            "You can type 'back' at any time to return to the main GAG console.\n"+\
+            "You'll be returned automatically once your genome is loaded.\n"
+
     def __init__(self, prompt_prefix, controller):
         cmd.Cmd.__init__(self)
         self.prompt = prompt_prefix[:-2] + " LOAD> "
         self.controller = controller
+        self.return_all_the_way_back = False
         readline.set_history_length(1000)
         try:
             readline.read_history_file('.gaghistory')
@@ -240,13 +241,29 @@ class LoadCmd(cmd.Cmd):
         if hasattr(self, 'output') and self.output:
             print self.output
             self.output = None
-        return stop
+        if self.return_all_the_way_back:
+            return True
+        else:
+            return stop
 
     def help_back(self):
         print("Exit this console and return to the main GAG console.\n")
 
     def do_back(self, line):
         return True
+
+    def do_setreturnthing(self, line):
+        self.return_all_the_way_back = True
+
+    def do_level2(self, line):
+        return_all_the_way_back = False
+        level2cmd = LevelTwoCmd(self.prompt, return_all_the_way_back)
+        level2cmd.cmdloop("welcome to level 2, type 'goback' to get all the way back")
+        if return_all_the_way_back:
+            return True
+
+    def do_echoreturnthing(self, line):
+        print(str(self.return_all_the_way_back))
 
     def help_load(self):
         print("You're at the GAG LOAD prompt. Type the name or path of a folder containing a .fasta and .gff file.")
@@ -257,6 +274,18 @@ class LoadCmd(cmd.Cmd):
         self.output = try_catch(self.controller.load_folder, [line])
         if self.controller.seqs:
             return True
+
+class LevelTwoCmd(cmd.Cmd):
+
+    def __init__(self, prompt_prefix, return_all_the_way_back):
+        cmd.Cmd.__init__(self)
+        self.prompt = prompt_prefix[:-2] + " LEVEL2> "
+        self.return_all_the_way_back = return_all_the_way_back
+        
+    def do_goback(self, line):
+        self.return_all_the_way_back = True
+        print(str(self.return_all_the_way_back))
+        return True
             
 ################################################
 
