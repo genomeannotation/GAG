@@ -113,6 +113,16 @@ class TestGene(unittest.TestCase):
         self.test_gene0.trim_region(16, 25)
         self.assertEquals([16, 30], self.test_gene0.indices)
 
+    def test_trim_region_adjusts_indices_correctly_when_region_overlaps_gene_end(self):
+        self.test_gene0 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[20, 40], strand='+', identifier=1)
+        self.test_gene0.trim_region(35, 45)
+        self.assertEquals([20, 34], self.test_gene0.indices)
+
+    def test_trim_region_adjusts_indices_correctly_when_region_is_contained_inside_gene(self):
+        self.test_gene0 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[20, 40], strand='+', identifier=1)
+        self.test_gene0.trim_region(25, 35)
+        self.assertEquals([20, 29], self.test_gene0.indices)
+
     def test_get_partial_info(self):
         self.fake_mrna1.has_stop.return_value = True
         self.fake_mrna1.has_start.return_value = True

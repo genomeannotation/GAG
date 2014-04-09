@@ -176,6 +176,8 @@ class Gene:
 
         If trimmed region intersects an mRNA, the mRNA is removed.
         If trimmed region occurs after the gene, nothing happens."""
+        self.indices[0] = self.indices[0]
+        self.indices[1] = self.indices[1]
         # Do nothing if trimmed region comes after gene
         if start > self.indices[1]:
             return
@@ -187,6 +189,8 @@ class Gene:
             for mrna in self.mrnas:
                 mrna.adjust_indices(offset)
         # If trimmed region includes gene, be careful.
+        # Either it trims the beginning, middle or end of the gene.
+        # (Case where entire gene is trimmed should be dealt with by sequence.)
         else:
             # Remove any mRNAs that intersect the trimmed region,
             to_remove = []
@@ -194,15 +198,24 @@ class Gene:
                 if mrna.indices_intersect_mrna([start, stop]):
                     to_remove.append(mrna)
             self.mrnas = [m for m in self.mrnas if m not in to_remove]
-            # Move beginning index of gene to one base past the trimmed region
-            print(str(self.indices))
-            self.indices[0] = stop + 1
-            print(str(self.indices))
-            # Adjust indices on self and remaining mRNAs
-            offset = -(stop - start + 1)
-            self.adjust_indices(offset, start)
-            for mrna in self.mrnas:
-                mrna.adjust_indices(offset, start)
+            if self.indices[0] >= start and self.indices[0] <= stop and stop <= self.indices[1]: # Beginning of gene is trimmed
+                # Move beginning index of gene to one base past the trimmed region
+                self.indices[0] = stop + 1
+                print("*****")
+                print(self.indices[0])
+                # Adjust indices on self and remaining mRNAs
+                offset = -(stop - start + 1)
+                self.adjust_indices(offset)
+                for mrna in self.mrnas:
+                    mrna.adjust_indices(offset)
+            elif self.indices[0] <= start and start <= self.indices[1] and self.indices[1] <= stop: # End of gene is trimmed
+                # Move end index of gene to one base before the trimmed region
+                offset = -(self.indices[1] - start + 1)
+                self.adjust_indices(offset, start) # Will not touch gene_start
+            else: # Middle of gene is trimmed
+                offset = -(stop - start + 1)
+                self.adjust_indices(offset, stop)
+                
 
     def get_partial_info(self):
         results = {"complete": 0, "start_no_stop": 0, "stop_no_start": 0, "no_stop_no_start": 0}
