@@ -43,37 +43,6 @@ class GagCmd(cmd.Cmd):
             self.output = None
         return stop
 
-    def parseline(self, line):
-        if '|' in line:
-            commands = ['']
-            quotes = ''
-            for c in line:
-                if c == '|' and quotes == '':
-                    commands[-1] = commands[-1].strip()
-                    commands.append('')
-                else:
-                    if quotes == '' and (c == "'" or c == '"'):
-                        quotes = c
-                    elif quotes == c:
-                        quotes = ''
-                    commands[-1] += c
-            commands[-1] = commands[-1].strip()
-            if len(commands) > 1:
-                return 'pipe', commands, line
-        return cmd.Cmd.parseline(self, line)
-
-    def do_pipe(self, args):
-        buf = None
-        for arg in args:
-            if buf:
-                self.controller.input = buf
-            else:
-                self.controller.input = ''
-            self.output = ''
-            self.onecmd(arg)
-            if hasattr(self, 'output') and self.output:
-                buf = self.output
-
     def help_barffolder(self):
         print("Usage: barffolder <directory>\n")
         print("Writes gff, fasta and trinotate files to the specified directory.\n")
