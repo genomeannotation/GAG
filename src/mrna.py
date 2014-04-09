@@ -90,18 +90,24 @@ class MRNA:
                 self.cds.identifier = self.cds.identifier[1:]
                 self.cds.phase = self.cds.phase[1:]
 
-    def trim_end(self, endindex):
-        if self.indices[0] > endindex:
-            self.indices[0] = 0
-            self.indices[1] = 0
-        elif self.indices[1] > endindex:
-            self.indices[1] = endindex
-            if self.cds:
-                self.cds.trim_end(endindex)
-            if self.exon:
-                self.exon.trim_end(endindex)
-            for feat in self.other_features:
-                feat.trim_end(endindex)
+    def indices_intersect_mrna(self, indices):
+        if len(indices) != 2:
+            return False
+        begin = indices[0]
+        end = indices[1]
+        self_start = self.indices[0]
+        self_end = self.indices[1]
+        # mrna contains beginning of indices
+        if self_start <= begin and self_end >= begin:
+            return True
+        # mrna contains end of indices
+        elif self_start <= end and self_end >= end:
+            return True
+        # indices contain entire mrna
+        elif begin <= self_start and end >= self_end:
+            return True
+        else:
+            return False
 
     def remove_invalid_features(self):
         if self.cds:

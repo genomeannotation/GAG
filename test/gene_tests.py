@@ -92,6 +92,22 @@ class TestGene(unittest.TestCase):
         self.fake_mrna2.get_num_introns.return_value = 2
         self.assertEquals(5, self.test_gene1.get_num_introns())
 
+    def test_trim_region_does_nothing_when_region_is_after_gene(self):
+        self.test_gene0 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[20, 40], strand='+', identifier=1)
+        self.test_gene0.trim_region(45, 50)
+        self.assertEquals([20, 40], self.test_gene0.indices)
+
+    def test_trim_region_adjusts_indices_when_region_is_before_gene(self):
+        self.test_gene0 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[20, 40], strand='+', identifier=1)
+        self.test_gene0.trim_region(11, 15)
+        self.assertEquals([15, 35], self.test_gene0.indices)
+
+    def test_trim_region_handles_child_mrnas(self):
+        self.test_gene0 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[20, 40], strand='+', identifier=1)
+        self.test_gene0.mrnas = [Mock()]
+        self.test_gene0.trim_region(11, 15)
+        self.test_gene0.mrnas[0].adjust_indices.assert_called_with(-5)
+
     def test_get_partial_info(self):
         self.fake_mrna1.has_stop.return_value = True
         self.fake_mrna1.has_start.return_value = True
@@ -142,27 +158,6 @@ class TestGene(unittest.TestCase):
         expected = "Gene (ID=1, seq_name=sctg_0080_0020) containing 2 mrnas"
         self.assertEquals(expected, str(self.test_gene1))
 
-    def test_trim_end(self):
-        self.test_gene1.trim_end(7400)
-        self.assertEquals(3734, self.test_gene1.indices[0])
-        self.assertEquals(7400, self.test_gene1.indices[1])
-        # verify recursive call on child mrnas
-        self.fake_mrna1.trim_end.assert_called_with(7400)
-        self.fake_mrna2.trim_end.assert_called_with(7400)
-        # if trim before beginning of gene, mark for removal
-        # by setting indices = [0, 0]
-        self.test_gene1.trim_end(50)
-        self.assertEquals(0, self.test_gene1.indices[0])
-        self.assertEquals(0, self.test_gene1.indices[1])
-
-    def test_trim_begin(self):
-        self.test_gene1.trim_begin(10)
-        self.assertEquals(3725, self.test_gene1.indices[0])
-        self.assertEquals(7427, self.test_gene1.indices[1])
-        # should call adjust_indices on child mrnas ...
-        self.fake_mrna1.adjust_indices.assert_called_with(-9, 1)
-        self.fake_mrna2.adjust_indices.assert_called_with(-9, 1)
-        
     def test_clean_up_indices(self):
         # if indices[0] < 1, set to 1 
         nice_gene = Gene(seq_name='fooseq', source='maker', indices=[-23, 127], strand='-', identifier='foo')
@@ -212,46 +207,6 @@ class TestGene(unittest.TestCase):
         self.assertEquals(1, len(gene.mrnas))
         # should call recursively on any mrnas not discarded
         nice_mrna.remove_invalid_features.assert_called_with()
-
-    def test_trim(self):
-        gene = Gene(seq_name='sctg_foo', source='maker', indices=[100, 200], strand='-', identifier='foo_gene')
-        # set up mocks...
-        nice_mrna = Mock()
-        nice_ind = PropertyMock(return_value = [100, 200])
-        type(nice_mrna).indices = nice_ind
-        bad_mrna = Mock()
-        bad_ind = PropertyMock(return_value = [0, 0])
-        type(bad_mrna).indices = bad_ind
-        # add mocks...
-        gene.add_mrna(nice_mrna)
-        gene.add_mrna(bad_mrna)
-        # starting off with two mrnas
-        self.assertEquals(2, len(gene.mrnas))
-        # trim...
-        bed_indices = [120, 180]
-        gene.trim(bed_indices)
-        # verify new indices for gene
-        self.assertEquals(1, gene.indices[0])
-        self.assertEquals(61, gene.indices[1])
-        # verify appropriate calls were made to child mrnas
-        nice_mrna.trim_end.assert_called_with(180)
-        bad_mrna.trim_end.assert_called_with(180)
-        nice_mrna.adjust_indices.assert_called_with(-119, 1)
-        bad_mrna.adjust_indices.assert_called_with(-119, 1)
-        nice_mrna.adjust_phase.assert_called_with()
-        bad_mrna.adjust_phase.assert_called_with()
-        nice_mrna.clean_up_indices.assert_called_with()
-        bad_mrna.clean_up_indices.assert_called_with()
-        nice_mrna.remove_invalid_features.assert_called_with()
-        # verify bad_mrna was removed
-        self.assertEquals(1, len(gene.mrnas))
-
-        # if indices=[0, 0] then remove all features
-        # and mark gene for removal
-        self.assertEquals(2, len(self.test_gene1.mrnas))
-        self.test_gene1.trim([0, 0])
-        self.assertEquals(0, len(self.test_gene1.mrnas))
-        self.assertEquals([0, 0], self.test_gene1.indices)
 
     def test_to_tbl_positive(self):
         gene = Gene(seq_name="seq1", source="maker", indices=[1, 50], strand="+", identifier="foo_gene_1")

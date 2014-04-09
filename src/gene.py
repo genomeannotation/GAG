@@ -6,10 +6,6 @@ from src.feature_tbl_entry import FeatureTblEntry
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
 
-def trimmed_completely(gene_inds, seq_inds):
-    return seq_inds == [0, 0] or gene_inds[0] > seq_inds[1] \
-                              or gene_inds[1] < seq_inds[0]
-
 class Gene:
 
     def __init__(self, seq_name, source, indices, strand, identifier, annotations=None, score=None):
@@ -116,19 +112,6 @@ class Gene:
             total += mrna.get_num_introns()
         return total
     
-    def trim_end(self, endindex):
-        if self.indices[0] > endindex:
-            self.indices[0] = 0
-            self.indices[1] = 0
-        elif self.indices[1] > endindex:
-            self.indices[1] = endindex
-            for mrna in self.mrnas:
-                mrna.trim_end(endindex)
-
-    # beginindex is the new start index of sequence
-    def trim_begin(self, beginindex):
-        self.adjust_indices(-beginindex + 1, 1)
-
     def clean_up_indices(self):
         if self.indices[1] < 1:
             self.indices[0] = 0
@@ -164,6 +147,7 @@ class Gene:
         return min_length
 
     def adjust_indices(self, n, start_index=1):
+        """Adds 'n' to both indices, checking to ensure that they fall after an optional start index"""
         if self.indices[0] >= start_index:
             self.indices = [i + n for i in self.indices]
         elif self.indices[1] >= start_index:
@@ -187,17 +171,26 @@ class Gene:
             if not mrna.exon.invalidate_region(start, stop):
                 mrna.death_flagged = True
 
-    def trim(self, new_indices):
-        if trimmed_completely(self.indices, new_indices):
-            self.mrnas = []
-            self.indices = [0, 0]
-        else:
-            self.trim_end(new_indices[1])
-            self.trim_begin(new_indices[0])
+    def trim_region(self, start, stop):
+        # TODO # What if trimmed region contains gene entirely?
+        # Do nothing if trimmed region comes after gene
+        if start > self.indices[0]:
+            return
+        # If trimmed region came before beginning of gene, just adjust indices
+        # and call adjust_indices on child mRNAs
+        elif stop < self.indices[1]:
+            offset = -(stop - start + 1)
+            self.adjust_indices(offset)
             for mrna in self.mrnas:
-                mrna.adjust_phase()
-            self.clean_up_indices()
-            self.remove_invalid_features()
+                mrna.adjust_indices(offset)
+            return
+        # If trimmed region includes gene, be careful
+        # Remove any mRNAs that intersect the trimmed region,
+        # then adjust indices on self and any remaining mRNAs
+        else:
+            
+            # TODO
+            return
 
     def get_partial_info(self):
         results = {"complete": 0, "start_no_stop": 0, "stop_no_start": 0, "no_stop_no_start": 0}

@@ -109,12 +109,9 @@ class TestSequence(unittest.TestCase):
         self.assertEquals("ACA", self.seq1.bases)
 
     def test_trim_region_trims_gene(self):
-        # TODO don't remove gene, trim its indices and verify?
         self.add_mock_gene()
-        self.seq1.genes[0].indices = [3, 7]
-        self.assertEquals(1, len(self.seq1.genes))
         self.seq1.trim_region(1, 4)
-        self.assertEquals(0, len(self.seq1.genes))
+        self.seq1.genes[0].trim_region.assert_called_with(1, 4)
 
     def test_get_subseq(self):
         self.assertEquals("ATTA", self.seq1.get_subseq(2, 5))

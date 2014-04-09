@@ -122,19 +122,16 @@ class TestMRNA(unittest.TestCase):
         self.test_mrna1.remove_first_cds_segment_if_shorter_than(4)
         self.assertEquals(2, len(self.test_mrna1.cds.indices))
 
-    def test_trim_end(self):
-        self.test_mrna1.trim_end(7400)
-        self.assertEquals(3734, self.test_mrna1.indices[0])
-        self.assertEquals(7400, self.test_mrna1.indices[1])
-        # verify recursive call on child features
-        self.fake_exon.trim_end.assert_called_with(7400)
-        self.fake_cds.trim_end.assert_called_with(7400)
-        self.fake_start_codon.trim_end.assert_called_with(7400)
-        # if trim before mrna begin, mark for removal
-        #    by changing indices to [0, 0]
-        self.test_mrna1.trim_end(50)
-        self.assertEquals(0, self.test_mrna1.indices[0])
-        self.assertEquals(0, self.test_mrna1.indices[1])
+    def test_indices_intersect_mrna_false(self):
+        mrna = MRNA(identifier=1, indices=[10, 20], parent_id='foo')
+        self.assertFalse(mrna.indices_intersect_mrna([5, 9]))
+        self.assertFalse(mrna.indices_intersect_mrna([21, 25]))
+
+    def test_indices_intersect_mrna_true(self):
+        mrna = MRNA(identifier=1, indices=[10, 20], parent_id='foo')
+        self.assertTrue(mrna.indices_intersect_mrna([5, 10]))
+        self.assertTrue(mrna.indices_intersect_mrna([20, 25]))
+        self.assertTrue(mrna.indices_intersect_mrna([9, 21]))
 
     def test_adjust_phase(self):
         # just need to verify call to child cds
