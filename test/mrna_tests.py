@@ -237,9 +237,13 @@ class TestMRNA(unittest.TestCase):
         expected = "fake_exon_to_tbl...\nfake_cds_to_tbl...\n"
         self.assertEquals(self.test_mrna1.to_tbl("+"), expected)
 
-    def test_indices_intersect_cds(self):
-        self.fake_cds.indices = [[10, 20], [30, 40]]
+    def test_indices_intersect_cds_false(self):
+        self.fake_cds.indices_intersect_cds.return_value = False
         self.assertFalse(self.test_mrna1.indices_intersect_cds([1, 9]))
+
+    def test_indices_intersect_cds_true(self):
+        self.fake_cds.indices_intersect_cds.return_value = True
+        self.assertTrue(self.test_mrna1.indices_intersect_cds([1, 9]))
 
 
     ## STATS STUFF ##

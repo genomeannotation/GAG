@@ -166,13 +166,10 @@ class MRNA:
         return False
 
     def indices_intersect_cds(self, indices):
-        if len(indices) != 2 or not self.cds:
+        if not self.cds:
             return False
-        begin = indices[0]
-        end = indices[1]
-        # TODO
-        # get begin and end for cds; check and return a value
-        return False 
+        else:
+            return self.cds.indices_intersect_cds(indices)
 
     def to_gff(self, seq_name, source, strand, death_flagged_stuff=False):
         if not death_flagged_stuff and self.death_flagged:

@@ -267,15 +267,19 @@ class CDS(GenePart):
                 self.phase[i] = (self.phase[i] + self.indices[i][0] + -1) %3
 
     def indices_intersect_cds(self, indices):
+        """Returns True if the provided indices fall within the CDS region.
+
+        If the indices actually fall between CDS segments (i.e. in an intron)
+        it still returns True -- this is only checking the beginning and end of the CDS"""
         if len(indices) != 2 or not self.indices:
             return False
         begin = indices[0]
         end = indices[1]
         selfmin = get_min_value(self.indices)
         selfmax = get_max_value(self.indices)
-        if selfmin < begin and selfmax > begin:
+        if selfmin <= begin and selfmax >= begin:
             return True
-        elif selfmin < end and selfmax > end:
+        elif selfmin <= end and selfmax >= end:
             return True
         else:
             return False

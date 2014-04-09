@@ -180,9 +180,14 @@ class TestCDS(unittest.TestCase):
         for phase in self.extra_phases:
             self.test_cds1.add_phase(phase)
 
-    def test_indices_intersect_cds(self):
+    def test_indices_intersect_cds_false(self):
         self.assertFalse(self.test_cds1.indices_intersect_cds([3720, 3733]))
+        self.assertFalse(self.test_cds1.indices_intersect_cds([7437, 8000]))
 
+    def test_indices_intersect_cds_true(self):
+        self.assertTrue(self.test_cds1.indices_intersect_cds([3730, 3734]))
+        self.assertTrue(self.test_cds1.indices_intersect_cds([7436, 7500]))
+        self.assertTrue(self.test_cds1.indices_intersect_cds([4000, 4500]))
 
     def test_get_start_indices_pos_strand(self):
         expected = [3734, 3736]
