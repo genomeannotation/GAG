@@ -13,7 +13,6 @@ class GFFReader:
         self.genes = {}
         self.mrnas = {}
         self.orphans = []
-        self.current_line = 0 # Not even reading a file yet
         self.give_up = False # we are strong for now
         self.skipped_features = 0
 
@@ -196,8 +195,6 @@ class GFFReader:
         parent_mrna.other_features.append(GenePart(**kwargs))
 
     def read_file(self, reader):
-        self.current_line = 0 # aaaand begin!
-
         # First pass, pulling out all genes and mRNAs
         #  and placing child features if possible
         for line in reader:
@@ -205,8 +202,6 @@ class GFFReader:
                 continue
             if self.give_up:
                 return
-
-            self.current_line += 1
             splitline = self.validate_line(line)
             if splitline:
                 self.process_line(splitline)
