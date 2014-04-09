@@ -29,7 +29,7 @@ class TestGene(unittest.TestCase):
         self.assertTrue(self.test_gene1.is_empty())
 
     def test_length(self):
-        self.assertEqual(3703, self.test_gene0.get_length())
+        self.assertEqual(3703, self.test_gene0.length())
 
     def test_add_mrna(self):
         self.assertEquals(0, len(self.test_gene0.mrnas))

@@ -155,11 +155,11 @@ class TestFilters(unittest.TestCase):
         seq.genes[3].death_flagged = False
         seq.genes[4].death_flagged = False
         
-        seq.genes[0].get_length = Mock(return_value=20)
-        seq.genes[1].get_length = Mock(return_value=30)
-        seq.genes[2].get_length = Mock(return_value=45)
-        seq.genes[3].get_length = Mock(return_value=60)
-        seq.genes[4].get_length = Mock(return_value=70)
+        seq.genes[0].length = Mock(return_value=20)
+        seq.genes[1].length = Mock(return_value=30)
+        seq.genes[2].length = Mock(return_value=45)
+        seq.genes[3].length = Mock(return_value=60)
+        seq.genes[4].length = Mock(return_value=70)
         
         # Apply the filter
         gene_length_range.apply(seq)

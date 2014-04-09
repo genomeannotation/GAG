@@ -69,9 +69,9 @@ class GeneLengthRangeFilter:
         
     def apply(self, seq):
         for gene in seq.genes:
-            if gene.get_length() < self.min_length:
+            if gene.length() < self.min_length:
                 gene.add_annotation("invalidated", "didn't pass gene_length_range with gene shorter than "+str(self.min_length))
                 gene.death_flagged = True # Destroy the gene
-            elif self.max_length > 0 and gene.get_length() > self.max_length:
+            elif self.max_length > 0 and gene.length() > self.max_length:
                 gene.add_annotation("invalidated", "didn't pass gene_length_range with gene longer than "+str(self.max_length))
                 gene.death_flagged = True # Destroy the gene
