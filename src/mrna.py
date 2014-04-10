@@ -95,28 +95,6 @@ class MRNA:
         else:
             return False
 
-    def remove_invalid_features(self):
-        if self.cds:
-            self.cds.remove_trimmed_segments()
-            ind = self.cds.indices
-            if len(ind) == 0:
-                self.cds = None
-        if self.exon:
-            self.exon.remove_trimmed_segments()
-            if len(self.exon.indices) == 0:
-                self.exon = None
-        invalid_features = []
-        for i, feat in enumerate(self.other_features):
-            self.other_features[i].remove_trimmed_segments()
-            if len(feat.indices) == 0:
-                invalid_features.append(i)
-            elif feat.feature_type == 'start_codon' \
-                    or feat.feature_type == 'stop_codon':
-                if not feat.valid_codon():
-                    invalid_features.append(i)
-        for j in reversed(invalid_features):
-            self.other_features.pop(j)
-
     def add_other_feature(self, feature):
         self.other_features.append(feature)
 

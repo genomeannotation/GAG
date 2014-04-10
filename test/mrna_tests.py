@@ -155,46 +155,6 @@ class TestMRNA(unittest.TestCase):
         self.test_mrna0.create_start_and_stop_if_necessary(seq_object, strand)
         self.assertFalse(self.test_mrna0.other_features)
 
-    def test_remove_invalid_features(self):
-        mrna = MRNA(identifier=1, indices=[20, 50], parent_id='foo') 
-        # set up mocks...
-        nice_exon = Mock()
-        nice1 = PropertyMock(return_value = [10, 50])
-        type(nice_exon).indices = nice1
-
-        empty_cds = Mock() 
-        empty_stop_codon = Mock()
-        empty = PropertyMock(return_value=[])
-        type(empty_cds).indices = empty
-        type(empty_stop_codon).indices = empty
-
-        invalid_start_codon = Mock()
-        invalid_start_codon.valid_codon.return_value = False
-        invalid1 = PropertyMock(return_value = [1, 2])
-        starttype = PropertyMock(return_value = 'start_codon')
-        type(invalid_start_codon).indices = invalid1
-        type(invalid_start_codon).feature_type = starttype
-
-        nice_utr = Mock()
-        nice2 = PropertyMock(return_value = [1, 9])
-        type(nice_utr).indices = nice2
-
-        # add mock features
-        mrna.exon = nice_exon
-        mrna.cds = empty_cds
-        mrna.add_other_feature(empty_stop_codon)
-        mrna.add_other_feature(nice_utr)
-        mrna.add_other_feature(invalid_start_codon)
-
-        # (finally) run test
-        self.assertEquals(3, len(mrna.other_features))
-        self.assertTrue(mrna.cds)
-        self.assertTrue(mrna.exon)
-        mrna.remove_invalid_features()
-        self.assertFalse(mrna.cds)
-        self.assertTrue(mrna.exon)
-        self.assertEquals(1, len(mrna.other_features))
-
     def test_to_tbl(self):
         self.fake_exon.to_tbl.return_value = "fake_exon_to_tbl...\n"
         self.fake_cds.to_tbl.return_value = "fake_cds_to_tbl...\n"

@@ -108,12 +108,6 @@ class Gene:
             for mrna in self.mrnas:
                 mrna.remove_first_cds_segment_if_shorter_than(min_length)
 
-    def remove_invalid_features(self):
-        # remove mrnas with indices[0] == 0
-        self.mrnas = [m for m in self.mrnas if m.indices[0] != 0]
-        for mrna in self.mrnas:
-            mrna.remove_invalid_features()
-
     def length_of_shortest_cds_segment(self):
         min_length = self.mrnas[0].length_of_shortest_cds_segment()
         if len(self.mrnas) == 1:

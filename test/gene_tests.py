@@ -166,21 +166,6 @@ class TestGene(unittest.TestCase):
         self.fake_mrna1.remove_first_cds_segment_if_shorter_than.assert_called_with(4)
         self.fake_mrna2.remove_first_cds_segment_if_shorter_than.assert_called_with(4)
         
-    def test_remove_invalid_features(self):
-        gene = Gene(seq_name="sctg_foo", source='maker', indices=[100, 200], strand='-', identifier='foo_gene')
-        nice_mrna = Mock()
-        nice_ind = PropertyMock(return_value = [100, 200])
-        type(nice_mrna).indices = nice_ind
-        junk_mrna = MRNA(identifier='junk', indices=[0, 0], parent_id='foo_gene')
-        gene.mrnas.append(junk_mrna)
-        gene.mrnas.append(nice_mrna) 
-        self.assertEquals(2, len(gene.mrnas))
-        # should remove junk_mrna, keeping nice_mrna
-        gene.remove_invalid_features()
-        self.assertEquals(1, len(gene.mrnas))
-        # should call recursively on any mrnas not discarded
-        nice_mrna.remove_invalid_features.assert_called_with()
-
     def test_to_tbl_positive(self):
         gene = Gene(seq_name="seq1", source="maker", indices=[1, 50], strand="+", identifier="foo_gene_1")
         self.assertFalse(gene.annotations)

@@ -119,26 +119,6 @@ class GenePart:
     def get_phase(self, i):
         return "."
 
-    def remove_segment(self, segindex):
-        try:
-            self.identifier.pop(segindex)
-            self.indices.pop(segindex)
-        except IndexError:
-            sys.stderr.write("Trying to remove nonexistent segment " + \
-                             str(segindex) + " from " + str(self))
-        if len(self.score) > segindex:
-            self.score.pop(segindex)
-        if self.feature_type == 'CDS' and len(self.phase) > segindex:
-            self.phase.pop(segindex)
-
-    def remove_trimmed_segments(self):
-        segs_to_trim = []
-        for i in xrange(len(self.indices)):
-            if self.indices[i][0] == 0:
-                segs_to_trim.append(i)
-        for j in reversed(segs_to_trim):
-            self.remove_segment(j)
-
     def adjust_indices(self, n, start_index=1):
         for i, index_pair in enumerate(self.indices):
             if index_pair[0] >= start_index:
