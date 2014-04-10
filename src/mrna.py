@@ -36,9 +36,6 @@ class MRNA:
     def length(self):
         return length_of_segment(self.indices)
 
-    def is_maker_mrna(self):
-        return 'maker' in self.identifier
-
     def adjust_indices(self, n, start_index=1):
         if self.indices[0] > start_index:
             self.indices = [i + n for i in self.indices]

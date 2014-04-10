@@ -213,11 +213,6 @@ class TestMRNA(unittest.TestCase):
         self.assertTrue(mrna.exon)
         self.assertEquals(1, len(mrna.other_features))
 
-    def test_is_maker_mrna(self):
-        maker_mrna = MRNA(identifier='maker-foo-mrna-bar', indices=[3734, 7436], parent_id=1)
-        self.assertFalse(self.test_mrna0.is_maker_mrna())
-        self.assertTrue(maker_mrna.is_maker_mrna())
-
     def test_to_tbl(self):
         self.fake_exon.to_tbl.return_value = "fake_exon_to_tbl...\n"
         self.fake_cds.to_tbl.return_value = "fake_cds_to_tbl...\n"
