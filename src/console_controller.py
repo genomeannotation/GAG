@@ -177,20 +177,6 @@ class ConsoleController:
             if args:
                 self.seqs = [s for s in self.seqs if s.header in args]
 
-    def duct_tape_seq_frames(self, line):
-        result = ''
-        args = None        
-
-        if len(line) > 0:
-            args = line.split()
-        else:
-            args = self.input.split('\n')
-
-        for yarg in args: # I'm a pirate
-            result += self.ducttape_mrna_seq_frame(yarg)
-        return result
-
-
     def removemrna(self, line):
         args = None        
 
@@ -202,19 +188,6 @@ class ConsoleController:
         for seq in self.seqs:
             seq.remove_mrna(args)
                         
-    def rename_maker_mrnas(self):
-        locus_tag = self.get_locus_tag()
-        count = 1000000
-        for seq in self.seqs:
-            for gene in seq.genes:
-                for mrna in gene.mrnas:
-                    if mrna.is_maker_mrna():
-                        old_name = mrna.identifier
-                        new_name = locus_tag + '_' + str(count)
-                        mrna.identifier = new_name
-                        self.annot.rename_mrna(old_name, new_name)
-                        count += 1
-
     def ducttape_mrna_seq_frame(self, name):
         for seq in self.seqs:
             for gene in seq.genes:
@@ -329,17 +302,6 @@ class ConsoleController:
         else:
             # TODO take multiple args?
             self.seqs = [s for s in self.seqs if s.header != line]
-
-    def check_gene_for_invalid_begin_or_end(self, line):
-        # TODO this should probably just check all genes instead of taking args
-        #args = []
-        #if len(line) > 0:
-            #args = line.split()
-        #else:
-            #args = self.input.split('\n')
-        #for arg in args:
-            #self.genome.check_gene_for_invalid_begin_or_end(arg)
-        pass
 
     def invalidate_region(self, line):
         if not self.seqs:
