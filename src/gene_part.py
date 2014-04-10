@@ -148,7 +148,7 @@ class GenePart:
 
     # Returns true if it survives invalidation. Returns false if the mRNA it lives on needs to die
     def invalidate_region(self, start, stop):
-        for i, index in enumerate(self.indices):
+        for index in self.indices:
             # Index range contained in invalid region, 
             # mark for removal
             if start <= index[0] and stop >= index[1]:
