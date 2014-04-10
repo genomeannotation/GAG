@@ -50,8 +50,9 @@ class GagCmd(cmd.Cmd):
         self.output = try_catch(self.controller.barf_folder, [line])
 
     def help_load(self):
-        print("This command takes you the GAG LOAD prompt. There you can specify the location of")
+        print("This command takes you the GAG LOAD menu. There you can specify the location of")
         print("your files and load them into memory.")
+        print("Alternately, just type 'load <path>' and avoid the submenu altogether.")
 
     def do_load(self, line):
         path_to_load = line.strip()
