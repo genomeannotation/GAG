@@ -171,7 +171,7 @@ class Sequence:
         for gene in self.get_valid_genes():
             for mrna in gene.get_valid_mrnas():
                 if mrna.cds != None:
-                    count+=1
+                    count += 1
         return count
 
     def get_cds_partial_info(self):
