@@ -3,7 +3,6 @@
 
 import os
 import sys
-import csv
 import subprocess
 import glob
 import copy
@@ -12,7 +11,6 @@ from src.gff_reader import GFFReader
 from src.annotator import Annotator
 from src.filter_manager import FilterManager
 from src.stats_manager import StatsManager
-from src.translate import translate
 
 class ConsoleController:
 
