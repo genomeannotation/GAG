@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import sys
 import copy
 from src.gene_part import GenePart, CDS, Exon
 from src.mrna import MRNA
@@ -216,6 +217,6 @@ class GFFReader:
             parent_gene.mrnas.append(mrna)
 
         if self.skipped_features > 0:
-            print("Warning: skipped "+str(self.skipped_features)+" uninteresting features.")
+            sys.stderr.write("Warning: skipped "+str(self.skipped_features)+" uninteresting features.")
         return self.genes.values()
 
