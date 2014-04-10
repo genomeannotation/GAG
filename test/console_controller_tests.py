@@ -39,6 +39,13 @@ class TestConsoleController(unittest.TestCase):
         gene3.identifier = "gene3"
         self.ctrlr.add_gene(gene3)
 
+    def test_clear_seqs(self):
+        self.setup_seqs()
+        self.assertEquals(3, len(self.ctrlr.seqs))
+        self.ctrlr.clear_seqs()
+        self.assertEquals(0, len(self.ctrlr.seqs))
+
+
     def test_add_gene(self):
         self.setup_seqs()
         gene1 = Mock()

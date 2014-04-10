@@ -363,3 +363,5 @@ class ConsoleController:
                 locus_tag = seq.get_locus_tag()
         return locus_tag
     
+    def clear_seqs(self):
+        self.seqs[:] = []
