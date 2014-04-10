@@ -128,24 +128,6 @@ class TestMRNA(unittest.TestCase):
         self.test_mrna1.adjust_phase()
         self.fake_cds.adjust_phase.assert_called_with()
 
-    def test_clean_up_indices(self):
-        nice_mrna = MRNA(identifier=1, indices=[-10, 200], parent_id='foo')
-        junk_mrna = MRNA(identifier=2, indices=[-300, -200], parent_id='bar')
-        nice_mrna.clean_up_indices()
-        self.assertEquals(1, nice_mrna.indices[0])
-        self.assertEquals(200, nice_mrna.indices[1])
-        junk_mrna.clean_up_indices()
-        self.assertEquals(0, junk_mrna.indices[0])
-        self.assertEquals(0, junk_mrna.indices[1])
-        # test recursive call
-        codon = Mock()
-        exon = Mock()
-        nice_mrna.add_other_feature(codon)
-        nice_mrna.exon = exon
-        nice_mrna.clean_up_indices()
-        codon.clean_up_indices.assert_called_with()
-        exon.clean_up_indices.assert_called_with()
-
     def test_create_start_and_stop_if_necessary(self):
         seq_object = Mock()
         cds = Mock()

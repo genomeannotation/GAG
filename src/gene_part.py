@@ -167,15 +167,6 @@ class GenePart:
                 index[1] = start-1
         return True
 
-
-    def clean_up_indices(self):
-        for i in xrange(len(self.indices)):
-            if self.indices[i][1] < 1:
-                self.indices[i][0] = 0
-                self.indices[i][1] = 0
-            elif self.indices[i][0] < 1:
-                self.indices[i][0] = 1
-
     def valid_codon(self):  
         if length_of_segment(self.indices[0]) == 3:
             return True

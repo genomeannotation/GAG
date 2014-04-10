@@ -152,27 +152,6 @@ class TestGene(unittest.TestCase):
         expected = "Gene (ID=1, seq_name=sctg_0080_0020) containing 2 mrnas"
         self.assertEquals(expected, str(self.test_gene1))
 
-    def test_clean_up_indices(self):
-        # if indices[0] < 1, set to 1 
-        nice_gene = Gene(seq_name='fooseq', source='maker', indices=[-23, 127], strand='-', identifier='foo')
-        mrna1 = Mock()
-        mrna2 = Mock()
-        nice_gene.mrnas.append(mrna1)
-        nice_gene.mrnas.append(mrna2)
-        nice_gene.clean_up_indices()
-        self.assertEquals(1, nice_gene.indices[0])
-        self.assertEquals(127, nice_gene.indices[1])
-        # test recursive call on child mrnas
-        mrna1.clean_up_indices.assert_called_with()
-        mrna2.clean_up_indices.assert_called_with()
-
-        # if indices [1] < 1, mark for removal by setting
-        # indices = [0, 0]
-        junk_gene = Gene(seq_name='barseq', source='maker', indices=[-400, -100], strand='-', identifier='bar')
-        junk_gene.clean_up_indices()
-        self.assertEquals(0, junk_gene.indices[0])
-        self.assertEquals(0, junk_gene.indices[1])
-
     def test_create_starts_and_stops(self):
         mrna1 = Mock()
         mrna2 = Mock()

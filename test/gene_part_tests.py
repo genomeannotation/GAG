@@ -63,17 +63,6 @@ class TestGenePart(unittest.TestCase):
         self.assertEqual(44, self.gp2.indices[0][1])
         self.assertEqual(75, self.gp2.indices[1][0])
 
-    def test_clean_up_indices(self):
-        # test on a GenePart...
-        nice_cds = CDS(identifier='foo', indices=[-5, 28], phase=1, parent_id='bar')
-        junk_cds = CDS(identifier='bar', indices=[-20, -2], phase=0, parent_id='bar')
-        nice_cds.clean_up_indices()
-        self.assertEquals(1, nice_cds.indices[0][0])
-        self.assertEquals(28, nice_cds.indices[0][1]) 
-        junk_cds.clean_up_indices()
-        self.assertEquals(0, junk_cds.indices[0][0])
-        self.assertEquals(0, junk_cds.indices[0][1])
-
     def test_length_of_shortest_segment(self):
         self.assertEquals(39, self.gp2.length_of_shortest_segment())
         # what if no indices?

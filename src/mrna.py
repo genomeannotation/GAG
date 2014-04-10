@@ -55,19 +55,6 @@ class MRNA:
         if self.cds:
             self.cds.adjust_phase()
 
-    def clean_up_indices(self):
-        if self.indices[1] < 1:
-            self.indices[0] = 0
-            self.indices[1] = 0
-        elif self.indices[0] < 1:
-            self.indices[0] = 1
-        if self.cds:
-            self.cds.clean_up_indices()
-        if self.exon:
-            self.exon.clean_up_indices()
-        for feat in self.other_features:
-            feat.clean_up_indices()
-
     def create_start_and_stop_if_necessary(self, seq_object, phase):
         # TODO I'd rather pass seq.bases than the object itself, since
         # the object owns this mrna...

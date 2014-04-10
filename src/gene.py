@@ -99,15 +99,6 @@ class Gene:
             total += mrna.get_num_introns()
         return total
     
-    def clean_up_indices(self):
-        if self.indices[1] < 1:
-            self.indices[0] = 0
-            self.indices[1] = 0
-        elif self.indices[0] < 1:
-            self.indices[0] = 1
-        for mrna in self.mrnas:
-            mrna.clean_up_indices()
-
     def create_starts_and_stops(self, seq_object):
         for mrna in self.mrnas:
             mrna.create_start_and_stop_if_necessary(seq_object, self.strand)
