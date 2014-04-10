@@ -99,7 +99,7 @@ class ConsoleController:
         for seq in self.seqs:
             self.stats_mgr.update_ref(seq.stats())
         sys.stderr.write("Done.\n\n")
-        sys.stdout.write(self.stats())
+        print(self.stats())
 
     def set_filter_arg(self, filter_name, filter_arg, val):
         self.filter_mgr.set_filter_arg(filter_name, filter_arg, val)
