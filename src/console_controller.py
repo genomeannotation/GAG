@@ -199,6 +199,7 @@ class ConsoleController:
                 seq.remove_gene(args)
 
     def trim_region(self, line):
+        # TODO this is hideous 
         if not self.seqs:
             return self.no_genome_message
         else:
@@ -339,11 +340,11 @@ class ConsoleController:
         else:
             if os.path.exists(line):
                 return line + " already exists; please try another filename\n"
-            with open(line, 'w') as outFile:
-                outFile.write(">Feature SeqId\n")
+            with open(line, 'w') as out_file:
+                out_file.write(">Feature SeqId\n")
                 for seq in self.seqs:
-                    outFile.write(seq.to_tbl())
-                outFile.close()
+                    out_file.write(seq.to_tbl())
+                out_file.close()
             return ".tbl file written to " + line + "\n"
 
 ## Utilities
