@@ -188,62 +188,6 @@ class ConsoleController:
         for seq in self.seqs:
             seq.remove_mrna(args)
                         
-    def ducttape_mrna_seq_frame(self, name):
-        for seq in self.seqs:
-            for gene in seq.genes:
-                for mrna in gene.mrnas:
-                    if mrna.identifier == name:
-                        subseq = seq.get_subseq(mrna.cds.indices[0], mrna.cds.indices[1]) #first segment
-                        if subseq == None:
-                            return "Failed to fix "+name+\
-                                   ": sequence does not exist.\n" 
-                        elif len(subseq) < 6:
-                            return "Failed to fix "+name+\
-                                   ": sequence less than 6 base pairs.\n"
-
-                        pseq1 = translate(subseq, 1, '+')
-                        pseq2 = translate(subseq, 2, '+')
-                        pseq3 = translate(subseq, 3, '+')
-                        nseq1 = translate(subseq, 1, '-')
-                        nseq2 = translate(subseq, 2, '-')
-                        nseq3 = translate(subseq, 3, '-')
-
-                        annotEntry = self.annot.get_entry(name)
-                        if annotEntry:
-                            pepSeq = annotEntry[9]
-                            if pepSeq == None:
-                                return "Failed to fix "+name+\
-                                       ": trinotate missing peptide sequence.\n"
-
-                            oldphase = mrna.cds.phase[0]
-                            if pseq1 and pepSeq.find(pseq1[:-1]) == 0:
-                                gene.strand = '+'
-                                mrna.cds.phase[0] = 0
-                            elif pseq2 and pepSeq.find(pseq2[:-1]) == 0:
-                                gene.strand = '+'
-                                mrna.cds.phase[0] = 1
-                            elif pseq3 and pepSeq.find(pseq3[:-1]) == 0:
-                                gene.strand = '+'
-                                mrna.cds.phase[0] = 2
-                            elif nseq1 and pepSeq.find(nseq1[:-1]) == 0:
-                                gene.strand = '-'
-                                mrna.cds.phase[0] = 0
-                            elif nseq2 and pepSeq.find(nseq2[:-1]) == 0:
-                                gene.strand = '-'
-                                mrna.cds.phase[0] = 1
-                            elif nseq3 and pepSeq.find(nseq3[:-1]) == 0:
-                                gene.strand = '-'
-                                mrna.cds.phase[0] = 2
-                            else:
-                                return "Failed to fix "+name+\
-                                       ": no matching translation.\n"
-                            return "Fixed "+name+" from phase "+str(oldphase)+\
-                                   " to phase "+str(mrna.cds.phase[0])+"\n"
-                        else:
-                            return "Failed to fix "+name+\
-                                   ": trinotate entry doesn't exist.\n"
-        return "Failed to fix "+name+": mRNA doesn't exist.\n"
-
     def remove_gene(self, line):
         if not self.seqs:
             return self.no_genome_message
