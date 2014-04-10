@@ -30,7 +30,9 @@ def one_line_indices_entry(indices, has_start, has_stop, is_cds):
         output += "mRNA\n"
     return output
 
-def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, annotations = [], phase=0):
+def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, annotations = None, phase=0):
+    if not annotations:
+        annotations = []
     output = ""
     if strand == "-":
         indices = get_reversed_indices(indices)
