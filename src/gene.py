@@ -173,8 +173,6 @@ class Gene:
             if self.indices[0] >= start and self.indices[0] <= stop and stop <= self.indices[1]: # Beginning of gene is trimmed
                 # Move beginning index of gene to one base past the trimmed region
                 self.indices[0] = stop + 1
-                print("*****")
-                print(self.indices[0])
                 # Adjust indices on self and remaining mRNAs
                 offset = -(stop - start + 1)
                 self.adjust_indices(offset)
