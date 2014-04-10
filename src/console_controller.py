@@ -200,11 +200,6 @@ class ConsoleController:
             for seq in self.seqs:
                 seq.remove_gene(args)
 
-    def remove_mrnas_with_cds_shorter_than(self, line):
-        min_length = int(line)
-        for seq in self.seqs:
-            seq.remove_mrnas_with_cds_shorter_than(min_length)
-
     def trim_region(self, line):
         if not self.seqs:
             return self.no_genome_message

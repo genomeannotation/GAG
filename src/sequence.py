@@ -115,10 +115,6 @@ class Sequence:
         for gene in self.genes:
             gene.mrnas = [m for m in gene.mrnas if m.identifier not in args]
 
-    def remove_mrnas_with_cds_shorter_than(self, min_length):
-        for gene in self.genes:
-            gene.remove_mrnas_with_cds_shorter_than(min_length)
-
     def invalidate_region(self, start, stop):
         for gene in self.genes:
             gene.invalidate_region(start, stop)

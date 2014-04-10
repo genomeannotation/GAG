@@ -85,22 +85,6 @@ class TestConsoleController(unittest.TestCase):
         self.assertEquals(0, len(self.ctrlr.seqs[1].genes))
         self.assertEquals(1, len(self.ctrlr.seqs[2].genes))
 
-
-    def test_rename_maker_mrnas(self):
-        pass
-        #mock_genome = Mock()
-        #self.ctrlr.genome = mock_genome
-        #self.ctrlr.rename_maker_mrnas()
-        #mock_genome.rename_maker_mrnas.assert_called_with()
-
-    def test_remove_mrnas_with_cds_shorter_than(self):
-        self.setup_seqs_and_genes()
-        self.ctrlr.remove_mrnas_with_cds_shorter_than(150)
-        for seq in self.ctrlr.seqs:
-            for gene in seq.genes:
-                gene.remove_mrnas_with_cds_shorter_than.assert_called_with(150)
-
-
     def test_trim_region(self):
         # TODO this isn't quite right ... gene.trim needs looking at.
         self.setup_seqs_and_genes()
