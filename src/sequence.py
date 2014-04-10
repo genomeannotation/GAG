@@ -252,12 +252,10 @@ class Sequence:
         
     def get_longest_cds(self):
         length = 0
-        longest = None
         for gene in self.get_valid_genes():
             for mrna in gene.get_valid_mrnas():
                 if mrna.cds != None and mrna.cds.length() > length:
                     length = mrna.cds.length()
-                    longest = mrna.cds
         return length
         
     def get_shortest_gene(self):
