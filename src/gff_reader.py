@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-import sys
-import traceback
 import copy
 from src.gene_part import GenePart, CDS, Exon
 from src.mrna import MRNA
