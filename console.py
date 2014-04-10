@@ -4,7 +4,6 @@
 import cmd
 import readline
 import sys
-import os
 import traceback
 from src.console_controller import ConsoleController
 
