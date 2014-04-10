@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import math
-from src.feature_tbl_entry import FeatureTblEntry
 
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
@@ -236,47 +235,6 @@ class Gene:
         for mrna in self.mrnas:
             result += mrna.to_gff(self.seq_name, self.source, self.strand, death_flagged_stuff)
         return result
-
-    def to_tbl_entries(self, annotator):
-        entries = []
-        temp_entries = []
-        geneEntry = FeatureTblEntry()
-        geneEntry.set_type("gene")
-        geneEntry.set_name(self.identifier)
-        geneEntry.set_seq_name(self.seq_name)
-        geneEntry.add_coordinates(self.indices[0], self.indices[1])
-        geneEntry.set_strand(self.strand)
-        geneEntry.set_phase(0)
-        annotator.annotate_gene(geneEntry)
-
-        gene_has_start = True
-        gene_has_stop = True
-        hypothetical = False
-
-        for mrna in self.mrnas: 
-            mrna_entries = mrna.to_tbl_entries(annotator, self.strand)
-            for mrna_entry in mrna_entries:
-                mrna_entry.set_seq_name(self.seq_name)
-                if mrna_entry.is_hypothetical():
-                    hypothetical = True
-                # If gene contains a partial feature, gene is partial.
-                if not mrna_entry.has_start:
-                    gene_has_start = False
-                if not mrna_entry.has_stop:
-                    gene_has_stop = False
-                temp_entries.append(mrna_entry)
-
-        geneEntry.set_partial_info(gene_has_start, gene_has_stop) 
-        # Hypothetical genes don't get gene names
-        if hypothetical == True:
-            geneAnnot = geneEntry.get_annotation('gene')
-            if geneAnnot:
-                geneEntry.add_annotation('note', 'gene '+geneAnnot)
-            geneEntry.remove_annotation('gene')
-
-        entries.append(geneEntry)
-        entries.extend(temp_entries)
-        return entries
 
     def to_tbl(self):
         if self.death_flagged:
