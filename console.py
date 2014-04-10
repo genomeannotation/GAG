@@ -265,7 +265,9 @@ class LoadCmd(cmd.Cmd):
         return self.exit_if_genome_loaded()
 
     def default(self, line):
-        # TODO wipe controller.seqs clean?
+        if self.controller.seqs:
+            print("Clearing genome ...")
+            self.controller.clear_seqs()
         self.output = try_catch(self.controller.load_folder, [line])
         return self.exit_if_genome_loaded()
 
