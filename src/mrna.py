@@ -9,14 +9,17 @@ def length_of_segment(index_pair):
 
 class MRNA:
 
-    def __init__(self, identifier, indices, parent_id, annotations=[]):
+    def __init__(self, identifier, indices, parent_id, annotations=None):
         self.identifier = identifier
         self.indices = indices
         self.parent_id = parent_id
         self.exon = None
         self.cds = None
         self.other_features = []
-        self.annotations = annotations
+        if not annotations:
+            self.annotations = []
+        else:
+            self.annotations = annotations
         self.death_flagged = False
 
     def __str__(self):
@@ -214,12 +217,11 @@ class MRNA:
     def get_shortest_exon(self):
         if not self.exon:
             return 0
-    
         shortest = 0
         for index_pair in self.exon.indices:
             length = length_of_segment(index_pair)
             if shortest == 0 or length_of_segment(index_pair) < shortest:
-                shortest = length_of_segment(index_pair)
+                shortest = length
         return shortest
 
     def get_total_exon_length(self):
