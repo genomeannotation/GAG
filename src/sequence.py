@@ -187,21 +187,17 @@ class Sequence:
         
     def get_longest_gene(self):
         length = 0
-        longest = None
         for gene in self.get_valid_genes():
             if gene.length() > length:
                 length = gene.length()
-                longest = gene
         return length
         
     def get_longest_mrna(self):
         length = 0
-        longest = None
         for gene in self.get_valid_genes():
             for mrna in gene.get_valid_mrnas():
                 if mrna.length() > length:
                     length = mrna.length()
-                    longest = mrna
         return length
 
     def get_longest_exon(self):
