@@ -141,7 +141,7 @@ class GagCmd(cmd.Cmd):
 
 class LoadCmd(cmd.Cmd):
 
-    intro = "Welcome to the GAG LOAD menu.\n"+\
+    help_message = "This is the GAG LOAD menu.\n"+\
             "Type the path to a folder containing your .fasta and .gff files.\n"+\
             "To use the current directory, just hit enter.\n"+\
             "You can type 'home' at any time to return to the main GAG console.\n"+\
@@ -153,6 +153,8 @@ class LoadCmd(cmd.Cmd):
         self.controller = controller
         if path_to_load:
             self.cmdqueue = [path_to_load] # Execute default method with path as arg
+        else:
+            print(self.help_message)
         readline.set_history_length(1000)
         try:
             readline.read_history_file('.gaghistory')
@@ -174,7 +176,7 @@ class LoadCmd(cmd.Cmd):
             return True
 
     def help_load(self):
-        print(intro)
+        print(help_message)
 
     def emptyline(self):
         self.default(".")
@@ -191,7 +193,7 @@ class LoadCmd(cmd.Cmd):
 
 class WriteCmd(cmd.Cmd):
 
-    intro = "Welcome to the GAG WRITE menu.\n"+\
+    help_message = "Welcome to the GAG WRITE menu.\n"+\
             "You can write in one of three formats: fasta, gff or tbl. Please type your choice.\n"+\
             "(Type 'home' at any time to return to the main GAG console.)\n"+\
             "fasta, gff or tbl?\n"
@@ -200,8 +202,11 @@ class WriteCmd(cmd.Cmd):
         cmd.Cmd.__init__(self)
         self.prompt = prompt_prefix[:-2] + " WRITE> "
         self.controller = controller
+        self.context = {"go_home": False}
         if line:
             self.cmdqueue = [line] # Execute default method with passed-in line
+        else:
+            print(self.help_message)
         readline.set_history_length(1000)
         try:
             readline.read_history_file('.gaghistory')
@@ -219,15 +224,16 @@ class WriteCmd(cmd.Cmd):
         return True
 
     def help_write(self):
-        print(self.intro)
+        print(self.help_message)
 
     def emptyline(self):
-        print(self.intro)
+        print(self.help_message)
 
     def do_fasta(self, line):
-        # TODO
-        print("You selected fasta")
-        return True
+        fastacmd = WriteFastaCmd(self.prompt, self.controller, self.context, line)
+        fastacmd.cmdloop()
+        if self.context["go_home"]:
+            return True
 
     def do_gff(self, line):
         # TODO
@@ -238,6 +244,63 @@ class WriteCmd(cmd.Cmd):
         # TODO
         print("You selected tbl")
         return True
+
+    def default(self, line):
+        pass
+
+################################################
+
+class WriteFastaCmd(cmd.Cmd):
+
+    help_message = "Welcome to the GAG WRITE FASTA menu.\n"+\
+            "You can write at the cds, sequence or genome level,\n"+\
+            "and you can write to the screen or to a file.\n"+\
+            "(Type 'home' at any time to return to the main GAG console.)\n"+\
+            "cds, mrna, gene, sequence or genome?\n"
+
+    def __init__(self, prompt_prefix, controller, context, line):
+        cmd.Cmd.__init__(self)
+        self.prompt = prompt_prefix[:-2] + " FASTA> "
+        self.controller = controller
+        self.context = context
+        if line:
+            self.cmdqueue = [line] # Execute default method with passed-in line
+        else:
+            print(self.help_message)
+        readline.set_history_length(1000)
+        try:
+            readline.read_history_file('.gaghistory')
+        except IOError:
+            sys.stderr.write("No .gaghistory file available...\n")
+
+    def precmd(self, line):
+        readline.write_history_file('.gaghistory')
+        return cmd.Cmd.precmd(self, line)
+
+    def help_home(self):
+        print("Exit this console and return to the main GAG console.\n")
+
+    def do_home(self, line):
+        self.context["go_home"] = True
+        return True
+    
+    def do_cds(self, line):
+        # TODO
+        pass
+
+    def do_sequence(self, line):
+        # TODO
+        pass
+
+    def do_genome(self, line):
+        # TODO
+        pass
+
+    def help_writefasta(self):
+        print(self.help_message)
+
+    def emptyline(self):
+        print(self.help_message)
 
     def default(self, line):
         pass
