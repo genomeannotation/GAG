@@ -182,10 +182,6 @@ class TestSequence(unittest.TestCase):
         self.assertEquals(stats["Total exon length"], 40)
         self.assertEquals(stats["Total intron length"], 40)
         self.assertEquals(stats["Total CDS length"], 8)
-        
-        self.seq1.genes[0].death_flagged = True
-        stats = self.seq1.stats()
-        self.assertEquals(stats["Number of genes"], 1)
 
 
 

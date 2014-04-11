@@ -8,6 +8,7 @@ class TestFilters(unittest.TestCase):
         
     def test_cds_length_range_filter(self):
         cds_length_range = CDSLengthRangeFilter(30, 60)
+        cds_length_range.remove = False
     
         # Create a mock sequence
         seq = Mock()
@@ -51,6 +52,7 @@ class TestFilters(unittest.TestCase):
         
     def test_exon_length_range_filter(self):
         exon_length_range = ExonLengthRangeFilter(30, 60)
+        exon_length_range.remove = False
     
         # Create a mock sequence
         seq = Mock()
@@ -97,6 +99,7 @@ class TestFilters(unittest.TestCase):
         
     def test_intron_length_range_filter(self):
         intron_length_range = IntronLengthRangeFilter(30, 60)
+        intron_length_range.remove = False
     
         # Create a mock sequence
         seq = Mock()
@@ -142,6 +145,7 @@ class TestFilters(unittest.TestCase):
         
     def test_gene_length_range_filter(self):
         gene_length_range = GeneLengthRangeFilter(30, 60)
+        gene_length_range.remove = False
     
         # Create a mock sequence
         seq = Mock()

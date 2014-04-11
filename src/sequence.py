@@ -168,20 +168,20 @@ class Sequence:
 
     def get_num_mrna(self):
         count = 0
-        for gene in self.get_valid_genes():
-            count += len(gene.get_valid_mrnas())
+        for gene in self.genes:
+            count += len(gene.mrnas)
         return count
 
     def get_num_exons(self):
         count = 0
-        for gene in self.get_valid_genes():
+        for gene in self.genes:
             count += gene.get_num_exons()
         return count
         
     def get_num_cds(self):
         count = 0
-        for gene in self.get_valid_genes():
-            for mrna in gene.get_valid_mrnas():
+        for gene in self.genes:
+            for mrna in gene.mrnas:
                 if mrna.cds != None:
                     count += 1
         return count
@@ -189,7 +189,7 @@ class Sequence:
     def get_cds_partial_info(self):
         results = {"CDS: complete": 0, "CDS: start, no stop": 0,\
                 "CDS: stop, no start": 0, "CDS: no stop, no start": 0}
-        for gene in self.get_valid_genes():
+        for gene in self.genes:
             partial_info = gene.get_partial_info()
             results["CDS: complete"] += partial_info["complete"]
             results["CDS: start, no stop"] += partial_info["start_no_stop"]
@@ -199,22 +199,22 @@ class Sequence:
         
     def get_longest_gene(self):
         length = 0
-        for gene in self.get_valid_genes():
+        for gene in self.genes:
             if gene.length() > length:
                 length = gene.length()
         return length
         
     def get_longest_mrna(self):
         length = 0
-        for gene in self.get_valid_genes():
-            for mrna in gene.get_valid_mrnas():
+        for gene in self.genes:
+            for mrna in gene.mrnas:
                 if mrna.length() > length:
                     length = mrna.length()
         return length
 
     def get_longest_exon(self):
         longest = 0
-        for gene in self.get_valid_genes():
+        for gene in self.genes:
             length = gene.get_longest_exon()
             if length > longest:
                 longest = length
@@ -222,7 +222,7 @@ class Sequence:
 
     def get_shortest_exon(self):
         shortest = -1
-        for gene in self.get_valid_genes():
+        for gene in self.genes:
             length = gene.get_shortest_exon()
             if length < shortest or shortest == -1:
                 shortest = length
@@ -230,13 +230,13 @@ class Sequence:
 
     def get_total_exon_length(self):
         total = 0
-        for gene in self.get_valid_genes():
+        for gene in self.genes:
             total += gene.get_total_exon_length()
         return total
         
     def get_longest_intron(self):
         longest = 0
-        for gene in self.get_valid_genes():
+        for gene in self.genes:
             length = gene.get_longest_intron()
             if length > longest:
                 longest = length
@@ -244,7 +244,7 @@ class Sequence:
 
     def get_shortest_intron(self):
         shortest = 0
-        for gene in self.get_valid_genes():
+        for gene in self.genes:
             length = gene.get_shortest_intron()
             if shortest == 0 or length < shortest:
                 shortest = length
@@ -252,20 +252,20 @@ class Sequence:
 
     def get_total_intron_length(self):
         total = 0
-        for gene in self.get_valid_genes():
+        for gene in self.genes:
             total += gene.get_total_intron_length()
         return total
 
     def get_num_introns(self):
         total = 0
-        for gene in self.get_valid_genes():
+        for gene in self.genes:
             total += gene.get_num_introns()
         return total
         
     def get_longest_cds(self):
         length = 0
-        for gene in self.get_valid_genes():
-            for mrna in gene.get_valid_mrnas():
+        for gene in self.genes:
+            for mrna in gene.mrnas:
                 if mrna.cds != None and mrna.cds.length() > length:
                     length = mrna.cds.length()
         return length
@@ -273,7 +273,7 @@ class Sequence:
     def get_shortest_gene(self):
         length = 0
         shortest = None
-        for gene in self.get_valid_genes():
+        for gene in self.genes:
             if gene.length() < length or shortest == None:
                 length = gene.length()
                 shortest = gene
@@ -282,8 +282,8 @@ class Sequence:
     def get_shortest_mrna(self):
         length = 0
         shortest = None
-        for gene in self.get_valid_genes():
-            for mrna in gene.get_valid_mrnas():
+        for gene in self.genes:
+            for mrna in gene.mrnas:
                 if mrna.length() < length or shortest == None:
                     length = mrna.length()
                     shortest = mrna
@@ -292,8 +292,8 @@ class Sequence:
     def get_shortest_cds(self):
         length = 0
         shortest = None
-        for gene in self.get_valid_genes():
-            for mrna in gene.get_valid_mrnas():
+        for gene in self.genes:
+            for mrna in gene.mrnas:
                 if mrna.cds != None and (mrna.cds.length() < length or shortest == None):
                     length = mrna.cds.length()
                     shortest = mrna.cds
@@ -301,21 +301,21 @@ class Sequence:
 
     def get_total_gene_length(self):
         length = 0
-        for gene in self.get_valid_genes():
+        for gene in self.genes:
             length += gene.length()
         return length
 
     def get_total_mrna_length(self):
         length = 0
-        for gene in self.get_valid_genes():
-            for mrna in gene.get_valid_mrnas():
+        for gene in self.genes:
+            for mrna in gene.mrnas:
                 length += mrna.length()
         return length
         
     def get_total_cds_length(self):
         length = 0
-        for gene in self.get_valid_genes():
-            for mrna in gene.get_valid_mrnas():
+        for gene in self.genes:
+            for mrna in gene.mrnas:
                 if mrna.cds != None:
                     length += mrna.cds.length()
         return length
@@ -325,7 +325,7 @@ class Sequence:
         cds_partial_info = self.get_cds_partial_info()
         
         stats["Total sequence length"] = len(self.bases)
-        stats["Number of genes"] = len(self.get_valid_genes())
+        stats["Number of genes"] = len(self.genes)
         stats["Number of mRNAs"] = int(self.get_num_mrna())
         stats["Number of exons"] = int(self.get_num_exons())
         stats["Number of introns"] = int(self.get_num_introns())
