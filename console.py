@@ -50,12 +50,21 @@ class GagCmd(cmd.Cmd):
     def help_load(self):
         print("This command takes you the GAG LOAD menu. There you can specify the location of")
         print("your files and load them into memory.")
-        print("Alternately, just type 'load <path>' and avoid the submenu altogether.")
+        print("Alternately, just type 'load <path>' and avoid the submenu altogether.\n")
 
     def do_load(self, line):
         path_to_load = line.strip()
         loadcmd = LoadCmd(self.prompt, self.controller, path_to_load)
         loadcmd.cmdloop()
+
+    def help_write(self):
+        print("This command takes you to the GAG WRITE menu. There you can write genomic data")
+        print("to the screen or to a file. You can write at the CDS, mRNA, gene, sequence or genome level.")
+        print("Available formats: fasta, gff, tbl.\n")
+        
+    def do_write(self, line):
+        writecmd = WriteCmd(self.prompt, self.controller, line) # Pass args to next console for parsing
+        writecmd.cmdloop()
 
     def help_exit(self):
         print("Exit this console.\n")
@@ -177,6 +186,61 @@ class LoadCmd(cmd.Cmd):
             self.controller.clear_seqs()
         try_catch(self.controller.load_folder, [line])
         return self.exit_if_genome_loaded()
+
+################################################
+
+class WriteCmd(cmd.Cmd):
+
+    intro = "Welcome to the GAG WRITE menu.\n"+\
+            "You can write in one of three formats: fasta, gff or tbl. Please type your choice.\n"+\
+            "(Type 'home' at any time to return to the main GAG console.)\n"+\
+            "fasta, gff or tbl?\n"
+
+    def __init__(self, prompt_prefix, controller, line):
+        cmd.Cmd.__init__(self)
+        self.prompt = prompt_prefix[:-2] + " WRITE> "
+        self.controller = controller
+        if line:
+            self.cmdqueue = [line] # Execute default method with passed-in line
+        readline.set_history_length(1000)
+        try:
+            readline.read_history_file('.gaghistory')
+        except IOError:
+            sys.stderr.write("No .gaghistory file available...\n")
+
+    def precmd(self, line):
+        readline.write_history_file('.gaghistory')
+        return cmd.Cmd.precmd(self, line)
+
+    def help_home(self):
+        print("Exit this console and return to the main GAG console.\n")
+
+    def do_home(self, line):
+        return True
+
+    def help_write(self):
+        print(self.intro)
+
+    def emptyline(self):
+        print(self.intro)
+
+    def do_fasta(self, line):
+        # TODO
+        print("You selected fasta")
+        return True
+
+    def do_gff(self, line):
+        # TODO
+        print("You selected gff")
+        return True
+
+    def do_tbl(self, line):
+        # TODO
+        print("You selected tbl")
+        return True
+
+    def default(self, line):
+        pass
 
 ################################################
 
