@@ -74,6 +74,14 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.add_gene(gene1)
         self.assertEquals(1, len(self.ctrlr.seqs[0].genes))
 
+    def test_get_n_gene_ids(self):
+        self.ctrlr.seqs = [Mock(), Mock(), Mock()]
+        self.ctrlr.seqs[0].get_gene_ids.return_value = ["gene1a", "gene1b", "gene1c"]
+        self.ctrlr.seqs[1].get_gene_ids.return_value = ["gene2a", "gene2b", "gene2c"]
+        self.ctrlr.seqs[2].get_gene_ids.return_value = ["gene3a", "gene3b", "gene3c"]
+        expected = "First 4 gene ids are: gene1a, gene1b, gene1c, gene2a\n"
+        self.assertEquals(self.ctrlr.get_n_gene_ids(4), expected)
+
     def test_read_fasta(self):
         self.assertFalse(self.ctrlr.seqs)
         self.ctrlr.read_fasta("walkthrough/gag.fasta")
@@ -84,13 +92,6 @@ class TestConsoleController(unittest.TestCase):
         self.assertFalse(self.ctrlr.seqs[0].genes)
         self.ctrlr.read_gff("walkthrough/gag.gff")
         self.assertTrue(self.ctrlr.seqs[0].genes)
-
-    def test_create_starts_and_stops(self):
-        pass
-        #mock_genome = Mock()
-        #self.ctrlr.genome = mock_genome
-        #self.ctrlr.create_starts_and_stops()
-        #mock_genome.create_starts_and_stops.assert_called_with()
 
     def test_subset_genome(self):
         self.setup_seqs()

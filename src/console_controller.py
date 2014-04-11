@@ -142,6 +142,24 @@ class ConsoleController:
             result += format_list_with_strings(seq_list)
             return result
 
+    def get_n_gene_ids(self, number):
+        """Returns a message indicating the first n gene_ids in the genome.
+
+        If no genes are present, returns a message to that effect. If fewer than n
+        genes are loaded, returns the gene_ids of those genes."""
+        genes_list = []
+        while len(genes_list) < number:
+            for seq in self.seqs:
+                genes_list.extend(seq.get_gene_ids())
+        # List may now contain more than 'number' ids, or it may contain zero
+        if not genes_list:
+            return "No genes currently in memory.\n"
+        if len(genes_list) > number:
+            genes_list = genes_list[:number]
+        result = "First " + str(len(genes_list)) + " gene ids are: "
+        result += format_list_with_strings(genes_list)
+        return result
+
     def barftofile(self, line):
         args = line.split()
 

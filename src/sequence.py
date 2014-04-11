@@ -36,6 +36,12 @@ class Sequence:
     def get_valid_genes(self):
         return [gene for gene in self.genes if not gene.death_flagged]
 
+    def get_gene_ids(self):
+        result = []
+        for gene in self.genes:
+            result.append(gene.identifier)
+        return result
+
     def get_locus_tag(self):
         for gene in self.genes:
             gene_id = str(gene.identifier)

@@ -104,6 +104,13 @@ class TestSequence(unittest.TestCase):
         self.seq1.remove_gene("bar_gene")
         self.assertEqual(1, len(self.seq1.genes))
 
+    def test_get_gene_ids(self):
+        self.seq1.genes = [Mock(), Mock()]
+        self.seq1.genes[0].identifier = "foo gene"
+        self.seq1.genes[1].identifier = "bar gene"
+        expected = ["foo gene", "bar gene"]
+        self.assertEquals(self.seq1.get_gene_ids(), expected)
+
     def test_trim_region(self):
         self.assertEquals("GATTACA", self.seq1.bases)
         self.seq1.trim_region(1, 4)
