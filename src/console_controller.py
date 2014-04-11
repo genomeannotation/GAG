@@ -291,34 +291,6 @@ class ConsoleController:
             # TODO take multiple args?
             self.seqs = [s for s in self.seqs if s.header != line]
 
-    def invalidate_region(self, line):
-        if not self.seqs:
-            return self.no_genome_message
-        else:
-            # TODO return error messages on invalid args
-            # TODO not working
-            if len(line) > 0:
-                args = line.split()
-                seq_name = args[0]
-                start = args[1]
-                stop = args[2]
-                for seq in self.seqs:
-                    if seq.header == seq_name:
-                        seq.invalidate_region(start, stop)
-            else:
-                lines = self.input.split('\n')
-                for line in lines:
-                    args = line.split()
-                    if not args:
-                        continue
-                    seq_name = args[0]
-                    start = args[1]
-                    stop = args[2]
-                    for seq in self.seqs:
-                        if seq.header == seq_name:
-                            seq.invalidate_region(start, stop)
-
-
 ## Output info to console
 
     def barf_gene_gff(self, line):
