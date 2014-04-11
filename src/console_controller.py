@@ -123,11 +123,24 @@ class ConsoleController:
 
 ## Assorted utilities
 
-    def status(self):
+    def get_n_seq_ids(self, number):
+        """Returns a message indicating the first n seq_ids in the genome.
+
+        If no seqs loaded, returns a message to that effect. If fewer than n
+        seqs loaded, returns the seq_ids of those seqs."""
         if not self.seqs:
-            return self.no_genome_message
+            return "No sequences currently in memory.\n"
         else:
-            return "Number of seqs: " + str(len(self.seqs))
+            if len(self.seqs) < number:
+                number = len(self.seqs)
+            seq_list = []
+            for seq in self.seqs:
+                seq_list.append(seq.header)
+                if len(seq_list) == number:
+                    break
+            result = "First " + str(len(seq_list)) + " seq ids are: "
+            result += format_list_with_strings(seq_list)
+            return result
 
     def barftofile(self, line):
         args = line.split()
@@ -366,3 +379,16 @@ class ConsoleController:
     
     def clear_seqs(self):
         self.seqs[:] = []
+
+## Utility functions
+def format_list_with_strings(entries):
+    if len(entries) == 0:
+        return ""
+    result = entries[0]
+    if len(entries) > 2:
+        for entry in entries[1:-1]:
+            result += ", " + entry
+    if len(entries) > 1:
+        result += ", " + entries[-1]
+    result += "\n"
+    return result

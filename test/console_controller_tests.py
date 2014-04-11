@@ -4,7 +4,7 @@ import unittest
 from mock import Mock, patch, PropertyMock
 import sys
 import os
-from src.console_controller import ConsoleController
+from src.console_controller import ConsoleController, format_list_with_strings
 from src.sequence import Sequence
 
 class TestConsoleController(unittest.TestCase):
@@ -15,9 +15,16 @@ class TestConsoleController(unittest.TestCase):
     def test_constructor(self):
         self.assertEqual('ConsoleController', self.ctrlr.__class__.__name__)
 
-    def test_status(self):
-        pass
-        # TODO get real sophisticated here.
+    def test_format_list_with_strings(self):
+        mylist = ["one", "two", "three"]
+        expected = "one, two, three\n"
+        self.assertEquals(format_list_with_strings(mylist), expected)
+    
+    def test_format_list_with_strings_one_entry(self):
+        self.assertEquals(format_list_with_strings(["foo"]), "foo\n")
+
+    def test_format_list_with_strings_two_entries(self):
+        self.assertEquals(format_list_with_strings(["foo", "bar"]), "foo, bar\n")
 
     def setup_seqs(self):
         self.ctrlr.seqs.append(Sequence("seq1", "GATTACA"))
@@ -44,6 +51,20 @@ class TestConsoleController(unittest.TestCase):
         self.assertEquals(3, len(self.ctrlr.seqs))
         self.ctrlr.clear_seqs()
         self.assertEquals(0, len(self.ctrlr.seqs))
+
+    def test_get_n_seq_ids(self):
+        self.setup_seqs()
+        expected = "First 3 seq ids are: seq1, seq2, seq3\n"
+        self.assertEquals(self.ctrlr.get_n_seq_ids(3), expected)
+
+    def test_get_n_seq_ids_when_n_is_larger_than_num_seqs(self):
+        self.setup_seqs()
+        expected = "First 3 seq ids are: seq1, seq2, seq3\n"
+        self.assertEquals(self.ctrlr.get_n_seq_ids(8), expected)
+
+    def test_get_n_seq_ids_when_no_seqs(self):
+        expected = "No sequences currently in memory.\n"
+        self.assertEquals(self.ctrlr.get_n_seq_ids(8), expected)
 
     def test_add_gene(self):
         self.setup_seqs()
