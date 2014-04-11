@@ -144,20 +144,6 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.remove_seq("seq2")
         self.assertEquals(2, len(self.ctrlr.seqs))
 
-    def test_check_gene_for_invalid_begin_or_end(self):
-        pass
-        #mock_genome = Mock()
-        #self.ctrlr.genome = mock_genome
-        #self.ctrlr.check_gene_for_invalid_begin_or_end('BDOR_FOO')
-        #mock_genome.check_gene_for_invalid_begin_or_end.assert_called_with('BDOR_FOO')
-
-    def test_invalidate_region(self):
-        pass
-        #mock_genome = Mock()
-        #self.ctrlr.genome = mock_genome
-        #self.ctrlr.invalidate_region('seq1 5 10')
-        #mock_genome.invalidate_region.assert_called_with('seq1', 5, 10)
-
     def test_barfseq_no_args(self):
         pass
         line = ""
