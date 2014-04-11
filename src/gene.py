@@ -30,6 +30,12 @@ class Gene:
 
     def get_valid_mrnas(self):
         return [mrna for mrna in self.mrnas if not mrna.death_flagged]
+
+    def get_mrna_ids(self):
+        result = []
+        for mrna in self.mrnas:
+            result.append(mrna.identifier)
+        return result
         
     def add_annotation(self, key, value):
         self.annotations.append([key, value])

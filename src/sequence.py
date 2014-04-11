@@ -42,6 +42,12 @@ class Sequence:
             result.append(gene.identifier)
         return result
 
+    def get_mrna_ids(self):
+        result = []
+        for gene in self.genes:
+            result.extend(gene.get_mrna_ids())
+        return result
+
     def get_locus_tag(self):
         for gene in self.genes:
             gene_id = str(gene.identifier)

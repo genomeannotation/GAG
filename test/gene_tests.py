@@ -31,6 +31,12 @@ class TestGene(unittest.TestCase):
         self.fake_mrna1.length_of_shortest_cds_segment.assert_called_with()
         self.fake_mrna2.length_of_shortest_cds_segment.assert_called_with()
 
+    def test_get_mrna_ids(self):
+        self.fake_mrna1.identifier = "fake_mrna1"
+        self.fake_mrna2.identifier = "fake_mrna2"
+        expected = ["fake_mrna1", "fake_mrna2"]
+        self.assertEquals(self.test_gene1.get_mrna_ids(), expected)
+
     def test_get_longest_exon(self):
         self.fake_mrna1.get_longest_exon.return_value = 10
         self.fake_mrna2.get_longest_exon.return_value = 20

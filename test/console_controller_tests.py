@@ -82,6 +82,14 @@ class TestConsoleController(unittest.TestCase):
         expected = "First 4 gene ids are: gene1a, gene1b, gene1c, gene2a\n"
         self.assertEquals(self.ctrlr.get_n_gene_ids(4), expected)
 
+    def test_get_n_mrna_ids(self):
+        self.ctrlr.seqs = [Mock(), Mock(), Mock()]
+        self.ctrlr.seqs[0].get_mrna_ids.return_value = ["mrna1a", "mrna1b", "mrna1c"]
+        self.ctrlr.seqs[1].get_mrna_ids.return_value = ["mrna2a", "mrna2b", "mrna2c"]
+        self.ctrlr.seqs[2].get_mrna_ids.return_value = ["mrna3a", "mrna3b", "mrna3c"]
+        expected = "First 7 mrna ids are: mrna1a, mrna1b, mrna1c, mrna2a, mrna2b, mrna2c, mrna3a\n"
+        self.assertEquals(self.ctrlr.get_n_mrna_ids(7), expected)
+
     def test_read_fasta(self):
         self.assertFalse(self.ctrlr.seqs)
         self.ctrlr.read_fasta("walkthrough/gag.fasta")

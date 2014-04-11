@@ -111,6 +111,13 @@ class TestSequence(unittest.TestCase):
         expected = ["foo gene", "bar gene"]
         self.assertEquals(self.seq1.get_gene_ids(), expected)
 
+    def test_get_mrna_ids(self):
+        self.seq1.genes = [Mock(), Mock()]
+        self.seq1.genes[0].get_mrna_ids.return_value = ["mrna1", "mrna2"]
+        self.seq1.genes[1].get_mrna_ids.return_value = ["mrna3", "mrna4"]
+        expected = ["mrna1", "mrna2", "mrna3", "mrna4"]
+        self.assertEquals(self.seq1.get_mrna_ids(), expected)
+
     def test_trim_region(self):
         self.assertEquals("GATTACA", self.seq1.bases)
         self.seq1.trim_region(1, 4)
