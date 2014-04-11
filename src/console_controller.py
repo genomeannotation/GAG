@@ -47,6 +47,7 @@ class ConsoleController:
 
             # Write the annotations
             self.annot.write_to_file(line+'/gag.trinotate')
+            return "Genome written to " + line
         
     def load_folder(self, line):
         if not line:

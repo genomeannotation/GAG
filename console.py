@@ -36,18 +36,12 @@ class GagCmd(cmd.Cmd):
         readline.write_history_file('.gaghistory')
         return cmd.Cmd.precmd(self, line)
 
-    def postcmd(self, stop, line):
-        if hasattr(self, 'output') and self.output:
-            print self.output
-            self.output = None
-        return stop
-
     def help_barffolder(self):
         print("Usage: barffolder <directory>\n")
         print("Writes gff, fasta and trinotate files to the specified directory.\n")
 
     def do_barffolder(self, line):
-        self.output = try_catch(self.controller.barf_folder, [line])
+        print(try_catch(self.controller.barf_folder, [line]))
 
     def help_load(self):
         print("This command takes you the GAG LOAD menu. There you can specify the location of")
@@ -56,7 +50,6 @@ class GagCmd(cmd.Cmd):
 
     def do_load(self, line):
         path_to_load = line.strip()
-        print(path_to_load)
         loadcmd = LoadCmd(self.prompt, self.controller, path_to_load)
         loadcmd.cmdloop()
 
@@ -76,7 +69,7 @@ class GagCmd(cmd.Cmd):
         print("\nUsage: getfilterarg <filter_name> <filter_arg> <value>\n\nOutputs the value of the specified filter argument.\n")
     
     def do_getfilterarg(self, line):
-        self.output = try_catch(self.controller.get_filter_arg, line.split(' '))
+        print(try_catch(self.controller.get_filter_arg, line.split(' ')))
         
     def help_applyfilters(self):
         print("Applies all filters to the genome\n")
@@ -88,10 +81,10 @@ class GagCmd(cmd.Cmd):
         print("\nUsage: getfilterhelp [filter_name]\n\nGets help for a filter. Omit filter name to list info for all filters.\n")
         
     def do_getfilterhelp(self, line):
-        self.output = '\n'+try_catch(self.controller.get_filter_help, [line.strip()])+'\n'
+        print('\n'+try_catch(self.controller.get_filter_help, [line.strip()])+'\n')
 
     def do_barf(self, line):
-        self.output = self.controller.barf(line)
+        print(self.controller.barf(line))
 
 ## Assorted utilities
 
@@ -108,19 +101,6 @@ class GagCmd(cmd.Cmd):
 
 ## Manipulate genome
 
-    def help_ducttape(self):
-        print("Usage: ducttape\n")
-        print("For the genome in memory, does the following:\n")
-        print("\t*Renames all 'maker' mRNAs, starting with '<locus_tag>_1000000'\n")
-        print("\t*Removes each first CDS segment if its length is less than 4\n")
-        print("\t*Verifies all start and stop codons by checking against the actual sequence; creates new features as necessary\n")
-        print("\t*Verifies all 'frame' information for coding sequences by running a six-frame translation and checking the\n")
-        print("\t protein sequence against the one stored in the annotation file\n")
-        print("\t*Removes invalid features -- first eliminating any mRNA with no CDS, then any gene with no mRNAs.\n")
-
-    def do_ducttape(self, line):
-        try_catch(self.controller.ducttape, None)
-
     def do_removemrna(self, line):
         try_catch(self.controller.removemrna, [line])
 
@@ -136,14 +116,14 @@ class GagCmd(cmd.Cmd):
         print("Removes all sequences (and corresponding genes) except those specified\n")
 
     def do_subsetgenome(self, line):
-        self.output = try_catch(self.controller.subset_genome, [line])
+        print(try_catch(self.controller.subset_genome, [line]))
 
     def help_trimregion(self):
         print("Usage: trimregion <seq_id> <start_index> <stop_index>\n")
         print("Removes subsequence from fasta and adjusts indices of features which follow region.\n")
 
     def do_trimregion(self, line):
-        self.output = try_catch(self.controller.trim_region, [line])
+        print(try_catch(self.controller.trim_region, [line]))
 
     def help_removeseq(self):
         print("Usage: removeseq <seq_id> [-F]\n")
@@ -157,7 +137,7 @@ class GagCmd(cmd.Cmd):
         print("Truncates or removes any feature located on region to be invalidated\n")
 
     def do_invalidateregion(self, line):
-        self.output = try_catch(self.controller.invalidate_region, [line])
+        print(try_catch(self.controller.invalidate_region, [line]))
 
 ## Output info to console
 
@@ -166,27 +146,27 @@ class GagCmd(cmd.Cmd):
         print("Prints gff entry for corresponding gene to console.\n")
 
     def do_barfgenegff(self, line):
-        self.output = try_catch(self.controller.barf_gene_gff, [line])
+        print(try_catch(self.controller.barf_gene_gff, [line]))
 
     def help_barfseq(self):
         print("Usage: barfseq <seq_id> <start_index> <end_index>\n")
         print("Prints (sub)sequence to console.\n")
 
     def do_barfseq(self, line):
-        self.output = try_catch(self.controller.barf_seq, [line])
+        print(try_catch(self.controller.barf_seq, [line]))
 
     def help_barfcdsseq(self):
         print("Usage: barfcdsseq <mrna>\n")
         print("Prints CDS's whole sequence\n")
 
     def do_barfcdsseq(self, line):
-        self.output = try_catch(self.controller.barf_cds_seq, [line])
+        print(try_catch(self.controller.barf_cds_seq, [line]))
 
     def help_barfgenetbl(self):
         print("TODO")   # TODO
 
     def do_barfgenetbl(self, line):
-        self.output = try_catch(self.controller.barf_gene_tbl, [line])
+        print(try_catch(self.controller.barf_gene_tbl, [line]))
 
     def help_stats(self):
         print("Usage: stats\n")
@@ -194,7 +174,7 @@ class GagCmd(cmd.Cmd):
                 " and modified genome (filters applied). May take a moment to run.")
 
     def do_stats(self, line):
-        self.output = try_catch(self.controller.stats, None)
+        print(try_catch(self.controller.stats, None))
 
 ## Output info to file
 
@@ -203,7 +183,7 @@ class GagCmd(cmd.Cmd):
         print("Write a sweet feature table to the specified file.\n")
 
     def do_writetbl(self, line):
-        self.output = try_catch(self.controller.write_tbl, [line])
+        print(try_catch(self.controller.write_tbl, [line]))
 
 
 ########################################################################
@@ -222,7 +202,7 @@ class LoadCmd(cmd.Cmd):
     intro = "Welcome to the GAG LOAD menu.\n"+\
             "Type the path to a folder containing your .fasta and .gff files.\n"+\
             "To use the current directory, just hit enter.\n"+\
-            "You can type 'back' at any time to return to the main GAG console.\n"+\
+            "You can type 'home' at any time to return to the main GAG console.\n"+\
             "You'll be returned automatically once your genome is loaded.\n"
 
     def __init__(self, prompt_prefix, controller, path_to_load):
@@ -241,16 +221,10 @@ class LoadCmd(cmd.Cmd):
         readline.write_history_file('.gaghistory')
         return cmd.Cmd.precmd(self, line)
 
-    def postcmd(self, stop, line):
-        if hasattr(self, 'output') and self.output:
-            print self.output
-            self.output = None
-        return stop
-
-    def help_back(self):
+    def help_home(self):
         print("Exit this console and return to the main GAG console.\n")
 
-    def do_back(self, line):
+    def do_home(self, line):
         return True
 
     def exit_if_genome_loaded(self):
@@ -262,14 +236,13 @@ class LoadCmd(cmd.Cmd):
 
     def emptyline(self):
         self.default(".")
-        # Not sure why this is necessary, but it is:
         return self.exit_if_genome_loaded()
 
     def default(self, line):
         if self.controller.seqs:
             print("Clearing genome ...")
             self.controller.clear_seqs()
-        self.output = try_catch(self.controller.load_folder, [line])
+        try_catch(self.controller.load_folder, [line])
         return self.exit_if_genome_loaded()
 
 ################################################
