@@ -93,27 +93,6 @@ class GagCmd(cmd.Cmd):
 
 ## Output info to console
 
-    def help_barfgenegff(self):
-        print("Usage: barfgenegff <gene_id>\n")
-        print("Prints gff entry for corresponding gene to console.\n")
-
-    def do_barfgenegff(self, line):
-        print(try_catch(self.controller.barf_gene_gff, [line]))
-
-    def help_barfseq(self):
-        print("Usage: barfseq <seq_id> <start_index> <end_index>\n")
-        print("Prints (sub)sequence to console.\n")
-
-    def do_barfseq(self, line):
-        print(try_catch(self.controller.barf_seq, [line]))
-
-    def help_barfcdsseq(self):
-        print("Usage: barfcdsseq <mrna>\n")
-        print("Prints CDS's whole sequence\n")
-
-    def do_barfcdsseq(self, line):
-        print(try_catch(self.controller.barf_cds_seq, [line]))
-
     def help_barfgenetbl(self):
         print("TODO")   # TODO
 
@@ -240,10 +219,16 @@ class WriteCmd(cmd.Cmd):
             return True
 
     def do_gene(self, line):
-        print("Coming soon!")
+        genecmd = WriteGeneCmd(self.prompt, self.controller, self.context, line)
+        genecmd.cmdloop()
+        if self.context["go_home"]:
+            return True
 
     def do_seq(self, line):
-        print("Coming soon!")
+        seqcmd = WriteSeqCmd(self.prompt, self.controller, self.context, line)
+        seqcmd.cmdloop()
+        if self.context["go_home"]:
+            return True
 
     def do_genome(self, line):
         print("Coming soon!")
@@ -258,11 +243,10 @@ class WriteCmd(cmd.Cmd):
 
 class WriteFastaCmd(cmd.Cmd):
 
-    helptext = "Welcome to the GAG WRITE FASTA menu.\n"+\
-            "You can write at the cds, sequence or genome level,\n"+\
-            "and you can write to the screen or to a file.\n"+\
+    helptext = "Welcome to the GAG WRITE CDS menu.\n"+\
+            "You can write a CDS to fasta, gff or tbl format.\n"+\
             "(Type 'home' at any time to return to the main GAG console.)\n"+\
-            "cds, mrna, gene, sequence or genome?\n"
+            "fasta, gff or tbl?"
 
     def __init__(self, prompt_prefix, controller, context, line):
         cmd.Cmd.__init__(self)
@@ -290,38 +274,27 @@ class WriteFastaCmd(cmd.Cmd):
         self.context["go_home"] = True
         return True
     
-    def do_cds(self, line):
-        # TODO
-        pass
-
-    def do_sequence(self, line):
-        # TODO
-        pass
-
-    def do_genome(self, line):
-        # TODO
-        pass
-
-    def help_writefasta(self):
-        print(self.help_message)
-
-    def emptyline(self):
-        print(self.help_message)
-
     def do_fasta(self, line):
         cdsfastacmd = WriteCDSFastaCmd(self.prompt, self.controller, self.context, line)
         cdsfastacmd.cmdloop()
         if self.context["go_home"]:
             return True
 
+    def do_gff(self, line):
+        print("CDS to gff coming soon!")
+
+    def do_tbl(self, line):
+        print("CDs to tbl coming soon!")
+    
+    def help_writecds(self):
+        print(self.helptext)
+
+    def emptyline(self):
+        print(self.helptext)
+
     def default(self, line):
-        if command == "gff":
-            print("CDS to gff coming soon!")
-        elif command == "tbl":
-            print("CDS to tbl coming soon!")
-        else:
-            print("Please type 'fasta', 'gff' or 'tbl'")
-        pass
+        print("Sorry, I don't know how to write to " + line + " format.")
+        print(self.helptext)
 
 ################################################
 
@@ -358,16 +331,170 @@ class WriteCDSFastaCmd(cmd.Cmd):
         return True
     
     def help_writecdsfasta(self):
-        print(self.help_message)
+        print(self.helptext)
 
     def emptyline(self):
-        print(self.help_message)
+        print(self.helptext)
 
     def default(self, line):
         print(try_catch(self.controller.barf_cds_seq, [line]))
         # TODO try mrna id; if not, give samples
         # TODO allow write to file
+        # TODO return home if successful
         pass
+
+################################################
+
+class WriteGeneCmd(cmd.Cmd):
+
+    helptext = "Welcome to the GAG WRITE GENE menu.\n"+\
+            "You can write a gene to gff or tbl format.\n"+\
+            "(Type 'home' at any time to return to the main GAG console.)\n"+\
+            "gff or tbl?"
+
+    def __init__(self, prompt_prefix, controller, context, line):
+        cmd.Cmd.__init__(self)
+        self.prompt = prompt_prefix[:-2] + " CDS> "
+        self.controller = controller
+        self.context = context
+        if line:
+            self.cmdqueue = [line] # Execute default method with passed-in line
+        else:
+            print(self.helptext)
+        readline.set_history_length(1000)
+        try:
+            readline.read_history_file('.gaghistory')
+        except IOError:
+            sys.stderr.write("No .gaghistory file available...\n")
+
+    def precmd(self, line):
+        readline.write_history_file('.gaghistory')
+        return cmd.Cmd.precmd(self, line)
+
+    def help_home(self):
+        print("Exit this console and return to the main GAG console.\n")
+
+    def do_home(self, line):
+        self.context["go_home"] = True
+        return True
+    
+    def do_gff(self, line):
+        genegffcmd = WriteGeneGFFCmd(self.prompt, self.controller, self.context, line)
+        genegffcmd.cmdloop()
+        if self.context["go_home"]:
+            return True
+
+    def do_tbl(self, line):
+        print("Gene to tbl coming soon!")
+
+    def do_fasta(self, line):
+        cdsfastacmd = WriteGeneFastaCmd(self.prompt, self.controller, self.context, line)
+        cdsfastacmd.cmdloop()
+        if self.context["go_home"]:
+            return True
+
+    def help_writegene(self):
+        print(self.helptext)
+
+    def emptyline(self):
+        print(self.helptext)
+
+    def default(self, line):
+        print("Sorry, I don't know how to write to " + line + " format.")
+        print(self.helptext)
+
+################################################
+
+class WriteGeneGFFCmd(cmd.Cmd):
+
+    helptext = "Welcome to the GAG WRITE GENE GFF menu.\n"+\
+            "Please type the gene id that you want to write.\n"+\
+            "(Type 'home' at any time to return to the main GAG console.)\n"
+
+    def __init__(self, prompt_prefix, controller, context, line):
+        cmd.Cmd.__init__(self)
+        self.prompt = prompt_prefix[:-2] + " GFF> "
+        self.controller = controller
+        self.context = context
+        if line:
+            self.cmdqueue = [line] # Execute default method with passed-in line
+        else:
+            print(self.helptext)
+        readline.set_history_length(1000)
+        try:
+            readline.read_history_file('.gaghistory')
+        except IOError:
+            sys.stderr.write("No .gaghistory file available...\n")
+
+    def precmd(self, line):
+        readline.write_history_file('.gaghistory')
+        return cmd.Cmd.precmd(self, line)
+
+    def help_home(self):
+        print("Exit this console and return to the main GAG console.\n")
+
+    def do_home(self, line):
+        self.context["go_home"] = True
+        return True
+    
+    def help_writegenegff(self):
+        print(self.helptext)
+
+    def emptyline(self):
+        print(self.helptext)
+
+    def default(self, line):
+        print(try_catch(self.controller.barf_gene_gff, [line]))
+        # TODO try gene id; if not, give samples
+        # TODO allow write to file
+        # TODO return home if successful
+        pass
+
+################################################
+
+class WriteSeqCmd(cmd.Cmd):
+
+    helptext = "Welcome to the GAG WRITE SEQ menu.\n"+\
+            "(Type 'home' at any time to return to the main GAG console.)\n"+\
+            "Please type the seq id you wish to write, followed by the start and stop bases.\n"
+
+    def __init__(self, prompt_prefix, controller, context, line):
+        cmd.Cmd.__init__(self)
+        self.prompt = prompt_prefix[:-2] + " SEQ> "
+        self.controller = controller
+        self.context = context
+        if line:
+            self.cmdqueue = [line] # Execute default method with passed-in line
+        else:
+            print(self.helptext)
+        readline.set_history_length(1000)
+        try:
+            readline.read_history_file('.gaghistory')
+        except IOError:
+            sys.stderr.write("No .gaghistory file available...\n")
+
+    def precmd(self, line):
+        readline.write_history_file('.gaghistory')
+        return cmd.Cmd.precmd(self, line)
+
+    def help_home(self):
+        print("Exit this console and return to the main GAG console.\n")
+
+    def do_home(self, line):
+        self.context["go_home"] = True
+        return True
+    
+    def help_writeseq(self):
+        print(self.helptext)
+
+    def emptyline(self):
+        print(self.helptext)
+
+    def default(self, line):
+        print(try_catch(self.controller.barf_seq, [line]))
+        # TODO make start/stop base optional in consolecontroller method
+        # TODO try seq; if not provide hints
+        # TODO If failed print help message
 
 ################################################
 
