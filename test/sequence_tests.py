@@ -88,6 +88,14 @@ class TestSequence(unittest.TestCase):
     def test_how_many_Ns_backward_returns_zero_if_no_Ns(self):
         self.assertEqual(0, self.seq1.how_many_Ns_backward(3))
 
+    def test_remove_terminal_ns_beginning(self):
+        badseq = Sequence('badseq', 'nNGATTACA')
+        mockgene = Mock()
+        mockgene.indices = [3, 6]
+        badseq.genes = [mockgene]
+        badseq.remove_terminal_ns()
+        self.assertEquals("GATTACA", badseq.bases)
+
     def test_add_gene(self):
         self.add_mock_gene()
         self.assertEqual(1, len(self.seq1.genes))

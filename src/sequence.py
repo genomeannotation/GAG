@@ -60,6 +60,17 @@ class Sequence:
         result += self.bases + '\n'
         return result
 
+    def remove_terminal_ns(self):
+        # Remove any Ns at the beginning of the sequence
+        initial_ns = self.how_many_Ns_forward(1)
+        if initial_ns:
+            self.trim_region(1, initial_ns)
+        # Remove any Ns at the end of the sequence
+        length = len(self.bases)
+        terminal_ns = self.how_many_Ns_backward(length)
+        if terminal_ns:
+            self.trim_region(length-terminal_ns, length)
+
     # Given a position in the sequence, returns the number of Ns 
     # from that position forward 
     # (returns 0 if the base at that position is not N)
