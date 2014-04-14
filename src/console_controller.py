@@ -14,8 +14,8 @@ from src.stats_manager import StatsManager
 
 class ConsoleController:
 
-    no_genome_message = "It looks like no genome is currently loaded. Try the 'loadfolder' command.\n"+\
-            "Type 'help loadfolder' to learn how to use it, or just 'help' for general advice.\n"
+    no_genome_message = "It looks like no genome is currently loaded. Try the 'load' command.\n"+\
+            "Type 'help load' to learn how to use it, or just 'help' for general advice.\n"
 
 ## Setup, loading and saving sessions
 
