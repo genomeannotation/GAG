@@ -69,7 +69,7 @@ class Sequence:
         length = len(self.bases)
         terminal_ns = self.how_many_Ns_backward(length)
         if terminal_ns:
-            self.trim_region(length-terminal_ns, length)
+            self.trim_region(length-terminal_ns+1, length)
 
     # Given a position in the sequence, returns the number of Ns 
     # from that position forward 
