@@ -63,6 +63,7 @@ class GagCmd(cmd.Cmd):
         print("Available formats: fasta, gff, tbl.\n")
         
     def do_write(self, line):
+        # TODO confirm genome loaded
         writecmd = WriteCmd(self.prompt, self.controller, line) # Pass args to next console for parsing
         writecmd.cmdloop()
 
@@ -141,7 +142,7 @@ class GagCmd(cmd.Cmd):
 
 class LoadCmd(cmd.Cmd):
 
-    help_message = "This is the GAG LOAD menu.\n"+\
+    helptext = "This is the GAG LOAD menu.\n"+\
             "Type the path to a folder containing your .fasta and .gff files.\n"+\
             "To use the current directory, just hit enter.\n"+\
             "You can type 'home' at any time to return to the main GAG console.\n"+\
@@ -154,7 +155,7 @@ class LoadCmd(cmd.Cmd):
         if path_to_load:
             self.cmdqueue = [path_to_load] # Execute default method with path as arg
         else:
-            print(self.help_message)
+            print(self.helptext)
         readline.set_history_length(1000)
         try:
             readline.read_history_file('.gaghistory')
@@ -171,32 +172,35 @@ class LoadCmd(cmd.Cmd):
     def do_home(self, line):
         return True
 
-    def exit_if_genome_loaded(self):
+    def genome_loaded(self):
         if self.controller.seqs:
             return True
 
     def help_load(self):
-        print(help_message)
+        print(self.helptext)
 
     def emptyline(self):
         self.default(".")
-        return self.exit_if_genome_loaded()
+        return self.genome_loaded()
 
     def default(self, line):
         if self.controller.seqs:
             print("Clearing genome ...")
             self.controller.clear_seqs()
         try_catch(self.controller.load_folder, [line])
-        return self.exit_if_genome_loaded()
+        if self.genome_loaded():
+            return True
+        else:
+            print(self.helptext)
 
 ################################################
 
 class WriteCmd(cmd.Cmd):
 
     helptext = "Welcome to the GAG WRITE menu.\n"+\
-            "You can write in one of three formats: fasta, gff or tbl. Please type your choice.\n"+\
+            "You can write at the cds, gene, seq or genome level. Please type your choice.\n"+\
             "(Type 'home' at any time to return to the main GAG console.)\n"+\
-            "fasta, gff or tbl?\n"
+            "cds, gene, seq or genome?\n"
 
     def __init__(self, prompt_prefix, controller, line):
         cmd.Cmd.__init__(self)
@@ -235,18 +239,20 @@ class WriteCmd(cmd.Cmd):
         if self.context["go_home"]:
             return True
 
-    def do_gff(self, line):
-        # TODO
-        print("You selected gff")
-        return True
+    def do_gene(self, line):
+        print("Coming soon!")
 
-    def do_tbl(self, line):
-        # TODO
-        print("You selected tbl")
-        return True
+    def do_seq(self, line):
+        print("Coming soon!")
+
+    def do_genome(self, line):
+        print("Coming soon!")
 
     def default(self, line):
-        print("Sorry, I don't know how to write " + line + ".")
+        response = "Sorry, I don't know how to write " + line + "."
+        response += "Please choose 'cds', 'gene', 'seq' or 'genome',"
+        response += "or type 'home' to return to the main menu."
+        print(response)
 
 ################################################
 
@@ -302,7 +308,65 @@ class WriteFastaCmd(cmd.Cmd):
     def emptyline(self):
         print(self.help_message)
 
+    def do_fasta(self, line):
+        cdsfastacmd = WriteCDSFastaCmd(self.prompt, self.controller, self.context, line)
+        cdsfastacmd.cmdloop()
+        if self.context["go_home"]:
+            return True
+
     def default(self, line):
+        if command == "gff":
+            print("CDS to gff coming soon!")
+        elif command == "tbl":
+            print("CDS to tbl coming soon!")
+        else:
+            print("Please type 'fasta', 'gff' or 'tbl'")
+        pass
+
+################################################
+
+class WriteCDSFastaCmd(cmd.Cmd):
+
+    helptext = "Welcome to the GAG WRITE CDS FASTA menu.\n"+\
+            "Please type the mRNA id that corresponds to the CDS you want to write.\n"+\
+            "(Type 'home' at any time to return to the main GAG console.)\n"
+
+    def __init__(self, prompt_prefix, controller, context, line):
+        cmd.Cmd.__init__(self)
+        self.prompt = prompt_prefix[:-2] + " FASTA> "
+        self.controller = controller
+        self.context = context
+        if line:
+            self.cmdqueue = [line] # Execute default method with passed-in line
+        else:
+            print(self.helptext)
+        readline.set_history_length(1000)
+        try:
+            readline.read_history_file('.gaghistory')
+        except IOError:
+            sys.stderr.write("No .gaghistory file available...\n")
+
+    def precmd(self, line):
+        readline.write_history_file('.gaghistory')
+        return cmd.Cmd.precmd(self, line)
+
+    def help_home(self):
+        print("Exit this console and return to the main GAG console.\n")
+
+    def do_home(self, line):
+        self.context["go_home"] = True
+        return True
+    
+    def help_writecdsfasta(self):
+        print(self.help_message)
+
+    def emptyline(self):
+        print(self.help_message)
+
+    def default(self, line):
+        print(try_catch(self.controller.barf_cds_seq, [line]))
+        # TODO try mrna id; if not, give samples
+        # TODO allow write to file
         pass
 
 ################################################
