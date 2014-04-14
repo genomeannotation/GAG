@@ -84,8 +84,6 @@ class GagCmd(cmd.Cmd):
     def do_getfilterhelp(self, line):
         print('\n'+try_catch(self.controller.get_filter_help, [line.strip()])+'\n')
 
-## Output info to console
-
     def help_info(self):
         print("Usage: info\n")
         print("Prints summary statistics about original genome (from file)" +\
@@ -93,15 +91,6 @@ class GagCmd(cmd.Cmd):
 
     def do_info(self, line):
         print(try_catch(self.controller.stats, None))
-
-## Output info to file
-
-    def help_writetbl(self):
-        print("Usage: writetbl <file_name>\n")
-        print("Write a sweet feature table to the specified file.\n")
-
-    def do_writetbl(self, line):
-        print(try_catch(self.controller.write_tbl, [line]))
 
 
 ##############################################
@@ -344,7 +333,7 @@ class WriteGeneCmd(cmd.Cmd):
 
     def __init__(self, prompt_prefix, controller, context, line):
         cmd.Cmd.__init__(self)
-        self.prompt = prompt_prefix[:-2] + " CDS> "
+        self.prompt = prompt_prefix[:-2] + " GENE> "
         self.controller = controller
         self.context = context
         if line:
@@ -579,7 +568,9 @@ class WriteGenomeCmd(cmd.Cmd):
         print("Genome to gff coming soon!")
 
     def do_tbl(self, line):
-        print("Genome to tbl coming soon!")
+        # TODO verify that line is valid path first
+        # TODO return home if successful
+        print(try_catch(self.controller.write_tbl, [line]))
 
     def do_all(self, line):
         # TODO verify line is valid path first? or does console controller do that?
