@@ -99,7 +99,7 @@ class ConsoleController:
         self.stats_mgr.clear_all()
         for seq in self.seqs:
             self.stats_mgr.update_ref(seq.stats())
-        sys.stderr.write("Done.\n\n")
+        sys.stderr.write("Genome loaded.\n\n")
         print(self.stats())
 
     def set_filter_arg(self, filter_name, filter_arg, val):
