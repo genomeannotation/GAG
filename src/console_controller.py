@@ -208,14 +208,6 @@ class ConsoleController:
 
 ## Manipulate genome
 
-    def create_starts_and_stops(self):
-        if not self.seqs:
-            return self.no_genome_message
-        else:
-            #TODO pleeeeeease pass seq.bases instead of whole seq.
-            for seq in self.seqs:
-                seq.create_starts_and_stops()
-
     def subset_genome(self, line):
         if not self.seqs:
             return self.no_genome_message
