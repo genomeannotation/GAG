@@ -193,7 +193,7 @@ class LoadCmd(cmd.Cmd):
 
 class WriteCmd(cmd.Cmd):
 
-    help_message = "Welcome to the GAG WRITE menu.\n"+\
+    helptext = "Welcome to the GAG WRITE menu.\n"+\
             "You can write in one of three formats: fasta, gff or tbl. Please type your choice.\n"+\
             "(Type 'home' at any time to return to the main GAG console.)\n"+\
             "fasta, gff or tbl?\n"
@@ -206,7 +206,7 @@ class WriteCmd(cmd.Cmd):
         if line:
             self.cmdqueue = [line] # Execute default method with passed-in line
         else:
-            print(self.help_message)
+            print(self.helptext)
         readline.set_history_length(1000)
         try:
             readline.read_history_file('.gaghistory')
@@ -224,10 +224,10 @@ class WriteCmd(cmd.Cmd):
         return True
 
     def help_write(self):
-        print(self.help_message)
+        print(self.helptext)
 
     def emptyline(self):
-        print(self.help_message)
+        print(self.helptext)
 
     def do_fasta(self, line):
         fastacmd = WriteFastaCmd(self.prompt, self.controller, self.context, line)
@@ -246,13 +246,13 @@ class WriteCmd(cmd.Cmd):
         return True
 
     def default(self, line):
-        pass
+        print("Sorry, I don't know how to write " + line + ".")
 
 ################################################
 
 class WriteFastaCmd(cmd.Cmd):
 
-    help_message = "Welcome to the GAG WRITE FASTA menu.\n"+\
+    helptext = "Welcome to the GAG WRITE FASTA menu.\n"+\
             "You can write at the cds, sequence or genome level,\n"+\
             "and you can write to the screen or to a file.\n"+\
             "(Type 'home' at any time to return to the main GAG console.)\n"+\
@@ -266,7 +266,7 @@ class WriteFastaCmd(cmd.Cmd):
         if line:
             self.cmdqueue = [line] # Execute default method with passed-in line
         else:
-            print(self.help_message)
+            print(self.helptext)
         readline.set_history_length(1000)
         try:
             readline.read_history_file('.gaghistory')
