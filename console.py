@@ -40,13 +40,6 @@ class GagCmd(cmd.Cmd):
         readline.write_history_file('.gaghistory')
         return cmd.Cmd.precmd(self, line)
 
-    def help_barffolder(self):
-        print("Usage: barffolder <directory>\n")
-        print("Writes gff, fasta and trinotate files to the specified directory.\n")
-
-    def do_barffolder(self, line):
-        print(try_catch(self.controller.barf_folder, [line]))
-
     def help_load(self):
         print("This command takes you the GAG LOAD menu. There you can specify the location of")
         print("your files and load them into memory.")
@@ -225,7 +218,10 @@ class WriteCmd(cmd.Cmd):
             return True
 
     def do_genome(self, line):
-        print("Coming soon!")
+        genomecmd = WriteGenomeCmd(self.prompt, self.controller, self.context, line)
+        genomecmd.cmdloop()
+        if self.context["go_home"]:
+            return True
 
     def default(self, line):
         response = "Sorry, I don't know how to write " + line + "."
@@ -539,6 +535,66 @@ class WriteSeqCmd(cmd.Cmd):
         # TODO make start/stop base optional in consolecontroller method
         # TODO try seq; if not provide hints
         # TODO If failed print help message
+
+################################################
+
+class WriteGenomeCmd(cmd.Cmd):
+
+    helptext = "Welcome to the GAG WRITE GENOME menu.\n"+\
+            "You can write a genome to fasta, gff or tbl file,\n"+\
+            "or you can write all three files to a folder.\n"+\
+            "(Type 'home' at any time to return to the main GAG console.)\n"+\
+            "fasta, gff, tbl, or all?"
+
+    def __init__(self, prompt_prefix, controller, context, line):
+        cmd.Cmd.__init__(self)
+        self.prompt = prompt_prefix[:-2] + " GENOME> "
+        self.controller = controller
+        self.context = context
+        if line:
+            self.cmdqueue = [line] # Execute default method with passed-in line
+        else:
+            print(self.helptext)
+        readline.set_history_length(1000)
+        try:
+            readline.read_history_file('.gaghistory')
+        except IOError:
+            sys.stderr.write("No .gaghistory file available...\n")
+
+    def precmd(self, line):
+        readline.write_history_file('.gaghistory')
+        return cmd.Cmd.precmd(self, line)
+
+    def help_home(self):
+        print("Exit this console and return to the main GAG console.\n")
+
+    def do_home(self, line):
+        self.context["go_home"] = True
+        return True
+    
+    def do_fasta(self, line):
+        print("Genome to fasta coming soon!")
+
+    def do_gff(self, line):
+        print("Genome to gff coming soon!")
+
+    def do_tbl(self, line):
+        print("Genome to tbl coming soon!")
+
+    def do_all(self, line):
+        # TODO verify line is valid path first? or does console controller do that?
+        # TODO return home if successful
+        print(try_catch(self.controller.barf_folder, [line]))
+    
+    def help_writecds(self):
+        print(self.helptext)
+
+    def emptyline(self):
+        print(self.helptext)
+
+    def default(self, line):
+        print("Sorry, I don't know how to write to " + line + " format.")
+        print(self.helptext)
 
 ################################################
 
