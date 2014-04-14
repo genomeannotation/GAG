@@ -28,8 +28,8 @@ class Gene:
         result += " mrnas"
         return result
 
-    def get_valid_mrnas(self):
-        return [mrna for mrna in self.mrnas if not mrna.death_flagged]
+#    def get_valid_mrnas(self):
+#        return [mrna for mrna in self.mrnas if not mrna.death_flagged]
 
     def get_mrna_ids(self):
         result = []
@@ -39,6 +39,12 @@ class Gene:
         
     def add_annotation(self, key, value):
         self.annotations.append([key, value])
+        
+    def has_annotation(self, key):
+        for anno in self.annotations:
+            if anno[0] == key:
+                return True
+        return False
 
     def length(self):
         return length_of_segment(self.indices)

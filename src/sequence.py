@@ -33,8 +33,8 @@ class Sequence:
                     return True
         return False
         
-    def get_valid_genes(self):
-        return [gene for gene in self.genes if not gene.death_flagged]
+#    def get_valid_genes(self):
+#        return [gene for gene in self.genes if not gene.death_flagged]
 
     def get_gene_ids(self):
         result = []
