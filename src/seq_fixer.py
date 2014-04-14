@@ -10,8 +10,7 @@ class SeqFixer:
 
     def fix(self, seq):
         if self.terminal_ns:
-            # TODO implement method on sequence first
-            pass
+            seq.remove_terminal_ns()
         if self.internal_stops:
             # TODO implement method on sequence first
             pass
