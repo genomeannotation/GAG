@@ -11,6 +11,7 @@ from src.gff_reader import GFFReader
 from src.annotator import Annotator
 from src.filter_manager import FilterManager
 from src.stats_manager import StatsManager
+from src.seq_fixer import SeqFixer
 
 class ConsoleController:
 
@@ -24,6 +25,7 @@ class ConsoleController:
         self.annot = Annotator()
         self.filter_mgr = FilterManager()
         self.stats_mgr = StatsManager()
+        self.seq_fixer = SeqFixer()
         self.input = ''
 
     def barf_folder(self, line):
@@ -114,6 +116,15 @@ class ConsoleController:
     def apply_filters(self):
         for seq in self.seqs:
             self.filter_mgr.apply_filters(seq)
+
+    def fix_terminal_ns(self):
+        self.seq_fixer.terminal_ns = True
+
+    def fix_internal_stops(self):
+        self.seq_fixer.internal_stops = True
+
+    def fix_start_stop_codons(self):
+        self.seq_fixer.start_stop_codons = True
 
     def barf(self, line):
         proc = subprocess.Popen(['echo '+line], stdout=subprocess.PIPE, \
@@ -337,7 +348,9 @@ class ConsoleController:
                 self.stats_mgr.clear_alt()
                 sys.stderr.write("Calculating statistics on genome...\n")
                 for seq in self.seqs:
+                    # Deep copy seq, apply fixes and filters, then update stats
                     cseq = copy.deepcopy(seq)
+                    self.seq_fixer.fix(seq)
                     self.filter_mgr.apply_filters(cseq)
                     print("updating alt")
                     self.stats_mgr.update_alt(cseq.stats())
