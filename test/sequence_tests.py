@@ -104,6 +104,16 @@ class TestSequence(unittest.TestCase):
         badseq.remove_terminal_ns()
         self.assertEquals("GATTACA", badseq.bases)
 
+    def test_remove_terminal_ns_beginning_and_end(self):
+        badseq = Sequence('badseq', 'nnGATTACAnNNn')
+        mockgene = Mock()
+        mockgene.indices = [3, 8]
+        badseq.genes = [mockgene]
+        badseq.remove_terminal_ns()
+        self.assertEquals("GATTACA", badseq.bases)
+        # Verify last call to mockgene.trimregion...
+        mockgene.trim_region.assert_called_with(8, 11)
+
     def test_add_gene(self):
         self.add_mock_gene()
         self.assertEqual(1, len(self.seq1.genes))
