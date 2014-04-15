@@ -423,7 +423,7 @@ class WriteCDSFastaCmd(cmd.Cmd):
             self.context["go_home"] = True
             return True
         else:
-            print("\nSorry, couldn't find that mRNA id.")
+            print("\nSorry, couldn't find mRNA id '" + mrna_id + "'.")
             print(self.controller.get_n_mrna_ids(5))
 
 ################################################
@@ -531,11 +531,14 @@ class WriteGeneGFFCmd(cmd.Cmd):
         print(self.helptext)
 
     def default(self, line):
-        print(try_catch(self.controller.barf_gene_gff, [line]))
-        # TODO try gene id; if not, give samples
-        # TODO allow write to file
-        # TODO return home if successful
-        pass
+        gene_id = line.strip()
+        if self.controller.contains_gene(gene_id):
+            print("\n" + try_catch(self.controller.barf_gene_gff, [line]) + "\n")
+            self.context["go_home"] = True
+            return True
+        else:
+            print("\nSorry, couldn't find gene id '" + gene_id + "'.")
+            print(self.controller.get_n_gene_ids(5))
 
 ################################################
 
@@ -579,11 +582,14 @@ class WriteGeneTBLCmd(cmd.Cmd):
         print(self.helptext)
 
     def default(self, line):
-        print(try_catch(self.controller.barf_gene_tbl, [line]))
-        # TODO try gene id; if not, give samples
-        # TODO allow write to file
-        # TODO return home if successful
-        pass
+        gene_id = line.strip()
+        if self.controller.contains_gene(gene_id):
+            print("\n" + try_catch(self.controller.barf_gene_tbl, [line]) + "\n")
+            self.context["go_home"] = True
+            return True
+        else:
+            print("\nSorry, couldn't find gene id '" + gene_id + "'.")
+            print(self.controller.get_n_gene_ids(5))
 
 ################################################
 
