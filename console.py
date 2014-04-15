@@ -26,6 +26,9 @@ class GagCmd(cmd.Cmd):
     "\nWelcome to the GAG console!\n"+\
     "Type 'help' for available commands.\n"
 
+    no_genome_message = "\nIt looks like no genome is currently loaded. Try the 'load' command.\n"+\
+            "Type 'help load' to learn how to use it, or just 'help' for general advice.\n"
+
     def __init__(self):
         cmd.Cmd.__init__(self)
         self.prompt = "GAG> "
@@ -46,9 +49,12 @@ class GagCmd(cmd.Cmd):
         print("Alternately, just type 'load <path>' and avoid the submenu altogether.\n")
 
     def do_load(self, line):
-        path_to_load = line.strip()
-        loadcmd = LoadCmd(self.prompt, self.controller, path_to_load)
-        loadcmd.cmdloop()
+        if self.controller.genome_is_loaded():
+            path_to_load = line.strip()
+            loadcmd = LoadCmd(self.prompt, self.controller, path_to_load)
+            loadcmd.cmdloop()
+        else:
+            print(self.no_genome_message)
 
     def help_fix(self):
         print("\nThis command takes you to the GAG FIX menu. There you can apply fixes to the genome,")
@@ -58,9 +64,12 @@ class GagCmd(cmd.Cmd):
         print("Alternately, just type 'fix <name_of_fix> if you've done this before :)\n")
 
     def do_fix(self, line):
-        name_of_fix = line.strip()
-        fixcmd = FixCmd(self.prompt, self.controller, name_of_fix)
-        fixcmd.cmdloop()
+        if self.controller.genome_is_loaded():
+            name_of_fix = line.strip()
+            fixcmd = FixCmd(self.prompt, self.controller, name_of_fix)
+            fixcmd.cmdloop()
+        else:
+            print(self.no_genome_message)
 
     def help_write(self):
         print("\nThis command takes you to the GAG WRITE menu. There you can write genomic data")
@@ -68,9 +77,11 @@ class GagCmd(cmd.Cmd):
         print("Available formats: fasta, gff, tbl.\n")
         
     def do_write(self, line):
-        # TODO confirm genome loaded
-        writecmd = WriteCmd(self.prompt, self.controller, line) # Pass args to next console for parsing
-        writecmd.cmdloop()
+        if self.controller.genome_is_loaded():
+            writecmd = WriteCmd(self.prompt, self.controller, line) # Pass args to next console for parsing
+            writecmd.cmdloop()
+        else:
+            print(self.no_genome_message)
 
     def help_exit(self):
         print("\nExit this console.\n")
@@ -102,7 +113,10 @@ class GagCmd(cmd.Cmd):
         print("May take a moment to run.\n")
 
     def do_info(self, line):
-        print(try_catch(self.controller.stats, None))
+        if self.controller.genome_is_loaded():
+            print(try_catch(self.controller.stats, None))
+        else:
+            print(self.no_genome_message)
 
 
 ##############################################
@@ -218,8 +232,7 @@ class LoadCmd(cmd.Cmd):
         return True
 
     def genome_loaded(self):
-        if self.controller.seqs:
-            return True
+        return self.controller.genome_is_loaded()
 
     def help_load(self):
         print(self.helptext)
