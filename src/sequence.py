@@ -122,7 +122,9 @@ class Sequence:
                 to_remove.append(gene)
         self.genes = [g for g in self.genes if g not in to_remove]
         
-    def get_subseq(self, start, stop):
+    def get_subseq(self, start=1, stop=None):
+        if not stop:
+            stop = len(self.bases)
         if stop > len(self.bases):
             return ""
         return self.bases[start-1:stop]

@@ -266,14 +266,20 @@ class ConsoleController:
             return self.no_genome_message
         else:
             args = line.split(' ')
-            if len(args) != 3:
+            if len(args) == 1:
+                seq_id = args[0]
+                for seq in self.seqs:
+                    if seq.header == seq_id:
+                        return seq.get_subseq()
+            elif len(args) == 3:
+                seq_id = args[0]
+                start = int(args[1])
+                stop = int(args[2])
+                for seq in self.seqs:
+                    if seq.header == seq_id:
+                        return seq.get_subseq(start, stop)
+            else:
                 return "Usage: barfseq <seq_id> <start_index> <end_index>\n"
-            seq_id = args[0]
-            start = int(args[1])
-            stop = int(args[2])
-            for seq in self.seqs:
-                if seq.header == seq_id:
-                    return seq.get_subseq(start, stop)
 
     def barf_cds_seq(self, line):
         if not self.seqs:
