@@ -49,12 +49,9 @@ class GagCmd(cmd.Cmd):
         print("Alternately, just type 'load <path>' and avoid the submenu altogether.\n")
 
     def do_load(self, line):
-        if self.controller.genome_is_loaded():
-            path_to_load = line.strip()
-            loadcmd = LoadCmd(self.prompt, self.controller, path_to_load)
-            loadcmd.cmdloop()
-        else:
-            print(self.no_genome_message)
+        path_to_load = line.strip()
+        loadcmd = LoadCmd(self.prompt, self.controller, path_to_load)
+        loadcmd.cmdloop()
 
     def help_fix(self):
         print("\nThis command takes you to the GAG FIX menu. There you can apply fixes to the genome,")
