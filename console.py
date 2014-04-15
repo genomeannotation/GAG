@@ -158,7 +158,7 @@ class FixCmd(cmd.Cmd):
         print("adjusted, and any mRNA that extended into the trimmed region will be removed.\n")
 
     def do_terminal_ns(self, line):
-        self.controller.fix_terminal_ns()
+        print("\n" + self.controller.fix_terminal_ns() + "\n")
 
     def help_internal_stops(self):
         print("\nEnabling this fix causes GAG to inspect each CDS for the presence of internal stops.")
@@ -168,7 +168,7 @@ class FixCmd(cmd.Cmd):
         print("and its parent mRNA are discarded.\n")
 
     def do_internal_stops(self, line):
-        self.controller.fix_internal_stops()
+        print("\n" + self.controller.fix_internal_stops() + "\n")
 
     def help_start_stop_codons(self):
         print("\nSelecting this fix will cause GAG to inspect the first and last three bases of each CDS")
@@ -176,15 +176,15 @@ class FixCmd(cmd.Cmd):
         print("GFF regarding start_codon or stop_codon features is disregarded.\n")
 
     def do_start_stop_codons(self, line):
-        self.controller.fix_start_stop_codons()
+        print("\n" + self.controller.fix_start_stop_codons() + "\n")
 
     def help_all(self):
         print("\nEnables all available fixes.\n")
 
     def do_all(self, line):
-        self.controller.fix_terminal_ns()
-        self.controller.fix_internal_stops()
-        self.controller.fix_start_stop_codons()
+        print("\n" + self.controller.fix_terminal_ns())
+        print(self.controller.fix_internal_stops())
+        print(self.controller.fix_start_stop_codons() + "\n")
 
     def emptyline(self):
         print(self.helptext)
