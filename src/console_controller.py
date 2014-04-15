@@ -356,6 +356,12 @@ class ConsoleController:
                 return True
         return False
 
+    def contains_gene(self, gene_id):
+        for seq in self.seqs:
+            if seq.contains_gene(gene_id):
+                return True
+        return False
+
 ## Utility functions
 def format_list_with_strings(entries):
     if len(entries) == 0:
