@@ -119,12 +119,15 @@ class ConsoleController:
 
     def fix_terminal_ns(self):
         self.seq_fixer.terminal_ns = True
+        print("Terminal Ns will now be fixed.")
 
     def fix_internal_stops(self):
         self.seq_fixer.internal_stops = True
+        print("Will attempt to fix internal stops.")
 
     def fix_start_stop_codons(self):
         self.seq_fixer.start_stop_codons = True
+        print("Will verify and create start/stop codons.")
 
     def barf(self, line):
         proc = subprocess.Popen(['echo '+line], stdout=subprocess.PIPE, \
