@@ -350,6 +350,12 @@ class ConsoleController:
     def clear_seqs(self):
         self.seqs[:] = []
 
+    def contains_mrna(self, mrna_id):
+        for seq in self.seqs:
+            if seq.contains_mrna(mrna_id):
+                return True
+        return False
+
 ## Utility functions
 def format_list_with_strings(entries):
     if len(entries) == 0:

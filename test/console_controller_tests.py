@@ -52,6 +52,13 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.clear_seqs()
         self.assertEquals(0, len(self.ctrlr.seqs))
 
+    def test_contains_mrna(self):
+        mockseq = Mock()
+        mockseq.contains_mrna.return_value = True
+        self.ctrlr.seqs = [mockseq]
+        self.assertTrue(self.ctrlr.contains_mrna("foo_mrna"))
+        mockseq.contains_mrna.assert_called_with("foo_mrna")
+
     def test_get_n_seq_ids(self):
         self.setup_seqs()
         expected = "First 3 seq ids are: seq1, seq2, seq3\n"
