@@ -417,11 +417,14 @@ class WriteCDSFastaCmd(cmd.Cmd):
         print(self.helptext)
 
     def default(self, line):
-        print(try_catch(self.controller.barf_cds_seq, [line]))
-        # TODO try mrna id; if not, give samples
-        # TODO allow write to file
-        # TODO return home if successful
-        pass
+        mrna_id = line.strip()
+        if self.controller.contains_mrna(mrna_id):
+            print("\n" + try_catch(self.controller.barf_cds_seq, [line]) + "\n")
+            self.context["go_home"] = True
+            return True
+        else:
+            print("\nSorry, couldn't find that mRNA id.")
+            print(self.controller.get_n_mrna_ids(5))
 
 ################################################
 
