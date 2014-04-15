@@ -186,16 +186,6 @@ class ConsoleController:
         result += format_list_with_strings(mrnas_list)
         return result
 
-    def barftofile(self, line):
-        args = line.split()
-
-        with open(args[0], 'w') as f:
-            if len(args) > 1:
-                for arg in args[1:]:
-                    f.write(arg+' ')
-            else:
-                f.write(self.input)
-
 
 ## Reading in files
 
