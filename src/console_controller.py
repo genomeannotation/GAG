@@ -129,12 +129,6 @@ class ConsoleController:
         self.seq_fixer.start_stop_codons = True
         print("Will verify and create start/stop codons.")
 
-    def barf(self, line):
-        proc = subprocess.Popen(['echo '+line], stdout=subprocess.PIPE, \
-                stdin=subprocess.PIPE, shell=True)
-        (out, err) = proc.communicate(self.input)
-        return out
-
 ## Assorted utilities
 
     def get_n_seq_ids(self, number):
