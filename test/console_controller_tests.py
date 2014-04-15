@@ -69,7 +69,7 @@ class TestConsoleController(unittest.TestCase):
     def test_contains_seq(self):
         self.setup_seqs()
         self.assertTrue(self.ctrlr.contains_seq("seq1"))
-
+        self.assertFalse(self.ctrlr.contains_seq("foo_seq"))
 
     def test_get_n_seq_ids(self):
         self.setup_seqs()

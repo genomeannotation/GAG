@@ -597,7 +597,8 @@ class WriteSeqCmd(cmd.Cmd):
 
     helptext = "\nWelcome to the GAG WRITE SEQ menu.\n"+\
             "(Type 'home' at any time to return to the main GAG console.)\n"+\
-            "Please type the seq id you wish to write, followed by the start and stop bases.\n\n"+\
+            "Please type the seq id you wish to write. To write a subsequence,\n"+\
+            "follow the seq id with the start and stop bases.\n\n"+\
             "seq id [start base] [stop base]?\n"
 
     def __init__(self, prompt_prefix, controller, context, line):
@@ -633,14 +634,16 @@ class WriteSeqCmd(cmd.Cmd):
         print(self.helptext)
 
     def default(self, line):
-        seq_id = line.strip()
+        args = line.split()
+        seq_id = args[0]
         if self.controller.contains_seq(seq_id):
-            print("\n" + try_catch(self.controller.barf_seq, [line]) + "\n")
+            print("\n" + try_catch(self.controller.barf_seq, [line]))
             self.context["go_home"] = True
             return True
         else:
             print("\nSorry, couldn't find seq id '" + seq_id + "'.")
             print(self.controller.get_n_seq_ids(5))
+            print("seq id [start base] [stop base]?\n")
         # TODO make start/stop base optional in consolecontroller method
 
 ################################################
