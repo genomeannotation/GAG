@@ -238,42 +238,6 @@ class ConsoleController:
             for seq in self.seqs:
                 seq.remove_gene(args)
 
-    def trim_region(self, line):
-        # TODO this is hideous 
-        if not self.seqs:
-            return self.no_genome_message
-        else:
-            args = []
-            if len(line) > 0:
-                args = line.split()
-                if len(args) != 3:
-                    sys.stderr.write("Error: ConsoleController.trim_region \
-                                      requires 3 args\n")
-                else:
-                    seq_name = args[0]
-                    start = int(args[1])
-                    stop = int(args[2])
-                    for seq in self.seqs:
-                        if seq.header == seq_name:
-                            seq.trim_region(start, stop)
-            else:
-                lines = self.input.split('\n')
-                for entry in lines:
-                    entries = entry.split()
-                    if len(entries) != 3:
-                        sys.stderr.write("Error: ConsoleController.trim_region " +
-                                          "requires 3 args\n")
-                        sys.stderr.write("This was the input: " + entry + "\n")
-                        sys.stderr.write("Moving on to next input...\n")
-                    else:
-                        # TODO too many loops, could be nicer
-                        seq_name = entries[0]
-                        start = int(entries[1])
-                        stop = int(entries[2])
-                        for seq in self.seqs:
-                            if seq.header == seq_name:
-                                seq.trim_region(start, stop)
-
     def remove_seq(self, line):
         if not self.seqs:
             return self.no_genome_message
