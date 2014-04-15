@@ -41,7 +41,7 @@ class GagCmd(cmd.Cmd):
         return cmd.Cmd.precmd(self, line)
 
     def help_load(self):
-        print("This command takes you the GAG LOAD menu. There you can specify the location of")
+        print("\nThis command takes you the GAG LOAD menu. There you can specify the location of")
         print("your files and load them into memory.")
         print("Alternately, just type 'load <path>' and avoid the submenu altogether.\n")
 
@@ -50,9 +50,11 @@ class GagCmd(cmd.Cmd):
         loadcmd = LoadCmd(self.prompt, self.controller, path_to_load)
         loadcmd.cmdloop()
 
-    def help_fix(self, line):
-        print("This command takes you to the GAG FIX menu. There you can apply fixes to the genome,")
+    def help_fix(self):
+        print("\nThis command takes you to the GAG FIX menu. There you can apply fixes to the genome,")
         print("to resolve issues such as internal stops, terminal Ns, etc.")
+        print("Fixes are applied when you type the 'info' command or when you write")
+        print("the genome to a file.")
         print("Alternately, just type 'fix <name_of_fix> if you've done this before :)\n")
 
     def do_fix(self, line):
@@ -61,7 +63,7 @@ class GagCmd(cmd.Cmd):
         fixcmd.cmdloop()
 
     def help_write(self):
-        print("This command takes you to the GAG WRITE menu. There you can write genomic data")
+        print("\nThis command takes you to the GAG WRITE menu. There you can write genomic data")
         print("to the screen or to a file. You can write at the CDS, mRNA, gene, sequence or genome level.")
         print("Available formats: fasta, gff, tbl.\n")
         
@@ -71,7 +73,7 @@ class GagCmd(cmd.Cmd):
         writecmd.cmdloop()
 
     def help_exit(self):
-        print("Exit this console.\n")
+        print("\nExit this console.\n")
 
     def do_exit(self, line):
         return True
@@ -95,9 +97,9 @@ class GagCmd(cmd.Cmd):
         print('\n'+try_catch(self.controller.get_filter_help, [line.strip()])+'\n')
 
     def help_info(self):
-        print("Usage: info\n")
-        print("Prints summary statistics about original genome (from file)" +\
-                " and modified genome (filters applied). May take a moment to run.")
+        print("\nPrints summary statistics about original genome (from file)" +\
+                " and modified genome (filters and fixes applied).")
+        print("May take a moment to run.\n")
 
     def do_info(self, line):
         print(try_catch(self.controller.stats, None))
@@ -110,10 +112,9 @@ class FixCmd(cmd.Cmd):
     helptext = "\nThis is the GAG FIX menu.\n"+\
             "You can apply the following fixes: "+\
             "terminal_ns, internal_stops, start_stop_codons.\n"+\
-            "Fixes are applied when you type the 'info' command or when you write"+\
-            " the genome to a file.\n"+\
             "(You can type 'home' at any time to return to the main GAG console.)\n"+\
-            "Type the name of a fix to enable it. Type 'all' to enable everything.\n"
+            "Type the name of a fix to enable it. Type 'all' to enable everything.\n\n"+\
+            "terminal_ns, internal_stops, start_stop_codons or all?\n"
 
     def __init__(self, prompt_prefix, controller, name_of_fix):
         cmd.Cmd.__init__(self)
@@ -134,13 +135,13 @@ class FixCmd(cmd.Cmd):
         return cmd.Cmd.precmd(self, line)
 
     def help_home(self):
-        print("Exit this console and return to the main GAG console.\n")
+        print("\nExit this console and return to the main GAG console.\n")
 
     def do_home(self, line):
         return True
 
     def help_terminal_ns(self):
-        print("With this fix enabled, GAG will inspect the beginning and end of each")
+        print("\nWith this fix enabled, GAG will inspect the beginning and end of each")
         print("sequence for the presence of unknown bases ('N' or 'n'). If found, they")
         print("will be removed. Indices of features on the sequence will be automatically")
         print("adjusted, and any mRNA that extended into the trimmed region will be removed.\n")
@@ -149,7 +150,7 @@ class FixCmd(cmd.Cmd):
         self.controller.fix_terminal_ns()
 
     def help_internal_stops(self):
-        print("Enabling this fix causes GAG to inspect each CDS for the presence of internal stops.")
+        print("\nEnabling this fix causes GAG to inspect each CDS for the presence of internal stops.")
         print("If any are found, a six-frame translation is performed. If the translation in another")
         print("phase is found to have no internal stops, this phase is considered to be the correct one")
         print("and the CDS is adjusted accordingly. If all translations contain internal stops, the CDS")
@@ -159,7 +160,7 @@ class FixCmd(cmd.Cmd):
         self.controller.fix_internal_stops()
 
     def help_start_stop_codons(self):
-        print("Selecting this fix will cause GAG to inspect the first and last three bases of each CDS")
+        print("\nSelecting this fix will cause GAG to inspect the first and last three bases of each CDS")
         print("to determine if it contains a valid start and/or stop codon. Information in the original")
         print("GFF regarding start_codon or stop_codon features is disregarded.\n")
 
@@ -167,7 +168,7 @@ class FixCmd(cmd.Cmd):
         self.controller.fix_start_stop_codons()
 
     def help_all(self):
-        print("Enables all available fixes.\n")
+        print("\nEnables all available fixes.\n")
 
     def do_all(self, line):
         self.controller.fix_terminal_ns()
@@ -189,7 +190,8 @@ class LoadCmd(cmd.Cmd):
             "Type the path to a folder containing your .fasta and .gff files.\n"+\
             "To use the current directory, just hit enter.\n"+\
             "You can type 'home' at any time to return to the main GAG console.\n"+\
-            "You'll be returned automatically once your genome is loaded.\n"
+            "You'll be returned automatically once your genome is loaded.\n\n"+\
+            "Folder path?\n"
 
     def __init__(self, prompt_prefix, controller, path_to_load):
         cmd.Cmd.__init__(self)
@@ -210,7 +212,7 @@ class LoadCmd(cmd.Cmd):
         return cmd.Cmd.precmd(self, line)
 
     def help_home(self):
-        print("Exit this console and return to the main GAG console.\n")
+        print("\nExit this console and return to the main GAG console.\n")
 
     def do_home(self, line):
         return True
@@ -265,7 +267,7 @@ class WriteCmd(cmd.Cmd):
         return cmd.Cmd.precmd(self, line)
 
     def help_home(self):
-        print("Exit this console and return to the main GAG console.\n")
+        print("\nExit this console and return to the main GAG console.\n")
 
     def do_home(self, line):
         return True
@@ -335,7 +337,7 @@ class WriteCDSCmd(cmd.Cmd):
         return cmd.Cmd.precmd(self, line)
 
     def help_home(self):
-        print("Exit this console and return to the main GAG console.\n")
+        print("\nExit this console and return to the main GAG console.\n")
 
     def do_home(self, line):
         self.context["go_home"] = True
@@ -369,7 +371,8 @@ class WriteCDSFastaCmd(cmd.Cmd):
 
     helptext = "\nWelcome to the GAG WRITE CDS FASTA menu.\n"+\
             "Please type the mRNA id that corresponds to the CDS you want to write.\n"+\
-            "(Type 'home' at any time to return to the main GAG console.)\n"
+            "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
+            "mRNA id?\n"
 
     def __init__(self, prompt_prefix, controller, context, line):
         cmd.Cmd.__init__(self)
@@ -391,7 +394,7 @@ class WriteCDSFastaCmd(cmd.Cmd):
         return cmd.Cmd.precmd(self, line)
 
     def help_home(self):
-        print("Exit this console and return to the main GAG console.\n")
+        print("\nExit this console and return to the main GAG console.\n")
 
     def do_home(self, line):
         self.context["go_home"] = True
@@ -439,7 +442,7 @@ class WriteGeneCmd(cmd.Cmd):
         return cmd.Cmd.precmd(self, line)
 
     def help_home(self):
-        print("Exit this console and return to the main GAG console.\n")
+        print("\nExit this console and return to the main GAG console.\n")
 
     def do_home(self, line):
         self.context["go_home"] = True
@@ -479,7 +482,8 @@ class WriteGeneGFFCmd(cmd.Cmd):
 
     helptext = "\nWelcome to the GAG WRITE GENE GFF menu.\n"+\
             "Please type the gene id that you want to write.\n"+\
-            "(Type 'home' at any time to return to the main GAG console.)\n"
+            "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
+            "gene id?\n"
 
     def __init__(self, prompt_prefix, controller, context, line):
         cmd.Cmd.__init__(self)
@@ -501,7 +505,7 @@ class WriteGeneGFFCmd(cmd.Cmd):
         return cmd.Cmd.precmd(self, line)
 
     def help_home(self):
-        print("Exit this console and return to the main GAG console.\n")
+        print("\nExit this console and return to the main GAG console.\n")
 
     def do_home(self, line):
         self.context["go_home"] = True
@@ -526,7 +530,8 @@ class WriteGeneTBLCmd(cmd.Cmd):
 
     helptext = "\nWelcome to the GAG WRITE GENE TBL menu.\n"+\
             "Please type the gene id that you want to write.\n"+\
-            "(Type 'home' at any time to return to the main GAG console.)\n"
+            "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
+            "gene id?\n"
 
     def __init__(self, prompt_prefix, controller, context, line):
         cmd.Cmd.__init__(self)
@@ -548,7 +553,7 @@ class WriteGeneTBLCmd(cmd.Cmd):
         return cmd.Cmd.precmd(self, line)
 
     def help_home(self):
-        print("Exit this console and return to the main GAG console.\n")
+        print("\nExit this console and return to the main GAG console.\n")
 
     def do_home(self, line):
         self.context["go_home"] = True
@@ -573,7 +578,8 @@ class WriteSeqCmd(cmd.Cmd):
 
     helptext = "\nWelcome to the GAG WRITE SEQ menu.\n"+\
             "(Type 'home' at any time to return to the main GAG console.)\n"+\
-            "Please type the seq id you wish to write, followed by the start and stop bases.\n"
+            "Please type the seq id you wish to write, followed by the start and stop bases.\n\n"+\
+            "seq id [start base] [stop base]?\n"
 
     def __init__(self, prompt_prefix, controller, context, line):
         cmd.Cmd.__init__(self)
@@ -595,7 +601,7 @@ class WriteSeqCmd(cmd.Cmd):
         return cmd.Cmd.precmd(self, line)
 
     def help_home(self):
-        print("Exit this console and return to the main GAG console.\n")
+        print("\nExit this console and return to the main GAG console.\n")
 
     def do_home(self, line):
         self.context["go_home"] = True
@@ -643,7 +649,7 @@ class WriteGenomeCmd(cmd.Cmd):
         return cmd.Cmd.precmd(self, line)
 
     def help_home(self):
-        print("Exit this console and return to the main GAG console.\n")
+        print("\nExit this console and return to the main GAG console.\n")
 
     def do_home(self, line):
         self.context["go_home"] = True
