@@ -66,6 +66,11 @@ class TestConsoleController(unittest.TestCase):
         self.assertTrue(self.ctrlr.contains_gene("foo_gene"))
         mockseq.contains_gene.assert_called_with("foo_gene")
 
+    def test_contains_seq(self):
+        self.setup_seqs()
+        self.assertTrue(self.ctrlr.contains_seq("seq1"))
+
+
     def test_get_n_seq_ids(self):
         self.setup_seqs()
         expected = "First 3 seq ids are: seq1, seq2, seq3\n"

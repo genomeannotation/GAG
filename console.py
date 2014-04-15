@@ -633,10 +633,15 @@ class WriteSeqCmd(cmd.Cmd):
         print(self.helptext)
 
     def default(self, line):
-        print(try_catch(self.controller.barf_seq, [line]))
+        seq_id = line.strip()
+        if self.controller.contains_seq(seq_id):
+            print("\n" + try_catch(self.controller.barf_seq, [line]) + "\n")
+            self.context["go_home"] = True
+            return True
+        else:
+            print("\nSorry, couldn't find seq id '" + seq_id + "'.")
+            print(self.controller.get_n_seq_ids(5))
         # TODO make start/stop base optional in consolecontroller method
-        # TODO try seq; if not provide hints
-        # TODO If failed print help message
 
 ################################################
 

@@ -362,6 +362,12 @@ class ConsoleController:
                 return True
         return False
 
+    def contains_seq(self, seq_id):
+        for seq in self.seqs:
+            if seq.header == seq_id:
+                return True
+        return False
+
 ## Utility functions
 def format_list_with_strings(entries):
     if len(entries) == 0:
