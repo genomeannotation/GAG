@@ -41,25 +41,26 @@ class ConsoleController:
             sys.stderr.write("Usage: barffolder <directory>\n")
             return
         else:
+            # Create directory, open files
             os.system('mkdir '+line)
-            
-            # Write the gff
-            sys.stderr.write("Writing gff...\n")
-            with open(line+'/gag.gff', 'w') as gff:
-                for seq in self.seqs:
-                    gff.write(seq.to_gff())
+            gff = open(line+'/gag.gff', 'w')
+            tbl = open(line+'/gag.tbl', 'w')
+            fasta = open(line+'/gag.fasta', 'w')
 
-            # Write the tbl
-            sys.stderr.write("Writing tbl...\n")
-            with open(line+'/gag.tbl', 'w') as tbl:
-                for seq in self.seqs:
-                    tbl.write(seq.to_tbl())
+            # Deep copy each seq, apply fixes and filters, write
+            sys.stderr.write("Writing gff, tbl and fasta...\n")
+            for seq in self.seqs:
+                cseq = copy.deepcopy(seq)
+                self.seq_fixer.fix(seq)
+                self.filter_mgr.apply_filters(cseq)
+                gff.write(seq.to_gff())
+                tbl.write(seq.to_tbl())
+                fasta.write(seq.to_fasta())
 
-            # Write the fasta
-            sys.stderr.write("Writing fasta...\n")
-            with open(line+'/gag.fasta', 'w') as fasta:
-                for seq in self.seqs:
-                    fasta.write(seq.to_fasta())
+            # Close files
+            gff.close()
+            tbl.close()
+            fasta.close()
 
             # Write the annotations
             sys.stderr.write("Writing trinotate...\n")
