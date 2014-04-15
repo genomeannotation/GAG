@@ -44,16 +44,25 @@ class ConsoleController:
             os.system('mkdir '+line)
             
             # Write the gff
+            sys.stderr.write("Writing gff...\n")
             with open(line+'/gag.gff', 'w') as gff:
                 for seq in self.seqs:
                     gff.write(seq.to_gff())
 
+            # Write the tbl
+            sys.stderr.write("Writing tbl...\n")
+            with open(line+'/gag.tbl', 'w') as tbl:
+                for seq in self.seqs:
+                    tbl.write(seq.to_tbl())
+
             # Write the fasta
+            sys.stderr.write("Writing fasta...\n")
             with open(line+'/gag.fasta', 'w') as fasta:
                 for seq in self.seqs:
                     fasta.write(seq.to_fasta())
 
             # Write the annotations
+            sys.stderr.write("Writing trinotate...\n")
             self.annot.write_to_file(line+'/gag.trinotate')
             return "Genome written to " + line
         
@@ -320,23 +329,6 @@ class ConsoleController:
                 self.filter_mgr.dirty = False
             return first_line + self.stats_mgr.summary()
 
-## Output info to file
-
-    def write_tbl(self, line):
-        if not self.seqs:
-            return self.no_genome_message
-        elif not line:
-            return "Usage: writetbl <filename>\n"
-        else:
-            if os.path.exists(line):
-                return line + " already exists; please try another filename\n"
-            with open(line, 'w') as out_file:
-                out_file.write(">Feature SeqId\n")
-                for seq in self.seqs:
-                    out_file.write(seq.to_tbl())
-                out_file.close()
-            return ".tbl file written to " + line + "\n"
-
 ## Utility methods
 
     def add_gene(self, gene):
@@ -373,6 +365,10 @@ class ConsoleController:
             if seq.header == seq_id:
                 return True
         return False
+
+    def can_write_to_path(self, path):
+        return not os.path.exists(path)
+
 
 ## Utility functions
 def format_list_with_strings(entries):

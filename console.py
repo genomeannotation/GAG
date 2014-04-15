@@ -313,9 +313,9 @@ class WriteCmd(cmd.Cmd):
             return True
 
     def default(self, line):
-        response = "Sorry, I don't know how to write " + line + "."
+        response = "\nSorry, I don't know how to write " + line + "."
         response += "Please choose 'cds', 'gene', 'seq' or 'genome',"
-        response += "or type 'home' to return to the main menu."
+        response += "or type 'home' to return to the main menu.\n"
         print(response)
 
 ################################################
@@ -644,17 +644,16 @@ class WriteSeqCmd(cmd.Cmd):
             print("\nSorry, couldn't find seq id '" + seq_id + "'.")
             print(self.controller.get_n_seq_ids(5))
             print("seq id [start base] [stop base]?\n")
-        # TODO make start/stop base optional in consolecontroller method
 
 ################################################
 
 class WriteGenomeCmd(cmd.Cmd):
 
     helptext = "\nWelcome to the GAG WRITE GENOME menu.\n"+\
-            "You can write a genome to fasta, gff or tbl file,\n"+\
-            "or you can write all three files to a folder.\n"+\
+            "Please type a name for the folder to contain the files.\n"+\
+            "The folder will be created -- in other words, don't give an existing folder.\n"+\
             "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
-            "fasta, gff, tbl, or all?"
+            "folder name?\n"
 
     def __init__(self, prompt_prefix, controller, context, line):
         cmd.Cmd.__init__(self)
@@ -682,31 +681,19 @@ class WriteGenomeCmd(cmd.Cmd):
         self.context["go_home"] = True
         return True
     
-    def do_fasta(self, line):
-        print("Genome to fasta coming soon!")
-
-    def do_gff(self, line):
-        print("Genome to gff coming soon!")
-
-    def do_tbl(self, line):
-        # TODO verify that line is valid path first
-        # TODO return home if successful
-        print(try_catch(self.controller.write_tbl, [line]))
-
-    def do_all(self, line):
-        # TODO verify line is valid path first? or does console controller do that?
-        # TODO return home if successful
-        print(try_catch(self.controller.barf_folder, [line]))
-    
-    def help_writecds(self):
+    def help_writegenome(self):
         print(self.helptext)
 
     def emptyline(self):
         print(self.helptext)
 
     def default(self, line):
-        print("Sorry, I don't know how to write to " + line + " format.")
-        print(self.helptext)
+        if self.controller.can_write_to_path(line):
+            print(try_catch(self.controller.barf_folder, [line]))
+            self.context["go_home"] = True
+            return True
+        else:
+            print("\nSorry, can't write to " + line + "\n")
 
 ################################################
 

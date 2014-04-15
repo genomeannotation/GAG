@@ -174,6 +174,11 @@ class TestConsoleController(unittest.TestCase):
         result = self.ctrlr.barf_seq("seq1 1 3")
         self.assertEquals("GAT", result)
 
+    def test_can_write_to_path(self):
+        self.assertFalse(self.ctrlr.can_write_to_path("src/"))
+        self.assertFalse(self.ctrlr.can_write_to_path("console.py"))
+        self.assertTrue(self.ctrlr.can_write_to_path("no_such_directory/no_such_subdirectory/no_such_file.txt"))
+
 
 ##########################
 def suite():
