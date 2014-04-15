@@ -694,6 +694,7 @@ class WriteGenomeCmd(cmd.Cmd):
             return True
         else:
             print("\nSorry, can't write to " + line + "\n")
+            print("folder name?\n")
 
 ################################################
 
