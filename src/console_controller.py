@@ -28,6 +28,12 @@ class ConsoleController:
         self.seq_fixer = SeqFixer()
         self.input = ''
 
+    def genome_is_loaded(self):
+        if self.seqs:
+            return True
+        else:
+            return False
+
     def barf_folder(self, line):
         if not self.seqs:
             return self.no_genome_message
@@ -325,7 +331,7 @@ class ConsoleController:
                 out_file.close()
             return ".tbl file written to " + line + "\n"
 
-## Utilities
+## Utility methods
 
     def add_gene(self, gene):
         for seq in self.seqs:
