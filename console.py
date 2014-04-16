@@ -5,9 +5,10 @@ import cmd
 import readline
 import sys
 import traceback
+import types
 from src.console_controller import ConsoleController
 
-def try_catch(command, args):
+def try_catch(command, args=[]):
     try:
         if args is not None:
             return command(*args)
@@ -17,6 +18,117 @@ def try_catch(command, args):
         print("Sorry, that command raised an exception. Here's what I know:\n")
         print(traceback.format_exc())
 
+###################################################################################################        
+## Begin obscure bull@#$% code
+###################################################################################################
+
+# Generic filter arg selector command console
+class FilterArgCmd(cmd.Cmd):
+
+    def __init__(self, prompt_prefix, controller, context, line, filter_name):
+        cmd.Cmd.__init__(self)
+        
+        # TODO
+        self.helptext = "This is the FILTER "+filter_name+" "+" console. Here you select which filter\n" \
+                        "argument you want to view or modify. These are the filter arguments:\n\n"
+        self.helptext += ', '.join(controller.filter_mgr.filter_args[filter_name])
+        
+        self.prompt = prompt_prefix[:-2] + ' ' + filter_name +'> '
+        self.controller = controller
+        self.context = context
+        self.filter_name = filter_name
+        if line:
+            self.cmdqueue = [line] # Execute default method with path as arg
+        else:
+            print(self.helptext)
+        readline.set_history_length(1000)
+        try:
+            readline.read_history_file('.gaghistory')
+        except IOError:
+            sys.stderr.write("No .gaghistory file available...\n")
+            
+        # Set up filter arg do functions
+        for arg in controller.filter_mgr.filter_args[self.filter_name]:
+            # First real closure #teddy'sallgrownup
+            # traps arg variable
+            def do_arg(self, line, filter_arg = arg):
+                filtercmd = FilterArgSetGetCmd(self.prompt, self.controller, self.context, line, self.filter_name, filter_arg)
+                filtercmd.cmdloop()
+                if self.context["go_home"]:
+                    return True
+            setattr(self, 'do_'+arg, types.MethodType(do_arg, self))
+
+    def precmd(self, line):
+        readline.write_history_file('.gaghistory')
+        return cmd.Cmd.precmd(self, line)
+
+    def help_home(self):
+        print("\nExit this console and return to the main GAG console.\n")
+
+    def do_home(self, line):
+        self.context['go_home'] = True
+        return True
+
+    def emptyline(self):
+        print(self.helptext)
+
+    def default(self, line):
+        print("No such "+self.filter_name+" argument: "+line+"\n");
+        
+
+
+# Generic filter arg setter/getter command console
+class FilterArgSetGetCmd(cmd.Cmd):
+
+    def __init__(self, prompt_prefix, controller, context, line, filter_name, arg_name):
+        cmd.Cmd.__init__(self)
+        
+        self.helptext = "This is the FILTER "+filter_name+" "+arg_name+" console. Type a value\n" \
+                        "to set the filter argument value, or simply press enter to see the current\n" \
+                        "value.\n"
+        
+        self.prompt = prompt_prefix[:-2] + ' ' + arg_name +'> '
+        self.controller = controller
+        self.context = context
+        self.filter_name = filter_name
+        self.arg_name = arg_name
+        if line:
+            context['go_home'] = True
+            self.cmdqueue = [line] # Execute default method with path as arg
+        else:
+            print(self.helptext)
+        readline.set_history_length(1000)
+        try:
+            readline.read_history_file('.gaghistory')
+        except IOError:
+            sys.stderr.write("No .gaghistory file available...\n")
+
+    def precmd(self, line):
+        readline.write_history_file('.gaghistory')
+        return cmd.Cmd.precmd(self, line)
+
+    def help_home(self):
+        print("\nExit this console and return to the main GAG console.\n")
+
+    def do_home(self, line):
+        self.context['go_home'] = True
+        return True
+
+    def emptyline(self):
+        print(self.filter_name+" "+self.arg_name+": "+str(try_catch(self.controller.filter_mgr.get_filter_arg, [self.filter_name, self.arg_name]))+"\n\n")
+
+    def default(self, line):
+        line = line.strip()
+        if line:
+            try_catch(self.controller.filter_mgr.set_filter_arg, [self.filter_name, self.arg_name, line])
+            print(self.filter_name+" "+self.arg_name+" set to "+line+'\n')
+            return True
+
+
+
+###################################################################################################
+## End obscure bull@#$% code, begin sanity
+###################################################################################################
 
 class GagCmd(cmd.Cmd):
 
@@ -53,6 +165,19 @@ class GagCmd(cmd.Cmd):
         loadcmd = LoadCmd(self.prompt, self.controller, path_to_load)
         loadcmd.cmdloop()
 
+    def help_filter(self):
+        print("\nThis command takes you to the GAG FILTER menu. There you can apply filters to the genome")
+        print("to filter out suspicious data. Alternately, just type:\n")
+        print("'filter <name_of_filter> <filter_arg_name> <set or get> [value if setting]'\n")
+        print("if you've done this before :)\n")
+
+    def do_filter(self, line):
+        if self.controller.genome_is_loaded():
+            filtercmd = FilterCmd(self.prompt, self.controller, line)
+            filtercmd.cmdloop()
+        else:
+            print(self.no_genome_message)
+            
     def help_fix(self):
         print("\nThis command takes you to the GAG FIX menu. There you can apply fixes to the genome,")
         print("to resolve issues such as internal stops, terminal Ns, etc.")
@@ -115,6 +240,57 @@ class GagCmd(cmd.Cmd):
         else:
             print(self.no_genome_message)
 
+
+##############################################
+
+class FilterCmd(cmd.Cmd):
+
+    helptext = "\nThis is the GAG FILTER menu.\n"+\
+            "You can inspect and modify the following filters: "+\
+            "cds_length, exon_length, intron_length, gene_length.\n"+\
+            "(You can type 'home' at any time to return to the main GAG console.)\n"+\
+            "Type the name of a filter to inspect or modify it.\n"
+
+    def __init__(self, prompt_prefix, controller, line):
+        cmd.Cmd.__init__(self)
+        self.prompt = prompt_prefix[:-2] + " FILTER> "
+        self.controller = controller
+        self.context = {"go_home": False}
+        if line:
+            self.cmdqueue = [line] # Execute default method with path as arg
+        else:
+            print(self.helptext)
+        readline.set_history_length(1000)
+        try:
+            readline.read_history_file('.gaghistory')
+        except IOError:
+            sys.stderr.write("No .gaghistory file available...\n")
+
+    def precmd(self, line):
+        readline.write_history_file('.gaghistory')
+        return cmd.Cmd.precmd(self, line)
+
+    def help_home(self):
+        print("\nExit this console and return to the main GAG console.\n")
+
+    def do_home(self, line):
+        return True
+
+    def help_cds_length(self):
+        print("\nYou can filter by min or max CDS length. mRNAs who's CDSs don't make the cut are removed.\n")
+        
+    def do_cds_length(self, line):
+        cdscmd = FilterArgCmd(self.prompt, self.controller, self.context, line, 'cds_length')
+        cdscmd.cmdloop()
+        if self.context["go_home"]:
+            return True
+
+    def emptyline(self):
+        print(self.helptext)
+
+    def default(self, line):
+        print("Sorry, can't filter " + line)
+        print(self.helptext)
 
 ##############################################
 

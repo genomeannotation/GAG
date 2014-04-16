@@ -10,10 +10,10 @@ class FilterManager:
     def __init__(self):
         # Build filters
         self.filters = dict()
-        self.filters['cds_length_range'] = CDSLengthRangeFilter()
-        self.filters['exon_length_range'] = ExonLengthRangeFilter()
-        self.filters['intron_length_range'] = IntronLengthRangeFilter()
-        self.filters['gene_length_range'] = IntronLengthRangeFilter()
+        self.filters['cds_length'] = CDSLengthRangeFilter()
+        self.filters['exon_length'] = ExonLengthRangeFilter()
+        self.filters['intron_length'] = IntronLengthRangeFilter()
+        self.filters['gene_length'] = IntronLengthRangeFilter()
         
         # Build args
         self.filter_args = dict()
