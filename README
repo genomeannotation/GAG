@@ -18,6 +18,6 @@ GAG> write genome newfolder
 # Go on your merry way
 GAG> exit
 
-With any luck, you now have a file in your working directory called 'foo.tbl'. There may be any number of things wrong with it -- please get in touch with us so we can fix whatever ridiculous errors we have made. We're all in this together :)
+You now have a folder in your working directory called 'newfolder' containing a .gff, a .fasta and your shiny new .tbl file. 
 
 See documentation at http://brianreallymany.github.io/GAG/
