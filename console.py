@@ -211,24 +211,6 @@ class GagCmd(cmd.Cmd):
     def do_exit(self, line):
         return True
         
-    def help_setfilterarg(self):
-        print("\nUsage: modifyfilterarg <filter_name> <filter_arg> <value>\n\nSets a specified filter argument to a specified value.\n")
-    
-    def do_setfilterarg(self, line):
-        try_catch(self.controller.set_filter_arg, line.split(' '))
-    
-    def help_getfilterarg(self):
-        print("\nUsage: getfilterarg <filter_name> <filter_arg> <value>\n\nOutputs the value of the specified filter argument.\n")
-    
-    def do_getfilterarg(self, line):
-        print(try_catch(self.controller.get_filter_arg, line.split(' ')))
-        
-    def help_getfilterhelp(self):
-        print("\nUsage: getfilterhelp [filter_name]\n\nGets help for a filter. Omit filter name to list info for all filters.\n")
-        
-    def do_getfilterhelp(self, line):
-        print('\n'+try_catch(self.controller.get_filter_help, [line.strip()])+'\n')
-
     def help_info(self):
         print("\nPrints summary statistics about original genome (from file)" +\
                 " and modified genome (filters and fixes applied).")
