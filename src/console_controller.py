@@ -325,7 +325,6 @@ class ConsoleController:
                     cseq = copy.deepcopy(seq)
                     self.seq_fixer.fix(seq)
                     self.filter_mgr.apply_filters(cseq)
-                    print("updating alt")
                     self.stats_mgr.update_alt(cseq.stats())
                 self.filter_mgr.dirty = False
             return first_line + self.stats_mgr.summary()
