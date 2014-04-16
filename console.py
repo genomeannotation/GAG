@@ -180,7 +180,7 @@ class GagCmd(cmd.Cmd):
             
     def help_fix(self):
         print("\nThis command takes you to the GAG FIX menu. There you can apply fixes to the genome,")
-        print("to resolve issues such as internal stops, terminal Ns, etc.")
+        print("to resolve issues such as terminal Ns, invalid start and stop codons, etc.")
         print("Fixes are applied when you type the 'info' command or when you write")
         print("the genome to a file.")
         print("Alternately, just type 'fix <name_of_fix> if you've done this before :)\n")
@@ -298,10 +298,10 @@ class FixCmd(cmd.Cmd):
 
     helptext = "\nThis is the GAG FIX menu.\n"+\
             "You can apply the following fixes: "+\
-            "terminal_ns, internal_stops, start_stop_codons.\n"+\
+            "terminal_ns, start_stop_codons.\n"+\
             "(You can type 'home' at any time to return to the main GAG console.)\n"+\
             "Type the name of a fix to enable it. Type 'all' to enable everything.\n\n"+\
-            "terminal_ns, internal_stops, start_stop_codons or all?\n"
+            "terminal_ns, start_stop_codons or all?\n"
 
     def __init__(self, prompt_prefix, controller, name_of_fix):
         cmd.Cmd.__init__(self)
@@ -336,16 +336,6 @@ class FixCmd(cmd.Cmd):
     def do_terminal_ns(self, line):
         print("\n" + self.controller.fix_terminal_ns() + "\n")
 
-    def help_internal_stops(self):
-        print("\nEnabling this fix causes GAG to inspect each CDS for the presence of internal stops.")
-        print("If any are found, a six-frame translation is performed. If the translation in another")
-        print("phase is found to have no internal stops, this phase is considered to be the correct one")
-        print("and the CDS is adjusted accordingly. If all translations contain internal stops, the CDS")
-        print("and its parent mRNA are discarded.\n")
-
-    def do_internal_stops(self, line):
-        print("\n" + self.controller.fix_internal_stops() + "\n")
-
     def help_start_stop_codons(self):
         print("\nSelecting this fix will cause GAG to inspect the first and last three bases of each CDS")
         print("to determine if it contains a valid start and/or stop codon. Information in the original")
@@ -359,7 +349,6 @@ class FixCmd(cmd.Cmd):
 
     def do_all(self, line):
         print("\n" + self.controller.fix_terminal_ns())
-        print(self.controller.fix_internal_stops())
         print(self.controller.fix_start_stop_codons() + "\n")
 
     def emptyline(self):

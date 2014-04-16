@@ -10,7 +10,6 @@ class TestSeqFixer(unittest.TestCase):
 
     def test_initialize(self):
         self.assertFalse(self.fixer.terminal_ns)
-        self.assertFalse(self.fixer.internal_stops)
         self.assertFalse(self.fixer.start_stop_codons)
 
 
