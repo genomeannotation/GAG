@@ -10,10 +10,10 @@ In this exciting vignette, you will create a .tbl file from the .fasta and .gff 
 python console.py
 
 # Read in data
-GAG> loadfolder walkthrough
+GAG> load walkthrough
 
 # Write .tbl file 
-GAG> writetbl foo.tbl
+GAG> write genome newfolder
 
 # Go on your merry way
 GAG> exit
