@@ -332,6 +332,7 @@ class FixCmd(cmd.Cmd):
     def do_all(self, line):
         print("\n" + self.controller.fix_terminal_ns())
         print(self.controller.fix_start_stop_codons() + "\n")
+        return True
 
     def emptyline(self):
         print(self.helptext)
