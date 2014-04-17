@@ -621,12 +621,6 @@ class WriteGeneCmd(cmd.Cmd):
         if self.context["go_home"]:
             return True
 
-    def do_fasta(self, line):
-        cdsfastacmd = WriteGeneFastaCmd(self.prompt, self.controller, self.context, line)
-        cdsfastacmd.cmdloop()
-        if self.context["go_home"]:
-            return True
-
     def help_writegene(self):
         print(self.helptext)
 
