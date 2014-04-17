@@ -15,7 +15,9 @@ class TestSeqHelper(unittest.TestCase):
     def test_mrna_to_fasta(self):
         mrna = Mock()
         mrna.identifier = "foo_mrna"
-        mrna.indices = [[4, 10], [21, 27]]
+        mrna.exon = Mock()
+        mrna.exon.indices = [[4, 10], [21, 27]]
+        mrna.strand = '+'
         expected = "foo_mrna\nGATTACAgattaca\n"
         self.assertEquals(expected, self.helper.mrna_to_fasta(mrna))
 
