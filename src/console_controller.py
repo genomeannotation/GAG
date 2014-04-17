@@ -254,7 +254,6 @@ class ConsoleController:
         if not self.seqs:
             return self.no_genome_message
         else:
-            # TODO take multiple args?
             self.seqs = [s for s in self.seqs if s.header != line]
 
 ## Output info to console
@@ -301,7 +300,6 @@ class ConsoleController:
         if not self.seqs:
             return self.no_genome_message
         else:
-            # TODO this used to take multiple gene_ids? but do we care?
             output = ">Feature SeqId\n"
             for seq in self.seqs:
                 if seq.contains_gene(line):
