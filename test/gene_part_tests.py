@@ -290,6 +290,7 @@ class TestExon(unittest.TestCase):
 
     def test_constructor(self):
         self.assertEquals('Exon', self.test_exon1.__class__.__name__)
+        self.assertEquals('+', self.test_exon1.strand)
 
     def test_add_indices(self):
         for ind_pair in self.extra_indices:
