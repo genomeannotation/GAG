@@ -22,6 +22,7 @@ class TestGenePart(unittest.TestCase):
         self.assertFalse(self.gp1.score)
         self.assertFalse(self.gp1.parent_id)
         self.assertEquals('CDS', self.gp2.feature_type)
+        self.assertEquals('+', self.gp1.strand)
 
     def test_add_indices(self):
         self.assertEquals(2, len(self.gp2.indices))

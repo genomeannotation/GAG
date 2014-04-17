@@ -16,6 +16,7 @@ import test.sequence_tests
 import test.filter_manager_tests
 import test.filters_tests
 import test.stats_manager_tests
+import test.seq_helper_tests
 
 # get suites from test modules
 suite1 = test.fasta_reader_tests.suite()
@@ -32,6 +33,7 @@ suite11 = test.sequence_tests.suite()
 suite12 = test.filter_manager_tests.suite()
 suite13 = test.filters_tests.suite()
 suite14 = test.stats_manager_tests.suite()
+suite15 = test.seq_helper_tests.suite()
 
 # collect suites in a TestSuite object
 suite = unittest.TestSuite()
@@ -49,6 +51,7 @@ suite.addTest(suite11)
 suite.addTest(suite12)
 suite.addTest(suite13)
 suite.addTest(suite14)
+suite.addTest(suite15)
 
 # run suite
 unittest.TextTestRunner(verbosity=2).run(suite)

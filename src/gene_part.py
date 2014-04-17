@@ -67,7 +67,7 @@ def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, annotations = 
 
 class GenePart:
     def __init__(self, feature_type=None, identifier=None,\
-                 indices=None, score=None, parent_id=None):
+                 indices=None, score=None, strand='+', parent_id=None):
         self.feature_type = feature_type
         self.identifier = []
         if identifier is not None:
@@ -78,6 +78,7 @@ class GenePart:
         self.score = []
         if score is not None:
             self.score.append(score)
+        self.strand = strand # Defauts to positive strand (?)
         self.parent_id = parent_id
         self.annotations = []
 
@@ -163,9 +164,9 @@ class GenePart:
 class CDS(GenePart):
 
     def __init__(self, identifier=None, indices=None, \
-                 score=None, phase=None, parent_id=None):
+                 score=None, phase=None, strand=None, parent_id=None):
         GenePart.__init__(self, feature_type='CDS', identifier=identifier, \
-                indices=indices, score=score, parent_id=parent_id)
+                indices=indices, score=score, strand=strand, parent_id=parent_id)
         self.phase = []
         if phase is not None:
             self.phase.append(phase)
