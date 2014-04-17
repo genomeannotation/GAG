@@ -24,6 +24,11 @@ class CDSLengthRangeFilter:
                 gene.mrnas = [mrna for mrna in gene.mrnas if not mrna.death_flagged]
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
+            # Mark empty genes for removal
+            if not gene.mrnas:
+                gene.death_flagged = True
+        # Remove empty genes
+        seq.genes = [g for g in seq.genes if not g.death_flagged]
   
                     
 class ExonLengthRangeFilter:
@@ -50,6 +55,11 @@ class ExonLengthRangeFilter:
                 gene.mrnas = [mrna for mrna in gene.mrnas if not mrna.death_flagged]
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
+            # Mark empty genes for removal
+            if not gene.mrnas:
+                gene.death_flagged = True
+        # Remove empty genes
+        seq.genes = [g for g in seq.genes if not g.death_flagged]
 
 class IntronLengthRangeFilter:
 
@@ -75,6 +85,11 @@ class IntronLengthRangeFilter:
                 gene.mrnas = [mrna for mrna in gene.mrnas if not mrna.death_flagged]
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
+            # Mark empty genes for removal
+            if not gene.mrnas:
+                gene.death_flagged = True
+        # Remove empty genes
+        seq.genes = [g for g in seq.genes if not g.death_flagged]
                     
 class GeneLengthRangeFilter:
 
