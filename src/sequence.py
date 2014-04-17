@@ -133,10 +133,6 @@ class Sequence:
         for gene in self.genes:
             gene.create_starts_and_stops(self)
 
-    def invalidate_region(self, start, stop):
-        for gene in self.genes:
-            gene.invalidate_region(start, stop)
-
     def extract_cds_seq(self, mrna_id):
         for gene in self.genes:
             for mrna in gene.mrnas:

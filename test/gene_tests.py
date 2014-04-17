@@ -125,25 +125,6 @@ class TestGene(unittest.TestCase):
         self.fake_mrna1.adjust_indices.assert_called_with(-16, 1)
         self.assertEquals(3734, self.test_gene1.indices[0])
 
-    def test_invalidate_region_calls_cds_and_exon(self):
-        self.test_gene1.mrnas[0].cds = Mock()
-        self.test_gene1.mrnas[0].exon = Mock()
-        self.test_gene1.mrnas[1].cds = Mock()
-        self.test_gene1.mrnas[1].exon = Mock()
-        self.test_gene1.invalidate_region(50, 100)
-        self.test_gene1.mrnas[0].cds.invalidate_region.assert_called_with(50, 100)
-        self.test_gene1.mrnas[0].exon.invalidate_region.assert_called_with(50, 100)
-        self.test_gene1.mrnas[1].cds.invalidate_region.assert_called_with(50, 100)
-        self.test_gene1.mrnas[1].exon.invalidate_region.assert_called_with(50, 100)
-
-    def test_invalidate_region_beginning(self):
-        self.test_gene1.invalidate_region(3730, 3737)
-        self.assertEquals(self.test_gene1.indices, [3738, 7436])
-
-    def test_invalidate_region_end(self):
-        self.test_gene1.invalidate_region(7431, 7440)
-        self.assertEquals(self.test_gene1.indices, [3734, 7430])
-
     def test_to_gff(self):
         self.fake_mrna1.to_gff.return_value = "fake mrna1 to gff here:)\n"
         self.fake_mrna2.to_gff.return_value = "fake mrna2 to gff here:)\n"

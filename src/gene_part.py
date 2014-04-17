@@ -126,27 +126,6 @@ class GenePart:
             elif index_pair[1] >= start_index:
                 self.indices[i][1] += n
 
-    # Returns true if it survives invalidation. Returns false if the mRNA it lives on needs to die
-    def invalidate_region(self, start, stop):
-        for index in self.indices:
-            # Index range contained in invalid region, 
-            # mark for removal
-            if start <= index[0] and stop >= index[1]:
-                return False
-            # Invalid region is in the middle of the index range, 
-            # mark for removal
-            elif start > index[0] and stop < index[1]:
-                return False
-            # The beginning is in the invalid region, 
-            # trim beginning forward to invalid sequence stop
-            elif start <= index[0] and stop >= index[0]:
-                index[0] = stop+1
-            # The end is in the invalid region, 
-            # trim end back to invalid seq start
-            elif start <= index[1] and stop >= index[1]:
-                index[1] = start-1
-        return True
-
     def length_of_shortest_segment(self):
         if len(self.indices) == 0:
             return None
@@ -224,28 +203,6 @@ class CDS(GenePart):
             last_index_pair = self.indices[len(self.indices)-1]
             last_index = last_index_pair[0]
             return [last_index, last_index+2]
-
-    # Override to account for phase
-    def invalidate_region(self, start, stop):
-        for i, index in enumerate(self.indices):
-            # index range contained in invalid region, 
-            # mark for removal
-            if start <= index[0] and stop >= index[1]:
-                return False
-            # Invalid region is in the middle of the index range, 
-            # mark for removal
-            elif start > index[0] and stop < index[1]:
-                return False
-            # The beginning is in the invalid region, 
-            # trim beginning forward to invalid sequence stop
-            elif start <= index[0] and stop >= index[0]:
-                self.phase[0] = (self.phase[0] - ((stop+1)-index[0])%3)%3 # adjust phase
-                index[0] = stop+1
-            # The end is in the invalid region, 
-            # trim end back to invalid seq start
-            elif start <= index[1] and stop >= index[1]:
-                index[1] = start-1
-        return True
 
     def extract_sequence(self, seq_object, strand):
         seq = ''

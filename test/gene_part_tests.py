@@ -62,33 +62,6 @@ class TestGenePart(unittest.TestCase):
         # what if no indices?
         self.assertFalse(self.gp1.length_of_shortest_segment())
 
-    def test_invalidate_region_in_lineup_invalidates(self):
-        good = self.gp2.invalidate_region(1, 44)
-        self.assertFalse(good)
-        
-    def test_invalidate_region_in_middle_invalidates(self):
-        good = self.gp2.invalidate_region(5, 40)
-        self.assertFalse(good)
-        
-    def test_invalidate_region_in_containing_invalidates(self):
-        good = self.gp2.invalidate_region(60, 110) # starts out 65 - 103
-        self.assertFalse(good)
-
-    def test_invalidate_region_chops_off_beginning(self):
-        expected = [[5, 44], [65, 103]]
-        good = self.gp2.invalidate_region(1, 4) # starts out 1-44, 65-103
-        self.assertEqual(expected, self.gp2.indices)
-        
-    def test_invalidate_region_chops_off_end(self):
-        expected = [[1, 40], [65, 103]]
-        good = self.gp2.invalidate_region(41, 50) # starts out 1-44, 65-103
-        self.assertEqual(expected, self.gp2.indices)
-        
-    def test_invalidate_region_chops_multiple_indices(self):
-        expected = [[1, 40], [70, 103]]
-        good = self.gp2.invalidate_region(41, 69) # starts out 1-44, 65-103
-        self.assertEqual(expected, self.gp2.indices)
-
     def test_generate_attribute_entry(self):
         # test .generate_attribute_entry
         expected = "ID=foo1;Parent=mama\n"
@@ -220,67 +193,6 @@ class TestCDS(unittest.TestCase):
         # (adjust them back so future test don't get confused :)
         self.test_cds1.adjust_indices(5)
         self.assertEquals(5185, self.test_cds1.indices[2][1])
-
-    def test_invalidate_region_beginning_one_base(self):
-        expected = [3735, 4034]
-        expectedPhase = 2
-        self.test_cds1.invalidate_region(3734, 3734)
-        self.assertEquals(expected, self.test_cds1.indices[0])
-        self.assertEquals(expectedPhase, self.test_cds1.phase[0])
-
-    def test_invalidate_region_beginning_two_base(self):
-        expected = [3736, 4034]
-        expectedPhase = 1
-        self.test_cds1.invalidate_region(3734, 3735)
-        self.assertEquals(expected, self.test_cds1.indices[0])
-        self.assertEquals(expectedPhase, self.test_cds1.phase[0])
-
-    def test_invalidate_region_beginning_three_base(self):
-        expected = [3737, 4034]
-        expectedPhase = 0
-        self.test_cds1.invalidate_region(3734, 3736)
-        self.assertEquals(expected, self.test_cds1.indices[0])
-        self.assertEquals(expectedPhase, self.test_cds1.phase[0])
-
-    def test_invalidate_region_beginning_four_base(self):
-        expected = [3738, 4034]
-        expectedPhase = 2
-        self.test_cds1.invalidate_region(3734, 3737)
-        self.assertEquals(expected, self.test_cds1.indices[0])
-        self.assertEquals(expectedPhase, self.test_cds1.phase[0])
-
-    def test_invalidate_region_before_beginning_one_base(self):
-        expected = [3735, 4034]
-        expectedPhase = 2
-        self.test_cds1.invalidate_region(3700, 3734)
-        self.assertEquals(expected, self.test_cds1.indices[0])
-        self.assertEquals(expectedPhase, self.test_cds1.phase[0])
-
-    def test_invalidate_region_before_beginning_two_base(self):
-        expected = [3736, 4034]
-        expectedPhase = 1
-        self.test_cds1.invalidate_region(3700, 3735)
-        self.assertEquals(expected, self.test_cds1.indices[0])
-        self.assertEquals(expectedPhase, self.test_cds1.phase[0])
-
-    def test_invalidate_region_before_beginning_three_base(self):
-        expected = [3737, 4034]
-        expectedPhase = 0
-        self.test_cds1.invalidate_region(3700, 3736)
-        self.assertEquals(expected, self.test_cds1.indices[0])
-        self.assertEquals(expectedPhase, self.test_cds1.phase[0])
-
-    def test_invalidate_region_before_beginning_three_base(self):
-        expected = [3738, 4034]
-        expectedPhase = 2
-        self.test_cds1.invalidate_region(3700, 3737)
-        self.assertEquals(expected, self.test_cds1.indices[0])
-        self.assertEquals(expectedPhase, self.test_cds1.phase[0])
-
-    def test_invalidate_region_end(self):
-        expected = [3734, 4030]
-        self.test_cds1.invalidate_region(4031, 4100)
-        self.assertEquals(expected, self.test_cds1.indices[0])
 
     def test_to_gff(self):
         expected1 = "sctg_0080_0020\tmaker\tCDS\t3734\t4034\t.\t+\t0\tID=8;Parent=2;foo=dog\n"

@@ -133,22 +133,6 @@ class Gene:
         for mrna in self.mrnas:
             mrna.adjust_indices(n, start_index)
 
-    def invalidate_region(self, start, stop):
-        # The beginning is in the invalid region, 
-        # trim beginning forward to invalid sequence stop
-        if start <= self.indices[0] and stop >= self.indices[0]:
-            self.indices[0] = stop+1
-        # The end is in the invalid region, trim end back to invalid seq start
-        elif start <= self.indices[1] and stop >= self.indices[1]:
-            self.indices[1] = start-1
-
-        for mrna in self.mrnas:
-            #invalidate_region will return false if the feature doesn't survive invalidation
-            if not mrna.cds.invalidate_region(start, stop):
-                mrna.death_flagged = True
-            if not mrna.exon.invalidate_region(start, stop):
-                mrna.death_flagged = True
-
     def trim_region(self, start, stop):
         """Adjusts indices of gene and its features to account for removal of a seq region.
 
