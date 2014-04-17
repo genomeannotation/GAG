@@ -64,7 +64,7 @@ class TestGFFReader(unittest.TestCase):
 
     def test_extract_exon_args(self):
         line = "scaffold00080\tmaker\texon\t106151\t106451\t0.9\t+\t.\tID=BDOR_007864-RA:exon:0;Parent=BDOR_007864-RA\n".split('\t')
-        expected = {'indices': [106151, 106451], 'score': 0.9, 'identifier': 'BDOR_007864-RA:exon:0', 'parent_id': 'BDOR_007864-RA'}
+        expected = {'indices': [106151, 106451], 'score': 0.9, 'strand': '+', 'identifier': 'BDOR_007864-RA:exon:0', 'parent_id': 'BDOR_007864-RA'}
         args = self.reader.extract_exon_args(line)
         self.assertEqual(expected, args)
 
@@ -214,6 +214,13 @@ class TestGFFReader(unittest.TestCase):
         genes = self.reader.read_file(inbuff)
         self.assertTrue(genes[0].mrnas[0].cds)
         self.assertEquals('-', genes[0].mrnas[0].cds.strand)
+
+    def test_exon_knows_its_strand(self):
+        text = self.get_annotated_gff()
+        inbuff = io.BytesIO(text)
+        genes = self.reader.read_file(inbuff)
+        self.assertTrue(genes[0].mrnas[0].exon)
+        self.assertEquals('-', genes[0].mrnas[0].exon.strand)
 
 ##########################
 def suite():
