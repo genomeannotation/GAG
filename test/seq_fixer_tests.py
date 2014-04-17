@@ -12,9 +12,18 @@ class TestSeqFixer(unittest.TestCase):
         self.assertFalse(self.fixer.terminal_ns)
         self.assertFalse(self.fixer.start_stop_codons)
 
+    def test_fix_terminal_ns(self):
+        self.assertFalse(self.fixer.terminal_ns)
+        self.fixer.fix_terminal_ns()
+        self.assertTrue(self.fixer.terminal_ns)
+
+    def test_fix_start_stop_codons(self):
+        self.assertFalse(self.fixer.start_stop_codons)
+        self.fixer.fix_start_stop_codons()
+        self.assertTrue(self.fixer.start_stop_codons)
+
     def test_dirty(self):
-        #self.assertFalse(self.fixer.dirty)
-        pass
+        self.assertFalse(self.fixer.dirty)
 
 
 ##########################

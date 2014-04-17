@@ -134,15 +134,11 @@ class ConsoleController:
             self.filter_mgr.apply_filters(seq)
 
     def fix_terminal_ns(self):
-        self.seq_fixer.terminal_ns = True
+        self.seq_fixer.fix_terminal_ns()
         return "Terminal Ns will now be fixed."
 
-    def fix_internal_stops(self):
-        self.seq_fixer.internal_stops = True
-        return "Will attempt to fix internal stops."
-
     def fix_start_stop_codons(self):
-        self.seq_fixer.start_stop_codons = True
+        self.seq_fixer.fix_start_stop_codons()
         return "Will verify and create start/stop codons."
 
 ## Assorted utilities
@@ -317,7 +313,7 @@ class ConsoleController:
             return self.no_genome_message
         else:
             first_line = "Number of sequences:   " + str(len(self.seqs)) + "\n"
-            if self.filter_mgr.dirty:
+            if self.filter_mgr.dirty or self.seq_fixer.dirty:
                 self.stats_mgr.clear_alt()
                 sys.stderr.write("Calculating statistics on genome...\n")
                 for seq in self.seqs:
@@ -327,6 +323,7 @@ class ConsoleController:
                     self.filter_mgr.apply_filters(cseq)
                     self.stats_mgr.update_alt(cseq.stats())
                 self.filter_mgr.dirty = False
+                self.seq_fixer.dirty = False
             return first_line + self.stats_mgr.summary()
 
 ## Utility methods
