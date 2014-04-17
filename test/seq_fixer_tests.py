@@ -12,6 +12,10 @@ class TestSeqFixer(unittest.TestCase):
         self.assertFalse(self.fixer.terminal_ns)
         self.assertFalse(self.fixer.start_stop_codons)
 
+    def test_dirty(self):
+        #self.assertFalse(self.fixer.dirty)
+        pass
+
 
 ##########################
 def suite():

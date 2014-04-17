@@ -41,13 +41,18 @@ class TestFilters(unittest.TestCase):
         
         # Give the mock genes some mrnas
         seq.genes[0].mrnas = [test_mrna0]
+        seq.genes[0].death_flagged = False
         seq.genes[1].mrnas = [test_mrna1, test_mrna2]
+        seq.genes[1].death_flagged = True
         seq.genes[2].mrnas = [test_mrna3]
+        seq.genes[2].death_flagged = True
         
         # Apply the filter
         cds_length_range.apply(seq)
         
-        self.assertEqual(seq.genes[0].mrnas+seq.genes[1].mrnas+seq.genes[2].mrnas, [test_mrna0])
+        print(seq.genes)
+        self.assertEquals(1, len(seq.genes))
+        self.assertEqual(seq.genes[0].mrnas, [test_mrna0])
         
         
     def test_exon_length_range_filter(self):
@@ -88,13 +93,16 @@ class TestFilters(unittest.TestCase):
         
         # Give the mock genes some mrnas
         seq.genes[0].mrnas = [test_mrna0]
+        seq.genes[0].death_flagged = False
         seq.genes[1].mrnas = [test_mrna1, test_mrna2]
+        seq.genes[1].death_flagged = False
         seq.genes[2].mrnas = [test_mrna3]
+        seq.genes[2].death_flagged = True
         
         # Apply the filter
         exon_length_range.apply(seq)
         
-        self.assertEqual(seq.genes[0].mrnas+seq.genes[1].mrnas+seq.genes[2].mrnas, [test_mrna0, test_mrna1])
+        self.assertEqual(seq.genes[0].mrnas+seq.genes[1].mrnas, [test_mrna0, test_mrna1])
         
         
     def test_intron_length_range_filter(self):
@@ -135,13 +143,16 @@ class TestFilters(unittest.TestCase):
         
         # Give the mock genes some mrnas
         seq.genes[0].mrnas = [test_mrna0]
+        seq.genes[0].death_flagged = False
         seq.genes[1].mrnas = [test_mrna1, test_mrna2]
+        seq.genes[1].death_flagged = False
         seq.genes[2].mrnas = [test_mrna3]
+        seq.genes[2].death_flagged = True
         
         # Apply the filter
         intron_length_range.apply(seq)
         
-        self.assertEqual(seq.genes[0].mrnas+seq.genes[1].mrnas+seq.genes[2].mrnas, [test_mrna0, test_mrna1])
+        self.assertEqual(seq.genes[0].mrnas+seq.genes[1].mrnas, [test_mrna0, test_mrna1])
         
     def test_gene_length_range_filter(self):
         gene_length_range = GeneLengthRangeFilter(30, 60)
