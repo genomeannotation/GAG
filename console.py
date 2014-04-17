@@ -8,7 +8,7 @@ import traceback
 import types
 from src.console_controller import ConsoleController
 
-def try_catch(command, args=[]):
+def try_catch(command, args=None):
     try:
         if args is not None:
             return command(*args)
