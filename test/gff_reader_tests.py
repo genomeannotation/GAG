@@ -59,7 +59,7 @@ class TestGFFReader(unittest.TestCase):
     def test_extract_cds_args(self):
         line = "scaffold00080\tmaker\tCDS\t106151\t106451\t.\t+\t0\tID=BDOR_007864-RA:cds:0;Parent=BDOR_007864-RA\n".split('\t')
         args = self.reader.extract_cds_args(line)
-        expected = {'indices': [106151, 106451], 'phase': 0, 'identifier': 'BDOR_007864-RA:cds:0', 'parent_id': 'BDOR_007864-RA'}
+        expected = {'indices': [106151, 106451], 'strand': '+', 'phase': 0, 'identifier': 'BDOR_007864-RA:cds:0', 'parent_id': 'BDOR_007864-RA'}
         self.assertEqual(expected, args)
 
     def test_extract_exon_args(self):
@@ -207,6 +207,13 @@ class TestGFFReader(unittest.TestCase):
         genes = self.reader.read_file(inbuff)
         self.assertEquals(1, len(genes))
         self.assertEquals(["Dbxref", "PRINTS:PR00075"], genes[0].mrnas[0].annotations[0])
+
+    def test_CDS_knows_its_strand(self):
+        text = self.get_annotated_gff()
+        inbuff = io.BytesIO(text)
+        genes = self.reader.read_file(inbuff)
+        self.assertTrue(genes[0].mrnas[0].cds)
+        self.assertEquals('-', genes[0].mrnas[0].cds.strand)
 
 ##########################
 def suite():

@@ -60,7 +60,7 @@ class GFFReader:
 
     def extract_cds_args(self, line):
         result = {'indices': [int(line[3]), int(line[4])], \
-                  'phase': int(line[7])}
+                'strand': line[6], 'phase': int(line[7])}
         if isinstance(line[7], float):
             result['score'] = line[7]
         attribs = self.parse_attributes(line[8])
