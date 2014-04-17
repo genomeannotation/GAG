@@ -133,13 +133,6 @@ class Sequence:
         for gene in self.genes:
             gene.create_starts_and_stops(self)
 
-    def remove_gene(self, args):
-        self.genes = [g for g in self.genes if g.identifier not in args]
-
-    def remove_mrna(self, args):
-        for gene in self.genes:
-            gene.mrnas = [m for m in gene.mrnas if m.identifier not in args]
-
     def invalidate_region(self, start, stop):
         for gene in self.genes:
             gene.invalidate_region(start, stop)

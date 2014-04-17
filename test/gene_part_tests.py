@@ -45,12 +45,6 @@ class TestGenePart(unittest.TestCase):
         # what if no indices at all?
         self.assertFalse(self.gp1.length())
 
-    def test_valid_codon(self):
-        bad_stop = GenePart(feature_type='stop_codon', identifier='foo', indices=[2, 3], parent_id='foofoo')
-        self.assertFalse(bad_stop.valid_codon())
-        good_stop = GenePart(feature_type='stop_codon', identifier='foo', indices=[2, 4], parent_id='foofoo')
-        self.assertTrue(good_stop.valid_codon())
-
     def test_adjust_indices(self):
         self.gp2.adjust_indices(10)
         self.assertEquals(54, self.gp2.indices[0][1])

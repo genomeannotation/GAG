@@ -26,7 +26,6 @@ class ConsoleController:
         self.filter_mgr = FilterManager()
         self.stats_mgr = StatsManager()
         self.seq_fixer = SeqFixer()
-        self.input = ''
 
     def genome_is_loaded(self):
         if self.seqs:
@@ -215,46 +214,6 @@ class ConsoleController:
     def read_trinotate(self, line):
         self.annot.read_from_file(line)
 
-
-## Manipulate genome
-
-    def subset_genome(self, line):
-        if not self.seqs:
-            return self.no_genome_message
-        else:
-            # parse args
-            args = line.split()
-            if args:
-                self.seqs = [s for s in self.seqs if s.header in args]
-
-    def removemrna(self, line):
-        args = None        
-
-        if len(line) > 0:
-            args = line.split()
-        else:
-            args = self.input.split('\n')
-
-        for seq in self.seqs:
-            seq.remove_mrna(args)
-                        
-    def remove_gene(self, line):
-        if not self.seqs:
-            return self.no_genome_message
-        else:
-            args = []
-            if len(line) > 0:
-                args = line.split()
-            else:
-                args = self.input.split('\n')
-            for seq in self.seqs:
-                seq.remove_gene(args)
-
-    def remove_seq(self, line):
-        if not self.seqs:
-            return self.no_genome_message
-        else:
-            self.seqs = [s for s in self.seqs if s.header != line]
 
 ## Output info to console
 

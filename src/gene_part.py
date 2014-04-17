@@ -147,12 +147,6 @@ class GenePart:
                 index[1] = start-1
         return True
 
-    def valid_codon(self):  
-        if length_of_segment(self.indices[0]) == 3:
-            return True
-        else:
-            return False
-
     def length_of_shortest_segment(self):
         if len(self.indices) == 0:
             return None

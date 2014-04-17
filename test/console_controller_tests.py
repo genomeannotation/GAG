@@ -120,26 +120,6 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.read_gff("walkthrough/gag.gff")
         self.assertTrue(self.ctrlr.seqs[0].genes)
 
-    def test_subset_genome(self):
-        self.setup_seqs()
-        self.assertEquals(3, len(self.ctrlr.seqs))
-        self.ctrlr.subset_genome("seq1 seq3")
-        self.assertEquals(2, len(self.ctrlr.seqs))
-
-    def test_remove_gene(self):
-        self.setup_seqs_and_genes()
-        self.assertEquals(2, len(self.ctrlr.seqs[1].genes))
-        self.ctrlr.remove_gene("gene2")
-        self.assertEquals(1, len(self.ctrlr.seqs[1].genes))
-
-    def test_remove_all_genes_multiline(self):
-        self.setup_seqs_and_genes()
-        self.assertEquals(2, len(self.ctrlr.seqs[1].genes))
-        self.assertEquals(1, len(self.ctrlr.seqs[2].genes))
-        self.ctrlr.remove_gene("gene2\ngene1")
-        self.assertEquals(0, len(self.ctrlr.seqs[1].genes))
-        self.assertEquals(1, len(self.ctrlr.seqs[2].genes))
-
     def test_trim_region(self):
         # TODO this isn't quite right ... gene.trim needs looking at.
         self.setup_seqs_and_genes()
@@ -150,18 +130,6 @@ class TestConsoleController(unittest.TestCase):
         #self.ctrlr.seqs.append(Sequence("seq1", "GATTACA"))
         #self.ctrlr.seqs.append(Sequence("seq2", "ATTAC"))
         #self.ctrlr.seqs.append(Sequence("seq3", "ACGTACGT"))
-
-    def test_remove_seq(self):
-        self.setup_seqs()
-        self.assertEquals(3, len(self.ctrlr.seqs))
-        self.ctrlr.remove_seq("seq2")
-        self.assertEquals(2, len(self.ctrlr.seqs))
-
-    def test_remove_seq_force_necessary(self):
-        self.setup_seqs_and_genes()
-        self.assertEquals(3, len(self.ctrlr.seqs))
-        self.ctrlr.remove_seq("seq2")
-        self.assertEquals(2, len(self.ctrlr.seqs))
 
     def test_barfseq_no_args(self):
         pass

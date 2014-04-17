@@ -36,12 +36,6 @@ class MRNA:
     def add_annotation(self, key, value):
         self.annotations.append([key, value])
         
-    def has_annotation(self, key):
-        for anno in self.annotations:
-            if anno[0] == key:
-                return True
-        return False
-
     def length(self):
         return length_of_segment(self.indices)
 

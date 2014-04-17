@@ -118,18 +118,6 @@ class TestSequence(unittest.TestCase):
         self.add_mock_gene()
         self.assertEqual(1, len(self.seq1.genes))
 
-    def test_remove_gene(self):
-        self.add_mock_gene()
-        self.assertEqual(1, len(self.seq1.genes))
-        self.seq1.remove_gene("foo_gene")
-        self.assertEqual(0, len(self.seq1.genes))
-
-    def test_remove_gene_fails_if_no_match(self):
-        self.add_mock_gene()
-        self.assertEqual(1, len(self.seq1.genes))
-        self.seq1.remove_gene("bar_gene")
-        self.assertEqual(1, len(self.seq1.genes))
-
     def test_get_gene_ids(self):
         self.seq1.genes = [Mock(), Mock()]
         self.seq1.genes[0].identifier = "foo gene"
