@@ -9,7 +9,7 @@ from src.gene import Gene
 class TestMRNA(unittest.TestCase):
 
     def setUp(self):
-        self.test_mrna0 = MRNA(identifier='bdor_foo', indices=[3734, 7436], parent_id=1)
+        self.test_mrna0 = MRNA(identifier='bdor_foo', indices=[3734, 7436], strand='-', parent_id=1)
         self.test_mrna1 = MRNA(identifier=2, indices=[3734, 7436], parent_id=1)
         self.fake_exon = Mock()
         self.fake_cds = Mock()
@@ -19,7 +19,8 @@ class TestMRNA(unittest.TestCase):
         self.test_mrna1.add_other_feature(self.fake_start_codon)
 
     def test_constructor(self):
-        self.assertEqual('MRNA', self.test_mrna0.__class__.__name__)
+        self.assertEquals('MRNA', self.test_mrna0.__class__.__name__)
+        self.assertEquals('-', self.test_mrna0.strand)
 
     def test_constructor_takes_annotations(self):
         self.assertTrue(MRNA(identifier="foo", indices=[1, 10], parent_id="bar", annotations=[["Dbxref", "pfam:foo"]]))
