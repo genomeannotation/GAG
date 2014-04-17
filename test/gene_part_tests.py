@@ -104,7 +104,7 @@ class TestCDS(unittest.TestCase):
         self.test_phase1 = 0
         self.extra_phases = [2, 1, 0, 0]
         test_parent_id1 = 2
-        self.test_cds0 = CDS(identifier=test_identifier1, indices=self.test_indices1, score=None, phase=self.test_phase1, parent_id=test_parent_id1)
+        self.test_cds0 = CDS(identifier=test_identifier1, indices=self.test_indices1, score=None, phase=self.test_phase1, strand='-', parent_id=test_parent_id1)
         self.test_cds1 = CDS(identifier=test_identifier1, indices=self.test_indices1, score=None, phase=self.test_phase1, parent_id=test_parent_id1)
         for ind_pair in self.extra_indices:
             self.test_cds1.add_indices(ind_pair)
@@ -112,6 +112,9 @@ class TestCDS(unittest.TestCase):
             self.test_cds1.add_identifier(ident)
         for phase in self.extra_phases:
             self.test_cds1.add_phase(phase)
+
+    def test_constructor(self):
+        self.assertEquals('-', self.test_cds0.strand)
 
     def test_get_start_indices_pos_strand(self):
         expected = [3734, 3736]
