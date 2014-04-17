@@ -84,7 +84,7 @@ class GFFReader:
         return result
 
     def extract_mrna_args(self, line):
-        result = {'indices': [int(line[3]), int(line[4])]}
+        result = {'indices': [int(line[3]), int(line[4])], 'strand': line[6]}
         attribs = self.parse_attributes(line[8])
 
         if not attribs:

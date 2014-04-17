@@ -70,7 +70,7 @@ class TestGFFReader(unittest.TestCase):
 
     def test_extract_mrna_args(self):
         line = "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n".split('\t')
-        expected = {'indices': [106151, 109853], 'identifier': 'BDOR_007864-RA', 'parent_id': 'BDOR_007864'}
+        expected = {'indices': [106151, 109853], 'identifier': 'BDOR_007864-RA', 'strand': '+', 'parent_id': 'BDOR_007864'}
         args = self.reader.extract_mrna_args(line)
         self.assertEqual(expected, args)
 
@@ -221,6 +221,14 @@ class TestGFFReader(unittest.TestCase):
         genes = self.reader.read_file(inbuff)
         self.assertTrue(genes[0].mrnas[0].exon)
         self.assertEquals('-', genes[0].mrnas[0].exon.strand)
+
+    def test_mrna_knows_its_strand(self):
+        text = self.get_annotated_gff()
+        inbuff = io.BytesIO(text)
+        genes = self.reader.read_file(inbuff)
+        self.assertTrue(genes[0].mrnas[0])
+        self.assertEquals('-', genes[0].mrnas[0].strand)
+
 
 ##########################
 def suite():
