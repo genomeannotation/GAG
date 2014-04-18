@@ -39,6 +39,14 @@ class TestSeqHelper(unittest.TestCase):
         expected = "foo_mrna CDS\nacattagACATTAG\n"
         self.assertEquals(expected, self.helper.mrna_to_cds_fasta(mrna))
 
+    def test_mrna_to_protein_fasta(self):
+        mrna = Mock()
+        mrna.identifier = "foo_mrna"
+        mrna.cds = Mock()
+        mrna.cds.indices = [[4, 10], [21, 27]]
+        mrna.strand = '+'
+        expected = "foo_mrna protein\nDYRL\n"
+        self.assertEquals(expected, self.helper.mrna_to_protein_fasta(mrna))
 
 
 ##########################

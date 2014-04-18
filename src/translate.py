@@ -58,7 +58,7 @@ def reverse_complement(seq):
     rev_comp_dict = dict(zip(bases, complements))
     return ''.join([rev_comp_dict.get(base) for base in reversed(seq)])
 
-def translate(seq, frame, strand):
+def translate(seq, strand, frame=1):
     if 'n' in seq or 'N' in seq:
         return None
 

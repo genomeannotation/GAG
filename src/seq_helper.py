@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from src.translate import translate
 
 class SeqHelper:
 
@@ -21,6 +22,15 @@ class SeqHelper:
         strand = mrna.strand
         indices = mrna.cds.indices
         return self.id_and_indices_to_fasta(identifier, strand, indices)
+
+    def mrna_to_protein_fasta(self, mrna):
+        """Writes a two-line fasta-style entry consisting of the translation of CDS sequence."""
+
+        identifier = mrna.identifier + " protein"
+        strand = mrna.strand
+        indices = mrna.cds.indices
+        untranslated = self.get_sequence_from_indices(strand, indices)
+        return identifier + "\n" + translate(untranslated, strand) + "\n"
 
     def id_and_indices_to_fasta(self, identifier, strand, indices):
         result = identifier + "\n"
