@@ -17,8 +17,11 @@ class FilterManager:
         
         # Build args
         self.filter_args = dict()
+        self.filter_arg_types = dict()
         for filt_name, filt in self.filters.items():
             self.filter_args[filt_name] = [attr for attr in dir(filt) if not callable(getattr(filt, attr)) and not attr.startswith("__")]
+            self.filter_arg_types[filt_name] = dict(zip(self.filter_args[filt_name], \
+                                                   [type(getattr(filt, attr)).__name__ for attr in dir(filt) if not callable(getattr(filt, attr)) and not attr.startswith("__")]))
         
         # Starts out dirty
         self.dirty = False

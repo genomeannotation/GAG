@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
+import ast
 import cmd
 import readline
 import sys
@@ -313,6 +314,28 @@ class FilterArgSetGetCmd(GagCmdBase):
     def default(self, line):
         line = line.strip()
         if line:
+            # Validate the value
+            got_type = type(ast.literal_eval(line)).__name__
+            expected_type = self.controller.filter_mgr.filter_arg_types[self.filter_name][self.arg_name]
+            # it's a number
+            if got_type != expected_type:
+                print("Failed to set "+self.filter_name+" "+self.arg_name+". Expected "+expected_type+" but got "+got_type+".\n")
+                if expected_type == 'bool':
+                    print("A bool can be True or False (the caps matters).\n")
+                elif expected_type == 'int':
+                    if got_type == 'float': # Uber smart help
+                        print("An int is any whole number. Try this: "+line.split('.')[0]+"\n")
+                    else:
+                        print("An int is any whole number (42 is valid, and 43.123 is invalid)\n")
+                elif expected_type == 'float':
+                    if got_type == 'int': # Uber smart help
+                        print("A float is any decimal number. Try this: "+line+".0\n")
+                    else:
+                        print("A float is any decimal number (42.0, 43.123, -67.12 are all valid. If you want a whole number, it needs a .0 after it)\n")
+                elif expected_type == 'str':
+                    print("A str is any text. It is formatted \"like this\" or 'like this'\n")
+                return False
+            
             try_catch(self.controller.filter_mgr.set_filter_arg, [self.filter_name, self.arg_name, line])
             print(self.filter_name+" "+self.arg_name+" set to "+line+'\n')
             return True
