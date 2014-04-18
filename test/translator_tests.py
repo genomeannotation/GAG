@@ -49,6 +49,10 @@ class TestTranslate(unittest.TestCase):
         test_seq = 'gattaggat' # translates to 'D*D'
         self.assertTrue(contains_internal_stop(test_seq, '+'))
 
+    def test_contains_internal_stop_false(self):
+        test_seq = 'GATTACTAG' # stop, but not internal
+        self.assertFalse(contains_internal_stop(test_seq, '+'))
+
         
         
 ##########################
