@@ -17,120 +17,24 @@ def try_catch(command, args=None):
     except:
         print("Sorry, that command raised an exception. Here's what I know:\n")
         print(traceback.format_exc())
-
-###################################################################################################        
-## Begin obscure bull@#$% code
+        
+###################################################################################################
+# Define a custom cmd line base class to fix some bugs in cmd.Cmd
 ###################################################################################################
 
-# Generic filter arg selector command console
-class FilterArgCmd(cmd.Cmd):
+class GagCmdBase(cmd.Cmd):
 
-    def __init__(self, prompt_prefix, controller, context, line, filter_name):
+    def __init__(self):
         cmd.Cmd.__init__(self)
         
-        # TODO
-        self.helptext = "This is the FILTER "+filter_name+" "+" console. Here you select which filter\n" \
-                        "argument you want to view or modify. These are the filter arguments:\n\n"
-        self.helptext += ', '.join(controller.filter_mgr.filter_args[filter_name])
-        
-        self.prompt = prompt_prefix[:-2] + ' ' + filter_name +'> '
-        self.controller = controller
-        self.context = context
-        self.filter_name = filter_name
-        if line:
-            self.cmdqueue = [line] # Execute default method with path as arg
-        else:
-            print(self.helptext)
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
-            
-        # Set up filter arg do functions
-        for arg in controller.filter_mgr.filter_args[self.filter_name]:
-            # First real closure #teddy'sallgrownup
-            # traps arg variable
-            def do_arg(self, line, filter_arg = arg):
-                filtercmd = FilterArgSetGetCmd(self.prompt, self.controller, self.context, line, self.filter_name, filter_arg)
-                filtercmd.cmdloop()
-                if self.context["go_home"]:
-                    return True
-            setattr(self, 'do_'+arg, types.MethodType(do_arg, self))
-
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return cmd.Cmd.precmd(self, line)
-
-    def help_home(self):
-        print("\nExit this console and return to the main GAG console.\n")
-
-    def do_home(self, line):
-        self.context['go_home'] = True
-        return True
-
-    def emptyline(self):
-        print(self.helptext)
-
-    def default(self, line):
-        print("No such "+self.filter_name+" argument: "+line+"\n");
-        
-
-
-# Generic filter arg setter/getter command console
-class FilterArgSetGetCmd(cmd.Cmd):
-
-    def __init__(self, prompt_prefix, controller, context, line, filter_name, arg_name):
-        cmd.Cmd.__init__(self)
-        
-        self.helptext = "This is the FILTER "+filter_name+" "+arg_name+" console. Type a value\n" \
-                        "to set the filter argument value, or simply press enter to see the current\n" \
-                        "value.\n"
-        
-        self.prompt = prompt_prefix[:-2] + ' ' + arg_name +'> '
-        self.controller = controller
-        self.context = context
-        self.filter_name = filter_name
-        self.arg_name = arg_name
-        if line:
-            context['go_home'] = True
-            self.cmdqueue = [line] # Execute default method with path as arg
-        else:
-            print(self.helptext)
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
-
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return cmd.Cmd.precmd(self, line)
-
-    def help_home(self):
-        print("\nExit this console and return to the main GAG console.\n")
-
-    def do_home(self, line):
-        self.context['go_home'] = True
-        return True
-
-    def emptyline(self):
-        print(self.filter_name+" "+self.arg_name+": "+str(try_catch(self.controller.filter_mgr.get_filter_arg, [self.filter_name, self.arg_name]))+"\n\n")
-
-    def default(self, line):
-        line = line.strip()
-        if line:
-            try_catch(self.controller.filter_mgr.set_filter_arg, [self.filter_name, self.arg_name, line])
-            print(self.filter_name+" "+self.arg_name+" set to "+line+'\n')
-            return True
-
-
+    def get_names(self):
+        return dir(self)
 
 ###################################################################################################
-## End obscure bull@#$% code, begin sanity
+# End cmd base class
 ###################################################################################################
 
-class GagCmd(cmd.Cmd):
+class GagCmd(GagCmdBase):
 
 ## Setup, loading and saving sessions, exit, etc.
 
@@ -142,7 +46,7 @@ class GagCmd(cmd.Cmd):
             "Type 'help load' to learn how to use it, or just 'help' for general advice.\n"
 
     def __init__(self):
-        cmd.Cmd.__init__(self)
+        GagCmdBase.__init__(self)
         self.prompt = "GAG> "
         readline.set_history_length(1000)
         try:
@@ -153,7 +57,7 @@ class GagCmd(cmd.Cmd):
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
-        return cmd.Cmd.precmd(self, line)
+        return GagCmdBase.precmd(self, line)
 
     def help_load(self):
         print("\nThis command takes you the GAG LOAD menu. There you can specify the location of")
@@ -225,7 +129,7 @@ class GagCmd(cmd.Cmd):
 
 ##############################################
 
-class FilterCmd(cmd.Cmd):
+class FilterCmd(GagCmdBase):
 
     helptext = "\nThis is the GAG FILTER menu.\n"+\
             "You can inspect and modify the following filters: "+\
@@ -234,7 +138,7 @@ class FilterCmd(cmd.Cmd):
             "Type the name of a filter to inspect or modify it.\n"
 
     def __init__(self, prompt_prefix, controller, line):
-        cmd.Cmd.__init__(self)
+        GagCmdBase.__init__(self)
         self.prompt = prompt_prefix[:-2] + " FILTER> "
         self.controller = controller
         self.context = {"go_home": False}
@@ -250,7 +154,7 @@ class FilterCmd(cmd.Cmd):
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
-        return cmd.Cmd.precmd(self, line)
+        return GagCmdBase.precmd(self, line)
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -273,10 +177,123 @@ class FilterCmd(cmd.Cmd):
     def default(self, line):
         print("Sorry, can't filter " + line)
         print(self.helptext)
+        
+###################################################################################################        
+## Begin obscure bull@#$% code
+###################################################################################################
+
+# Generic filter arg selector command console
+class FilterArgCmd(GagCmdBase):
+
+    def __init__(self, prompt_prefix, controller, context, line, filter_name):
+    
+        # Set up filter arg do functions
+        for arg in controller.filter_mgr.filter_args[filter_name]:
+            # First real closure #teddy'sallgrownup
+            # traps arg variable
+            def do_arg(slf, line, filter_arg = arg):
+                filtercmd = FilterArgSetGetCmd(slf.prompt, slf.controller, slf.context, line, slf.filter_name, filter_arg)
+                filtercmd.cmdloop()
+                if slf.context["go_home"]:
+                    return True
+            setattr(self, 'do_'+arg, types.MethodType(do_arg, self))
+    
+        GagCmdBase.__init__(self)
+        
+        # TODO
+        self.helptext = "This is the FILTER "+filter_name+" "+" console. Here you select which filter\n" \
+                        "argument you want to view or modify. These are the filter arguments:\n\n"
+        self.helptext += ', '.join(controller.filter_mgr.filter_args[filter_name])
+        
+        self.prompt = prompt_prefix[:-2] + ' ' + filter_name +'> '
+        self.controller = controller
+        self.context = context
+        self.filter_name = filter_name
+        if line:
+            self.cmdqueue = [line] # Execute default method with path as arg
+        else:
+            print(self.helptext)
+        readline.set_history_length(1000)
+        try:
+            readline.read_history_file('.gaghistory')
+        except IOError:
+            sys.stderr.write("No .gaghistory file available...\n")
+
+    def precmd(self, line):
+        readline.write_history_file('.gaghistory')
+        return GagCmdBase.precmd(self, line)
+
+    def help_home(self):
+        print("\nExit this console and return to the main GAG console.\n")
+
+    def do_home(self, line):
+        self.context['go_home'] = True
+        return True
+
+    def emptyline(self):
+        print(self.helptext)
+
+    def default(self, line):
+        print("No such "+self.filter_name+" argument: "+line+"\n");
+        
+
+
+# Generic filter arg setter/getter command console
+class FilterArgSetGetCmd(GagCmdBase):
+
+    def __init__(self, prompt_prefix, controller, context, line, filter_name, arg_name):
+        GagCmdBase.__init__(self)
+        
+        self.helptext = "This is the FILTER "+filter_name+" "+arg_name+" console. Type a value\n" \
+                        "to set the filter argument value, or simply press enter to see the current\n" \
+                        "value.\n"
+        
+        self.prompt = prompt_prefix[:-2] + ' ' + arg_name +'> '
+        self.controller = controller
+        self.context = context
+        self.filter_name = filter_name
+        self.arg_name = arg_name
+        if line:
+            context['go_home'] = True
+            self.cmdqueue = [line] # Execute default method with path as arg
+        else:
+            print(self.helptext)
+        readline.set_history_length(1000)
+        try:
+            readline.read_history_file('.gaghistory')
+        except IOError:
+            sys.stderr.write("No .gaghistory file available...\n")
+
+    def precmd(self, line):
+        readline.write_history_file('.gaghistory')
+        return GagCmdBase.precmd(self, line)
+
+    def help_home(self):
+        print("\nExit this console and return to the main GAG console.\n")
+
+    def do_home(self, line):
+        self.context['go_home'] = True
+        return True
+
+    def emptyline(self):
+        print(self.filter_name+" "+self.arg_name+": "+str(try_catch(self.controller.filter_mgr.get_filter_arg, [self.filter_name, self.arg_name]))+"\n\n")
+
+    def default(self, line):
+        line = line.strip()
+        if line:
+            try_catch(self.controller.filter_mgr.set_filter_arg, [self.filter_name, self.arg_name, line])
+            print(self.filter_name+" "+self.arg_name+" set to "+line+'\n')
+            return True
+
+
+
+###################################################################################################
+## End obscure bull@#$% code, begin sanity
+###################################################################################################
 
 ##############################################
 
-class FixCmd(cmd.Cmd):
+class FixCmd(GagCmdBase):
 
     helptext = "\nThis is the GAG FIX menu.\n"+\
             "You can apply the following fixes: "+\
@@ -286,7 +303,7 @@ class FixCmd(cmd.Cmd):
             "terminal_ns, start_stop_codons or all?\n"
 
     def __init__(self, prompt_prefix, controller, name_of_fix):
-        cmd.Cmd.__init__(self)
+        GagCmdBase.__init__(self)
         self.prompt = prompt_prefix[:-2] + " FIX> "
         self.controller = controller
         if name_of_fix:
@@ -301,7 +318,7 @@ class FixCmd(cmd.Cmd):
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
-        return cmd.Cmd.precmd(self, line)
+        return GagCmdBase.precmd(self, line)
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -343,7 +360,7 @@ class FixCmd(cmd.Cmd):
 
 ##############################################
 
-class LoadCmd(cmd.Cmd):
+class LoadCmd(GagCmdBase):
 
     helptext = "\nThis is the GAG LOAD menu.\n"+\
             "Type the path to a folder containing your .fasta and .gff files.\n"+\
@@ -353,7 +370,7 @@ class LoadCmd(cmd.Cmd):
             "Folder path?\n"
 
     def __init__(self, prompt_prefix, controller, path_to_load):
-        cmd.Cmd.__init__(self)
+        GagCmdBase.__init__(self)
         self.prompt = prompt_prefix[:-2] + " LOAD> "
         self.controller = controller
         if path_to_load:
@@ -368,7 +385,7 @@ class LoadCmd(cmd.Cmd):
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
-        return cmd.Cmd.precmd(self, line)
+        return GagCmdBase.precmd(self, line)
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -398,7 +415,7 @@ class LoadCmd(cmd.Cmd):
 
 ################################################
 
-class WriteCmd(cmd.Cmd):
+class WriteCmd(GagCmdBase):
 
     helptext = "\nWelcome to the GAG WRITE menu.\n"+\
             "You can write at the cds, gene, seq or genome level. Please type your choice.\n"+\
@@ -406,7 +423,7 @@ class WriteCmd(cmd.Cmd):
             "cds, gene, seq or genome?\n"
 
     def __init__(self, prompt_prefix, controller, line):
-        cmd.Cmd.__init__(self)
+        GagCmdBase.__init__(self)
         self.prompt = prompt_prefix[:-2] + " WRITE> "
         self.controller = controller
         self.context = {"go_home": False}
@@ -422,7 +439,7 @@ class WriteCmd(cmd.Cmd):
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
-        return cmd.Cmd.precmd(self, line)
+        return GagCmdBase.precmd(self, line)
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -468,7 +485,7 @@ class WriteCmd(cmd.Cmd):
 
 ################################################
 
-class WriteCDSCmd(cmd.Cmd):
+class WriteCDSCmd(GagCmdBase):
 
     helptext = "\nWelcome to the GAG WRITE CDS menu.\n"+\
             "You can write a CDS to fasta, gff or tbl format.\n"+\
@@ -476,7 +493,7 @@ class WriteCDSCmd(cmd.Cmd):
             "fasta, gff or tbl?\n"
 
     def __init__(self, prompt_prefix, controller, context, line):
-        cmd.Cmd.__init__(self)
+        GagCmdBase.__init__(self)
         self.prompt = prompt_prefix[:-2] + " CDS> "
         self.controller = controller
         self.context = context
@@ -492,7 +509,7 @@ class WriteCDSCmd(cmd.Cmd):
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
-        return cmd.Cmd.precmd(self, line)
+        return GagCmdBase.precmd(self, line)
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -525,7 +542,7 @@ class WriteCDSCmd(cmd.Cmd):
 
 ################################################
 
-class WriteCDSFastaCmd(cmd.Cmd):
+class WriteCDSFastaCmd(GagCmdBase):
 
     helptext = "\nWelcome to the GAG WRITE CDS FASTA menu.\n"+\
             "Please type the mRNA id that corresponds to the CDS you want to write.\n"+\
@@ -533,7 +550,7 @@ class WriteCDSFastaCmd(cmd.Cmd):
             "mRNA id?\n"
 
     def __init__(self, prompt_prefix, controller, context, line):
-        cmd.Cmd.__init__(self)
+        GagCmdBase.__init__(self)
         self.prompt = prompt_prefix[:-2] + " FASTA> "
         self.controller = controller
         self.context = context
@@ -549,7 +566,7 @@ class WriteCDSFastaCmd(cmd.Cmd):
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
-        return cmd.Cmd.precmd(self, line)
+        return GagCmdBase.precmd(self, line)
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -576,7 +593,7 @@ class WriteCDSFastaCmd(cmd.Cmd):
 
 ################################################
 
-class WriteGeneCmd(cmd.Cmd):
+class WriteGeneCmd(GagCmdBase):
 
     helptext = "\nWelcome to the GAG WRITE GENE menu.\n"+\
             "You can write a gene to gff or tbl format.\n"+\
@@ -584,7 +601,7 @@ class WriteGeneCmd(cmd.Cmd):
             "gff or tbl?\n"
 
     def __init__(self, prompt_prefix, controller, context, line):
-        cmd.Cmd.__init__(self)
+        GagCmdBase.__init__(self)
         self.prompt = prompt_prefix[:-2] + " GENE> "
         self.controller = controller
         self.context = context
@@ -600,7 +617,7 @@ class WriteGeneCmd(cmd.Cmd):
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
-        return cmd.Cmd.precmd(self, line)
+        return GagCmdBase.precmd(self, line)
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -633,7 +650,7 @@ class WriteGeneCmd(cmd.Cmd):
 
 ################################################
 
-class WriteGeneGFFCmd(cmd.Cmd):
+class WriteGeneGFFCmd(GagCmdBase):
 
     helptext = "\nWelcome to the GAG WRITE GENE GFF menu.\n"+\
             "Please type the gene id that you want to write.\n"+\
@@ -641,7 +658,7 @@ class WriteGeneGFFCmd(cmd.Cmd):
             "gene id?\n"
 
     def __init__(self, prompt_prefix, controller, context, line):
-        cmd.Cmd.__init__(self)
+        GagCmdBase.__init__(self)
         self.prompt = prompt_prefix[:-2] + " GFF> "
         self.controller = controller
         self.context = context
@@ -657,7 +674,7 @@ class WriteGeneGFFCmd(cmd.Cmd):
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
-        return cmd.Cmd.precmd(self, line)
+        return GagCmdBase.precmd(self, line)
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -684,7 +701,7 @@ class WriteGeneGFFCmd(cmd.Cmd):
 
 ################################################
 
-class WriteGeneTBLCmd(cmd.Cmd):
+class WriteGeneTBLCmd(GagCmdBase):
 
     helptext = "\nWelcome to the GAG WRITE GENE TBL menu.\n"+\
             "Please type the gene id that you want to write.\n"+\
@@ -692,7 +709,7 @@ class WriteGeneTBLCmd(cmd.Cmd):
             "gene id?\n"
 
     def __init__(self, prompt_prefix, controller, context, line):
-        cmd.Cmd.__init__(self)
+        GagCmdBase.__init__(self)
         self.prompt = prompt_prefix[:-2] + " TBL> "
         self.controller = controller
         self.context = context
@@ -708,7 +725,7 @@ class WriteGeneTBLCmd(cmd.Cmd):
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
-        return cmd.Cmd.precmd(self, line)
+        return GagCmdBase.precmd(self, line)
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -735,7 +752,7 @@ class WriteGeneTBLCmd(cmd.Cmd):
 
 ################################################
 
-class WriteSeqCmd(cmd.Cmd):
+class WriteSeqCmd(GagCmdBase):
 
     helptext = "\nWelcome to the GAG WRITE SEQ menu.\n"+\
             "(Type 'home' at any time to return to the main GAG console.)\n"+\
@@ -744,7 +761,7 @@ class WriteSeqCmd(cmd.Cmd):
             "seq id [start base] [stop base]?\n"
 
     def __init__(self, prompt_prefix, controller, context, line):
-        cmd.Cmd.__init__(self)
+        GagCmdBase.__init__(self)
         self.prompt = prompt_prefix[:-2] + " SEQ> "
         self.controller = controller
         self.context = context
@@ -760,7 +777,7 @@ class WriteSeqCmd(cmd.Cmd):
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
-        return cmd.Cmd.precmd(self, line)
+        return GagCmdBase.precmd(self, line)
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -789,7 +806,7 @@ class WriteSeqCmd(cmd.Cmd):
 
 ################################################
 
-class WriteGenomeCmd(cmd.Cmd):
+class WriteGenomeCmd(GagCmdBase):
 
     helptext = "\nWelcome to the GAG WRITE GENOME menu.\n"+\
             "Please type a name for the folder to contain the files.\n"+\
@@ -798,7 +815,7 @@ class WriteGenomeCmd(cmd.Cmd):
             "folder name?\n"
 
     def __init__(self, prompt_prefix, controller, context, line):
-        cmd.Cmd.__init__(self)
+        GagCmdBase.__init__(self)
         self.prompt = prompt_prefix[:-2] + " GENOME> "
         self.controller = controller
         self.context = context
@@ -814,7 +831,7 @@ class WriteGenomeCmd(cmd.Cmd):
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
-        return cmd.Cmd.precmd(self, line)
+        return GagCmdBase.precmd(self, line)
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
