@@ -170,12 +170,6 @@ class TestMRNA(unittest.TestCase):
         self.fake_cds.indices_intersect_cds.return_value = True
         self.assertTrue(self.test_mrna1.indices_intersect_cds([1, 9]))
 
-    def test_get_phase_adjusted_cds_indices(self):
-        self.fake_cds.phase = [0, 2, 1]
-        self.fake_cds.indices = [[1, 5], [9, 15], [20, 25]]
-        expected = [[1, 5], [11, 15], [21, 25]]
-        self.assertEquals(expected, self.test_mrna1.get_phase_adjusted_cds_indices())
-
 
     ## STATS STUFF ##
 
