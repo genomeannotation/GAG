@@ -45,6 +45,10 @@ def has_stop_codon(seq):
     else:
         return False
 
+def contains_internal_stop(seq, strand):
+    translated = translate(seq, strand)
+    return '*' in translated
+
 def reverse_complement(seq):
     bases = ['a', 'c', 'g', 't', 'n', 'A', 'C', 'G', 'T', 'N']
     complements = ['t', 'g', 'c', 'a', 'n', 'T', 'G', 'C', 'A', 'N']
