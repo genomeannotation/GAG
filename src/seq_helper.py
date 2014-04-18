@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from src.translate import translate
+from src.translator import translate, reverse_complement
 
 class SeqHelper:
 
@@ -29,7 +29,7 @@ class SeqHelper:
         identifier = mrna.identifier + " protein"
         strand = mrna.strand
         indices = mrna.cds.indices
-        untranslated = self.get_sequence_from_indices(strand, indices)
+        untranslated = self.get_sequence_from_indices('+', indices) # Don't reverse just yet
         return identifier + "\n" + translate(untranslated, strand) + "\n"
 
     def id_and_indices_to_fasta(self, identifier, strand, indices):
@@ -49,5 +49,5 @@ class SeqHelper:
             if positive:
                 result += self.full_sequence[start:stop]
             else:
-                result += self.full_sequence[start:stop][::-1]
+                result += reverse_complement(self.full_sequence[start:stop])
         return result

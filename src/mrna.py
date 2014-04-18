@@ -2,7 +2,7 @@
 
 import math
 from src.gene_part import GenePart
-import src.translate as translate
+import src.translator as translate
 
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
