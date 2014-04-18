@@ -193,6 +193,12 @@ class Gene:
                     results["no_stop_no_start"] += 1
         return results
 
+    def to_mrna_fasta(self, seq_helper):
+        result = ""
+        for mrna in self.mrnas:
+            result += seq_helper.mrna_to_fasta(mrna)
+        return result
+
     def to_gff(self, death_flagged_stuff=False):
         if not death_flagged_stuff and self.death_flagged:
             return ""

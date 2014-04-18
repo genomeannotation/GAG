@@ -125,6 +125,12 @@ class TestGene(unittest.TestCase):
         self.fake_mrna1.adjust_indices.assert_called_with(-16, 1)
         self.assertEquals(3734, self.test_gene1.indices[0])
 
+    def test_to_mrna_fasta(self):
+        helper = Mock()
+        helper.mrna_to_fasta.return_value = "mrna_to_fasta\n"
+        expected = "mrna_to_fasta\nmrna_to_fasta\n"
+        self.assertEquals(expected, self.test_gene1.to_mrna_fasta(helper))
+
     def test_to_gff(self):
         self.fake_mrna1.to_gff.return_value = "fake mrna1 to gff here:)\n"
         self.fake_mrna2.to_gff.return_value = "fake mrna2 to gff here:)\n"
