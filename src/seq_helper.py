@@ -9,7 +9,18 @@ class SeqHelper:
     def mrna_to_fasta(self, mrna):
         """Writes a two-line fasta-style entry consisting of all exonic sequence."""
 
-        return self.list_of_index_pairs_to_fasta(mrna.identifier, mrna.strand, mrna.exon.indices)
+        identifier = mrna.identifier
+        strand = mrna.strand
+        indices = mrna.exon.indices
+        return self.list_of_index_pairs_to_fasta(identifier, strand, indices)
+
+    def mrna_to_cds_fasta(self, mrna):
+        """Writes a two-line fasta-style entry consisting of all CDS sequence."""
+
+        identifier = mrna.identifier + " CDS"
+        strand = mrna.strand
+        indices = mrna.cds.indices
+        return self.list_of_index_pairs_to_fasta(identifier, strand, indices)
 
     def list_of_index_pairs_to_fasta(self, identifier, strand, indices):
         if strand == '+':

@@ -30,6 +30,16 @@ class TestSeqHelper(unittest.TestCase):
         expected = "foo_mrna\nacattagACATTAG\n"
         self.assertEquals(expected, self.helper.mrna_to_fasta(mrna))
 
+    def test_mrna_to_cds_fasta(self):
+        mrna = Mock()
+        mrna.identifier = "foo_mrna"
+        mrna.cds = Mock()
+        mrna.cds.indices = [[21, 27], [4, 10]]
+        mrna.strand = '-'
+        expected = "foo_mrna CDS\nacattagACATTAG\n"
+        self.assertEquals(expected, self.helper.mrna_to_cds_fasta(mrna))
+
+
 
 ##########################
 def suite():
