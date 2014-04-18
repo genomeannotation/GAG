@@ -170,6 +170,11 @@ class TestSequence(unittest.TestCase):
         expected = "mockgene_to_cds_fasta\n"
         self.assertEquals(expected, self.seq1.to_cds_fasta())
 
+    def test_to_protein_fasta(self):
+        self.add_mock_gene()
+        expected = "mockgene_to_protein_fasta\n"
+        self.assertEquals(expected, self.seq1.to_protein_fasta())
+
     def test_to_tbl(self):
         self.add_mock_gene()
         self.seq1.genes[0].to_tbl.return_value = "mockgene to tbl"

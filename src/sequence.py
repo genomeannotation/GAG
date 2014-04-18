@@ -162,6 +162,13 @@ class Sequence:
             result += gene.to_cds_fasta(helper)
         return result
 
+    def to_protein_fasta(self):
+        helper = SeqHelper(self.bases)
+        result = ""
+        for gene in self.genes:
+            result += gene.to_protein_fasta(helper)
+        return result
+
     def to_gff(self):
         result = ""
         for gene in self.genes:
