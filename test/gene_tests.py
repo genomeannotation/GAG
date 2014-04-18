@@ -125,6 +125,13 @@ class TestGene(unittest.TestCase):
         self.fake_mrna1.adjust_indices.assert_called_with(-16, 1)
         self.assertEquals(3734, self.test_gene1.indices[0])
 
+    def test_remove_mrnas_with_internal_stops(self):
+        helper = Mock()
+        helper.mrna_contains_internal_stop.return_value = True
+        self.assertEquals(2, len(self.test_gene1.mrnas))
+        self.test_gene1.remove_mrnas_with_internal_stops(helper)
+        self.assertEquals(0, len(self.test_gene1.mrnas))
+
     def test_to_mrna_fasta(self):
         helper = Mock()
         helper.mrna_to_fasta.return_value = "mrna_to_fasta\n"
@@ -205,8 +212,6 @@ class TestGene(unittest.TestCase):
         gene.mrnas.append(mrna2)
         expected = "50\t1\tgene\n\t\t\tlocus_tag\tfoo_gene_1\nmrna1_to_tbl...\nmrna2_to_tbl...\n"
         self.assertEquals(gene.to_tbl(), expected)
-
-        
 
 
 ##########################

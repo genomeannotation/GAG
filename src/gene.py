@@ -193,6 +193,12 @@ class Gene:
                     results["no_stop_no_start"] += 1
         return results
 
+    def remove_mrnas_with_internal_stops(self, seq_helper):
+        for mrna in self.mrnas:
+            if seq_helper.mrna_contains_internal_stop(mrna):
+                mrna.death_flagged = True
+        self.mrnas = [m for m in self.mrnas if not m.death_flagged]
+
     def to_mrna_fasta(self, seq_helper):
         result = ""
         for mrna in self.mrnas:

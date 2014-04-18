@@ -57,6 +57,16 @@ class TestSeqHelper(unittest.TestCase):
         expected = ">foo_mrna protein\nCNL*\n"
         self.assertEquals(expected, self.helper.mrna_to_protein_fasta(mrna))
 
+    def test_mrna_contains_internal_stop(self):
+        helper = SeqHelper("gattacaTAGgattaca") # TAG = stop codon
+        mrna = Mock()
+        mrna.strand = '+'
+        mrna.cds = Mock()
+        mrna.cds.indices = [[2, 4], [8, 14]]
+        # verify that the internal stop is in the sequence ...
+        self.assertEquals("attTAGgatt", helper.get_sequence_from_indices('+', mrna.cds.indices))
+        # make sure the method catches it
+        self.assertTrue(helper.mrna_contains_internal_stop(mrna))
 
 ##########################
 def suite():

@@ -1,11 +1,17 @@
 #!/usr/bin/env python
 
-from src.translator import translate, reverse_complement
+from src.translator import translate, reverse_complement, contains_internal_stop
 
 class SeqHelper:
 
     def __init__(self, bases):
         self.full_sequence = bases
+
+    def mrna_contains_internal_stop(self, mrna):
+        strand = mrna.strand
+        indices = mrna.cds.indices
+        sequence = self.get_sequence_from_indices(strand, indices)
+        return contains_internal_stop(sequence, strand)
 
     def mrna_to_fasta(self, mrna):
         """Writes a two-line fasta-style entry consisting of all exonic sequence."""
