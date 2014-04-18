@@ -155,6 +155,13 @@ class Sequence:
             result += gene.to_mrna_fasta(helper)
         return result
 
+    def to_cds_fasta(self):
+        helper = SeqHelper(self.bases)
+        result = ""
+        for gene in self.genes:
+            result += gene.to_cds_fasta(helper)
+        return result
+
     def to_gff(self):
         result = ""
         for gene in self.genes:

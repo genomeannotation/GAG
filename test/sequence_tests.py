@@ -15,6 +15,8 @@ class TestSequence(unittest.TestCase):
         mockgene.indices = [2, 4]
         mockgene.death_flagged = False
         mockgene.to_mrna_fasta.return_value = "mockgene_to_mrna_fasta\n"
+        mockgene.to_cds_fasta.return_value = "mockgene_to_cds_fasta\n"
+        mockgene.to_protein_fasta.return_value = "mockgene_to_protein_fasta\n"
         mockgene.get_valid_mrnas = Mock(return_value=[])
         self.seq1.add_gene(mockgene)
         
@@ -162,6 +164,11 @@ class TestSequence(unittest.TestCase):
         self.add_mock_gene()
         expected = "mockgene_to_mrna_fasta\n"
         self.assertEquals(expected, self.seq1.to_mrna_fasta())
+
+    def test_to_cds_fasta(self):
+        self.add_mock_gene()
+        expected = "mockgene_to_cds_fasta\n"
+        self.assertEquals(expected, self.seq1.to_cds_fasta())
 
     def test_to_tbl(self):
         self.add_mock_gene()
