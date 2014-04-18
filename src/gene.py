@@ -199,6 +199,12 @@ class Gene:
             result += seq_helper.mrna_to_fasta(mrna)
         return result
 
+    def to_cds_fasta(self, seq_helper):
+        result = ""
+        for mrna in self.mrnas:
+            result += seq_helper.mrna_to_cds_fasta(mrna)
+        return result
+
     def to_gff(self, death_flagged_stuff=False):
         if not death_flagged_stuff and self.death_flagged:
             return ""
