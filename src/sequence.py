@@ -130,6 +130,14 @@ class Sequence:
             return ""
         return self.bases[start-1:stop]
 
+    def remove_mrnas_with_internal_stops(self):
+        helper = SeqHelper(self.bases)
+        for gene in self.genes:
+            gene.remove_mrnas_with_internal_stops(helper)
+            if not gene.mrnas:
+                gene.death_flagged = True
+        self.genes = [g for g in self.genes if not g.death_flagged]
+
     def create_starts_and_stops(self):
         for gene in self.genes:
             gene.create_starts_and_stops(self)
