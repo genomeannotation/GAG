@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+from src.seq_helper import SeqHelper
 
 class Sequence:
 
@@ -145,6 +146,13 @@ class Sequence:
         result += "\t\t\tPBARC\t12345\n"
         for gene in self.genes:
             result += gene.to_tbl()
+        return result
+
+    def to_mrna_fasta(self):
+        helper = SeqHelper(self.bases)
+        result = ""
+        for gene in self.genes:
+            result += gene.to_mrna_fasta(helper)
         return result
 
     def to_gff(self):
