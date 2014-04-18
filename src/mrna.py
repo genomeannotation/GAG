@@ -40,6 +40,17 @@ class MRNA:
     def length(self):
         return length_of_segment(self.indices)
 
+    def get_phase_adjusted_cds_indices(self):
+        if not self.cds:
+            return []
+        result = []
+        for i, index_pair in enumerate(self.cds.indices):
+            start = index_pair[0]
+            stop = index_pair[1]
+            phase = self.cds.phase[i]
+            result.append([start+phase, stop])
+        return result
+
     def adjust_indices(self, n, start_index=1):
         if self.indices[0] > start_index:
             self.indices = [i + n for i in self.indices]
