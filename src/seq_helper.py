@@ -10,7 +10,7 @@ class SeqHelper:
     def mrna_to_fasta(self, mrna):
         """Writes a two-line fasta-style entry consisting of all exonic sequence."""
 
-        identifier = mrna.identifier
+        identifier = ">" + mrna.identifier
         strand = mrna.strand
         indices = mrna.exon.indices
         return self.id_and_indices_to_fasta(identifier, strand, indices)
@@ -18,7 +18,7 @@ class SeqHelper:
     def mrna_to_cds_fasta(self, mrna):
         """Writes a two-line fasta-style entry consisting of all CDS sequence."""
 
-        identifier = mrna.identifier + " CDS"
+        identifier = ">" + mrna.identifier + " CDS"
         strand = mrna.strand
         indices = mrna.cds.indices
         return self.id_and_indices_to_fasta(identifier, strand, indices)
@@ -26,7 +26,7 @@ class SeqHelper:
     def mrna_to_protein_fasta(self, mrna):
         """Writes a two-line fasta-style entry consisting of the translation of CDS sequence."""
 
-        identifier = mrna.identifier + " protein"
+        identifier = ">" + mrna.identifier + " protein"
         strand = mrna.strand
         indices = mrna.cds.indices
         untranslated = self.get_sequence_from_indices('+', indices) # Don't reverse just yet
