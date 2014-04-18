@@ -137,6 +137,12 @@ class TestGene(unittest.TestCase):
         expected = "mrna_to_CDS_fasta\nmrna_to_CDS_fasta\n"
         self.assertEquals(expected, self.test_gene1.to_cds_fasta(helper))
 
+    def test_to_protein_fasta(self):
+        helper = Mock()
+        helper.mrna_to_protein_fasta.return_value = "mrna_to_protein_fasta\n"
+        expected = "mrna_to_protein_fasta\nmrna_to_protein_fasta\n"
+        self.assertEquals(expected, self.test_gene1.to_protein_fasta(helper))
+
     def test_to_gff(self):
         self.fake_mrna1.to_gff.return_value = "fake mrna1 to gff here:)\n"
         self.fake_mrna2.to_gff.return_value = "fake mrna2 to gff here:)\n"
