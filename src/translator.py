@@ -59,9 +59,6 @@ def reverse_complement(seq):
     return ''.join([rev_comp_dict.get(base) for base in reversed(seq)])
 
 def translate(seq, strand, frame=1):
-    if 'n' in seq or 'N' in seq:
-        return None
-
     seq = seq.lower().replace('\n', '').replace(' ', '')
 
     if not verify_inputs(seq, frame, strand):
@@ -79,7 +76,10 @@ def translate(seq, strand, frame=1):
     
     for i in xrange(0, len(seq), 3):
         codon = seq[i: i+3]
-        amino_acid = CODON_TABLE.get(codon, '')
+        if 'N' in codon or 'n' in codon:
+            amino_acid = 'X'
+        else:
+            amino_acid = CODON_TABLE.get(codon, '')
         peptide += amino_acid
 
     return peptide

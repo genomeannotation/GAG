@@ -29,8 +29,8 @@ class SeqHelper:
         identifier = ">" + mrna.identifier + " protein"
         strand = mrna.strand
         indices = mrna.cds.indices
-        untranslated = self.get_sequence_from_indices('+', indices) # Don't reverse just yet
-        return identifier + "\n" + translate(untranslated, strand) + "\n"
+        untranslated = self.get_sequence_from_indices(strand, indices)
+        return identifier + "\n" + translate(untranslated, '+') + "\n"
 
     def id_and_indices_to_fasta(self, identifier, strand, indices):
         result = identifier + "\n"

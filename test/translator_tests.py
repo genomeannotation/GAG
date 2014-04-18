@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import unittest
-from src.translate import *
+from src.translator import *
 
 class TestTranslate(unittest.TestCase):
 
@@ -55,6 +55,11 @@ class TestTranslate(unittest.TestCase):
     def test_reverse_complement(self):
         self.assertEquals('C', reverse_complement('G'))
         self.assertEquals('CAT', reverse_complement('ATG'))
+
+    def test_translate_with_n_in_seq(self):
+        test_seq = 'CATGACAGAAGATNTTTC'
+        self.assertEquals('HDRRXF', translate(test_seq, '+', 1,))
+
         
         
 ##########################

@@ -46,6 +46,8 @@ class ConsoleController:
             tbl = open(line+'/gag.tbl', 'w')
             fasta = open(line+'/gag.fasta', 'w')
             mrna_fasta = open(line+'/gag.mrna.fasta', 'w')
+            cds_fasta = open(line+'/gag.cds.fasta', 'w')
+            protein_fasta = open(line+'/gag.proteins.fasta', 'w')
 
             # Deep copy each seq, apply fixes and filters, write
             sys.stderr.write("Writing gff, tbl and fasta...\n")
@@ -56,6 +58,8 @@ class ConsoleController:
                 gff.write(seq.to_gff())
                 tbl.write(seq.to_tbl())
                 mrna_fasta.write(seq.to_mrna_fasta())
+                cds_fasta.write(seq.to_cds_fasta())
+                protein_fasta.write(seq.to_protein_fasta())
                 fasta.write(seq.to_fasta())
 
             # Close files
@@ -63,6 +67,8 @@ class ConsoleController:
             tbl.close()
             fasta.close()
             mrna_fasta.close()
+            cds_fasta.close()
+            protein_fasta.close()
 
             # Write the annotations
             sys.stderr.write("Writing trinotate...\n")

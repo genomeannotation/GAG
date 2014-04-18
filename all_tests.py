@@ -9,7 +9,7 @@ import test.gene_tests
 import test.seq_fixer_tests
 import test.console_controller_tests
 import test.annotator_tests
-import test.translate_tests
+import test.translator_tests
 import test.gff_reader_tests
 import test.sequence_tests
 import test.filter_manager_tests
@@ -25,7 +25,7 @@ suite4 = test.gene_tests.suite()
 suite6 = test.seq_fixer_tests.suite()
 suite7 = test.console_controller_tests.suite()
 suite8 = test.annotator_tests.suite()
-suite9 = test.translate_tests.suite()
+suite9 = test.translator_tests.suite()
 suite10 = test.gff_reader_tests.suite()
 suite11 = test.sequence_tests.suite()
 suite12 = test.filter_manager_tests.suite()
