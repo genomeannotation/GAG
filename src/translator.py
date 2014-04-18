@@ -18,19 +18,12 @@ def valid_seq(seq):
     else:
         return True
 
-def valid_frame(frame):
-    return frame in [1, 2, 3]
-
 def valid_strand(strand):
     return strand in ['+', '-']
 
-def verify_inputs(seq, frame, strand):
+def verify_inputs(seq, strand):
     if not valid_seq(seq):
         sys.stderr.write("Invalid seq passed to translate.py: " + seq + "\n")
-        return False
-    elif not valid_frame(frame):
-        sys.stderr.write("Invalid frame passed to translate.py: " + str(frame) + "\n")
-        sys.stderr.write("(Frame should be 1, 2 or 3)")
         return False
     elif not valid_strand(strand):
         sys.stderr.write("Invalid strand passed to translate.py: " + strand + "\n")
@@ -58,18 +51,15 @@ def reverse_complement(seq):
     rev_comp_dict = dict(zip(bases, complements))
     return ''.join([rev_comp_dict.get(base) for base in reversed(seq)])
 
-def translate(seq, strand, frame=1):
+def translate(seq, strand):
     seq = seq.lower().replace('\n', '').replace(' ', '')
 
-    if not verify_inputs(seq, frame, strand):
+    if not verify_inputs(seq, strand):
         return None
 
     # Adjust according to strand
     if strand == '-':
         seq = reverse_complement(seq)
-
-    # Adjust according to frame
-    seq = seq[frame-1:]
 
     # Now translate
     peptide = ''

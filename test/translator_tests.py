@@ -6,36 +6,21 @@ from src.translator import *
 class TestTranslate(unittest.TestCase):
 
     def test_translate_one_codon(self):
-        self.assertEquals('T', translate('act', '+', 1))
-        self.assertEquals('T', translate('acta', '+', 1))
-        self.assertEquals('T', translate('actac', '+', 1))
-        self.assertEquals('T', translate('tact', '+', 2))
-        self.assertEquals('T', translate('ctact', '+', 3))
-
-        self.assertEquals('S', translate('act', '-', 1))
-        self.assertEquals('S', translate('tact', '-', 1))
-        self.assertEquals('S', translate('ctact', '-', 1))
-        self.assertEquals('S', translate('acta', '-', 2))
-        self.assertEquals('S', translate('actac', '-', 3))
+        self.assertEquals('T', translate('act', '+'))
+        self.assertEquals('S', translate('act', '-'))
 
     def test_translate_error_handling(self):
         sys.stderr.write("test should generate an error message:\n")
-        self.assertFalse(translate('ac', 1, '+'))
+        self.assertFalse(translate('ac', '+'))
         sys.stderr.write("test should generate an error message:\n")
-        self.assertFalse(translate('acx', 1, '+'))
+        self.assertFalse(translate('acx', '+'))
         sys.stderr.write("test should generate an error message:\n")
-        self.assertFalse(translate('act', 0, '+'))
-        sys.stderr.write("test should generate an error message:\n")
-        self.assertFalse(translate('act', 1, 'u'))
+        self.assertFalse(translate('act', 'u'))
 
     def test_translate_longer_sequence(self):
         test_seq = 'CATGACAGAAGATATTTC'
-        self.assertEquals('HDRRYF', translate(test_seq, '+', 1,))
-        self.assertEquals('MTEDI', translate(test_seq, '+', 2))
-        self.assertEquals('*QKIF', translate(test_seq, '+', 3))
-        self.assertEquals('EISSVM', translate(test_seq, '-', 1))
-        self.assertEquals('KYLLS', translate(test_seq, '-', 2))
-        self.assertEquals('NIFCH', translate(test_seq, '-', 3))
+        self.assertEquals('HDRRYF', translate(test_seq, '+',))
+        self.assertEquals('EISSVM', translate(test_seq, '-'))
         
     def test_valid_seq(self):
         self.assertTrue(valid_seq('actg'))
@@ -58,7 +43,7 @@ class TestTranslate(unittest.TestCase):
 
     def test_translate_with_n_in_seq(self):
         test_seq = 'CATGACAGAAGATNTTTC'
-        self.assertEquals('HDRRXF', translate(test_seq, '+', 1,))
+        self.assertEquals('HDRRXF', translate(test_seq, '+'))
 
         
         
