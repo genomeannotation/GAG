@@ -22,6 +22,10 @@ def try_catch(command, args=None):
 # Define a custom cmd line base class to fix some bugs in cmd.Cmd
 ###################################################################################################
 
+# TODO This class introduces some cool opportunities - we might be able to put all the duplicated
+# functionality of subconsoles (i.e. home related code) into this class so the subconsoles' code
+# can be more concise
+
 class GagCmdBase(cmd.Cmd):
 
     def __init__(self):
@@ -132,10 +136,12 @@ class GagCmd(GagCmdBase):
 class FilterCmd(GagCmdBase):
 
     helptext = "\nThis is the GAG FILTER menu.\n"+\
-            "You can inspect and modify the following filters: "+\
-            "cds_length, exon_length, intron_length, gene_length.\n"+\
-            "(You can type 'home' at any time to return to the main GAG console.)\n"+\
-            "Type the name of a filter to inspect or modify it.\n"
+            "You can inspect and modify the following filters:\n\n"+\
+            "cds_length, exon_length, intron_length, gene_length\n\n"+\
+            "(You can type 'home' at any time to return to the main GAG console.)\n\n"+\
+            "Type the name of a filter to inspect or modify it. Filters remove features\n"+\
+            "that don't make the cut by default, but will let them live and flag them\n"+\
+            "if you set the filter's 'remove' argument to False\n"
 
     def __init__(self, prompt_prefix, controller, line):
         GagCmdBase.__init__(self)
@@ -163,11 +169,38 @@ class FilterCmd(GagCmdBase):
         return True
 
     def help_cds_length(self):
-        print("\nYou can filter by min or max CDS length. mRNAs who's CDSs don't make the cut are removed.\n")
+        print("\nYou can filter by min and/or max CDS length. mRNAs who's CDSs don't make the cut are removed.\n")
         
     def do_cds_length(self, line):
         cdscmd = FilterArgCmd(self.prompt, self.controller, self.context, line, 'cds_length')
         cdscmd.cmdloop()
+        if self.context["go_home"]:
+            return True
+            
+    def help_exon_length(self):
+        print("\nYou can filter by min and/or max exon length. mRNAs who's exons don't make the cut are removed.\n")
+        
+    def do_exon_length(self, line):
+        exoncmd = FilterArgCmd(self.prompt, self.controller, self.context, line, 'exon_length')
+        exoncmd.cmdloop()
+        if self.context["go_home"]:
+            return True
+            
+    def help_intron_length(self):
+        print("\nYou can filter by min and/or max intron length. mRNAs who's introns don't make the cut are removed.\n")
+        
+    def do_intron_length(self, line):
+        introncmd = FilterArgCmd(self.prompt, self.controller, self.context, line, 'intron_length')
+        introncmd.cmdloop()
+        if self.context["go_home"]:
+            return True
+            
+    def help_gene_length(self):
+        print("\nYou can filter by min and/or max gene length. Genes that don't make the cut are removed.\n")
+        
+    def do_gene_length(self, line):
+        genecmd = FilterArgCmd(self.prompt, self.controller, self.context, line, 'gene_length')
+        genecmd.cmdloop()
         if self.context["go_home"]:
             return True
 
@@ -186,18 +219,6 @@ class FilterCmd(GagCmdBase):
 class FilterArgCmd(GagCmdBase):
 
     def __init__(self, prompt_prefix, controller, context, line, filter_name):
-    
-        # Set up filter arg do functions
-        for arg in controller.filter_mgr.filter_args[filter_name]:
-            # First real closure #teddy'sallgrownup
-            # traps arg variable
-            def do_arg(slf, line, filter_arg = arg):
-                filtercmd = FilterArgSetGetCmd(slf.prompt, slf.controller, slf.context, line, slf.filter_name, filter_arg)
-                filtercmd.cmdloop()
-                if slf.context["go_home"]:
-                    return True
-            setattr(self, 'do_'+arg, types.MethodType(do_arg, self))
-    
         GagCmdBase.__init__(self)
         
         # TODO
@@ -218,6 +239,17 @@ class FilterArgCmd(GagCmdBase):
             readline.read_history_file('.gaghistory')
         except IOError:
             sys.stderr.write("No .gaghistory file available...\n")
+        
+        # Set up filter arg do functions
+        for arg in controller.filter_mgr.filter_args[filter_name]:
+            # First real closure #teddy'sallgrownup
+            # traps arg variable
+            def do_arg(slf, line, filter_arg = arg):
+                filtercmd = FilterArgSetGetCmd(slf.prompt, slf.controller, slf.context, line, slf.filter_name, filter_arg)
+                filtercmd.cmdloop()
+                if slf.context["go_home"]:
+                    return True
+            setattr(self, 'do_'+arg, types.MethodType(do_arg, self))
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
