@@ -12,7 +12,7 @@ class SeqHelper:
         identifier = mrna.identifier
         strand = mrna.strand
         indices = mrna.exon.indices
-        return self.list_of_index_pairs_to_fasta(identifier, strand, indices)
+        return self.id_and_indices_to_fasta(identifier, strand, indices)
 
     def mrna_to_cds_fasta(self, mrna):
         """Writes a two-line fasta-style entry consisting of all CDS sequence."""
@@ -20,14 +20,19 @@ class SeqHelper:
         identifier = mrna.identifier + " CDS"
         strand = mrna.strand
         indices = mrna.cds.indices
-        return self.list_of_index_pairs_to_fasta(identifier, strand, indices)
+        return self.id_and_indices_to_fasta(identifier, strand, indices)
 
-    def list_of_index_pairs_to_fasta(self, identifier, strand, indices):
+    def id_and_indices_to_fasta(self, identifier, strand, indices):
+        result = identifier + "\n"
+        result += self.get_sequence_from_indices(strand, indices) + "\n"
+        return result
+
+    def get_sequence_from_indices(self, strand, indices):
         if strand == '+':
             positive = True
         else:
             positive = False
-        result = identifier + "\n"
+        result = ""
         for index_pair in indices:
             start = index_pair[0]-1
             stop = index_pair[1]
@@ -35,5 +40,4 @@ class SeqHelper:
                 result += self.full_sequence[start:stop]
             else:
                 result += self.full_sequence[start:stop][::-1]
-        return result + "\n"
-
+        return result
