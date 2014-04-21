@@ -315,11 +315,15 @@ class FilterArgSetGetCmd(GagCmdBase):
         line = line.strip()
         if line:
             # Validate the value
-            got_type = type(ast.literal_eval(line)).__name__
+            got_type = 'invalid'
+            try:
+                got_type = type(ast.literal_eval(line)).__name__
+            except:
+                pass
             expected_type = self.controller.filter_mgr.filter_arg_types[self.filter_name][self.arg_name]
             # it's a number
             if got_type != expected_type:
-                print("Failed to set "+self.filter_name+" "+self.arg_name+". Expected "+expected_type+" but got "+got_type+".\n")
+                print("Failed to set "+self.filter_name+" "+self.arg_name+". Expected "+expected_type+".\n")
                 if expected_type == 'bool':
                     print("A bool can be True or False (the caps matters).\n")
                 elif expected_type == 'int':
