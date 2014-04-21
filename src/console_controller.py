@@ -69,9 +69,6 @@ class ConsoleController:
             cds_fasta.close()
             protein_fasta.close()
 
-            # Write the annotations
-            sys.stderr.write("Writing trinotate...\n")
-            self.annot.write_to_file(line+'/gag.trinotate')
             return "Genome written to " + line
         
     def load_folder(self, line):
@@ -194,9 +191,6 @@ class ConsoleController:
         genes = gffreader.read_file(reader)
         for gene in genes:
             self.add_gene(gene)
-
-    def read_trinotate(self, line):
-        self.annot.read_from_file(line)
 
 
 ## Output info to console
