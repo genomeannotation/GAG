@@ -134,10 +134,7 @@ class MRNA:
         else:
             return self.cds.indices_intersect_cds(indices)
 
-    def to_gff(self, seq_name, source, strand, death_flagged_stuff=False):
-        if not death_flagged_stuff and self.death_flagged:
-            return ""
-    
+    def to_gff(self, seq_name, source, strand):
         result = seq_name + "\t" + source + "\t" + "mRNA" + "\t"
         result += str(self.indices[0]) + "\t" + str(self.indices[1]) + "\t"
         result += "." + "\t" + strand + "\t" + "." + "\t"
@@ -155,9 +152,6 @@ class MRNA:
         return result
 
     def to_tbl(self, strand):
-        if self.death_flagged:
-            return ""
-    
         has_start = self.has_start()
         has_stop = self.has_stop()
         output = ""

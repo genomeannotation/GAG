@@ -217,10 +217,7 @@ class Gene:
             result += seq_helper.mrna_to_protein_fasta(mrna)
         return result
 
-    def to_gff(self, death_flagged_stuff=False):
-        if not death_flagged_stuff and self.death_flagged:
-            return ""
-    
+    def to_gff(self):
         result = self.seq_name + "\t" + self.source + "\t"
         result += 'gene' + "\t" + str(self.indices[0]) + "\t"
         result += str(self.indices[1]) + "\t" + self.get_score()
@@ -230,13 +227,10 @@ class Gene:
             result += ';'+annot[0]+'='+annot[1]
         result += '\n'
         for mrna in self.mrnas:
-            result += mrna.to_gff(self.seq_name, self.source, self.strand, death_flagged_stuff)
+            result += mrna.to_gff(self.seq_name, self.source, self.strand)
         return result
 
     def to_tbl(self):
-        if self.death_flagged:
-            return ""
-    
         if self.strand == "-":
             indices = [self.indices[1], self.indices[0]]
         else:

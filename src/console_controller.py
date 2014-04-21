@@ -53,14 +53,14 @@ class ConsoleController:
             sys.stderr.write("Writing gff, tbl and fasta...\n")
             for seq in self.seqs:
                 cseq = copy.deepcopy(seq)
-                self.seq_fixer.fix(seq)
+                self.seq_fixer.fix(cseq)
                 self.filter_mgr.apply_filters(cseq)
-                gff.write(seq.to_gff())
-                tbl.write(seq.to_tbl())
-                mrna_fasta.write(seq.to_mrna_fasta())
-                cds_fasta.write(seq.to_cds_fasta())
-                protein_fasta.write(seq.to_protein_fasta())
-                fasta.write(seq.to_fasta())
+                gff.write(cseq.to_gff())
+                tbl.write(cseq.to_tbl())
+                mrna_fasta.write(cseq.to_mrna_fasta())
+                cds_fasta.write(cseq.to_cds_fasta())
+                protein_fasta.write(cseq.to_protein_fasta())
+                fasta.write(cseq.to_fasta())
 
             # Close files
             gff.close()
