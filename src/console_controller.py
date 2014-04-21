@@ -4,7 +4,6 @@
 import os
 import sys
 import subprocess
-import glob
 import copy
 from src.fasta_reader import FastaReader
 from src.gff_reader import GFFReader
@@ -78,55 +77,32 @@ class ConsoleController:
     def load_folder(self, line):
         if not line:
             line = "."
-        # Get filenames
-        sys.stderr.write("Locating files...\n")
-        gffs = glob.glob(line + '/*.gff')
-        fastas = glob.glob(line + '/*.fasta')
-        trinotates = glob.glob(line + '/*.trinotate')
+        fastapath = line + '/genome.fasta'
+        gffpath = line + '/genome.gff'
 
-        # Make sure there's only one of each file type
-        if len(gffs) > 1:
-            sys.stderr.write("Found more than one gff file; no genome loaded.\n")
+        # Verify files
+        if not os.path.isfile(fastapath):
+            sys.stderr.write("Failed to find " + fastapath + ". No genome was loaded.")
             return
-        elif len(fastas) > 1:
-            sys.stderr.write("Found more than one fasta file; no genome loaded.\n")
-            return
-        elif len(trinotates) > 1:
-            sys.stderr.write("Found more than one trinotate file; no genome loaded.\n")
+        if not os.path.isfile(gffpath):
+            sys.stderr.write("Failed to find " + gffpath + ". No genome was loaded.")
             return
 
         # Read the fasta
-        if fastas:
-            sys.stderr.write("Reading fasta...\n")
-            self.read_fasta(fastas[0])
-            sys.stderr.write("Done.\n")
-        else:
-            sys.stderr.write("Couldn't find .fasta file in " + line + "\n")
-            return
+        sys.stderr.write("Reading fasta...\n")
+        self.read_fasta(fastapath)
+        sys.stderr.write("Done.\n")
 
         # Read the gff
-        if gffs:
-            sys.stderr.write("Reading gff...\n")
-            self.read_gff(gffs[0])
-            sys.stderr.write("Done.\n")
-        else:
-            sys.stderr.write("Couldn't find .gff file in " + line + "\n")
-            return
-
-        # Read the annotations
-        if trinotates:
-            sys.stderr.write("Reading trinotate...\n")
-            self.read_trinotate(line+'/gag.trinotate')
-            sys.stderr.write("Done.\n")
-        else:
-            sys.stderr.write("Did not find .trinotate file; no functional annotations available.\n")
+        sys.stderr.write("Reading gff...\n")
+        self.read_gff(gffpath)
+        sys.stderr.write("Done.\n")
 
         # Clear stats; read in new stats; display stats on reference genome
         self.stats_mgr.clear_all()
         for seq in self.seqs:
             self.stats_mgr.update_ref(seq.stats())
-        sys.stderr.write("Genome loaded.\n\n")
-        print(self.stats())
+        sys.stderr.write("Genome loaded.\n")
 
     def set_filter_arg(self, filter_name, filter_arg, val):
         self.filter_mgr.set_filter_arg(filter_name, filter_arg, val)
