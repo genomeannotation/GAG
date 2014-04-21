@@ -468,6 +468,7 @@ class LoadCmd(GagCmdBase):
             self.controller.clear_seqs()
         try_catch(self.controller.load_folder, [line])
         if self.genome_loaded():
+            print("\nGenome loaded. (Type 'info' to see summary statistics.)\n")
             return True
         else:
             print(self.helptext)

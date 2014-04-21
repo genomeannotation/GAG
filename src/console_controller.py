@@ -98,11 +98,10 @@ class ConsoleController:
         self.read_gff(gffpath)
         sys.stderr.write("Done.\n")
 
-        # Clear stats; read in new stats; display stats on reference genome
+        # Clear stats; read in new stats
         self.stats_mgr.clear_all()
         for seq in self.seqs:
             self.stats_mgr.update_ref(seq.stats())
-        sys.stderr.write("Genome loaded.\n")
 
     def set_filter_arg(self, filter_name, filter_arg, val):
         self.filter_mgr.set_filter_arg(filter_name, filter_arg, val)
