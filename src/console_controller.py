@@ -41,12 +41,12 @@ class ConsoleController:
         else:
             # Create directory, open files
             os.system('mkdir '+line)
-            gff = open(line+'/gag.gff', 'w')
-            tbl = open(line+'/gag.tbl', 'w')
-            fasta = open(line+'/gag.fasta', 'w')
-            mrna_fasta = open(line+'/gag.mrna.fasta', 'w')
-            cds_fasta = open(line+'/gag.cds.fasta', 'w')
-            protein_fasta = open(line+'/gag.proteins.fasta', 'w')
+            gff = open(line+'/genome.gff', 'w')
+            tbl = open(line+'/genome.tbl', 'w')
+            fasta = open(line+'/genome.fasta', 'w')
+            mrna_fasta = open(line+'/genome.mrna.fasta', 'w')
+            cds_fasta = open(line+'/genome.cds.fasta', 'w')
+            protein_fasta = open(line+'/genome.proteins.fasta', 'w')
 
             # Deep copy each seq, apply fixes and filters, write
             sys.stderr.write("Writing gff, tbl and fasta...\n")
