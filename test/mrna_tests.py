@@ -79,6 +79,10 @@ class TestMRNA(unittest.TestCase):
         expected = "mRNA (ID=2) containing Exon, CDS and 1 other features"
         self.assertEquals(expected, str(self.test_mrna1))
 
+    def test_cds_to_gff(self):
+        foo = self.test_mrna1.cds_to_gff()
+        self.fake_cds.to_gff.assert_called_with()
+
     def test_to_gff(self):
         self.fake_exon.to_gff.return_value = "...exon to gff\n"
         self.fake_cds.to_gff.return_value = "...cds to gff\n"

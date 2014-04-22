@@ -134,6 +134,12 @@ class MRNA:
         else:
             return self.cds.indices_intersect_cds(indices)
 
+    def cds_to_gff(self):
+        if self.cds:
+            return self.cds.to_gff()
+        else:
+            return ""
+
     def to_gff(self, seq_name, source, strand):
         result = seq_name + "\t" + source + "\t" + "mRNA" + "\t"
         result += str(self.indices[0]) + "\t" + str(self.indices[1]) + "\t"
