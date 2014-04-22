@@ -162,9 +162,9 @@ class MRNA:
         has_stop = self.has_stop()
         output = ""
         if self.exon:
-            output += self.exon.to_tbl(strand, has_start, has_stop)
+            output += self.exon.to_tbl(has_start, has_stop)
         if self.cds:
-            output += self.cds.to_tbl(strand, has_start, has_stop)
+            output += self.cds.to_tbl(has_start, has_stop)
         return output
 
     ## STATS STUFF ##
