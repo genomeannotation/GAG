@@ -221,10 +221,10 @@ class CDS(GenePart):
                     seq += translate.reverse_complement(non_reversed_seq)
         return seq
 
-    def to_tbl(self, strand, has_start, has_stop):
+    def to_tbl(self, has_start, has_stop):
         indices = copy.deepcopy(self.indices)
         phase = self.phase[0]
-        return write_tbl_entry(indices, strand, has_start, has_stop, True, self.annotations, phase)
+        return write_tbl_entry(indices, self.strand, has_start, has_stop, True, self.annotations, phase)
 
 
 class Exon(GenePart):
