@@ -274,7 +274,7 @@ class ConsoleController:
                 for seq in self.seqs:
                     # Deep copy seq, apply fixes and filters, then update stats
                     cseq = copy.deepcopy(seq)
-                    self.seq_fixer.fix(seq)
+                    self.seq_fixer.fix(cseq)
                     self.filter_mgr.apply_filters(cseq)
                     self.stats_mgr.update_alt(cseq.stats())
                 self.filter_mgr.dirty = False
