@@ -157,7 +157,7 @@ class MRNA:
             result += other.to_gff(seq_name, source)
         return result
 
-    def to_tbl(self, strand):
+    def to_tbl(self):
         has_start = self.has_start()
         has_stop = self.has_stop()
         output = ""
