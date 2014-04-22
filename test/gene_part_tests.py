@@ -89,10 +89,10 @@ class TestGenePart(unittest.TestCase):
         expected += "ID=foo1;Parent=mama\n"
         expected += "sctg_0001_0001\tmaker\tCDS\t65\t103\t.\t+\t.\t"
         expected += "ID=foo2;Parent=mama\n"
-        actual = self.gp2.to_gff(seq_name=seq_name, source=source, strand=strand)
+        actual = self.gp2.to_gff(seq_name=seq_name, source=source)
         self.assertEquals(expected, actual)
         # what if no indices, etc.?
-        self.assertFalse(self.gp1.to_gff(seq_name="foo", source="bar", strand=":)"))
+        self.assertFalse(self.gp1.to_gff(seq_name="foo", source="bar"))
         
 class TestCDS(unittest.TestCase):
 
@@ -105,7 +105,7 @@ class TestCDS(unittest.TestCase):
         self.extra_phases = [2, 1, 0, 0]
         test_parent_id1 = 2
         self.test_cds0 = CDS(identifier=test_identifier1, indices=self.test_indices1, score=None, phase=self.test_phase1, strand='-', parent_id=test_parent_id1)
-        self.test_cds1 = CDS(identifier=test_identifier1, indices=self.test_indices1, score=None, phase=self.test_phase1, parent_id=test_parent_id1)
+        self.test_cds1 = CDS(identifier=test_identifier1, indices=self.test_indices1, score=None, phase=self.test_phase1, strand='+', parent_id=test_parent_id1)
         for ind_pair in self.extra_indices:
             self.test_cds1.add_indices(ind_pair)
         for ident in self.extra_identifiers:
@@ -206,10 +206,10 @@ class TestCDS(unittest.TestCase):
         expected5 = "sctg_0080_0020\tmaker\tCDS\t6630\t7436\t.\t+\t0\tID=12;Parent=2;foo=dog\n"
         expected = expected1 + expected2 + expected3 + expected4 + expected5
         self.test_cds1.add_annotation('foo','dog') # Make sure our annotations are working
-        actual = self.test_cds1.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
+        actual = self.test_cds1.to_gff(seq_name="sctg_0080_0020", source="maker")
         self.assertEquals(expected, actual)
         # what if identifier, parent_id are strings? does it matter?
-        test_cds2 = CDS(identifier='foo1', indices=self.test_indices1, score=None, phase=self.test_phase1, parent_id='bar7')
+        test_cds2 = CDS(identifier='foo1', indices=self.test_indices1, score=None, strand='+', phase=self.test_phase1, parent_id='bar7')
         extra_identifiers2 = ['foo2', 'foo3', 'foo4', 'foo5']
         for ind_pair in self.extra_indices:
             test_cds2.add_indices(ind_pair)
@@ -223,7 +223,7 @@ class TestCDS(unittest.TestCase):
         expected4 = "sctg_0080_0020\tmaker\tCDS\t5249\t6565\t.\t+\t0\tID=foo4;Parent=bar7\n"
         expected5 = "sctg_0080_0020\tmaker\tCDS\t6630\t7436\t.\t+\t0\tID=foo5;Parent=bar7\n"
         expected = expected1 + expected2 + expected3 + expected4 + expected5
-        actual = test_cds2.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
+        actual = test_cds2.to_gff(seq_name="sctg_0080_0020", source="maker")
         self.assertEquals(expected, actual)
         expected1 = "sctg_0080_0020\tmaker\tCDS\t3734\t4034\t.\t+\t0\tID=foo1;Parent=bar7\n"
         expected2 = "sctg_0080_0020\tmaker\tCDS\t4092\t4332\t.\t+\t2\tID=foo2;Parent=bar7\n"
@@ -231,7 +231,7 @@ class TestCDS(unittest.TestCase):
         expected4 = "sctg_0080_0020\tmaker\tCDS\t5249\t6565\t.\t+\t0\tID=foo4;Parent=bar7\n"
         expected5 = "sctg_0080_0020\tmaker\tCDS\t6630\t7436\t.\t+\t0\tID=foo5;Parent=bar7\n"
         expected = expected1 + expected2 + expected3 + expected4 + expected5
-        actual = test_cds2.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
+        actual = test_cds2.to_gff(seq_name="sctg_0080_0020", source="maker")
         self.assertEquals(expected, actual)
 
     def test_to_tbl_positive_complete(self):
@@ -328,7 +328,7 @@ class TestExon(unittest.TestCase):
         expected4 = "sctg_0080_0020\tmaker\texon\t5249\t6565\t0.9\t+\t.\tID=6;Parent=2\n"
         expected5 = "sctg_0080_0020\tmaker\texon\t6630\t7436\t0.9\t+\t.\tID=7;Parent=2\n"
         expected = expected1 + expected2 + expected3 + expected4 + expected5
-        actual = self.test_exon1.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
+        actual = self.test_exon1.to_gff(seq_name="sctg_0080_0020", source="maker")
         self.assertEquals(expected, actual)
 
     def test_to_tbl_positive_complete(self):

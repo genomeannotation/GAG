@@ -713,7 +713,7 @@ class ViewCDSGFFCmd(GagCmdBase):
     def default(self, line):
         mrna_id = line.strip()
         if self.controller.contains_mrna(mrna_id):
-            print("\n" + try_catch(self.controller.barf_cds_seq, [line]) + "\n")
+            print("\n" + try_catch(self.controller.cds_to_gff, [line]) + "\n")
             self.context["go_home"] = True
             return True
         else:

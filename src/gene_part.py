@@ -149,13 +149,13 @@ class GenePart:
         entry += '\n'
         return entry
 
-    def to_gff(self, seq_name, source, strand):
+    def to_gff(self, seq_name, source):
         result = ""
         for i in range(len(self.indices)):
             result += seq_name + "\t" + source + "\t"
             result += self.feature_type + "\t" + str(self.indices[i][0])
             result += "\t" + str(self.indices[i][1]) + "\t"
-            result += str(self.get_score(i)) + "\t" + strand + "\t"
+            result += str(self.get_score(i)) + "\t" + self.strand + "\t"
             result += str(self.get_phase(i)) + "\t"
             result += self.generate_attribute_entry(i)
         return result
