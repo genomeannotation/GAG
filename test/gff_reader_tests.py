@@ -22,6 +22,10 @@ class TestGFFReader(unittest.TestCase):
         badline = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tName=BDOR_007864\n"
         self.assertFalse(self.reader.validate_line(badline))
 
+    def test_validate_line_indices_out_of_order(self):
+        badline = "scaffold00080\tmaker\tgene\t109853\t106151\t.\t+\t.\tID=BDOR_007864;Name=BDOR_007864\n"
+        self.assertFalse(self.reader.validate_line(badline))
+
     def test_validate_line(self):
         goodline = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n"
         self.assertTrue(self.reader.validate_line(goodline))
