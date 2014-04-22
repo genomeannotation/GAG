@@ -160,6 +160,13 @@ class TestSequence(unittest.TestCase):
         partial_info = self.seq1.get_cds_partial_info()
         self.assertEquals(1, partial_info["CDS: complete"])
 
+    def test_cds_to_gff(self):
+        mockgene = Mock()
+        mockgene.contains_mrna.return_value = True
+        self.seq1.genes = [mockgene]
+        foo = self.seq1.cds_to_gff("foo_mrna")
+        mockgene.cds_to_gff.assert_called_with("foo_mrna")
+
     def test_to_mrna_fasta(self):
         self.add_mock_gene()
         expected = "mockgene_to_mrna_fasta\n"

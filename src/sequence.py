@@ -34,9 +34,6 @@ class Sequence:
                     return True
         return False
         
-#    def get_valid_genes(self):
-#        return [gene for gene in self.genes if not gene.death_flagged]
-
     def get_gene_ids(self):
         result = []
         for gene in self.genes:
@@ -147,6 +144,12 @@ class Sequence:
             for mrna in gene.mrnas:
                 if mrna.identifier == mrna_id and mrna.cds:
                     return mrna.cds.extract_sequence(self, gene.strand)
+
+    def cds_to_gff(self, mrna_id):
+        for gene in self.genes:
+            if gene.contains_mrna(mrna_id):
+                return gene.cds_to_gff(mrna_id)
+        return ""
 
     def to_tbl(self):
         result = ">Feature " + self.header + "\n"
