@@ -134,9 +134,9 @@ class MRNA:
         else:
             return self.cds.indices_intersect_cds(indices)
 
-    def cds_to_gff(self):
+    def cds_to_gff(self, seq_id, source):
         if self.cds:
-            return self.cds.to_gff()
+            return self.cds.to_gff(seq_id, source)
         else:
             return ""
 
