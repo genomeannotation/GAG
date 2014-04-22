@@ -151,6 +151,12 @@ class Sequence:
                 return gene.cds_to_gff(self.header, mrna_id)
         return ""
 
+    def cds_to_tbl(self, mrna_id):
+        for gene in self.genes:
+            if gene.contains_mrna(mrna_id):
+                return gene.cds_to_tbl(mrna_id)
+        return ""
+
     def to_tbl(self):
         result = ">Feature " + self.header + "\n"
         result += "1\t" + str(len(self.bases)) + "\tREFERENCE\n"
