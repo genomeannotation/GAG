@@ -136,6 +136,7 @@ class TestGene(unittest.TestCase):
         self.fake_mrna1.identifier = "foo_mrna"
         self.fake_mrna2.identifier = "bar_mrna"
         self.assertTrue(self.test_gene1.contains_mrna("foo_mrna"))
+        self.assertFalse(self.test_gene1.contains_mrna("zub_mrna"))
 
     def test_to_mrna_fasta(self):
         helper = Mock()
