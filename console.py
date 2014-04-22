@@ -483,6 +483,7 @@ class LoadCmd(GagCmdBase):
             print("\nGenome loaded. (Type 'info' to see summary statistics.)\n")
             return True
         else:
+            print("\nError reading genome!")
             print(self.helptext)
 
 ################################################

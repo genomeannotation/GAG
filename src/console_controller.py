@@ -27,10 +27,10 @@ class ConsoleController:
         self.seq_fixer = SeqFixer()
 
     def genome_is_loaded(self):
-        if self.seqs:
-            return True
-        else:
-            return False
+        for seq in self.seqs:
+            if seq.genes:
+                return True
+        return False
 
     def barf_folder(self, line):
         if not self.seqs:
@@ -189,8 +189,6 @@ class ConsoleController:
         gffreader = GFFReader()
         reader = open(line, 'rb')
         genes = gffreader.read_file(reader)
-        if not genes:
-            sys.stderr.write("Error reading gff file -- no genes added to genome.\n")
         for gene in genes:
             self.add_gene(gene)
 
