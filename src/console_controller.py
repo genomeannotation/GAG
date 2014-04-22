@@ -243,6 +243,16 @@ class ConsoleController:
                     return seq.cds_to_gff(name)
             return "Error: Couldn't find mRNA.\n"
 
+    def cds_to_tbl(self, line):
+        if not self.seqs:
+            return self.no_genome_message
+        else:
+            name = line
+            for seq in self.seqs:
+                if seq.contains_mrna(name):
+                    return seq.cds_to_tbl(name)
+            return "Error: Couldn't find mRNA.\n"
+
     def barf_gene_tbl(self, line):
         if not self.seqs:
             return self.no_genome_message

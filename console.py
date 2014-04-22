@@ -104,7 +104,7 @@ class GagCmd(GagCmdBase):
 
     def help_write(self):
         print("\nThis command takes you to the GAG WRITE menu.")
-        print("There you can write your genome to a file.")
+        print("There you can write your genome to a file.\n")
         
     def do_write(self, line):
         if self.controller.genome_is_loaded():
@@ -115,7 +115,7 @@ class GagCmd(GagCmdBase):
 
     def help_view(self):
         print("\nThis command takes you to the GAG VIEW menu.")
-        print("There you can view cds, gene or sequence features on screen.")
+        print("There you can view cds, gene or sequence features on screen.\n")
 
     def do_view(self, line):
         if self.controller.genome_is_loaded():
@@ -722,16 +722,16 @@ class ViewCDSGFFCmd(GagCmdBase):
 
 ################################################
 
-class ViewCDSFastaCmd(GagCmdBase):
+class ViewCDSTBLCmd(GagCmdBase):
 
-    helptext = "\nWelcome to the GAG VIEW CDS FASTA menu.\n"+\
+    helptext = "\nWelcome to the GAG VIEW CDS TBL menu.\n"+\
             "Please type the mRNA id that corresponds to the CDS you want to write.\n"+\
             "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
             "mRNA id?\n"
 
     def __init__(self, prompt_prefix, controller, context, line):
         GagCmdBase.__init__(self)
-        self.prompt = prompt_prefix[:-2] + " FASTA> "
+        self.prompt = prompt_prefix[:-2] + " TBL> "
         self.controller = controller
         self.context = context
         if line:
@@ -755,7 +755,7 @@ class ViewCDSFastaCmd(GagCmdBase):
         self.context["go_home"] = True
         return True
     
-    def help_writecdsfasta(self):
+    def help_writecdstbl(self):
         print(self.helptext)
 
     def emptyline(self):
@@ -764,7 +764,7 @@ class ViewCDSFastaCmd(GagCmdBase):
     def default(self, line):
         mrna_id = line.strip()
         if self.controller.contains_mrna(mrna_id):
-            print("\n" + try_catch(self.controller.barf_cds_seq, [line]) + "\n")
+            print("\n" + try_catch(self.controller.cds_to_tbl, [line]) + "\n")
             self.context["go_home"] = True
             return True
         else:
