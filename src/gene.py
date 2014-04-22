@@ -239,7 +239,7 @@ class Gene:
             result += ';'+annot[0]+'='+annot[1]
         result += '\n'
         for mrna in self.mrnas:
-            result += mrna.to_gff(self.seq_name, self.source, self.strand)
+            result += mrna.to_gff(self.seq_name, self.source)
         return result
 
     def to_tbl(self):
