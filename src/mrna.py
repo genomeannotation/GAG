@@ -140,21 +140,21 @@ class MRNA:
         else:
             return ""
 
-    def to_gff(self, seq_name, source, strand):
+    def to_gff(self, seq_name, source):
         result = seq_name + "\t" + source + "\t" + "mRNA" + "\t"
         result += str(self.indices[0]) + "\t" + str(self.indices[1]) + "\t"
-        result += "." + "\t" + strand + "\t" + "." + "\t"
+        result += "." + "\t" + self.strand + "\t" + "." + "\t"
         result += "ID=" + str(self.identifier)
         result += ";Parent=" + str(self.parent_id)
         for annot in self.annotations:
             result += ';'+annot[0]+'='+annot[1]
         result += '\n'
         if self.exon:
-            result += self.exon.to_gff(seq_name, source, strand)
+            result += self.exon.to_gff(seq_name, source)
         if self.cds:
-            result += self.cds.to_gff(seq_name, source, strand)
+            result += self.cds.to_gff(seq_name, source)
         for other in self.other_features:
-            result += other.to_gff(seq_name, source, strand)
+            result += other.to_gff(seq_name, source)
         return result
 
     def to_tbl(self, strand):

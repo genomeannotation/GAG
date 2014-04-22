@@ -93,11 +93,11 @@ class TestMRNA(unittest.TestCase):
         expected += "...exon to gff\n...cds to gff\n"
         expected += "...start codon to gff\n"
         self.test_mrna1.add_annotation('foo', 'dog')
-        actual = self.test_mrna1.to_gff(seq_name="sctg_0080_0020", source="maker", strand='+')
+        actual = self.test_mrna1.to_gff(seq_name="sctg_0080_0020", source="maker")
         self.assertEquals(expected, actual)
-        self.fake_exon.to_gff.assert_called_with("sctg_0080_0020", "maker", '+')
-        self.fake_cds.to_gff.assert_called_with("sctg_0080_0020", "maker", '+')
-        self.fake_start_codon.to_gff.assert_called_with("sctg_0080_0020", "maker", '+')
+        self.fake_exon.to_gff.assert_called_with("sctg_0080_0020", "maker")
+        self.fake_cds.to_gff.assert_called_with("sctg_0080_0020", "maker")
+        self.fake_start_codon.to_gff.assert_called_with("sctg_0080_0020", "maker")
 
     def test_remove_first_cds_segment_if_shorter_than(self):
         bad_indices = [[5,7], [10,20]]
