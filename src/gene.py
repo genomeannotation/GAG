@@ -205,6 +205,12 @@ class Gene:
                 return True
         return False
 
+    def cds_to_gff(self, mrna_id):
+        for mrna in self.mrnas:
+            if mrna.identifier == mrna_id and mrna.cds:
+                return mrna.cds_to_gff()
+        return ""
+
     def to_mrna_fasta(self, seq_helper):
         result = ""
         for mrna in self.mrnas:
