@@ -90,6 +90,7 @@ class GenePart:
     def add_indices(self, ind):
         if isinstance(ind, list) and len(ind) is 2:
             self.indices.append(ind)
+            self.indices.sort()
         else:
             raise ValueError()
 
