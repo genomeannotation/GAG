@@ -143,6 +143,11 @@ class TestGene(unittest.TestCase):
         foo = self.test_gene1.cds_to_gff("foo_mrna")
         self.fake_mrna1.cds_to_gff.assert_called_with()
 
+    def test_cds_to_gff_no_such_mrna(self):
+        self.fake_mrna1.identifier = "foo_mrna"
+        foo = self.test_gene1.cds_to_gff("bar_mrna")
+        self.assertFalse(foo)
+
     def test_to_mrna_fasta(self):
         helper = Mock()
         helper.mrna_to_fasta.return_value = "mrna_to_fasta\n"
