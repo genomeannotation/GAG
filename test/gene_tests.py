@@ -140,12 +140,12 @@ class TestGene(unittest.TestCase):
 
     def test_cds_to_gff(self):
         self.fake_mrna1.identifier = "foo_mrna"
-        foo = self.test_gene1.cds_to_gff("foo_mrna")
-        self.fake_mrna1.cds_to_gff.assert_called_with()
+        foo = self.test_gene1.cds_to_gff("foo_seq", "foo_mrna")
+        self.fake_mrna1.cds_to_gff.assert_called_with("foo_seq", "maker")
 
     def test_cds_to_gff_no_such_mrna(self):
         self.fake_mrna1.identifier = "foo_mrna"
-        foo = self.test_gene1.cds_to_gff("bar_mrna")
+        foo = self.test_gene1.cds_to_gff("foo_seq", "bar_mrna")
         self.assertFalse(foo)
 
     def test_to_mrna_fasta(self):
