@@ -132,6 +132,11 @@ class TestGene(unittest.TestCase):
         self.test_gene1.remove_mrnas_with_internal_stops(helper)
         self.assertEquals(0, len(self.test_gene1.mrnas))
 
+    def test_contains_mrna(self):
+        self.fake_mrna1.identifier = "foo_mrna"
+        self.fake_mrna2.identifier = "bar_mrna"
+        self.assertTrue(self.test_gene1.contains_mrna("foo_mrna"))
+
     def test_to_mrna_fasta(self):
         helper = Mock()
         helper.mrna_to_fasta.return_value = "mrna_to_fasta\n"

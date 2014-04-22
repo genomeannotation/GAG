@@ -199,6 +199,12 @@ class Gene:
                 mrna.death_flagged = True
         self.mrnas = [m for m in self.mrnas if not m.death_flagged]
 
+    def contains_mrna(self, mrna_id):
+        for mrna in self.mrnas:
+            if mrna.identifier == mrna_id:
+                return True
+        return False
+
     def to_mrna_fasta(self, seq_helper):
         result = ""
         for mrna in self.mrnas:
