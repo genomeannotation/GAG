@@ -189,6 +189,8 @@ class ConsoleController:
         gffreader = GFFReader()
         reader = open(line, 'rb')
         genes = gffreader.read_file(reader)
+        if not genes:
+            sys.stderr.write("Error reading gff file -- no genes added to genome.\n")
         for gene in genes:
             self.add_gene(gene)
 
