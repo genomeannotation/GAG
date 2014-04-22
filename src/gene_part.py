@@ -233,7 +233,7 @@ class Exon(GenePart):
         kwargs['feature_type'] = 'exon'
         GenePart.__init__(self, **kwargs)
 
-    def to_tbl(self, strand, has_start, has_stop):
+    def to_tbl(self, has_start, has_stop):
         indices = copy.deepcopy(self.indices)
-        return write_tbl_entry(indices, strand, has_start, has_stop, False, self.annotations)
+        return write_tbl_entry(indices, self.strand, has_start, has_stop, False, self.annotations)
 
