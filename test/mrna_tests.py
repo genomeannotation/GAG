@@ -83,6 +83,10 @@ class TestMRNA(unittest.TestCase):
         foo = self.test_mrna1.cds_to_gff("foo_seq", "maker")
         self.fake_cds.to_gff.assert_called_with("foo_seq", "maker")
 
+    def test_cds_to_tbl(self):
+        foo = self.test_mrna1.cds_to_tbl()
+        self.fake_cds.to_tbl.assert_called_with(False, False)
+
     def test_to_gff(self):
         self.fake_exon.to_gff.return_value = "...exon to gff\n"
         self.fake_cds.to_gff.return_value = "...cds to gff\n"

@@ -252,7 +252,7 @@ class Gene:
         for annot in self.annotations:
             output += '\t\t\t'+annot[0]+'\t'+annot[1]+'\n'
         for mrna in self.mrnas:
-            output += mrna.to_tbl(self.strand)
+            output += mrna.to_tbl()
         return output
 
 

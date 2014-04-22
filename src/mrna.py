@@ -140,6 +140,14 @@ class MRNA:
         else:
             return ""
 
+    def cds_to_tbl(self):
+        if self.cds:
+            has_start = self.has_start()
+            has_stop = self.has_stop()
+            return self.cds.to_tbl(has_start, has_stop)
+        else:
+            return ""
+
     def to_gff(self, seq_name, source):
         result = seq_name + "\t" + source + "\t" + "mRNA" + "\t"
         result += str(self.indices[0]) + "\t" + str(self.indices[1]) + "\t"
