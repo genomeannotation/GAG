@@ -148,7 +148,7 @@ class Sequence:
     def cds_to_gff(self, mrna_id):
         for gene in self.genes:
             if gene.contains_mrna(mrna_id):
-                return gene.cds_to_gff(mrna_id)
+                return gene.cds_to_gff(self.header, mrna_id)
         return ""
 
     def to_tbl(self):

@@ -165,7 +165,7 @@ class TestSequence(unittest.TestCase):
         mockgene.contains_mrna.return_value = True
         self.seq1.genes = [mockgene]
         foo = self.seq1.cds_to_gff("foo_mrna")
-        mockgene.cds_to_gff.assert_called_with("foo_mrna")
+        mockgene.cds_to_gff.assert_called_with("seq1", "foo_mrna")
 
     def test_to_mrna_fasta(self):
         self.add_mock_gene()
