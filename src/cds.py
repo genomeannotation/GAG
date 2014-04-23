@@ -14,18 +14,15 @@ class CDS(GenePart):
             self.phase.append(phase)
 
     def get_phase(self, i):
+        """Returns phase for given segment of CDS."""
         if self.phase and len(self.phase) > i:
             return self.phase[i]
         else:
             return "."
 
     def add_phase(self, ph):
+        """Appends phase to CDS"""
         self.phase.append(ph)
-
-    def adjust_phase(self):
-        for i in range(len(self.phase)):
-            if self.indices[i][0] < 1:
-                self.phase[i] = (self.phase[i] + self.indices[i][0] + -1) %3
 
     # Returns first and third indices regardless of whether 
     # CDS actually has a start codon

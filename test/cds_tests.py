@@ -82,19 +82,6 @@ class TestCDS(unittest.TestCase):
         self.assertEquals(5, len(self.test_cds0.phase))
         self.assertEquals(1, self.test_cds0.phase[2])
 
-    def test_adjust_phase(self):
-        # formula for phase is (old_phase + negative_index -1) mod 3
-        cds1 = CDS(identifier='foo', indices=[-4, 13], phase=0, parent_id='bar')
-        cds1.adjust_phase()
-        self.assertEquals(1, cds1.phase[0])
-        cds1.indices[0][0] = -4
-        cds1.adjust_phase()
-        self.assertEquals(2, cds1.phase[0])
-        # shouldn't affect cds with indices[i][0] > 0
-        cds1.indices[0] = [1, 10]
-        cds1.adjust_phase()
-        self.assertEquals([1, 10], cds1.indices[0])
-
     def test_length_of_shortest_segment(self):
         self.assertEquals(241, self.test_cds1.length_of_shortest_segment())
 
