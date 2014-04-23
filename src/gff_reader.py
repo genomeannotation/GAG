@@ -24,7 +24,7 @@ class GFFReader:
             return []
         if not "ID" in splitline[8]:
             return []
-        if not splitline[3] < splitline[4]:
+        if not int(splitline[3]) < int(splitline[4]):
             return []
         # Everything except genes must have parent id
         if not "Parent" in splitline[8] and not splitline[2] == "gene":
