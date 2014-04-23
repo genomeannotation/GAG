@@ -229,7 +229,7 @@ class Sequence:
         count = 0
         for gene in self.genes:
             for mrna in gene.mrnas:
-                if mrna.cds != None:
+                if mrna.cds:
                     count += 1
         return count
 
@@ -313,7 +313,7 @@ class Sequence:
         length = 0
         for gene in self.genes:
             for mrna in gene.mrnas:
-                if mrna.cds != None and mrna.cds.length() > length:
+                if mrna.cds and mrna.cds.length() > length:
                     length = mrna.cds.length()
         return length
         
@@ -341,7 +341,7 @@ class Sequence:
         shortest = None
         for gene in self.genes:
             for mrna in gene.mrnas:
-                if mrna.cds != None and (mrna.cds.length() < length or shortest == None):
+                if mrna.cds and (mrna.cds.length() < length or shortest == None):
                     length = mrna.cds.length()
                     shortest = mrna.cds
         return length
@@ -363,7 +363,7 @@ class Sequence:
         length = 0
         for gene in self.genes:
             for mrna in gene.mrnas:
-                if mrna.cds != None:
+                if mrna.cds:
                     length += mrna.cds.length()
         return length
         
