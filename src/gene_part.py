@@ -4,17 +4,25 @@ import math
 import src.translator as translate
 
 def length_of_segment(index_pair):
+    """Returns the length in base pairs between two indices (inclusive)."""
     return math.fabs(index_pair[1] - index_pair[0]) + 1
 
-def adjust_index_pair(index_pair, n):
-    return [i + n for i in index_pair]
+def adjust_index_pair(index_pair, increment):
+    """Returns pair of indices incremented by given number."""
+    return [i + increment for i in index_pair]
 
 def get_reversed_indices(indices):
+    """Returns reversed list of indices.
+
+    Each pair in the list is reversed, and the order of the
+    pairs is also reversed.
+    """
     indices.reverse()
     [ind.reverse() for ind in indices]
     return indices
 
 def one_line_indices_entry(indices, has_start, has_stop, is_cds):
+    """Returns .tbl formatted entry for features with only one pair of coordinates."""
     output = ""
     if not has_start:
         output += "<"
@@ -29,6 +37,17 @@ def one_line_indices_entry(indices, has_start, has_stop, is_cds):
     return output
 
 def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, annotations = None, phase=0):
+    """Returns .tbl-formatted string for a GenePart.
+
+    Args:
+        indices: a list of lists, each holding an index pair
+        strand: either '+' or '-'
+        has_start: a boolean indicating whether the feature has a start codon
+        has_stop: a boolean indicating whether the feature has a stop codon
+        is_cds: a boolean indicating whether the feature is a CDS
+        annotations: optional argument. a list of lists containing annotations to be added to the entry
+        phase: optional argument indicating the phase of a CDS feature if not 0
+    """
     if not annotations:
         annotations = []
     output = ""
@@ -81,11 +100,19 @@ class GenePart:
         self.annotations = []
 
     def __str__(self):
+        """Returns string representation of a GenePart.
+
+        String contains the type of feature and the identifier for its first segment.
+        """
         result = self.feature_type + " (first ID="
         result += str(self.identifier[0])+ ")"
         return result
 
     def add_indices(self, ind):
+        """Adds an index pair to the GenePart's indices list.
+
+        Also sorts the indices afterward in case a pair is added out of order.
+        """
         if isinstance(ind, list) and len(ind) is 2:
             self.indices.append(ind)
             self.indices.sort()
@@ -94,21 +121,31 @@ class GenePart:
             raise ValueError()
 
     def add_identifier(self, identifier):
+        """Adds an identifier to the GenePart's list of identifiers."""
         self.identifier.append(identifier)
 
     def add_score(self, score):
+        """Adds a score to the GenePart's list of scores."""
         self.score.append(score)
         
     def add_annotation(self, key, value):
+        """Adds an annotation key, value pair to the GenePart.
+
+        Args:
+            key: a string indicating the type of annotation (e.g. Dbxref, gagflag)
+            value: a string representing the content of the annotation
+        """
         self.annotations.append([key, value])
 
     def gagflagged(self):
+        """Returns a boolean indicating whether the GenePart contains a 'gagflag' annotation."""
         for anno in self.annotations:
             if anno[0] == "gag_flag":
                 return True
         return False
 
     def length(self):
+        """Returns the entire length of a feature."""
         length = 0
         for index_pair in self.indices:
             length += length_of_segment(index_pair)
@@ -116,6 +153,10 @@ class GenePart:
 
     # used by .to_gff
     def get_score(self, i):
+        """Returns the 'score' entry corresponding to a given index pair of a feature.
+
+        Returns '.' if no score entry is present; this is the default value in .gff format.
+        """
         if self.score and len(self.score) > i:
             return self.score[i]
         else:
@@ -124,9 +165,22 @@ class GenePart:
     # used by .to_gff
     # (CDS overrides this method)
     def get_phase(self, i):
+        """Returns the phase corresponding to a given index pair of a feature.
+
+        This method exists to be overridden by CDS; it simply returns '.'
+        for other features as this is the default value in a .gff file.
+        """
         return "."
 
     def adjust_indices(self, n, start_index=1):
+        """Increments indices of GenePart.
+
+        Optionally, only indices occurring after start_index are incremented.
+
+        Args:
+            n: integer by which to increment indices
+            start_index: optional coordinate before which no indices will be changed.
+        """
         for i, index_pair in enumerate(self.indices):
             if index_pair[0] >= start_index:
                 self.indices[i] = adjust_index_pair(self.indices[i], n)
@@ -134,6 +188,12 @@ class GenePart:
                 self.indices[i][1] += n
 
     def generate_attribute_entry(self, i):
+        """Returns a string representing a GenePart's .gff attribute entry.
+
+        Includes mandatory 'ID', 'Parent' fields as well as annotations.
+        Args:
+            i: index of the row of .gff data to be returned.
+        """
         if len(self.identifier) <= i or self.parent_id is None:
             return None
         entry = "ID=" + str(self.identifier[i]) + ";"
@@ -144,6 +204,7 @@ class GenePart:
         return entry
 
     def to_gff(self, seq_name, source):
+        """Returns a string containing the .gff representation of a GenePart."""
         result = ""
         for i in range(len(self.indices)):
             result += seq_name + "\t" + source + "\t"
