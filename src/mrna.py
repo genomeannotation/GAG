@@ -104,6 +104,7 @@ class MRNA:
             self.add_stop_codon(indices)
 
     def indices_intersect_mrna(self, indices):
+        """Returns a boolan indicating whether a pair of indices overlap the mRNA"""
         if len(indices) != 2:
             return False
         begin = indices[0]
@@ -123,9 +124,11 @@ class MRNA:
             return False
 
     def add_other_feature(self, feature):
+        """Adds a feature to MRNA.other_features list"""
         self.other_features.append(feature)
 
     def add_start_codon(self, indices):
+        """Adds a start_codon GenePart to MRNA.other_features"""
         # TODO figure out naming scheme...
         start_id = self.identifier + ":start"
         start_parent_id = self.identifier
@@ -134,14 +137,12 @@ class MRNA:
         self.add_other_feature(start)
 
     def add_stop_codon(self, indices):
+        """Adds a stop_codon GenePart to MRNA.other_features"""
         stop_id = self.identifier + ":stop"
         stop_parent_id = self.identifier
         stop = GenePart(feature_type='stop_codon', identifier=stop_id, \
                 indices=indices, parent_id=stop_parent_id)
         self.add_other_feature(stop)
-
-    def length_of_shortest_cds_segment(self):
-        return self.cds.length_of_shortest_segment()
 
     def has_start(self):
         for feature in self.other_features:

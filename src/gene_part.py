@@ -133,18 +133,6 @@ class GenePart:
             elif index_pair[1] >= start_index:
                 self.indices[i][1] += n
 
-    def length_of_shortest_segment(self):
-        if len(self.indices) == 0:
-            return None
-        min_length = length_of_segment(self.indices[0])
-        if len(self.indices) == 1:
-            return min_length
-        else:
-            for index_pair in self.indices:
-                if length_of_segment(index_pair) < min_length:
-                    min_length = length_of_segment(index_pair)
-        return min_length
-
     def generate_attribute_entry(self, i):
         if len(self.identifier) <= i or self.parent_id is None:
             return None

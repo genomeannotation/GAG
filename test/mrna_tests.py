@@ -66,11 +66,6 @@ class TestMRNA(unittest.TestCase):
         self.test_mrna1.adjust_indices(32, 3000)
         self.assertEqual(3766, self.test_mrna1.indices[0])
 
-    def test_length_of_shortest_cds_segment(self):
-        self.fake_cds.length_of_shortest_segment.return_value = 241
-        self.assertEquals(241, self.test_mrna1.length_of_shortest_cds_segment())
-        self.fake_cds.length_of_shortest_segment.assert_called_once_with()
-
     def test_has_start(self):
         self.fake_start_codon.feature_type = 'start_codon'
         self.assertTrue(self.test_mrna1.has_start())

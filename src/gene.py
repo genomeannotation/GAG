@@ -123,16 +123,6 @@ class Gene:
         for mrna in self.mrnas:
             mrna.create_start_and_stop_if_necessary(seq_object, self.strand)
 
-    def length_of_shortest_cds_segment(self):
-        min_length = self.mrnas[0].length_of_shortest_cds_segment()
-        if len(self.mrnas) == 1:
-            return min_length
-        else:
-            for mrna in self.mrnas:
-                if mrna.length_of_shortest_cds_segment() < min_length:
-                    min_length = mrna.length_of_shortest_cds_segment()
-        return min_length
-
     def adjust_indices(self, n, start_index=1):
         """Adds 'n' to both indices, checking to ensure that they fall after an optional start index"""
         if self.indices[0] >= start_index:

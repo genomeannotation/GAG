@@ -82,9 +82,6 @@ class TestCDS(unittest.TestCase):
         self.assertEquals(5, len(self.test_cds0.phase))
         self.assertEquals(1, self.test_cds0.phase[2])
 
-    def test_length_of_shortest_segment(self):
-        self.assertEquals(241, self.test_cds1.length_of_shortest_segment())
-
     def test_length(self):
         self.assertEquals(3453, self.test_cds1.length())
 

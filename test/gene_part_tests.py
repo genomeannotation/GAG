@@ -70,11 +70,6 @@ class TestGenePart(unittest.TestCase):
         self.assertEqual(44, self.gp2.indices[0][1])
         self.assertEqual(75, self.gp2.indices[1][0])
 
-    def test_length_of_shortest_segment(self):
-        self.assertEquals(39, self.gp2.length_of_shortest_segment())
-        # what if no indices?
-        self.assertFalse(self.gp1.length_of_shortest_segment())
-
     def test_generate_attribute_entry(self):
         # test .generate_attribute_entry
         expected = "ID=foo1;Parent=mama\n"
