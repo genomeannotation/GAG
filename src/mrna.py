@@ -56,6 +56,14 @@ class MRNA:
         if self.cds:
             self.cds.adjust_phase()
 
+    def number_of_gagflags(self):
+        total = 0
+        if self.cds and self.cds.gagflagged():
+            total += 1
+        if self.exon and self.exon.gagflagged():
+            total += 1
+        return total
+
     def create_start_and_stop_if_necessary(self, seq_object, phase):
         # TODO I'd rather pass seq.bases than the object itself, since
         # the object owns this mrna...

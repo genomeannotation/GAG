@@ -26,6 +26,11 @@ class TestMRNA(unittest.TestCase):
     def test_length(self):
         self.assertEqual(3703, self.test_mrna0.length())
 
+    def test_number_of_gagflags(self):
+        self.fake_cds.gagflagged.return_value = False
+        self.fake_exon.gagflagged.return_value = True
+        self.assertEquals(1, self.test_mrna1.number_of_gagflags())
+
     def test_add_other_feature(self): 
         self.assertEquals(0, len(self.test_mrna0.other_features))
         self.test_mrna0.add_other_feature(self.fake_start_codon)
