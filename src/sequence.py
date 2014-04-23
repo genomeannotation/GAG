@@ -117,14 +117,11 @@ class Sequence:
         # Remove bases from sequence
         self.bases = self.bases[:start-1] + self.bases[stop:]
         to_remove = []
-        # Remove any genes that are entirely contained in the trimmed region
-        self.genes = [g for g in self.genes if not (start <= g.indices[0] and stop >= g.indices[1])]
-        # Trim genes; remove any gene that loses its mRNAs in the process
-        for gene in self.genes:
-            gene.trim_region(start, stop)
-            if not gene.mrnas:
-                to_remove.append(gene)
-        self.genes = [g for g in self.genes if g not in to_remove]
+        # Remove any genes that are overlap the trimmed region
+        self.genes = [g for g in self.genes if not overlap([start, stop], g.indices)]
+        # Adjust indices of remaining genes
+        bases_removed = stop - start + 1
+        [g.adjust_indices(-bases_removed, start) for g in self.genes]
         
     def get_subseq(self, start=1, stop=None):
         if not stop:
@@ -398,3 +395,14 @@ class Sequence:
         stats["Total CDS length"] = int(self.get_total_cds_length())
         
         return stats
+
+def overlap(indices1, indices2):
+    """Returns a boolean indicating whether two pairs of indices overlap."""
+    if not (len(indices1) == 2 and len(indices2) ==2):
+        return False
+    if indices1[0] > indices2[0] and indices1[0] < indices2[1]:
+        return True
+    elif indices1[1] > indices2[0] and indices1[1] < indices2[1]:
+        return True
+    else:
+        return False

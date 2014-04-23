@@ -121,8 +121,6 @@ class TestSequence(unittest.TestCase):
         badseq.genes = [mockgene]
         badseq.remove_terminal_ns()
         self.assertEquals("GATTACA", badseq.bases)
-        # Verify last call to mockgene.trimregion...
-        mockgene.trim_region.assert_called_with(8, 11)
 
     def test_add_gene(self):
         self.add_mock_gene()
@@ -147,15 +145,10 @@ class TestSequence(unittest.TestCase):
         self.seq1.trim_region(1, 4)
         self.assertEquals("ACA", self.seq1.bases)
 
-    def test_trim_region_trims_gene(self):
-        self.add_mock_gene()
-        self.seq1.trim_region(2, 3)
-        self.seq1.genes[0].trim_region.assert_called_with(2, 3)
-
     def test_trim_region_removes_gene_contained_in_trimmed_region(self):
         self.add_mock_gene()
         self.assertEquals(1, len(self.seq1.genes))
-        self.seq1.trim_region(1, 5)
+        self.seq1.trim_region(1, 3)
         self.assertEquals(0, len(self.seq1.genes))
 
     def test_get_subseq(self):
