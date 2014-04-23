@@ -12,8 +12,8 @@ python console.py
 # Read in data
 GAG> load walkthrough
 
-# Write .tbl file 
-GAG> write genome newfolder
+# Write .tbl file (along with .gff and nucleotides, cds, mrna and protein .fastas) 
+GAG> write newfolder
 
 # Go on your merry way
 GAG> exit
