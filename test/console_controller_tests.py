@@ -148,6 +148,7 @@ class TestConsoleController(unittest.TestCase):
         self.assertTrue(self.ctrlr.can_write_to_path("no_such_directory/no_such_subdirectory/no_such_file.txt"))
 
 
+
 ##########################
 def suite():
     suite = unittest.TestSuite()

@@ -267,6 +267,7 @@ class ConsoleController:
         if not self.seqs:
             return self.no_genome_message
         else:
+            number_of_gagflags = 0
             first_line = "Number of sequences:   " + str(len(self.seqs)) + "\n"
             if self.filter_mgr.dirty or self.seq_fixer.dirty:
                 self.stats_mgr.clear_alt()
@@ -277,9 +278,11 @@ class ConsoleController:
                     self.seq_fixer.fix(cseq)
                     self.filter_mgr.apply_filters(cseq)
                     self.stats_mgr.update_alt(cseq.stats())
+                    number_of_gagflags += cseq.number_of_gagflags()
                 self.filter_mgr.dirty = False
                 self.seq_fixer.dirty = False
-            return first_line + self.stats_mgr.summary()
+            last_line = "(" + str(number_of_gagflags) + " features flagged)\n"
+            return first_line + self.stats_mgr.summary() + last_line
 
 ## Utility methods
 
