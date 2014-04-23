@@ -101,6 +101,12 @@ class GenePart:
     def add_annotation(self, key, value):
         self.annotations.append([key, value])
 
+    def gagflagged(self):
+        for anno in self.annotations:
+            if anno[0] == "gag_flag":
+                return True
+        return False
+
     def length(self):
         length = 0
         for index_pair in self.indices:

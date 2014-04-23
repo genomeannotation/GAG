@@ -40,6 +40,18 @@ class TestGenePart(unittest.TestCase):
         self.assertEquals(0, len(self.gp3.identifier))
         self.gp3.add_identifier('7')
         self.assertEquals(1, len(self.gp3.identifier))
+    
+    def test_add_annotation(self):
+        gp = GenePart()
+        self.assertFalse(gp.annotations)
+        gp.add_annotation("gag_flag", "this gene part rulz")
+        self.assertTrue(gp.annotations)
+
+    def test_gagflagged(self):
+        gp = GenePart()
+        self.assertFalse(gp.gagflagged())
+        gp.add_annotation("gag_flag", "awesome flag")
+        self.assertTrue(gp.gagflagged())
 
     def test_length(self):
         self.assertEquals(83, self.gp2.length())
