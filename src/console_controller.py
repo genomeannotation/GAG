@@ -100,14 +100,11 @@ class ConsoleController:
         for seq in self.seqs:
             self.stats_mgr.update_ref(seq.stats())
 
-    def set_filter_arg(self, filter_name, filter_arg, val):
-        self.filter_mgr.set_filter_arg(filter_name, filter_arg, val)
+    def set_filter_arg(self, filter_name, val):
+        self.filter_mgr.set_filter_arg(filter_name, val)
         
-    def get_filter_arg(self, filter_name, filter_arg):
-        return str(self.filter_mgr.get_filter_arg(filter_name, filter_arg))
-        
-    def get_filter_help(self, filter_name):
-        return self.filter_mgr.get_filter_help(filter_name)
+    def get_filter_arg(self, filter_name):
+        return self.filter_mgr.get_filter_arg(filter_name)
         
     def apply_filters(self):
         for seq in self.seqs:

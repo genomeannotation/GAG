@@ -10,18 +10,14 @@ class FilterManager:
     def __init__(self):
         # Build filters
         self.filters = dict()
-        self.filters['cds_length'] = CDSLengthRangeFilter()
-        self.filters['exon_length'] = ExonLengthRangeFilter()
-        self.filters['intron_length'] = IntronLengthRangeFilter()
-        self.filters['gene_length'] = IntronLengthRangeFilter()
-        
-        # Build args
-        self.filter_args = dict()
-        self.filter_arg_types = dict()
-        for filt_name, filt in self.filters.items():
-            self.filter_args[filt_name] = [attr for attr in dir(filt) if not callable(getattr(filt, attr)) and not attr.startswith("__")]
-            self.filter_arg_types[filt_name] = dict(zip(self.filter_args[filt_name], \
-                                                   [type(getattr(filt, attr)).__name__ for attr in dir(filt) if not callable(getattr(filt, attr)) and not attr.startswith("__")]))
+        self.filters['min_cds_length'] = MinCDSLengthFilter()
+        self.filters['max_cds_length'] = MaxCDSLengthFilter()
+        self.filters['min_exon_length'] = MinExonLengthFilter()
+        self.filters['max_exon_length'] = MaxExonLengthFilter()
+        self.filters['min_intron_length'] = MinIntronLengthFilter()
+        self.filters['max_intron_length'] = MaxIntronLengthFilter()
+        self.filters['min_gene_length'] = MinGeneLengthFilter()
+        self.filters['max_gene_length'] = MaxGeneLengthFilter()
         
         # Starts out dirty
         self.dirty = False
@@ -30,24 +26,12 @@ class FilterManager:
         for filt in self.filters.values():
             filt.apply(seq)
     
-    def set_filter_arg(self, filter_name, filter_arg, val):
+    def set_filter_arg(self, filter_name, val):
         val = ast.literal_eval(val)
-        if self.get_filter_arg(filter_name, filter_arg) != val:
+        if self.filters[filter_name].arg != val:
             self.dirty = True
-        setattr(self.filters[filter_name], filter_arg, val)
+        self.filters[filter_name].arg = val
     
-    def get_filter_arg(self, filter_name, filter_arg):
-        return getattr(self.filters[filter_name], filter_arg)
-        
-    def get_filter_help(self, filter_name = ""):
-        # If there is no filter name, supply all of the filters' args
-        if filter_name == "":
-            args_help = ''
-            for filt_name, args in self.filter_args.items():
-                args_help += filt_name+": " + ", ".join(args)+'\n'
-            return args_help
-        elif filter_name in self.filters:
-            return filter_name+": " + ", ".join(self.filter_args[filter_name])
-        else:
-            return "No such filter: "+filter_name
+    def get_filter_arg(self, filter_name):
+        return self.filters[filter_name].arg
    

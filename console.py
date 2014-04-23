@@ -77,7 +77,7 @@ class GagCmd(GagCmdBase):
     def help_filter(self):
         print("\nThis command takes you to the GAG FILTER menu. There you can apply filters to the genome")
         print("to filter out suspicious data. Alternately, just type:\n")
-        print("'filter <name_of_filter> <filter_arg_name> <set or get> [value if setting]'\n")
+        print("'filter <name_of_filter> [value if setting]'\n")
         print("if you've done this before :)\n")
 
     def do_filter(self, line):
@@ -147,12 +147,18 @@ class GagCmd(GagCmdBase):
 class FilterCmd(GagCmdBase):
 
     helptext = "\nThis is the GAG FILTER menu.\n"+\
-            "You can inspect and modify the following filters:\n\n"+\
-            "cds_length, exon_length, intron_length, gene_length\n\n"+\
             "(You can type 'home' at any time to return to the main GAG console.)\n\n"+\
-            "Type the name of a filter to inspect or modify it. Filters remove features\n"+\
-            "that don't make the cut by default, but will let them live and flag them\n"+\
-            "if you set the filter's 'remove' argument to False\n"
+            " - Filters place constraints on which features are written to the final genome.\n"+\
+            " - The effects of filters are shown in the info screen in the Modified Genome column.\n"+\
+            "   (type 'info' in the main GAG console)\n"+\
+            " - Filters can either flag or remove items. Flagged items remain in the genome but\n"+\
+            "   are given a 'gag_flagged' attribute in the gff and tbl so that you can review them.\n"+\
+            " - When you set a filter, you will be asked if you want it to flag or remove.\n"+\
+            " - Filters are applied automatically when you write the genome.\n\n"+\
+            "You can modify the following filters:\n\n"+\
+            "min_cds_length, max_cds_length, min_exon_length, max_exon_length, min_intron_length,\n"+\
+            "max_intron_length, min_gene_length, max_gene_length\n\n"+\
+            "Enter the name of the filter you want to modify.\n"
 
     def __init__(self, prompt_prefix, controller, line):
         GagCmdBase.__init__(self)
@@ -168,6 +174,17 @@ class FilterCmd(GagCmdBase):
             readline.read_history_file('.gaghistory')
         except IOError:
             sys.stderr.write("No .gaghistory file available...\n")
+            
+        # Set up filter arg do functions
+        for filt_name in controller.filter_mgr.filters.keys():
+            # First real closure #teddy'sallgrownup
+            # traps arg variable
+            def do_arg(slf, line, filter_name = filt_name):
+                filtercmd = FilterArgCmd(slf.prompt, slf.controller, slf.context, line, filter_name)
+                filtercmd.cmdloop()
+                if slf.context["go_home"]:
+                    return True
+            setattr(self, 'do_'+filt_name, types.MethodType(do_arg, self))
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
@@ -178,42 +195,6 @@ class FilterCmd(GagCmdBase):
 
     def do_home(self, line):
         return True
-
-    def help_cds_length(self):
-        print("\nYou can filter by min and/or max CDS length. mRNAs who's CDSs don't make the cut are removed.\n")
-        
-    def do_cds_length(self, line):
-        cdscmd = FilterArgCmd(self.prompt, self.controller, self.context, line, 'cds_length')
-        cdscmd.cmdloop()
-        if self.context["go_home"]:
-            return True
-            
-    def help_exon_length(self):
-        print("\nYou can filter by min and/or max exon length. mRNAs who's exons don't make the cut are removed.\n")
-        
-    def do_exon_length(self, line):
-        exoncmd = FilterArgCmd(self.prompt, self.controller, self.context, line, 'exon_length')
-        exoncmd.cmdloop()
-        if self.context["go_home"]:
-            return True
-            
-    def help_intron_length(self):
-        print("\nYou can filter by min and/or max intron length. mRNAs who's introns don't make the cut are removed.\n")
-        
-    def do_intron_length(self, line):
-        introncmd = FilterArgCmd(self.prompt, self.controller, self.context, line, 'intron_length')
-        introncmd.cmdloop()
-        if self.context["go_home"]:
-            return True
-            
-    def help_gene_length(self):
-        print("\nYou can filter by min and/or max gene length. Genes that don't make the cut are removed.\n")
-        
-    def do_gene_length(self, line):
-        genecmd = FilterArgCmd(self.prompt, self.controller, self.context, line, 'gene_length')
-        genecmd.cmdloop()
-        if self.context["go_home"]:
-            return True
 
     def emptyline(self):
         print(self.helptext)
@@ -222,82 +203,23 @@ class FilterCmd(GagCmdBase):
         print("Sorry, can't filter " + line)
         print(self.helptext)
         
-###################################################################################################        
-## Begin obscure bull@#$% code
-###################################################################################################
+##############################################
 
-# Generic filter arg selector command console
+# Generic filter arg setter/getter command console
 class FilterArgCmd(GagCmdBase):
 
     def __init__(self, prompt_prefix, controller, context, line, filter_name):
         GagCmdBase.__init__(self)
         
-        # TODO
-        self.helptext = "This is the FILTER "+filter_name+" "+" console. Here you select which filter\n" \
-                        "argument you want to view or modify. These are the filter arguments:\n\n"
-        self.helptext += ', '.join(controller.filter_mgr.filter_args[filter_name])
+        self.helptext = "This is the FILTER "+filter_name+" console. Type a value\n" \
+                        "to set the filter's value, or simply press enter to see the\n" \
+                        "current value.\n"
         
-        self.prompt = prompt_prefix[:-2] + ' ' + filter_name +'> '
+        self.prompt = prompt_prefix[:-2] +'> '
         self.controller = controller
         self.context = context
         self.filter_name = filter_name
         if line:
-            self.cmdqueue = [line] # Execute default method with path as arg
-        else:
-            print(self.helptext)
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
-        
-        # Set up filter arg do functions
-        for arg in controller.filter_mgr.filter_args[filter_name]:
-            # First real closure #teddy'sallgrownup
-            # traps arg variable
-            def do_arg(slf, line, filter_arg = arg):
-                filtercmd = FilterArgSetGetCmd(slf.prompt, slf.controller, slf.context, line, slf.filter_name, filter_arg)
-                filtercmd.cmdloop()
-                if slf.context["go_home"]:
-                    return True
-            setattr(self, 'do_'+arg, types.MethodType(do_arg, self))
-
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return GagCmdBase.precmd(self, line)
-
-    def help_home(self):
-        print("\nExit this console and return to the main GAG console.\n")
-
-    def do_home(self, line):
-        self.context['go_home'] = True
-        return True
-
-    def emptyline(self):
-        print(self.helptext)
-
-    def default(self, line):
-        print("No such "+self.filter_name+" argument: "+line+"\n");
-        
-
-
-# Generic filter arg setter/getter command console
-class FilterArgSetGetCmd(GagCmdBase):
-
-    def __init__(self, prompt_prefix, controller, context, line, filter_name, arg_name):
-        GagCmdBase.__init__(self)
-        
-        self.helptext = "This is the FILTER "+filter_name+" "+arg_name+" console. Type a value\n" \
-                        "to set the filter argument value, or simply press enter to see the current\n" \
-                        "value.\n"
-        
-        self.prompt = prompt_prefix[:-2] + ' ' + arg_name +'> '
-        self.controller = controller
-        self.context = context
-        self.filter_name = filter_name
-        self.arg_name = arg_name
-        if line:
-            context['go_home'] = True
             self.cmdqueue = [line] # Execute default method with path as arg
         else:
             print(self.helptext)
@@ -319,7 +241,7 @@ class FilterArgSetGetCmd(GagCmdBase):
         return True
 
     def emptyline(self):
-        print(self.filter_name+" "+self.arg_name+": "+str(try_catch(self.controller.filter_mgr.get_filter_arg, [self.filter_name, self.arg_name]))+"\n\n")
+        print(self.filter_name+": "+str(try_catch(self.controller.get_filter_arg, [self.filter_name]))+"\n\n")
 
     def default(self, line):
         line = line.strip()
@@ -330,10 +252,10 @@ class FilterArgSetGetCmd(GagCmdBase):
                 got_type = type(ast.literal_eval(line)).__name__
             except:
                 pass
-            expected_type = self.controller.filter_mgr.filter_arg_types[self.filter_name][self.arg_name]
+            expected_type = type(self.controller.get_filter_arg(self.filter_name)).__name__
             # it's a number
             if got_type != expected_type:
-                print("Failed to set "+self.filter_name+" "+self.arg_name+". Expected "+expected_type+".\n")
+                print("Failed to set "+self.filter_name+". Expected "+expected_type+".\n")
                 if expected_type == 'bool':
                     print("A bool can be True or False (the caps matters).\n")
                 elif expected_type == 'int':
@@ -350,15 +272,10 @@ class FilterArgSetGetCmd(GagCmdBase):
                     print("A str is any text. It is formatted \"like this\" or 'like this'\n")
                 return False
             
-            try_catch(self.controller.filter_mgr.set_filter_arg, [self.filter_name, self.arg_name, line])
-            print(self.filter_name+" "+self.arg_name+" set to "+line+'\n')
+            try_catch(self.controller.set_filter_arg, [self.filter_name, line])
+            print(self.filter_name+" set to "+line+'\n')
+            self.context['go_home'] = True
             return True
-
-
-
-###################################################################################################
-## End obscure bull@#$% code, begin sanity
-###################################################################################################
 
 ##############################################
 
