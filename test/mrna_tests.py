@@ -2,9 +2,7 @@
 
 import unittest
 from mock import Mock, PropertyMock
-from src.gene_part import GenePart, CDS, Exon
 from src.mrna import MRNA
-from src.gene import Gene
 
 class TestMRNA(unittest.TestCase):
 

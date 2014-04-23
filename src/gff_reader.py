@@ -2,7 +2,9 @@
 
 import sys
 import copy
-from src.gene_part import GenePart, CDS, Exon
+from src.gene_part import GenePart
+from src.cds import CDS
+from src.exon import Exon
 from src.mrna import MRNA
 from src.gene import Gene
 

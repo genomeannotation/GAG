@@ -1,13 +1,9 @@
 #!/usr/bin/env python
 
 import unittest
-import pdb
 import io
 from mock import Mock, patch, PropertyMock
 from src.gff_reader import *
-import sys
-import os
-import csv
 
 class TestGFFReader(unittest.TestCase):
 
