@@ -43,6 +43,12 @@ class Gene:
     def length(self):
         return length_of_segment(self.indices)
 
+    def gagflagged(self):
+        for anno in self.annotations:
+            if anno[0] == "gag_flag":
+                return True
+        return False
+
     def get_score(self):
         if self.score:
             return self.score

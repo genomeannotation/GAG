@@ -22,6 +22,14 @@ class TestGene(unittest.TestCase):
     def test_length(self):
         self.assertEqual(3703, self.test_gene0.length())
 
+    def test_gagflagged(self):
+        self.assertFalse(self.test_gene0.gagflagged())
+
+    def test_number_of_gagflags(self):
+        self.fake_mrna1.number_of_gagflags.return_value = 2
+        self.fake_mrna2.number_of_gagflags.return_value = 1
+        pass
+
     def test_length_of_shortest_cds_segment(self):
         self.fake_mrna1.length_of_shortest_cds_segment.return_value = 358
         self.fake_mrna2.length_of_shortest_cds_segment.return_value = 241
