@@ -49,6 +49,14 @@ class Gene:
                 return True
         return False
 
+    def number_of_gagflags(self):
+        total = 0
+        for mrna in self.mrnas:
+            total += mrna.number_of_gagflags()
+        if self.gagflagged():
+            total += 1
+        return total
+
     def get_score(self):
         if self.score:
             return self.score

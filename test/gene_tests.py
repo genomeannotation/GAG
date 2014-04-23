@@ -24,11 +24,14 @@ class TestGene(unittest.TestCase):
 
     def test_gagflagged(self):
         self.assertFalse(self.test_gene0.gagflagged())
+        self.test_gene0.annotations = [["gag_flag", "nice gene"]]
+        self.assertTrue(self.test_gene0.gagflagged())
 
     def test_number_of_gagflags(self):
         self.fake_mrna1.number_of_gagflags.return_value = 2
         self.fake_mrna2.number_of_gagflags.return_value = 1
-        pass
+        self.test_gene1.annotations = [["gag_flag", "nice gene"]]
+        self.assertEquals(4, self.test_gene1.number_of_gagflags())
 
     def test_length_of_shortest_cds_segment(self):
         self.fake_mrna1.length_of_shortest_cds_segment.return_value = 358
