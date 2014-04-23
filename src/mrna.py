@@ -145,30 +145,35 @@ class MRNA:
         self.add_other_feature(stop)
 
     def has_start(self):
+        """Returns a boolean indicating whether the mRNA contains a 'start_codon' feature"""
         for feature in self.other_features:
             if feature.feature_type == 'start_codon':
                 return True
         return False
 
     def has_stop(self):
+        """Returns a boolean indicating whether the mRNA contains a 'stop_codon' feature"""
         for feature in self.other_features:
             if feature.feature_type == 'stop_codon':
                 return True
         return False
 
     def indices_intersect_cds(self, indices):
+        """Returns a boolean indicating whether given indices overlap mRNA's CDS"""
         if not self.cds:
             return False
         else:
             return self.cds.indices_intersect_cds(indices)
 
     def cds_to_gff(self, seq_id, source):
+        """Returns a string containing mRNA's child CDS in .gff format."""
         if self.cds:
             return self.cds.to_gff(seq_id, source)
         else:
             return ""
 
     def cds_to_tbl(self):
+        """Returns a string containing mRNA's child CDS in .tbl format."""
         if self.cds:
             has_start = self.has_start()
             has_stop = self.has_stop()
@@ -177,6 +182,7 @@ class MRNA:
             return ""
 
     def to_gff(self, seq_name, source):
+        """Returns a string of mRNA and child features in .gff format."""
         result = seq_name + "\t" + source + "\t" + "mRNA" + "\t"
         result += str(self.indices[0]) + "\t" + str(self.indices[1]) + "\t"
         result += "." + "\t" + self.strand + "\t" + "." + "\t"
@@ -194,6 +200,7 @@ class MRNA:
         return result
 
     def to_tbl(self):
+        """Returns a string of mRNA and child features in .tbl format."""
         has_start = self.has_start()
         has_stop = self.has_stop()
         output = ""
@@ -206,6 +213,7 @@ class MRNA:
     ## STATS STUFF ##
 
     def get_longest_exon(self):
+        """Returns length of longest exon contained on mRNA."""
         if not self.exon:
             return 0
     
@@ -216,6 +224,7 @@ class MRNA:
         return longest
 
     def get_shortest_exon(self):
+        """Returns length of shortest exon contained on mRNA."""
         if not self.exon:
             return 0
         shortest = 0
@@ -226,6 +235,7 @@ class MRNA:
         return shortest
 
     def get_total_exon_length(self):
+        """Returns sum of all child exon lengths."""
         if not self.exon:
             return 0
     
@@ -235,12 +245,14 @@ class MRNA:
         return total
 
     def get_num_exons(self):
+        """Returns number of exons contained on mRNA."""
         if self.exon:
             return len(self.exon.indices)
         else:
             return 0
 
     def get_longest_intron(self):
+        """Returns length of longest intron contained on mRNA."""
         if not self.exon:
             return 0
         longest = 0
@@ -254,6 +266,7 @@ class MRNA:
         return longest
 
     def get_shortest_intron(self):
+        """Returns length of shortest intron contained on mRNA."""
         if not self.exon:
             return 0
         shortest = 0
@@ -267,6 +280,7 @@ class MRNA:
         return shortest
 
     def get_total_intron_length(self):
+        """Returns sum of lengths of all introns contained on mRNA."""
         if not self.exon:
             return 0
         total = 0
@@ -278,6 +292,7 @@ class MRNA:
         return total
 
     def get_num_introns(self):
+        """Returns number of introns contained on mRNA."""
         if self.exon:
             return len(self.exon.indices) - 1
         else:
