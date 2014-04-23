@@ -8,6 +8,8 @@ class SeqHelper:
         self.full_sequence = bases
 
     def mrna_contains_internal_stop(self, mrna):
+        if not mrna.cds:
+            return False
         strand = mrna.strand
         indices = mrna.cds.indices
         sequence = self.get_sequence_from_indices(strand, indices)
@@ -16,6 +18,8 @@ class SeqHelper:
     def mrna_to_fasta(self, mrna):
         """Writes a two-line fasta-style entry consisting of all exonic sequence."""
 
+        if not mrna.exon:
+            return ""
         identifier = ">" + mrna.identifier
         strand = mrna.strand
         indices = mrna.exon.indices
@@ -24,6 +28,8 @@ class SeqHelper:
     def mrna_to_cds_fasta(self, mrna):
         """Writes a two-line fasta-style entry consisting of all CDS sequence."""
 
+        if not mrna.cds:
+            return ""
         identifier = ">" + mrna.identifier + " CDS"
         strand = mrna.strand
         indices = mrna.cds.indices
@@ -32,6 +38,8 @@ class SeqHelper:
     def mrna_to_protein_fasta(self, mrna):
         """Writes a two-line fasta-style entry consisting of the translation of CDS sequence."""
 
+        if not mrna.cds:
+            return ""
         identifier = ">" + mrna.identifier + " protein"
         strand = mrna.strand
         indices = mrna.cds.indices
