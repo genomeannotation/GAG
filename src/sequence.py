@@ -33,6 +33,12 @@ class Sequence:
                 if mrna.identifier == mrna_id:
                     return True
         return False
+
+    def number_of_gagflags(self):
+        total = 0
+        for gene in self.genes:
+            total += gene.number_of_gagflags()
+        return total
         
     def get_gene_ids(self):
         result = []

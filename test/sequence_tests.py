@@ -91,6 +91,13 @@ class TestSequence(unittest.TestCase):
     def test_how_many_Ns_backward_returns_zero_if_no_Ns(self):
         self.assertEqual(0, self.seq1.how_many_Ns_backward(3))
 
+    def test_number_of_gagflags(self):
+        gene1, gene2 = Mock(), Mock()
+        gene1.number_of_gagflags.return_value = 2
+        gene2.number_of_gagflags.return_value = 1
+        self.seq1.genes = [gene1, gene2]
+        self.assertEquals(3, self.seq1.number_of_gagflags())
+
     def test_remove_terminal_ns_beginning(self):
         badseq = Sequence('badseq', 'nNGATTACA')
         mockgene = Mock()
