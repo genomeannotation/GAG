@@ -274,6 +274,19 @@ class FilterArgCmd(GagCmdBase):
             
             try_catch(self.controller.set_filter_arg, [self.filter_name, line])
             print(self.filter_name+" set to "+line+'\n')
+            
+            remove_or_flag = 'teddy rulezzz'
+            while remove_or_flag != 'remove' and remove_or_flag != 'r' and remove_or_flag != '' and \
+                  remove_or_flag != 'flag' and remove_or_flag != 'f':
+                remove_or_flag = raw_input('remove or flag? (remove,r,ENTER / flag,f): ')
+            
+            if remove_or_flag == 'remove' or remove_or_flag == 'r' or remove_or_flag == '':
+                try_catch(self.controller.set_filter_remove, [self.filter_name, True])
+                print("\nFeatures that don't pass the "+self.filter_name+" will be removed\n")
+            else:
+                try_catch(self.controller.set_filter_remove, [self.filter_name, False])
+                print("\nFeatures that don't pass the "+self.filter_name+" will be flagged\n")
+            
             self.context['go_home'] = True
             return True
 

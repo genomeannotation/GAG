@@ -102,9 +102,12 @@ class ConsoleController:
 
     def set_filter_arg(self, filter_name, val):
         self.filter_mgr.set_filter_arg(filter_name, val)
-        
+
     def get_filter_arg(self, filter_name):
         return self.filter_mgr.get_filter_arg(filter_name)
+
+    def set_filter_remove(self, filter_name, remove):
+        self.filter_mgr.set_filter_remove(filter_name, remove)
         
     def apply_filters(self):
         for seq in self.seqs:

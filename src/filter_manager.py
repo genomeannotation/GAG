@@ -34,4 +34,7 @@ class FilterManager:
     
     def get_filter_arg(self, filter_name):
         return self.filters[filter_name].arg
+    
+    def set_filter_remove(self, filter_name, remove):
+        self.filters[filter_name].remove = remove
    
