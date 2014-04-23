@@ -24,27 +24,36 @@ class CDS(GenePart):
         """Appends phase to CDS"""
         self.phase.append(ph)
 
-    # Returns first and third indices regardless of whether 
-    # CDS actually has a start codon
-    def get_start_indices(self, phase):
-        if phase == '+':
+    def get_start_indices(self, strand):
+        """Returns coordinates of first and third base of CDS."""
+        if strand == '+':
             first_index = self.indices[0][0]
             return [first_index, first_index+2]
-        elif phase == '-':
+        elif strand == '-':
             first_index = self.indices[0][1]
             return [first_index-2, first_index]
 
-    def get_stop_indices(self, phase):
-        if phase == '+':
+    def get_stop_indices(self, strand):
+        """Returns coordinates of third-to-last and last base of CDS."""
+        if strand == '+':
             last_index_pair = self.indices[len(self.indices)-1]
             last_index = last_index_pair[1]
             return [last_index-2, last_index]
-        elif phase == '-':
+        elif strand == '-':
             last_index_pair = self.indices[len(self.indices)-1]
             last_index = last_index_pair[0]
             return [last_index, last_index+2]
 
     def extract_sequence(self, seq_object, strand):
+        """Returns nucleotide sequence corresponding to CDS.
+
+        Args:
+            seq_object: the actual Sequence containing the CDS. I know, I know.
+            strand: either '+' or '-'
+        Returns:
+            a string of nucleotides (or an empty string if strand is invalid or 
+            CDS has no indices)
+        """
         seq = ''
         if strand == '+':
             for i in xrange(len(self.indices)):
@@ -61,6 +70,7 @@ class CDS(GenePart):
         return seq
 
     def to_tbl(self, has_start, has_stop):
+        """Returns a string containing the .tbl-formatted entry for the CDS."""
         indices = copy.deepcopy(self.indices)
         phase = self.phase[0]
         return write_tbl_entry(indices, self.strand, has_start, has_stop, True, self.annotations, phase)

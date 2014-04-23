@@ -35,12 +35,27 @@ class MRNA:
         return result
         
     def add_annotation(self, key, value):
+        """Adds an annotation to the mRNA.
+
+        Args:
+            key: the type of annotation
+            value: the annotation itself
+        """
         self.annotations.append([key, value])
         
     def length(self):
+        """Returns the length of the mRNA."""
         return length_of_segment(self.indices)
 
     def adjust_indices(self, n, start_index=1):
+        """Increments indices of mRNA and its child features.
+
+        Optionally, only indices occurring after start_index are incremented.
+
+        Args:
+            n: integer by which to increment indices
+            start_index: optional coordinate before which no indices will be changed.
+        """
         if self.indices[0] > start_index:
             self.indices = [i + n for i in self.indices]
         elif self.indices[1] > start_index:
@@ -53,6 +68,11 @@ class MRNA:
             feature.adjust_indices(n, start_index)
 
     def number_of_gagflags(self):
+        """Returns the number of flagged features contained by mRNA.
+
+        Multiple flags on a given CDS or Exon are ignored, so the
+        possible return values are 0, 1 or 2.
+        """
         total = 0
         if self.cds and self.cds.gagflagged():
             total += 1
@@ -61,6 +81,16 @@ class MRNA:
         return total
 
     def create_start_and_stop_if_necessary(self, seq_object, phase):
+        """Inspects child CDS and creates start/stop codons if appropriate.
+
+        This is accomplished by examining the first and last three nucleotides
+        of the CDS and comparing them to start/stop codon sequences. This will
+        override any start_codon or stop_codon entries in the original GFF file.
+
+        Args:
+            seq_object: the actual sequence containing the mRNA
+            phase: either '+' or '-'
+        """
         # TODO I'd rather pass seq.bases than the object itself, since
         # the object owns this mrna...
         if not self.cds:
@@ -72,13 +102,6 @@ class MRNA:
         if translate.has_stop_codon(seq):
             indices = self.cds.get_stop_indices(phase)
             self.add_stop_codon(indices)
-
-    def remove_first_cds_segment_if_shorter_than(self, min_length):
-        if self.cds:
-            if length_of_segment(self.cds.indices[0]) < min_length:
-                self.cds.indices = self.cds.indices[1:]
-                self.cds.identifier = self.cds.identifier[1:]
-                self.cds.phase = self.cds.phase[1:]
 
     def indices_intersect_mrna(self, indices):
         if len(indices) != 2:
