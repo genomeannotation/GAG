@@ -203,11 +203,6 @@ class TestGene(unittest.TestCase):
         mrna1.create_start_and_stop_if_necessary.assert_called_with(seq_object, '+')
         mrna2.create_start_and_stop_if_necessary.assert_called_with(seq_object, '+')
 
-    def test_remove_first_cds_segment_if_shorter_than(self):
-        self.test_gene1.remove_first_cds_segment_if_shorter_than(4)
-        self.fake_mrna1.remove_first_cds_segment_if_shorter_than.assert_called_with(4)
-        self.fake_mrna2.remove_first_cds_segment_if_shorter_than.assert_called_with(4)
-        
     def test_to_tbl_positive(self):
         gene = Gene(seq_name="seq1", source="maker", indices=[1, 50], strand="+", identifier="foo_gene_1")
         self.assertFalse(gene.annotations)

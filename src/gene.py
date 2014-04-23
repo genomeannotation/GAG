@@ -123,11 +123,6 @@ class Gene:
         for mrna in self.mrnas:
             mrna.create_start_and_stop_if_necessary(seq_object, self.strand)
 
-    def remove_first_cds_segment_if_shorter_than(self, min_length):
-        if self.mrnas:
-            for mrna in self.mrnas:
-                mrna.remove_first_cds_segment_if_shorter_than(min_length)
-
     def length_of_shortest_cds_segment(self):
         min_length = self.mrnas[0].length_of_shortest_cds_segment()
         if len(self.mrnas) == 1:
