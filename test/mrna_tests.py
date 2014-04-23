@@ -135,11 +135,6 @@ class TestMRNA(unittest.TestCase):
         self.assertTrue(mrna.indices_intersect_mrna([20, 25]))
         self.assertTrue(mrna.indices_intersect_mrna([9, 21]))
 
-    def test_adjust_phase(self):
-        # just need to verify call to child cds
-        self.test_mrna1.adjust_phase()
-        self.fake_cds.adjust_phase.assert_called_with()
-
     def test_create_start_and_stop_if_necessary(self):
         seq_object = Mock()
         cds = Mock()

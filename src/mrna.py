@@ -52,10 +52,6 @@ class MRNA:
         for feature in self.other_features:
             feature.adjust_indices(n, start_index)
 
-    def adjust_phase(self):
-        if self.cds:
-            self.cds.adjust_phase()
-
     def number_of_gagflags(self):
         total = 0
         if self.cds and self.cds.gagflagged():
