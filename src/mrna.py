@@ -24,6 +24,10 @@ class MRNA:
         self.death_flagged = False
 
     def __str__(self):
+        """Returns string representation of the mRNA.
+
+        String contains the mRNA's identifier and the number of features it contains.
+        """
         result = "mRNA (ID=" + str(self.identifier) + ") containing "
         if self.exon:
             result += "Exon, "

@@ -22,34 +22,46 @@ class Gene:
         self.death_flagged = False
 
     def __str__(self):
+        """Returns string representation of a gene.
+
+        String contains the gene's identifier, the sequence it is on,
+        and the number of mRNAs it contains.
+        """
         result = "Gene (ID=" + str(self.identifier) 
         result += ", seq_name=" + self.seq_name
         result += ") containing " + str(len(self.mrnas))
         result += " mrnas"
         return result
 
-#    def get_valid_mrnas(self):
-#        return [mrna for mrna in self.mrnas if not mrna.death_flagged]
-
     def get_mrna_ids(self):
+        """Returns a list of the identifiers of all mRNAs contained on the gene."""
         result = []
         for mrna in self.mrnas:
             result.append(mrna.identifier)
         return result
         
     def add_annotation(self, key, value):
+        """Adds an annotation key, value pair to the gene.
+
+        Args:
+            key: a string indicating the type of annotation (e.g. Dbxref, gagflag)
+            value: a string representing the content of the annotation
+        """
         self.annotations.append([key, value])
         
     def length(self):
+        """Returns the length of the gene."""
         return length_of_segment(self.indices)
 
     def gagflagged(self):
+        """Returns a boolean indicating whether the gene itself contains a 'gagflag' annotation."""
         for anno in self.annotations:
             if anno[0] == "gag_flag":
                 return True
         return False
 
     def number_of_gagflags(self):
+        """Returns the number of gagflagged features on the gene, including the gene itself."""
         total = 0
         for mrna in self.mrnas:
             total += mrna.number_of_gagflags()
@@ -58,12 +70,17 @@ class Gene:
         return total
 
     def get_score(self):
+        """Returns the gene's score (column 6 in .gff files).
+
+        If no score is present, returns '.' (the default .gff value).
+        """
         if self.score:
             return self.score
         else:
             return '.'
 
     def get_longest_exon(self):
+        """Returns length of longest exon contained on gene."""
         longest = 0
         for mrna in self.mrnas:
             length = mrna.get_longest_exon()
@@ -72,6 +89,7 @@ class Gene:
         return longest
 
     def get_shortest_exon(self):
+        """Returns length of shortest exon contained on gene."""
         shortest = 0
         for mrna in self.mrnas:
             length = mrna.get_shortest_exon()
@@ -80,18 +98,21 @@ class Gene:
         return shortest
 
     def get_total_exon_length(self):
+        """Returns sum of all child exon lengths."""
         total = 0
         for mrna in self.mrnas:
             total += mrna.get_total_exon_length()
         return total
     
     def get_num_exons(self):
+        """Returns number of exons contained on gene."""
         total = 0
         for mrna in self.mrnas:
             total += mrna.get_num_exons()
         return total
 
     def get_longest_intron(self):
+        """Returns length of longest intron contained on gene."""
         longest = 0
         for mrna in self.mrnas:
             length = mrna.get_longest_intron()
@@ -100,6 +121,7 @@ class Gene:
         return longest
 
     def get_shortest_intron(self):
+        """Returns length of shortest intron contained on gene."""
         shortest = 0
         for mrna in self.mrnas:
             length = mrna.get_shortest_intron()
@@ -108,18 +130,25 @@ class Gene:
         return shortest
 
     def get_total_intron_length(self):
+        """Returns sum of all child intron lengths."""
         total = 0
         for mrna in self.mrnas:
             total += mrna.get_total_intron_length()
         return total
 
     def get_num_introns(self):
+        """Returns number of introns contained on gene."""
         total = 0
         for mrna in self.mrnas:
             total += mrna.get_num_introns()
         return total
     
     def create_starts_and_stops(self, seq_object):
+        """Creates start and stop codons on child mRNAs.
+
+        Args:
+            seq_object: the actual Sequence containing the gene. I know, I know.
+        """
         for mrna in self.mrnas:
             mrna.create_start_and_stop_if_necessary(seq_object, self.strand)
 
@@ -133,6 +162,7 @@ class Gene:
             mrna.adjust_indices(n, start_index)
 
     def get_partial_info(self):
+        """Returns a dictionary containing counts for complete/incomplete CDSs."""
         results = {"complete": 0, "start_no_stop": 0, "stop_no_start": 0, "no_stop_no_start": 0}
         for mrna in self.mrnas:
             if mrna.has_start():
@@ -149,12 +179,14 @@ class Gene:
         return results
 
     def remove_mrnas_with_internal_stops(self, seq_helper):
+        """Removes child mRNAs that contain internal stop codons."""
         for mrna in self.mrnas:
             if seq_helper.mrna_contains_internal_stop(mrna):
                 mrna.death_flagged = True
         self.mrnas = [m for m in self.mrnas if not m.death_flagged]
 
     def contains_mrna(self, mrna_id):
+        """Returns a boolean indicating whether gene contains an mRNA with the given id."""
         for mrna in self.mrnas:
             if mrna.identifier == mrna_id:
                 return True
