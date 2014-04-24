@@ -193,36 +193,55 @@ class Gene:
         return False
 
     def cds_to_gff(self, seq_id, mrna_id):
+        """Returns a string containing the gff representation of a CDS.
+
+        If the CDS is not contained on the gene, returns an empty string.
+
+        Args:
+            seq_id: the 'header' field of the current seq
+            mrna_id: the id of the mRNA containing the CDS to be written.
+        """
         for mrna in self.mrnas:
             if mrna.identifier == mrna_id and mrna.cds:
                 return mrna.cds_to_gff(seq_id, self.source)
         return ""
 
     def cds_to_tbl(self, mrna_id):
+        """Returns a string containing the tbl representation of a CDS.
+
+        If the CDS is not contained on the gene, returns an empty string.
+
+        Args:
+            mrna_id: the id of the mRNA containing the CDS to be written.
+        """
         for mrna in self.mrnas:
             if mrna.identifier == mrna_id and mrna.cds:
                 return mrna.cds_to_tbl()
         return ""
 
     def to_mrna_fasta(self, seq_helper):
+        """Returns a string containing fasta entries for the gene's mRNAs."""
         result = ""
         for mrna in self.mrnas:
             result += seq_helper.mrna_to_fasta(mrna)
         return result
 
     def to_cds_fasta(self, seq_helper):
+        """Returns a string containing fasta entries for the gene's CDSs."""
         result = ""
         for mrna in self.mrnas:
             result += seq_helper.mrna_to_cds_fasta(mrna)
         return result
 
     def to_protein_fasta(self, seq_helper):
+        """Returns a string containing fasta entries for the gene's proteins."""
         result = ""
         for mrna in self.mrnas:
             result += seq_helper.mrna_to_protein_fasta(mrna)
         return result
 
     def to_gff(self):
+        """Returns a string in .gff format of the gene and its child features."""
         result = self.seq_name + "\t" + self.source + "\t"
         result += 'gene' + "\t" + str(self.indices[0]) + "\t"
         result += str(self.indices[1]) + "\t" + self.get_score()
@@ -236,6 +255,7 @@ class Gene:
         return result
 
     def to_tbl(self):
+        """Returns a string in .tbl format of the gene and its child features."""
         if self.strand == "-":
             indices = [self.indices[1], self.indices[0]]
         else:
