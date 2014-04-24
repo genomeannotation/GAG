@@ -35,6 +35,10 @@ class GagCmdBase(cmd.Cmd):
     def get_names(self):
         return dir(self)
 
+    def precmd(self, line):
+        readline.write_history_file('.gaghistory')
+        return cmd.Cmd.precmd(self, line)
+
 ###################################################################################################
 # End cmd base class
 ###################################################################################################
@@ -59,10 +63,6 @@ class GagCmd(GagCmdBase):
         except IOError:
             sys.stderr.write("No .gaghistory file available...\n")
         self.controller = ConsoleController() 
-
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return GagCmdBase.precmd(self, line)
 
     def help_load(self):
         print("\nThis command takes you the GAG LOAD menu. There you can specify the location of")
@@ -186,10 +186,6 @@ class FilterCmd(GagCmdBase):
                     return True
             setattr(self, 'do_'+filt_name, types.MethodType(do_arg, self))
 
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return GagCmdBase.precmd(self, line)
-
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
 
@@ -228,10 +224,6 @@ class FilterArgCmd(GagCmdBase):
             readline.read_history_file('.gaghistory')
         except IOError:
             sys.stderr.write("No .gaghistory file available...\n")
-
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return GagCmdBase.precmd(self, line)
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -315,10 +307,6 @@ class FixCmd(GagCmdBase):
         except IOError:
             sys.stderr.write("No .gaghistory file available...\n")
 
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return GagCmdBase.precmd(self, line)
-
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
 
@@ -384,10 +372,6 @@ class LoadCmd(GagCmdBase):
         except IOError:
             sys.stderr.write("No .gaghistory file available...\n")
 
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return GagCmdBase.precmd(self, line)
-
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
 
@@ -439,10 +423,6 @@ class ViewCmd(GagCmdBase):
             readline.read_history_file('.gaghistory')
         except IOError:
             sys.stderr.write("No .gaghistory file available...\n")
-
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return GagCmdBase.precmd(self, line)
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -510,10 +490,6 @@ class ViewCDSCmd(GagCmdBase):
         except IOError:
             sys.stderr.write("No .gaghistory file available...\n")
 
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return GagCmdBase.precmd(self, line)
-
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
 
@@ -573,10 +549,6 @@ class ViewCDSFastaCmd(GagCmdBase):
         except IOError:
             sys.stderr.write("No .gaghistory file available...\n")
 
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return GagCmdBase.precmd(self, line)
-
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
 
@@ -623,10 +595,6 @@ class ViewCDSGFFCmd(GagCmdBase):
             readline.read_history_file('.gaghistory')
         except IOError:
             sys.stderr.write("No .gaghistory file available...\n")
-
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return GagCmdBase.precmd(self, line)
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -675,10 +643,6 @@ class ViewCDSTBLCmd(GagCmdBase):
         except IOError:
             sys.stderr.write("No .gaghistory file available...\n")
 
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return GagCmdBase.precmd(self, line)
-
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
 
@@ -725,10 +689,6 @@ class ViewGeneCmd(GagCmdBase):
             readline.read_history_file('.gaghistory')
         except IOError:
             sys.stderr.write("No .gaghistory file available...\n")
-
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return GagCmdBase.precmd(self, line)
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -783,10 +743,6 @@ class WriteGeneGFFCmd(GagCmdBase):
         except IOError:
             sys.stderr.write("No .gaghistory file available...\n")
 
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return GagCmdBase.precmd(self, line)
-
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
 
@@ -833,10 +789,6 @@ class WriteGeneTBLCmd(GagCmdBase):
             readline.read_history_file('.gaghistory')
         except IOError:
             sys.stderr.write("No .gaghistory file available...\n")
-
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return GagCmdBase.precmd(self, line)
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -886,10 +838,6 @@ class ViewSeqCmd(GagCmdBase):
         except IOError:
             sys.stderr.write("No .gaghistory file available...\n")
 
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return GagCmdBase.precmd(self, line)
-
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
 
@@ -938,10 +886,6 @@ class WriteCmd(GagCmdBase):
             readline.read_history_file('.gaghistory')
         except IOError:
             sys.stderr.write("No .gaghistory file available...\n")
-
-    def precmd(self, line):
-        readline.write_history_file('.gaghistory')
-        return GagCmdBase.precmd(self, line)
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
