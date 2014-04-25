@@ -427,10 +427,11 @@ class ViewCmd(GagCmdBase):
             return True
 
     def default(self, line):
-        response = "\nSorry, I don't know how to write " + line + "."
+        response = "\nSorry, I don't know how to display " + line + ".\n"
         response += "Please choose 'cds', 'gene' or 'seq',"
         response += "or type 'home' to return to the main menu.\n"
         print(response)
+        print(self.helptext)
 
 ################################################
 
@@ -439,7 +440,7 @@ class ViewCDSCmd(GagCmdBase):
     def __init__(self, prompt_prefix, controller, context, line):
         GagCmdBase.__init__(self)
         self.helptext = "\nWelcome to the GAG VIEW CDS menu.\n"+\
-                "You can write a CDS to fasta, gff or tbl format.\n"+\
+                "You can view a CDS in fasta, gff or tbl format.\n"+\
                 "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
                 "fasta, gff or tbl?\n"
         self.prompt = prompt_prefix[:-2] + " CDS> "
@@ -479,7 +480,7 @@ class ViewCDSCmd(GagCmdBase):
         print(self.helptext)
 
     def default(self, line):
-        print("Sorry, I don't know how to write to " + line + " format.")
+        print("Sorry, I don't know how to display in" + line + " format.")
         print(self.helptext)
 
 ################################################
@@ -489,7 +490,7 @@ class ViewCDSFastaCmd(GagCmdBase):
     def __init__(self, prompt_prefix, controller, context, line):
         GagCmdBase.__init__(self)
         self.helptext = "\nWelcome to the GAG VIEW CDS FASTA menu.\n"+\
-                "Please type the mRNA id that corresponds to the CDS you want to write.\n"+\
+                "Please type the mRNA id that corresponds to the CDS you want to view.\n"+\
                 "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
                 "mRNA id?\n"
         self.prompt = prompt_prefix[:-2] + " FASTA> "
@@ -507,7 +508,7 @@ class ViewCDSFastaCmd(GagCmdBase):
         self.context["go_home"] = True
         return True
     
-    def help_writecdsfasta(self):
+    def help_viewcdsfasta(self):
         print(self.helptext)
 
     def default(self, line):
@@ -527,7 +528,7 @@ class ViewCDSGFFCmd(GagCmdBase):
     def __init__(self, prompt_prefix, controller, context, line):
         GagCmdBase.__init__(self)
         self.helptext = "\nWelcome to the GAG VIEW CDS GFF menu.\n"+\
-                "Please type the mRNA id that corresponds to the CDS you want to write.\n"+\
+                "Please type the mRNA id that corresponds to the CDS you want to view.\n"+\
                 "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
                 "mRNA id?\n"
 
@@ -546,7 +547,7 @@ class ViewCDSGFFCmd(GagCmdBase):
         self.context["go_home"] = True
         return True
     
-    def help_writecdsgff(self):
+    def help_viewcdsgff(self):
         print(self.helptext)
 
     def default(self, line):
@@ -566,7 +567,7 @@ class ViewCDSTBLCmd(GagCmdBase):
     def __init__(self, prompt_prefix, controller, context, line):
         GagCmdBase.__init__(self)
         self.helptext = "\nWelcome to the GAG VIEW CDS TBL menu.\n"+\
-                "Please type the mRNA id that corresponds to the CDS you want to write.\n"+\
+                "Please type the mRNA id that corresponds to the CDS you want to view.\n"+\
                 "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
                 "mRNA id?\n"
         self.prompt = prompt_prefix[:-2] + " TBL> "
@@ -584,7 +585,7 @@ class ViewCDSTBLCmd(GagCmdBase):
         self.context["go_home"] = True
         return True
     
-    def help_writecdstbl(self):
+    def help_viewcdstbl(self):
         print(self.helptext)
 
     def default(self, line):
@@ -604,7 +605,7 @@ class ViewGeneCmd(GagCmdBase):
     def __init__(self, prompt_prefix, controller, context, line):
         GagCmdBase.__init__(self)
         self.helptext = "\nWelcome to the GAG VIEW GENE menu.\n"+\
-                "You can write a gene to gff or tbl format.\n"+\
+                "You can view a gene in gff or tbl format.\n"+\
                 "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
                 "gff or tbl?\n"
         self.prompt = prompt_prefix[:-2] + " GENE> "
@@ -634,11 +635,11 @@ class ViewGeneCmd(GagCmdBase):
         if self.context["go_home"]:
             return True
 
-    def help_writegene(self):
+    def help_viewgene(self):
         print(self.helptext)
 
     def default(self, line):
-        print("Sorry, I don't know how to write to " + line + " format.")
+        print("Sorry, I don't know how to display in " + line + " format.")
         print(self.helptext)
 
 ################################################
@@ -648,7 +649,7 @@ class WriteGeneGFFCmd(GagCmdBase):
     def __init__(self, prompt_prefix, controller, context, line):
         GagCmdBase.__init__(self)
         self.helptext = "\nWelcome to the GAG VIEW GENE GFF menu.\n"+\
-                "Please type the gene id that you want to write.\n"+\
+                "Please type the gene id that you want to view.\n"+\
                 "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
                 "gene id?\n"
         self.prompt = prompt_prefix[:-2] + " GFF> "
@@ -666,7 +667,7 @@ class WriteGeneGFFCmd(GagCmdBase):
         self.context["go_home"] = True
         return True
     
-    def help_writegenegff(self):
+    def help_viewgenegff(self):
         print(self.helptext)
 
     def default(self, line):
@@ -686,7 +687,7 @@ class WriteGeneTBLCmd(GagCmdBase):
     def __init__(self, prompt_prefix, controller, context, line):
         GagCmdBase.__init__(self)
         self.helptext = "\nWelcome to the GAG VIEW GENE TBL menu.\n"+\
-                "Please type the gene id that you want to write.\n"+\
+                "Please type the gene id that you want to view.\n"+\
                 "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
                 "gene id?\n"
         self.prompt = prompt_prefix[:-2] + " TBL> "
@@ -704,7 +705,7 @@ class WriteGeneTBLCmd(GagCmdBase):
         self.context["go_home"] = True
         return True
     
-    def help_writegenegff(self):
+    def help_viewgenegff(self):
         print(self.helptext)
 
     def default(self, line):
@@ -725,7 +726,7 @@ class ViewSeqCmd(GagCmdBase):
         GagCmdBase.__init__(self)
         self.helptext = "\nWelcome to the GAG VIEW SEQ menu.\n"+\
                 "(Type 'home' at any time to return to the main GAG console.)\n"+\
-                "Please type the seq id you wish to write. To write a subsequence,\n"+\
+                "Please type the seq id you wish to view. To view a subsequence,\n"+\
                 "follow the seq id with the start and stop bases.\n\n"+\
                 "seq id [start base] [stop base]?\n"
         self.prompt = prompt_prefix[:-2] + " SEQ> "
@@ -743,7 +744,7 @@ class ViewSeqCmd(GagCmdBase):
         self.context["go_home"] = True
         return True
     
-    def help_writeseq(self):
+    def help_viewseq(self):
         print(self.helptext)
 
     def default(self, line):
