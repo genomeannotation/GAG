@@ -10,14 +10,14 @@ class FilterManager:
     def __init__(self):
         # Build filters
         self.filters = dict()
-        self.filters['min_cds_length'] = MinCDSLengthFilter()
-        self.filters['max_cds_length'] = MaxCDSLengthFilter()
-        self.filters['min_exon_length'] = MinExonLengthFilter()
-        self.filters['max_exon_length'] = MaxExonLengthFilter()
-        self.filters['min_intron_length'] = MinIntronLengthFilter()
-        self.filters['max_intron_length'] = MaxIntronLengthFilter()
-        self.filters['min_gene_length'] = MinGeneLengthFilter()
-        self.filters['max_gene_length'] = MaxGeneLengthFilter()
+        self.filters['cds_shorter_than'] = MinCDSLengthFilter()
+        self.filters['cds_longer_than'] = MaxCDSLengthFilter()
+        self.filters['exon_shorter_than'] = MinExonLengthFilter()
+        self.filters['exon_longer_than'] = MaxExonLengthFilter()
+        self.filters['intron_shorter_than'] = MinIntronLengthFilter()
+        self.filters['intron_longer_than'] = MaxIntronLengthFilter()
+        self.filters['gene_shorter_than'] = MinGeneLengthFilter()
+        self.filters['gene_longer_than'] = MaxGeneLengthFilter()
         
         # Starts out dirty
         self.dirty = False

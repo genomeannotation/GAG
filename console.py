@@ -78,15 +78,28 @@ class GagCmd(GagCmdBase):
         loadcmd = LoadCmd(self.prompt, self.controller, path_to_load)
         loadcmd.cmdloop()
 
-    def help_filter(self):
-        print("\nThis command takes you to the GAG FILTER menu. There you can apply filters to the genome")
-        print("to filter out suspicious data. Alternately, just type:\n")
-        print("'filter <name_of_filter> [value if setting]'\n")
+    def help_flag(self):
+        print("\nThis command takes you to the GAG FLAG menu. There you can flag features based")
+        print("on certain criteria to mark suspicious data. Alternately, just type:\n\n")
+        print("'remove <criteria> <value>'\n\n")
         print("if you've done this before :)\n")
 
-    def do_filter(self, line):
+    def do_flag(self, line):
         if self.controller.genome_is_loaded():
-            filtercmd = FilterCmd(self.prompt, self.controller, line)
+            filtercmd = FlagCmd(self.prompt, self.controller, line)
+            filtercmd.cmdloop()
+        else:
+            print(self.no_genome_message)
+    
+    def help_remove(self):
+        print("\nThis command takes you to the GAG REMOVE menu. There you can remove features based")
+        print("on certain criteria to filter out bad data. Alternately, just type:\n\n")
+        print("'remove <criteria> <value>'\n\n")
+        print("if you've done this before :)\n")
+
+    def do_remove(self, line):
+        if self.controller.genome_is_loaded():
+            filtercmd = RemoveCmd(self.prompt, self.controller, line)
             filtercmd.cmdloop()
         else:
             print(self.no_genome_message)
@@ -148,24 +161,20 @@ class GagCmd(GagCmdBase):
 
 ##############################################
 
-class FilterCmd(GagCmdBase):
+class FlagCmd(GagCmdBase):
 
     def __init__(self, prompt_prefix, controller, line):
         GagCmdBase.__init__(self)
-        self.helptext = "\nThis is the GAG FILTER menu.\n"+\
-                "(You can type 'home' at any time to return to the main GAG console.)\n\n"+\
-                " - Filters place constraints on which features are written to the final genome.\n"+\
-                " - The effects of filters are shown in the info screen in the Modified Genome column.\n"+\
-                "   (type 'info' in the main GAG console)\n"+\
-                " - Filters can either flag or remove items. Flagged items remain in the genome but\n"+\
-                "   are given a 'gag_flagged' attribute in the gff and tbl so that you can review them.\n"+\
-                " - When you set a filter, you will be asked if you want it to flag or remove.\n"+\
-                " - Filters are applied automatically when you write the genome.\n\n"+\
-                "You can modify the following filters:\n\n"+\
-                "min_cds_length, max_cds_length, min_exon_length, max_exon_length, min_intron_length,\n"+\
-                "max_intron_length, min_gene_length, max_gene_length\n\n"+\
-                "Enter the name of the filter you want to modify.\n"
-        self.prompt = prompt_prefix[:-2] + " FILTER> "
+        self.helptext = "\nThis is the GAG FLAG menu.\n"+\
+        "(You can type 'home' at any time to return to the main GAG console.)\n\n"+\
+        " - Here you can flag features based on certain criteria.\n"+\
+        " - When you flag features, they remain in the genome but are written with a 'gag_flagged'\n"+\
+        "   annotation so they can be reviewed manually, in a genome browser for instance.\n"+\
+        " - Typing info in the main GAG console will tell you the total amount of features that\n"+\
+        "   have been flagged.\n\n"+\
+        "You can flag:\n\n"+\
+        "\n".join(controller.filter_mgr.filters.keys())+ "\n"
+        self.prompt = prompt_prefix[:-2] + " FLAG> "
         self.controller = controller
         self.context = {"go_home": False}
         if line:
@@ -178,7 +187,48 @@ class FilterCmd(GagCmdBase):
             # First real closure #teddy'sallgrownup
             # traps arg variable
             def do_arg(slf, line, filter_name = filt_name):
-                filtercmd = FilterArgCmd(slf.prompt, slf.controller, slf.context, line, filter_name)
+                filtercmd = FilterArgCmd(slf.prompt, slf.controller, slf.context, line, 'FLAG', filter_name)
+                filtercmd.cmdloop()
+                if slf.context["go_home"]:
+                    return True
+            setattr(self, 'do_'+filt_name, types.MethodType(do_arg, self))
+
+    def help_home(self):
+        print("\nExit this console and return to the main GAG console.\n")
+
+    def do_home(self, line):
+        return True
+
+    def default(self, line):
+        print("Sorry, can't filter " + line)
+        print(self.helptext)
+        
+##############################################
+
+class RemoveCmd(GagCmdBase):
+
+    def __init__(self, prompt_prefix, controller, line):
+        GagCmdBase.__init__(self)
+        self.helptext = "\nThis is the GAG REMOVE menu.\n"+\
+        "(You can type 'home' at any time to return to the main GAG console.)\n\n"+\
+        " - Here you can remove features based on certain criteria.\n"+\
+        " - You can view the effects of removal by typing 'info' in the main GAG console.\n\n"
+        "You can remove:\n\n"+\
+        "\n".join(controller.filter_mgr.filters.keys())+ "\n"
+        self.prompt = prompt_prefix[:-2] + " REMOVE> "
+        self.controller = controller
+        self.context = {"go_home": False}
+        if line:
+            self.cmdqueue = [line] # Execute default method with path as arg
+        else:
+            print(self.helptext)
+            
+        # Set up filter arg do functions
+        for filt_name in controller.filter_mgr.filters.keys():
+            # First real closure #teddy'sallgrownup
+            # traps arg variable
+            def do_arg(slf, line, filter_name = filt_name):
+                filtercmd = FilterArgCmd(slf.prompt, slf.controller, slf.context, line, 'REMOVE', filter_name)
                 filtercmd.cmdloop()
                 if slf.context["go_home"]:
                     return True
@@ -199,15 +249,16 @@ class FilterCmd(GagCmdBase):
 # Generic filter arg setter/getter command console
 class FilterArgCmd(GagCmdBase):
 
-    def __init__(self, prompt_prefix, controller, context, line, filter_name):
+    # Note: filter_mode is either 'FLAG' or 'REMOVE'
+    def __init__(self, prompt_prefix, controller, context, line, filter_mode, filter_name):
         GagCmdBase.__init__(self)
-        self.helptext = "This is the FILTER "+filter_name+" console. Type a value\n" \
-                        "to set the filter's value, or simply press enter to see the\n" \
-                        "current value.\n"
+        self.helptext = "This is the "+filter_mode+" "+filter_name+" console. Type a value\n" \
+                        "to set the criteria, or simply press enter to see the current value.\n"
         
         self.prompt = prompt_prefix[:-2] + ' ' + filter_name +'> '
         self.controller = controller
         self.context = context
+        self.filter_mode = filter_mode
         self.filter_name = filter_name
         if line:
             self.cmdqueue = [line] # Execute default method with path as arg
@@ -254,19 +305,13 @@ class FilterArgCmd(GagCmdBase):
                 return False
             
             try_catch(self.controller.set_filter_arg, [self.filter_name, line])
-            print(self.filter_name+" set to "+line+'\n')
             
-            remove_or_flag = 'teddy rulezzz'
-            while remove_or_flag != 'remove' and remove_or_flag != 'r' and remove_or_flag != '' and \
-                  remove_or_flag != 'flag' and remove_or_flag != 'f':
-                remove_or_flag = raw_input('remove or flag? (remove,r,ENTER / flag,f): ')
-            
-            if remove_or_flag == 'remove' or remove_or_flag == 'r' or remove_or_flag == '':
+            if self.filter_mode == 'REMOVE':
                 try_catch(self.controller.set_filter_remove, [self.filter_name, True])
-                print("\nFeatures that don't pass the "+self.filter_name+" will be removed\n")
-            else:
+                print("\n"+self.filter_name+" "+line+" will be removed.\n")
+            else: #TODO maybe throw an error if filter_mode isn't FLAG
                 try_catch(self.controller.set_filter_remove, [self.filter_name, False])
-                print("\nFeatures that don't pass the "+self.filter_name+" will be flagged\n")
+                print("\n"+self.filter_name+" "+line+" will be flagged.\n")
             
             self.context['go_home'] = True
             return True
