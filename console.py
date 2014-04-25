@@ -43,7 +43,7 @@ class GagCmdBase(cmd.Cmd):
 
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
-        return cmd.Cmd.precmd(self, line)
+        return line
 
     def emptyline(self):
         print(self.helptext)
@@ -68,6 +68,16 @@ class GagCmd(GagCmdBase):
         self.prompt = "GAG> "
         self.controller = ConsoleController() 
 
+    def precmd(self, line):
+        line = GagCmdBase.precmd(self, line)
+        print('----------------------------------------')
+        return line
+        
+    def postcmd(self, stop, line):
+        stop = GagCmdBase.postcmd(self, stop, line)
+        print('----------------------------------------')
+        return stop
+
     def help_load(self):
         print("\nThis command takes you the GAG LOAD menu. There you can specify the location of")
         print("your files and load them into memory.")
@@ -80,8 +90,8 @@ class GagCmd(GagCmdBase):
 
     def help_flag(self):
         print("\nThis command takes you to the GAG FLAG menu. There you can flag features based")
-        print("on certain criteria to mark suspicious data. Alternately, just type:\n\n")
-        print("'remove <criteria> <value>'\n\n")
+        print("on certain criteria to mark suspicious data. Alternately, just type:\n")
+        print("'remove <criteria> <value>'\n")
         print("if you've done this before :)\n")
 
     def do_flag(self, line):
@@ -93,8 +103,8 @@ class GagCmd(GagCmdBase):
     
     def help_remove(self):
         print("\nThis command takes you to the GAG REMOVE menu. There you can remove features based")
-        print("on certain criteria to filter out bad data. Alternately, just type:\n\n")
-        print("'remove <criteria> <value>'\n\n")
+        print("on certain criteria to filter out bad data. Alternately, just type:\n")
+        print("'remove <criteria> <value>'\n")
         print("if you've done this before :)\n")
 
     def do_remove(self, line):
