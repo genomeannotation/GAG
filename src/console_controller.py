@@ -201,7 +201,10 @@ class ConsoleController:
         else:
             for seq in self.seqs:
                 if seq.contains_gene(line):
-                    return seq.gene_to_gff(line)
+                    cseq = copy.deepcopy(seq)
+                    self.seq_fixer.fix(cseq)
+                    self.filter_mgr.apply_filters(cseq)
+                    return cseq.gene_to_gff(line)
 
     def barf_seq(self, line):
         if not self.seqs:
