@@ -510,6 +510,11 @@ class ViewCDSFastaCmd(GagCmdBase):
     
     def help_viewcdsfasta(self):
         print(self.helptext)
+        print(self.controller.get_n_mrna_ids(5))
+
+    def emptyline(self):
+        print(self.helptext)
+        print(self.controller.get_n_mrna_ids(5))
 
     def default(self, line):
         mrna_id = line.strip()
@@ -549,6 +554,11 @@ class ViewCDSGFFCmd(GagCmdBase):
     
     def help_viewcdsgff(self):
         print(self.helptext)
+        print(self.controller.get_n_mrna_ids(5))
+
+    def emptyline(self):
+        print(self.helptext)
+        print(self.controller.get_n_mrna_ids(5))
 
     def default(self, line):
         mrna_id = line.strip()
@@ -587,6 +597,11 @@ class ViewCDSTBLCmd(GagCmdBase):
     
     def help_viewcdstbl(self):
         print(self.helptext)
+        print(self.controller.get_n_mrna_ids(5))
+
+    def emptyline(self):
+        print(self.helptext)
+        print(self.controller.get_n_mrna_ids(5))
 
     def default(self, line):
         mrna_id = line.strip()
@@ -669,6 +684,11 @@ class WriteGeneGFFCmd(GagCmdBase):
     
     def help_viewgenegff(self):
         print(self.helptext)
+        print(self.controller.get_n_gene_ids(5))
+
+    def emptyline(self):
+        print(self.helptext)
+        print(self.controller.get_n_gene_ids(5))
 
     def default(self, line):
         gene_id = line.strip()
@@ -707,6 +727,11 @@ class WriteGeneTBLCmd(GagCmdBase):
     
     def help_viewgenegff(self):
         print(self.helptext)
+        print(self.controller.get_n_gene_ids(5))
+
+    def emptyline(self):
+        print(self.helptext)
+        print(self.controller.get_n_gene_ids(5))
 
     def default(self, line):
         gene_id = line.strip()
@@ -746,6 +771,11 @@ class ViewSeqCmd(GagCmdBase):
     
     def help_viewseq(self):
         print(self.helptext)
+        print(self.controller.get_n_seq_ids(5))
+
+    def emptyline(self):
+        print(self.helptext)
+        print(self.controller.get_n_seq_ids(5))
 
     def default(self, line):
         args = line.split()
