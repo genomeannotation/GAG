@@ -36,5 +36,7 @@ class FilterManager:
         return self.filters[filter_name].arg
     
     def set_filter_remove(self, filter_name, remove):
+        if self.filters[filter_name].remove != remove:
+            self.dirty = True
         self.filters[filter_name].remove = remove
    
