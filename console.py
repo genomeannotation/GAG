@@ -205,7 +205,7 @@ class FilterArgCmd(GagCmdBase):
                         "to set the filter's value, or simply press enter to see the\n" \
                         "current value.\n"
         
-        self.prompt = prompt_prefix[:-2] +'> '
+        self.prompt = prompt_prefix[:-2] + ' ' + filter_name +'> '
         self.controller = controller
         self.context = context
         self.filter_name = filter_name
