@@ -84,7 +84,7 @@ class MRNA:
             total += 1
         return total
 
-    def create_start_and_stop_if_necessary(self, seq_object, phase):
+    def create_start_and_stop_if_necessary(self, seq_object, strand):
         """Inspects child CDS and creates start/stop codons if appropriate.
 
         This is accomplished by examining the first and last three nucleotides
@@ -93,18 +93,18 @@ class MRNA:
 
         Args:
             seq_object: the actual sequence containing the mRNA
-            phase: either '+' or '-'
+            strand: either '+' or '-'
         """
         # TODO I'd rather pass seq.bases than the object itself, since
         # the object owns this mrna...
         if not self.cds:
             return
-        seq = self.cds.extract_sequence(seq_object, phase)
+        seq = self.cds.extract_sequence(seq_object, strand)
         if translate.has_start_codon(seq):
-            indices = self.cds.get_start_indices(phase)
+            indices = self.cds.get_start_indices(strand)
             self.add_start_codon(indices)
         if translate.has_stop_codon(seq):
-            indices = self.cds.get_stop_indices(phase)
+            indices = self.cds.get_stop_indices(strand)
             self.add_stop_codon(indices)
 
     def indices_intersect_mrna(self, indices):
