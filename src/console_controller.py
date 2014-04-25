@@ -215,14 +215,20 @@ class ConsoleController:
                 seq_id = args[0]
                 for seq in self.seqs:
                     if seq.header == seq_id:
-                        return seq.get_subseq()
+                        cseq = copy.deepcopy(seq)
+                        self.seq_fixer.fix(cseq)
+                        self.filter_mgr.apply_filters(cseq)
+                        return cseq.get_subseq()
             elif len(args) == 3:
                 seq_id = args[0]
                 start = int(args[1])
                 stop = int(args[2])
                 for seq in self.seqs:
                     if seq.header == seq_id:
-                        return seq.get_subseq(start, stop)
+                        cseq = copy.deepcopy(seq)
+                        self.seq_fixer.fix(cseq)
+                        self.filter_mgr.apply_filters(cseq)
+                        return cseq.get_subseq(start, stop)
             else:
                 return "Usage: barfseq <seq_id> <start_index> <end_index>\n"
 
