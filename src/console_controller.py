@@ -322,7 +322,10 @@ class ConsoleController:
         return False
 
     def can_write_to_path(self, path):
-        return not os.path.exists(path)
+        if len(path.split()) > 1:
+            return False
+        else:
+            return not os.path.exists(path)
 
 
 ## Utility functions
