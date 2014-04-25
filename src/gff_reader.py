@@ -37,7 +37,8 @@ class GFFReader:
 
     def parse_attributes(self, attr):
         """Returns a dict with id and parent_id (if present)
-        if not, returns empty dict
+        
+        If not, returns empty dict
         Also adds annotations if present
         """
         result = {}
@@ -63,6 +64,7 @@ class GFFReader:
         return result
 
     def extract_cds_args(self, line):
+        """Pulls CDS arguments from a gff line and returns them in a dictionary."""
         result = {'indices': [int(line[3]), int(line[4])], \
                 'strand': line[6], 'phase': int(line[7])}
         if isinstance(line[7], float):
@@ -76,6 +78,7 @@ class GFFReader:
         return result
 
     def extract_exon_args(self, line):
+        """Pulls Exon arguments from a gff line and returns them in a dictionary."""
         result = {'indices': [int(line[3]), int(line[4])], 'strand': line[6]}
         if line[5] != '.':
             result['score'] = float(line[5])
@@ -88,6 +91,7 @@ class GFFReader:
         return result
 
     def extract_mrna_args(self, line):
+        """Pulls MRNA arguments from a gff line and returns them in a dictionary."""
         result = {'indices': [int(line[3]), int(line[4])], 'strand': line[6]}
         attribs = self.parse_attributes(line[8])
 
@@ -98,6 +102,7 @@ class GFFReader:
         return result        
 
     def extract_gene_args(self, line):  
+        """Pulls Gene arguments from a gff line and returns them in a dictionary."""
         result = {'seq_name': line[0], 'source': line[1], \
                   'indices': [int(line[3]), int(line[4])], 'strand': line[6]}
         attribs = self.parse_attributes(line[8])
@@ -109,12 +114,14 @@ class GFFReader:
         return result
 
     def extract_other_feature_args(self, line):
+        """Pulls GenePart arguments from a gff line and returns them in a dictionary."""
         result = {'feature_type': line[2], 'indices': [int(line[3]), int(line[4])]}
         attribs = self.parse_attributes(line[8])
         result.update(attribs)
         return result
 
     def update_cds(self, line, cds):
+        """Adds the fields of a gff line to an existing CDS object."""
         args = self.extract_cds_args(line)
         cds.add_indices(args['indices'])
         cds.add_phase(args['phase'])
@@ -123,6 +130,7 @@ class GFFReader:
             cds.add_score(args['score'])
 
     def update_exon(self, line, exon):
+        """Adds the fields of a gff line to an existing Exon object."""
         args = self.extract_exon_args(line)
         exon.add_indices(args['indices'])
         exon.add_identifier(args['identifier'])
@@ -130,6 +138,11 @@ class GFFReader:
             exon.add_score(args['score'])
 
     def process_line(self, line):
+        """Processes the contents of one line of a .gff file.
+
+        Args:
+            line: a list of the fields
+        """
         ltype = self.line_type(line)
         if ltype == 'gene':
             self.process_gene_line(line)
@@ -145,6 +158,7 @@ class GFFReader:
             self.skipped_features += 1
 
     def process_gene_line(self, line):
+        """Extracts arguments from a line and instantiates a Gene object."""
         kwargs = self.extract_gene_args(line)
         if not kwargs:
             return
@@ -152,6 +166,7 @@ class GFFReader:
         self.genes[gene_id] = Gene(**kwargs)
 
     def process_mrna_line(self, line):
+        """Extracts arguments from a line and instantiates an MRNA object."""
         kwargs = self.extract_mrna_args(line)
         if not kwargs:
             return
@@ -159,6 +174,7 @@ class GFFReader:
         self.mrnas[mrna_id] = MRNA(**kwargs)
 
     def process_cds_line(self, line):
+        """Extracts arguments from a line and adds them to a CDS, or makes a new one."""
         kwargs = self.extract_cds_args(line)
         if not kwargs:
             return
@@ -173,6 +189,7 @@ class GFFReader:
             parent_mrna.cds = CDS(**kwargs)
 
     def process_exon_line(self, line):
+        """Extracts arguments from a line and adds them to a Exon, or makes a new one."""
         kwargs = self.extract_exon_args(line)
         if not kwargs:
             return
@@ -187,6 +204,7 @@ class GFFReader:
             parent_mrna.exon = Exon(**kwargs)
 
     def process_other_feature_line(self, line):
+        """Extracts arguments from a line and instantiates a GenePart from them."""
         kwargs = self.extract_other_feature_args(line)
         if not kwargs:
             return
@@ -198,6 +216,7 @@ class GFFReader:
         parent_mrna.other_features.append(GenePart(**kwargs))
 
     def read_file(self, reader):
+        """GFFReader's public method, takes a reader and returns a list of Genes."""
         # First pass, pulling out all genes and mRNAs
         #  and placing child features if possible
         for line in reader:
