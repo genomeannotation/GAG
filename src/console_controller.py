@@ -239,7 +239,10 @@ class ConsoleController:
             name = line
             for seq in self.seqs:
                 if seq.contains_mrna(name):
-                    return seq.extract_cds_seq(name)
+                    cseq = copy.deepcopy(seq)
+                    self.seq_fixer.fix(cseq)
+                    self.filter_mgr.apply_filters(cseq)
+                    return cseq.extract_cds_seq(name)
             return "Error: Couldn't find mRNA.\n"
 
     def cds_to_gff(self, line):
