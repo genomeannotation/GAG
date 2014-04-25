@@ -252,7 +252,10 @@ class ConsoleController:
             name = line
             for seq in self.seqs:
                 if seq.contains_mrna(name):
-                    return seq.cds_to_gff(name)
+                    cseq = copy.deepcopy(seq)
+                    self.seq_fixer.fix(cseq)
+                    self.filter_mgr.apply_filters(cseq)
+                    return cseq.cds_to_gff(name)
             return "Error: Couldn't find mRNA.\n"
 
     def cds_to_tbl(self, line):
@@ -262,7 +265,10 @@ class ConsoleController:
             name = line
             for seq in self.seqs:
                 if seq.contains_mrna(name):
-                    return seq.cds_to_tbl(name)
+                    cseq = copy.deepcopy(seq)
+                    self.seq_fixer.fix(cseq)
+                    self.filter_mgr.apply_filters(cseq)
+                    return cseq.cds_to_tbl(name)
             return "Error: Couldn't find mRNA.\n"
 
     def barf_gene_tbl(self, line):
@@ -272,7 +278,10 @@ class ConsoleController:
             output = ">Feature SeqId\n"
             for seq in self.seqs:
                 if seq.contains_gene(line):
-                    output += seq.gene_to_tbl(line)
+                    cseq = copy.deepcopy(seq)
+                    self.seq_fixer.fix(cseq)
+                    self.filter_mgr.apply_filters(cseq)
+                    output += cseq.gene_to_tbl(line)
             return output
 
     def stats(self):
