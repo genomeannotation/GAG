@@ -31,6 +31,12 @@ class GagCmdBase(cmd.Cmd):
 
     def __init__(self):
         cmd.Cmd.__init__(self)
+        self.helptext = ""
+        readline.set_history_length(1000)
+        try:
+            readline.read_history_file('.gaghistory')
+        except IOError:
+            sys.stderr.write("No .gaghistory file available...\n")
         
     def get_names(self):
         return dir(self)
@@ -38,6 +44,9 @@ class GagCmdBase(cmd.Cmd):
     def precmd(self, line):
         readline.write_history_file('.gaghistory')
         return cmd.Cmd.precmd(self, line)
+
+    def emptyline(self):
+        print(self.helptext)
 
 ###################################################################################################
 # End cmd base class
@@ -57,11 +66,6 @@ class GagCmd(GagCmdBase):
     def __init__(self):
         GagCmdBase.__init__(self)
         self.prompt = "GAG> "
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
         self.controller = ConsoleController() 
 
     def help_load(self):
@@ -146,22 +150,21 @@ class GagCmd(GagCmdBase):
 
 class FilterCmd(GagCmdBase):
 
-    helptext = "\nThis is the GAG FILTER menu.\n"+\
-            "(You can type 'home' at any time to return to the main GAG console.)\n\n"+\
-            " - Filters place constraints on which features are written to the final genome.\n"+\
-            " - The effects of filters are shown in the info screen in the Modified Genome column.\n"+\
-            "   (type 'info' in the main GAG console)\n"+\
-            " - Filters can either flag or remove items. Flagged items remain in the genome but\n"+\
-            "   are given a 'gag_flagged' attribute in the gff and tbl so that you can review them.\n"+\
-            " - When you set a filter, you will be asked if you want it to flag or remove.\n"+\
-            " - Filters are applied automatically when you write the genome.\n\n"+\
-            "You can modify the following filters:\n\n"+\
-            "min_cds_length, max_cds_length, min_exon_length, max_exon_length, min_intron_length,\n"+\
-            "max_intron_length, min_gene_length, max_gene_length\n\n"+\
-            "Enter the name of the filter you want to modify.\n"
-
     def __init__(self, prompt_prefix, controller, line):
         GagCmdBase.__init__(self)
+        self.helptext = "\nThis is the GAG FILTER menu.\n"+\
+                "(You can type 'home' at any time to return to the main GAG console.)\n\n"+\
+                " - Filters place constraints on which features are written to the final genome.\n"+\
+                " - The effects of filters are shown in the info screen in the Modified Genome column.\n"+\
+                "   (type 'info' in the main GAG console)\n"+\
+                " - Filters can either flag or remove items. Flagged items remain in the genome but\n"+\
+                "   are given a 'gag_flagged' attribute in the gff and tbl so that you can review them.\n"+\
+                " - When you set a filter, you will be asked if you want it to flag or remove.\n"+\
+                " - Filters are applied automatically when you write the genome.\n\n"+\
+                "You can modify the following filters:\n\n"+\
+                "min_cds_length, max_cds_length, min_exon_length, max_exon_length, min_intron_length,\n"+\
+                "max_intron_length, min_gene_length, max_gene_length\n\n"+\
+                "Enter the name of the filter you want to modify.\n"
         self.prompt = prompt_prefix[:-2] + " FILTER> "
         self.controller = controller
         self.context = {"go_home": False}
@@ -169,11 +172,6 @@ class FilterCmd(GagCmdBase):
             self.cmdqueue = [line] # Execute default method with path as arg
         else:
             print(self.helptext)
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
             
         # Set up filter arg do functions
         for filt_name in controller.filter_mgr.filters.keys():
@@ -192,9 +190,6 @@ class FilterCmd(GagCmdBase):
     def do_home(self, line):
         return True
 
-    def emptyline(self):
-        print(self.helptext)
-
     def default(self, line):
         print("Sorry, can't filter " + line)
         print(self.helptext)
@@ -206,7 +201,6 @@ class FilterArgCmd(GagCmdBase):
 
     def __init__(self, prompt_prefix, controller, context, line, filter_name):
         GagCmdBase.__init__(self)
-        
         self.helptext = "This is the FILTER "+filter_name+" console. Type a value\n" \
                         "to set the filter's value, or simply press enter to see the\n" \
                         "current value.\n"
@@ -219,11 +213,6 @@ class FilterArgCmd(GagCmdBase):
             self.cmdqueue = [line] # Execute default method with path as arg
         else:
             print(self.helptext)
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -286,26 +275,21 @@ class FilterArgCmd(GagCmdBase):
 
 class FixCmd(GagCmdBase):
 
-    helptext = "\nThis is the GAG FIX menu.\n"+\
-            "You can apply the following fixes: "+\
-            "terminal_ns, start_stop_codons.\n"+\
-            "(You can type 'home' at any time to return to the main GAG console.)\n"+\
-            "Type the name of a fix to enable it. Type 'all' to enable everything.\n\n"+\
-            "terminal_ns, start_stop_codons or all?\n"
-
     def __init__(self, prompt_prefix, controller, name_of_fix):
         GagCmdBase.__init__(self)
+        self.helptext = "\nThis is the GAG FIX menu.\n"+\
+                "You can apply the following fixes: "+\
+                "terminal_ns, start_stop_codons.\n"+\
+                "(You can type 'home' at any time to return to the main GAG console.)\n"+\
+                "Type the name of a fix to enable it. Type 'all' to enable everything.\n\n"+\
+                "terminal_ns, start_stop_codons or all?\n"
+
         self.prompt = prompt_prefix[:-2] + " FIX> "
         self.controller = controller
         if name_of_fix:
             self.cmdqueue = [name_of_fix] # Execute default method with path as arg
         else:
             print(self.helptext)
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -340,9 +324,6 @@ class FixCmd(GagCmdBase):
         print(self.controller.fix_start_stop_codons() + "\n")
         return True
 
-    def emptyline(self):
-        print(self.helptext)
-
     def default(self, line):
         print("Sorry, can't fix " + line)
         print(self.helptext)
@@ -351,26 +332,20 @@ class FixCmd(GagCmdBase):
 
 class LoadCmd(GagCmdBase):
 
-    helptext = "\nThis is the GAG LOAD menu.\n"+\
-            "Type the path to a folder containing your .fasta and .gff files.\n"+\
-            "To use the current directory, just hit enter.\n"+\
-            "You can type 'home' at any time to return to the main GAG console.\n"+\
-            "You'll be returned automatically once your genome is loaded.\n\n"+\
-            "Folder path?\n"
-
     def __init__(self, prompt_prefix, controller, path_to_load):
         GagCmdBase.__init__(self)
+        self.helptext = "\nThis is the GAG LOAD menu.\n"+\
+                "Type the path to a folder containing your .fasta and .gff files.\n"+\
+                "To use the current directory, just hit enter.\n"+\
+                "You can type 'home' at any time to return to the main GAG console.\n"+\
+                "You'll be returned automatically once your genome is loaded.\n\n"+\
+                "Folder path?\n"
         self.prompt = prompt_prefix[:-2] + " LOAD> "
         self.controller = controller
         if path_to_load:
             self.cmdqueue = [path_to_load] # Execute default method with path as arg
         else:
             print(self.helptext)
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -404,13 +379,12 @@ class LoadCmd(GagCmdBase):
 
 class ViewCmd(GagCmdBase):
 
-    helptext = "\nWelcome to the GAG VIEW menu.\n"+\
-            "You can view at the cds, gene, or seq level. Please type your choice.\n"+\
-            "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
-            "cds, gene or seq?\n"
-
     def __init__(self, prompt_prefix, controller, line):
         GagCmdBase.__init__(self)
+        self.helptext = "\nWelcome to the GAG VIEW menu.\n"+\
+                "You can view at the cds, gene, or seq level. Please type your choice.\n"+\
+                "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
+                "cds, gene or seq?\n"
         self.prompt = prompt_prefix[:-2] + " VIEW> "
         self.controller = controller
         self.context = {"go_home": False}
@@ -418,11 +392,6 @@ class ViewCmd(GagCmdBase):
             self.cmdqueue = [line] # Execute default method with passed-in line
         else:
             print(self.helptext)
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -431,9 +400,6 @@ class ViewCmd(GagCmdBase):
         return True
 
     def help_write(self):
-        print(self.helptext)
-
-    def emptyline(self):
         print(self.helptext)
 
     def do_cds(self, line):
@@ -470,13 +436,12 @@ class ViewCmd(GagCmdBase):
 
 class ViewCDSCmd(GagCmdBase):
 
-    helptext = "\nWelcome to the GAG VIEW CDS menu.\n"+\
-            "You can write a CDS to fasta, gff or tbl format.\n"+\
-            "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
-            "fasta, gff or tbl?\n"
-
     def __init__(self, prompt_prefix, controller, context, line):
         GagCmdBase.__init__(self)
+        self.helptext = "\nWelcome to the GAG VIEW CDS menu.\n"+\
+                "You can write a CDS to fasta, gff or tbl format.\n"+\
+                "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
+                "fasta, gff or tbl?\n"
         self.prompt = prompt_prefix[:-2] + " CDS> "
         self.controller = controller
         self.context = context
@@ -484,11 +449,6 @@ class ViewCDSCmd(GagCmdBase):
             self.cmdqueue = [line] # Execute default method with passed-in line
         else:
             print(self.helptext)
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -518,9 +478,6 @@ class ViewCDSCmd(GagCmdBase):
     def help_writecds(self):
         print(self.helptext)
 
-    def emptyline(self):
-        print(self.helptext)
-
     def default(self, line):
         print("Sorry, I don't know how to write to " + line + " format.")
         print(self.helptext)
@@ -529,13 +486,12 @@ class ViewCDSCmd(GagCmdBase):
 
 class ViewCDSFastaCmd(GagCmdBase):
 
-    helptext = "\nWelcome to the GAG VIEW CDS FASTA menu.\n"+\
-            "Please type the mRNA id that corresponds to the CDS you want to write.\n"+\
-            "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
-            "mRNA id?\n"
-
     def __init__(self, prompt_prefix, controller, context, line):
         GagCmdBase.__init__(self)
+        self.helptext = "\nWelcome to the GAG VIEW CDS FASTA menu.\n"+\
+                "Please type the mRNA id that corresponds to the CDS you want to write.\n"+\
+                "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
+                "mRNA id?\n"
         self.prompt = prompt_prefix[:-2] + " FASTA> "
         self.controller = controller
         self.context = context
@@ -543,11 +499,6 @@ class ViewCDSFastaCmd(GagCmdBase):
             self.cmdqueue = [line] # Execute default method with passed-in line
         else:
             print(self.helptext)
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -557,9 +508,6 @@ class ViewCDSFastaCmd(GagCmdBase):
         return True
     
     def help_writecdsfasta(self):
-        print(self.helptext)
-
-    def emptyline(self):
         print(self.helptext)
 
     def default(self, line):
@@ -576,13 +524,13 @@ class ViewCDSFastaCmd(GagCmdBase):
 
 class ViewCDSGFFCmd(GagCmdBase):
 
-    helptext = "\nWelcome to the GAG VIEW CDS GFF menu.\n"+\
-            "Please type the mRNA id that corresponds to the CDS you want to write.\n"+\
-            "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
-            "mRNA id?\n"
-
     def __init__(self, prompt_prefix, controller, context, line):
         GagCmdBase.__init__(self)
+        self.helptext = "\nWelcome to the GAG VIEW CDS GFF menu.\n"+\
+                "Please type the mRNA id that corresponds to the CDS you want to write.\n"+\
+                "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
+                "mRNA id?\n"
+
         self.prompt = prompt_prefix[:-2] + " GFF> "
         self.controller = controller
         self.context = context
@@ -590,11 +538,6 @@ class ViewCDSGFFCmd(GagCmdBase):
             self.cmdqueue = [line] # Execute default method with passed-in line
         else:
             print(self.helptext)
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -604,9 +547,6 @@ class ViewCDSGFFCmd(GagCmdBase):
         return True
     
     def help_writecdsgff(self):
-        print(self.helptext)
-
-    def emptyline(self):
         print(self.helptext)
 
     def default(self, line):
@@ -623,13 +563,12 @@ class ViewCDSGFFCmd(GagCmdBase):
 
 class ViewCDSTBLCmd(GagCmdBase):
 
-    helptext = "\nWelcome to the GAG VIEW CDS TBL menu.\n"+\
-            "Please type the mRNA id that corresponds to the CDS you want to write.\n"+\
-            "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
-            "mRNA id?\n"
-
     def __init__(self, prompt_prefix, controller, context, line):
         GagCmdBase.__init__(self)
+        self.helptext = "\nWelcome to the GAG VIEW CDS TBL menu.\n"+\
+                "Please type the mRNA id that corresponds to the CDS you want to write.\n"+\
+                "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
+                "mRNA id?\n"
         self.prompt = prompt_prefix[:-2] + " TBL> "
         self.controller = controller
         self.context = context
@@ -637,11 +576,6 @@ class ViewCDSTBLCmd(GagCmdBase):
             self.cmdqueue = [line] # Execute default method with passed-in line
         else:
             print(self.helptext)
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -651,9 +585,6 @@ class ViewCDSTBLCmd(GagCmdBase):
         return True
     
     def help_writecdstbl(self):
-        print(self.helptext)
-
-    def emptyline(self):
         print(self.helptext)
 
     def default(self, line):
@@ -670,13 +601,12 @@ class ViewCDSTBLCmd(GagCmdBase):
 
 class ViewGeneCmd(GagCmdBase):
 
-    helptext = "\nWelcome to the GAG VIEW GENE menu.\n"+\
-            "You can write a gene to gff or tbl format.\n"+\
-            "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
-            "gff or tbl?\n"
-
     def __init__(self, prompt_prefix, controller, context, line):
         GagCmdBase.__init__(self)
+        self.helptext = "\nWelcome to the GAG VIEW GENE menu.\n"+\
+                "You can write a gene to gff or tbl format.\n"+\
+                "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
+                "gff or tbl?\n"
         self.prompt = prompt_prefix[:-2] + " GENE> "
         self.controller = controller
         self.context = context
@@ -684,11 +614,6 @@ class ViewGeneCmd(GagCmdBase):
             self.cmdqueue = [line] # Execute default method with passed-in line
         else:
             print(self.helptext)
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -712,9 +637,6 @@ class ViewGeneCmd(GagCmdBase):
     def help_writegene(self):
         print(self.helptext)
 
-    def emptyline(self):
-        print(self.helptext)
-
     def default(self, line):
         print("Sorry, I don't know how to write to " + line + " format.")
         print(self.helptext)
@@ -723,13 +645,12 @@ class ViewGeneCmd(GagCmdBase):
 
 class WriteGeneGFFCmd(GagCmdBase):
 
-    helptext = "\nWelcome to the GAG VIEW GENE GFF menu.\n"+\
-            "Please type the gene id that you want to write.\n"+\
-            "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
-            "gene id?\n"
-
     def __init__(self, prompt_prefix, controller, context, line):
         GagCmdBase.__init__(self)
+        self.helptext = "\nWelcome to the GAG VIEW GENE GFF menu.\n"+\
+                "Please type the gene id that you want to write.\n"+\
+                "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
+                "gene id?\n"
         self.prompt = prompt_prefix[:-2] + " GFF> "
         self.controller = controller
         self.context = context
@@ -737,11 +658,6 @@ class WriteGeneGFFCmd(GagCmdBase):
             self.cmdqueue = [line] # Execute default method with passed-in line
         else:
             print(self.helptext)
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -751,9 +667,6 @@ class WriteGeneGFFCmd(GagCmdBase):
         return True
     
     def help_writegenegff(self):
-        print(self.helptext)
-
-    def emptyline(self):
         print(self.helptext)
 
     def default(self, line):
@@ -770,13 +683,12 @@ class WriteGeneGFFCmd(GagCmdBase):
 
 class WriteGeneTBLCmd(GagCmdBase):
 
-    helptext = "\nWelcome to the GAG VIEW GENE TBL menu.\n"+\
-            "Please type the gene id that you want to write.\n"+\
-            "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
-            "gene id?\n"
-
     def __init__(self, prompt_prefix, controller, context, line):
         GagCmdBase.__init__(self)
+        self.helptext = "\nWelcome to the GAG VIEW GENE TBL menu.\n"+\
+                "Please type the gene id that you want to write.\n"+\
+                "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
+                "gene id?\n"
         self.prompt = prompt_prefix[:-2] + " TBL> "
         self.controller = controller
         self.context = context
@@ -784,11 +696,6 @@ class WriteGeneTBLCmd(GagCmdBase):
             self.cmdqueue = [line] # Execute default method with passed-in line
         else:
             print(self.helptext)
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -798,9 +705,6 @@ class WriteGeneTBLCmd(GagCmdBase):
         return True
     
     def help_writegenegff(self):
-        print(self.helptext)
-
-    def emptyline(self):
         print(self.helptext)
 
     def default(self, line):
@@ -817,14 +721,13 @@ class WriteGeneTBLCmd(GagCmdBase):
 
 class ViewSeqCmd(GagCmdBase):
 
-    helptext = "\nWelcome to the GAG VIEW SEQ menu.\n"+\
-            "(Type 'home' at any time to return to the main GAG console.)\n"+\
-            "Please type the seq id you wish to write. To write a subsequence,\n"+\
-            "follow the seq id with the start and stop bases.\n\n"+\
-            "seq id [start base] [stop base]?\n"
-
     def __init__(self, prompt_prefix, controller, context, line):
         GagCmdBase.__init__(self)
+        self.helptext = "\nWelcome to the GAG VIEW SEQ menu.\n"+\
+                "(Type 'home' at any time to return to the main GAG console.)\n"+\
+                "Please type the seq id you wish to write. To write a subsequence,\n"+\
+                "follow the seq id with the start and stop bases.\n\n"+\
+                "seq id [start base] [stop base]?\n"
         self.prompt = prompt_prefix[:-2] + " SEQ> "
         self.controller = controller
         self.context = context
@@ -832,11 +735,6 @@ class ViewSeqCmd(GagCmdBase):
             self.cmdqueue = [line] # Execute default method with passed-in line
         else:
             print(self.helptext)
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -846,9 +744,6 @@ class ViewSeqCmd(GagCmdBase):
         return True
     
     def help_writeseq(self):
-        print(self.helptext)
-
-    def emptyline(self):
         print(self.helptext)
 
     def default(self, line):
@@ -867,25 +762,19 @@ class ViewSeqCmd(GagCmdBase):
 
 class WriteCmd(GagCmdBase):
 
-    helptext = "\nWelcome to the GAG WRITE menu. From here you can write your genome to a folder.\n"+\
-            "Please type a name for the folder to contain the files.\n"+\
-            "The folder will be created -- in other words, don't give an existing folder.\n"+\
-            "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
-            "folder name?\n"
-
     def __init__(self, prompt_prefix, controller, line):
         GagCmdBase.__init__(self)
+        self.helptext = "\nWelcome to the GAG WRITE menu. From here you can write your genome to a folder.\n"+\
+                "Please type a name for the folder to contain the files.\n"+\
+                "The folder will be created -- in other words, don't give an existing folder.\n"+\
+                "(Type 'home' at any time to return to the main GAG console.)\n\n"+\
+                "folder name?\n"
         self.prompt = prompt_prefix[:-2] + " WRITE> "
         self.controller = controller
         if line:
             self.cmdqueue = [line] # Execute default method with passed-in line
         else:
             print(self.helptext)
-        readline.set_history_length(1000)
-        try:
-            readline.read_history_file('.gaghistory')
-        except IOError:
-            sys.stderr.write("No .gaghistory file available...\n")
 
     def help_home(self):
         print("\nExit this console and return to the main GAG console.\n")
@@ -894,9 +783,6 @@ class WriteCmd(GagCmdBase):
         return True
     
     def help_write(self):
-        print(self.helptext)
-
-    def emptyline(self):
         print(self.helptext)
 
     def default(self, line):
