@@ -212,7 +212,7 @@ class RemoveCmd(GagCmdBase):
         self.helptext = "\nThis is the GAG REMOVE menu.\n"+\
         "(You can type 'home' at any time to return to the main GAG console.)\n\n"+\
         " - Here you can remove features based on certain criteria.\n"+\
-        " - You can view the effects of removal by typing 'info' in the main GAG console.\n\n"
+        " - You can view the effects of removal by typing 'info' in the main GAG console.\n\n"+\
         "You can remove:\n\n"+\
         "\n".join(controller.filter_mgr.filters.keys())+ "\n"
         self.prompt = prompt_prefix[:-2] + " REMOVE> "
