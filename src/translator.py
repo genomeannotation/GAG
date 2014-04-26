@@ -54,11 +54,12 @@ def reverse_complement(seq):
     complements = ['t', 'g', 'c', 'a', 'n', 'T', 'G', 'C', 'A', 'N']
     rev_comp_dict = dict(zip(bases, complements))
     # Convert mixed or illegal bases to 'N'
-    seq = ['N' if base not in 'actgACTG' else base for base in seq]
+    for i, base in enumerate(seq):
+        if base not in 'actgnACTGN':
+            seq = seq[0:i] + 'N' + seq[i+1:]
     return ''.join([rev_comp_dict.get(base) for base in reversed(seq)])
 
 def translate(seq, strand):
-    print("translating " + seq)
     seq = seq.lower().replace('\n', '').replace(' ', '')
 
     if not verify_inputs(seq, strand):

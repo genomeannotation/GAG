@@ -46,7 +46,6 @@ class TestCDS(unittest.TestCase):
         seq_object = Mock()
         seq_object.get_subseq.return_value = 'GATTACA'
         strand = '+'
-        seq_name = 'seq1'
         seq = self.test_cds1.extract_sequence(seq_object, strand)
         expected = 'GATTACAGATTACAGATTACAGATTACAGATTACA'
         self.assertEquals(expected, seq)
@@ -55,10 +54,9 @@ class TestCDS(unittest.TestCase):
         seq_object = Mock()
         seq_object.get_subseq.return_value = 'GATTACA'
         strand = '-'
-        seq_name = 'seq1'
-        seq = self.test_cds1.extract_sequence(seq_object, strand)
+        result = self.test_cds1.extract_sequence(seq_object, strand)
         expected = 'TGTAATCTGTAATCTGTAATCTGTAATCTGTAATC'
-        self.assertEquals(expected, seq)
+        self.assertEquals(expected, result)
 
     def test_cds_constructor(self):
         self.assertEquals('CDS', self.test_cds0.__class__.__name__)

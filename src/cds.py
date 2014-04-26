@@ -55,18 +55,13 @@ class CDS(GenePart):
             CDS has no indices)
         """
         seq = ''
-        if strand == '+':
-            for i in xrange(len(self.indices)):
-                index_pair = self.indices[i]
-                subseq = seq_object.get_subseq(index_pair[0], index_pair[1])
-                if subseq:
-                    seq += subseq
-        elif strand == '-':
-            for i in xrange(len(self.indices)):
-                index_pair = self.indices[i]
-                non_reversed_seq = seq_object.get_subseq(index_pair[0], index_pair[1])
-                if non_reversed_seq:
-                    seq += translate.reverse_complement(non_reversed_seq)
+        for i in xrange(len(self.indices)):
+            index_pair = self.indices[i]
+            subseq = seq_object.get_subseq(index_pair[0], index_pair[1])
+            if subseq:
+                seq += subseq
+        if strand == '-':
+            seq = translate.reverse_complement(seq)
         return seq
 
     def to_tbl(self, has_start, has_stop):
