@@ -27,7 +27,6 @@ class SeqHelper:
 
     def mrna_to_cds_fasta(self, mrna):
         """Writes a two-line fasta-style entry consisting of all CDS sequence."""
-
         if not mrna.cds:
             return ""
         identifier = ">" + mrna.identifier + " CDS"
@@ -37,7 +36,6 @@ class SeqHelper:
 
     def mrna_to_protein_fasta(self, mrna):
         """Writes a two-line fasta-style entry consisting of the translation of CDS sequence."""
-
         if not mrna.cds:
             return ""
         identifier = ">" + mrna.identifier + " protein"
@@ -52,16 +50,11 @@ class SeqHelper:
         return result
 
     def get_sequence_from_indices(self, strand, indices):
-        if strand == '+':
-            positive = True
-        else:
-            positive = False
         result = ""
         for index_pair in indices:
             start = index_pair[0]-1
             stop = index_pair[1]
-            if positive:
-                result += self.full_sequence[start:stop]
-            else:
-                result += reverse_complement(self.full_sequence[start:stop])
+            result += self.full_sequence[start:stop]
+        if strand == '-':
+            result = reverse_complement(result)
         return result

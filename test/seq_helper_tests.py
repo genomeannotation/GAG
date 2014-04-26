@@ -25,7 +25,7 @@ class TestSeqHelper(unittest.TestCase):
         mrna = Mock()
         mrna.identifier = "foo_mrna"
         mrna.exon = Mock()
-        mrna.exon.indices = [[21, 27], [4, 10]]
+        mrna.exon.indices = [[4, 10], [21, 27]]
         mrna.strand = '-'
         expected = ">foo_mrna\ntgtaatcTGTAATC\n"
         self.assertEquals(expected, self.helper.mrna_to_fasta(mrna))
@@ -34,7 +34,7 @@ class TestSeqHelper(unittest.TestCase):
         mrna = Mock()
         mrna.identifier = "foo_mrna"
         mrna.cds = Mock()
-        mrna.cds.indices = [[21, 27], [4, 10]]
+        mrna.cds.indices = [[4, 10], [21, 27]]
         mrna.strand = '-'
         expected = ">foo_mrna CDS\ntgtaatcTGTAATC\n"
         self.assertEquals(expected, self.helper.mrna_to_cds_fasta(mrna))
