@@ -175,7 +175,7 @@ class TestGene(unittest.TestCase):
         mrna2.to_tbl.return_value = "mrna2_to_tbl...\n"
         gene.mrnas.append(mrna1)
         gene.mrnas.append(mrna2)
-        expected = "1\t50\tgene\n\t\t\tlocus_tag\tfoo_gene_1\n\t\t\tfoo\tdog\nmrna1_to_tbl...\nmrna2_to_tbl...\n"
+        expected = "1\t50\tgene\n\t\t\tlocus_tag\tfoo_gene_1\nmrna1_to_tbl...\nmrna2_to_tbl...\n"
         self.assertEquals(gene.to_tbl(), expected)
 
     def test_gene_initialized_without_annotations(self):

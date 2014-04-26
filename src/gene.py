@@ -262,8 +262,8 @@ class Gene:
             indices = self.indices
         output = str(indices[0]) + "\t" + str(indices[1]) + "\t" + "gene\n"
         output += "\t\t\tlocus_tag\t" + self.identifier + "\n"
-        for annot in self.annotations:
-            output += '\t\t\t'+annot[0]+'\t'+annot[1]+'\n'
+        # TODO sometimes we need to write 'gene\tAbc5'
+        # ...this depends on whether we HAVE a gene name or ?
         for mrna in self.mrnas:
             output += mrna.to_tbl()
         return output
