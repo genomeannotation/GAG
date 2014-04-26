@@ -41,6 +41,9 @@ class TestTranslate(unittest.TestCase):
         self.assertEquals('C', reverse_complement('G'))
         self.assertEquals('CAT', reverse_complement('ATG'))
 
+    def test_reverse_complement_with_bogus_base(self):
+        self.assertEquals('CATN', reverse_complement('MATG'))
+
     def test_translate_with_n_in_seq(self):
         test_seq = 'CATGACAGAAGATNTTTC'
         self.assertEquals('HDRRXF', translate(test_seq, '+'))
