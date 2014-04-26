@@ -131,7 +131,7 @@ class GagCmd(GagCmdBase):
 
     def help_write(self):
         print("\nThis command takes you to the GAG WRITE menu.")
-        print("There you can write your genome to a file.\n")
+        print("There you can write your genome to a folder.\n")
         
     def do_write(self, line):
         if self.controller.genome_is_loaded():
