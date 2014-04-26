@@ -62,8 +62,9 @@ def reverse_complement(seq):
 def translate(seq, strand):
     seq = seq.lower().replace('\n', '').replace(' ', '')
 
-    if not verify_inputs(seq, strand):
-        return None
+    # Verify strand
+    if not valid_strand(strand):
+        return ""
 
     # Adjust according to strand
     if strand == '-':

@@ -9,14 +9,6 @@ class TestTranslate(unittest.TestCase):
         self.assertEquals('T', translate('act', '+'))
         self.assertEquals('S', translate('act', '-'))
 
-    def test_translate_error_handling(self):
-        sys.stderr.write("test should generate an error message:\n")
-        self.assertFalse(translate('ac', '+'))
-        sys.stderr.write("test should generate an error message:\n")
-        self.assertFalse(translate('acx', '+'))
-        sys.stderr.write("test should generate an error message:\n")
-        self.assertFalse(translate('act', 'u'))
-
     def test_translate_longer_sequence(self):
         test_seq = 'CATGACAGAAGATATTTC'
         self.assertEquals('HDRRYF', translate(test_seq, '+',))
