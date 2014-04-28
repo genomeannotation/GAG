@@ -124,17 +124,20 @@ class MinIntronLengthFilter:
     def apply(self, seq):
         for gene in seq.genes:
             for mrna in gene.mrnas:
-                if mrna.exon and mrna.get_shortest_intron() < self.arg:
+                if mrna.exon and mrna.get_shortest_intron() < self.arg and mrna.get_shortest_intron() != 0:
+                    print("\n\n\nmrna.exon and getshortestintron < self.arg...")
                     mrna.exon.add_annotation("gag_flag", "intron_min_length:"+str(self.arg))
                     mrna.death_flagged = True # Destroy the mRNA that the intron lives on?
             if self.remove:
                 to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
+                print(to_remove)
                 for mrna in to_remove:
                     gene.remove_mrna(mrna.identifier)
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
             # Mark empty genes for removal
             if not gene.mrnas:
+                print("\n\n\nnot gene.mrnas")
                 gene.death_flagged = True
         # Remove empty genes
         to_remove = [g for g in seq.genes if g.death_flagged]

@@ -265,6 +265,23 @@ class TestFilters(unittest.TestCase):
         self.assertEqual(seq.genes[0].mrnas, [test_mrna1, test_mrna2])
         self.assertEqual(seq.genes[1].mrnas, [test_mrna3])
 
+    def test_min_intron_length_filter_doesnt_remove_single_exon_mrnas(self):
+        intron_length = MinIntronLengthFilter(30)
+        seq = Sequence()
+        gene, mrna, exon = Mock(), Mock(), Mock()
+        gene.death_flagged = False
+        seq.genes = [gene]
+        gene.mrnas = [mrna]
+        mrna.identifier = "badmrna"
+        mrna.get_shortest_intron.return_value = 0
+        mrna.death_flagged = False
+        mrna.exon = exon
+        self.assertEquals(1, len(seq.genes[0].mrnas))
+        intron_length.apply(seq)
+        # Filter shouldn't remove mRNA based on a shortest_intron = 0 return value
+        self.assertEquals(1, len(seq.genes[0].mrnas))
+        assert not gene.remove_mrna.called
+
 ###################################################################################################
 
     def test_max_intron_length_filter(self):
