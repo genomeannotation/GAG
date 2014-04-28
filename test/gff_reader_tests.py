@@ -11,6 +11,15 @@ class TestGFFReader(unittest.TestCase):
     def setUp(self):
         self.reader = GFFReader()
 
+    def tearDown(self):
+        # Remove extra files created by GFFReader
+        try:
+            os.remove("genome.comments.gff")
+            os.remove("genome.invalid.gff")
+            os.remove("genome.ignored.gff")
+        except OSError:
+            pass
+
     def test_validate_line_not_enough_fields(self):
         badline = "scaffold00080\tmaker\tgene\t106151\t109853\t+\t.\tID=BDOR_007864\n"
         self.assertFalse(self.reader.validate_line(badline))
@@ -111,10 +120,6 @@ class TestGFFReader(unittest.TestCase):
         self.assertEquals(2, len(genes))
         self.assertEquals('BDOR_007864-RA', genes[0].mrnas[0].identifier)
         self.assertEquals([179489, 179691], genes[1].mrnas[0].cds.indices[2])
-        # Remove extra files created by GFFReader
-        os.remove("genome.comments.gff")
-        os.remove("genome.invalid.gff")
-        os.remove("genome.ignored.gff")
 
     def get_sample_text(self):
         sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n"
