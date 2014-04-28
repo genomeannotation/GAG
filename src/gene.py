@@ -15,6 +15,7 @@ class Gene:
         self.strand = strand
         self.identifier = identifier
         self.mrnas = []
+        self.removed_mrnas = []
         if not annotations:
             self.annotations = []
         else:
@@ -39,6 +40,17 @@ class Gene:
         for mrna in self.mrnas:
             result.append(mrna.identifier)
         return result
+    
+    def remove_mrna(self, mrna_id):
+        to_remove = None
+        for mrna in self.mrnas:
+            if mrna.identifier == mrna_id:
+                to_remove = mrna
+        if to_remove:
+            self.mrnas.remove(to_remove)
+            self.removed_mrnas.append(to_remove)
+            return True
+        return False # Return false if mrna wasn't removed
         
     def add_annotation(self, key, value):
         """Adds an annotation key, value pair to the gene.

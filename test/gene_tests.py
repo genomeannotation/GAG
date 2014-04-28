@@ -9,10 +9,15 @@ class TestGene(unittest.TestCase):
     def setUp(self):
         self.test_gene0 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[3734, 7436], strand='+', identifier=1)
         self.test_gene1 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[3734, 7436], strand='+', identifier=1)
+        
         self.fake_mrna1 = Mock()
+        self.fake_mrna1.identifier = "fake_mrna1"
         self.fake_mrna1.death_flagged = False
+        
         self.fake_mrna2 = Mock()
+        self.fake_mrna2.identifier = "fake_mrna2"
         self.fake_mrna2.death_flagged = False
+        
         self.test_gene1.mrnas.append(self.fake_mrna1)
         self.test_gene1.mrnas.append(self.fake_mrna2)
 
@@ -34,10 +39,15 @@ class TestGene(unittest.TestCase):
         self.assertEquals(4, self.test_gene1.number_of_gagflags())
 
     def test_get_mrna_ids(self):
-        self.fake_mrna1.identifier = "fake_mrna1"
-        self.fake_mrna2.identifier = "fake_mrna2"
         expected = ["fake_mrna1", "fake_mrna2"]
         self.assertEquals(self.test_gene1.get_mrna_ids(), expected)
+    
+    def test_remove_mrna(self):
+        self.assertEquals(self.test_gene1.mrnas, [self.fake_mrna1, self.fake_mrna2])
+        self.assertEquals(len(self.test_gene1.removed_mrnas), 0)
+        self.test_gene1.remove_mrna('fake_mrna1')
+        self.assertEquals(self.test_gene1.mrnas, [self.fake_mrna2])
+        self.assertEquals(self.test_gene1.removed_mrnas, [self.fake_mrna1])
 
     def test_get_longest_exon(self):
         self.fake_mrna1.get_longest_exon.return_value = 10
