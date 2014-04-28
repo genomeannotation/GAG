@@ -2,6 +2,7 @@
 
 import unittest
 import io
+import os
 from mock import Mock, patch, PropertyMock
 from src.gff_reader import *
 
