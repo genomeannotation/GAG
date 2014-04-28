@@ -2,6 +2,7 @@
 
 import unittest
 from mock import Mock
+from src.sequence import Sequence
 from src.filters import *
 
 class TestFilters(unittest.TestCase):
@@ -10,10 +11,10 @@ class TestFilters(unittest.TestCase):
         cds_length = MinCDSLengthFilter(30)
     
         # Create a mock sequence
-        seq = Mock()
+        seq = Sequence()
         
         # Give the mock sequence some mock genes
-        seq.genes = [Mock(), Mock(), Mock()]
+        seq.genes = [Mock(identifier = 'foo1'), Mock(identifier = 'foo2'), Mock(identifier = 'foo3')]
         
         # Give the mock mrnas some cds's
         test_mrna0 = Mock()
@@ -60,10 +61,10 @@ class TestFilters(unittest.TestCase):
         cds_length = MaxCDSLengthFilter(100)
     
         # Create a mock sequence
-        seq = Mock()
+        seq = Sequence()
         
         # Give the mock sequence some mock genes
-        seq.genes = [Mock(), Mock(), Mock()]
+        seq.genes = [Mock(identifier = 'foo1'), Mock(identifier = 'foo2'), Mock(identifier = 'foo3')]
         
         # Give the mock mrnas some cds's
         test_mrna0 = Mock()
@@ -110,10 +111,10 @@ class TestFilters(unittest.TestCase):
         exon_length = MinExonLengthFilter(30)
     
         # Create a mock sequence
-        seq = Mock()
+        seq = Sequence()
         
         # Give the mock sequence some mock genes
-        seq.genes = [Mock(), Mock(), Mock()]
+        seq.genes = [Mock(identifier = 'foo1'), Mock(identifier = 'foo2'), Mock(identifier = 'foo3')]
         
         # Give the mock mrnas some exon's
         test_mrna0 = Mock()
@@ -163,10 +164,10 @@ class TestFilters(unittest.TestCase):
         exon_length = MaxExonLengthFilter(30)
     
         # Create a mock sequence
-        seq = Mock()
+        seq = Sequence()
         
         # Give the mock sequence some mock genes
-        seq.genes = [Mock(), Mock(), Mock()]
+        seq.genes = [Mock(identifier = 'foo1'), Mock(identifier = 'foo2'), Mock(identifier = 'foo3')]
         
         # Give the mock mrnas some exon's
         test_mrna0 = Mock()
@@ -216,10 +217,10 @@ class TestFilters(unittest.TestCase):
         intron_length = MinIntronLengthFilter(30)
     
         # Create a mock sequence
-        seq = Mock()
+        seq = Sequence()
         
         # Give the mock sequence some mock genes
-        seq.genes = [Mock(), Mock(), Mock()]
+        seq.genes = [Mock(identifier = 'foo1'), Mock(identifier = 'foo2'), Mock(identifier = 'foo3')]
         
         # Give the mock mrnas some exon's
         test_mrna0 = Mock()
@@ -269,10 +270,10 @@ class TestFilters(unittest.TestCase):
         intron_length = MaxIntronLengthFilter(30)
     
         # Create a mock sequence
-        seq = Mock()
+        seq = Sequence()
         
         # Give the mock sequence some mock genes
-        seq.genes = [Mock(), Mock(), Mock()]
+        seq.genes = [Mock(identifier = 'foo1'), Mock(identifier = 'foo2'), Mock(identifier = 'foo3')]
         
         # Give the mock mrnas some exon's
         test_mrna0 = Mock()
@@ -322,11 +323,10 @@ class TestFilters(unittest.TestCase):
         gene_length_range = MinGeneLengthFilter(30)
     
         # Create a mock sequence
-        seq = Mock()
-        
-        test_gene0 = Mock()
-        test_gene1 = Mock()
-        test_gene2 = Mock()
+        seq = Sequence()
+        test_gene0 = Mock(identifier = 'foo1')
+        test_gene1 = Mock(identifier = 'foo2')
+        test_gene2 = Mock(identifier = 'foo3')
         
         test_gene0.death_flagged = False
         test_gene1.death_flagged = False
@@ -350,13 +350,11 @@ class TestFilters(unittest.TestCase):
         gene_length_range = MaxGeneLengthFilter(30)
     
         # Create a mock sequence
-        seq = Mock()
+        seq = Sequence()
         
-        test_gene0 = Mock()
-        test_gene1 = Mock()
-        test_gene2 = Mock()
-        test_gene3 = Mock()
-        test_gene4 = Mock()
+        test_gene0 = Mock(identifier = 'foo1')
+        test_gene1 = Mock(identifier = 'foo2')
+        test_gene2 = Mock(identifier = 'foo3')
         
         test_gene0.death_flagged = False
         test_gene1.death_flagged = False

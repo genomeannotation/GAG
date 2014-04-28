@@ -23,7 +23,11 @@ class MinCDSLengthFilter:
             if not gene.mrnas:
                 gene.death_flagged = True
         # Remove empty genes
-        seq.genes = [g for g in seq.genes if not g.death_flagged]
+        to_remove = [g for g in seq.genes if g.death_flagged]
+        print("Remove "+str(to_remove))
+        for gene in to_remove:
+            print("Remove "+gene.identifier)
+            seq.remove_gene(gene.identifier)
         
 class MaxCDSLengthFilter:
 
@@ -46,7 +50,9 @@ class MaxCDSLengthFilter:
             if not gene.mrnas:
                 gene.death_flagged = True
         # Remove empty genes
-        seq.genes = [g for g in seq.genes if not g.death_flagged]
+        to_remove = [g for g in seq.genes if g.death_flagged]
+        for gene in to_remove:
+            seq.remove_gene(gene.identifier)
         
 ###################################################################################################
                     
@@ -71,7 +77,9 @@ class MinExonLengthFilter:
             if not gene.mrnas:
                 gene.death_flagged = True
         # Remove empty genes
-        seq.genes = [g for g in seq.genes if not g.death_flagged]
+        to_remove = [g for g in seq.genes if g.death_flagged]
+        for gene in to_remove:
+            seq.remove_gene(gene.identifier)
         
 class MaxExonLengthFilter:
 
@@ -94,7 +102,9 @@ class MaxExonLengthFilter:
             if not gene.mrnas:
                 gene.death_flagged = True
         # Remove empty genes
-        seq.genes = [g for g in seq.genes if not g.death_flagged]
+        to_remove = [g for g in seq.genes if g.death_flagged]
+        for gene in to_remove:
+            seq.remove_gene(gene.identifier)
 
 ###################################################################################################
 
@@ -119,7 +129,9 @@ class MinIntronLengthFilter:
             if not gene.mrnas:
                 gene.death_flagged = True
         # Remove empty genes
-        seq.genes = [g for g in seq.genes if not g.death_flagged]
+        to_remove = [g for g in seq.genes if g.death_flagged]
+        for gene in to_remove:
+            seq.remove_gene(gene.identifier)
 
 class MaxIntronLengthFilter:
 
@@ -142,7 +154,9 @@ class MaxIntronLengthFilter:
             if not gene.mrnas:
                 gene.death_flagged = True
         # Remove empty genes
-        seq.genes = [g for g in seq.genes if not g.death_flagged]
+        to_remove = [g for g in seq.genes if g.death_flagged]
+        for gene in to_remove:
+            seq.remove_gene(gene.identifier)
 
 ###################################################################################################
 
