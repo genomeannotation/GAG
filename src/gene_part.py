@@ -74,7 +74,6 @@ def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, annotations = 
         output += str(indices[-1][1]) + "\n"
     if is_cds:
         output += "\t\t\tcodon_start\t" + str(phase+1) + "\n"
-    output += "\t\t\tproduct\thypothetical protein\n"
     return output
 
 class GenePart:

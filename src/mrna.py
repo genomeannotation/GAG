@@ -210,8 +210,15 @@ class MRNA:
         output = ""
         if self.exon:
             output += self.exon.to_tbl(has_start, has_stop)
+            # Write the annotations
+            for annot in self.annotations:
+                output += '\t\t\t'+annot[0]+'\t'+annot[1]+'\n'
+    #output += "\t\t\tproduct\thypothetical protein\n"
         if self.cds:
             output += self.cds.to_tbl(has_start, has_stop)
+            # Write the annotations again
+            for annot in self.annotations:
+                output += '\t\t\t'+annot[0]+'\t'+annot[1]+'\n'
         return output
 
     ## STATS STUFF ##
@@ -220,7 +227,6 @@ class MRNA:
         """Returns length of longest exon contained on mRNA."""
         if not self.exon:
             return 0
-    
         longest = 0
         for index_pair in self.exon.indices:
             if length_of_segment(index_pair) > longest:

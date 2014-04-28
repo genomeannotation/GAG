@@ -73,7 +73,6 @@ class TestExon(unittest.TestCase):
         expected += "4399\t5185\n"
         expected += "5249\t6565\n"
         expected += "6630\t7436\n"
-        expected += "\t\t\tproduct\thypothetical protein\n"  # TODO annotations :)
         self.test_exon1.strand = '+'
         self.assertEquals(self.test_exon1.to_tbl(True, True), expected)
 
@@ -83,7 +82,6 @@ class TestExon(unittest.TestCase):
         expected += "4399\t5185\n"
         expected += "5249\t6565\n"
         expected += "6630\t7436\n"
-        expected += "\t\t\tproduct\thypothetical protein\n"  # TODO annotations :)
         self.test_exon1.strand = '+'
         self.assertEquals(self.test_exon1.to_tbl(False, True), expected)
 
@@ -93,7 +91,6 @@ class TestExon(unittest.TestCase):
         expected += "5185\t4399\n"
         expected += "4332\t4092\n"
         expected += "4034\t3734\n"
-        expected += "\t\t\tproduct\thypothetical protein\n"
         self.test_exon1.strand = '-'
         self.assertEquals(self.test_exon1.to_tbl(True, True), expected)
 
@@ -103,7 +100,6 @@ class TestExon(unittest.TestCase):
         expected += "5185\t4399\n"
         expected += "4332\t4092\n"
         expected += "4034\t>3734\n"
-        expected += "\t\t\tproduct\thypothetical protein\n"
         self.test_exon1.strand = '-'
         self.assertEquals(self.test_exon1.to_tbl(False, False), expected)
 
