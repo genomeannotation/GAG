@@ -2,6 +2,7 @@
 
 import unittest
 from mock import Mock
+from src.gene import Gene
 from src.sequence import Sequence
 from src.filters import *
 
@@ -13,8 +14,8 @@ class TestFilters(unittest.TestCase):
         # Create a mock sequence
         seq = Sequence()
         
-        # Give the mock sequence some mock genes
-        seq.genes = [Mock(identifier = 'foo1'), Mock(identifier = 'foo2'), Mock(identifier = 'foo3')]
+        # Give the sequence some genes
+        seq.genes = [Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo1'), Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo2'), Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo3')]
         
         # Give the mock mrnas some cds's
         test_mrna0 = Mock()
@@ -63,8 +64,8 @@ class TestFilters(unittest.TestCase):
         # Create a mock sequence
         seq = Sequence()
         
-        # Give the mock sequence some mock genes
-        seq.genes = [Mock(identifier = 'foo1'), Mock(identifier = 'foo2'), Mock(identifier = 'foo3')]
+        # Give the sequence some genes
+        seq.genes = [Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo1'), Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo2'), Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo3')]
         
         # Give the mock mrnas some cds's
         test_mrna0 = Mock()
@@ -113,8 +114,8 @@ class TestFilters(unittest.TestCase):
         # Create a mock sequence
         seq = Sequence()
         
-        # Give the mock sequence some mock genes
-        seq.genes = [Mock(identifier = 'foo1'), Mock(identifier = 'foo2'), Mock(identifier = 'foo3')]
+        # Give the sequence some genes
+        seq.genes = [Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo1'), Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo2'), Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo3')]
         
         # Give the mock mrnas some exon's
         test_mrna0 = Mock()
@@ -166,8 +167,8 @@ class TestFilters(unittest.TestCase):
         # Create a mock sequence
         seq = Sequence()
         
-        # Give the mock sequence some mock genes
-        seq.genes = [Mock(identifier = 'foo1'), Mock(identifier = 'foo2'), Mock(identifier = 'foo3')]
+        # Give the sequence some genes
+        seq.genes = [Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo1'), Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo2'), Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo3')]
         
         # Give the mock mrnas some exon's
         test_mrna0 = Mock()
@@ -219,8 +220,8 @@ class TestFilters(unittest.TestCase):
         # Create a mock sequence
         seq = Sequence()
         
-        # Give the mock sequence some mock genes
-        seq.genes = [Mock(identifier = 'foo1'), Mock(identifier = 'foo2'), Mock(identifier = 'foo3')]
+        # Give the sequence some genes
+        seq.genes = [Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo1'), Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo2'), Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo3')]
         
         # Give the mock mrnas some exon's
         test_mrna0 = Mock()
@@ -272,8 +273,8 @@ class TestFilters(unittest.TestCase):
         # Create a mock sequence
         seq = Sequence()
         
-        # Give the mock sequence some mock genes
-        seq.genes = [Mock(identifier = 'foo1'), Mock(identifier = 'foo2'), Mock(identifier = 'foo3')]
+        # Give the sequence some genes
+        seq.genes = [Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo1'), Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo2'), Gene('foo_seq', 'geib_labs', [1, 2], '+', 'foo3')]
         
         # Give the mock mrnas some exon's
         test_mrna0 = Mock()
@@ -336,7 +337,7 @@ class TestFilters(unittest.TestCase):
         test_gene1.length = Mock(return_value=30)
         test_gene2.length = Mock(return_value=40)
         
-        # Give the mock sequence some mock genes
+        # Give the sequence some genes
         seq.genes = [test_gene0, test_gene1, test_gene2]
         
         # Apply the filter
@@ -364,7 +365,7 @@ class TestFilters(unittest.TestCase):
         test_gene1.length = Mock(return_value=30)
         test_gene2.length = Mock(return_value=40)
         
-        # Give the mock sequence some mock genes
+        # Give the sequence some genes
         seq.genes = [test_gene0, test_gene1, test_gene2]
         
         # Apply the filter

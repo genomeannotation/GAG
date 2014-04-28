@@ -16,7 +16,9 @@ class MinCDSLengthFilter:
                     mrna.cds.add_annotation('gag_flag', "cds_min_length:"+str(self.arg))
                     mrna.death_flagged = True # Destroy the mRNA that the cds lives on?
             if self.remove:
-                gene.mrnas = [mrna for mrna in gene.mrnas if not mrna.death_flagged]
+                to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
+                for mrna in to_remove:
+                    gene.remove_mrna(mrna.identifier)
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
             # Mark empty genes for removal
@@ -24,9 +26,7 @@ class MinCDSLengthFilter:
                 gene.death_flagged = True
         # Remove empty genes
         to_remove = [g for g in seq.genes if g.death_flagged]
-        print("Remove "+str(to_remove))
         for gene in to_remove:
-            print("Remove "+gene.identifier)
             seq.remove_gene(gene.identifier)
         
 class MaxCDSLengthFilter:
@@ -43,7 +43,9 @@ class MaxCDSLengthFilter:
                     mrna.cds.add_annotation('gag_flag', "cds_max_length:"+str(self.arg))
                     mrna.death_flagged = True # Destroy the mRNA that the cds lives on?
             if self.remove:
-                gene.mrnas = [mrna for mrna in gene.mrnas if not mrna.death_flagged]
+                to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
+                for mrna in to_remove:
+                    gene.remove_mrna(mrna.identifier)
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
             # Mark empty genes for removal
@@ -70,7 +72,9 @@ class MinExonLengthFilter:
                     mrna.exon.add_annotation("gag_flag", "exon_min_length:"+str(self.arg))
                     mrna.death_flagged = True # Destroy the mRNA that the exon lives on?
             if self.remove:
-                gene.mrnas = [mrna for mrna in gene.mrnas if not mrna.death_flagged]
+                to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
+                for mrna in to_remove:
+                    gene.remove_mrna(mrna.identifier)
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
             # Mark empty genes for removal
@@ -95,7 +99,9 @@ class MaxExonLengthFilter:
                     mrna.exon.add_annotation("gag_flag", "exon_max_length:"+str(self.arg))
                     mrna.death_flagged = True # Destroy the mRNA that the exon lives on?
             if self.remove:
-                gene.mrnas = [mrna for mrna in gene.mrnas if not mrna.death_flagged]
+                to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
+                for mrna in to_remove:
+                    gene.remove_mrna(mrna.identifier)
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
             # Mark empty genes for removal
@@ -122,7 +128,9 @@ class MinIntronLengthFilter:
                     mrna.exon.add_annotation("gag_flag", "intron_min_length:"+str(self.arg))
                     mrna.death_flagged = True # Destroy the mRNA that the intron lives on?
             if self.remove:
-                gene.mrnas = [mrna for mrna in gene.mrnas if not mrna.death_flagged]
+                to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
+                for mrna in to_remove:
+                    gene.remove_mrna(mrna.identifier)
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
             # Mark empty genes for removal
@@ -147,7 +155,9 @@ class MaxIntronLengthFilter:
                     mrna.exon.add_annotation("gag_flag", "intron_max_length:"+str(self.arg))
                     mrna.death_flagged = True # Destroy the mRNA that the intron lives on?
             if self.remove:
-                gene.mrnas = [mrna for mrna in gene.mrnas if not mrna.death_flagged]
+                to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
+                for mrna in to_remove:
+                    gene.remove_mrna(mrna.identifier)
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
             # Mark empty genes for removal
