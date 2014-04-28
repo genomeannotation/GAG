@@ -14,7 +14,6 @@ class GFFReader:
         self.genes = {}
         self.mrnas = {}
         self.orphans = []
-        self.give_up = False # we are strong for now
         self.skipped_features = 0
 
     def validate_line(self, line):
@@ -24,7 +23,7 @@ class GFFReader:
             return []
         if not "ID" in splitline[8]:
             return []
-        if not int(splitline[3]) < int(splitline[4]):
+        if not int(splitline[3]) <= int(splitline[4]):
             return []
         # Everything except genes must have parent id
         if not "Parent" in splitline[8] and not splitline[2] == "gene":
@@ -138,7 +137,7 @@ class GFFReader:
             exon.add_score(args['score'])
 
     def process_line(self, line):
-        """Processes the contents of one line of a .gff file.
+        """Processes the contents of one line of a .gff file, returning True if successful.
 
         Args:
             line: a list of the fields
@@ -146,16 +145,22 @@ class GFFReader:
         ltype = self.line_type(line)
         if ltype == 'gene':
             self.process_gene_line(line)
+            return True
         elif ltype == 'mRNA':
             self.process_mrna_line(line)
+            return True
         elif ltype == 'CDS':
             self.process_cds_line(line)
+            return True
         elif ltype == 'exon':
             self.process_exon_line(line)
+            return True
         elif ltype == 'start_codon' or ltype == 'stop_codon':
             self.process_other_feature_line(line)
-	else:
+            return True
+        else:
             self.skipped_features += 1
+            return False
 
     def process_gene_line(self, line):
         """Extracts arguments from a line and instantiates a Gene object."""
@@ -216,17 +221,30 @@ class GFFReader:
         parent_mrna.other_features.append(GenePart(**kwargs))
 
     def read_file(self, reader):
-        """GFFReader's public method, takes a reader and returns a list of Genes."""
+        """GFFReader's public method, takes a reader and returns a list of Genes.
+
+        Writes comments to 'genome.comments.gff',
+        invalid lines to 'genome.invalid.gff' and
+        ignored features to 'genome.ignored.gff'.
+        """
+        # Open files to write comments, invalid and ignored entries
+        comments = open('genome.comments.gff', 'w')
+        invalid = open('genome.invalid.gff', 'w')
+        ignored = open('genome.ignored.gff', 'w')
+
         # First pass, pulling out all genes and mRNAs
         #  and placing child features if possible
         for line in reader:
             if len(line) == 0 or line[0].startswith('#'):
+                comments.write(line)
                 continue
-            if self.give_up:
-                return
             splitline = self.validate_line(line)
-            if splitline:
-                self.process_line(splitline)
+            if not splitline:
+                invalid.write(line)
+            else:
+                line_added = self.process_line(splitline)
+                if not line_added:
+                    ignored.write(line)
 
         # Second pass, placing child features which 
         # preceded their parents in the first pass
