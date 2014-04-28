@@ -111,13 +111,13 @@ class TestConsoleController(unittest.TestCase):
 
     def test_read_fasta(self):
         self.assertFalse(self.ctrlr.seqs)
-        self.ctrlr.read_fasta("walkthrough/gag.fasta")
+        self.ctrlr.read_fasta("walkthrough/genome.fasta")
         self.assertTrue(self.ctrlr.seqs)
 
     def test_read_gff(self):
-        self.ctrlr.read_fasta("walkthrough/gag.fasta")
+        self.ctrlr.read_fasta("walkthrough/genome.fasta")
         self.assertFalse(self.ctrlr.seqs[0].genes)
-        self.ctrlr.read_gff("walkthrough/gag.gff")
+        self.ctrlr.read_gff("walkthrough/genome.gff")
         self.assertTrue(self.ctrlr.seqs[0].genes)
 
     def test_trim_region(self):

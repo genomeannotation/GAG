@@ -9,6 +9,7 @@ class Sequence:
         self.header = header
         self.bases = bases
         self.genes = []
+        self.removed_genes = []
 
     def __str__(self):
         result = "Sequence " + self.header
@@ -33,6 +34,17 @@ class Sequence:
                 if mrna.identifier == mrna_id:
                     return True
         return False
+    
+    def remove_gene(self, gene_id):
+        to_remove = None
+        for gene in self.genes:
+            if gene.identifier == gene_id:
+                to_remove = gene
+        if to_remove:
+            self.genes.remove(to_remove)
+            self.removed_genes.append(to_remove)
+            return True
+        return False # Return false if gene wasn't removed
 
     def number_of_gagflags(self):
         total = 0

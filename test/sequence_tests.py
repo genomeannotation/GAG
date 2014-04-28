@@ -9,9 +9,9 @@ class TestSequence(unittest.TestCase):
     def setUp(self):
         self.seq1 = Sequence("seq1", "GATTACA")
 
-    def add_mock_gene(self):
+    def add_mock_gene(self, name="foo_gene"):
         mockgene = Mock()
-        mockgene.identifier = "foo_gene"
+        mockgene.identifier = name
         mockgene.indices = [2, 4]
         mockgene.death_flagged = False
         mockgene.to_mrna_fasta.return_value = "mockgene_to_mrna_fasta\n"
@@ -125,6 +125,14 @@ class TestSequence(unittest.TestCase):
     def test_add_gene(self):
         self.add_mock_gene()
         self.assertEqual(1, len(self.seq1.genes))
+    
+    def test_remove_gene(self):
+        self.add_mock_gene('foo_gene')
+        self.assertEqual(1, len(self.seq1.genes))
+        self.assertEqual(0, len(self.seq1.removed_genes))
+        self.seq1.remove_gene('foo_gene')
+        self.assertEqual(0, len(self.seq1.genes))
+        self.assertEqual(1, len(self.seq1.removed_genes))
 
     def test_get_gene_ids(self):
         self.seq1.genes = [Mock(), Mock()]
