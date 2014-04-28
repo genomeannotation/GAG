@@ -273,14 +273,7 @@ class Gene:
     # Outputs only removed mrnas
     def removed_to_gff(self):
         """Returns a string in .gff format of the gene and its child features."""
-        result = self.seq_name + "\t" + self.source + "\t"
-        result += 'gene' + "\t" + str(self.indices[0]) + "\t"
-        result += str(self.indices[1]) + "\t" + self.get_score()
-        result += "\t" + self.strand + "\t" + "." + "\t"
-        result += "ID=" + str(self.identifier)
-        for annot in self.annotations:
-            result += ';'+annot[0]+'='+annot[1]
-        result += '\n'
+        result = ""
         for mrna in self.removed_mrnas:
             result += mrna.to_gff(self.seq_name, self.source)
         return result

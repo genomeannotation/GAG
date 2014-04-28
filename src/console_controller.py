@@ -42,6 +42,7 @@ class ConsoleController:
             # Create directory, open files
             os.system('mkdir '+line)
             gff = open(line+'/genome.gff', 'w')
+            removed_gff = open(line+'/genome.removed.gff', 'w')
             tbl = open(line+'/genome.tbl', 'w')
             fasta = open(line+'/genome.fasta', 'w')
             mrna_fasta = open(line+'/genome.mrna.fasta', 'w')
@@ -55,6 +56,7 @@ class ConsoleController:
                 self.seq_fixer.fix(cseq)
                 self.filter_mgr.apply_filters(cseq)
                 gff.write(cseq.to_gff())
+                removed_gff.write(cseq.removed_to_gff())
                 tbl.write(cseq.to_tbl())
                 mrna_fasta.write(cseq.to_mrna_fasta())
                 cds_fasta.write(cseq.to_cds_fasta())
