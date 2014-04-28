@@ -142,7 +142,10 @@ class TestMRNA(unittest.TestCase):
     def test_to_tbl(self):
         self.fake_exon.to_tbl.return_value = "fake_exon_to_tbl...\n"
         self.fake_cds.to_tbl.return_value = "fake_cds_to_tbl...\n"
-        expected = "fake_exon_to_tbl...\nfake_cds_to_tbl...\n"
+        expected = "fake_exon_to_tbl...\n"
+        expected += "\t\t\tproduct\thypothetical protein\n"
+        expected += "fake_cds_to_tbl...\n"
+        expected += "\t\t\tproduct\thypothetical protein\n"
         self.assertEquals(self.test_mrna1.to_tbl(), expected)
 
     def test_indices_intersect_cds_false(self):

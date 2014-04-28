@@ -213,12 +213,15 @@ class MRNA:
             # Write the annotations
             for annot in self.annotations:
                 output += '\t\t\t'+annot[0]+'\t'+annot[1]+'\n'
-    #output += "\t\t\tproduct\thypothetical protein\n"
+            if not self.annotations_contain_product():
+                output += "\t\t\tproduct\thypothetical protein\n"
         if self.cds:
             output += self.cds.to_tbl(has_start, has_stop)
             # Write the annotations again
             for annot in self.annotations:
                 output += '\t\t\t'+annot[0]+'\t'+annot[1]+'\n'
+            if not self.annotations_contain_product():
+                output += "\t\t\tproduct\thypothetical protein\n"
         return output
 
     ## STATS STUFF ##
@@ -307,3 +310,10 @@ class MRNA:
             return len(self.exon.indices) - 1
         else:
             return 0
+
+    def annotations_contain_product(self):
+        for anno in self.annotations:
+            if anno[0] == 'product':
+                return True
+        return False
+
