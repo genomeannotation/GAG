@@ -134,9 +134,7 @@ class TestCDS(unittest.TestCase):
         expected += "6630\t7436\n"
         expected += "\t\t\tcodon_start\t2\n"
         expected += "\t\t\tproduct\thypothetical protein\n"
-        expected += "\t\t\tfoo\tdog\n"
         self.test_cds1.phase[0] = 1
-        self.test_cds1.add_annotation('foo', 'dog')
         self.assertEquals(self.test_cds1.to_tbl(True, True), expected)
 
     def test_to_tbl_negative_complete(self):
