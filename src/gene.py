@@ -252,7 +252,7 @@ class Gene:
             result += seq_helper.mrna_to_protein_fasta(mrna)
         return result
 
-    def to_gff(self):
+    def to_gff(self, removed_features=False):
         """Returns a string in .gff format of the gene and its child features."""
         result = self.seq_name + "\t" + self.source + "\t"
         result += 'gene' + "\t" + str(self.indices[0]) + "\t"
@@ -263,6 +263,25 @@ class Gene:
             result += ';'+annot[0]+'='+annot[1]
         result += '\n'
         for mrna in self.mrnas:
+            result += mrna.to_gff(self.seq_name, self.source)
+        # Now write the removed features if they want them
+        if removed_features:
+            for mrna in self.removed_mrnas:
+                result += mrna.to_gff(self.seq_name, self.source)
+        return result
+    
+    # Outputs only removed mrnas
+    def removed_to_gff(self):
+        """Returns a string in .gff format of the gene and its child features."""
+        result = self.seq_name + "\t" + self.source + "\t"
+        result += 'gene' + "\t" + str(self.indices[0]) + "\t"
+        result += str(self.indices[1]) + "\t" + self.get_score()
+        result += "\t" + self.strand + "\t" + "." + "\t"
+        result += "ID=" + str(self.identifier)
+        for annot in self.annotations:
+            result += ';'+annot[0]+'='+annot[1]
+        result += '\n'
+        for mrna in self.removed_mrnas:
             result += mrna.to_gff(self.seq_name, self.source)
         return result
 

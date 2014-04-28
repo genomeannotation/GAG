@@ -206,6 +206,16 @@ class Sequence:
         for gene in self.genes:
             result += gene.to_gff()
         return result
+    
+    def removed_to_gff(self):
+        result = ""
+        # Write alive genes' removed mrnas
+        for gene in self.genes:
+            result += gene.removed_to_gff()
+        # Write all dead genes' mrnas
+        for gene in self.removed_genes:
+            result += gene.to_gff(True)
+        return result
 
     def gene_to_gff(self, gene_id):
         for gene in self.genes:
