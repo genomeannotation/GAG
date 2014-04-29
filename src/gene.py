@@ -260,6 +260,8 @@ class Gene:
         result += str(self.indices[1]) + "\t" + self.get_score()
         result += "\t" + self.strand + "\t" + "." + "\t"
         result += "ID=" + str(self.identifier)
+        if self.name:
+            result += ";Name=" + self.name
         for annot in self.annotations:
             result += ';'+annot[0]+'='+annot[1]
         result += '\n'
