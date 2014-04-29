@@ -199,6 +199,19 @@ class TestGene(unittest.TestCase):
         expected = "1\t50\tgene\n\t\t\tlocus_tag\tfoo_gene_1\nmrna1_to_tbl...\nmrna2_to_tbl...\n"
         self.assertEquals(gene.to_tbl(), expected)
 
+    def test_to_tbl_positive_with_name(self):
+        gene = Gene(seq_name="seq1", source="maker", indices=[1, 50], strand="+", identifier="foo_gene_1", name="wtfg")
+        self.assertFalse(gene.annotations)
+        gene.add_annotation('foo', 'dog')
+        mrna1 = Mock()
+        mrna1.to_tbl.return_value = "mrna1_to_tbl...\n"
+        mrna2 = Mock()
+        mrna2.to_tbl.return_value = "mrna2_to_tbl...\n"
+        gene.mrnas.append(mrna1)
+        gene.mrnas.append(mrna2)
+        expected = "1\t50\tgene\n\t\t\tgene\twtfg\n\t\t\tlocus_tag\tfoo_gene_1\nmrna1_to_tbl...\nmrna2_to_tbl...\n"
+        self.assertEquals(gene.to_tbl(), expected)
+
     def test_gene_initialized_without_annotations(self):
         newgene = Gene(seq_name="seq1", source="maker", indices=[1, 50], strand="+", identifier="foo_gene_1")
         self.assertFalse(newgene.annotations)
