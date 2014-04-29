@@ -35,7 +35,7 @@ class GFFReader:
         return line[2]
 
     def parse_attributes(self, attr):
-        """Returns a dict with id and parent_id (if present)
+        """Returns a dict with id, name and parent_id (if present)
         
         If not, returns empty dict
         Also adds annotations if present
@@ -50,6 +50,8 @@ class GFFReader:
                 continue
             if splitpair[0] == "ID":
                 result['identifier'] = splitpair[1]
+            elif splitpair[0] == "Name":
+                result['name'] = splitpair[1]
             elif splitpair[0] == "Parent":
                 result['parent_id'] = splitpair[1]
             elif splitpair[0] == "Dbxref" or splitpair[0] == "Ontology_term":
@@ -69,10 +71,13 @@ class GFFReader:
         if isinstance(line[7], float):
             result['score'] = line[7]
         attribs = self.parse_attributes(line[8])
-        
+
         if not attribs:
             return None
 
+        if 'name' in attribs:
+            del attribs['name']
+        
         result.update(attribs)
         return result
 
@@ -86,6 +91,9 @@ class GFFReader:
         if not attribs:
             return None
 
+        if 'name' in attribs:
+            del attribs['name']
+
         result.update(attribs)
         return result
 
@@ -97,6 +105,9 @@ class GFFReader:
         if not attribs:
             return None
 
+        if 'name' in attribs:
+            del attribs['name']
+        
         result.update(attribs)
         return result        
 

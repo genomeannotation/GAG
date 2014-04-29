@@ -66,6 +66,13 @@ class TestGFFReader(unittest.TestCase):
         self.assertEqual('BDOR_007864-RA:stop2', parsed['identifier'])
         self.assertEqual('BDOR_007864-RA', parsed['parent_id'])
 
+    def test_parse_attributes_with_name(self):
+        attr = "ID=BDOR_007864-RA:stop2;Name=BDOR_007864-RA;Parent=BDOR_007864-RA\n"
+        parsed = self.reader.parse_attributes(attr)
+        self.assertEqual('BDOR_007864-RA:stop2', parsed['identifier'])
+        self.assertEqual('BDOR_007864-RA', parsed['parent_id'])
+        self.assertEqual('BDOR_007864-RA', parsed['name'])
+
     def test_extract_cds_args(self):
         line = "scaffold00080\tmaker\tCDS\t106151\t106451\t.\t+\t0\tID=BDOR_007864-RA:cds:0;Parent=BDOR_007864-RA\n".split('\t')
         args = self.reader.extract_cds_args(line)

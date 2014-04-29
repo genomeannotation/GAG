@@ -7,13 +7,14 @@ def length_of_segment(index_pair):
 
 class Gene:
 
-    def __init__(self, seq_name, source, indices, strand, identifier, annotations=None, score=None):
+    def __init__(self, seq_name, source, indices, strand, identifier, name="", annotations=None, score=None):
         self.seq_name = seq_name
         self.source = source
         self.indices = indices
         self.score = score
         self.strand = strand
         self.identifier = identifier
+        self.name = name
         self.mrnas = []
         self.removed_mrnas = []
         if not annotations:
