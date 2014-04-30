@@ -106,6 +106,8 @@ class Gene:
         shortest = 0
         for mrna in self.mrnas:
             length = mrna.get_shortest_exon()
+            if length == 0:
+                continue
             if shortest == 0 or length < shortest:
                 shortest = length
         return shortest
@@ -138,6 +140,8 @@ class Gene:
         shortest = 0
         for mrna in self.mrnas:
             length = mrna.get_shortest_intron()
+            if length == 0:
+                continue
             if shortest == 0 or length < shortest:
                 shortest = length
         return shortest

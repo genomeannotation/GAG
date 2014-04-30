@@ -287,11 +287,15 @@ class Sequence:
         return longest
 
     def get_shortest_exon(self):
-        shortest = 0
+        shortest = None
         for gene in self.genes:
             length = gene.get_shortest_exon()
-            if shortest == 0 or length < shortest:
+            if length == 0:
+                continue
+            if shortest == None or length < shortest:
                 shortest = length
+        if shortest == None:
+            return 0
         return shortest
 
     def get_total_exon_length(self):
@@ -309,11 +313,15 @@ class Sequence:
         return longest
 
     def get_shortest_intron(self):
-        shortest = 0
+        shortest = None
         for gene in self.genes:
             length = gene.get_shortest_intron()
-            if shortest == 0 or length < shortest:
+            if length == 0:
+                continue
+            if shortest == None or length < shortest:
                 shortest = length
+        if shortest == None:
+            return 0
         return shortest
 
     def get_total_intron_length(self):

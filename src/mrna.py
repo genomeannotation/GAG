@@ -243,6 +243,8 @@ class MRNA:
         shortest = 0
         for index_pair in self.exon.indices:
             length = length_of_segment(index_pair)
+            if length == 0:
+                continue
             if shortest == 0 or length_of_segment(index_pair) < shortest:
                 shortest = length
         return shortest
@@ -287,6 +289,8 @@ class MRNA:
         for index_pair in self.exon.indices:
             if last_end != 0:
                 this_intron = index_pair[0] - last_end - 1
+                if this_intron == 0:
+                    continue
                 if this_intron < 0:
                     raise Exception("Intron with negative length on "+self.name)
                 if shortest == 0 or this_intron < shortest:
