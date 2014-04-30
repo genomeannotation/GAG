@@ -111,25 +111,14 @@ class TestConsoleController(unittest.TestCase):
 
     def test_read_fasta(self):
         self.assertFalse(self.ctrlr.seqs)
-        self.ctrlr.read_fasta("walkthrough/genome.fasta")
+        self.ctrlr.read_fasta("walkthrough/basic/genome.fasta")
         self.assertTrue(self.ctrlr.seqs)
 
     def test_read_gff(self):
-        self.ctrlr.read_fasta("walkthrough/genome.fasta")
+        self.ctrlr.read_fasta("walkthrough/basic/genome.fasta")
         self.assertFalse(self.ctrlr.seqs[0].genes)
-        self.ctrlr.read_gff("walkthrough/genome.gff")
+        self.ctrlr.read_gff("walkthrough/basic/genome.gff")
         self.assertTrue(self.ctrlr.seqs[0].genes)
-
-    def test_trim_region(self):
-        # TODO this isn't quite right ... gene.trim needs looking at.
-        self.setup_seqs_and_genes()
-        self.assertEquals(8, len(self.ctrlr.seqs[2].bases))
-        #self.ctrlr.trim_region("seq3 1 3")
-        #self.assertEquals(5, len(self.ctrlr.seqs[2].bases))
-        # TODO after add Sequence.trim()
-        #self.ctrlr.seqs.append(Sequence("seq1", "GATTACA"))
-        #self.ctrlr.seqs.append(Sequence("seq2", "ATTAC"))
-        #self.ctrlr.seqs.append(Sequence("seq3", "ACGTACGT"))
 
     def test_barfseq_no_args(self):
         pass
@@ -144,7 +133,7 @@ class TestConsoleController(unittest.TestCase):
 
     def test_can_write_to_path(self):
         self.assertFalse(self.ctrlr.can_write_to_path("src/"))
-        self.assertFalse(self.ctrlr.can_write_to_path("console.py"))
+        self.assertFalse(self.ctrlr.can_write_to_path("gag.py"))
         self.assertTrue(self.ctrlr.can_write_to_path("no_such_directory/no_such_subdirectory/no_such_file.txt"))
 
 
