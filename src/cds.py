@@ -44,6 +44,36 @@ class CDS(GenePart):
             last_index = last_index_pair[0]
             return [last_index, last_index+2]
 
+    def sort_attributes(self):
+        """Sorts indices, keeping identifiers and phases with their corresponding index pair.
+
+        If CDS contains 'scores' they are kept sorted, too.
+        """
+        sort_scores = False
+        length = len(self.indices)
+        if length != len(self.identifier) or length != len(self.phase):
+            return
+        if length == len(self.score):
+            sort_scores = True
+        # Build a list of lists where each entry is 
+        # composed of attributes
+        all_attributes = []
+        for i in xrange(length):
+            all_attributes.append([self.indices[i][0], self.indices[i][1], 
+                self.identifier[i], self.phase[i]])
+            if sort_scores:
+                all_attributes[i].append(self.score[i])
+
+        # Sort that list (by first index in each index_pair)
+        all_attributes.sort()
+        # Repopulate the attributes
+        for i in xrange(length):
+            self.indices[i] = [all_attributes[i][0], all_attributes[i][1]]
+            self.identifier[i] = all_attributes[i][2]
+            self.phase[i] = all_attributes[i][3]
+            if sort_scores:
+                self.score[i] = all_attributes[i][4]
+
     def extract_sequence(self, seq_object, strand):
         """Returns nucleotide sequence corresponding to CDS.
 
