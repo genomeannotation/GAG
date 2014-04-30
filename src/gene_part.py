@@ -3,79 +3,6 @@
 import math
 import src.translator as translate
 
-def length_of_segment(index_pair):
-    """Returns the length in base pairs between two indices (inclusive)."""
-    return math.fabs(index_pair[1] - index_pair[0]) + 1
-
-def adjust_index_pair(index_pair, increment):
-    """Returns pair of indices incremented by given number."""
-    return [i + increment for i in index_pair]
-
-def get_reversed_indices(indices):
-    """Returns reversed list of indices.
-
-    Each pair in the list is reversed, and the order of the
-    pairs is also reversed.
-    """
-    indices.reverse()
-    [ind.reverse() for ind in indices]
-    return indices
-
-def one_line_indices_entry(indices, has_start, has_stop, is_cds):
-    """Returns .tbl formatted entry for features with only one pair of coordinates."""
-    output = ""
-    if not has_start:
-        output += "<"
-    output += str(indices[0]) + "\t"
-    if not has_stop:
-        output += ">"
-    output += str(indices[1]) + "\t"
-    if is_cds:
-        output += "CDS\n"
-    else:
-        output += "mRNA\n"
-    return output
-
-def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, annotations = None, phase=0):
-    """Returns .tbl-formatted string for a GenePart.
-
-    Args:
-        indices: a list of lists, each holding an index pair
-        strand: either '+' or '-'
-        has_start: a boolean indicating whether the feature has a start codon
-        has_stop: a boolean indicating whether the feature has a stop codon
-        is_cds: a boolean indicating whether the feature is a CDS
-        annotations: optional argument. a list of lists containing annotations to be added to the entry
-        phase: optional argument indicating the phase of a CDS feature if not 0
-    """
-    if not annotations:
-        annotations = []
-    output = ""
-    if strand == "-":
-        indices = get_reversed_indices(indices)
-    if len(indices) == 1:
-        output += one_line_indices_entry(indices[0], has_start, has_stop, is_cds)
-    else:
-        # Write first line of coordinates
-        if not has_start:
-            output += "<"
-        output += str(indices[0][0]) + "\t" + str(indices[0][1]) + "\t" 
-        if is_cds:
-            output += "CDS\n"
-        else:
-            output += "mRNA\n"
-        # Write middle lines
-        for index_pair in indices[1:-1]:
-            output += str(index_pair[0]) + "\t" + str(index_pair[1]) + "\n"
-        # Write last line of coordinates
-        output += str(indices[-1][0]) + "\t"
-        if not has_stop:
-            output += ">"
-        output += str(indices[-1][1]) + "\n"
-    if is_cds:
-        output += "\t\t\tcodon_start\t" + str(phase+1) + "\n"
-    return output
-
 class GenePart:
     def __init__(self, feature_type=None, identifier=None,\
                  indices=None, score=None, strand='+', parent_id=None):
@@ -121,7 +48,36 @@ class GenePart:
     def add_score(self, score):
         """Adds a score to the GenePart's list of scores."""
         self.score.append(score)
-        
+
+    def sort_attributes(self):
+        """Sorts indices, keeping identifiers with their corresponding index pair.
+
+        If GenePart contains 'scores' they are kept sorted, too.
+        """
+        sort_scores = False
+        length = len(self.indices)
+        if length != len(self.identifier):
+            return
+        if length == len(self.score):
+            sort_scores = True
+        # Build a list of lists where each entry is 
+        # composed of attributes
+        all_attributes = []
+        for i in xrange(length):
+            all_attributes.append([self.indices[i][0], self.indices[i][1], 
+                self.identifier[i]])
+            if sort_scores:
+                all_attributes[i].append(self.score[i])
+
+        # Sort that list (by first index in each index_pair)
+        all_attributes.sort()
+        # Repopulate the attributes
+        for i in xrange(length):
+            self.indices[i] = [all_attributes[i][0], all_attributes[i][1]]
+            self.identifier[i] = all_attributes[i][2]
+            if sort_scores:
+                self.score[i] = all_attributes[i][3]
+
     def add_annotation(self, key, value):
         """Adds an annotation key, value pair to the GenePart.
 
@@ -208,4 +164,79 @@ class GenePart:
             result += str(self.get_phase(i)) + "\t"
             result += self.generate_attribute_entry(i)
         return result
+
+######################### Utility Functions ##########################################
+
+def length_of_segment(index_pair):
+    """Returns the length in base pairs between two indices (inclusive)."""
+    return math.fabs(index_pair[1] - index_pair[0]) + 1
+
+def adjust_index_pair(index_pair, increment):
+    """Returns pair of indices incremented by given number."""
+    return [i + increment for i in index_pair]
+
+def get_reversed_indices(indices):
+    """Returns reversed list of indices.
+
+    Each pair in the list is reversed, and the order of the
+    pairs is also reversed.
+    """
+    indices.reverse()
+    [ind.reverse() for ind in indices]
+    return indices
+
+def one_line_indices_entry(indices, has_start, has_stop, is_cds):
+    """Returns .tbl formatted entry for features with only one pair of coordinates."""
+    output = ""
+    if not has_start:
+        output += "<"
+    output += str(indices[0]) + "\t"
+    if not has_stop:
+        output += ">"
+    output += str(indices[1]) + "\t"
+    if is_cds:
+        output += "CDS\n"
+    else:
+        output += "mRNA\n"
+    return output
+
+def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, annotations = None, phase=0):
+    """Returns .tbl-formatted string for a GenePart.
+
+    Args:
+        indices: a list of lists, each holding an index pair
+        strand: either '+' or '-'
+        has_start: a boolean indicating whether the feature has a start codon
+        has_stop: a boolean indicating whether the feature has a stop codon
+        is_cds: a boolean indicating whether the feature is a CDS
+        annotations: optional argument. a list of lists containing annotations to be added to the entry
+        phase: optional argument indicating the phase of a CDS feature if not 0
+    """
+    if not annotations:
+        annotations = []
+    output = ""
+    if strand == "-":
+        indices = get_reversed_indices(indices)
+    if len(indices) == 1:
+        output += one_line_indices_entry(indices[0], has_start, has_stop, is_cds)
+    else:
+        # Write first line of coordinates
+        if not has_start:
+            output += "<"
+        output += str(indices[0][0]) + "\t" + str(indices[0][1]) + "\t" 
+        if is_cds:
+            output += "CDS\n"
+        else:
+            output += "mRNA\n"
+        # Write middle lines
+        for index_pair in indices[1:-1]:
+            output += str(index_pair[0]) + "\t" + str(index_pair[1]) + "\n"
+        # Write last line of coordinates
+        output += str(indices[-1][0]) + "\t"
+        if not has_stop:
+            output += ">"
+        output += str(indices[-1][1]) + "\n"
+    if is_cds:
+        output += "\t\t\tcodon_start\t" + str(phase+1) + "\n"
+    return output
 

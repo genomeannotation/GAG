@@ -47,6 +47,17 @@ class TestGenePart(unittest.TestCase):
         gp.add_annotation("gag_flag", "this gene part rulz")
         self.assertTrue(gp.annotations)
 
+    def test_sort_attributes(self):
+        gp = GenePart()
+        gp.indices = [[25, 30], [5, 10]] # out of order!
+        gp.identifier = ["gp2", "gp1"]
+        gp.score = [10, 8]
+        self.assertEquals("gp1", gp.identifier[1])
+        self.assertEquals([25, 30], gp.indices[0])
+        gp.sort_attributes()
+        self.assertEquals("gp1", gp.identifier[0])
+        self.assertEquals([5, 10], gp.indices[0])
+
     def test_gagflagged(self):
         gp = GenePart()
         self.assertFalse(gp.gagflagged())
