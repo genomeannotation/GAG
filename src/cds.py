@@ -67,6 +67,9 @@ class CDS(GenePart):
     def to_tbl(self, has_start, has_stop):
         """Returns a string containing the .tbl-formatted entry for the CDS."""
         indices = copy.deepcopy(self.indices)
-        phase = self.phase[0]
-        return write_tbl_entry(indices, self.strand, has_start, has_stop, True, self.annotations, phase)
+        if self.strand == '+':
+            phase = self.phase[0]
+        else:
+            phase = self.phase[-1]
+        return write_tbl_entry(indices, self.strand, has_start, has_stop, True, self.annotations, phase) 
 

@@ -152,8 +152,10 @@ class TestCDS(unittest.TestCase):
         expected += "5185\t4399\n"
         expected += "4332\t4092\n"
         expected += "4034\t>3734\n"
-        expected += "\t\t\tcodon_start\t3\n"
-        self.test_cds1.phase[0] = 2
+        expected += "\t\t\tcodon_start\t2\n"
+        # shouldn't look at phase[0] for negative strand!
+        self.test_cds1.phase[0] = 2 # should ignore this.
+        self.test_cds1.phase[4] = 1
         self.test_cds1.strand = '-'
         self.assertEquals(self.test_cds1.to_tbl(False, False), expected)
 
