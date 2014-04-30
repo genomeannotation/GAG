@@ -36,8 +36,6 @@ class GenePart:
         """
         if isinstance(ind, list) and len(ind) is 2:
             self.indices.append(ind)
-            self.indices.sort()
-            # TODO wait don't we need to sync this with the phase list for CDS?
         else:
             raise ValueError()
 
