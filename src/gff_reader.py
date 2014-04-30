@@ -138,6 +138,7 @@ class GFFReader:
         cds.add_identifier(args['identifier'])
         if 'score' in args:
             cds.add_score(args['score'])
+        cds.sort_attributes()
 
     def update_exon(self, line, exon):
         """Adds the fields of a gff line to an existing Exon object."""
@@ -146,6 +147,7 @@ class GFFReader:
         exon.add_identifier(args['identifier'])
         if 'score' in args:
             exon.add_score(args['score'])
+        exon.sort_attributes()
 
     def process_line(self, line):
         """Processes the contents of one line of a .gff file, returning True if successful.
