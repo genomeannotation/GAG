@@ -53,6 +53,16 @@ class Gene:
             return True
         return False # Return false if mrna wasn't removed
         
+    def remove_mrnas_from_list(self, bad_mrnas):
+        to_remove = []
+        for mrna in self.mrnas:
+            if mrna.identifier in bad_mrnas:
+                to_remove.append(mrna)
+        if to_remove:
+            for mrna in to_remove:
+                self.mrnas.remove(mrna)
+            self.removed_mrnas.extend(to_remove)
+
     def add_annotation(self, key, value):
         """Adds an annotation key, value pair to the gene.
 

@@ -49,6 +49,18 @@ class TestGene(unittest.TestCase):
         self.assertEquals(self.test_gene1.mrnas, [self.fake_mrna2])
         self.assertEquals(self.test_gene1.removed_mrnas, [self.fake_mrna1])
 
+    def test_remove_mrnas_from_list(self):
+        self.fake_mrna3 = Mock()
+        self.fake_mrna3.identifier = "fake_mrna3"
+        self.fake_mrna3.death_flagged = False
+        self.test_gene1.mrnas.append(self.fake_mrna3)
+        bad_mrnas = ["fake_mrna3", "fake_mrna1"]
+        self.assertEquals(3, len(self.test_gene1.mrnas))
+        self.assertEquals(0, len(self.test_gene1.removed_mrnas))
+        self.test_gene1.remove_mrnas_from_list(bad_mrnas)
+        self.assertEquals(1, len(self.test_gene1.mrnas))
+        self.assertEquals(2, len(self.test_gene1.removed_mrnas))
+
     def test_get_longest_exon(self):
         self.fake_mrna1.get_longest_exon.return_value = 10
         self.fake_mrna2.get_longest_exon.return_value = 20
