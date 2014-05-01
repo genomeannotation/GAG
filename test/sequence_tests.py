@@ -153,6 +153,12 @@ class TestSequence(unittest.TestCase):
         self.seq1.remove_genes_from_list(bad_genes) # nothing should happen
         self.assertEquals(3, len(self.seq1.genes))
 
+    def test_remove_mrnas_from_list(self):
+        self.seq1.genes = [Mock()]
+        bad_mrnas = ["foo_mrna", "bar_mrna"]
+        self.seq1.remove_mrnas_from_list(bad_mrnas)
+        self.seq1.genes[0].remove_mrnas_from_list.assert_called_with(bad_mrnas)
+
     def test_get_gene_ids(self):
         self.seq1.genes = [Mock(), Mock()]
         self.seq1.genes[0].identifier = "foo gene"

@@ -56,6 +56,10 @@ class Sequence:
                 self.genes.remove(gene)
             self.removed_genes.extend(to_remove)
 
+    def remove_mrnas_from_list(self, bad_mrnas):
+        for gene in self.genes:
+            gene.remove_mrnas_from_list(bad_mrnas)
+
     def number_of_gagflags(self):
         total = 0
         for gene in self.genes:
