@@ -71,6 +71,15 @@ class TestConsoleController(unittest.TestCase):
         self.assertTrue(self.ctrlr.contains_seq("seq1"))
         self.assertFalse(self.ctrlr.contains_seq("foo_seq"))
 
+    def test_remove_from_list(self):
+        self.setup_seqs_and_genes()
+        bad_items = ["seq2", "foo_gene", "bar_mrna"]
+        self.assertEquals(3, len(self.ctrlr.seqs))
+        self.ctrlr.remove_from_list(bad_items)
+        # Verify 'seq2' removed
+        self.assertEquals(2, len(self.ctrlr.seqs))
+        self.assertEquals("seq3", self.ctrlr.seqs[1].header)
+
     def test_get_n_seq_ids(self):
         self.setup_seqs()
         expected = "First 3 seq ids are: seq1, seq2, seq3\n"

@@ -21,6 +21,7 @@ class ConsoleController:
 
     def __init__(self):
         self.seqs = []
+        self.removed_seqs = []
         self.annot = Annotator()
         self.filter_mgr = FilterManager()
         self.stats_mgr = StatsManager()
@@ -342,6 +343,20 @@ class ConsoleController:
     
     def clear_seqs(self):
         self.seqs[:] = []
+
+    def remove_from_list(self, bad_list):
+        # First remove any seqs on the list
+        to_remove = []
+        for seq in self.seqs:
+            if seq.header in bad_list:
+                to_remove.append(seq)
+        if to_remove:
+            for seq in to_remove:
+                self.seqs.remove(seq)
+            self.removed_seqs.extend(to_remove)
+        # Now pass the list down to each seq
+        for seq in self.seqs:
+            seq.remove_from_list(bad_list)
 
     def contains_mrna(self, mrna_id):
         for seq in self.seqs:
