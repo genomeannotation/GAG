@@ -48,9 +48,17 @@ class ConsoleController:
             mrna_fasta = open(line+'/genome.mrna.fasta', 'w')
             cds_fasta = open(line+'/genome.cds.fasta', 'w')
             protein_fasta = open(line+'/genome.proteins.fasta', 'w')
+            stats_file = open(line+'/genome.stats', 'w')
+
 
             # Deep copy each seq, apply fixes and filters, write
             sys.stderr.write("Writing gff, tbl and fasta...\n")
+            number_of_gagflags = 0
+            first_line = "Number of sequences:   " + str(len(self.seqs)) + "\n"
+            update_alt = False
+            if self.filter_mgr.dirty or self.seq_fixer.dirty:
+                self.stats_mgr.clear_alt()
+                update_alt = True
             for seq in self.seqs:
                 cseq = copy.deepcopy(seq)
                 self.seq_fixer.fix(cseq)
@@ -62,6 +70,14 @@ class ConsoleController:
                 cds_fasta.write(cseq.to_cds_fasta())
                 protein_fasta.write(cseq.to_protein_fasta())
                 fasta.write(cseq.to_fasta())
+                if update_alt:
+                    self.stats_mgr.update_alt(cseq.stats())
+                number_of_gagflags += cseq.number_of_gagflags()
+
+            last_line = "(" + str(number_of_gagflags) + " features flagged)\n"
+            stats_file.write(first_line + self.stats_mgr.summary() + last_line)
+            self.filter_mgr.dirty = False
+            self.seq_fixer.dirty = False
 
             # Close files
             gff.close()
@@ -70,6 +86,7 @@ class ConsoleController:
             mrna_fasta.close()
             cds_fasta.close()
             protein_fasta.close()
+            stats_file.close()
 
             return "Genome written to " + line
         
