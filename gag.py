@@ -250,6 +250,10 @@ class RemoveCmd(GagCmdBase):
     def do_home(self, line):
         return True
 
+    def do_from_file(self, line):
+        try_catch(self.controller.remove_from_file, [line])
+        return True
+
     def default(self, line):
         print("Sorry, can't filter " + line)
         print(self.helptext)

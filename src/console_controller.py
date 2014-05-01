@@ -128,6 +128,7 @@ class ConsoleController:
             return
         remove_list = self.read_remove_list(filename)
         self.remove_from_list(remove_list)
+        self.filter_mgr.dirty = True
 
     def set_filter_arg(self, filter_name, val):
         self.filter_mgr.set_filter_arg(filter_name, val)
