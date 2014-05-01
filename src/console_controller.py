@@ -60,6 +60,8 @@ class ConsoleController:
             if self.filter_mgr.dirty or self.seq_fixer.dirty:
                 self.stats_mgr.clear_alt()
                 update_alt = True
+            for seq in self.removed_seqs:
+                removed_gff.write(seq.to_gff())
             for seq in self.seqs:
                 cseq = copy.deepcopy(seq)
                 self.seq_fixer.fix(cseq)
@@ -119,6 +121,13 @@ class ConsoleController:
         self.stats_mgr.clear_all()
         for seq in self.seqs:
             self.stats_mgr.update_ref(seq.stats())
+
+    def remove_from_file(self, filename):
+        if not os.path.isfile(filename):
+            sys.stderr.write("Error: " + filename + " is not a file. Nothing removed.\n")
+            return
+        remove_list = self.read_remove_list(filename)
+        self.remove_from_list(remove_list)
 
     def set_filter_arg(self, filter_name, val):
         self.filter_mgr.set_filter_arg(filter_name, val)
@@ -211,6 +220,13 @@ class ConsoleController:
         genes = gffreader.read_file(reader)
         for gene in genes:
             self.add_gene(gene)
+
+    def read_remove_list(self, line):
+        remove_list = []
+        with open(line, 'rb') as infile:
+            for line in infile:
+                remove_list.append(line.strip()) 
+        return remove_list
 
 
 ## Output info to console
@@ -353,6 +369,10 @@ class ConsoleController:
         if to_remove:
             for seq in to_remove:
                 self.seqs.remove(seq)
+                # TODO this is where the whole deepcopy scheme starts to unravel
+                # we're handling removed seqs differently from other removed features.
+                sys.stderr.write("Warning: removing seq " + seq.header + ".\n")
+                sys.stderr.write("You must reload genome to get this sequence back.\n")
             self.removed_seqs.extend(to_remove)
         # Now pass the list down to each seq
         for seq in self.seqs:
