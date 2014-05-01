@@ -46,6 +46,16 @@ class Sequence:
             return True
         return False # Return false if gene wasn't removed
 
+    def remove_genes_from_list(self, bad_genes):
+        to_remove = []
+        for gene in self.genes:
+            if gene.identifier in bad_genes:
+                to_remove.append(gene)
+        if to_remove:
+            for gene in to_remove:
+                self.genes.remove(gene)
+            self.removed_genes.extend(to_remove)
+
     def number_of_gagflags(self):
         total = 0
         for gene in self.genes:
