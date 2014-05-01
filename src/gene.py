@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import math
+import sys
 
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
@@ -61,6 +62,7 @@ class Gene:
         if to_remove:
             for mrna in to_remove:
                 self.mrnas.remove(mrna)
+                sys.stderr.write("Removed mrna " + mrna.identifier + "\n")
             self.removed_mrnas.extend(to_remove)
 
     def add_annotation(self, key, value):

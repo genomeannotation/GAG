@@ -224,7 +224,8 @@ class RemoveCmd(GagCmdBase):
         " - Here you can remove features based on certain criteria.\n"+\
         " - You can view the effects of removal by typing 'info' in the main GAG console.\n\n"+\
         "You can remove:\n\n"+\
-        "\n".join(controller.filter_mgr.filters.keys())+ "\n"
+        "\n".join(controller.filter_mgr.filters.keys())+ "\n"+\
+        "\nYou can also remove sequences, genes and mRNAs from a file by typing 'from_file'.\n\n"
         self.prompt = prompt_prefix[:-2] + " REMOVE> "
         self.controller = controller
         self.context = {"go_home": False}
@@ -251,7 +252,15 @@ class RemoveCmd(GagCmdBase):
         return True
 
     def do_from_file(self, line):
-        try_catch(self.controller.remove_from_file, [line])
+        if line:
+            print("")
+            try_catch(self.controller.remove_from_file, [line])
+            print("")
+        else:
+            line = raw_input("Path to file? ")
+            print("")
+            try_catch(self.controller.remove_from_file, [line])
+            print("")
         return True
 
     def default(self, line):
