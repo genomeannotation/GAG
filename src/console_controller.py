@@ -230,6 +230,16 @@ class ConsoleController:
         return remove_list
 
 
+## Apply filters n fixes
+
+    def apply_filters_n_fixes(self, seq):
+        cseq = copy.deepcopy(seq)
+        self.seq_fixer.fix(cseq)
+        self.filter_mgr.apply_filters(cseq)
+        return cseq
+        
+
+
 ## Output info to console
 
     def barf_gene_gff(self, line):

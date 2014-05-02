@@ -64,6 +64,17 @@ class Sequence:
     def remove_mrnas_from_list(self, bad_mrnas):
         for gene in self.genes:
             gene.remove_mrnas_from_list(bad_mrnas)
+    
+    def remove_empty_genes(self):
+        to_remove = []
+        for gene in self.genes:
+            if not gene.mrnas:
+                to_remove.append(gene)
+        if to_remove:
+            for gene in to_remove:
+                self.genes.remove(gene)
+                sys.stderr.write("Removed gene " + gene.identifier + "\n")
+            self.removed_genes.extend(to_remove)
 
     def number_of_gagflags(self):
         total = 0
