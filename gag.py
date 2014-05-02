@@ -215,7 +215,7 @@ class FlagCmd(GagCmdBase):
                 print('flag ' + filt_name + ' ' + str(filt.arg))
 
     def default(self, line):
-        print("Sorry, can't filter " + line)
+        print("Sorry, can't flag " + line)
         print(self.helptext)
         
 ##############################################
@@ -274,7 +274,7 @@ class RemoveCmd(GagCmdBase):
         return True
 
     def default(self, line):
-        print("Sorry, can't filter " + line)
+        print("Sorry, can't remove " + line)
         print(self.helptext)
         
 ##############################################
