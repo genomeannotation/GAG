@@ -143,18 +143,6 @@ class TestSequence(unittest.TestCase):
         self.seq1.remove_genes_from_list(bad_genes)
         self.assertEquals(1, len(self.seq1.genes))
         self.assertEquals(2, len(self.seq1.removed_genes))
-    
-    def test_remove_empty_genes(self):
-        self.add_mock_gene('foo_gene')
-        self.add_mock_gene('bar_gene')
-        self.add_mock_gene('zub_gene')
-        self.seq1.genes[0].mrnas = [Mock()]
-        self.seq1.genes[1].mrnas = []
-        self.seq1.genes[2].mrnas = []
-        self.assertEquals(3, len(self.seq1.genes))
-        self.seq1.remove_empty_genes()
-        self.assertEquals(1, len(self.seq1.genes))
-        self.assertEquals(2, len(self.seq1.removed_genes))
 
     def test_remove_genes_from_list_bad_list(self):
         self.add_mock_gene('foo_gene')
@@ -170,6 +158,24 @@ class TestSequence(unittest.TestCase):
         bad_mrnas = ["foo_mrna", "bar_mrna"]
         self.seq1.remove_mrnas_from_list(bad_mrnas)
         self.seq1.genes[0].remove_mrnas_from_list.assert_called_with(bad_mrnas)
+    
+    def test_remove_empty_genes(self):
+        self.add_mock_gene('foo_gene')
+        self.add_mock_gene('bar_gene')
+        self.add_mock_gene('zub_gene')
+        self.seq1.genes[0].mrnas = [Mock()]
+        self.seq1.genes[1].mrnas = []
+        self.seq1.genes[2].mrnas = []
+        self.assertEquals(3, len(self.seq1.genes))
+        self.seq1.remove_empty_genes()
+        self.assertEquals(1, len(self.seq1.genes))
+        self.assertEquals(2, len(self.seq1.removed_genes))
+    
+    def test_remove_empty_mrnas(self):
+        self.seq1.genes = [Mock(), Mock()]
+        self.seq1.remove_empty_mrnas()
+        self.seq1.genes[0].remove_mrnas_from_list.assert_called()
+        self.seq1.genes[1].remove_mrnas_from_list.assert_called()
 
     def test_get_gene_ids(self):
         self.seq1.genes = [Mock(), Mock()]
