@@ -236,6 +236,8 @@ class ConsoleController:
         cseq = copy.deepcopy(seq)
         self.seq_fixer.fix(cseq)
         self.filter_mgr.apply_filters(cseq)
+        cseq.remove_empty_mrnas()
+        cseq.remove_empty_genes()
         return cseq
         
 
