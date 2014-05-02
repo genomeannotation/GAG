@@ -64,6 +64,19 @@ class Gene:
                 self.mrnas.remove(mrna)
                 sys.stderr.write("Removed mrna " + mrna.identifier + "\n")
             self.removed_mrnas.extend(to_remove)
+    
+    def remove_empty_mrnas(self):
+        """Removes mRNAs with no exon or CDS.
+        """
+        to_remove = []
+        for mrna in self.mrnas:
+            if not mrna.cds or not mrna.exon:
+                to_remove.append(mrna)
+        if to_remove:
+            for mrna in to_remove:
+                self.mrnas.remove(mrna)
+                sys.stderr.write("Removed mrna " + mrna.identifier + "\n")
+            self.removed_mrnas.extend(to_remove)
 
     def add_annotation(self, key, value):
         """Adds an annotation key, value pair to the gene.
