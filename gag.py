@@ -181,7 +181,8 @@ class FlagCmd(GagCmdBase):
         " - When you flag features, they remain in the genome but are written with a 'gag_flagged'\n"+\
         "   annotation so they can be reviewed manually, in a genome browser for instance.\n"+\
         " - Typing info in the main GAG console will tell you the total amount of features that\n"+\
-        "   have been flagged.\n\n"+\
+        "   have been flagged.\n"+\
+        " - You can get a summary of the current flag criteria by typing 'summary'\n\n"+\
         "You can flag:\n\n"+\
         "\n".join(controller.filter_mgr.filters.keys())+ "\n"
         self.prompt = prompt_prefix[:-2] + " FLAG> "
@@ -227,7 +228,9 @@ class RemoveCmd(GagCmdBase):
         self.helptext = "\nThis is the GAG REMOVE menu.\n"+\
         "(You can type 'home' at any time to return to the main GAG console.)\n\n"+\
         " - Here you can remove features based on certain criteria.\n"+\
-        " - You can view the effects of removal by typing 'info' in the main GAG console.\n\n"+\
+        " - You can view the effects of removal by typing 'info' in the main GAG console.\n"+\
+        " - You can get a summary of the current remove criteria by typing 'summary'\n\n"+\
+        "You can flag:\n\n"+\
         "You can remove:\n\n"+\
         "\n".join(controller.filter_mgr.filters.keys())+ "\n"+\
         "\nYou can also remove sequences, genes and mRNAs from a file by typing 'from_file'.\n\n"
