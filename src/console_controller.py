@@ -64,8 +64,7 @@ class ConsoleController:
                 removed_gff.write(seq.to_gff())
             for seq in self.seqs:
                 cseq = copy.deepcopy(seq)
-                self.seq_fixer.fix(cseq)
-                self.filter_mgr.apply_filters(cseq)
+                self.apply_filters_n_fixes(cseq)
                 gff.write(cseq.to_gff())
                 removed_gff.write(cseq.removed_to_gff())
                 tbl.write(cseq.to_tbl())
@@ -233,12 +232,10 @@ class ConsoleController:
 ## Apply filters n fixes
 
     def apply_filters_n_fixes(self, seq):
-        cseq = copy.deepcopy(seq)
-        self.seq_fixer.fix(cseq)
-        self.filter_mgr.apply_filters(cseq)
-        cseq.remove_empty_mrnas()
-        cseq.remove_empty_genes()
-        return cseq
+        self.seq_fixer.fix(seq)
+        self.filter_mgr.apply_filters(seq)
+        seq.remove_empty_mrnas()
+        seq.remove_empty_genes()
         
 
 
@@ -251,8 +248,7 @@ class ConsoleController:
             for seq in self.seqs:
                 if seq.contains_gene(line):
                     cseq = copy.deepcopy(seq)
-                    self.seq_fixer.fix(cseq)
-                    self.filter_mgr.apply_filters(cseq)
+                    self.apply_filters_n_fixes(cseq)
                     return cseq.gene_to_gff(line)
 
     def barf_seq(self, line):
@@ -265,8 +261,7 @@ class ConsoleController:
                 for seq in self.seqs:
                     if seq.header == seq_id:
                         cseq = copy.deepcopy(seq)
-                        self.seq_fixer.fix(cseq)
-                        self.filter_mgr.apply_filters(cseq)
+                        self.apply_filters_n_fixes(cseq)
                         return cseq.get_subseq()
             elif len(args) == 3:
                 seq_id = args[0]
@@ -275,8 +270,7 @@ class ConsoleController:
                 for seq in self.seqs:
                     if seq.header == seq_id:
                         cseq = copy.deepcopy(seq)
-                        self.seq_fixer.fix(cseq)
-                        self.filter_mgr.apply_filters(cseq)
+                        self.apply_filters_n_fixes(cseq)
                         return cseq.get_subseq(start, stop)
             else:
                 return "Usage: barfseq <seq_id> <start_index> <end_index>\n"
@@ -289,8 +283,7 @@ class ConsoleController:
             for seq in self.seqs:
                 if seq.contains_mrna(name):
                     cseq = copy.deepcopy(seq)
-                    self.seq_fixer.fix(cseq)
-                    self.filter_mgr.apply_filters(cseq)
+                    self.apply_filters_n_fixes(cseq)
                     return cseq.extract_cds_seq(name)
             return "Error: Couldn't find mRNA.\n"
 
@@ -302,8 +295,7 @@ class ConsoleController:
             for seq in self.seqs:
                 if seq.contains_mrna(name):
                     cseq = copy.deepcopy(seq)
-                    self.seq_fixer.fix(cseq)
-                    self.filter_mgr.apply_filters(cseq)
+                    self.apply_filters_n_fixes(cseq)
                     return cseq.cds_to_gff(name)
             return "Error: Couldn't find mRNA.\n"
 
@@ -315,8 +307,7 @@ class ConsoleController:
             for seq in self.seqs:
                 if seq.contains_mrna(name):
                     cseq = copy.deepcopy(seq)
-                    self.seq_fixer.fix(cseq)
-                    self.filter_mgr.apply_filters(cseq)
+                    self.apply_filters_n_fixes(cseq)
                     return cseq.cds_to_tbl(name)
             return "Error: Couldn't find mRNA.\n"
 
@@ -328,8 +319,7 @@ class ConsoleController:
             for seq in self.seqs:
                 if seq.contains_gene(line):
                     cseq = copy.deepcopy(seq)
-                    self.seq_fixer.fix(cseq)
-                    self.filter_mgr.apply_filters(cseq)
+                    self.apply_filters_n_fixes(cseq)
                     output += cseq.gene_to_tbl(line)
             return output
 
@@ -345,8 +335,7 @@ class ConsoleController:
                 for seq in self.seqs:
                     # Deep copy seq, apply fixes and filters, then update stats
                     cseq = copy.deepcopy(seq)
-                    self.seq_fixer.fix(cseq)
-                    self.filter_mgr.apply_filters(cseq)
+                    self.apply_filters_n_fixes(cseq)
                     self.stats_mgr.update_alt(cseq.stats())
                     number_of_gagflags += cseq.number_of_gagflags()
                 self.filter_mgr.dirty = False
