@@ -193,18 +193,19 @@ class Sequence:
             for mrna in gene.mrnas:
                 if mrna.identifier == mrna_id and mrna.cds:
                     return mrna.cds.extract_sequence(self, gene.strand)
+        return "CDS not found."
 
     def cds_to_gff(self, mrna_id):
         for gene in self.genes:
             if gene.contains_mrna(mrna_id):
                 return gene.cds_to_gff(self.header, mrna_id)
-        return ""
+        return "CDS not found."
 
     def cds_to_tbl(self, mrna_id):
         for gene in self.genes:
             if gene.contains_mrna(mrna_id):
                 return gene.cds_to_tbl(mrna_id)
-        return ""
+        return "CDS not found."
 
     def to_tbl(self):
         result = ">Feature " + self.header + "\n"
