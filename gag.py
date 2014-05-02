@@ -208,6 +208,11 @@ class FlagCmd(GagCmdBase):
 
     def do_home(self, line):
         return True
+    
+    def do_summary(self, line):
+        for filt_name, filt in self.controller.filter_mgr.filters.iteritems():
+            if not filt.remove:
+                print('flag ' + filt_name + ' ' + str(filt.arg))
 
     def default(self, line):
         print("Sorry, can't filter " + line)
@@ -250,6 +255,11 @@ class RemoveCmd(GagCmdBase):
 
     def do_home(self, line):
         return True
+    
+    def do_summary(self, line):
+        for filt_name, filt in self.controller.filter_mgr.filters.iteritems():
+            if filt.remove and filt.arg != 0:
+                print('remove ' + filt_name + ' ' + str(filt.arg))
 
     def do_from_file(self, line):
         if line:
