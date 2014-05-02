@@ -91,7 +91,7 @@ class GagCmd(GagCmdBase):
     def help_flag(self):
         print("\nThis command takes you to the GAG FLAG menu. There you can flag features based")
         print("on certain criteria to mark suspicious data. Alternately, just type:\n")
-        print("'remove <criteria> <value>'\n")
+        print("'flag <criteria> <value>'\n")
         print("if you've done this before :)\n")
 
     def do_flag(self, line):
