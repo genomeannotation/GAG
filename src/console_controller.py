@@ -129,6 +129,17 @@ class ConsoleController:
         self.remove_from_list(remove_list)
         self.filter_mgr.dirty = True
 
+    def trim_from_list(self, trimlist):
+        for seq in self.seqs:
+            # Trim the ends first
+            for entry in trimlist:
+                if entry[0] == seq.header and entry[1] != 1:
+                    seq.trim_region(entry[1], entry[2])
+            # Now trim the beginnings
+            for entry in trimlist:
+                if entry[0] == seq.header and entry[1] == 1:
+                    seq.trim_region(entry[1], entry[2])
+
     def set_filter_arg(self, filter_name, val):
         self.filter_mgr.set_filter_arg(filter_name, val)
 

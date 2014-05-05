@@ -80,6 +80,16 @@ class TestConsoleController(unittest.TestCase):
         self.assertEquals(2, len(self.ctrlr.seqs))
         self.assertEquals("seq3", self.ctrlr.seqs[1].header)
 
+    def test_trim_from_list(self):
+        #self.ctrlr.seqs.append(Sequence("seq1", "GATTACA"))
+        #self.ctrlr.seqs.append(Sequence("seq2", "ATTAC"))
+        #self.ctrlr.seqs.append(Sequence("seq3", "ACGTACGT"))
+        self.setup_seqs()
+        trimlist = [["seq1", 1, 3]]
+        self.assertEquals(7, len(self.ctrlr.seqs[0].bases))
+        self.ctrlr.trim_from_list(trimlist)
+        self.assertEquals(4, len(self.ctrlr.seqs[0].bases))
+
     def test_get_n_seq_ids(self):
         self.setup_seqs()
         expected = "First 3 seq ids are: seq1, seq2, seq3\n"

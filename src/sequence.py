@@ -164,6 +164,7 @@ class Sequence:
         self.bases = self.bases[:start-1] + self.bases[stop:]
         to_remove = []
         # Remove any genes that are overlap the trimmed region
+        # TODO add these genes to 'removed.gff' somehow?
         self.genes = [g for g in self.genes if not overlap([start, stop], g.indices)]
         # Adjust indices of remaining genes
         bases_removed = stop - start + 1
