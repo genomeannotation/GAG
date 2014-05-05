@@ -121,6 +121,10 @@ class ConsoleController:
         for seq in self.seqs:
             self.stats_mgr.update_ref(seq.stats())
 
+    def add_annotations_from_list(self, anno_list):
+        for seq in self.seqs:
+            seq.add_annotations_from_list(anno_list)
+
     def remove_from_file(self, filename):
         if not os.path.isfile(filename):
             sys.stderr.write("Error: " + filename + " is not a file. Nothing removed.\n")

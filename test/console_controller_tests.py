@@ -72,6 +72,13 @@ class TestConsoleController(unittest.TestCase):
         self.assertTrue(self.ctrlr.contains_seq("seq1"))
         self.assertFalse(self.ctrlr.contains_seq("foo_seq"))
 
+    def test_add_annotations_from_list(self):
+        self.ctrlr.seqs = [Mock(), Mock()]
+        anno_list = [["gene1", "name", "ABC123"], ["foo_mrna", "Dbxref", "PFAM:0001"]]
+        self.ctrlr.add_annotations_from_list(anno_list)
+        self.ctrlr.seqs[0].add_annotations_from_list.assert_called_with(anno_list)
+        self.ctrlr.seqs[1].add_annotations_from_list.assert_called_with(anno_list)
+
     def test_remove_from_list(self):
         self.setup_seqs_and_genes()
         bad_items = ["seq2", "foo_gene", "bar_mrna"]

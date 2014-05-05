@@ -80,6 +80,14 @@ class Sequence:
         for gene in self.genes:
             gene.remove_empty_mrnas()
 
+    def add_annotations_from_list(self, anno_list):
+        for gene in self.genes:
+            for anno in anno_list:
+                if gene.identifier == anno[0] and anno[1] == "name":
+                    gene.name = anno[2]
+                if gene.contains_mrna(anno[0]):
+                    gene.add_mrna_annotation(anno[0], anno[1], anno[2])
+
     def number_of_gagflags(self):
         total = 0
         for gene in self.genes:

@@ -202,6 +202,25 @@ class TestSequence(unittest.TestCase):
         self.seq1.trim_region(1, 3)
         self.assertEquals(0, len(self.seq1.genes))
 
+    def test_add_annotations_from_list_adds_to_mrna(self):
+        gene = Mock()
+        mrna = Mock()
+        self.seq1.genes = [gene]
+        gene.mrnas = [mrna]
+        gene.identifier = "foo_gene"
+        gene.contains_mrna.return_value = True
+        anno_list = [["foo_mrna", "Dbxref", "PFAM:0001"]]
+        self.seq1.add_annotations_from_list(anno_list)
+        gene.add_mrna_annotation.assert_called_with("foo_mrna", "Dbxref", "PFAM:0001")
+
+    def test_add_annotations_from_list_adds_to_gene(self):
+        gene = Mock()
+        self.seq1.genes = [gene]
+        gene.identifier = "foo_gene"
+        anno_list = [["foo_gene", "name", "ABC123"], ["bar_gene", "name", "XYZ789"]]
+        self.seq1.add_annotations_from_list(anno_list)
+        self.assertEquals("ABC123", gene.name)
+
     def test_get_subseq(self):
         self.assertEquals("ATTA", self.seq1.get_subseq(2, 5))
 
