@@ -100,6 +100,18 @@ class GagCmd(GagCmdBase):
             filtercmd.cmdloop()
         else:
             print(self.no_genome_message)
+
+    def help_trim(self):
+        print("\nThis command takes you to the GAG TRIM menu, where you can ")
+        print("trim regions of the genome using a .bed file.\n")
+        print("Alternately, just type 'trim <path_to_file.bed>'\n")
+
+    def do_trim(self, line):
+        if self.controller.genome_is_loaded():
+            trimcmd = TrimCmd(self.prompt, self.controller, line)
+            trimcmd.cmdloop()
+        else:
+            print(self.no_genome_message)
     
     def help_remove(self):
         print("\nThis command takes you to the GAG REMOVE menu. There you can remove features based")
@@ -221,6 +233,31 @@ class FlagCmd(GagCmdBase):
         
 ##############################################
 
+class TrimCmd(GagCmdBase):
+
+    def __init__(self, prompt_prefix, controller, line):
+        GagCmdBase.__init__(self)
+        self.helptext = "\nThis is the GAG TRIM menu.\n"+\
+        "(You can type 'home' at any time to return to the main GAG console.)\n"+\
+        "Please type the path to a .bed file containing regions to trim.\n\n"
+        self.prompt = prompt_prefix[:-2] + " TRIM> "
+        self.controller = controller
+        self.context = {"go_home": False}
+        if line:
+            self.cmdqueue = [line] # Execute default method with path as arg
+        else:
+            print(self.helptext)
+            
+    def help_home(self):
+        print("\nExit this console and return to the main GAG console.\n")
+
+    def do_home(self, line):
+        return True
+    
+    def default(self, line):
+        try_catch(self.controller.trim_from_file, [line])
+        return True
+        
 class RemoveCmd(GagCmdBase):
 
     def __init__(self, prompt_prefix, controller, line):
