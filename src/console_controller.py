@@ -129,11 +129,22 @@ class ConsoleController:
         self.remove_from_list(remove_list)
         self.filter_mgr.dirty = True
 
+    def trim_from_file(self, filename):
+        if not os.path.isfile(filename):
+            sys.stderr.write("Error: " + filename + " is not a file. Nothing trimmed.\n")
+            return
+        trimlist = self.read_bed_file(open(filename, 'rb'))
+        if not trimlist:
+            sys.stderr.write("Failed to read .bed file; nothing trimmed.\n")
+            return
+        else:
+            self.trim_from_list(trimlist)
+
     def trim_from_list(self, trimlist):
         for seq in self.seqs:
             # Trim the ends first
             for entry in trimlist:
-                if entry[0] == seq.header and entry[1] != 1:
+                if entry[0] == seq.header and entry[2] == len(seq.bases):
                     seq.trim_region(entry[1], entry[2])
             # Now trim the beginnings
             for entry in trimlist:
@@ -238,6 +249,24 @@ class ConsoleController:
             for line in infile:
                 remove_list.append(line.strip()) 
         return remove_list
+
+    def read_bed_file(self, io_buffer):
+        trimlist = []
+        for line in io_buffer:
+            splitline = line.strip().split('\t')
+            if len(splitline) != 3:
+                return []
+            else:
+                try:
+                    entry = [splitline[0], int(splitline[1]), int(splitline[2])]
+                except ValueError:
+                    sys.stderr.write("Error reading .bed file. Non-integer value ")
+                    sys.sdterr.write("in column 2 or 3. Here is the line:\n")
+                    sys.stderr.write(line)
+                    return []
+                trimlist.append(entry)
+        return trimlist
+
 
 
 ## Apply filters n fixes

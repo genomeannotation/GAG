@@ -3,6 +3,7 @@
 import unittest
 from mock import Mock, patch, PropertyMock
 import sys
+import io
 import os
 from src.console_controller import ConsoleController, format_list_with_strings
 from src.sequence import Sequence
@@ -80,15 +81,33 @@ class TestConsoleController(unittest.TestCase):
         self.assertEquals(2, len(self.ctrlr.seqs))
         self.assertEquals("seq3", self.ctrlr.seqs[1].header)
 
-    def test_trim_from_list(self):
-        #self.ctrlr.seqs.append(Sequence("seq1", "GATTACA"))
-        #self.ctrlr.seqs.append(Sequence("seq2", "ATTAC"))
-        #self.ctrlr.seqs.append(Sequence("seq3", "ACGTACGT"))
+    def test_trim_from_list_beginning_of_seq(self):
         self.setup_seqs()
         trimlist = [["seq1", 1, 3]]
         self.assertEquals(7, len(self.ctrlr.seqs[0].bases))
         self.ctrlr.trim_from_list(trimlist)
         self.assertEquals(4, len(self.ctrlr.seqs[0].bases))
+
+    def test_trim_from_list_end_of_seq(self):
+        self.setup_seqs()
+        trimlist = [["seq2", 3, 5]]
+        self.assertEquals(5, len(self.ctrlr.seqs[1].bases))
+        self.ctrlr.trim_from_list(trimlist)
+        self.assertEquals(2, len(self.ctrlr.seqs[1].bases))
+
+    def test_trim_from_list_beginning_and_end_of_seq(self):
+        self.setup_seqs()
+        trimlist = [["seq3", 1, 2], ["seq3", 6, 8]]
+        self.assertEquals(8, len(self.ctrlr.seqs[2].bases))
+        self.ctrlr.trim_from_list(trimlist)
+        self.assertEquals(3, len(self.ctrlr.seqs[2].bases))
+        self.assertEquals("GTA", self.ctrlr.seqs[2].bases)
+
+    def test_read_bed_file(self):
+        trimfile = io.BytesIO("seq3\t1\t2\nseq3\t6\t8\n")
+        result = self.ctrlr.read_bed_file(trimfile)
+        expected = [["seq3", 1, 2], ["seq3", 6, 8]]
+        self.assertEquals(expected, result)
 
     def test_get_n_seq_ids(self):
         self.setup_seqs()
