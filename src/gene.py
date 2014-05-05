@@ -86,6 +86,19 @@ class Gene:
             value: a string representing the content of the annotation
         """
         self.annotations.append([key, value])
+
+    def add_mrna_annotation(self, mrna_id, key, value):
+        """Adds annotation key, value pair to specified mrna.
+
+        Does nothing if mrna not found.
+        Args:
+            mrna_id: the identifier of the mrna to which the annotation belongs
+            key: a string indicating the type of annotation (e.g. Dbxref, gagflag)
+            value: a string representing the content of the annotation
+        """
+        for mrna in self.mrnas:
+            if mrna.identifier == mrna_id:
+                mrna.add_annotation(key, value)
         
     def length(self):
         """Returns the length of the gene."""

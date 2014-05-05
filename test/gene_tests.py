@@ -215,6 +215,13 @@ class TestGene(unittest.TestCase):
         mrna1.create_start_and_stop_if_necessary.assert_called_with(seq_object, '+')
         mrna2.create_start_and_stop_if_necessary.assert_called_with(seq_object, '+')
 
+    def test_add_mrna_annotation(self):
+        mrna = Mock()
+        mrna.identifier = "foo_mrna"
+        self.test_gene0.mrnas = [mrna]
+        self.test_gene0.add_mrna_annotation("foo_mrna", "gag_flag", "awesome_anno")
+        mrna.add_annotation.assert_called_with("gag_flag", "awesome_anno")
+
     def test_to_tbl_positive(self):
         gene = Gene(seq_name="seq1", source="maker", indices=[1, 50], strand="+", identifier="foo_gene_1")
         self.assertFalse(gene.annotations)
