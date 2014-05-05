@@ -110,6 +110,12 @@ class TestConsoleController(unittest.TestCase):
         self.assertEquals(3, len(self.ctrlr.seqs[2].bases))
         self.assertEquals("GTA", self.ctrlr.seqs[2].bases)
 
+    def test_read_annotation_file(self):
+        annofile = io.BytesIO("foo_gene\tname\tABC123\nfoo_mrna\tDbxref\tPFAM:0001\n")
+        result = self.ctrlr.read_annotation_file(annofile)
+        expected = [["foo_gene", "name", "ABC123"], ["foo_mrna", "Dbxref", "PFAM:0001"]]
+        self.assertEquals(expected, result)
+
     def test_read_bed_file(self):
         trimfile = io.BytesIO("seq3\t1\t2\nseq3\t6\t8\n")
         result = self.ctrlr.read_bed_file(trimfile)

@@ -277,6 +277,16 @@ class ConsoleController:
                 trimlist.append(entry)
         return trimlist
 
+    def read_annotation_file(self, io_buffer):
+        annos = []
+        for line in io_buffer:
+            splitline = line.strip().split('\t')
+            if len(splitline) != 3:
+                return []
+            else:
+                annos.append(splitline)
+        return annos
+
 
 
 ## Apply filters n fixes
