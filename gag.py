@@ -88,6 +88,18 @@ class GagCmd(GagCmdBase):
         loadcmd = LoadCmd(self.prompt, self.controller, path_to_load)
         loadcmd.cmdloop()
 
+    def help_annotate(self):
+        print("\nThis command takes you to the GAG ANNOTATE menu. There you can specify the location of")
+        print("a table of annotations. GAG will add these annotations to your genome.")
+        print("Alternately, just type 'annotate <path_to_table> and avoid the submenu altogether.\n")
+
+    def do_annotate(self, line):
+        if self.controller.genome_is_loaded():
+            annocmd = AnnoCmd(self.prompt, self.controller, line)
+            annocmd.cmdloop()
+        else:
+            print(self.no_genome_message)
+
     def help_flag(self):
         print("\nThis command takes you to the GAG FLAG menu. There you can flag features based")
         print("on certain criteria to mark suspicious data. Alternately, just type:\n")
@@ -257,6 +269,35 @@ class TrimCmd(GagCmdBase):
     def default(self, line):
         try_catch(self.controller.trim_from_file, [line])
         return True
+        
+##############################################
+
+class AnnoCmd(GagCmdBase):
+
+    def __init__(self, prompt_prefix, controller, line):
+        GagCmdBase.__init__(self)
+        self.helptext = "\nThis is the GAG ANNOTATE menu.\n"+\
+        "(You can type 'home' at any time to return to the main GAG console.)\n"+\
+        "Please type the path to a table containing your annotations.\n\n"
+        self.prompt = prompt_prefix[:-2] + " ANNOTATE> "
+        self.controller = controller
+        self.context = {"go_home": False}
+        if line:
+            self.cmdqueue = [line] # Execute default method with path as arg
+        else:
+            print(self.helptext)
+            
+    def help_home(self):
+        print("\nExit this console and return to the main GAG console.\n")
+
+    def do_home(self, line):
+        return True
+    
+    def default(self, line):
+        try_catch(self.controller.annotate_from_file, [line])
+        return True
+
+##############################################
         
 class RemoveCmd(GagCmdBase):
 

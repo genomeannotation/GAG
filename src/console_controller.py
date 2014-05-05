@@ -146,6 +146,21 @@ class ConsoleController:
             # TODO filter mgr? or seq fixer? or what?
             self.filter_mgr.dirty = True
 
+    def annotate_from_file(self, filename):
+        if not os.path.isfile(filename):
+            sys.stderr.write("Error: " + filename + " is not a file. Nothing removed.\n")
+            return
+        annos = self.read_annotation_file(open(filename, 'rb'))
+        if not annos:
+            sys.stderr.write("Failed to read annotations from " + filename + "; no annotations added.\n")
+            return
+        else:
+            sys.stderr.write("Adding annotations to genome ...\n")
+            self.add_annotations_from_list(annos)
+            # TODO should make something dirty? we changed the genome...
+            self.filter_mgr.dirty = True
+            sys.stderr.write("...done\n")
+
     def trim_from_list(self, trimlist):
         for seq in self.seqs:
             # Trim the ends first
