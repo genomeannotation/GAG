@@ -54,7 +54,9 @@ class GFFReader:
                 result['name'] = splitpair[1]
             elif splitpair[0] == "Parent":
                 result['parent_id'] = splitpair[1]
-            elif splitpair[0] == "Dbxref" or splitpair[0] == "Ontology_term":
+            elif (splitpair[0] == "Dbxref" or
+                    splitpair[0] == "Ontology_term" or
+                    splitpair[0] == "product"):
                 annotations.append(splitpair)
         # Make sure we found an ID
         if "identifier" not in result:
