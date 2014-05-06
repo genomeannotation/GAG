@@ -42,6 +42,13 @@ class TestMRNA(unittest.TestCase):
         self.assertTrue(self.test_mrna0.has_start())
         self.assertEquals([[4000, 4002]], self.test_mrna0.other_features[0].indices)
 
+    def test_add_start_codon_gets_the_strand_right(self):
+        self.assertFalse(self.test_mrna0.has_start())
+        self.test_mrna0.add_start_codon([4000, 4002])
+        self.assertTrue(self.test_mrna0.has_start())
+        self.assertEquals([[4000, 4002]], self.test_mrna0.other_features[0].indices)
+        self.assertEquals('-', self.test_mrna0.other_features[0].strand)
+
     def test_add_stop_codon(self):
         self.assertFalse(self.test_mrna0.has_stop())
         self.test_mrna0.add_stop_codon([7000, 7002])
