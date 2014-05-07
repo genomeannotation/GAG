@@ -162,18 +162,12 @@ class ConsoleController:
                     sys.stderr.write(str(entry[1]) + " to " + str(entry[2]) + "\n")
             self.remove_empty_features(seq)
 
-    def set_filter_arg(self, filter_name, val):
-        self.filter_mgr.set_filter_arg(filter_name, val)
-
     def get_filter_arg(self, filter_name):
         return self.filter_mgr.get_filter_arg(filter_name)
-
-    def set_filter_remove(self, filter_name, remove):
-        self.filter_mgr.set_filter_remove(filter_name, remove)
         
-    def apply_filter(self, filter_name):
+    def apply_filter(self, filter_name, val, remove):
         for seq in self.seqs:
-            self.filter_mgr.apply_filter(filter_name, seq)
+            self.filter_mgr.apply_filter(filter_name, val, remove,seq)
             self.remove_empty_features(seq)
 
     def fix_terminal_ns(self):

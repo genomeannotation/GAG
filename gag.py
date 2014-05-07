@@ -418,15 +418,16 @@ class FilterArgCmd(GagCmdBase):
                     print("A str is any text. It is formatted \"like this\" or 'like this'\n")
                 return False
             
+            remove = False
             if self.filter_mode == 'REMOVE':
-                try_catch(self.controller.set_filter_remove, [self.filter_name, True])
+                remove = True
+
+            try_catch(self.controller.apply_filter, [self.filter_name, line, remove])
+
+            if self.filter_mode == 'REMOVE':
                 print("\n"+self.filter_name+" "+line+" removed.\n")
             else: #TODO maybe throw an error if filter_mode isn't FLAG
-                try_catch(self.controller.set_filter_remove, [self.filter_name, False])
                 print("\n"+self.filter_name+" "+line+" flagged.\n")
-            
-            try_catch(self.controller.set_filter_arg, [self.filter_name, line])
-            try_catch(self.controller.apply_filter, [self.filter_name])
             
             self.context['go_home'] = True
             return True

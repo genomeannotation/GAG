@@ -10,8 +10,13 @@ class TestFilterManager(unittest.TestCase):
         self.filter_mgr = FilterManager()
         
     def test_modify_filter_arg(self):
-        self.filter_mgr.set_filter_arg('cds_shorter_than', '30')
+        fake_seq = Mock()
+        self.filter_mgr.filters['cds_shorter_than'] = Mock()
+        self.filter_mgr.filters['cds_shorter_than'].arg = 0
+        self.filter_mgr.filters['cds_shorter_than'].remove = True
+        self.filter_mgr.apply_filter('cds_shorter_than', '30', False, fake_seq)
         self.assertEqual(self.filter_mgr.get_filter_arg('cds_shorter_than'), 30)
+        self.filter_mgr.filters['cds_shorter_than'].apply.assert_called_with(fake_seq)
 
 
 
