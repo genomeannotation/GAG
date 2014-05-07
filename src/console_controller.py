@@ -10,7 +10,6 @@ from src.gff_reader import GFFReader
 from src.annotator import Annotator
 from src.filter_manager import FilterManager
 from src.stats_manager import StatsManager
-from src.seq_fixer import SeqFixer
 
 class ConsoleController:
 
@@ -25,7 +24,6 @@ class ConsoleController:
         self.annot = Annotator()
         self.filter_mgr = FilterManager()
         self.stats_mgr = StatsManager()
-        self.seq_fixer = SeqFixer()
 
     def genome_is_loaded(self):
         for seq in self.seqs:
@@ -57,7 +55,7 @@ class ConsoleController:
             number_of_gagflags = 0
             first_line = "Number of sequences:   " + str(len(self.seqs)) + "\n"
             update_alt = False
-            if self.filter_mgr.dirty or self.seq_fixer.dirty:
+            if self.filter_mgr.dirty:
                 self.stats_mgr.clear_alt()
                 update_alt = True
             for seq in self.removed_seqs:
@@ -79,7 +77,6 @@ class ConsoleController:
             last_line = "(" + str(number_of_gagflags) + " features flagged)\n"
             stats_file.write(first_line + self.stats_mgr.summary() + last_line)
             self.filter_mgr.dirty = False
-            self.seq_fixer.dirty = False
 
             # Close files
             gff.close()
@@ -143,7 +140,6 @@ class ConsoleController:
             return
         else:
             self.trim_from_list(trimlist)
-            # TODO filter mgr? or seq fixer? or what?
             self.filter_mgr.dirty = True
 
     def annotate_from_file(self, filename):
@@ -190,12 +186,14 @@ class ConsoleController:
             self.filter_mgr.apply_filter(filter_name, seq)
 
     def fix_terminal_ns(self):
-        self.seq_fixer.fix_terminal_ns()
-        return "Terminal Ns will now be fixed."
+        for seq in self.seqs:
+            seq.remove_terminal_ns()
+        return "Terminal Ns fixed."
 
     def fix_start_stop_codons(self):
-        self.seq_fixer.fix_start_stop_codons()
-        return "Will verify and create start/stop codons."
+        for seq in self.seqs:
+            seq.create_starts_and_stops()
+        return "Verified and created start/stop codons."
 
 ## Assorted utilities
 
@@ -309,7 +307,6 @@ class ConsoleController:
 ## Apply filters n fixes
 
     def apply_filters_n_fixes(self, seq):
-        self.seq_fixer.fix(seq)
         seq.remove_empty_mrnas()
         seq.remove_empty_genes()
         
@@ -405,7 +402,7 @@ class ConsoleController:
         else:
             number_of_gagflags = 0
             first_line = "Number of sequences:   " + str(len(self.seqs)) + "\n"
-            if self.filter_mgr.dirty or self.seq_fixer.dirty:
+            if self.filter_mgr.dirty:
                 self.stats_mgr.clear_alt()
                 sys.stderr.write("Calculating statistics on genome...\n")
                 for seq in self.seqs:
@@ -415,7 +412,6 @@ class ConsoleController:
                     self.stats_mgr.update_alt(cseq.stats())
                     number_of_gagflags += cseq.number_of_gagflags()
                 self.filter_mgr.dirty = False
-                self.seq_fixer.dirty = False
             last_line = "(" + str(number_of_gagflags) + " features flagged)\n"
             return first_line + self.stats_mgr.summary() + last_line
 
