@@ -59,17 +59,16 @@ class ConsoleController:
             for seq in self.removed_seqs:
                 removed_gff.write(seq.to_gff())
             for seq in self.seqs:
-                cseq = copy.deepcopy(seq)
-                self.remove_empty_features(cseq)
-                gff.write(cseq.to_gff())
-                removed_gff.write(cseq.removed_to_gff())
-                tbl.write(cseq.to_tbl())
-                mrna_fasta.write(cseq.to_mrna_fasta())
-                cds_fasta.write(cseq.to_cds_fasta())
-                protein_fasta.write(cseq.to_protein_fasta())
-                fasta.write(cseq.to_fasta())
-                self.stats_mgr.update_alt(cseq.stats())
-                number_of_gagflags += cseq.number_of_gagflags()
+                self.remove_empty_features(seq)
+                gff.write(seq.to_gff())
+                removed_gff.write(seq.removed_to_gff())
+                tbl.write(seq.to_tbl())
+                mrna_fasta.write(seq.to_mrna_fasta())
+                cds_fasta.write(seq.to_cds_fasta())
+                protein_fasta.write(seq.to_protein_fasta())
+                fasta.write(seq.to_fasta())
+                self.stats_mgr.update_alt(seq.stats())
+                number_of_gagflags += seq.number_of_gagflags()
 
             last_line = "(" + str(number_of_gagflags) + " features flagged)\n"
             stats_file.write(first_line + self.stats_mgr.summary() + last_line)
@@ -303,7 +302,6 @@ class ConsoleController:
         seq.remove_empty_genes()
         
 
-
 ## Output info to console
 
     def barf_gene_gff(self, line):
@@ -312,9 +310,8 @@ class ConsoleController:
         else:
             for seq in self.seqs:
                 if seq.contains_gene(line):
-                    cseq = copy.deepcopy(seq)
-                    self.remove_empty_features(cseq)
-                    return cseq.gene_to_gff(line)
+                    self.remove_empty_features(seq)
+                    return seq.gene_to_gff(line)
 
     def barf_seq(self, line):
         if not self.seqs:
@@ -325,18 +322,16 @@ class ConsoleController:
                 seq_id = args[0]
                 for seq in self.seqs:
                     if seq.header == seq_id:
-                        cseq = copy.deepcopy(seq)
-                        self.remove_empty_features(cseq)
-                        return cseq.get_subseq()
+                        self.remove_empty_features(seq)
+                        return seq.get_subseq()
             elif len(args) == 3:
                 seq_id = args[0]
                 start = int(args[1])
                 stop = int(args[2])
                 for seq in self.seqs:
                     if seq.header == seq_id:
-                        cseq = copy.deepcopy(seq)
-                        self.remove_empty_features(cseq)
-                        return cseq.get_subseq(start, stop)
+                        self.remove_empty_features(seq)
+                        return seq.get_subseq(start, stop)
             else:
                 return "Usage: barfseq <seq_id> <start_index> <end_index>\n"
 
@@ -347,9 +342,8 @@ class ConsoleController:
             name = line
             for seq in self.seqs:
                 if seq.contains_mrna(name):
-                    cseq = copy.deepcopy(seq)
-                    self.remove_empty_features(cseq)
-                    return cseq.extract_cds_seq(name)
+                    self.remove_empty_features(seq)
+                    return seq.extract_cds_seq(name)
             return "Error: Couldn't find mRNA.\n"
 
     def cds_to_gff(self, line):
@@ -359,9 +353,8 @@ class ConsoleController:
             name = line
             for seq in self.seqs:
                 if seq.contains_mrna(name):
-                    cseq = copy.deepcopy(seq)
-                    self.remove_empty_features(cseq)
-                    return cseq.cds_to_gff(name)
+                    self.remove_empty_features(seq)
+                    return seq.cds_to_gff(name)
             return "Error: Couldn't find mRNA.\n"
 
     def cds_to_tbl(self, line):
@@ -371,9 +364,8 @@ class ConsoleController:
             name = line
             for seq in self.seqs:
                 if seq.contains_mrna(name):
-                    cseq = copy.deepcopy(seq)
-                    self.remove_empty_features(cseq)
-                    return cseq.cds_to_tbl(name)
+                    self.remove_empty_features(seq)
+                    return seq.cds_to_tbl(name)
             return "Error: Couldn't find mRNA.\n"
 
     def barf_gene_tbl(self, line):
@@ -383,9 +375,8 @@ class ConsoleController:
             output = ">Feature SeqId\n"
             for seq in self.seqs:
                 if seq.contains_gene(line):
-                    cseq = copy.deepcopy(seq)
-                    self.remove_empty_features(cseq)
-                    output += cseq.gene_to_tbl(line)
+                    self.remove_empty_features(seq)
+                    output += seq.gene_to_tbl(line)
             return output
 
     def stats(self):
@@ -396,12 +387,11 @@ class ConsoleController:
             # TODO have stats mgr handle "number of sequences"
             first_line = "Number of sequences:   " + str(len(self.seqs)) + "\n"
             sys.stderr.write("Calculating statistics on genome...\n")
+            self.stats_mgr.clear_alt()
             for seq in self.seqs:
-                # Deep copy seq, apply fixes and filters, then update stats
-                cseq = copy.deepcopy(seq)
-                self.remove_empty_features(cseq)
-                self.stats_mgr.update_alt(cseq.stats())
-                number_of_gagflags += cseq.number_of_gagflags()
+                self.remove_empty_features(seq)
+                self.stats_mgr.update_alt(seq.stats())
+                number_of_gagflags += seq.number_of_gagflags()
             last_line = "(" + str(number_of_gagflags) + " features flagged)\n"
             return first_line + self.stats_mgr.summary() + last_line
 
@@ -433,8 +423,6 @@ class ConsoleController:
         if to_remove:
             for seq in to_remove:
                 self.seqs.remove(seq)
-                # TODO this is where the whole deepcopy scheme starts to unravel
-                # we're handling removed seqs differently from other removed features.
                 sys.stderr.write("Warning: removing seq " + seq.header + ".\n")
                 sys.stderr.write("You must reload genome to get this sequence back.\n")
             self.removed_seqs.extend(to_remove)
