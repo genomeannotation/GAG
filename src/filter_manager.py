@@ -18,25 +18,17 @@ class FilterManager:
         self.filters['intron_longer_than'] = MaxIntronLengthFilter()
         self.filters['gene_shorter_than'] = MinGeneLengthFilter()
         self.filters['gene_longer_than'] = MaxGeneLengthFilter()
-        
-        # Starts out dirty
-        self.dirty = False
 
-    def apply_filters(self, seq):
-        for filt in self.filters.values():
-            filt.apply(seq)
+    def apply_filter(self, filter_name, seq):
+        self.filters[filter_name].apply(seq)
     
     def set_filter_arg(self, filter_name, val):
         val = ast.literal_eval(val)
-        if self.filters[filter_name].arg != val:
-            self.dirty = True
         self.filters[filter_name].arg = val
     
     def get_filter_arg(self, filter_name):
         return self.filters[filter_name].arg
     
     def set_filter_remove(self, filter_name, remove):
-        if self.filters[filter_name].remove != remove:
-            self.dirty = True
         self.filters[filter_name].remove = remove
    

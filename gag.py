@@ -419,6 +419,7 @@ class FilterArgCmd(GagCmdBase):
                 return False
             
             try_catch(self.controller.set_filter_arg, [self.filter_name, line])
+            try_catch(self.controller.apply_filter, [self.filter_name])
             
             if self.filter_mode == 'REMOVE':
                 try_catch(self.controller.set_filter_remove, [self.filter_name, True])

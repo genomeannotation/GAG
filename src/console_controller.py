@@ -185,9 +185,9 @@ class ConsoleController:
     def set_filter_remove(self, filter_name, remove):
         self.filter_mgr.set_filter_remove(filter_name, remove)
         
-    def apply_filters(self):
+    def apply_filter(self, filter_name):
         for seq in self.seqs:
-            self.filter_mgr.apply_filters(seq)
+            self.filter_mgr.apply_filter(filter_name, seq)
 
     def fix_terminal_ns(self):
         self.seq_fixer.fix_terminal_ns()
@@ -310,7 +310,6 @@ class ConsoleController:
 
     def apply_filters_n_fixes(self, seq):
         self.seq_fixer.fix(seq)
-        self.filter_mgr.apply_filters(seq)
         seq.remove_empty_mrnas()
         seq.remove_empty_genes()
         
