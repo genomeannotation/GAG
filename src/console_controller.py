@@ -224,9 +224,10 @@ class ConsoleController:
         If no genes are present, returns a message to that effect. If fewer than n
         genes are loaded, returns the gene_ids of those genes."""
         genes_list = []
-        while len(genes_list) < number:
-            for seq in self.seqs:
-                genes_list.extend(seq.get_gene_ids())
+        for seq in self.seqs:
+            if len(genes_list) >= number:
+                break
+            genes_list.extend(seq.get_gene_ids())
         # List may now contain more than 'number' ids, or it may contain zero
         if not genes_list:
             return "No genes currently in memory.\n"
@@ -242,9 +243,10 @@ class ConsoleController:
         If no mrnas are present, returns a message to that effect. If fewer than n
         mrnas are loaded, returns the mrna_ids of those mrnas."""
         mrnas_list = []
-        while len(mrnas_list) < number:
-            for seq in self.seqs:
-                mrnas_list.extend(seq.get_mrna_ids())
+        for seq in self.seqs:
+            if len(mrnas_list) >= number:
+                break
+            mrnas_list.extend(seq.get_mrna_ids())
         # List may now contain more than 'number' ids, or it may contain zero
         if not mrnas_list:
             return "No mrnas currently in memory.\n"
