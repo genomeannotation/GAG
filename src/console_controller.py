@@ -395,7 +395,6 @@ class ConsoleController:
             number_of_gagflags = 0
             # TODO have stats mgr handle "number of sequences"
             first_line = "Number of sequences:   " + str(len(self.seqs)) + "\n"
-            self.stats_mgr.clear_alt()
             sys.stderr.write("Calculating statistics on genome...\n")
             for seq in self.seqs:
                 # Deep copy seq, apply fixes and filters, then update stats
