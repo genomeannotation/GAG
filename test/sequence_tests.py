@@ -167,7 +167,8 @@ class TestSequence(unittest.TestCase):
         self.seq1.genes[1].mrnas = []
         self.seq1.genes[2].mrnas = []
         self.assertEquals(3, len(self.seq1.genes))
-        self.seq1.remove_empty_genes()
+        removed_genes = self.seq1.remove_empty_genes()
+        self.assertEquals(2, len(removed_genes))
         self.assertEquals(1, len(self.seq1.genes))
         self.assertEquals(2, len(self.seq1.removed_genes))
     

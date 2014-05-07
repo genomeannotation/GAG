@@ -20,7 +20,7 @@ class ConsoleController:
 
     def __init__(self):
         self.seqs = []
-        self.removed_seqs = []
+        self.removed_features = []
         self.annot = Annotator()
         self.filter_mgr = FilterManager()
         self.stats_mgr = StatsManager()
@@ -49,15 +49,14 @@ class ConsoleController:
             protein_fasta = open(line+'/genome.proteins.fasta', 'w')
             stats_file = open(line+'/genome.stats', 'w')
 
-
-            # Deep copy each seq, apply fixes and filters, write
+            # Now write stuff
             sys.stderr.write("Writing gff, tbl and fasta...\n")
             number_of_gagflags = 0
             first_line = "Number of sequences:   " + str(len(self.seqs)) + "\n"
             update_alt = False
             self.stats_mgr.clear_alt()
-            for seq in self.removed_seqs:
-                removed_gff.write(seq.to_gff())
+            for feature in self.removed_features:
+                removed_gff.write(feature.to_gff())
             for seq in self.seqs:
                 self.remove_empty_features(seq)
                 gff.write(seq.to_gff())
@@ -425,7 +424,7 @@ class ConsoleController:
                 self.seqs.remove(seq)
                 sys.stderr.write("Warning: removing seq " + seq.header + ".\n")
                 sys.stderr.write("You must reload genome to get this sequence back.\n")
-            self.removed_seqs.extend(to_remove)
+            self.removed_features.extend(to_remove)
         # Now pass the list down to each seq
         for seq in self.seqs:
             seq.remove_from_list(bad_list)
