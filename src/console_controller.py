@@ -55,9 +55,7 @@ class ConsoleController:
             number_of_gagflags = 0
             first_line = "Number of sequences:   " + str(len(self.seqs)) + "\n"
             update_alt = False
-            if self.filter_mgr.dirty:
-                self.stats_mgr.clear_alt()
-                update_alt = True
+            self.stats_mgr.clear_alt()
             for seq in self.removed_seqs:
                 removed_gff.write(seq.to_gff())
             for seq in self.seqs:
@@ -70,13 +68,11 @@ class ConsoleController:
                 cds_fasta.write(cseq.to_cds_fasta())
                 protein_fasta.write(cseq.to_protein_fasta())
                 fasta.write(cseq.to_fasta())
-                if update_alt:
-                    self.stats_mgr.update_alt(cseq.stats())
+                self.stats_mgr.update_alt(cseq.stats())
                 number_of_gagflags += cseq.number_of_gagflags()
 
             last_line = "(" + str(number_of_gagflags) + " features flagged)\n"
             stats_file.write(first_line + self.stats_mgr.summary() + last_line)
-            self.filter_mgr.dirty = False
 
             # Close files
             gff.close()
@@ -128,7 +124,6 @@ class ConsoleController:
             return
         remove_list = self.read_remove_list(filename)
         self.remove_from_list(remove_list)
-        self.filter_mgr.dirty = True
 
     def trim_from_file(self, filename):
         if not os.path.isfile(filename):
@@ -140,7 +135,6 @@ class ConsoleController:
             return
         else:
             self.trim_from_list(trimlist)
-            self.filter_mgr.dirty = True
 
     def annotate_from_file(self, filename):
         if not os.path.isfile(filename):
@@ -153,8 +147,6 @@ class ConsoleController:
         else:
             sys.stderr.write("Adding annotations to genome ...\n")
             self.add_annotations_from_list(annos)
-            # TODO should make something dirty? we changed the genome...
-            self.filter_mgr.dirty = True
             sys.stderr.write("...done\n")
 
     def trim_from_list(self, trimlist):
@@ -401,17 +393,16 @@ class ConsoleController:
             return self.no_genome_message
         else:
             number_of_gagflags = 0
+            # TODO have stats mgr handle "number of sequences"
             first_line = "Number of sequences:   " + str(len(self.seqs)) + "\n"
-            if self.filter_mgr.dirty:
-                self.stats_mgr.clear_alt()
-                sys.stderr.write("Calculating statistics on genome...\n")
-                for seq in self.seqs:
-                    # Deep copy seq, apply fixes and filters, then update stats
-                    cseq = copy.deepcopy(seq)
-                    self.apply_filters_n_fixes(cseq)
-                    self.stats_mgr.update_alt(cseq.stats())
-                    number_of_gagflags += cseq.number_of_gagflags()
-                self.filter_mgr.dirty = False
+            self.stats_mgr.clear_alt()
+            sys.stderr.write("Calculating statistics on genome...\n")
+            for seq in self.seqs:
+                # Deep copy seq, apply fixes and filters, then update stats
+                cseq = copy.deepcopy(seq)
+                self.apply_filters_n_fixes(cseq)
+                self.stats_mgr.update_alt(cseq.stats())
+                number_of_gagflags += cseq.number_of_gagflags()
             last_line = "(" + str(number_of_gagflags) + " features flagged)\n"
             return first_line + self.stats_mgr.summary() + last_line
 

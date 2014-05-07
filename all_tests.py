@@ -6,7 +6,6 @@ import test.fasta_reader_tests
 import test.gene_part_tests
 import test.mrna_tests
 import test.gene_tests
-import test.seq_fixer_tests
 import test.console_controller_tests
 import test.annotator_tests
 import test.translator_tests
@@ -24,7 +23,6 @@ suite1 = test.fasta_reader_tests.suite()
 suite2 = test.gene_part_tests.suite()
 suite3 = test.mrna_tests.suite()
 suite4 = test.gene_tests.suite()
-suite6 = test.seq_fixer_tests.suite()
 suite7 = test.console_controller_tests.suite()
 suite8 = test.annotator_tests.suite()
 suite9 = test.translator_tests.suite()
@@ -43,7 +41,6 @@ suite.addTest(suite1)
 suite.addTest(suite2)
 suite.addTest(suite3)
 suite.addTest(suite4)
-suite.addTest(suite6)
 suite.addTest(suite7)
 suite.addTest(suite8)
 suite.addTest(suite9)
