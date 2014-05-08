@@ -80,7 +80,7 @@ class TestConsoleController(unittest.TestCase):
         self.ctrlr.seqs[1].add_annotations_from_list.assert_called_with(anno_list)
 
     def test_remove_from_list(self):
-        self.setup_seqs_and_genes()
+        self.setup_seqs()
         bad_items = ["seq2", "foo_gene", "bar_mrna"]
         self.assertEquals(3, len(self.ctrlr.seqs))
         self.ctrlr.remove_from_list(bad_items)

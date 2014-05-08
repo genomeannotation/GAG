@@ -156,8 +156,10 @@ class TestSequence(unittest.TestCase):
 
     def test_remove_mrnas_from_list(self):
         self.seq1.genes = [Mock()]
+        self.seq1.genes[0].remove_mrnas_from_list.return_value = ["foo"]
         bad_mrnas = ["foo_mrna", "bar_mrna"]
-        self.seq1.remove_mrnas_from_list(bad_mrnas)
+        removed = self.seq1.remove_mrnas_from_list(bad_mrnas)
+        self.assertEquals(["foo"], removed)
         self.seq1.genes[0].remove_mrnas_from_list.assert_called_with(bad_mrnas)
     
     def test_remove_empty_genes(self):

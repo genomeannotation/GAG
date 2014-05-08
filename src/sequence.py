@@ -63,8 +63,11 @@ class Sequence:
         return to_remove
 
     def remove_mrnas_from_list(self, bad_mrnas):
+        removed_mrnas = []
         for gene in self.genes:
-            gene.remove_mrnas_from_list(bad_mrnas)
+            removed_from_gene = gene.remove_mrnas_from_list(bad_mrnas)
+            removed_mrnas.extend(removed_from_gene)
+        return removed_mrnas
     
     def remove_empty_genes(self):
         """Removes any gene containing no mRNAs; returns a list of removed genes."""
