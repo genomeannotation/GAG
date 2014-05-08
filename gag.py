@@ -420,10 +420,10 @@ class FilterArgCmd(GagCmdBase):
             
             if self.filter_mode == 'REMOVE':
                 try_catch(self.controller.set_filter_remove, [self.filter_name, True])
-                print("\n"+self.filter_name+" "+line+" will be removed.\n")
+                print("\n"+self.filter_name+" "+line+" removed.\n")
             else: #TODO maybe throw an error if filter_mode isn't FLAG
                 try_catch(self.controller.set_filter_remove, [self.filter_name, False])
-                print("\n"+self.filter_name+" "+line+" will be flagged.\n")
+                print("\n"+self.filter_name+" "+line+" flagged.\n")
             
             try_catch(self.controller.set_filter_arg, [self.filter_name, line])
             try_catch(self.controller.apply_filter, [self.filter_name])
