@@ -140,7 +140,8 @@ class TestSequence(unittest.TestCase):
         self.add_mock_gene('zub_gene')
         bad_genes = ["zub_gene", "foo_gene"]
         self.assertEquals(3, len(self.seq1.genes))
-        self.seq1.remove_genes_from_list(bad_genes)
+        removed_genes = self.seq1.remove_genes_from_list(bad_genes)
+        self.assertEquals(2, len(removed_genes))
         self.assertEquals(1, len(self.seq1.genes))
         self.assertEquals(2, len(self.seq1.removed_genes))
 

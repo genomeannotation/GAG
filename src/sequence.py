@@ -60,6 +60,7 @@ class Sequence:
                 self.genes.remove(gene)
                 sys.stderr.write("Removed gene " + gene.identifier + "\n")
             self.removed_genes.extend(to_remove)
+        return to_remove
 
     def remove_mrnas_from_list(self, bad_mrnas):
         for gene in self.genes:
