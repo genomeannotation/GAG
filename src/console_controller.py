@@ -421,8 +421,8 @@ class ConsoleController:
             self.removed_features.extend(to_remove)
         # Now pass the list down to each seq
         for seq in self.seqs:
-            # TODO seq should return list of removed features so can add to self.removed_features
-            seq.remove_from_list(bad_list)
+            removed_from_seq = seq.remove_from_list(bad_list)
+            self.removed_features.extend(removed_from_seq)
 
     def contains_mrna(self, mrna_id):
         for seq in self.seqs:

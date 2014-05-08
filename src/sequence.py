@@ -47,8 +47,12 @@ class Sequence:
         return False # Return false if gene wasn't removed
 
     def remove_from_list(self, bad_list):
-        self.remove_genes_from_list(bad_list)
-        self.remove_mrnas_from_list(bad_list)
+        removed_features = []
+        removed_genes = self.remove_genes_from_list(bad_list)
+        removed_mrnas = self.remove_mrnas_from_list(bad_list)
+        removed_features.extend(removed_genes)
+        removed_features.extend(removed_mrnas)
+        return removed_mrnas
 
     def remove_genes_from_list(self, bad_genes):
         to_remove = []
