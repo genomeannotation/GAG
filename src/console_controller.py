@@ -160,6 +160,7 @@ class ConsoleController:
                     seq.trim_region(entry[1], entry[2])
                     sys.stderr.write("Trimmed " + entry[0] + " from ")
                     sys.stderr.write(str(entry[1]) + " to " + str(entry[2]) + "\n")
+            self.remove_empty_features(seq)
 
     def set_filter_arg(self, filter_name, val):
         self.filter_mgr.set_filter_arg(filter_name, val)
@@ -294,10 +295,10 @@ class ConsoleController:
         return annos
 
 
-
 ## Clean up
 
     def remove_empty_features(self, seq):
+        """Removes any empty mRNAs or genes from a seq and adds them to self.removed_features."""
         self.removed_features.extend(seq.remove_empty_mrnas())
         self.removed_features.extend(seq.remove_empty_genes())
         
@@ -420,6 +421,7 @@ class ConsoleController:
             self.removed_features.extend(to_remove)
         # Now pass the list down to each seq
         for seq in self.seqs:
+            # TODO seq should return list of removed features so can add to self.removed_features
             seq.remove_from_list(bad_list)
 
     def contains_mrna(self, mrna_id):

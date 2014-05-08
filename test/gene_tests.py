@@ -57,7 +57,8 @@ class TestGene(unittest.TestCase):
         bad_mrnas = ["fake_mrna3", "fake_mrna1"]
         self.assertEquals(3, len(self.test_gene1.mrnas))
         self.assertEquals(0, len(self.test_gene1.removed_mrnas))
-        self.test_gene1.remove_mrnas_from_list(bad_mrnas)
+        removed_mrnas = self.test_gene1.remove_mrnas_from_list(bad_mrnas)
+        self.assertEquals(2, len(removed_mrnas))
         self.assertEquals(1, len(self.test_gene1.mrnas))
         self.assertEquals(2, len(self.test_gene1.removed_mrnas))
     
