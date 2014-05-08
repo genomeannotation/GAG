@@ -77,6 +77,7 @@ class Gene:
                 self.mrnas.remove(mrna)
                 sys.stderr.write("Removed mrna " + mrna.identifier + "\n")
             self.removed_mrnas.extend(to_remove)
+        return to_remove
 
     def add_annotation(self, key, value):
         """Adds an annotation key, value pair to the gene.

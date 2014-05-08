@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import unittest
-from mock import Mock
+from mock import Mock, MagicMock
 from src.sequence import Sequence
 
 class TestSequence(unittest.TestCase):
@@ -174,9 +174,27 @@ class TestSequence(unittest.TestCase):
     
     def test_remove_empty_mrnas(self):
         self.seq1.genes = [Mock(), Mock()]
-        self.seq1.remove_empty_mrnas()
-        self.seq1.genes[0].remove_mrnas_from_list.assert_called()
-        self.seq1.genes[1].remove_mrnas_from_list.assert_called()
+        self.seq1.genes[0].remove_empty_mrnas.return_value = []
+        self.seq1.genes[1].remove_empty_mrnas.return_value = []
+        removed_mrnas = self.seq1.remove_empty_mrnas()
+        self.seq1.genes[0].remove_empty_mrnas.assert_called_with()
+        self.seq1.genes[1].remove_empty_mrnas.assert_called_with()
+
+    def test_remove_empty_mrnas_returns_list(self):
+        gene = Mock()
+        gene.remove_empty_mrnas.return_value = [1, 2] #should be list of mRNAs but whatever
+        self.seq1.genes = [gene]
+        removed_mrnas = self.seq1.remove_empty_mrnas()
+        self.assertEquals([1, 2], removed_mrnas)
+
+    def test_remove_empty_mrnas_returns_list_multiple_genes(self):
+        gene1 = Mock()
+        gene1.remove_empty_mrnas.return_value = [1, 2]
+        gene2 = Mock()
+        gene2.remove_empty_mrnas.return_value = [3, 4]
+        self.seq1.genes = [gene1, gene2]
+        removed_mrnas = self.seq1.remove_empty_mrnas()
+        self.assertEquals([1, 2, 3, 4], removed_mrnas)
 
     def test_get_gene_ids(self):
         self.seq1.genes = [Mock(), Mock()]

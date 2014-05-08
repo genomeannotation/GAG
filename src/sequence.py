@@ -66,6 +66,7 @@ class Sequence:
             gene.remove_mrnas_from_list(bad_mrnas)
     
     def remove_empty_genes(self):
+        """Removes any gene containing no mRNAs; returns a list of removed genes."""
         to_remove = []
         for gene in self.genes:
             if not gene.mrnas:
@@ -78,8 +79,11 @@ class Sequence:
         return to_remove
     
     def remove_empty_mrnas(self):
+        removed_mrnas = []
         for gene in self.genes:
-            gene.remove_empty_mrnas()
+            removed_from_gene = gene.remove_empty_mrnas()
+            removed_mrnas.extend(removed_from_gene)
+        return removed_mrnas
 
     def add_annotations_from_list(self, anno_list):
         for gene in self.genes:
