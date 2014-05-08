@@ -19,8 +19,6 @@ class TestFilterManager(unittest.TestCase):
         self.filter_mgr.filters['cds_shorter_than'].apply.assert_called_with(fake_seq)
 
 
-
-
 ##########################
 def suite():
     suite = unittest.TestSuite()
