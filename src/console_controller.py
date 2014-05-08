@@ -58,7 +58,6 @@ class ConsoleController:
             for feature in self.removed_features:
                 removed_gff.write(feature.to_gff())
             for seq in self.seqs:
-                self.remove_empty_features(seq)
                 gff.write(seq.to_gff())
                 removed_gff.write(seq.removed_to_gff())
                 tbl.write(seq.to_tbl())
@@ -174,10 +173,12 @@ class ConsoleController:
     def apply_filter(self, filter_name):
         for seq in self.seqs:
             self.filter_mgr.apply_filter(filter_name, seq)
+            self.remove_empty_features(seq)
 
     def fix_terminal_ns(self):
         for seq in self.seqs:
             seq.remove_terminal_ns()
+            self.remove_empty_features(seq)
         return "Terminal Ns fixed."
 
     def fix_start_stop_codons(self):
@@ -297,8 +298,8 @@ class ConsoleController:
 ## Clean up
 
     def remove_empty_features(self, seq):
-        seq.remove_empty_mrnas()
-        seq.remove_empty_genes()
+        self.removed_features.extend(seq.remove_empty_mrnas())
+        self.removed_features.extend(seq.remove_empty_genes())
         
 
 ## Output info to console
@@ -309,7 +310,6 @@ class ConsoleController:
         else:
             for seq in self.seqs:
                 if seq.contains_gene(line):
-                    self.remove_empty_features(seq)
                     return seq.gene_to_gff(line)
 
     def barf_seq(self, line):
@@ -321,7 +321,6 @@ class ConsoleController:
                 seq_id = args[0]
                 for seq in self.seqs:
                     if seq.header == seq_id:
-                        self.remove_empty_features(seq)
                         return seq.get_subseq()
             elif len(args) == 3:
                 seq_id = args[0]
@@ -329,7 +328,6 @@ class ConsoleController:
                 stop = int(args[2])
                 for seq in self.seqs:
                     if seq.header == seq_id:
-                        self.remove_empty_features(seq)
                         return seq.get_subseq(start, stop)
             else:
                 return "Usage: barfseq <seq_id> <start_index> <end_index>\n"
@@ -341,7 +339,6 @@ class ConsoleController:
             name = line
             for seq in self.seqs:
                 if seq.contains_mrna(name):
-                    self.remove_empty_features(seq)
                     return seq.extract_cds_seq(name)
             return "Error: Couldn't find mRNA.\n"
 
@@ -352,7 +349,6 @@ class ConsoleController:
             name = line
             for seq in self.seqs:
                 if seq.contains_mrna(name):
-                    self.remove_empty_features(seq)
                     return seq.cds_to_gff(name)
             return "Error: Couldn't find mRNA.\n"
 
@@ -363,7 +359,6 @@ class ConsoleController:
             name = line
             for seq in self.seqs:
                 if seq.contains_mrna(name):
-                    self.remove_empty_features(seq)
                     return seq.cds_to_tbl(name)
             return "Error: Couldn't find mRNA.\n"
 
@@ -374,7 +369,6 @@ class ConsoleController:
             output = ">Feature SeqId\n"
             for seq in self.seqs:
                 if seq.contains_gene(line):
-                    self.remove_empty_features(seq)
                     output += seq.gene_to_tbl(line)
             return output
 
@@ -388,7 +382,6 @@ class ConsoleController:
             sys.stderr.write("Calculating statistics on genome...\n")
             self.stats_mgr.clear_alt()
             for seq in self.seqs:
-                self.remove_empty_features(seq)
                 self.stats_mgr.update_alt(seq.stats())
                 number_of_gagflags += seq.number_of_gagflags()
             last_line = "(" + str(number_of_gagflags) + " features flagged)\n"
