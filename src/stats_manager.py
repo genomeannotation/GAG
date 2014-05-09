@@ -8,7 +8,7 @@
 class StatsManager:
 
     increment_stats = ["Total sequence length", "Number of genes", "Number of mRNAs", "Number of exons", "Number of introns", "Number of CDS",\
-            "Number of contained genes", "CDS: complete", "CDS: start, no stop", "CDS: stop, no start", "CDS: no stop, no start",\
+            "Overlapping genes", "Contained genes", "CDS: complete", "CDS: start, no stop", "CDS: stop, no start", "CDS: no stop, no start",\
             "Total gene length", "Total mRNA length", "Total exon length",\
             "Total intron length", "Total CDS length"]    
     min_stats = ["Shortest gene", "Shortest mRNA", "Shortest exon", "Shortest intron", "Shortest CDS"]

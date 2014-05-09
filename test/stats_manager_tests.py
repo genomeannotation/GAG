@@ -35,7 +35,8 @@ class TestStatsManager(unittest.TestCase):
         self.mgr.ref_stats["Number of exons"] = 7
         self.mgr.ref_stats["Number of introns"] = 7
         self.mgr.ref_stats["Number of CDS"] = 7
-        self.mgr.ref_stats["Number of contained genes"] = 3
+        self.mgr.ref_stats["Overlapping genes"] = 3
+        self.mgr.ref_stats["Contained genes"] = 3
         self.mgr.ref_stats["CDS: complete"] = 3
         self.mgr.ref_stats["CDS: start, no stop"] = 1
         self.mgr.ref_stats["CDS: stop, no start"] = 1
@@ -64,7 +65,8 @@ class TestStatsManager(unittest.TestCase):
         d["Number of exons"] = 1
         d["Number of introns"] = 1
         d["Number of CDS"] = 1
-        d["Number of contained genes"] = 1
+        d["Overlapping genes"] = 1
+        d["Contained genes"] = 1
         d["CDS: complete"] = 3
         d["CDS: start, no stop"] = 1
         d["CDS: stop, no start"] = 1
@@ -113,7 +115,8 @@ class TestStatsManager(unittest.TestCase):
         expected += "Number of exons                  7                    1                   \n"
         expected += "Number of introns                7                    1                   \n"
         expected += "Number of CDS                    7                    1                   \n"
-        expected += "Number of contained genes        3                    1                   \n"
+        expected += "Overlapping genes                3                    1                   \n"
+        expected += "Contained genes                  3                    1                   \n"
         expected += "CDS: complete                    3                    3                   \n"
         expected += "CDS: start, no stop              1                    1                   \n"
         expected += "CDS: stop, no start              1                    1                   \n"
@@ -156,7 +159,8 @@ class TestStatsManager(unittest.TestCase):
         expected += "Number of exons                  7                 \n"
         expected += "Number of introns                7                 \n"
         expected += "Number of CDS                    7                 \n"
-        expected += "Number of contained genes        3                 \n"
+        expected += "Overlapping genes                3                 \n"
+        expected += "Contained genes                  3                 \n"
         expected += "CDS: complete                    3                 \n"
         expected += "CDS: start, no stop              1                 \n"
         expected += "CDS: stop, no start              1                 \n"
