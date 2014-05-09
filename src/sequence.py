@@ -209,6 +209,21 @@ class Sequence:
     def create_starts_and_stops(self):
         for gene in self.genes:
             gene.create_starts_and_stops(self)
+    
+    def get_contained_genes(self):
+        contained = []
+        for i, a in enumerate(self.genes):
+            for b in self.genes[i+1:]:
+                # Skip duplicate indices
+                if a.indices == b.indices:
+                    continue
+                # Check if a contains b
+                if a.indices[0] <= b.indices[0] and a.indices[1] >= b.indices[1] and not b in contained:
+                    contained.append(b)
+                # Check if b contains a
+                elif b.indices[0] <= a.indices[0] and b.indices[1] >= a.indices[1] and not a in contained:
+                    contained.append(a)
+        return contained
 
     def extract_cds_seq(self, mrna_id):
         for gene in self.genes:
