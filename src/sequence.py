@@ -476,6 +476,7 @@ class Sequence:
         stats["Number of exons"] = int(self.get_num_exons())
         stats["Number of introns"] = int(self.get_num_introns())
         stats["Number of CDS"] = int(self.get_num_cds())
+        stats["Number of contained genes"] = len(self.get_contained_genes())
         stats["CDS: complete"] = int(cds_partial_info["CDS: complete"])
         stats["CDS: start, no stop"] = int(cds_partial_info["CDS: start, no stop"])
         stats["CDS: stop, no start"] = int(cds_partial_info["CDS: stop, no start"])

@@ -22,6 +22,7 @@ class TestSequence(unittest.TestCase):
         
     def add_mock_gene_with_1_mrna(self, name):
         mockgene = Mock()
+        mockgene.indices = [1, 10]
         mockgene.identifier = name
         mockgene.death_flagged = False
         mockgene.mrnas = [Mock()]
@@ -46,6 +47,7 @@ class TestSequence(unittest.TestCase):
         
     def add_mock_gene_with_2_mrnas(self, name):
         mockgene = Mock()
+        mockgene.indices = [20, 30]
         mockgene.identifier = name
         mockgene.death_flagged = False
         mockgene.mrnas = [Mock(), Mock()]
@@ -321,6 +323,7 @@ class TestSequence(unittest.TestCase):
         self.assertEquals(stats["Number of exons"], 9)
         self.assertEquals(stats["Number of introns"], 7)
         self.assertEquals(stats["Number of CDS"], 2)
+        self.assertEquals(stats["Number of contained genes"], 0)
         self.assertEquals(stats["CDS: complete"], 1)
         self.assertEquals(stats["CDS: start, no stop"], 1)
         self.assertEquals(stats["CDS: stop, no start"], 2)
