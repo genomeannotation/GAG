@@ -224,6 +224,17 @@ class Sequence:
                 elif b.indices[0] <= a.indices[0] and b.indices[1] >= a.indices[1] and not a in contained:
                     contained.append(a)
         return contained
+    
+    def get_overlapping_genes(self):
+        contained = []
+        for i, a in enumerate(self.genes):
+            for b in self.genes[i+1:]:
+                if a.indices[1] >= b.indices[0] and a.indices[0] <= b.indices[1]:
+                    if not a in contained:
+                        contained.append(a)
+                    if not b in contained:
+                        contained.append(b)
+        return contained
 
     def extract_cds_seq(self, mrna_id):
         for gene in self.genes:

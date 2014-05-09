@@ -272,6 +272,28 @@ class TestSequence(unittest.TestCase):
         self.seq1.add_gene(fake_gene4)
         contained = self.seq1.get_contained_genes()
         self.assertEqual(contained, [fake_gene1])
+    
+    def test_get_overlapping_genes(self):
+        fake_gene0 = Mock()
+        fake_gene0.indices = [0, 10]
+        self.seq1.add_gene(fake_gene0)
+        fake_gene1 = Mock()
+        fake_gene1.indices = [1, 9]
+        self.seq1.add_gene(fake_gene1)
+        fake_gene2 = Mock()
+        fake_gene2.indices = [0, 10]
+        self.seq1.add_gene(fake_gene2)
+        fake_gene3 = Mock()
+        fake_gene3.indices = [5, 15]
+        self.seq1.add_gene(fake_gene3)
+        fake_gene4 = Mock()
+        fake_gene4.indices = [20, 30]
+        self.seq1.add_gene(fake_gene4)
+        contained = self.seq1.get_overlapping_genes()
+        self.assertTrue(fake_gene0 in contained)
+        self.assertTrue(fake_gene1 in contained)
+        self.assertTrue(fake_gene2 in contained)
+        self.assertTrue(fake_gene3 in contained)
         
 
     def test_cds_to_gff(self):
