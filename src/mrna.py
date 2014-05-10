@@ -240,13 +240,15 @@ class MRNA:
         """Returns length of shortest exon contained on mRNA."""
         if not self.exon:
             return 0
-        shortest = 0
+        shortest = None
         for index_pair in self.exon.indices:
             length = length_of_segment(index_pair)
             if length == 0:
                 continue
-            if shortest == 0 or length_of_segment(index_pair) < shortest:
+            if shortest == None or length_of_segment(index_pair) < shortest:
                 shortest = length
+        if shortest == None:
+            return 0
         return shortest
 
     def get_total_exon_length(self):
@@ -284,7 +286,7 @@ class MRNA:
         """Returns length of shortest intron contained on mRNA."""
         if not self.exon:
             return 0
-        shortest = 0
+        shortest = None
         last_end = 0
         for index_pair in self.exon.indices:
             if last_end != 0:
@@ -293,9 +295,11 @@ class MRNA:
                     continue
                 if this_intron < 0:
                     raise Exception("Intron with negative length on "+self.name)
-                if shortest == 0 or this_intron < shortest:
+                if shortest == None or this_intron < shortest:
                     shortest = this_intron
             last_end = index_pair[1]
+        if shortest == None:
+            return 0
         return shortest
 
     def get_total_intron_length(self):

@@ -143,13 +143,15 @@ class Gene:
 
     def get_shortest_exon(self):
         """Returns length of shortest exon contained on gene."""
-        shortest = 0
+        shortest = None
         for mrna in self.mrnas:
             length = mrna.get_shortest_exon()
             if length == 0:
                 continue
-            if shortest == 0 or length < shortest:
+            if shortest == None or length < shortest:
                 shortest = length
+        if shortest == None:
+            return 0
         return shortest
 
     def get_total_exon_length(self):
@@ -177,13 +179,15 @@ class Gene:
 
     def get_shortest_intron(self):
         """Returns length of shortest intron contained on gene."""
-        shortest = 0
+        shortest = None
         for mrna in self.mrnas:
             length = mrna.get_shortest_intron()
             if length == 0:
                 continue
-            if shortest == 0 or length < shortest:
+            if shortest == None or length < shortest:
                 shortest = length
+        if shortest == None:
+            return 0
         return shortest
 
     def get_total_intron_length(self):
