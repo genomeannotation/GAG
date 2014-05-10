@@ -143,9 +143,9 @@ class TestStatsManager(unittest.TestCase):
         expected += "mean CDS length                  9                    10                  \n"
         expected += "% of genome covered by genes     70.0                 30.0                \n"
         expected += "% of genome covered by CDS       60.0                 20.0                \n"
-        expected += "mRNAs per gene                   1                    1                   \n"
-        expected += "exons per mRNA                   1                    1                   \n"
-        expected += "introns per mRNA                 1                    1                   \n"
+        expected += "mean mRNAs per gene              1                    1                   \n"
+        expected += "mean exons per mRNA              1                    1                   \n"
+        expected += "mean introns per mRNA            1                    1                   \n"
         summary = self.mgr.summary()
         self.assertEquals(summary, expected)
 
@@ -187,9 +187,9 @@ class TestStatsManager(unittest.TestCase):
         expected += "mean CDS length                  8.57142857143     \n"
         expected += "% of genome covered by genes     0.7               \n"
         expected += "% of genome covered by CDS       0.6               \n"
-        expected += "mRNAs per gene                   1.4               \n"
-        expected += "exons per mRNA                   1.0               \n"
-        expected += "introns per mRNA                 1.0               \n"
+        expected += "mean mRNAs per gene              1.4               \n"
+        expected += "mean exons per mRNA              1.0               \n"
+        expected += "mean introns per mRNA            1.0               \n"
         summary = self.mgr.summary()
         #self.assertEquals(summary, expected)
         

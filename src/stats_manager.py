@@ -20,11 +20,11 @@ class StatsManager:
             "mean CDS length": ["Total CDS length", "Number of CDS"],\
             "% of genome covered by genes": ["Total gene length", "Total sequence length"],\
             "% of genome covered by CDS": ["Total CDS length", "Total sequence length"],\
-            "mRNAs per gene": ["Number of mRNAs", "Number of genes"], "exons per mRNA": ["Number of exons", "Number of mRNAs"],\
-            "introns per mRNA": ["Number of introns", "Number of mRNAs"]}
+            "mean mRNAs per gene": ["Number of mRNAs", "Number of genes"], "mean exons per mRNA": ["Number of exons", "Number of mRNAs"],\
+            "mean introns per mRNA": ["Number of introns", "Number of mRNAs"]}
     calc_stats = ["mean gene length", "mean mRNA length", "mean exon length", "mean intron length",\
             "mean CDS length", "% of genome covered by genes", "% of genome covered by CDS",\
-            "mRNAs per gene", "exons per mRNA", "introns per mRNA"]
+            "mean mRNAs per gene", "mean exons per mRNA", "mean introns per mRNA"]
 
     def __init__(self):
         self.ref_stats = {}
