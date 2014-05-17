@@ -4,4 +4,4 @@ A console-based program to read, modify, annotate and output genomic data. Can w
 
 To run, type 'python gag.py'
 
-See documentation at http://brianreallymany.github.io/GAG/
+See documentation at http://genomeannotation.github.io/GAG
