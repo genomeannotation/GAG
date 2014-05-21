@@ -8,7 +8,7 @@ class TestMRNA(unittest.TestCase):
 
     def setUp(self):
         self.test_mrna0 = MRNA(identifier='bdor_foo', indices=[3734, 7436], strand='-', parent_id=1)
-        self.test_mrna1 = MRNA(identifier=2, indices=[3734, 7436], parent_id=1)
+        self.test_mrna1 = MRNA(identifier='bdor_foo2', indices=[3734, 7436], parent_id=1)
         self.fake_exon = Mock()
         self.fake_cds = Mock()
         self.fake_start_codon = Mock()
@@ -81,7 +81,7 @@ class TestMRNA(unittest.TestCase):
         self.assertFalse(self.test_mrna1.has_stop())
 
     def test_str(self):
-        expected = "mRNA (ID=2) containing Exon, CDS and 1 other features"
+        expected = "mRNA (ID=bdor_foo2) containing Exon, CDS and 1 other features"
         self.assertEquals(expected, str(self.test_mrna1))
 
     def test_cds_to_gff(self):
@@ -98,7 +98,7 @@ class TestMRNA(unittest.TestCase):
         self.fake_start_codon.to_gff.return_value = "...start codon to gff\n"
         expected = "sctg_0080_0020\tmaker\tmRNA\t"
         expected += "3734\t7436\t.\t+\t.\t"
-        expected += "ID=2;Parent=1;foo=dog\n"
+        expected += "ID=bdor_foo2;Parent=1;foo=dog\n"
         expected += "...exon to gff\n...cds to gff\n"
         expected += "...start codon to gff\n"
         self.test_mrna1.add_annotation('foo', 'dog')
@@ -151,8 +151,12 @@ class TestMRNA(unittest.TestCase):
         self.fake_cds.to_tbl.return_value = "fake_cds_to_tbl...\n"
         expected = "fake_exon_to_tbl...\n"
         expected += "\t\t\tproduct\thypothetical protein\n"
+        expected += "\t\t\tprotein_id\tgnl|ncbi|bdor_foo2\n"
+        expected += "\t\t\ttranscript_id\tgnl|ncbi|bdor_foo2_mrna\n"
         expected += "fake_cds_to_tbl...\n"
         expected += "\t\t\tproduct\thypothetical protein\n"
+        expected += "\t\t\tprotein_id\tgnl|ncbi|bdor_foo2\n"
+        expected += "\t\t\ttranscript_id\tgnl|ncbi|bdor_foo2_mrna\n"
         self.assertEquals(self.test_mrna1.to_tbl(), expected)
 
     def test_indices_intersect_cds_false(self):

@@ -215,6 +215,8 @@ class MRNA:
                 output += '\t\t\t'+annot[0]+'\t'+annot[1]+'\n'
             if not self.annotations_contain_product():
                 output += "\t\t\tproduct\thypothetical protein\n"
+            output += "\t\t\tprotein_id\tgnl|ncbi|"+self.identifier+"\n"
+            output += "\t\t\ttranscript_id\tgnl|ncbi|"+self.identifier+"_mrna\n"
         if self.cds:
             output += self.cds.to_tbl(has_start, has_stop)
             # Write the annotations again
@@ -222,6 +224,8 @@ class MRNA:
                 output += '\t\t\t'+annot[0]+'\t'+annot[1]+'\n'
             if not self.annotations_contain_product():
                 output += "\t\t\tproduct\thypothetical protein\n"
+            output += "\t\t\tprotein_id\tgnl|ncbi|"+self.identifier+"\n"
+            output += "\t\t\ttranscript_id\tgnl|ncbi|"+self.identifier+"_mrna\n"
         return output
 
     ## STATS STUFF ##
