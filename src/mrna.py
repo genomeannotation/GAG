@@ -9,7 +9,7 @@ def length_of_segment(index_pair):
 
 class MRNA:
 
-    def __init__(self, identifier, indices, parent_id, strand='+', annotations=None):
+    def __init__(self, identifier, indices, parent_id, source=None, seq_name=None, strand='+', annotations=None):
         self.identifier = identifier
         self.indices = indices
         self.parent_id = parent_id
@@ -21,6 +21,14 @@ class MRNA:
             self.annotations = []
         else:
             self.annotations = annotations
+        if not source:
+            self.source = ""
+        else:
+            self.source = source
+        if not seq_name:
+            self.seq_name = ""
+        else:
+            self.seq_name = seq_name
         self.death_flagged = False
 
     def __str__(self):
@@ -185,9 +193,9 @@ class MRNA:
         else:
             return ""
 
-    def to_gff(self, seq_name, source):
+    def to_gff(self):
         """Returns a string of mRNA and child features in .gff format."""
-        result = seq_name + "\t" + source + "\t" + "mRNA" + "\t"
+        result = self.seq_name + "\t" + self.source + "\t" + "mRNA" + "\t"
         result += str(self.indices[0]) + "\t" + str(self.indices[1]) + "\t"
         result += "." + "\t" + self.strand + "\t" + "." + "\t"
         result += "ID=" + str(self.identifier)
@@ -196,11 +204,11 @@ class MRNA:
             result += ';'+annot[0]+'='+annot[1]
         result += '\n'
         if self.exon:
-            result += self.exon.to_gff(seq_name, source)
+            result += self.exon.to_gff(self.seq_name, self.source)
         if self.cds:
-            result += self.cds.to_gff(seq_name, source)
+            result += self.cds.to_gff(self.seq_name, self.source)
         for other in self.other_features:
-            result += other.to_gff(seq_name, source)
+            result += other.to_gff(self.seq_name, self.source)
         return result
 
     def to_tbl(self):

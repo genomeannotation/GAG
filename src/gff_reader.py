@@ -79,6 +79,9 @@ class GFFReader:
 
         if 'name' in attribs:
             del attribs['name']
+
+        if "annotations" in attribs:
+            del attribs["annotations"]
         
         result.update(attribs)
         return result
@@ -96,6 +99,9 @@ class GFFReader:
         if 'name' in attribs:
             del attribs['name']
 
+        if "annotations" in attribs:
+            del attribs["annotations"]
+        
         result.update(attribs)
         return result
 

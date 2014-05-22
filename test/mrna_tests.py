@@ -8,7 +8,7 @@ class TestMRNA(unittest.TestCase):
 
     def setUp(self):
         self.test_mrna0 = MRNA(identifier='bdor_foo', indices=[3734, 7436], strand='-', parent_id=1)
-        self.test_mrna1 = MRNA(identifier='bdor_foo2', indices=[3734, 7436], parent_id=1)
+        self.test_mrna1 = MRNA(identifier='bdor_foo2', indices=[3734, 7436], parent_id=1, seq_name="sctg_0080_0020", source="maker")
         self.fake_exon = Mock()
         self.fake_cds = Mock()
         self.fake_start_codon = Mock()
@@ -102,7 +102,7 @@ class TestMRNA(unittest.TestCase):
         expected += "...exon to gff\n...cds to gff\n"
         expected += "...start codon to gff\n"
         self.test_mrna1.add_annotation('foo', 'dog')
-        actual = self.test_mrna1.to_gff(seq_name="sctg_0080_0020", source="maker")
+        actual = self.test_mrna1.to_gff()
         self.assertEquals(expected, actual)
         self.fake_exon.to_gff.assert_called_with("sctg_0080_0020", "maker")
         self.fake_cds.to_gff.assert_called_with("sctg_0080_0020", "maker")

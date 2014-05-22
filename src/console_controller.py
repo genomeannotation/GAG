@@ -107,9 +107,11 @@ class ConsoleController:
         sys.stderr.write("Done.\n")
 
         # Clear stats; read in new stats
+        sys.stderr.write("Calculating stats...\n")
         self.stats_mgr.clear_all()
         for seq in self.seqs:
             self.stats_mgr.update_ref(seq.stats())
+        sys.stderr.write("Done.\n")
 
     def add_annotations_from_list(self, anno_list):
         for seq in self.seqs:
