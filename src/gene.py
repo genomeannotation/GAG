@@ -314,11 +314,11 @@ class Gene:
             result += ';'+annot[0]+'='+annot[1]
         result += '\n'
         for mrna in self.mrnas:
-            result += mrna.to_gff(self.seq_name, self.source)
+            result += mrna.to_gff()
         # Now write the removed features if they want them
         if removed_features:
             for mrna in self.removed_mrnas:
-                result += mrna.to_gff(self.seq_name, self.source)
+                result += mrna.to_gff()
         return result
     
     # Outputs only removed mrnas
