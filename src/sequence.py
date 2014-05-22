@@ -82,7 +82,7 @@ class Sequence:
         if to_remove:
             for gene in to_remove:
                 self.genes.remove(gene)
-                sys.stderr.write("Removed gene " + gene.identifier + "\n")
+                sys.stderr.write("Removed empty gene " + gene.identifier + "\n")
             self.removed_genes.extend(to_remove)
         return to_remove
     

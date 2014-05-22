@@ -106,13 +106,17 @@ class ConsoleController:
         self.read_gff(gffpath)
         sys.stderr.write("Done.\n")
 
+        # Remove empty features
+        for seq in self.seqs:
+            self.remove_empty_features(seq)
+
         # Clear stats; read in new stats
         sys.stderr.write("Calculating stats...\n")
         self.stats_mgr.clear_all()
         for seq in self.seqs:
             self.stats_mgr.update_ref(seq.stats())
         sys.stderr.write("Done.\n")
-
+    
     def add_annotations_from_list(self, anno_list):
         for seq in self.seqs:
             seq.add_annotations_from_list(anno_list)

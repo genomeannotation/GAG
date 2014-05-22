@@ -71,12 +71,19 @@ class Gene:
         """
         to_remove = []
         for mrna in self.mrnas:
-            if not mrna.cds or not mrna.exon:
+            if not mrna.cds and not mrna.exon:
                 to_remove.append(mrna)
+                sys.stderr.write("Removed empty mrna " + mrna.identifier + "\n")
+            elif not mrna.cds:
+                to_remove.append(mrna)
+                sys.stderr.write("Removed mrna " + mrna.identifier + " with no cds\n")
+            elif not mrna.exon:
+                to_remove.append(mrna)
+                sys.stderr.write("Removed mrna " + mrna.identifier + " with no exon\n")
         if to_remove:
             for mrna in to_remove:
                 self.mrnas.remove(mrna)
-                sys.stderr.write("Removed mrna " + mrna.identifier + "\n")
+                
             self.removed_mrnas.extend(to_remove)
         return to_remove
 
