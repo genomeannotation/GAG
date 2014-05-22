@@ -326,7 +326,7 @@ class Gene:
         """Returns a string in .gff format of the gene and its child features."""
         result = ""
         for mrna in self.removed_mrnas:
-            result += mrna.to_gff(self.seq_name, self.source)
+            result += mrna.to_gff()
         return result
 
     def to_tbl(self):
