@@ -87,7 +87,8 @@ class TestGFFReader(unittest.TestCase):
 
     def test_extract_mrna_args(self):
         line = "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n".split('\t')
-        expected = {'indices': [106151, 109853], 'identifier': 'BDOR_007864-RA', 'strand': '+', 'parent_id': 'BDOR_007864'}
+        expected = {'indices': [106151, 109853], 'identifier': 'BDOR_007864-RA', 'strand': '+', 'parent_id': 'BDOR_007864',
+                    'seq_name': "scaffold00080", 'source': "maker"}
         args = self.reader.extract_mrna_args(line)
         self.assertEqual(expected, args)
 
