@@ -136,6 +136,16 @@ class GFFReader:
         """Pulls GenePart arguments from a gff line and returns them in a dictionary."""
         result = {'feature_type': line[2], 'indices': [int(line[3]), int(line[4])]}
         attribs = self.parse_attributes(line[8])
+
+        if not attribs:
+            return None
+
+        if 'name' in attribs:
+            del attribs['name']
+
+        if "annotations" in attribs:
+            del attribs["annotations"]
+        
         result.update(attribs)
         return result
 
