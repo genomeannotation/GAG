@@ -291,5 +291,5 @@ class GFFReader:
 
         if self.skipped_features > 0:
             sys.stderr.write("Warning: skipped "+str(self.skipped_features)+" uninteresting features.\n")
-        return self.genes.values()
+        return list(self.genes.values())
 

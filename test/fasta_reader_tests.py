@@ -11,9 +11,9 @@ class TestFastaReader(unittest.TestCase):
         self.reader = FastaReader()
 
     def test_read(self):
-        no_line_breaks = io.BytesIO('>seq_1\nGATTACAGATTACAGATTACAGATTACAGATTACAGATTACAGATTACAGATTACA\n' +
+        no_line_breaks = io.StringIO('>seq_1\nGATTACAGATTACAGATTACAGATTACAGATTACAGATTACAGATTACAGATTACA\n' +
                                     '>seq_2\nNNNNNNNNGATTACAGATTACAGATTACANNNNNNNNNNN')
-        line_breaks = io.BytesIO('>seq_1\nGATTACAGATTACAGATTACAGATTACA\nGATTACAGATTACAGATTACAGATTACA\n' +
+        line_breaks = io.StringIO('>seq_1\nGATTACAGATTACAGATTACAGATTACA\nGATTACAGATTACAGATTACAGATTACA\n' +
                                  '>seq_2\nNNNNNNNNGATTACAGATTACAGATTAC\nANNNNNNNNNNN')
 
         self.reader.read(no_line_breaks)

@@ -61,7 +61,7 @@ class GenePart:
         # Build a list of lists where each entry is 
         # composed of attributes
         all_attributes = []
-        for i in xrange(length):
+        for i in range(length):
             all_attributes.append([self.indices[i][0], self.indices[i][1], 
                 self.identifier[i]])
             if sort_scores:
@@ -70,7 +70,7 @@ class GenePart:
         # Sort that list (by first index in each index_pair)
         all_attributes.sort()
         # Repopulate the attributes
-        for i in xrange(length):
+        for i in range(length):
             self.indices[i] = [all_attributes[i][0], all_attributes[i][1]]
             self.identifier[i] = all_attributes[i][2]
             if sort_scores:

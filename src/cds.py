@@ -58,7 +58,7 @@ class CDS(GenePart):
         # Build a list of lists where each entry is 
         # composed of attributes
         all_attributes = []
-        for i in xrange(length):
+        for i in range(length):
             all_attributes.append([self.indices[i][0], self.indices[i][1], 
                 self.identifier[i], self.phase[i]])
             if sort_scores:
@@ -67,7 +67,7 @@ class CDS(GenePart):
         # Sort that list (by first index in each index_pair)
         all_attributes.sort()
         # Repopulate the attributes
-        for i in xrange(length):
+        for i in range(length):
             self.indices[i] = [all_attributes[i][0], all_attributes[i][1]]
             self.identifier[i] = all_attributes[i][2]
             self.phase[i] = all_attributes[i][3]
@@ -85,7 +85,7 @@ class CDS(GenePart):
             CDS has no indices)
         """
         seq = ''
-        for i in xrange(len(self.indices)):
+        for i in range(len(self.indices)):
             index_pair = self.indices[i]
             subseq = seq_object.get_subseq(index_pair[0], index_pair[1])
             if subseq:
