@@ -255,14 +255,14 @@ class ConsoleController:
 
     def read_gff(self, line):
         gffreader = GFFReader()
-        reader = open(line, 'rb')
+        reader = open(line, 'r')
         genes = gffreader.read_file(reader)
         for gene in genes:
             self.add_gene(gene)
 
     def read_remove_list(self, line):
         remove_list = []
-        with open(line, 'rb') as infile:
+        with open(line, 'r') as infile:
             for line in infile:
                 remove_list.append(line.strip()) 
         return remove_list

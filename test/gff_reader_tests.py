@@ -126,8 +126,16 @@ class TestGFFReader(unittest.TestCase):
         inbuff = io.StringIO(text)
         genes = self.reader.read_file(inbuff)
         self.assertEquals(2, len(genes))
-        self.assertEquals('BDOR_007864-RA', genes[0].mrnas[0].identifier)
-        self.assertEquals([179489, 179691], genes[1].mrnas[0].cds.indices[2])
+        mrna_ids = [genes[0].mrnas[0].identifier, genes[1].mrnas[0].identifier]
+        self.assertTrue('BDOR_007864-RA' in mrna_ids)
+        found_indices = False
+        for gene in genes:
+            for mrna in gene.mrnas:
+                for indices in mrna.cds.indices:
+                    print(indices)
+                    if [179489, 179691] == indices:
+                        found_indices = True
+        self.assertTrue(found_indices)
 
     def get_sample_text(self):
         sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n"
@@ -194,7 +202,8 @@ class TestGFFReader(unittest.TestCase):
         inbuff = io.StringIO(text)
         genes = self.reader.read_file(inbuff)
         self.assertEqual(1, len(genes))
-        self.assertEqual('BDOR_007864-RA', genes[0].mrnas[0].identifier)
+        mrna_ids = [genes[0].mrnas[0].identifier, genes[0].mrnas[1].identifier]
+        self.assertTrue('BDOR_007864-RA' in mrna_ids)
         self.assertEqual(2, len(genes[0].mrnas))
         self.assertEqual(2, len(genes[0].mrnas[0].exon.indices))
         self.assertEqual(2, len(genes[0].mrnas[1].exon.indices))

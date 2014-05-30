@@ -267,7 +267,7 @@ class GFFReader:
         # First pass, pulling out all genes and mRNAs
         #  and placing child features if possible
         for line in reader:
-            if len(line) == 0 or line[0].startswith('#'):
+            if len(line) == 0 or str(line[0]).startswith('#'):
                 comments.write(line)
                 continue
             splitline = self.validate_line(line)

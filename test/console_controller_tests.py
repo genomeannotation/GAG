@@ -172,7 +172,6 @@ class TestConsoleController(unittest.TestCase):
         self.assertTrue(self.ctrlr.seqs[0].genes)
 
     def test_barfseq_no_args(self):
-        pass
         line = ""
         # Shouldn't throw error
         self.assertTrue(self.ctrlr.barf_seq(line))
