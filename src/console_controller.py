@@ -132,7 +132,7 @@ class ConsoleController:
         if not os.path.isfile(filename):
             sys.stderr.write("Error: " + filename + " is not a file. Nothing trimmed.\n")
             return
-        trimlist = self.read_bed_file(open(filename, 'rb'))
+        trimlist = self.read_bed_file(open(filename, 'r'))
         if not trimlist:
             sys.stderr.write("Failed to read .bed file; nothing trimmed.\n")
             return
@@ -143,7 +143,7 @@ class ConsoleController:
         if not os.path.isfile(filename):
             sys.stderr.write("Error: " + filename + " is not a file. Nothing removed.\n")
             return
-        annos = self.read_annotation_file(open(filename, 'rb'))
+        annos = self.read_annotation_file(open(filename, 'r'))
         if not annos:
             sys.stderr.write("Failed to read annotations from " + filename + "; no annotations added.\n")
             return
