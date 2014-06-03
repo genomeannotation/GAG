@@ -52,9 +52,9 @@ class TestFilters(unittest.TestCase):
         # Apply the filter
         cds_length.apply(seq)
 
-        self.assertEqual(len(seq.genes), 2)
-        self.assertEqual(seq.genes[0].mrnas, [test_mrna1, test_mrna2])
-        self.assertEqual(seq.genes[1].mrnas, [test_mrna3])
+        self.assertEqual(len(seq.genes), 3)
+        self.assertEqual(seq.genes[1].mrnas, [test_mrna1, test_mrna2])
+        self.assertEqual(seq.genes[2].mrnas, [test_mrna3])
 
 ###################################################################################################
         
@@ -102,7 +102,7 @@ class TestFilters(unittest.TestCase):
         # Apply the filter
         cds_length.apply(seq)
 
-        self.assertEqual(len(seq.genes), 2)
+        self.assertEqual(len(seq.genes), 3)
         self.assertEqual(seq.genes[0].mrnas, [test_mrna0])
         self.assertEqual(seq.genes[1].mrnas, [test_mrna1, test_mrna2])
 
@@ -155,9 +155,9 @@ class TestFilters(unittest.TestCase):
         # Apply the filter
         exon_length.apply(seq)
         
-        self.assertEqual(len(seq.genes), 2)
-        self.assertEqual(seq.genes[0].mrnas, [test_mrna1, test_mrna2])
-        self.assertEqual(seq.genes[1].mrnas, [test_mrna3])
+        self.assertEqual(len(seq.genes), 3)
+        self.assertEqual(seq.genes[1].mrnas, [test_mrna1, test_mrna2])
+        self.assertEqual(seq.genes[2].mrnas, [test_mrna3])
 
 ###################################################################################################
 
@@ -208,7 +208,7 @@ class TestFilters(unittest.TestCase):
         # Apply the filter
         exon_length.apply(seq)
         
-        self.assertEqual(len(seq.genes), 2)
+        self.assertEqual(len(seq.genes), 3)
         self.assertEqual(seq.genes[0].mrnas, [test_mrna0])
         self.assertEqual(seq.genes[1].mrnas, [test_mrna1, test_mrna2])
 
@@ -261,9 +261,9 @@ class TestFilters(unittest.TestCase):
         # Apply the filter
         intron_length.apply(seq)
         
-        self.assertEqual(len(seq.genes), 2)
-        self.assertEqual(seq.genes[0].mrnas, [test_mrna1, test_mrna2])
-        self.assertEqual(seq.genes[1].mrnas, [test_mrna3])
+        self.assertEqual(len(seq.genes), 3)
+        self.assertEqual(seq.genes[1].mrnas, [test_mrna1, test_mrna2])
+        self.assertEqual(seq.genes[2].mrnas, [test_mrna3])
 
     def test_min_intron_length_filter_doesnt_remove_single_exon_mrnas(self):
         intron_length = MinIntronLengthFilter(30)
@@ -331,7 +331,7 @@ class TestFilters(unittest.TestCase):
         # Apply the filter
         intron_length.apply(seq)
         
-        self.assertEqual(len(seq.genes), 2)
+        self.assertEqual(len(seq.genes), 3)
         self.assertEqual(seq.genes[0].mrnas, [test_mrna0])
         self.assertEqual(seq.genes[1].mrnas, [test_mrna1, test_mrna2])
 
