@@ -18,6 +18,7 @@ class MinCDSLengthFilter:
             if self.remove:
                 to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
                 for mrna in to_remove:
+                    print("Removing mRNA: "+mrna.identifier)
                     gene.remove_mrna(mrna.identifier)
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
@@ -45,6 +46,7 @@ class MaxCDSLengthFilter:
             if self.remove:
                 to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
                 for mrna in to_remove:
+                    print("Removing mRNA: "+mrna.identifier)
                     gene.remove_mrna(mrna.identifier)
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
@@ -74,6 +76,7 @@ class MinExonLengthFilter:
             if self.remove:
                 to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
                 for mrna in to_remove:
+                    print("Removing mRNA: "+mrna.identifier)
                     gene.remove_mrna(mrna.identifier)
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
@@ -101,6 +104,7 @@ class MaxExonLengthFilter:
             if self.remove:
                 to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
                 for mrna in to_remove:
+                    print("Removing mRNA: "+mrna.identifier)
                     gene.remove_mrna(mrna.identifier)
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
@@ -130,6 +134,7 @@ class MinIntronLengthFilter:
             if self.remove:
                 to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
                 for mrna in to_remove:
+                    print("Removing mRNA: "+mrna.identifier)
                     gene.remove_mrna(mrna.identifier)
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
@@ -157,6 +162,7 @@ class MaxIntronLengthFilter:
             if self.remove:
                 to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
                 for mrna in to_remove:
+                    print("Removing mRNA: "+mrna.identifier)
                     gene.remove_mrna(mrna.identifier)
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
@@ -183,6 +189,9 @@ class MinGeneLengthFilter:
                 gene.add_annotation("gag_flag", "gene_min_length:"+str(self.arg))
                 gene.death_flagged = True # Destroy the gene?
         if self.remove:
+            for gene in seq.genes:
+                if gene.death_flagged:
+                    print("Removing gene: "+gene.identifier)
             seq.genes = [gene for gene in seq.genes if not gene.death_flagged]
         for gene in seq.genes:
             gene.death_flagged = False
@@ -200,6 +209,9 @@ class MaxGeneLengthFilter:
                 gene.add_annotation("gag_flag", "gene_max_length:"+str(self.arg))
                 gene.death_flagged = True # Destroy the gene?
         if self.remove:
+            for gene in seq.genes:
+                if gene.death_flagged:
+                    print("Removing gene: "+gene.identifier)
             seq.genes = [gene for gene in seq.genes if not gene.death_flagged]
         for gene in seq.genes:
             gene.death_flagged = False
