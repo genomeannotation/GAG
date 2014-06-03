@@ -171,9 +171,9 @@ class ConsoleController:
     def get_filter_arg(self, filter_name):
         return self.filter_mgr.get_filter_arg(filter_name)
         
-    def apply_filter(self, filter_name, val, remove):
+    def apply_filter(self, filter_name, val, filter_mode):
         for seq in self.seqs:
-            self.filter_mgr.apply_filter(filter_name, val, remove,seq)
+            self.filter_mgr.apply_filter(filter_name, val, filter_mode, seq)
             self.remove_empty_features(seq)
 
     def fix_terminal_ns(self):

@@ -113,6 +113,19 @@ class GagCmd(GagCmdBase):
         else:
             print(self.no_genome_message)
 
+    def help_list(self):
+        print("\nThis command takes you to the GAG LIST menu. There you can list features based")
+        print("on certain criteria. Alternately, just type:\n")
+        print("'list <criteria> <value>'\n")
+        print("if you've done this before :)\n")
+
+    def do_list(self, line):
+        if self.controller.genome_is_loaded():
+            filtercmd = ListCmd(self.prompt, self.controller, line)
+            filtercmd.cmdloop()
+        else:
+            print(self.no_genome_message)
+
     def help_trim(self):
         print("\nThis command takes you to the GAG TRIM menu, where you can ")
         print("trim regions of the genome using a .bed file.\n")
@@ -243,6 +256,52 @@ class FlagCmd(GagCmdBase):
         print("Sorry, can't flag " + line)
         print(self.helptext)
         
+##############################################
+
+class ListCmd(GagCmdBase):
+
+    def __init__(self, prompt_prefix, controller, line):
+        GagCmdBase.__init__(self)
+        self.helptext = "\nThis is the GAG LIST menu.\n"+\
+        "(You can type 'home' at any time to return to the main GAG console.)\n\n"+\
+        " - Here you can list features based on certain criteria.\n"+\
+        " - You can get a summary of the current list criteria by typing 'summary'\n\n"+\
+        "You can list:\n\n"+\
+        "\n".join(controller.filter_mgr.filters.keys())+ "\n"
+        self.prompt = prompt_prefix[:-2] + " LIST> "
+        self.controller = controller
+        self.context = {"go_home": False}
+        if line:
+            self.cmdqueue = [line] # Execute default method with path as arg
+        else:
+            print(self.helptext)
+            
+        # Set up filter arg do functions
+        for filt_name in controller.filter_mgr.filters.keys():
+            # First real closure #teddy'sallgrownup
+            # traps arg variable
+            def do_arg(slf, line, filter_name = filt_name):
+                filtercmd = FilterArgCmd(slf.prompt, slf.controller, slf.context, line, 'LIST', filter_name)
+                filtercmd.cmdloop()
+                if slf.context["go_home"]:
+                    return True
+            setattr(self, 'do_'+filt_name, types.MethodType(do_arg, self))
+
+    def help_home(self):
+        print("\nExit this console and return to the main GAG console.\n")
+
+    def do_home(self, line):
+        return True
+    
+    def do_summary(self, line):
+        for filt_name, filt in self.controller.filter_mgr.filters.iteritems():
+            if not filt.remove:
+                print('flag ' + filt_name + ' ' + str(filt.arg))
+
+    def default(self, line):
+        print("Sorry, can't flag " + line)
+        print(self.helptext)
+
 ##############################################
 
 class TrimCmd(GagCmdBase):
@@ -418,15 +477,11 @@ class FilterArgCmd(GagCmdBase):
                     print("A str is any text. It is formatted \"like this\" or 'like this'\n")
                 return False
             
-            remove = False
-            if self.filter_mode == 'REMOVE':
-                remove = True
+            try_catch(self.controller.apply_filter, [self.filter_name, line, self.filter_mode])
 
-            try_catch(self.controller.apply_filter, [self.filter_name, line, remove])
-
-            if self.filter_mode == 'REMOVE':
+            if self.filter_mode == "REMOVE":
                 print("\n"+self.filter_name+" "+line+" removed.\n")
-            else: #TODO maybe throw an error if filter_mode isn't FLAG
+            elif self.filter_mode == "FLAG": 
                 print("\n"+self.filter_name+" "+line+" flagged.\n")
             
             self.context['go_home'] = True
