@@ -10,11 +10,13 @@ class MinCDSLengthFilter:
         return
         
     def apply(self, seq):
+        count = 0
         for gene in seq.genes:
             for mrna in gene.mrnas:
                 if mrna.cds and mrna.cds.length() < self.arg:
                     mrna.death_flagged = True # Destroy the mRNA that the cds lives on?
             to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
+            count += len(to_remove)
             for mrna in to_remove:
                 if self.remove:
                     print("Removing mRNA: "+mrna.identifier)
@@ -24,6 +26,10 @@ class MinCDSLengthFilter:
                     mrna.cds.add_annotation('gag_flag', "cds_min_length:"+str(self.arg))
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
+        if self.remove:
+            print("\nRemoved "+str(count)+" mRNAs")
+        else:
+            print("\nFlagged "+str(count)+" mRNAs")
         
 class MaxCDSLengthFilter:
 
@@ -33,12 +39,14 @@ class MaxCDSLengthFilter:
         return
         
     def apply(self, seq):
+        count = 0
         for gene in seq.genes:
             for mrna in gene.mrnas:
                 if mrna.cds and self.arg > 0 and mrna.cds.length() > self.arg:
                     mrna.cds.add_annotation('gag_flag', "cds_max_length:"+str(self.arg))
                     mrna.death_flagged = True # Destroy the mRNA that the cds lives on?
             to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
+            count += len(to_remove)
             for mrna in to_remove:
                 if self.remove:
                     print("Removing mRNA: "+mrna.identifier)
@@ -48,6 +56,10 @@ class MaxCDSLengthFilter:
                     mrna.cds.add_annotation('gag_flag', "cds_min_length:"+str(self.arg))
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
+        if self.remove:
+            print("\nRemoved "+str(count)+" mRNAs")
+        else:
+            print("\nFlagged "+str(count)+" mRNAs")
         
 ###################################################################################################
                     
@@ -59,12 +71,14 @@ class MinExonLengthFilter:
         return
         
     def apply(self, seq):
+        count = 0
         for gene in seq.genes:
             for mrna in gene.mrnas:
                 if mrna.exon and mrna.get_shortest_exon() < self.arg:
                     mrna.exon.add_annotation("gag_flag", "exon_min_length:"+str(self.arg))
                     mrna.death_flagged = True # Destroy the mRNA that the exon lives on?
             to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
+            count += len(to_remove)
             for mrna in to_remove:
                 if self.remove:
                     print("Removing mRNA: "+mrna.identifier)
@@ -74,6 +88,10 @@ class MinExonLengthFilter:
                     mrna.cds.add_annotation('gag_flag', "cds_min_length:"+str(self.arg))
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
+        if self.remove:
+            print("\nRemoved "+str(count)+" mRNAs")
+        else:
+            print("\nFlagged "+str(count)+" mRNAs")
         
 class MaxExonLengthFilter:
 
@@ -83,12 +101,14 @@ class MaxExonLengthFilter:
         return
         
     def apply(self, seq):
+        count = 0
         for gene in seq.genes:
             for mrna in gene.mrnas:
                 if mrna.exon and self.arg > 0 and mrna.get_longest_exon() > self.arg:
                     mrna.exon.add_annotation("gag_flag", "exon_max_length:"+str(self.arg))
                     mrna.death_flagged = True # Destroy the mRNA that the exon lives on?
             to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
+            count += len(to_remove)
             for mrna in to_remove:
                 if self.remove:
                     print("Removing mRNA: "+mrna.identifier)
@@ -98,6 +118,10 @@ class MaxExonLengthFilter:
                     mrna.cds.add_annotation('gag_flag', "cds_min_length:"+str(self.arg))
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
+        if self.remove:
+            print("\nRemoved "+str(count)+" mRNAs")
+        else:
+            print("\nFlagged "+str(count)+" mRNAs")
 
 ###################################################################################################
 
@@ -109,12 +133,14 @@ class MinIntronLengthFilter:
         return
         
     def apply(self, seq):
+        count = 0
         for gene in seq.genes:
             for mrna in gene.mrnas:
                 if mrna.exon and mrna.get_shortest_intron() < self.arg and mrna.get_shortest_intron() != 0:
                     mrna.exon.add_annotation("gag_flag", "intron_min_length:"+str(self.arg))
                     mrna.death_flagged = True # Destroy the mRNA that the intron lives on?
             to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
+            count += len(to_remove)
             for mrna in to_remove:
                 if self.remove:
                     print("Removing mRNA: "+mrna.identifier)
@@ -124,6 +150,10 @@ class MinIntronLengthFilter:
                     mrna.cds.add_annotation('gag_flag', "cds_min_length:"+str(self.arg))
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
+        if self.remove:
+            print("\nRemoved "+str(count)+" mRNAs")
+        else:
+            print("\nFlagged "+str(count)+" mRNAs")
 
 class MaxIntronLengthFilter:
 
@@ -133,12 +163,14 @@ class MaxIntronLengthFilter:
         return
         
     def apply(self, seq):
+        count = 0
         for gene in seq.genes:
             for mrna in gene.mrnas:
                 if mrna.exon and self.arg > 0 and mrna.get_longest_intron() > self.arg:
                     mrna.exon.add_annotation("gag_flag", "intron_max_length:"+str(self.arg))
                     mrna.death_flagged = True # Destroy the mRNA that the intron lives on?
             to_remove = [mrna for mrna in gene.mrnas if mrna.death_flagged]
+            count += len(to_remove)
             for mrna in to_remove:
                 if self.remove:
                     print("Removing mRNA: "+mrna.identifier)
@@ -148,7 +180,11 @@ class MaxIntronLengthFilter:
                     mrna.cds.add_annotation('gag_flag', "cds_min_length:"+str(self.arg))
             for mrna in gene.mrnas:
                 mrna.death_flagged = False
-
+        if self.remove:
+            print("\nRemoved "+str(count)+" mRNAs")
+        else:
+            print("\nFlagged "+str(count)+" mRNAs")
+                
 ###################################################################################################
 
 class MinGeneLengthFilter:
@@ -159,11 +195,13 @@ class MinGeneLengthFilter:
         return
         
     def apply(self, seq):
+        count = 0
         for gene in seq.genes:
             if gene.length() < self.arg:
                 gene.death_flagged = True # Destroy the gene?
         for gene in seq.genes:
             if gene.death_flagged:
+                count += 1
                 if self.remove:
                     print("Removing gene: "+gene.identifier)
                 else:
@@ -173,6 +211,10 @@ class MinGeneLengthFilter:
             seq.genes = [gene for gene in seq.genes if not gene.death_flagged]
         for gene in seq.genes:
             gene.death_flagged = False
+        if self.remove:
+            print("\nRemoved "+str(count)+" genes")
+        else:
+            print("\nFlagged "+str(count)+" genes")
 
 class MaxGeneLengthFilter:
 
@@ -182,12 +224,14 @@ class MaxGeneLengthFilter:
         return
         
     def apply(self, seq):
+        count = 0
         for gene in seq.genes:
             if self.arg > 0 and gene.length() > self.arg:
                 gene.add_annotation("gag_flag", "gene_max_length:"+str(self.arg))
                 gene.death_flagged = True # Destroy the gene?
         for gene in seq.genes:
             if gene.death_flagged:
+                count += 1
                 if self.remove:
                     print("Removing gene: "+gene.identifier)
                 else:
@@ -197,3 +241,7 @@ class MaxGeneLengthFilter:
             seq.genes = [gene for gene in seq.genes if not gene.death_flagged]
         for gene in seq.genes:
             gene.death_flagged = False
+        if self.remove:
+            print("\nRemoved "+str(count)+" genes")
+        else:
+            print("\nFlagged "+str(count)+" genes")
