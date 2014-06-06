@@ -342,7 +342,21 @@ class Gene:
             indices = [self.indices[1], self.indices[0]]
         else:
             indices = self.indices
-        output = str(indices[0]) + "\t" + str(indices[1]) + "\t" + "gene\n"
+        # Check if there's an mRNA with a no start/stop
+        has_start = True
+        has_stop = True
+        for mrna in self.mrnas:
+            if not mrna.has_start():
+                has_start = False
+            if not mrna.has_stop():
+                has_stop = False
+        output = ""
+        if not has_start:
+            output += "<"
+        output += str(indices[0]) + "\t"
+        if not has_stop:
+            output += ">"
+        output += str(indices[1]) + "\t" + "gene\n"
         if self.name:
             output += "\t\t\tgene\t" + self.name + "\n"
         output += "\t\t\tlocus_tag\t" + self.identifier + "\n"
