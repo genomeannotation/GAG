@@ -190,7 +190,7 @@ def get_reversed_indices(indices):
     [ind.reverse() for ind in indices]
     return indices
 
-def one_line_indices_entry(indices, has_start, has_stop, is_cds):
+def one_line_indices_entry(indices, has_start, has_stop, feature_type):
     """Returns .tbl formatted entry for features with only one pair of coordinates."""
     output = ""
     if not has_start:
@@ -199,13 +199,10 @@ def one_line_indices_entry(indices, has_start, has_stop, is_cds):
     if not has_stop:
         output += ">"
     output += str(indices[1]) + "\t"
-    if is_cds:
-        output += "CDS\n"
-    else:
-        output += "mRNA\n"
+    output += feature_type
     return output
 
-def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, phase=0):
+def write_tbl_entry(indices, strand, has_start, has_stop, feature_type, phase=0):
     """Returns .tbl-formatted string for a GenePart.
 
     Args:
@@ -213,23 +210,20 @@ def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, phase=0):
         strand: either '+' or '-'
         has_start: a boolean indicating whether the feature has a start codon
         has_stop: a boolean indicating whether the feature has a stop codon
-        is_cds: a boolean indicating whether the feature is a CDS
+        feature_type: tbl feature type (i.e. CDS, mRNA, tRNA, etc)
         phase: optional argument indicating the phase of a CDS feature if not 0
     """
     output = ""
     if strand == "-":
         indices = get_reversed_indices(indices)
     if len(indices) == 1:
-        output += one_line_indices_entry(indices[0], has_start, has_stop, is_cds)
+        output += one_line_indices_entry(indices[0], has_start, has_stop, feature_type)
     else:
         # Write first line of coordinates
         if not has_start:
             output += "<"
         output += str(indices[0][0]) + "\t" + str(indices[0][1]) + "\t" 
-        if is_cds:
-            output += "CDS\n"
-        else:
-            output += "mRNA\n"
+        output += feature_type+"\n"
         # Write middle lines
         for index_pair in indices[1:-1]:
             output += str(index_pair[0]) + "\t" + str(index_pair[1]) + "\n"
@@ -238,7 +232,7 @@ def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, phase=0):
         if not has_stop:
             output += ">"
         output += str(indices[-1][1]) + "\n"
-    if is_cds:
+    if feature_type == "CDS":
         output += "\t\t\tcodon_start\t" + str(phase+1) + "\n"
     return output
 

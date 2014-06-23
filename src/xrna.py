@@ -218,7 +218,7 @@ class XRNA:
         has_stop = self.has_stop()
         output = ""
         if self.exon:
-            output += self.exon.to_tbl(has_start, has_stop)
+            output += self.exon.to_tbl(has_start, has_stop, self.rna_type)
             # Write the annotations
             for annot in self.annotations:
                 output += '\t\t\t'+annot[0]+'\t'+annot[1]+'\n'
