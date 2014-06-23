@@ -101,5 +101,5 @@ class CDS(GenePart):
             phase = self.phase[0]
         else:
             phase = self.phase[-1]
-        return write_tbl_entry(indices, self.strand, has_start, has_stop, True, self.annotations, phase) 
+        return write_tbl_entry(indices, self.strand, has_start, has_stop, True, phase) 
 

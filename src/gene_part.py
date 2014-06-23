@@ -205,7 +205,7 @@ def one_line_indices_entry(indices, has_start, has_stop, is_cds):
         output += "mRNA\n"
     return output
 
-def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, annotations = None, phase=0):
+def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, phase=0):
     """Returns .tbl-formatted string for a GenePart.
 
     Args:
@@ -214,11 +214,8 @@ def write_tbl_entry(indices, strand, has_start, has_stop, is_cds, annotations = 
         has_start: a boolean indicating whether the feature has a start codon
         has_stop: a boolean indicating whether the feature has a stop codon
         is_cds: a boolean indicating whether the feature is a CDS
-        annotations: optional argument. a list of lists containing annotations to be added to the entry
         phase: optional argument indicating the phase of a CDS feature if not 0
     """
-    if not annotations:
-        annotations = []
     output = ""
     if strand == "-":
         indices = get_reversed_indices(indices)
