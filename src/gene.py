@@ -74,7 +74,7 @@ class Gene:
             if not mrna.cds and not mrna.exon:
                 to_remove.append(mrna)
                 sys.stderr.write("Removed empty mrna " + mrna.identifier + "\n")
-            elif not mrna.cds:
+            elif mrna.rna_type == "mRNA" and not mrna.cds:
                 to_remove.append(mrna)
                 sys.stderr.write("Removed mrna " + mrna.identifier + " with no cds\n")
             elif not mrna.exon:

@@ -20,13 +20,17 @@ class GFFReader:
         """Returns list of fields if valid, empty list if not."""
         splitline = line.split('\t')
         if len(splitline) is not 9:
+            print("not enough columns")
             return []
         if not "ID" in splitline[8]:
+            print("No ID")
             return []
         if not int(splitline[3]) <= int(splitline[4]):
+            print("stop greater than start")
             return []
         # Everything except genes must have parent id
         if not "Parent" in splitline[8] and not splitline[2] == "gene":
+            print("no parent")
             return []
         return splitline
 
@@ -178,8 +182,8 @@ class GFFReader:
         if ltype == 'gene':
             self.process_gene_line(line)
             return True
-        elif ltype == 'mRNA':
-            self.process_mrna_line(line)
+        elif ltype == 'mRNA' or ltype == 'tRNA' or ltype == 'rRNA' or ltype == 'ncRNA':
+            self.process_rna_line(line, ltype)
             return True
         elif ltype == 'CDS':
             self.process_cds_line(line)
@@ -202,11 +206,12 @@ class GFFReader:
         gene_id = kwargs['identifier']
         self.genes[gene_id] = Gene(**kwargs)
 
-    def process_mrna_line(self, line):
+    def process_rna_line(self, line, rna_type):
         """Extracts arguments from a line and instantiates an XRNA object."""
         kwargs = self.extract_mrna_args(line)
         if not kwargs:
             return
+        kwargs["rna_type"] = rna_type
         mrna_id = kwargs['identifier']
         self.mrnas[mrna_id] = XRNA(**kwargs)
 

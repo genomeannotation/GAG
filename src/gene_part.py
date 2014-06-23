@@ -199,7 +199,7 @@ def one_line_indices_entry(indices, has_start, has_stop, feature_type):
     if not has_stop:
         output += ">"
     output += str(indices[1]) + "\t"
-    output += feature_type
+    output += feature_type+"\n"
     return output
 
 def write_tbl_entry(indices, strand, has_start, has_stop, feature_type, phase=0):
