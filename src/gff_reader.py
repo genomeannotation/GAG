@@ -5,7 +5,7 @@ import copy
 from src.gene_part import GenePart
 from src.cds import CDS
 from src.exon import Exon
-from src.mrna import MRNA
+from src.xrna import XRNA
 from src.gene import Gene
 
 class GFFReader:
@@ -106,7 +106,7 @@ class GFFReader:
         return result
 
     def extract_mrna_args(self, line):
-        """Pulls MRNA arguments from a gff line and returns them in a dictionary."""
+        """Pulls XRNA arguments from a gff line and returns them in a dictionary."""
         result = {'indices': [int(line[3]), int(line[4])], 'strand': line[6],
                   'seq_name': line[0], 'source': line[1]}
         attribs = self.parse_attributes(line[8])
@@ -203,12 +203,12 @@ class GFFReader:
         self.genes[gene_id] = Gene(**kwargs)
 
     def process_mrna_line(self, line):
-        """Extracts arguments from a line and instantiates an MRNA object."""
+        """Extracts arguments from a line and instantiates an XRNA object."""
         kwargs = self.extract_mrna_args(line)
         if not kwargs:
             return
         mrna_id = kwargs['identifier']
-        self.mrnas[mrna_id] = MRNA(**kwargs)
+        self.mrnas[mrna_id] = XRNA(**kwargs)
 
     def process_cds_line(self, line):
         """Extracts arguments from a line and adds them to a CDS, or makes a new one."""

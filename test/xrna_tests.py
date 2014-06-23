@@ -2,13 +2,13 @@
 
 import unittest
 from mock import Mock, PropertyMock
-from src.mrna import MRNA
+from src.xrna import XRNA
 
-class TestMRNA(unittest.TestCase):
+class TestXRNA(unittest.TestCase):
 
     def setUp(self):
-        self.test_mrna0 = MRNA(identifier='bdor_foo', indices=[3734, 7436], strand='-', parent_id=1)
-        self.test_mrna1 = MRNA(identifier='bdor_foo2', indices=[3734, 7436], parent_id=1, seq_name="sctg_0080_0020", source="maker")
+        self.test_mrna0 = XRNA(identifier='bdor_foo', indices=[3734, 7436], strand='-', parent_id=1)
+        self.test_mrna1 = XRNA(identifier='bdor_foo2', indices=[3734, 7436], parent_id=1, seq_name="sctg_0080_0020", source="maker")
         self.fake_exon = Mock()
         self.fake_cds = Mock()
         self.fake_start_codon = Mock()
@@ -17,11 +17,11 @@ class TestMRNA(unittest.TestCase):
         self.test_mrna1.add_other_feature(self.fake_start_codon)
 
     def test_constructor(self):
-        self.assertEquals('MRNA', self.test_mrna0.__class__.__name__)
+        self.assertEquals('XRNA', self.test_mrna0.__class__.__name__)
         self.assertEquals('-', self.test_mrna0.strand)
 
     def test_constructor_takes_annotations(self):
-        self.assertTrue(MRNA(identifier="foo", indices=[1, 10], parent_id="bar", annotations=[["Dbxref", "pfam:foo"]]))
+        self.assertTrue(XRNA(identifier="foo", indices=[1, 10], parent_id="bar", annotations=[["Dbxref", "pfam:foo"]]))
 
     def test_length(self):
         self.assertEqual(3703, self.test_mrna0.length())
@@ -109,12 +109,12 @@ class TestMRNA(unittest.TestCase):
         self.fake_start_codon.to_gff.assert_called_with("sctg_0080_0020", "maker")
 
     def test_indices_intersect_mrna_false(self):
-        mrna = MRNA(identifier=1, indices=[10, 20], parent_id='foo')
+        mrna = XRNA(identifier=1, indices=[10, 20], parent_id='foo')
         self.assertFalse(mrna.indices_intersect_mrna([5, 9]))
         self.assertFalse(mrna.indices_intersect_mrna([21, 25]))
 
     def test_indices_intersect_mrna_true(self):
-        mrna = MRNA(identifier=1, indices=[10, 20], parent_id='foo')
+        mrna = XRNA(identifier=1, indices=[10, 20], parent_id='foo')
         self.assertTrue(mrna.indices_intersect_mrna([5, 10]))
         self.assertTrue(mrna.indices_intersect_mrna([20, 25]))
         self.assertTrue(mrna.indices_intersect_mrna([9, 21]))
@@ -222,7 +222,7 @@ class TestMRNA(unittest.TestCase):
 ##########################
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestMRNA))
+    suite.addTest(unittest.makeSuite(TestXRNA))
     return suite
 
 if __name__ == '__main__':

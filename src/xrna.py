@@ -7,9 +7,10 @@ import src.translator as translate
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
 
-class MRNA:
+class XRNA:
 
-    def __init__(self, identifier, indices, parent_id, source=None, seq_name=None, strand='+', annotations=None):
+    def __init__(self, identifier, indices, parent_id, source=None, seq_name=None, strand='+', annotations=None, rna_type="mRNA"):
+        self.rna_type = rna_type
         self.identifier = identifier
         self.indices = indices
         self.parent_id = parent_id
@@ -32,11 +33,11 @@ class MRNA:
         self.death_flagged = False
 
     def __str__(self):
-        """Returns string representation of the mRNA.
+        """Returns string representation of the RNA.
 
-        String contains the mRNA's identifier and the number of features it contains.
+        String contains the RNA's identifier and the number of features it contains.
         """
-        result = "mRNA (ID=" + str(self.identifier) + ") containing "
+        result = self.rna_type+" (ID=" + str(self.identifier) + ") containing "
         if self.exon:
             result += "Exon, "
         if self.cds:
@@ -47,7 +48,7 @@ class MRNA:
         return result
         
     def add_annotation(self, key, value):
-        """Adds an annotation to the mRNA.
+        """Adds an annotation to the RNA.
 
         Args:
             key: the type of annotation
@@ -56,11 +57,11 @@ class MRNA:
         self.annotations.append([key, value])
         
     def length(self):
-        """Returns the length of the mRNA."""
+        """Returns the length of the RNA."""
         return length_of_segment(self.indices)
 
     def adjust_indices(self, n, start_index=1):
-        """Increments indices of mRNA and its child features.
+        """Increments indices of RNA and its child features.
 
         Optionally, only indices occurring after start_index are incremented.
 
@@ -80,7 +81,7 @@ class MRNA:
             feature.adjust_indices(n, start_index)
 
     def number_of_gagflags(self):
-        """Returns the number of flagged features contained by mRNA.
+        """Returns the number of flagged features contained by RNA.
 
         Multiple flags on a given CDS or Exon are ignored, so the
         possible return values are 0, 1 or 2.
@@ -100,7 +101,7 @@ class MRNA:
         override any start_codon or stop_codon entries in the original GFF file.
 
         Args:
-            seq_object: the actual sequence containing the mRNA
+            seq_object: the actual sequence containing the RNA
             strand: either '+' or '-'
         """
         # TODO I'd rather pass seq.bases than the object itself, since
@@ -116,7 +117,7 @@ class MRNA:
             self.add_stop_codon(indices)
 
     def indices_intersect_mrna(self, indices):
-        """Returns a boolan indicating whether a pair of indices overlap the mRNA"""
+        """Returns a boolan indicating whether a pair of indices overlap the RNA"""
         if len(indices) != 2:
             return False
         begin = indices[0]
@@ -157,35 +158,35 @@ class MRNA:
         self.add_other_feature(stop)
 
     def has_start(self):
-        """Returns a boolean indicating whether the mRNA contains a 'start_codon' feature"""
+        """Returns a boolean indicating whether the RNA contains a 'start_codon' feature"""
         for feature in self.other_features:
             if feature.feature_type == 'start_codon':
                 return True
         return False
 
     def has_stop(self):
-        """Returns a boolean indicating whether the mRNA contains a 'stop_codon' feature"""
+        """Returns a boolean indicating whether the RNA contains a 'stop_codon' feature"""
         for feature in self.other_features:
             if feature.feature_type == 'stop_codon':
                 return True
         return False
 
     def indices_intersect_cds(self, indices):
-        """Returns a boolean indicating whether given indices overlap mRNA's CDS"""
+        """Returns a boolean indicating whether given indices overlap RNA's CDS"""
         if not self.cds:
             return False
         else:
             return self.cds.indices_intersect_cds(indices)
 
     def cds_to_gff(self, seq_id, source):
-        """Returns a string containing mRNA's child CDS in .gff format."""
+        """Returns a string containing RNA's child CDS in .gff format."""
         if self.cds:
             return self.cds.to_gff(seq_id, source)
         else:
             return ""
 
     def cds_to_tbl(self):
-        """Returns a string containing mRNA's child CDS in .tbl format."""
+        """Returns a string containing RNA's child CDS in .tbl format."""
         if self.cds:
             has_start = self.has_start()
             has_stop = self.has_stop()
@@ -194,8 +195,8 @@ class MRNA:
             return ""
 
     def to_gff(self):
-        """Returns a string of mRNA and child features in .gff format."""
-        result = self.seq_name + "\t" + self.source + "\t" + "mRNA" + "\t"
+        """Returns a string of RNA and child features in .gff format."""
+        result = self.seq_name + "\t" + self.source + "\t" + self.rna_type + "\t"
         result += str(self.indices[0]) + "\t" + str(self.indices[1]) + "\t"
         result += "." + "\t" + self.strand + "\t" + "." + "\t"
         result += "ID=" + str(self.identifier)
@@ -212,7 +213,7 @@ class MRNA:
         return result
 
     def to_tbl(self):
-        """Returns a string of mRNA and child features in .tbl format."""
+        """Returns a string of RNA and child features in .tbl format."""
         has_start = self.has_start()
         has_stop = self.has_stop()
         output = ""
@@ -239,7 +240,7 @@ class MRNA:
     ## STATS STUFF ##
 
     def get_longest_exon(self):
-        """Returns length of longest exon contained on mRNA."""
+        """Returns length of longest exon contained on RNA."""
         if not self.exon:
             return 0
         longest = 0
@@ -249,7 +250,7 @@ class MRNA:
         return longest
 
     def get_shortest_exon(self):
-        """Returns length of shortest exon contained on mRNA."""
+        """Returns length of shortest exon contained on RNA."""
         if not self.exon:
             return 0
         shortest = None
@@ -274,14 +275,14 @@ class MRNA:
         return total
 
     def get_num_exons(self):
-        """Returns number of exons contained on mRNA."""
+        """Returns number of exons contained on RNA."""
         if self.exon:
             return len(self.exon.indices)
         else:
             return 0
 
     def get_longest_intron(self):
-        """Returns length of longest intron contained on mRNA."""
+        """Returns length of longest intron contained on RNA."""
         if not self.exon:
             return 0
         longest = 0
@@ -295,7 +296,7 @@ class MRNA:
         return longest
 
     def get_shortest_intron(self):
-        """Returns length of shortest intron contained on mRNA."""
+        """Returns length of shortest intron contained on RNA."""
         if not self.exon:
             return 0
         shortest = None
@@ -315,7 +316,7 @@ class MRNA:
         return shortest
 
     def get_total_intron_length(self):
-        """Returns sum of lengths of all introns contained on mRNA."""
+        """Returns sum of lengths of all introns contained on RNA."""
         if not self.exon:
             return 0
         total = 0
@@ -327,7 +328,7 @@ class MRNA:
         return total
 
     def get_num_introns(self):
-        """Returns number of introns contained on mRNA."""
+        """Returns number of introns contained on RNA."""
         if self.exon:
             return len(self.exon.indices) - 1
         else:
