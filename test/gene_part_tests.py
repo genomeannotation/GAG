@@ -3,7 +3,7 @@
 import unittest
 from mock import Mock, PropertyMock
 from src.gene_part import GenePart
-from src.mrna import XRNA
+from src.xrna import XRNA
 from src.gene import Gene
 
 class TestGenePart(unittest.TestCase):
