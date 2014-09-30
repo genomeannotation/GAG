@@ -268,7 +268,7 @@ CDS: no stop, no start           1                    0
 <pre><code>(gene_id)	name	(gene_name)</code></pre>
 <p>Note that the second column must contain the word "name", just to emphasize that you are giving the gene a name. Genes can't take functions, database cross-references, etc. Those belong to mRNAs, whose table entries should look like this:
 <pre><code>(mrna_id)	(Dbxref, Ontology_term or product)	(annotation)</code></pre>
-<p>Note that there are only three valid options for the second column.  If you are adding db_xref terms, make sure they are from an NCBI approved database.  You can find a list here: <a href="http://www.ncbi.nlm.nih.gov/genbank/collab/db_xref">NCBI db_xref qualifiers page</a></p>
+<p>These three options are the only <em>recommended</em> terms. Technically, though, GAG will add any annotation you choose. Annotate at your own risk! If you are adding db_xref terms, make sure they are from an NCBI approved database.  You can find a list here: <a href="http://www.ncbi.nlm.nih.gov/genbank/collab/db_xref">NCBI db_xref qualifiers page</a></p>
 <p>All of this is (hopefully) made clearer with an example. Take a look at the genome contained in the folder 'walkthrough/annotation'. Here is the .gff:
 <pre><code>foo_seq	maker	gene	6	35	0	+	0	ID=TEST_1;<span class="highlight">Name=Abc123</span>
 foo_seq	maker	mRNA	6	35	0	+	0	ID=TEST_1-RA;Parent=TEST_1;<span class="highlight">Dbxref=PFAM:0001;product=amazing_protein</span>
