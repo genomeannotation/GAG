@@ -55,6 +55,8 @@ class ConsoleController:
             first_line = "Number of sequences:   " + str(len(self.seqs)) + "\n"
             update_alt = False
             self.stats_mgr.clear_alt()
+            removed_gff.write("##gff-version 3\n")
+            gff.write("##gff-version 3\n")
             for feature in self.removed_features:
                 removed_gff.write(feature.to_gff())
             for seq in self.seqs:
