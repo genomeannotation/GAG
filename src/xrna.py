@@ -232,7 +232,7 @@ class XRNA:
             output += "\t\t\ttranscript_id\tgnl|ncbi|"+self.identifier+"_mrna\n"
         if self.cds:
             output += self.cds.to_tbl(has_start, has_stop)
-            # Write the annotations again
+            # Write the annotations 
             for key in self.annotations.keys():
                 for value in self.annotations[key]:
                     output += '\t\t\t'+key+'\t'+value+'\n'
