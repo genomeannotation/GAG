@@ -29,13 +29,13 @@ class TestGene(unittest.TestCase):
 
     def test_gagflagged(self):
         self.assertFalse(self.test_gene0.gagflagged())
-        self.test_gene0.annotations = [["gag_flag", "nice gene"]]
+        self.test_gene0.annotations = {"gag_flag": ["nice gene"]}
         self.assertTrue(self.test_gene0.gagflagged())
 
     def test_number_of_gagflags(self):
         self.fake_mrna1.number_of_gagflags.return_value = 2
         self.fake_mrna2.number_of_gagflags.return_value = 1
-        self.test_gene1.annotations = [["gag_flag", "nice gene"]]
+        self.test_gene1.annotations = {"gag_flag": ["nice gene"]}
         self.assertEquals(4, self.test_gene1.number_of_gagflags())
 
     def test_get_mrna_ids(self):
@@ -313,13 +313,13 @@ class TestGene(unittest.TestCase):
     def test_gene_initialized_without_annotations(self):
         newgene = Gene(seq_name="seq1", source="maker", indices=[1, 50], strand="+", identifier="foo_gene_1")
         self.assertFalse(newgene.annotations)
-        self.assertEquals(0, len(newgene.annotations))
+        self.assertEquals(0, len(newgene.annotations.keys()))
 
     def test_gene_initialized_with_annotations(self):
         newgene = Gene(seq_name="seq1", source="maker", indices=[1, 50], strand="+", identifier="foo_gene_1",\
-                annotations=[["bar", "cat"]])
+                annotations={"bar": ["cat"]})
         self.assertTrue(newgene.annotations)
-        self.assertEquals(1, len(newgene.annotations))
+        self.assertEquals(1, len(newgene.annotations.keys()))
 
 
 ##########################

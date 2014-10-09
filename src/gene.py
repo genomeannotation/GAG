@@ -19,7 +19,7 @@ class Gene:
         self.mrnas = []
         self.removed_mrnas = []
         if not annotations:
-            self.annotations = []
+            self.annotations = {}
         else:
             self.annotations = annotations
         self.death_flagged = False
@@ -94,7 +94,10 @@ class Gene:
             key: a string indicating the type of annotation (e.g. Dbxref, gagflag)
             value: a string representing the content of the annotation
         """
-        self.annotations.append([key, value])
+        if key in self.annotations.keys():
+            self.annotations[key].append(value)
+        else:
+            self.annotations[key] = [value]
 
     def add_mrna_annotation(self, mrna_id, key, value):
         """Adds annotation key, value pair to specified mrna.
@@ -115,10 +118,7 @@ class Gene:
 
     def gagflagged(self):
         """Returns a boolean indicating whether the gene itself contains a 'gagflag' annotation."""
-        for anno in self.annotations:
-            if anno[0] == "gag_flag":
-                return True
-        return False
+        return 'gag_flag' in self.annotations.keys()
 
     def number_of_gagflags(self):
         """Returns the number of gagflagged features on the gene, including the gene itself."""
@@ -317,8 +317,9 @@ class Gene:
         result += "ID=" + str(self.identifier)
         if self.name:
             result += ";Name=" + self.name
-        for annot in self.annotations:
-            result += ';'+annot[0]+'='+annot[1]
+        for key in self.annotations.keys():
+            result += ';' + key + "="
+            result += ','.join(self.annotations[key])
         result += '\n'
         for mrna in self.mrnas:
             result += mrna.to_gff()
