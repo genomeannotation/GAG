@@ -224,8 +224,6 @@ class XRNA:
         if self.exon:
             output += self.exon.to_tbl(has_start, has_stop, self.rna_type)
             # Write the annotations
-            for annot in self.annotations:
-                output += '\t\t\t'+annot[0]+'\t'+annot[1]+'\n'
             if not self.annotations_contain_product():
                 output += "\t\t\tproduct\thypothetical protein\n"
             output += "\t\t\tprotein_id\tgnl|ncbi|"+self.identifier+"\n"
@@ -233,8 +231,9 @@ class XRNA:
         if self.cds:
             output += self.cds.to_tbl(has_start, has_stop)
             # Write the annotations again
-            for annot in self.annotations:
-                output += '\t\t\t'+annot[0]+'\t'+annot[1]+'\n'
+            for key in self.annotations.keys():
+                for value in self.annotations[key]:
+                    output += '\t\t\t'+key+'\t'+value+'\n'
             if not self.annotations_contain_product():
                 output += "\t\t\tproduct\thypothetical protein\n"
             output += "\t\t\tprotein_id\tgnl|ncbi|"+self.identifier+"\n"
