@@ -195,9 +195,23 @@ class TestXRNA(unittest.TestCase):
         expected += "\t\t\tproduct\thypothetical protein\n"
         expected += "\t\t\tprotein_id\tgnl|ncbi|bdor_foo2\n"
         expected += "\t\t\ttranscript_id\tgnl|ncbi|bdor_foo2_mrna\n"
+        self.assertEquals(self.test_mrna1.to_tbl(), expected)
+
+    def test_to_tbl_with_product(self):
+        self.fake_exon.to_tbl.return_value = "fake_exon_to_tbl...\n"
+        self.fake_cds.to_tbl.return_value = "fake_cds_to_tbl...\n"
+        self.test_mrna1.add_annotation('product', 'dog')
+        expected = "fake_exon_to_tbl...\n"
+        expected += "\t\t\tproduct\tdog\n"
+        expected += "\t\t\tprotein_id\tgnl|ncbi|bdor_foo2\n"
+        expected += "\t\t\ttranscript_id\tgnl|ncbi|bdor_foo2_mrna\n"
+        expected += "fake_cds_to_tbl...\n"
+        expected += "\t\t\tproduct\tdog\n"
+        expected += "\t\t\tprotein_id\tgnl|ncbi|bdor_foo2\n"
+        expected += "\t\t\ttranscript_id\tgnl|ncbi|bdor_foo2_mrna\n"
         print(expected)
         print(self.test_mrna1.to_tbl())
-        self.assertEquals(self.test_mrna1.to_tbl(), expected)
+        self.assertEquals(expected, self.test_mrna1.to_tbl())
 
     def test_indices_intersect_cds_false(self):
         self.fake_cds.indices_intersect_cds.return_value = False
@@ -206,6 +220,11 @@ class TestXRNA(unittest.TestCase):
     def test_indices_intersect_cds_true(self):
         self.fake_cds.indices_intersect_cds.return_value = True
         self.assertTrue(self.test_mrna1.indices_intersect_cds([1, 9]))
+
+    def test_annotations_contains_product(self):
+        self.assertFalse(self.test_mrna0.annotations_contain_product())
+        self.test_mrna0.add_annotation('product', 'foo')
+        self.assertTrue(self.test_mrna0.annotations_contain_product())
 
 
     ## STATS STUFF ##

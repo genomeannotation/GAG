@@ -224,7 +224,9 @@ class XRNA:
         if self.exon:
             output += self.exon.to_tbl(has_start, has_stop, self.rna_type)
             # Write the annotations
-            if not self.annotations_contain_product():
+            if self.annotations_contain_product():
+                output += "\t\t\tproduct\t" + self.annotations['product'][0] + "\n"
+            else:
                 output += "\t\t\tproduct\thypothetical protein\n"
             output += "\t\t\tprotein_id\tgnl|ncbi|"+self.identifier+"\n"
             output += "\t\t\ttranscript_id\tgnl|ncbi|"+self.identifier+"_mrna\n"
@@ -338,8 +340,5 @@ class XRNA:
             return 0
 
     def annotations_contain_product(self):
-        for anno in self.annotations:
-            if anno[0] == 'product':
-                return True
-        return False
+        return 'product' in self.annotations.keys()
 
