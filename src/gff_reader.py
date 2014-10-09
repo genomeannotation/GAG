@@ -45,23 +45,29 @@ class GFFReader:
         Also adds annotations if present
         """
         result = {}
-        annotations = []
+        annotations = {}
         # Sanitize and split attributes up
         split_attr = attr.strip(' \t\n;').split(';')
         for pair in split_attr:
             splitpair = pair.split('=')
             if len(splitpair) != 2:
                 continue
-            if splitpair[0] == "ID":
-                result['identifier'] = splitpair[1]
-            elif splitpair[0] == "Name":
-                result['name'] = splitpair[1]
-            elif splitpair[0] == "Parent":
-                result['parent_id'] = splitpair[1]
-            elif (splitpair[0] == "Dbxref" or
-                    splitpair[0] == "Ontology_term" or
-                    splitpair[0] == "product"):
-                annotations.append(splitpair)
+            key = splitpair[0]
+            value = splitpair[1]
+            if key == "ID":
+                result['identifier'] = value
+            elif key == "Name":
+                result['name'] = value
+            elif key == "Parent":
+                result['parent_id'] = value
+            elif (key == "Dbxref" or
+                    key == "Ontology_term" or
+                    key == "product"):
+                if key in annotations.keys():
+                    # allow for annotations in the style of "Dbxref=PFAM:foo,PRINTS:bar"
+                    annotations[key].extend(value.split(','))
+                else:
+                    annotations[key] = value.split(',') # always a list :)
         # Make sure we found an ID
         if "identifier" not in result:
             return {}
