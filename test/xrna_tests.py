@@ -20,8 +20,11 @@ class TestXRNA(unittest.TestCase):
         self.assertEquals('XRNA', self.test_mrna0.__class__.__name__)
         self.assertEquals('-', self.test_mrna0.strand)
 
-    def test_constructor_takes_annotations(self):
-        self.assertTrue(XRNA(identifier="foo", indices=[1, 10], parent_id="bar", annotations=[["Dbxref", "pfam:foo"]]))
+    def test_add_annotation(self):
+        expected = {'foo': ['dog', 'cat']}
+        self.test_mrna0.add_annotation('foo', 'dog')
+        self.test_mrna0.add_annotation('foo', 'cat')
+        self.assertEqual(expected, self.test_mrna0.annotations)
 
     def test_length(self):
         self.assertEqual(3703, self.test_mrna0.length())
@@ -107,6 +110,24 @@ class TestXRNA(unittest.TestCase):
         self.fake_exon.to_gff.assert_called_with("sctg_0080_0020", "maker")
         self.fake_cds.to_gff.assert_called_with("sctg_0080_0020", "maker")
         self.fake_start_codon.to_gff.assert_called_with("sctg_0080_0020", "maker")
+
+    def test_to_gff_multiple_dbxref(self):
+        self.fake_exon.to_gff.return_value = "...exon to gff\n"
+        self.fake_cds.to_gff.return_value = "...cds to gff\n"
+        self.fake_start_codon.to_gff.return_value = "...start codon to gff\n"
+        expected = "sctg_0080_0020\tmaker\tmRNA\t"
+        expected += "3734\t7436\t.\t+\t.\t"
+        expected += "ID=bdor_foo2;Parent=1;foo=dog,cat\n"
+        expected += "...exon to gff\n...cds to gff\n"
+        expected += "...start codon to gff\n"
+        self.test_mrna1.add_annotation('foo', 'dog')
+        self.test_mrna1.add_annotation('foo', 'cat')
+        actual = self.test_mrna1.to_gff()
+        self.assertEquals(expected, actual)
+        self.fake_exon.to_gff.assert_called_with("sctg_0080_0020", "maker")
+        self.fake_cds.to_gff.assert_called_with("sctg_0080_0020", "maker")
+        self.fake_start_codon.to_gff.assert_called_with("sctg_0080_0020", "maker")
+
 
     def test_indices_intersect_mrna_false(self):
         mrna = XRNA(identifier=1, indices=[10, 20], parent_id='foo')

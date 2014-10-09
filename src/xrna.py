@@ -19,7 +19,7 @@ class XRNA:
         self.cds = None
         self.other_features = []
         if not annotations:
-            self.annotations = []
+            self.annotations = {}
         else:
             self.annotations = annotations
         if not source:
@@ -54,7 +54,10 @@ class XRNA:
             key: the type of annotation
             value: the annotation itself
         """
-        self.annotations.append([key, value])
+        if key in self.annotations:
+            self.annotations[key].append(value)
+        else:
+            self.annotations[key] = [value]
         
     def length(self):
         """Returns the length of the RNA."""
@@ -201,8 +204,9 @@ class XRNA:
         result += "." + "\t" + self.strand + "\t" + "." + "\t"
         result += "ID=" + str(self.identifier)
         result += ";Parent=" + str(self.parent_id)
-        for annot in self.annotations:
-            result += ';'+annot[0]+'='+annot[1]
+        for key in self.annotations.keys():
+            result += ';' + key + "="
+            result += ','.join(self.annotations[key])
         result += '\n'
         if self.exon:
             result += self.exon.to_gff(self.seq_name, self.source)
