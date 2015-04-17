@@ -3,20 +3,13 @@
 
 import os
 import sys
-import subprocess
-import copy
 from src.fasta_reader import FastaReader
 from src.gff_reader import GFFReader
 from src.annotator import Annotator
 from src.filter_manager import FilterManager
 from src.stats_manager import StatsManager
 
-class ConsoleController:
-
-    no_genome_message = "It looks like no genome is currently loaded. Try the 'load' command.\n"+\
-            "Type 'help load' to learn how to use it, or just 'help' for general advice.\n"
-
-## Setup, loading and saving sessions
+class Controller:
 
     def __init__(self):
         self.seqs = []
@@ -25,64 +18,92 @@ class ConsoleController:
         self.filter_mgr = FilterManager()
         self.stats_mgr = StatsManager()
 
-    def genome_is_loaded(self):
+    def execute(self, args_dict):
+        """At a minimum, write a fasta, gff and tbl to output directory. Optionally do more."""
+        # Verify and read fasta file
+        fastapath = args_dict["fasta"]
+        if not os.path.isfile(fastapath):
+            sys.stderr.write("Failed to find " + fastapath + ". No genome was loaded.\n")
+            sys.exit()
+        sys.stderr.write("Reading fasta...\n")
+        self.read_fasta(fastapath)
+        sys.stderr.write("Done.\n")
+
+        # Verify and read gff file
+        gffpath = args_dict["gff"]
+        if not os.path.isfile(gffpath):
+            sys.stderr.write("Failed to find " + gffpath + ". No genome was loaded.")
+            return
+        sys.stderr.write("Reading gff...\n")
+        self.read_gff(gffpath)
+        sys.stderr.write("Done.\n")
+
+        # Write fasta, gff and tbl file to gag_output/ folder
+        # TODO look for 'out' arg
+        out_dir = "gag_output"
+        # Create directory, open files
+        os.system('mkdir ' + out_dir)
+        # Open files
+        fasta = open(out_dir+'/genome.fasta', 'w')
+        gff = open(out_dir+'/genome.gff', 'w')
+        tbl = open(out_dir+'/genome.tbl', 'w')
+        sys.stderr.write("Writing gff, tbl and fasta...\n")
+        # TODO track # of gagflags?
+        # TODO stats file
         for seq in self.seqs:
-            if seq.genes:
-                return True
-        return False
+            fasta.write(seq.to_fasta())
+            gff.write(seq.to_gff())
+            tbl.write(seq.to_tbl())
+        # Close files
+        gff.close()
+        tbl.close()
+        fasta.close()
 
     def barf_folder(self, line):
-        if not self.seqs:
-            return self.no_genome_message
-        elif len(line) == 0:
-            sys.stderr.write("Usage: barffolder <directory>\n")
-            return
-        else:
-            # Create directory, open files
-            os.system('mkdir '+line)
-            gff = open(line+'/genome.gff', 'w')
-            removed_gff = open(line+'/genome.removed.gff', 'w')
-            tbl = open(line+'/genome.tbl', 'w')
-            fasta = open(line+'/genome.fasta', 'w')
-            mrna_fasta = open(line+'/genome.mrna.fasta', 'w')
-            cds_fasta = open(line+'/genome.cds.fasta', 'w')
-            protein_fasta = open(line+'/genome.proteins.fasta', 'w')
-            stats_file = open(line+'/genome.stats', 'w')
+        # Create directory, open files
+        os.system('mkdir '+line)
+        gff = open(line+'/genome.gff', 'w')
+        removed_gff = open(line+'/genome.removed.gff', 'w')
+        tbl = open(line+'/genome.tbl', 'w')
+        fasta = open(line+'/genome.fasta', 'w')
+        mrna_fasta = open(line+'/genome.mrna.fasta', 'w')
+        cds_fasta = open(line+'/genome.cds.fasta', 'w')
+        protein_fasta = open(line+'/genome.proteins.fasta', 'w')
+        stats_file = open(line+'/genome.stats', 'w')
 
-            # Now write stuff
-            sys.stderr.write("Writing gff, tbl and fasta...\n")
-            number_of_gagflags = 0
-            first_line = "Number of sequences:   " + str(len(self.seqs)) + "\n"
-            update_alt = False
-            self.stats_mgr.clear_alt()
-            removed_gff.write("##gff-version 3\n")
-            gff.write("##gff-version 3\n")
-            for feature in self.removed_features:
-                removed_gff.write(feature.to_gff())
-            for seq in self.seqs:
-                gff.write(seq.to_gff())
-                removed_gff.write(seq.removed_to_gff())
-                tbl.write(seq.to_tbl())
-                mrna_fasta.write(seq.to_mrna_fasta())
-                cds_fasta.write(seq.to_cds_fasta())
-                protein_fasta.write(seq.to_protein_fasta())
-                fasta.write(seq.to_fasta())
-                self.stats_mgr.update_alt(seq.stats())
-                number_of_gagflags += seq.number_of_gagflags()
+        # Now write stuff
+        sys.stderr.write("Writing gff, tbl and fasta...\n")
+        number_of_gagflags = 0
+        first_line = "Number of sequences:   " + str(len(self.seqs)) + "\n"
+        update_alt = False
+        self.stats_mgr.clear_alt()
+        removed_gff.write("##gff-version 3\n")
+        gff.write("##gff-version 3\n")
+        for feature in self.removed_features:
+            removed_gff.write(feature.to_gff())
+        for seq in self.seqs:
+            gff.write(seq.to_gff())
+            removed_gff.write(seq.removed_to_gff())
+            tbl.write(seq.to_tbl())
+            mrna_fasta.write(seq.to_mrna_fasta())
+            cds_fasta.write(seq.to_cds_fasta())
+            protein_fasta.write(seq.to_protein_fasta())
+            fasta.write(seq.to_fasta())
+            self.stats_mgr.update_alt(seq.stats())
+            number_of_gagflags += seq.number_of_gagflags()
 
-            last_line = "(" + str(number_of_gagflags) + " features flagged)\n"
-            stats_file.write(first_line + self.stats_mgr.summary() + last_line)
+        last_line = "(" + str(number_of_gagflags) + " features flagged)\n"
+        stats_file.write(first_line + self.stats_mgr.summary() + last_line)
 
-            # Close files
-            gff.close()
-            tbl.close()
-            fasta.close()
-            mrna_fasta.close()
-            cds_fasta.close()
-            protein_fasta.close()
-            stats_file.close()
-
-            return "Genome written to " + line
+        # Close files
+        gff.close()
+        tbl.close()
+        fasta.close()
+        mrna_fasta.close()
+        cds_fasta.close()
+        protein_fasta.close()
+        stats_file.close()
+        sys.stderr.write( "Genome written to " + line + "\n")
         
     def load_folder(self, line):
         if not line:
@@ -189,66 +210,6 @@ class ConsoleController:
             seq.create_starts_and_stops()
         return "Verified and created start/stop codons."
 
-## Assorted utilities
-
-    def get_n_seq_ids(self, number):
-        """Returns a message indicating the first n seq_ids in the genome.
-
-        If no seqs loaded, returns a message to that effect. If fewer than n
-        seqs loaded, returns the seq_ids of those seqs."""
-        if not self.seqs:
-            return "No sequences currently in memory.\n"
-        else:
-            if len(self.seqs) < number:
-                number = len(self.seqs)
-            seq_list = []
-            for seq in self.seqs:
-                seq_list.append(seq.header)
-                if len(seq_list) == number:
-                    break
-            result = "First " + str(len(seq_list)) + " seq ids are: "
-            result += format_list_with_strings(seq_list)
-            return result
-
-    def get_n_gene_ids(self, number):
-        """Returns a message indicating the first n gene_ids in the genome.
-
-        If no genes are present, returns a message to that effect. If fewer than n
-        genes are loaded, returns the gene_ids of those genes."""
-        genes_list = []
-        for seq in self.seqs:
-            if len(genes_list) >= number:
-                break
-            genes_list.extend(seq.get_gene_ids())
-        # List may now contain more than 'number' ids, or it may contain zero
-        if not genes_list:
-            return "No genes currently in memory.\n"
-        if len(genes_list) > number:
-            genes_list = genes_list[:number]
-        result = "First " + str(len(genes_list)) + " gene ids are: "
-        result += format_list_with_strings(genes_list)
-        return result
-
-    def get_n_mrna_ids(self, number):
-        """Returns a message indicating the first n mrna_ids in the genome.
-
-        If no mrnas are present, returns a message to that effect. If fewer than n
-        mrnas are loaded, returns the mrna_ids of those mrnas."""
-        mrnas_list = []
-        for seq in self.seqs:
-            if len(mrnas_list) >= number:
-                break
-            mrnas_list.extend(seq.get_mrna_ids())
-        # List may now contain more than 'number' ids, or it may contain zero
-        if not mrnas_list:
-            return "No mrnas currently in memory.\n"
-        if len(mrnas_list) > number:
-            mrnas_list = mrnas_list[:number]
-        result = "First " + str(len(mrnas_list)) + " mrna ids are: "
-        result += format_list_with_strings(mrnas_list)
-        return result
-
-
 ## Reading in files
 
     def read_fasta(self, line):
@@ -304,77 +265,6 @@ class ConsoleController:
         self.removed_features.extend(seq.remove_empty_mrnas())
         self.removed_features.extend(seq.remove_empty_genes())
         
-
-## Output info to console
-
-    def barf_gene_gff(self, line):
-        if not self.seqs:
-            return self.no_genome_message
-        else:
-            for seq in self.seqs:
-                if seq.contains_gene(line):
-                    return seq.gene_to_gff(line)
-
-    def barf_seq(self, line):
-        if not self.seqs:
-            return self.no_genome_message
-        else:
-            args = line.split(' ')
-            if len(args) == 1:
-                seq_id = args[0]
-                for seq in self.seqs:
-                    if seq.header == seq_id:
-                        return seq.get_subseq()
-            elif len(args) == 3:
-                seq_id = args[0]
-                start = int(args[1])
-                stop = int(args[2])
-                for seq in self.seqs:
-                    if seq.header == seq_id:
-                        return seq.get_subseq(start, stop)
-            else:
-                return "Usage: barfseq <seq_id> <start_index> <end_index>\n"
-
-    def barf_cds_seq(self, line):
-        if not self.seqs:
-            return self.no_genome_message
-        else:
-            name = line
-            for seq in self.seqs:
-                if seq.contains_mrna(name):
-                    return seq.extract_cds_seq(name)
-            return "Error: Couldn't find mRNA.\n"
-
-    def cds_to_gff(self, line):
-        if not self.seqs:
-            return self.no_genome_message
-        else:
-            name = line
-            for seq in self.seqs:
-                if seq.contains_mrna(name):
-                    return seq.cds_to_gff(name)
-            return "Error: Couldn't find mRNA.\n"
-
-    def cds_to_tbl(self, line):
-        if not self.seqs:
-            return self.no_genome_message
-        else:
-            name = line
-            for seq in self.seqs:
-                if seq.contains_mrna(name):
-                    return seq.cds_to_tbl(name)
-            return "Error: Couldn't find mRNA.\n"
-
-    def barf_gene_tbl(self, line):
-        if not self.seqs:
-            return self.no_genome_message
-        else:
-            output = ">Feature SeqId\n"
-            for seq in self.seqs:
-                if seq.contains_gene(line):
-                    output += seq.gene_to_tbl(line)
-            return output
-
     def stats(self):
         if not self.seqs:
             return self.no_genome_message
