@@ -5,6 +5,7 @@ import os
 import sys
 from src.fasta_reader import FastaReader
 from src.gff_reader import GFFReader
+from src.annotator import Annotator
 from src.filter_manager import FilterManager
 from src.stats_manager import StatsManager
 
@@ -13,6 +14,7 @@ class Controller:
     def __init__(self):
         self.seqs = []
         self.removed_features = []
+        self.annot = Annotator()
         self.filter_mgr = FilterManager()
         self.stats_mgr = StatsManager()
 
@@ -27,37 +29,25 @@ class Controller:
         self.read_fasta(fastapath)
         sys.stderr.write("Done.\n")
 
-        # Create output directory
-        out_dir = "gag_output"
-        if "out" in args_dict:
-            out_dir = args_dict["out"]
-        os.system('mkdir ' + out_dir)
-
         # Verify and read gff file
         gffpath = args_dict["gff"]
         if not os.path.isfile(gffpath):
             sys.stderr.write("Failed to find " + gffpath + ". No genome was loaded.")
             return
         sys.stderr.write("Reading gff...\n")
-        self.read_gff(gffpath, out_dir)
+        self.read_gff(gffpath)
         sys.stderr.write("Done.\n")
 
-        # Optional annotation step
-        if "anno" in args_dict:
-            anno_filename = args_dict["anno"]
-            self.annotate_from_file(anno_filename)
-
-        # Optional step to trim sequences, subsequences or features
-        if "trim" in args_dict:
-            trim_filename = args_dict["trim"]
-            self.trim_from_file(trim_filename)
-
-        # Write fasta, gff and tbl file to output folder
+        # Write fasta, gff and tbl file to gag_output/ folder
+        # TODO look for 'out' arg
+        out_dir = "gag_output"
+        # Create directory, open files
+        os.system('mkdir ' + out_dir)
         # Open files
         fasta = open(out_dir+'/genome.fasta', 'w')
         gff = open(out_dir+'/genome.gff', 'w')
         tbl = open(out_dir+'/genome.tbl', 'w')
-        sys.stderr.write("Writing gff, tbl and fasta to " + out_dir + "/ ...\n")
+        sys.stderr.write("Writing gff, tbl and fasta...\n")
         # TODO track # of gagflags?
         # TODO stats file
         for seq in self.seqs:
@@ -69,9 +59,97 @@ class Controller:
         tbl.close()
         fasta.close()
 
+    def barf_folder(self, line):
+        # Create directory, open files
+        os.system('mkdir '+line)
+        gff = open(line+'/genome.gff', 'w')
+        removed_gff = open(line+'/genome.removed.gff', 'w')
+        tbl = open(line+'/genome.tbl', 'w')
+        fasta = open(line+'/genome.fasta', 'w')
+        mrna_fasta = open(line+'/genome.mrna.fasta', 'w')
+        cds_fasta = open(line+'/genome.cds.fasta', 'w')
+        protein_fasta = open(line+'/genome.proteins.fasta', 'w')
+        stats_file = open(line+'/genome.stats', 'w')
+
+        # Now write stuff
+        sys.stderr.write("Writing gff, tbl and fasta...\n")
+        number_of_gagflags = 0
+        first_line = "Number of sequences:   " + str(len(self.seqs)) + "\n"
+        update_alt = False
+        self.stats_mgr.clear_alt()
+        removed_gff.write("##gff-version 3\n")
+        gff.write("##gff-version 3\n")
+        for feature in self.removed_features:
+            removed_gff.write(feature.to_gff())
+        for seq in self.seqs:
+            gff.write(seq.to_gff())
+            removed_gff.write(seq.removed_to_gff())
+            tbl.write(seq.to_tbl())
+            mrna_fasta.write(seq.to_mrna_fasta())
+            cds_fasta.write(seq.to_cds_fasta())
+            protein_fasta.write(seq.to_protein_fasta())
+            fasta.write(seq.to_fasta())
+            self.stats_mgr.update_alt(seq.stats())
+            number_of_gagflags += seq.number_of_gagflags()
+
+        last_line = "(" + str(number_of_gagflags) + " features flagged)\n"
+        stats_file.write(first_line + self.stats_mgr.summary() + last_line)
+
+        # Close files
+        gff.close()
+        tbl.close()
+        fasta.close()
+        mrna_fasta.close()
+        cds_fasta.close()
+        protein_fasta.close()
+        stats_file.close()
+        sys.stderr.write( "Genome written to " + line + "\n")
+        
+    def load_folder(self, line):
+        if not line:
+            line = "."
+        fastapath = line + '/genome.fasta'
+        gffpath = line + '/genome.gff'
+
+        # Verify files
+        if not os.path.isfile(fastapath):
+            sys.stderr.write("Failed to find " + fastapath + ". No genome was loaded.")
+            return
+        if not os.path.isfile(gffpath):
+            sys.stderr.write("Failed to find " + gffpath + ". No genome was loaded.")
+            return
+
+        # Read the fasta
+        sys.stderr.write("Reading fasta...\n")
+        self.read_fasta(fastapath)
+        sys.stderr.write("Done.\n")
+
+        # Read the gff
+        sys.stderr.write("Reading gff...\n")
+        self.read_gff(gffpath)
+        sys.stderr.write("Done.\n")
+
+        # Remove empty features
+        for seq in self.seqs:
+            self.remove_empty_features(seq)
+
+        # Clear stats; read in new stats
+        sys.stderr.write("Calculating stats...\n")
+        self.stats_mgr.clear_all()
+        for seq in self.seqs:
+            self.stats_mgr.update_ref(seq.stats())
+        sys.stderr.write("Done.\n")
+    
     def add_annotations_from_list(self, anno_list):
         for seq in self.seqs:
             seq.add_annotations_from_list(anno_list)
+
+    def remove_from_file(self, filename):
+        if not os.path.isfile(filename):
+            sys.stderr.write("Error: " + filename + " is not a file. Nothing removed.\n")
+            return
+        remove_list = self.read_remove_list(filename)
+        self.remove_from_list(remove_list)
 
     def trim_from_file(self, filename):
         if not os.path.isfile(filename):
@@ -86,7 +164,7 @@ class Controller:
 
     def annotate_from_file(self, filename):
         if not os.path.isfile(filename):
-            sys.stderr.write("Error: " + filename + " is not a file. Nothing annotated.\n")
+            sys.stderr.write("Error: " + filename + " is not a file. Nothing removed.\n")
             return
         annos = self.read_annotation_file(open(filename, 'rb'))
         if not annos:
@@ -99,14 +177,18 @@ class Controller:
 
     def trim_from_list(self, trimlist):
         for seq in self.seqs:
-            # In the case that there are multiple regions to trim in a single
-            # sequence, trim from the end so indices don't get messed up
-            to_trim_this_seq = [x for x in trimlist if x[0] == seq.header]
-            to_trim_this_seq = sorted(to_trim_this_seq, key=lambda entry: entry[2], reverse=True)
-            for entry in to_trim_this_seq:
-                seq.trim_region(entry[1], entry[2])
-                sys.stderr.write("Trimmed " + entry[0] + " from ")
-                sys.stderr.write(str(entry[1]) + " to " + str(entry[2]) + "\n")
+            # Trim the ends first
+            for entry in trimlist:
+                if entry[0] == seq.header and entry[2] == len(seq.bases):
+                    seq.trim_region(entry[1], entry[2])
+                    sys.stderr.write("Trimmed " + entry[0] + " from ")
+                    sys.stderr.write(str(entry[1]) + " to " + str(entry[2]) + "\n")
+            # Now trim the beginnings
+            for entry in trimlist:
+                if entry[0] == seq.header and entry[1] == 1:
+                    seq.trim_region(entry[1], entry[2])
+                    sys.stderr.write("Trimmed " + entry[0] + " from ")
+                    sys.stderr.write(str(entry[1]) + " to " + str(entry[2]) + "\n")
             self.remove_empty_features(seq)
 
     def get_filter_arg(self, filter_name):
@@ -134,25 +216,19 @@ class Controller:
         reader = FastaReader()
         self.seqs = reader.read(open(line, 'r'))
 
-    def read_gff(self, line, prefix):
-        # Takes prefix b/c reader returns comments, invalids, ignored
-        # and this method writes them to output files
-        # That's kind of messy
+    def read_gff(self, line):
         gffreader = GFFReader()
         reader = open(line, 'rb')
-        genes, comments, invalids, ignored = gffreader.read_file(reader)
+        genes = gffreader.read_file(reader)
         for gene in genes:
             self.add_gene(gene)
-        # Write comments, invalid lines and ignored features
-        with open(prefix + "/genome.comments.gff", 'w') as comments_file:
-            for comment in comments:
-                comments_file.write(comment)
-        with open(prefix + "/genome.invalid.gff", 'w') as invalid_file:
-            for invalid in invalids:
-                invalid_file.write(comment)
-        with open(prefix + "/genome.ignored.gff", 'w') as ignored_file:
-            for item in ignored:
-                ignored_file.write(comment)
+
+    def read_remove_list(self, line):
+        remove_list = []
+        with open(line, 'rb') as infile:
+            for line in infile:
+                remove_list.append(line.strip()) 
+        return remove_list
 
     def read_bed_file(self, io_buffer):
         trimlist = []
@@ -220,6 +296,9 @@ class Controller:
                 locus_tag = seq.get_locus_tag()
         return locus_tag
     
+    def clear_seqs(self):
+        self.seqs[:] = []
+
     def remove_from_list(self, bad_list):
         # First remove any seqs on the list
         to_remove = []
@@ -248,3 +327,29 @@ class Controller:
             if seq.contains_gene(gene_id):
                 return True
         return False
+
+    def contains_seq(self, seq_id):
+        for seq in self.seqs:
+            if seq.header == seq_id:
+                return True
+        return False
+
+    def can_write_to_path(self, path):
+        if len(path.split()) > 1:
+            return False
+        else:
+            return not os.path.exists(path)
+
+
+## Utility functions
+def format_list_with_strings(entries):
+    if len(entries) == 0:
+        return ""
+    result = entries[0]
+    if len(entries) > 2:
+        for entry in entries[1:-1]:
+            result += ", " + entry
+    if len(entries) > 1:
+        result += ", " + entries[-1]
+    result += "\n"
+    return result
