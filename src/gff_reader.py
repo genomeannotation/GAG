@@ -16,8 +16,40 @@ class GFFReader:
         self.orphans = []
         self.skipped_features = 0
 
+    def get_parents_from_list_of_attributes(self, fields):
+        """Returns a list of parent ids from a list of column 9 entries."""
+        for field in fields:
+            if "Parent" in field:
+                return field.split("=")[1].split(",")
+
+    def remove_parent_info_from_attr(self, fields):
+        result = []
+        for field in fields:
+            if "Parent" not in field:
+                result.append(field)
+        return result
+
+    def split_multi_parent_line(self, fields):
+        """Returns a list of lines, one for each parent in a multiparent line."""
+        split_attr = fields[8].split(";")
+        parents = self.get_parents_from_list_of_attributes(split_attr)
+        attr_without_parents = self.remove_parent_info_from_attr(split_attr)
+        all_lines = []
+        #import pdb; pdb.set_trace()
+        for parent in parents:
+            line = fields[:8]
+            new_attr_list = copy.deepcopy(attr_without_parents)
+            new_attr_list.append("Parent=" + parent)
+            new_attr_string = ";".join(new_attr_list)
+            line.append(new_attr_string)
+            all_lines.append(line)
+        return all_lines
+
     def validate_line(self, line):
-        """Returns list of fields if valid, empty list if not."""
+        """Returns list of lists of fields if valid, empty list if not.
+        
+        List of lists of fields -- because lines with multiple parents
+        are split into multiple lines."""
         splitline = line.split('\t')
         if len(splitline) is not 9:
             print("not enough columns")
@@ -32,7 +64,11 @@ class GFFReader:
         if not "Parent" in splitline[8] and not splitline[2] == "gene":
             print("no parent")
             return []
-        return splitline
+        if "," in splitline[8]:
+            splitlines = self.split_multi_parent_line(splitline)
+            return splitlines
+        else:
+            return [splitline]
 
     def line_type(self, line):
         """Returns type of feature, as denoted by 3rd field in list."""
@@ -281,13 +317,14 @@ class GFFReader:
             if len(line) == 0 or line[0].startswith('#'):
                 comments.write(line)
                 continue
-            splitline = self.validate_line(line)
-            if not splitline:
+            splitlines = self.validate_line(line)
+            if not splitlines:
                 invalid.write(line)
             else:
-                line_added = self.process_line(splitline)
-                if not line_added:
-                    ignored.write(line)
+                for splitline in splitlines:
+                    line_added = self.process_line(splitline)
+                    if not line_added:
+                        ignored.write(line)
 
         # Second pass, placing child features which 
         # preceded their parents in the first pass
