@@ -29,13 +29,19 @@ class Controller:
         self.read_fasta(fastapath)
         sys.stderr.write("Done.\n")
 
+        # Create output directory
+        out_dir = "gag_output"
+        if "out" in args_dict:
+            out_dir = args_dict["out"]
+        os.system('mkdir ' + out_dir)
+
         # Verify and read gff file
         gffpath = args_dict["gff"]
         if not os.path.isfile(gffpath):
             sys.stderr.write("Failed to find " + gffpath + ". No genome was loaded.")
             return
         sys.stderr.write("Reading gff...\n")
-        self.read_gff(gffpath)
+        self.read_gff(gffpath, out_dir)
         sys.stderr.write("Done.\n")
 
         # Optional annotation step
@@ -49,16 +55,11 @@ class Controller:
             self.trim_from_file(trim_filename)
 
         # Write fasta, gff and tbl file to output folder
-        out_dir = "gag_output"
-        if "out" in args_dict:
-            out_dir = args_dict["out"]
-        # Create directory, open files
-        os.system('mkdir ' + out_dir)
         # Open files
         fasta = open(out_dir+'/genome.fasta', 'w')
         gff = open(out_dir+'/genome.gff', 'w')
         tbl = open(out_dir+'/genome.tbl', 'w')
-        sys.stderr.write("Writing gff, tbl and fasta...\n")
+        sys.stderr.write("Writing gff, tbl and fasta to " + out_dir + "/ ...\n")
         # TODO track # of gagflags?
         # TODO stats file
         for seq in self.seqs:
@@ -187,8 +188,16 @@ class Controller:
             sys.stderr.write("...done\n")
 
     def trim_from_list(self, trimlist):
+        seqs_to_remove = []
         for seq in self.seqs:
-            # Trim the ends first
+            # Check for any mid-sequence trim requests
+            # For now, simply remove the sequence
+            for entry in trimlist:
+                if entry[0] == seq.header and entry[1] != 1 and entry[2] != len(seq.bases):
+                    sys.stderr.write("Removing " + seq.header + 
+                            " because it requires trimming in the middle\n")
+                    seqs_to_remove.append(seq.header)
+            # Trim the ends 
             for entry in trimlist:
                 if entry[0] == seq.header and entry[2] == len(seq.bases):
                     seq.trim_region(entry[1], entry[2])
@@ -197,11 +206,11 @@ class Controller:
             # Now trim the beginnings
             for entry in trimlist:
                 if entry[0] == seq.header and entry[1] == 1:
-                    print('foo')
                     seq.trim_region(entry[1], entry[2])
                     sys.stderr.write("Trimmed " + entry[0] + " from ")
                     sys.stderr.write(str(entry[1]) + " to " + str(entry[2]) + "\n")
             self.remove_empty_features(seq)
+        self.seqs = [s for s in self.seqs if s.header not in seqs_to_remove]
 
     def get_filter_arg(self, filter_name):
         return self.filter_mgr.get_filter_arg(filter_name)
@@ -228,10 +237,12 @@ class Controller:
         reader = FastaReader()
         self.seqs = reader.read(open(line, 'r'))
 
-    def read_gff(self, line):
+    def read_gff(self, line, prefix):
+        # Takes prefix b/c reader writes comments as it skips lines
+        # That's kind of messy
         gffreader = GFFReader()
         reader = open(line, 'rb')
-        genes = gffreader.read_file(reader)
+        genes = gffreader.read_file(reader, prefix)
         for gene in genes:
             self.add_gene(gene)
 
