@@ -6,7 +6,7 @@ from src.controller import Controller
 
 def usage():
     sys.stderr.write("usage: python gag.py <fasta=fasta_file> <gff=gff_file> ")
-    sys.stderr.write("[anno=<annotation file>] [remove=<bed file>] ")
+    sys.stderr.write("[anno=<annotation file>] [trim=<bed file>] ")
     sys.stderr.write("[out=<output directory>] ")
     sys.stderr.write("\n")
     sys.exit()
