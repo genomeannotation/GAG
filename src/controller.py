@@ -44,8 +44,9 @@ class Controller:
             self.annotate_from_file(anno_filename)
 
         # Write fasta, gff and tbl file to gag_output/ folder
-        # TODO look for 'out' arg
         out_dir = "gag_output"
+        if "out" in args_dict:
+            out_dir = args_dict["out"]
         # Create directory, open files
         os.system('mkdir ' + out_dir)
         # Open files
