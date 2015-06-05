@@ -179,14 +179,13 @@ class Sequence:
     def trim_region(self, start, stop):
         if stop > len(self.bases):
             sys.stderr.write("Sequence.trim called on sequence that is too short;"+\
-                    " doing nothing.")
+                    " doing nothing.\n")
             return
-        # Remove bases from sequence
-        self.bases = self.bases[:start-1] + self.bases[stop:]
-        to_remove = []
         # Remove any genes that are overlap the trimmed region
         # TODO add these genes to 'removed.gff' somehow?
         self.genes = [g for g in self.genes if not overlap([start, stop], g.indices)]
+        # Remove bases from sequence
+        self.bases = self.bases[:start-1] + self.bases[stop:]
         # Adjust indices of remaining genes
         bases_removed = stop - start + 1
         [g.adjust_indices(-bases_removed, start) for g in self.genes]
@@ -512,12 +511,13 @@ class Sequence:
         return stats
 
 def overlap(indices1, indices2):
+    print("overlap called with " + str(indices1) + str(indices2))
     """Returns a boolean indicating whether two pairs of indices overlap."""
     if not (len(indices1) == 2 and len(indices2) ==2):
         return False
-    if indices1[0] > indices2[0] and indices1[0] < indices2[1]:
+    if indices1[0] >= indices2[0] and indices1[0] <= indices2[1]:
         return True
-    elif indices1[1] > indices2[0] and indices1[1] < indices2[1]:
+    elif indices1[1] >= indices2[0] and indices1[1] <= indices2[1]:
         return True
     else:
         return False
