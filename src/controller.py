@@ -43,7 +43,12 @@ class Controller:
             anno_filename = args_dict["anno"]
             self.annotate_from_file(anno_filename)
 
-        # Write fasta, gff and tbl file to gag_output/ folder
+        # Optional step to trim sequences, subsequences or features
+        if "trim" in args_dict:
+            trim_filename = args_dict["trim"]
+            self.trim_from_file(trim_filename)
+
+        # Write fasta, gff and tbl file to output folder
         out_dir = "gag_output"
         if "out" in args_dict:
             out_dir = args_dict["out"]
@@ -192,6 +197,7 @@ class Controller:
             # Now trim the beginnings
             for entry in trimlist:
                 if entry[0] == seq.header and entry[1] == 1:
+                    print('foo')
                     seq.trim_region(entry[1], entry[2])
                     sys.stderr.write("Trimmed " + entry[0] + " from ")
                     sys.stderr.write(str(entry[1]) + " to " + str(entry[2]) + "\n")
