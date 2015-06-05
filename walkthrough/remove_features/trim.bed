@@ -1,3 +1,4 @@
 foo_seq	1	5
 bar_seq	45	50
-baz_seq	10	12
+mid_seq_trim_feature_after	10	12
+mid_seq_trim_intersects_gene	20	22
