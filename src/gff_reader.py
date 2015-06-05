@@ -299,17 +299,17 @@ class GFFReader:
         parent_mrna = self.mrnas[parent_id]
         parent_mrna.other_features.append(GenePart(**kwargs))
 
-    def read_file(self, reader):
-        """GFFReader's public method, takes a reader and returns a list of Genes.
+    def read_file(self, reader, output_dir):
+        """GFFReader's public method, takes a reader, output dir, returns a list of Genes.
 
         Writes comments to 'genome.comments.gff',
         invalid lines to 'genome.invalid.gff' and
         ignored features to 'genome.ignored.gff'.
         """
         # Open files to write comments, invalid and ignored entries
-        comments = open('genome.comments.gff', 'w')
-        invalid = open('genome.invalid.gff', 'w')
-        ignored = open('genome.ignored.gff', 'w')
+        comments = open(output_dir + '/genome.comments.gff', 'w')
+        invalid = open(output_dir + '/genome.invalid.gff', 'w')
+        ignored = open(output_dir + '/genome.ignored.gff', 'w')
 
         # First pass, pulling out all genes and mRNAs
         #  and placing child features if possible
