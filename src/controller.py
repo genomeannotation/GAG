@@ -38,6 +38,11 @@ class Controller:
         self.read_gff(gffpath)
         sys.stderr.write("Done.\n")
 
+        # Optional annotation step
+        if "anno" in args_dict:
+            anno_filename = args_dict["anno"]
+            self.annotate_from_file(anno_filename)
+
         # Write fasta, gff and tbl file to gag_output/ folder
         # TODO look for 'out' arg
         out_dir = "gag_output"
@@ -164,7 +169,7 @@ class Controller:
 
     def annotate_from_file(self, filename):
         if not os.path.isfile(filename):
-            sys.stderr.write("Error: " + filename + " is not a file. Nothing removed.\n")
+            sys.stderr.write("Error: " + filename + " is not a file. Nothing annotated.\n")
             return
         annos = self.read_annotation_file(open(filename, 'rb'))
         if not annos:
