@@ -188,29 +188,16 @@ class Controller:
             sys.stderr.write("...done\n")
 
     def trim_from_list(self, trimlist):
-        seqs_to_remove = []
         for seq in self.seqs:
-            # Check for any mid-sequence trim requests
-            # For now, simply remove the sequence
-            for entry in trimlist:
-                if entry[0] == seq.header and entry[1] != 1 and entry[2] != len(seq.bases):
-                    sys.stderr.write("Removing " + seq.header + 
-                            " because it requires trimming in the middle\n")
-                    seqs_to_remove.append(seq.header)
-            # Trim the ends 
-            for entry in trimlist:
-                if entry[0] == seq.header and entry[2] == len(seq.bases):
-                    seq.trim_region(entry[1], entry[2])
-                    sys.stderr.write("Trimmed " + entry[0] + " from ")
-                    sys.stderr.write(str(entry[1]) + " to " + str(entry[2]) + "\n")
-            # Now trim the beginnings
-            for entry in trimlist:
-                if entry[0] == seq.header and entry[1] == 1:
-                    seq.trim_region(entry[1], entry[2])
-                    sys.stderr.write("Trimmed " + entry[0] + " from ")
-                    sys.stderr.write(str(entry[1]) + " to " + str(entry[2]) + "\n")
+            # In the case that there are multiple regions to trim in a single
+            # sequence, trim from the end so indices don't get messed up
+            to_trim_this_seq = [x for x in trimlist if x[0] == seq.header]
+            to_trim_this_seq = sorted(to_trim_this_seq, key=lambda entry: entry[2], reverse=True)
+            for entry in to_trim_this_seq:
+                seq.trim_region(entry[1], entry[2])
+                sys.stderr.write("Trimmed " + entry[0] + " from ")
+                sys.stderr.write(str(entry[1]) + " to " + str(entry[2]) + "\n")
             self.remove_empty_features(seq)
-        self.seqs = [s for s in self.seqs if s.header not in seqs_to_remove]
 
     def get_filter_arg(self, filter_name):
         return self.filter_mgr.get_filter_arg(filter_name)
