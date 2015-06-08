@@ -143,13 +143,6 @@ class Controller:
         for gene in genes:
             self.add_gene(gene)
 
-    def read_remove_list(self, line):
-        remove_list = []
-        with open(line, 'rb') as infile:
-            for line in infile:
-                remove_list.append(line.strip()) 
-        return remove_list
-
     def read_bed_file(self, io_buffer):
         trimlist = []
         for line in io_buffer:
