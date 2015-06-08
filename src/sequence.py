@@ -235,13 +235,6 @@ class Sequence:
                         contained.append(b)
         return contained
 
-    def extract_cds_seq(self, mrna_id):
-        for gene in self.genes:
-            for mrna in gene.mrnas:
-                if mrna.identifier == mrna_id and mrna.cds:
-                    return mrna.cds.extract_sequence(self, gene.strand)
-        return "CDS not found."
-
     def cds_to_gff(self, mrna_id):
         for gene in self.genes:
             if gene.contains_mrna(mrna_id):
@@ -299,18 +292,6 @@ class Sequence:
             result += gene.to_gff(True)
         return result
 
-    def gene_to_gff(self, gene_id):
-        for gene in self.genes:
-            if gene.identifier == gene_id:
-                return gene.to_gff()
-        return ""
-
-    def gene_to_tbl(self, gene_id):
-        for gene in self.genes:
-            if gene.identifier == gene_id:
-                return gene.to_tbl()
-        return ""
-        
 ###################################################################################################
 # Statsy type stuff
 
