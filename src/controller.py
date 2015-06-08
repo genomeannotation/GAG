@@ -135,13 +135,24 @@ class Controller:
         self.seqs = reader.read(open(line, 'r'))
 
     def read_gff(self, line, prefix):
-        # Takes prefix b/c reader writes comments as it skips lines
+        # Takes prefix b/c reader returns comments, invalids, ignored
+        # and this method writes them to output files
         # That's kind of messy
         gffreader = GFFReader()
         reader = open(line, 'rb')
-        genes = gffreader.read_file(reader, prefix)
+        genes, comments, invalids, ignored = gffreader.read_file(reader)
         for gene in genes:
             self.add_gene(gene)
+        # Write comments, invalid lines and ignored features
+        with open(prefix + "/genome.comments.gff", 'w') as comments_file:
+            for comment in comments:
+                comments_file.write(comment)
+        with open(prefix + "/genome.invalid.gff", 'w') as invalid_file:
+            for invalid in invalids:
+                invalid_file.write(comment)
+        with open(prefix + "/genome.ignored.gff", 'w') as ignored_file:
+            for item in ignored:
+                ignored_file.write(comment)
 
     def read_bed_file(self, io_buffer):
         trimlist = []
