@@ -85,13 +85,6 @@ class GenePart:
         """
         self.annotations.append([key, value])
     
-    def has_annotation(self, key):
-        """Returns true if annotation with specified key exists, false otherwise."""
-        for anno in self.annotations:
-            if anno[0] == key:
-                return True
-        return False
-
     def gagflagged(self):
         """Returns a boolean indicating whether the GenePart contains a 'gagflag' annotation."""
         for anno in self.annotations:

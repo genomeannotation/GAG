@@ -21,16 +21,6 @@ def valid_seq(seq):
 def valid_strand(strand):
     return strand in ['+', '-']
 
-def verify_inputs(seq, strand):
-    if not valid_seq(seq):
-        sys.stderr.write("Invalid seq passed to translate.py: " + seq + "\n")
-        return False
-    elif not valid_strand(strand):
-        sys.stderr.write("Invalid strand passed to translate.py: " + strand + "\n")
-        return False
-    else:
-        return True
-
 def has_start_codon(seq):
     return seq[:3].lower() == 'aug' or seq[:3].lower() == 'atg'
 
