@@ -124,7 +124,7 @@ class TestGFFReader(unittest.TestCase):
     def test_read_file(self):
         text = self.get_sample_text()
         inbuff = io.BytesIO(text)
-        genes = self.reader.read_file(inbuff)
+        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEquals(2, len(genes))
         self.assertEquals('BDOR_007864-RA', genes[0].mrnas[0].identifier)
         self.assertEquals([179489, 179691], genes[1].mrnas[0].cds.indices[2])
@@ -192,7 +192,7 @@ class TestGFFReader(unittest.TestCase):
     def test_read_file_out_of_order(self):
         text = self.get_out_of_order_text()
         inbuff = io.BytesIO(text)
-        genes = self.reader.read_file(inbuff)
+        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEqual(1, len(genes))
         self.assertEqual('BDOR_007864-RA', genes[0].mrnas[0].identifier)
         self.assertEqual(2, len(genes[0].mrnas))
@@ -202,7 +202,7 @@ class TestGFFReader(unittest.TestCase):
     def test_read_file_doesnt_loop_infinitely_when_feature_with_no_parent_mrna(self):
         text = self.get_out_of_order_text_with_missing_parent()
         inbuff = io.BytesIO(text)
-        genes = self.reader.read_file(inbuff)
+        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEqual(1, len(genes))
         
     def get_annotated_gff(self):
@@ -250,42 +250,42 @@ class TestGFFReader(unittest.TestCase):
     def test_read_file_annotated(self):
         text = self.get_annotated_gff()
         inbuff = io.BytesIO(text)
-        genes = self.reader.read_file(inbuff)
+        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEquals(1, len(genes))
         self.assertEquals({"Dbxref": ["PRINTS:PR00075"]}, genes[0].mrnas[0].annotations)
 
     def test_read_file_annotated_multi_dbxref(self):
         text = self.get_annotated_gff_multi_dbxref()
         inbuff = io.BytesIO(text)
-        genes = self.reader.read_file(inbuff)
+        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEquals(1, len(genes))
         self.assertEquals({"Dbxref": ["PRINTS:PR00075", "PFAM:foo"]}, genes[0].mrnas[0].annotations)
 
     def test_read_file_annotated_multi_dbxref_repeated_anno(self):
         text = self.get_annotated_gff_multi_dbxref_repeated_anno()
         inbuff = io.BytesIO(text)
-        genes = self.reader.read_file(inbuff)
+        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEquals(1, len(genes))
         self.assertEquals({"Dbxref": ["PRINTS:PR00075", "PFAM:foo"]}, genes[0].mrnas[0].annotations)
 
     def test_CDS_knows_its_strand(self):
         text = self.get_annotated_gff()
         inbuff = io.BytesIO(text)
-        genes = self.reader.read_file(inbuff)
+        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertTrue(genes[0].mrnas[0].cds)
         self.assertEquals('-', genes[0].mrnas[0].cds.strand)
 
     def test_exon_knows_its_strand(self):
         text = self.get_annotated_gff()
         inbuff = io.BytesIO(text)
-        genes = self.reader.read_file(inbuff)
+        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertTrue(genes[0].mrnas[0].exon)
         self.assertEquals('-', genes[0].mrnas[0].exon.strand)
 
     def test_mrna_knows_its_strand(self):
         text = self.get_annotated_gff()
         inbuff = io.BytesIO(text)
-        genes = self.reader.read_file(inbuff)
+        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertTrue(genes[0].mrnas[0])
         self.assertEquals('-', genes[0].mrnas[0].strand)
 
