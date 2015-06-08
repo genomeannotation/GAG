@@ -220,9 +220,6 @@ class Controller:
                 locus_tag = seq.get_locus_tag()
         return locus_tag
     
-    def clear_seqs(self):
-        self.seqs[:] = []
-
     def remove_from_list(self, bad_list):
         # First remove any seqs on the list
         to_remove = []
@@ -251,29 +248,3 @@ class Controller:
             if seq.contains_gene(gene_id):
                 return True
         return False
-
-    def contains_seq(self, seq_id):
-        for seq in self.seqs:
-            if seq.header == seq_id:
-                return True
-        return False
-
-    def can_write_to_path(self, path):
-        if len(path.split()) > 1:
-            return False
-        else:
-            return not os.path.exists(path)
-
-
-## Utility functions
-def format_list_with_strings(entries):
-    if len(entries) == 0:
-        return ""
-    result = entries[0]
-    if len(entries) > 2:
-        for entry in entries[1:-1]:
-            result += ", " + entry
-    if len(entries) > 1:
-        result += ", " + entries[-1]
-    result += "\n"
-    return result
