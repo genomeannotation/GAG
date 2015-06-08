@@ -263,31 +263,32 @@ class GFFReader:
         parent_mrna = self.mrnas[parent_id]
         parent_mrna.other_features.append(GenePart(**kwargs))
 
-    def read_file(self, reader, output_dir):
-        """GFFReader's public method, takes a reader, output dir, returns a list of Genes.
+    def read_file(self, reader):
+        """GFFReader's public method, takes a reader, returns list of Genes,
+        list of comments, list of invalid lines and list of ignored features.
 
         Writes comments to 'genome.comments.gff',
         invalid lines to 'genome.invalid.gff' and
         ignored features to 'genome.ignored.gff'.
         """
         # Open files to write comments, invalid and ignored entries
-        comments = open(output_dir + '/genome.comments.gff', 'w')
-        invalid = open(output_dir + '/genome.invalid.gff', 'w')
-        ignored = open(output_dir + '/genome.ignored.gff', 'w')
+        comments = []
+        invalid = []
+        ignored = []
 
         # First pass, pulling out all genes and mRNAs
         #  and placing child features if possible
         for line in reader:
             if len(line) == 0 or line[0].startswith('#'):
-                comments.write(line)
+                comments.append(line)
                 continue
             splitline = self.validate_line(line)
             if not splitline:
-                invalid.write(line)
+                invalid.append(line)
             else:
                 line_added = self.process_line(splitline)
                 if not line_added:
-                    ignored.write(line)
+                    ignored.append(line)
 
         # Second pass, placing child features which 
         # preceded their parents in the first pass
@@ -302,5 +303,5 @@ class GFFReader:
 
         if self.skipped_features > 0:
             sys.stderr.write("Warning: skipped "+str(self.skipped_features)+" uninteresting features.\n")
-        return self.genes.values()
+        return self.genes.values(), comments, invalid, ignored
 
