@@ -325,7 +325,7 @@ class GFFReader:
                 for splitline in splitlines:
                     line_added = self.process_line(splitline)
                     if not line_added:
-                        ignored.write(line)
+                        ignored.append(line)
 
         # Second pass, placing child features which 
         # preceded their parents in the first pass
