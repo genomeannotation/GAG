@@ -319,7 +319,7 @@ class GFFReader:
                 comments.append(line)
                 continue
             splitlines = self.validate_line(line)
-            if not splitline:
+            if not splitlines:
                 invalid.append(line)
             else:
                 for splitline in splitlines:
