@@ -54,6 +54,11 @@ class Controller:
             trim_filename = args_dict["trim"]
             self.trim_from_file(trim_filename)
 
+        # Optional step to create start and stop codons
+        if "fix_start_stop" in args_dict:
+            if args_dict["fix_start_stop"].lower() == "true":
+                self.fix_start_stop_codons()
+
         # Write fasta, gff and tbl file to output folder
         # Open files
         fasta = open(out_dir+'/genome.fasta', 'w')
