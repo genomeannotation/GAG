@@ -8,3 +8,6 @@
 .gaghistory
 gag.config
 tags
+
+# directory to hold full datasets for testing or whatever
+local/*
