@@ -34,6 +34,8 @@ class Controller:
         os.system('mkdir ' + out_dir)
 
         # Verify and read gff file
+        # This step also writes genome.ignored.gff,
+        # genome.invalid.gff and genome.comments.gff
         gffpath = args_dict["gff"]
         if not os.path.isfile(gffpath):
             sys.stderr.write("Failed to find " + gffpath + ". No genome was loaded.")
