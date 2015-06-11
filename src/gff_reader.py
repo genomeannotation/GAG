@@ -18,6 +18,7 @@ class GFFReader:
 
     def get_parents_from_list_of_attributes(self, fields):
         """Returns a list of parent ids from a list of column 9 entries."""
+        print(fields)
         for field in fields:
             if "Parent" in field:
                 return field.split("=")[1].split(",")
@@ -64,11 +65,20 @@ class GFFReader:
         if not "Parent" in splitline[8] and not splitline[2] == "gene":
             print("no parent")
             return []
-        if "," in splitline[8]:
+        if self.has_multiple_parents(splitline[8]):
             splitlines = self.split_multi_parent_line(splitline)
             return splitlines
         else:
             return [splitline]
+
+    def has_multiple_parents(self, attr):
+        split_attr = attr.split(";")
+        for attr in split_attr:
+            if "Parent" in attr:
+                parent_id_field = attr.split("=")[1]
+                if "," in parent_id_field:
+                    return True
+        return False
 
     def line_type(self, line):
         """Returns type of feature, as denoted by 3rd field in list."""
