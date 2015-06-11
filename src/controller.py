@@ -67,6 +67,7 @@ class Controller:
         sys.stderr.write("Writing gff, tbl and fasta to " + out_dir + "/ ...\n")
         # TODO track # of gagflags?
         # TODO stats file
+        gff.write("##gff-version 3\n")
         for seq in self.seqs:
             fasta.write(seq.to_fasta())
             gff.write(seq.to_gff())
