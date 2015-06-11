@@ -156,10 +156,10 @@ class Controller:
                 comments_file.write(comment)
         with open(prefix + "/genome.invalid.gff", 'w') as invalid_file:
             for invalid in invalids:
-                invalid_file.write(comment)
+                invalid_file.write(invalid)
         with open(prefix + "/genome.ignored.gff", 'w') as ignored_file:
             for item in ignored:
-                ignored_file.write(comment)
+                ignored_file.write(item)
 
     def read_bed_file(self, io_buffer):
         trimlist = []
