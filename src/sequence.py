@@ -492,7 +492,6 @@ class Sequence:
         return stats
 
 def overlap(indices1, indices2):
-    print("overlap called with " + str(indices1) + str(indices2))
     """Returns a boolean indicating whether two pairs of indices overlap."""
     if not (len(indices1) == 2 and len(indices2) ==2):
         return False
