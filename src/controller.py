@@ -71,7 +71,7 @@ class Controller:
         gff = open(out_dir+'/genome.gff', 'w')
         tbl = open(out_dir+'/genome.tbl', 'w')
         stats_file = open(out_dir+'/genome.stats', 'w')
-        sys.stderr.write("Writing gff, tbl and fasta to " + out_dir + "/ ...\n")
+
         # Calculate stats on modified genome
         sys.stderr.write("Calculating stats on modified genome\n")
         for seq in self.seqs:
@@ -82,6 +82,7 @@ class Controller:
         for line in self.stats_mgr.summary():
             stats_file.write(line)
 
+        sys.stderr.write("Writing gff, tbl and fasta to " + out_dir + "/ ...\n")
         gff.write("##gff-version 3\n")
         for seq in self.seqs:
             fasta.write(seq.to_fasta())
