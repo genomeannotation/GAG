@@ -67,10 +67,11 @@ class Controller:
 
         # Write fasta, gff and tbl file to output folder
         # Open files
-        fasta = open(out_dir+'/genome.fasta', 'w')
-        gff = open(out_dir+'/genome.gff', 'w')
-        tbl = open(out_dir+'/genome.tbl', 'w')
-        stats_file = open(out_dir+'/genome.stats', 'w')
+        fasta = open(out_dir + '/genome.fasta', 'w')
+        gff = open(out_dir + '/genome.gff', 'w')
+        tbl = open(out_dir + '/genome.tbl', 'w')
+        proteins = open(out_dir + '/genome.proteins.fasta', 'w')
+        stats_file = open(out_dir + '/genome.stats', 'w')
 
         # Calculate stats on modified genome
         sys.stderr.write("Calculating stats on modified genome\n")
@@ -88,10 +89,12 @@ class Controller:
             fasta.write(seq.to_fasta())
             gff.write(seq.to_gff())
             tbl.write(seq.to_tbl())
+            proteins.write(seq.to_protein_fasta())
         # Close files
         gff.close()
         tbl.close()
         fasta.close()
+        proteins.close()
         stats_file.close()
 
     def add_annotations_from_list(self, anno_list):
