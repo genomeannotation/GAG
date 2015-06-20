@@ -4,7 +4,7 @@
   <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="GAG - Genome Annotation Generator : Console-based application to read, sanitize, transfer annotations and modify whole genome annotations. Can export an NCBI .tbl file of annotations on a genome." />
+    <meta name="description" content="GAG - Genome Annotation Generator : Command line application to read, sanitize, transfer annotations and modify whole genome annotations. Can export an NCBI .tbl file of annotations on a genome." />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -31,7 +31,7 @@
           <a id="forkme_banner" href="https://github.com/genomeannotation/GAG">View on GitHub</a>
 
           <h1 id="project_title">GAG - Genome Annotation Generator</h1>
-          <h2 id="project_tagline">Console-based application to read, sanitize, annotate and modify genomic data. Can export an NCBI .tbl file of annotations on a genome.</h2>
+          <h2 id="project_tagline">Command line application to read, sanitize, annotate and modify genomic data. Can export an NCBI .tbl file of annotations on a genome.</h2>
 
             <section id="downloads">
               <a class="zip_download_link" href="https://github.com/genomeannotation/GAG/zipball/master">Download this project as a .zip file</a>
@@ -50,101 +50,40 @@
 <p>GAG is released under the <a href="http://opensource.org/licenses/MIT">MIT License</a>.</p>
 
 <h4>Purpose</h4>
-<p>GAG can read a genome and write it to the NCBI's .tbl format. This is the main purpose of the program. However, if you're writing a .tbl file, there's a good chance that your genome is destined to encounter <a href="https://www.ncbi.nlm.nih.gov/genbank/tbl2asn2">tbl2asn</a> further downstream. In anticipation of this meeting, GAG includes a (growing) number of options to remove questionable features or trim erroneous regions from your genome. It can also be used to add <a href="#functional-annotations">functional annotations</a>. These options are outlined in the <a href="#advanced-usage">Advanced Usage</a> section. For a full list of commands, click <a href="#other-features">here</a>.</p>
-<h4>Trivial Example</h4>
-<p>Here's what a very simple GAG session might look like:</p>
-<pre><code>GAG&gt; load .
-GAG&gt; write newfolder
-GAG&gt; exit
-</code></pre>
-<p>The commands above, run from inside a folder containing a genome, will create a subfolder containing, among other things, a .tbl file. For more information on the above example, see <a href="#basic-usage">Basic Usage</a>.</p>
+<p>GAG can read a genome and write it to the NCBI's .tbl format. This is the main purpose of the program. However, if you're writing a .tbl file, there's a good chance that your genome is destined to encounter <a href="https://www.ncbi.nlm.nih.gov/genbank/tbl2asn2">tbl2asn</a> further downstream. In anticipation of this meeting, GAG includes a (growing) number of options to remove questionable features or trim erroneous regions from your genome. It can also be used to add <a href="#functional-annotations">functional annotations</a>. These options are outlined in the <a href="#advanced-usage">Advanced Usage</a> section.</p>
 <h4>Installation</h4>
-<p>GAG is written in <a href="https://www.python.org/download/releases/2.7.6/">Python 2</a>. Assuming you have Python 2 (not 3!) installed, you can download the zipped source code from the link at the top of this page, extract it and run it. The command to start the program is <pre><code>python gag.py</code></pre></p>
-<p>It's recommended (though not required) to run GAG from inside the folder that contains your genome. To make this easier, you might consider adding GAG to your $PATH variable. One way to do that is to type the following from a Linux prompt:
-<pre><code>export PATH=$PATH:/path/to/wherever/you/installed/GAG</code></pre></p>
-<p>Adding the above line to your '~/.bash_profile' file will ensure that GAG is always at your fingertips.</p>
+<p>GAG is written in <a href="https://www.python.org/download/releases/2.7.6/">Python 2</a>. Assuming you have Python 2 (not 3!) installed, you can download the zipped source code from the link at the top of this page, extract it and run it.</p>
+<h4>Basic Usage</h4>
+<p>Here's what a very simple GAG session might look like:</p>
+<pre><code>python gag.py fasta=organism.fasta gff=organism.gff out=gag_output
+</code></pre>
+<p>This command will create a subfolder called 'gag_output' containing, among other things, a .tbl file.</p> 
 <h4>Genome</h4>
-<p>What is a genome? Great question. A genome can be many things to many people. To GAG, a genome is a .fasta file and a .gff file. More specifically, a genome is a folder containing two files called 'genome.fasta' and 'genome.gff'. Anything else in the folder will be ignored.</p>
-<p>These names are pretty generic. A good practice is to make a directory with the name of your organism, then place two symbolic links inside it, called 'genome.gff' and 'genome.fasta', which point to your original files. Run GAG from this folder. Nice and tidy.</p>
+<p>What is a genome? Great question. A genome can be many things to many people. To GAG, a genome is a .fasta file and a .gff file.</p> 
 <h4>Fasta File</h4>
 <p>You must provide GAG with a .fasta file of nucleic acid sequence data. (More info <a href="https://en.wikipedia.org/wiki/FASTA_format">here</a>.) It is important to note that GAG is only expecting to find 'A', 'C', 'G', 'T' or 'N' (upper or lowercase) in your sequences. Mixed bases ('R', 'M', etc.) or invalid bases ('Q', 'ㅊ', etc.) are converted to 'N' for the purpose of protein translation, start/stop codon detection or whatever else we might dream up.
 <p>GAG will accept a scaffolded or unscaffolded assembly, though a scaffolded assembly is recommended.</p>
 <h4><a name="gff3-file" class="anchor" href="#gff3-file"></a>GFF3 File</h4>
 <p>For best results, use a valid GFF3 file. The GFF3 specification can be found at the <a href="http://www.sequenceontology.org/gff3.shtml">Sequence Ontology</a> homepage, and there is a validator <a href="http://modencode.oicr.on.ca/cgi-bin/validate_gff3_online">here</a>. (For unpredictable results, go ahead and try to load an invalid file. It's been known to work. Who knows?)</p>
-<p>Your hopefully valid GFF3 file should contain features identified as 'gene', 'mRNA', 'exon', and 'CDS', along with possible companions 'start_codon' and 'stop_codon'. There are other valid features, but at the moment GAG will ignore them, writing them to a file called 'genome.ignored.gff' for posterity. (You can always reunite these features with your final result by typing <code>cat genome.ignored.gff output_folder/genome.gff &gt; reunited.gff</code> from a Linux prompt.) If you have a pet feature that you think belongs in your .tbl file, please visit the <a href="https://groups.google.com/forum/#!forum/gag_support">Support Page</a> and let us know.</p>
+<p>Your hopefully valid GFF3 file should contain features identified as 'gene', 'mRNA', 'exon', and 'CDS', along with possible companions 'start_codon' and 'stop_codon'. There are other valid features, but at the moment GAG will ignore them, writing them to a file called 'genome.ignored.gff' for posterity. (You can always reunite these features with your final result by typing <code>cat genome.ignored.gff genome.gff &gt; reunited.gff</code> from a Linux prompt.) If you have a pet feature that you think belongs in your .tbl file, please visit the <a href="https://github.com/genomeannotation/GAG/issues">Issues Page</a> and let us know.</p>
 <p>Column 9 of a GFF3 file is the "attributes" column. A unique "ID" field is required for each feature; a "Parent" field is required for all non-gene features; everything else is gravy. For example, add a unique "Name" field to your gene and it will be included in your .tbl file. Attach "Dbxref" or "Ontology_term" fields to your mRNA feature and these annotations will be added when you write a .tbl file. See <a href="#functional-annotations">Functional Annotations</a> for more information and examples.</p>
-<h4>Help</h4>
-<p>GAG features contextual help spread out amongst a number of task-oriented <a href="#nested-subconsoles">subconsoles</a>. At any point, type <code>help</code> to see a list of available commands, and type <pre><code>help &lt;name_of_command&gt;</code></pre> to get instructions about a specific command.</p>
-</p>Please note that the available commands will differ depending on which subconsole you are in. Frustrated? Lost? Type <code>home</code> to get back to the main console.</p>
-<p>If that doesn't cut it, and this document doesn't answer your questions, you can visit our <a href="https://groups.google.com/forum/#!forum/gag_support">Support Page</a>.
 <h4><a name="citing-gag" class="anchor" href="#citing-gag"></a>Citing GAG</h4>
 <p>Please cite as follows:</p>
 <blockquote>Hall, B., DeRego, T., &amp; Geib, S. (2014). GAG: the Genome Annotation Generator (Version 1.0) [Software]. Available from <a href="http://genomeannotation.github.io/GAG/">http://genomeannotation.github.io/GAG</a>.</blockquote>
-<h1><a name="basic-usage" class="anchor" href="#basic-usage"><span class="octicon octicon-link"></span></a>Basic Usage</h1>
-<p>In this exciting vignette, you will create a .tbl file (along with cds, mrna and protein .fasta files) from the .fasta and .gff files provided in the 'walkthrough/basic' directory.</p>
-<p>GAG writes a number of (lightweight) history, config, stats and log files while you run it. For best results, run GAG from within the directory that contains your genome. This will keep all those files in one place.</p>
-<p>The following walkthroughs all assume that you have taken this advice; if you run GAG from another folder, you should adjust the path in the 'load' command.</p>
-<p>When GAG starts up, you'll see an exciting load screen and the GAG prompt. It looks like this:
-<pre><code>GAG&gt; </pre></code>
-<p>(In the examples that follow, the prompt is just there to make the tutorial resemble your screen. You don't need to type it. The only time you should ever need to type 'GAG' in all caps is when you <a href="#citing-gag">cite it</a> in your amazing paper.)</p>
 
-<h5>
-<a name="read-in-genome" class="anchor" href="#read-in-genome"><span class="octicon octicon-link"></span></a>Read in genome</h5>
-<pre><code>GAG&gt; load .
-</code></pre>
-<p class="caption">(Note that the period, ".", indicates "the current directory" in *nix. GAG can also accept an absolute or relative path.)</p>
-
-<h5>
-<a name="write-output-files" class="anchor" href="#write-output-files"><span class="octicon octicon-link"></span></a>Write output files</h5>
-<pre><code>GAG&gt; write newfolder
-</code></pre>
-<p class="caption">(As with the 'load' command, you may choose to supply an absolute path, e.g. '/home/bubba/genomes/foo_genome')
-
-<h5>
-<a name="go-on-your-merry-way" class="anchor" href="#go-on-your-merry-way"><span class="octicon octicon-link"></span></a>Go on your merry way</h5>
-<pre><code>GAG&gt; exit
-</code></pre>
-
-<p>You now have a folder in your working directory called 'newfolder'. It contains a .gff, several .fastas and your shiny new .tbl file. Congratulations!</p>
 <h1><a name="advanced-usage" class="anchor" href="#advanced-usage"><span class="octicon octicon-link"></span></a>Advanced Usage</h1>
 <p>The following vignettes demonstrate some of GAG's capabilities for removing questionable features of your genome, fixing mistakes, and flagging features for further investigation.</p>
 
 <h3><a name="fix-terminal-ns" class="anchor" href="#fix-terminal-ns"></a>Removing Terminal 'N's</h3>
 <p>Depending on the assembler you used, your genome may contain sequences that begin or end with unknown bases ("N" or "n"). The NCBI will not accept submissions containing such sequences. For example, take a look at the file 'walkthrough/terminal_ns/genome.fasta'. It is crawling with unknown bases. This type of sequence will earn your genome submission a big red REJECTED stamp.</p>
-<p>GAG can check each sequence in your .fasta for 'N's at the beginning or the end. If it finds any, it will remove them from the sequence and (if the bases were at the beginning of the sequence) update the indices of all features on the sequence accordingly. If by chance you have a gene that starts on one of these unknown bases, it will be removed. Such is life. (Note: GAG <em>only</em> removes 'N's at the beginning or end of a scaffold; it does not remove low quality bases within the assembly.)</p>
-<p>To harness this awesome power, first start GAG and load the genome contained in the 'walkthrough/terminal_ns' folder. Then type <code>fix</code>. This takes you to the 'GAG FIX' subconsole. Your first subconsole! Nice work. Type <code>help</code> to see commands available within this subconsole. You should be looking at something like this:
-<pre><code>GAG&gt; fix
-----------------------------------------
-
-This is the GAG FIX menu.
-You can apply the following fixes: terminal_ns, start_stop_codons.
-(You can type 'home' at any time to return to the main GAG console.)
-Type the name of a fix to enable it. Type 'all' to enable everything.
-
-terminal_ns, start_stop_codons or all?
-
-GAG FIX&gt; help
-
-Documented commands (type help <topic>):
-========================================
-all  home  start_stop_codons  terminal_ns
-
-Undocumented commands:
-======================
-help
-
-GAG FIX&gt;
-</code></pre></p>
-<p>Type <code>terminal_ns</code> (now is a great time to try out GAG's <a href="#tab-completion">tab completion</a> feature). Press enter. If all went well, you should see this:<pre><code>GAG FIX&gt; terminal_ns
-
-Terminal Ns will now be fixed.
-
-----------------------------------------
-GAG&gt;</code></pre>
-<p>Note that no changes have been made to the genome at this point. Only when you view a feature, ask for info or write the genome to a new folder will this fix be applied.</p>
-<p>To confirm that something actually happened, write the modified genome to a folder:
-<pre><code>GAG&gt; write terminal_ns_removed</code></pre></p>
-<p>Exit and have a look at the results. If you open the file 'terminal_ns_removed/genome.fasta' you can see that the 'N's at the beginning and end of the sequence are gone. (Compare this file with 'walkthrough/terminal_ns/genome.fasta'.) Additionally, the indices of each feature in 'terminal_ns_removed/genome.gff' are updated to correspond to the new, cleaned up sequence.</p>
+<p>GAG can check each sequence in your .fasta for 'N's at the beginning or the end. If it finds any, it will remove them from the sequence and (if the bases were at the beginning of the sequence) update the indices of all features on the sequence accordingly. If by chance you have a gene that starts on one of these unknown bases, it will be removed. Such is life. (Note: GAG <em>only</em> removes 'N's at the beginning or end of a scaffold; it does not remove unknown bases within the assembly.)</p>
+<p>To harness this unbelievable power, simply run GAG with the <code>fix_terminal_ns=true</code> flag:</p>
+<pre><code>python gag.py fasta=walkthrough/terminal_ns/genome.fasta\
+    gff=walkthrough/terminal_ns/genome.gff\
+    fix_terminal_ns=true\
+    out=terminal_ns_fixed
+</code></pre>
+<p>If you now open the file 'terminal_ns_removed/genome.fasta' you can see that the 'N's at the beginning and end of the sequence are gone. (Compare this file with 'walkthrough/terminal_ns/genome.fasta'.) Additionally, the indices of each feature in 'terminal_ns_removed/genome.gff' are updated to correspond to the new, cleaned up sequence.</p>
 
 <h3>Flagging and Removing Short Introns (or many other things)</h3>
 <p>Another NCBI guideline involves minimum length of introns. Ten seems to be the magic number. It's pretty common to find structural annotations coming from automated annotation pipelines with shorter introns, though. Luckily, GAG can flag (or remove) them for you.  Is it possible there are really introns shorter than 10 bp in your genome?  Possibly.  Should I just go in an remove every mRNA with a short intron?  Or every mRNA coding a protein below a certain length?  That is up to you.  But tbl2asn and NCBI has specific minimal size limits for introns, peptide length, etc. in order to avoid submission errors,  so if you have something you want to keep that is outside of these limit, than take it up with them.  We suggest a flagging and reviewing approach for those who are cautious (then you can generate a list of mRNAs to remove with the <code>remove from_file</code> command in one swift go, but allow a quick and dirty removals for those who just want to generate a "submittable" genome and annotation set.</p>
@@ -197,7 +136,7 @@ foo_seq	maker	CDS	15	25	.	-	0	ID=TEST_1-RA:cds:1;Parent=TEST_1-RA
 </code></pre></p>
 <p>The only difference is in the very last column -- both of those exons have an added annotation. It says 'gag_flag=intron_min_length:10'.</p>
 <p>If you write this modified genome to a folder (by typing <code>write short_introns_removed</code>, for example), you can load it into a genome browser and search for features containing the annotation 'gag_flag' in order to inspect them more closely. If you determine that they don't belong in your genome, return to GAG and replace 'flag' with 'remove' in the above command. Write the genome again and your short introns will be left out.  </p>
-<p>One final word about removing features like this: GAG's policy is to remove the parent mRNA when an offending intron, exon or CDS length is detected. If this leaves the parent gene without any mRNAs, the gene is removed as well. In other words, GAG removes empty genes and mRNAs by default. If you have empty features that you'd like to keep for some reason, stop by the <a href="https://groups.google.com/forum/#!forum/gag_support">support page</a> and let us know.</p>
+<p>One final word about removing features like this: GAG's policy is to remove the parent mRNA when an offending intron, exon or CDS length is detected. If this leaves the parent gene without any mRNAs, the gene is removed as well. In other words, GAG removes empty genes and mRNAs by default. If you have empty features that you'd like to keep for some reason, stop by the <a href="https://github.com/genomeannotation/GAG/issues">Issues page</a> and let us know.</p>
 
 <h3>Creating Start and Stop Codons</h3>
 <p>Certain configurations of certain annotation pipelines/software will produce lines in the GFF3 file indicating 'start_codon' and 'stop_codon' features. As mentioned <a href="#gff3-file">above</a>, GAG reads and stores these features. If they are missing from your annotations (which is common), you must create them.  If they are present in your gff3 file and you don't run this command, GAG will assume that they are correct and translate based off of them.  If you have explicit start and stop codon features in your GFF3 file and you have reason to believe they are incorrect, run the command below, and GAG will recalculate (assuming standard eukaryotic start and stop codons). </p>
