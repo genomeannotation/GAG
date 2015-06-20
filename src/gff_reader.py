@@ -18,7 +18,6 @@ class GFFReader:
 
     def get_parents_from_list_of_attributes(self, fields):
         """Returns a list of parent ids from a list of column 9 entries."""
-        print(fields)
         for field in fields:
             if "Parent" in field:
                 return field.split("=")[1].split(",")
