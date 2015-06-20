@@ -71,6 +71,7 @@ class Controller:
         gff = open(out_dir + '/genome.gff', 'w')
         tbl = open(out_dir + '/genome.tbl', 'w')
         proteins = open(out_dir + '/genome.proteins.fasta', 'w')
+        removed = open(out_dir + '/genome.removed.gff', 'w')
         stats_file = open(out_dir + '/genome.stats', 'w')
 
         # Calculate stats on modified genome
@@ -83,6 +84,7 @@ class Controller:
         for line in self.stats_mgr.summary():
             stats_file.write(line)
 
+        # Write fasta, gff, tbl, protein fasta
         sys.stderr.write("Writing gff, tbl and fasta to " + out_dir + "/ ...\n")
         gff.write("##gff-version 3\n")
         for seq in self.seqs:
@@ -90,11 +92,17 @@ class Controller:
             gff.write(seq.to_gff())
             tbl.write(seq.to_tbl())
             proteins.write(seq.to_protein_fasta())
+
+        # Write removed.gff
+        for feature in self.removed_features:
+            removed.write(feature.to_gff())
+
         # Close files
         gff.close()
         tbl.close()
         fasta.close()
         proteins.close()
+        removed.close()
         stats_file.close()
 
     def add_annotations_from_list(self, anno_list):
@@ -132,7 +140,8 @@ class Controller:
             to_trim_this_seq = [x for x in trimlist if x[0] == seq.header]
             to_trim_this_seq = sorted(to_trim_this_seq, key=lambda entry: entry[2], reverse=True)
             for entry in to_trim_this_seq:
-                seq.trim_region(entry[1], entry[2])
+                removed_genes = seq.trim_region(entry[1], entry[2])
+                self.removed_features.extend(removed_genes)
                 sys.stderr.write("Trimmed " + entry[0] + " from ")
                 sys.stderr.write(str(entry[1]) + " to " + str(entry[2]) + "\n")
             self.remove_empty_features(seq)

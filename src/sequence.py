@@ -177,18 +177,20 @@ class Sequence:
             return count
 
     def trim_region(self, start, stop):
+        """Remove bases from start to stop; remove and return affected genes"""
         if stop > len(self.bases):
             sys.stderr.write("Sequence.trim called on sequence that is too short;"+\
                     " doing nothing.\n")
             return
         # Remove any genes that are overlap the trimmed region
-        # TODO add these genes to 'removed.gff' somehow?
-        self.genes = [g for g in self.genes if not overlap([start, stop], g.indices)]
+        genes_to_remove = [g for g in self.genes if overlap([start, stop], g.indices)]
+        self.genes = [g for g in self.genes if g not in genes_to_remove]
         # Remove bases from sequence
         self.bases = self.bases[:start-1] + self.bases[stop:]
         # Adjust indices of remaining genes
         bases_removed = stop - start + 1
         [g.adjust_indices(-bases_removed, start) for g in self.genes]
+        return genes_to_remove
         
     def get_subseq(self, start=1, stop=None):
         if not stop:
