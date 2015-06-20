@@ -44,6 +44,11 @@ class Controller:
         self.read_gff(gffpath, out_dir)
         sys.stderr.write("Done.\n")
 
+        # Calculate stats before genome is modified
+        sys.stderr.write("Calculating stats on original genome\n")
+        for seq in self.seqs:
+            self.stats_mgr.update_ref(seq.stats())
+
         # Optional annotation step
         if "anno" in args_dict:
             anno_filename = args_dict["anno"]
@@ -57,6 +62,7 @@ class Controller:
         # Optional step to create start and stop codons
         if "fix_start_stop" in args_dict:
             if args_dict["fix_start_stop"].lower() == "true":
+                sys.stderr.write("Creating start and stop codons...\n")
                 self.fix_start_stop_codons()
 
         # Write fasta, gff and tbl file to output folder
@@ -64,9 +70,18 @@ class Controller:
         fasta = open(out_dir+'/genome.fasta', 'w')
         gff = open(out_dir+'/genome.gff', 'w')
         tbl = open(out_dir+'/genome.tbl', 'w')
+        stats_file = open(out_dir+'/genome.stats', 'w')
         sys.stderr.write("Writing gff, tbl and fasta to " + out_dir + "/ ...\n")
-        # TODO track # of gagflags?
-        # TODO stats file
+        # Calculate stats on modified genome
+        sys.stderr.write("Calculating stats on modified genome\n")
+        for seq in self.seqs:
+            self.stats_mgr.update_alt(seq.stats())
+
+        # Write stats file
+        sys.stderr.write("Writing stats file to " + out_dir + "/ ...\n")
+        for line in self.stats_mgr.summary():
+            stats_file.write(line)
+
         gff.write("##gff-version 3\n")
         for seq in self.seqs:
             fasta.write(seq.to_fasta())
@@ -76,6 +91,7 @@ class Controller:
         gff.close()
         tbl.close()
         fasta.close()
+        stats_file.close()
 
     def add_annotations_from_list(self, anno_list):
         for seq in self.seqs:
