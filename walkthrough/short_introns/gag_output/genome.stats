@@ -1,0 +1,39 @@
+                                 Genome     
+                                 ------     
+Total sequence length            105        
+Number of genes                  2          
+Number of mRNAs                  2          
+Number of exons                  4          
+Number of introns                2          
+Number of CDS                    2          
+Overlapping genes                0          
+Contained genes                  0          
+CDS: complete                    0          
+CDS: start, no stop              0          
+CDS: stop, no start              0          
+CDS: no stop, no start           2          
+Total gene length                81         
+Total mRNA length                81         
+Total exon length                50         
+Total intron length              18         
+Total CDS length                 50         
+Shortest gene                    30         
+Shortest mRNA                    30         
+Shortest exon                    5          
+Shortest intron                  4          
+Shortest CDS                     16         
+Longest gene                     51         
+Longest mRNA                     51         
+Longest exon                     17         
+Longest intron                   10         
+Longest CDS                      34         
+mean gene length                 41         
+mean mRNA length                 41         
+mean exon length                 13         
+mean intron length               9          
+mean CDS length                  25         
+% of genome covered by genes     77.1       
+% of genome covered by CDS       47.6       
+mean mRNAs per gene              1          
+mean exons per mRNA              2          
+mean introns per mRNA            1          

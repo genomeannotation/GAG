@@ -5,10 +5,18 @@ import sys
 from src.controller import Controller
 
 def usage():
-    sys.stderr.write("usage: python gag.py <fasta=fasta_file> <gff=gff_file> ")
-    sys.stderr.write("[anno=<annotation file>] [trim=<bed file>] ")
-    sys.stderr.write("[out=<output directory>] [fix_start_stop=true/false]")
-    sys.stderr.write("[fix_terminal_ns=true/false]")
+    sys.stderr.write("usage:\tpython gag.py <fasta=fasta_file> <gff=gff_file> ")
+    sys.stderr.write("\n\t[anno=<annotation file>] [trim=<bed file>] ")
+    sys.stderr.write("\n\t[out=<output directory>] [fix_start_stop=true/false] ")
+    sys.stderr.write("\n\t[fix_terminal_ns=true/false] ")
+    sys.stderr.write("\n\t[remove_cds_shorter_than=<length>] [remove_cds_longer_than=<length>] ")
+    sys.stderr.write("\n\t[remove_exons_shorter_than=<length>] [remove_exons_longer_than=<length>] ")
+    sys.stderr.write("\n\t[remove_introns_shorter_than=<length>] [remove_introns_longer_than=<length>] ")
+    sys.stderr.write("\n\t[remove_genes_shorter_than=<length>] [remove_genes_longer_than=<length>] ")
+    sys.stderr.write("\n\t[flag_cds_shorter_than=<length>] [flag_cds_longer_than=<length>] ")
+    sys.stderr.write("\n\t[flag_exons_shorter_than=<length>] [flag_exons_longer_than=<length>] ")
+    sys.stderr.write("\n\t[flag_introns_shorter_than=<length>] [flag_introns_longer_than=<length>] ")
+    sys.stderr.write("\n\t[flag_genes_shorter_than=<length>] [flag_genes_longer_than=<length>] ")
     sys.stderr.write("\n")
     sys.exit()
 

@@ -71,6 +71,74 @@ class Controller:
                 sys.stderr.write("Fixing terminal Ns...\n")
                 self.fix_terminal_ns()
 
+        # Optional filtering steps
+        # Remove
+        if "remove_cds_shorter_than" in args_dict:
+            min_length = args_dict["remove_cds_shorter_than"]
+            sys.stderr.write("Removing CDS shorter than %s...\n" % min_length)
+            self.apply_filter("cds_shorter_than", min_length, "REMOVE")
+        if "remove_cds_longer_than" in args_dict:
+            max_length = args_dict["remove_cds_longer_than"]
+            sys.stderr.write("Removing CDS longer than %s...\n" % max_length)
+            self.apply_filter("cds_longer_than", max_length, "REMOVE")
+        if "remove_exons_shorter_than" in args_dict:
+            min_length = args_dict["remove_exons_shorter_than"]
+            sys.stderr.write("Removing exons shorter than %s...\n" % min_length)
+            self.apply_filter("exon_shorter_than", min_length, "REMOVE")
+        if "remove_exons_longer_than" in args_dict:
+            max_length = args_dict["remove_exons_longer_than"]
+            sys.stderr.write("Removing exons longer than %s...\n" % max_length)
+            self.apply_filter("exon_longer_than", max_length, "REMOVE")
+        if "remove_introns_shorter_than" in args_dict:
+            min_length = args_dict["remove_introns_shorter_than"]
+            sys.stderr.write("Removing exons shorter than %s...\n" % min_length)
+            self.apply_filter("intron_shorter_than", min_length, "REMOVE")
+        if "remove_introns_longer_than" in args_dict:
+            max_length = args_dict["remove_introns_longer_than"]
+            sys.stderr.write("Removing exons longer than %s...\n" % max_length)
+            self.apply_filter("intron_longer_than", max_length, "REMOVE")
+        if "remove_genes_shorter_than" in args_dict:
+            min_length = args_dict["remove_genes_shorter_than"]
+            sys.stderr.write("Removing genes shorter than %s...\n" % min_length)
+            self.apply_filter("gene_shorter_than", min_length, "REMOVE")
+        if "remove_genes_longer_than" in args_dict:
+            max_length = args_dict["remove_genes_longer_than"]
+            sys.stderr.write("Removing genes longer than %s...\n" % max_length)
+            self.apply_filter("gene_longer_than", max_length, "REMOVE")
+        # Flag
+        if "flag_cds_shorter_than" in args_dict:
+            min_length = args_dict["flag_cds_shorter_than"]
+            sys.stderr.write("Flagging CDS shorter than %s...\n" % min_length)
+            self.apply_filter("cds_shorter_than", min_length, "FLAG")
+        if "flag_cds_longer_than" in args_dict:
+            max_length = args_dict["flag_cds_longer_than"]
+            sys.stderr.write("Flagging CDS longer than %s...\n" % max_length)
+            self.apply_filter("cds_longer_than", max_length, "FLAG")
+        if "flag_exons_shorter_than" in args_dict:
+            min_length = args_dict["flag_exons_shorter_than"]
+            sys.stderr.write("Flagging exons shorter than %s...\n" % min_length)
+            self.apply_filter("exon_shorter_than", min_length, "FLAG")
+        if "flag_exons_longer_than" in args_dict:
+            max_length = args_dict["flag_exons_longer_than"]
+            sys.stderr.write("Flagging exons longer than %s...\n" % max_length)
+            self.apply_filter("exon_longer_than", max_length, "FLAG")
+        if "flag_introns_shorter_than" in args_dict:
+            min_length = args_dict["flag_introns_shorter_than"]
+            sys.stderr.write("Flagging exons shorter than %s...\n" % min_length)
+            self.apply_filter("intron_shorter_than", min_length, "FLAG")
+        if "flag_introns_longer_than" in args_dict:
+            max_length = args_dict["flag_introns_longer_than"]
+            sys.stderr.write("Flagging exons longer than %s...\n" % max_length)
+            self.apply_filter("intron_longer_than", max_length, "FLAG")
+        if "flag_genes_shorter_than" in args_dict:
+            min_length = args_dict["flag_genes_shorter_than"]
+            sys.stderr.write("Flagging genes shorter than %s...\n" % min_length)
+            self.apply_filter("gene_shorter_than", min_length, "FLAG")
+        if "flag_genes_longer_than" in args_dict:
+            max_length = args_dict["flag_genes_longer_than"]
+            sys.stderr.write("Flagging genes longer than %s...\n" % max_length)
+            self.apply_filter("gene_longer_than", max_length, "FLAG")
+
         # Write fasta, gff and tbl file to output folder
         # Open files
         fasta = open(out_dir + '/genome.fasta', 'w')
