@@ -8,6 +8,7 @@ def usage():
     sys.stderr.write("usage: python gag.py <fasta=fasta_file> <gff=gff_file> ")
     sys.stderr.write("[anno=<annotation file>] [trim=<bed file>] ")
     sys.stderr.write("[out=<output directory>] [fix_start_stop=true/false]")
+    sys.stderr.write("[fix_terminal_ns=true/false]")
     sys.stderr.write("\n")
     sys.exit()
 

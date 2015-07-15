@@ -65,6 +65,12 @@ class Controller:
                 sys.stderr.write("Creating start and stop codons...\n")
                 self.fix_start_stop_codons()
 
+        # Optional step to fix terminal Ns
+        if "fix_terminal_ns" in args_dict:
+            if args_dict["fix_terminal_ns"].lower() == "true":
+                sys.stderr.write("Fixing terminal Ns...\n")
+                self.fix_terminal_ns()
+
         # Write fasta, gff and tbl file to output folder
         # Open files
         fasta = open(out_dir + '/genome.fasta', 'w')
@@ -158,12 +164,10 @@ class Controller:
         for seq in self.seqs:
             seq.remove_terminal_ns()
             self.remove_empty_features(seq)
-        return "Terminal Ns fixed."
 
     def fix_start_stop_codons(self):
         for seq in self.seqs:
             seq.create_starts_and_stops()
-        return "Verified and created start/stop codons."
 
 ## Reading in files
 
