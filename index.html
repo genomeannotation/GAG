@@ -55,7 +55,7 @@
 <p>GAG is written in <a href="https://www.python.org/download/releases/2.7.6/">Python 2</a>. Assuming you have Python 2 (not 3!) installed, you can download the zipped source code from the link at the top of this page, extract it and run it.</p>
 <h4>Basic Usage</h4>
 <p>Here's what a very simple GAG session might look like:</p>
-<pre><code>python gag.py fasta=organism.fasta gff=organism.gff out=gag_output
+<pre><code>python gag.py --fasta organism.fasta --gff organism.gff --out gag_output
 </code></pre>
 <p>This command will create a subfolder called 'gag_output' containing, among other things, a .tbl file.</p> 
 <h4>Genome</h4>
@@ -77,25 +77,23 @@
 <h3><a name="fix-terminal-ns" class="anchor" href="#fix-terminal-ns"></a>Removing Terminal 'N's</h3>
 <p>Depending on the assembler you used, your genome may contain sequences that begin or end with unknown bases ("N" or "n"). The NCBI will not accept submissions containing such sequences. For example, take a look at the file 'walkthrough/terminal_ns/genome.fasta'. It is crawling with unknown bases. This type of sequence will earn your genome submission a big red REJECTED stamp.</p>
 <p>GAG can check each sequence in your .fasta for 'N's at the beginning or the end. If it finds any, it will remove them from the sequence and (if the bases were at the beginning of the sequence) update the indices of all features on the sequence accordingly. If by chance you have a gene that starts on one of these unknown bases, it will be removed. Such is life. (Note: GAG <em>only</em> removes 'N's at the beginning or end of a scaffold; it does not remove unknown bases within the assembly.)</p>
-<p>To harness this unbelievable power, simply run GAG with the <code>fix_terminal_ns=true</code> flag:</p>
+<p>To harness this unbelievable power, simply run GAG with the <code>--fix_terminal_ns</code> flag:</p>
 <pre><code>python gag.py\
-    fasta=walkthrough/terminal_ns/genome.fasta\
-    gff=walkthrough/terminal_ns/genome.gff\
-    fix_terminal_ns=true\
-    out=terminal_ns_fixed
+    --fasta walkthrough/terminal_ns/genome.fasta\
+    --gff walkthrough/terminal_ns/genome.gff\
+    --fix_terminal_ns\
+    --out terminal_ns_fixed
 </code></pre>
 <p>If you now open the file 'terminal_ns_removed/genome.fasta' you can see that the 'N's at the beginning and end of the sequence are gone. (Compare this file with 'walkthrough/terminal_ns/genome.fasta'.) Additionally, the indices of each feature in 'terminal_ns_removed/genome.gff' are updated to correspond to the new, cleaned up sequence.</p>
 
 <h3>Flagging and Removing Short Introns (or many other things)</h3>
-<strong>Note: these features are temporarily unavailable. Coming soon!</strong>
-<p>(If you have used GAG before and you need this feature, try <code>git checkout legacy</code> to run the console-based version.)</p>
-<del>
-<p>Another NCBI guideline involves minimum length of introns. Ten seems to be the magic number. It's pretty common to find structural annotations coming from automated annotation pipelines with shorter introns, though. Luckily, GAG can flag (or remove) them for you.  Is it possible there are really introns shorter than 10 bp in your genome?  Possibly.  Should I just go in an remove every mRNA with a short intron?  Or every mRNA coding a protein below a certain length?  That is up to you.  But tbl2asn and NCBI has specific minimal size limits for introns, peptide length, etc. in order to avoid submission errors,  so if you have something you want to keep that is outside of these limit, than take it up with them.  We suggest a flagging and reviewing approach for those who are cautious (then you can generate a list of mRNAs to remove with the <code>remove from_file</code> command in one swift go, but allow a quick and dirty removals for those who just want to generate a "submittable" genome and annotation set.</p>
-<p>Below is an example flagging and removing short introns, for a full list of commands see the <a href="#other-features">Features section</a></p>
-<p>To begin, start GAG and load the genome contained in 'walkthrough/short_introns'. Type <code>info</code>. You'll see a lot of statistics; here is an abbreviated version:</p>
-<pre><code>GAG&gt; info
-----------------------------------------
-Number of sequences:   1
+<p>Another NCBI guideline involves minimum length of introns. Ten seems to be the magic number. It's pretty common to find structural annotations coming from automated annotation pipelines with shorter introns, though. Luckily, GAG can flag (or remove) them for you.  Is it possible there really are introns shorter than 10 bp in your genome?  I guess so.  Should you just go in and remove every mRNA with a short intron?  Or every mRNA coding a protein shorter than a certain length?  That is up to you.  But tbl2asn and NCBI have specific minimal size limits for introns, peptide lengths, etc. So if you have something you want to keep that is outside of these limits, then take it up with them.  We suggest a flagging and reviewing approach for those who are cautious.</p>
+<p>Below is an example of flagging and removing short introns; for a full list of commands type <code>gag.py -h</code></p>
+<p>To begin, let's get some basic stats on our genome. Run GAG without any special options:</p>
+<pre><code>gag.py -f walkthrough/short_introns/genome.fasta -g walkthrough/short_introns/genome.gff</code></pre>
+
+<p>Now take a look at the stats file located at <code>gag_output/genome.stats</code>. You'll see a lot of info; here are the good bits:</p>
+<pre><code>Number of sequences:   1
                                  Genome     
                                  ------     
 Total sequence length            105       
@@ -104,10 +102,7 @@ Number of genes                  2
 Shortest intron                  6          
 ...
 </code></pre>
-<p>So we have two genes, and at least one of them has a suspiciously short intron. Take a closer look by typing</p>
-<pre><code>GAG&gt; view gene gff TEST_1
-</code></pre>
-<p>("TEST_1" is the ID of the first gene in our .gff.) The output looks like this:</p>
+<p>So we have two genes, and at least one of them has a suspiciously short intron. Take a look at <code>walkthrough/short_introns/genome.gff</code></p>
 <pre><code>foo_seq	maker	gene	6	35	0	-	0	ID=TEST_1
 foo_seq	maker	mRNA	6	35	0	-	0	ID=TEST_1-RA;Parent=TEST_1
 <span class="highlight">foo_seq	maker	exon	6	10	0.94	-	0	ID=TEST_1-RA:exon:0;Parent=TEST_1-RA
@@ -116,21 +111,10 @@ foo_seq	maker	CDS	6	10	0	-	0	ID=TEST_1-RA:cds:0;Parent=TEST_1-RA
 foo_seq	maker	CDS	15	25	0	-	0	ID=TEST_1-RA:cds:1;Parent=TEST_1-RA
 </code></pre>
 <p>If you do the math, you'll see that the intron between those two exons is only 4bp long. We have found our culprit.</p>
-<p>To address this, type <code>flag</code>. You'll see this prompt:
-<pre><code>GAG FLAG&gt; </code></pre></p>
-<p>From here, type <code>intron_shorter_than</code>. When you're prompted for a length, type <code>10</code>. Your screen should look something like this:
-<pre><code>GAG FLAG&gt; intron_shorter_than
-This is the FLAG intron_shorter_than console. Type a value
-to set the criteria, or simply press enter to see the current value.
+<p>To address this, run GAG again, this time with the <code>--flag_introns_shorter_than</code> option:
+<pre><code>gag.py -f walkthrough/short_introns/genome.fasta -g walkthrough/short_introns/genome.gff -o flagged_intron--flag_introns_shorter_than 10</code></pre>
 
-GAG FLAG intron_shorter_than&gt; 10
-
-intron_shorter_than 10 will be flagged.
-
-----------------------------------------
-GAG&gt; 
-</code></pre></p>
-<p>Now that we're back at the home console, type <pre><code>GAG&gt; view gene gff TEST_1</code></pre> again, or just press the up arrow a couple of times to cycle through your command history. This time you'll see:</p>
+<p>Inspecting the results in <code>flagged_intron/genome.gff</code>:</p>
 <pre><code>foo_seq	maker	gene	6	35	.	-	.	ID=TEST_1
 foo_seq	maker	mRNA	6	35	.	-	.	ID=TEST_1-RA;Parent=TEST_1
 foo_seq	maker	exon	6	10	0.94	-	.	ID=TEST_1-RA:exon:0;Parent=TEST_1-RA;<span class="highlight">gag_flag=intron_min_length:10</span>
@@ -139,13 +123,11 @@ foo_seq	maker	CDS	6	10	.	-	0	ID=TEST_1-RA:cds:0;Parent=TEST_1-RA
 foo_seq	maker	CDS	15	25	.	-	0	ID=TEST_1-RA:cds:1;Parent=TEST_1-RA
 </code></pre></p>
 <p>The only difference is in the very last column -- both of those exons have an added annotation. It says 'gag_flag=intron_min_length:10'.</p>
-<p>If you write this modified genome to a folder (by typing <code>write short_introns_removed</code>, for example), you can load it into a genome browser and search for features containing the annotation 'gag_flag' in order to inspect them more closely. If you determine that they don't belong in your genome, return to GAG and replace 'flag' with 'remove' in the above command. Write the genome again and your short introns will be left out.  </p>
+<p>At this point, you can load the flagged genome into a genome browser and search for features containing the annotation 'gag_flag' in order to inspect them more closely. If you determine that they don't belong in your genome, return to GAG and replace 'flag' with 'remove' in the above command.</p>
 <p>One final word about removing features like this: GAG's policy is to remove the parent mRNA when an offending intron, exon or CDS length is detected. If this leaves the parent gene without any mRNAs, the gene is removed as well. In other words, GAG removes empty genes and mRNAs by default. If you have empty features that you'd like to keep for some reason, stop by the <a href="https://github.com/genomeannotation/GAG/issues">Issues page</a> and let us know.</p>
 
-</del>
-
 <h3>Creating Start and Stop Codons</h3>
-<p>Certain configurations of certain annotation pipelines/software will produce lines in the GFF3 file indicating 'start_codon' and 'stop_codon' features. As mentioned <a href="#gff3-file">above</a>, GAG reads and stores these features. If they are missing from your annotations (which is common), you must create them.  If they are present in your gff3 file and you don't run this command, GAG will assume that they are correct and translate based off of them.  If you have explicit start and stop codon features in your GFF3 file and you have reason to believe they are incorrect, run the command below, and GAG will recalculate (assuming standard eukaryotic start and stop codons). </p>
+<p>Certain configurations of certain annotation pipelines/software will produce lines in the GFF3 file indicating 'start_codon' and 'stop_codon' features. As mentioned <a href="#gff3-file">above</a>, GAG reads and stores these features. If they are missing from your annotations (which is common), you must create them.  If they are present in your gff3 file and you don't run this command, GAG will assume that they are correct and translate based off of them.  If you have explicit start and stop codon features in your GFF3 file and you have reason to believe they are incorrect, or if they're missing entirely, run the command below and GAG will recalculate (assuming standard eukaryotic start and stop codons). </p>
 <p>As an example, take a look at the genome contained in the folder 'walkthrough/start_stop_codons'. The .fasta looks like this:
 <pre><code>&gt;foo_seq
 GATTAatgATTACAGATTACAtagTACAGATTACA
@@ -173,14 +155,14 @@ CDS: stop, no start              0
 <span class="highlight">CDS: no stop, no start           1</span>
 </code></pre>
 <p>So we have one CDS, and it has neither a stop nor a start. However, if you get out your reading glasses and examine the .gff file, you can see that the first three bases of that cds are at indices 6, 7, 8. If you count off the bases in the .fasta, you'll see that the corresponding nucleotides are 'atg'. Looks like a start codon to me. You can perform a similar exercise to find the last three bases, or just trust that we've rendered them in lowercase for convenience -- they are 'tag', a stop codon.</p>
-<p>To repair this oversight, run GAG with the <code>fix_start_stop=true</code> flag:</p>
+<p>To repair this oversight, run GAG with the <code>fix_start_stop</code> flag:</p>
 <pre><code>python gag.py\
-    fasta=walkthrough/start_stop_codons/genome.fasta\
-    gff=walkthrough/start_stop_codons/genome.gff\
-    fix_start_stop=true\
-    out=start_stop_fixed
+    --fasta walkthrough/start_stop_codons/genome.fasta\
+    --gff walkthrough/start_stop_codons/genome.gff\
+    --fix_start_stop\
+    --out start_stop_fixed
 </code></pre>
-<p>Take a look at the 'start_stop_fixed/genome.stats' and marvel at the improvement. Here are the relevant lines:
+<p>Take a look at the <code>start_stop_fixed/genome.stats</code> and marvel at the improvement. Here are the relevant lines:
 <pre><code>GAG&gt; info
 ----------------------------------------
 Number of sequences:   1
@@ -229,10 +211,10 @@ TEST_2-RA	Ontology_term	GO:1234
 </code></pre>
 <p>This table contains annotations for the second gene in the genome. We'll add these annotations and write the genome to a .tbl file.</p>
 <pre><code>python gag.py\
-    fasta=walkthrough/annotation/genome.fasta\
-    gff=walkthrough/annotation/genome.gff\
-    anno=walkthrough/annotation/genome.annotations\
-    out=annotated
+    --fasta walkthrough/annotation/genome.fasta\
+    --gff walkthrough/annotation/genome.gff\
+    --anno walkthrough/annotation/genome.annotations\
+    --out annotated
 </code></pre>
 <p>Take a look at the file 'annotated/genome.tbl'. It should look like this:
 <pre><code>&gt;Feature foo_seq
