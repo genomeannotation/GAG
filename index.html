@@ -75,7 +75,7 @@
 <p>The following vignettes demonstrate some of GAG's capabilities for removing questionable features of your genome, fixing mistakes, and flagging features for further investigation.</p>
 
 <h3><a name="fix-terminal-ns" class="anchor" href="#fix-terminal-ns"></a>Removing Terminal 'N's</h3>
-<p>Depending on the assembler you used, your genome may contain sequences that begin or end with unknown bases ("N" or "n"). The NCBI will not accept submissions containing such sequences. For example, take a look at the file 'walkthrough/terminal_ns/genome.fasta'. It is crawling with unknown bases. This type of sequence will earn your genome submission a big red REJECTED stamp.</p>
+<p>Depending on the assembler you used, your genome may contain sequences that begin or end with unknown bases ("N" or "n"). The NCBI will not accept submissions containing such sequences. For example, take a look at the file <code>walkthrough/terminal_ns/genome.fasta</code>. It is crawling with unknown bases. This type of sequence will earn your genome submission a big red REJECTED stamp.</p>
 <p>GAG can check each sequence in your .fasta for 'N's at the beginning or the end. If it finds any, it will remove them from the sequence and (if the bases were at the beginning of the sequence) update the indices of all features on the sequence accordingly. If by chance you have a gene that starts on one of these unknown bases, it will be removed. Such is life. (Note: GAG <em>only</em> removes 'N's at the beginning or end of a scaffold; it does not remove unknown bases within the assembly.)</p>
 <p>To harness this unbelievable power, simply run GAG with the <code>--fix_terminal_ns</code> flag:</p>
 <pre><code>python gag.py\
@@ -84,7 +84,7 @@
     --fix_terminal_ns\
     --out terminal_ns_fixed
 </code></pre>
-<p>If you now open the file 'terminal_ns_removed/genome.fasta' you can see that the 'N's at the beginning and end of the sequence are gone. (Compare this file with 'walkthrough/terminal_ns/genome.fasta'.) Additionally, the indices of each feature in 'terminal_ns_removed/genome.gff' are updated to correspond to the new, cleaned up sequence.</p>
+<p>If you now open the file <code>terminal_ns_removed/genome.fasta</code> you can see that the 'N's at the beginning and end of the sequence are gone. (Compare this file with <code>walkthrough/terminal_ns/genome.fasta</code>.) Additionally, the indices of each feature in 'terminal_ns_removed/genome.gff' are updated to correspond to the new, cleaned up sequence.</p>
 
 <h3>Flagging and Removing Short Introns (or many other things)</h3>
 <p>Another NCBI guideline involves minimum length of introns. Ten seems to be the magic number. It's pretty common to find structural annotations coming from automated annotation pipelines with shorter introns, though. Luckily, GAG can flag (or remove) them for you.  Is it possible there really are introns shorter than 10 bp in your genome?  I guess so.  Should you just go in and remove every mRNA with a short intron?  Or every mRNA coding a protein shorter than a certain length?  That is up to you.  But tbl2asn and NCBI have specific minimal size limits for introns, peptide lengths, etc. So if you have something you want to keep that is outside of these limits, then take it up with them.  We suggest a flagging and reviewing approach for those who are cautious.</p>
@@ -122,13 +122,13 @@ foo_seq	maker	exon	15	25	0.94	-	.	ID=TEST_1-RA:exon:1;Parent=TEST_1-RA;<span cla
 foo_seq	maker	CDS	6	10	.	-	0	ID=TEST_1-RA:cds:0;Parent=TEST_1-RA
 foo_seq	maker	CDS	15	25	.	-	0	ID=TEST_1-RA:cds:1;Parent=TEST_1-RA
 </code></pre></p>
-<p>The only difference is in the very last column -- both of those exons have an added annotation. It says 'gag_flag=intron_min_length:10'.</p>
+<p>The only difference is in the very last column -- both of those exons have an added annotation. It says <code>gag_flag=intron_min_length:10</code>.</p>
 <p>At this point, you can load the flagged genome into a genome browser and search for features containing the annotation 'gag_flag' in order to inspect them more closely. If you determine that they don't belong in your genome, return to GAG and replace 'flag' with 'remove' in the above command.</p>
 <p>One final word about removing features like this: GAG's policy is to remove the parent mRNA when an offending intron, exon or CDS length is detected. If this leaves the parent gene without any mRNAs, the gene is removed as well. In other words, GAG removes empty genes and mRNAs by default. If you have empty features that you'd like to keep for some reason, stop by the <a href="https://github.com/genomeannotation/GAG/issues">Issues page</a> and let us know.</p>
 
 <h3>Creating Start and Stop Codons</h3>
 <p>Certain configurations of certain annotation pipelines/software will produce lines in the GFF3 file indicating 'start_codon' and 'stop_codon' features. As mentioned <a href="#gff3-file">above</a>, GAG reads and stores these features. If they are missing from your annotations (which is common), you must create them.  If they are present in your gff3 file and you don't run this command, GAG will assume that they are correct and translate based off of them.  If you have explicit start and stop codon features in your GFF3 file and you have reason to believe they are incorrect, or if they're missing entirely, run the command below and GAG will recalculate (assuming standard eukaryotic start and stop codons). </p>
-<p>As an example, take a look at the genome contained in the folder 'walkthrough/start_stop_codons'. The .fasta looks like this:
+<p>As an example, take a look at the genome contained in the folder <code>walkthrough/start_stop_codons</code>. The .fasta looks like this:
 <pre><code>&gt;foo_seq
 GATTAatgATTACAGATTACAtagTACAGATTACA
 </code></pre>
@@ -182,10 +182,10 @@ CDS: no stop, no start           1                    0
 <h3><a name="functional-annotations" class="anchor" href="#functional-annotations"></a>Functional Annotations</h3>
 <p>GAG supports two complementary methods of adding functional annotations to your genome. The easiest way is to include them in column 9 of your .gff file. Adding a "Name=___" entry to a gene will result in this gene name being added to your .tbl file. You can then add entries to its child mRNAs using one of the following keywords: "Dbxref=___", "Ontology_term=___" or "product=___". (Note the lowercase 'p' in 'product'. This is important; attributes starting with capital letters are reserved in the <a href="http://www.sequenceontology.org/gff3.shtml">GFF3 spec.</a>)</p>
 <p>Another option is to feed GAG a tab-separated file containing your annotations.  You can either make this yourself if you have user-generated annotations, or use <a href="http://genomeannotation.github.io/annie/">Annie, the Annotation Extractor.</a>  Annie focuses on using manually currated UniProt Swissprot proteins to provide a possible gene name and protein function, and InterProScan to provide cross-references to annotations from functional databases. If you decide to generate this table yourself, as with the first option, you can add names to genes or annotations to mRNAs. Each row in the table should have three rows. The first column should contain the ID for the gene or mRNA to be annotated. For genes, the format is as follows:
-<pre><code>(gene_id)	name	(gene_name)</code></pre>
+<pre><code>(gene_id)	"name"	(gene_name)</code></pre>
 <p>Note that the second column must contain the word "name", just to emphasize that you are giving the gene a name. Genes can't take functions, database cross-references, etc. Those belong to mRNAs, whose table entries should look like this:
-<pre><code>(mrna_id)	(Dbxref, Ontology_term or product)	(annotation)</code></pre>
-<p>These three options are the only <em>recommended</em> terms. Technically, though, GAG will add any annotation you choose. Annotate at your own risk! If you are adding db_xref terms, make sure they are from an NCBI approved database.  You can find a list here: <a href="http://www.ncbi.nlm.nih.gov/genbank/collab/db_xref">NCBI db_xref qualifiers page</a></p>
+<pre><code>(mrna_id)	("Dbxref", "Ontology_term" or "product")	(annotation)</code></pre>
+<p>The three options given in the second column are the only <em>recommended</em> terms. Technically, though, GAG will add any annotation you choose. Annotate at your own risk! If you are adding db_xref terms, make sure they are from an NCBI approved database.  You can find a list here: <a href="http://www.ncbi.nlm.nih.gov/genbank/collab/db_xref">NCBI db_xref qualifiers page</a></p>
 <p>All of this is (hopefully) made clearer with an example. Take a look at the genome contained in the folder 'walkthrough/annotation'. Here is the .gff:
 <pre><code>foo_seq	maker	gene	6	35	0	+	0	ID=TEST_1;<span class="highlight">Name=Abc123</span>
 foo_seq	maker	mRNA	6	35	0	+	0	ID=TEST_1-RA;Parent=TEST_1;<span class="highlight">Dbxref=PFAM:0001;product=amazing_protein</span>
