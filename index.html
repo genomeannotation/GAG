@@ -86,7 +86,7 @@
 </code></pre>
 <p>If you now open the file <code>terminal_ns_removed/genome.fasta</code> you can see that the 'N's at the beginning and end of the sequence are gone. (Compare this file with <code>walkthrough/terminal_ns/genome.fasta</code>.) Additionally, the indices of each feature in 'terminal_ns_removed/genome.gff' are updated to correspond to the new, cleaned up sequence.</p>
 
-<h3>Flagging and Removing Short Introns (or many other things)</h3>
+<h3>Flagging and Removing Short Introns (and so much more)</h3>
 <p>Another NCBI guideline involves minimum length of introns. Ten seems to be the magic number. It's pretty common to find structural annotations coming from automated annotation pipelines with shorter introns, though. Luckily, GAG can flag (or remove) them for you.  Is it possible there really are introns shorter than 10 bp in your genome?  I guess so.  Should you just go in and remove every mRNA with a short intron?  Or every mRNA coding a protein shorter than a certain length?  That is up to you.  But tbl2asn and NCBI have specific minimal size limits for introns, peptide lengths, etc. So if you have something you want to keep that is outside of these limits, then take it up with them.  We suggest a flagging and reviewing approach for those who are cautious.</p>
 <p>Below is an example of flagging and removing short introns; for a full list of commands type <code>gag.py -h</code></p>
 <p>To begin, let's get some basic stats on our genome. Run GAG without any special options:</p>
