@@ -43,6 +43,13 @@ def read_bed_file(filename):
                 trimlist.append(entry)
         return trimlist
 
+def fail_if_overlap(start, stop, trim_indices):
+    if overlap([start, stop], trim_indices):
+        sys.stderr.write("Collision! start/stop = %d/%d; \
+                trim start/stop = %d/%d\n" %\
+                (start, stop, trim_indices[0], trim_indices[1]))
+        sys.exit()
+
 def update_agp(agp_filename, trimlist):
     with open(agp_filename, 'r') as agp:
         for line in agp:
@@ -60,14 +67,9 @@ def update_agp(agp_filename, trimlist):
                 # Do nothing if trim indices fall after start/stop
                 if trim_start > stop:
                     sys.stderr.write("trim region falls after stop; doing nothing\n")
-                    sys.stdout.write(line)
                     continue
                 # Fail spectacularly if trim region overlaps start->stop region
-                if overlap([start, stop], trim_indices):
-                    sys.stderr.write("Collision! start/stop = %d/%d; \
-                            trim start/stop = %d/%d\n" %\
-                            (start, stop, trim_start, trim_stop))
-                    sys.exit()
+                fail_if_overlap(start, stop, trim_indices)
                 # Fail spectacularly if trim region *contains* start->stop region
                 if contains(trim_indices, [start, stop]):
                     sys.stderr.write("Collision! start/stop = %d/%d; \
@@ -82,7 +84,7 @@ def update_agp(agp_filename, trimlist):
                 stop = stop - bases_to_trim
                 fields[1] = str(start)
                 fields[2] = str(stop)
-                print("\t".join(fields))
+            print("\t".join(fields))
 
 def main():
     # Parse args
