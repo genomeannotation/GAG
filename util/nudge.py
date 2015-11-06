@@ -86,11 +86,51 @@ def update_agp(agp_filename, trimlist):
                 fields[2] = str(stop)
             print("\t".join(fields))
 
+def update_gff(gff_filename, trimlist):
+    with open(gff_filename, 'r') as gff:
+        for line in gff:
+            fields = line.strip().split()
+            if len(fields) < 5:
+                # A comment or something
+                continue
+            seq_id = fields[0]
+            start = int(fields[3])
+            stop = int(fields[4])
+            # In the case that there are multiple regions to trim in a single
+            # sequence, trim from the end so indices don't get messed up
+            to_trim_this_seq = [x for x in trimlist if x[0] == seq_id]
+            to_trim_this_seq = sorted(to_trim_this_seq, key=lambda entry: entry[2], reverse=True)
+            for trim_indices in to_trim_this_seq:
+                trim_start = trim_indices[1]
+                trim_stop = trim_indices[2]
+                # Do nothing if trim indices fall after start/stop
+                if trim_start > stop:
+                    sys.stderr.write("trim region falls after stop; doing nothing\n")
+                    continue
+                # Fail spectacularly if trim region overlaps start->stop region
+                fail_if_overlap(start, stop, trim_indices)
+                # Fail spectacularly if trim region *contains* start->stop region
+                if contains(trim_indices, [start, stop]):
+                    sys.stderr.write("Collision! start/stop = %d/%d; \
+                            trim start/stop = %d/%d\n" %\
+                            (start, stop, trim_start, trim_stop))
+                    sys.exit()
+                # Trim region comes before our indices -- trim!
+                bases_to_trim = trim_stop - trim_start + 1
+                # Only adjust start if the trim region comes before it
+                if trim_stop <= start:
+                    start = start - bases_to_trim
+                stop = stop - bases_to_trim
+                fields[3] = str(start)
+                fields[4] = str(stop)
+            print("\t".join(fields))
+
 def main():
     # Parse args
     parser = argparse.ArgumentParser()
     parser.add_argument('-b', '--bed', required=True)
     parser.add_argument('-a', '--agp')
+    parser.add_argument('-g', '--gff')
     args = parser.parse_args()
     # Read bed file (required)
     trimlist = read_bed_file(args.bed)
@@ -100,6 +140,9 @@ def main():
     # Read agp file, modify indices as needed
     if args.agp:
         update_agp(args.agp, trimlist)
+    # Read gff file, modify indices as needed
+    if args.gff:
+        update_gff(args.gff, trimlist)
 
 
 ##########################
