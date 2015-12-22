@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import sys
 import math
 from src.gene_part import GenePart
 import src.translator as translate
@@ -18,10 +19,11 @@ class XRNA:
         self.exon = None
         self.cds = None
         self.other_features = []
+        self.annotations = {}
         if not annotations:
-            self.annotations = {}
+            self.annotations[self.rna_type] = {}
         else:
-            self.annotations = annotations
+            self.annotations[self.rna_type] = annotations
         if not source:
             self.source = ""
         else:
@@ -43,22 +45,26 @@ class XRNA:
         if self.cds:
             result += "CDS "
         if len(self.other_features) > 0:
-            result += "and " + str(len(self.other_features)) 
+            result += "and " + str(len(self.other_features))
             result += " other features"
         return result
-        
-    def add_annotation(self, key, value):
+
+    def add_annotation(self, key, value, feat_type="mRNA"):
         """Adds an annotation to the RNA.
 
         Args:
             key: the type of annotation
             value: the annotation itself
+            feat_type: type of RNA or sub feature
         """
-        if key in self.annotations:
-            self.annotations[key].append(value)
+        if feat_type not in self.annotations:
+            self.annotations[feat_type] = dict()
+
+        if key not in self.annotations[feat_type]:
+            self.annotations[feat_type][key] = [value]
         else:
-            self.annotations[key] = [value]
-        
+            self.annotations[feat_type][key].append(value)
+
     def length(self):
         """Returns the length of the RNA."""
         return length_of_segment(self.indices)
@@ -162,6 +168,7 @@ class XRNA:
 
     def has_start(self):
         """Returns a boolean indicating whether the RNA contains a 'start_codon' feature"""
+        if self.rna_type != 'mRNA': return True
         for feature in self.other_features:
             if feature.feature_type == 'start_codon':
                 return True
@@ -169,6 +176,7 @@ class XRNA:
 
     def has_stop(self):
         """Returns a boolean indicating whether the RNA contains a 'stop_codon' feature"""
+        if self.rna_type != 'mRNA': return True
         for feature in self.other_features:
             if feature.feature_type == 'stop_codon':
                 return True
@@ -204,9 +212,9 @@ class XRNA:
         result += "." + "\t" + self.strand + "\t" + "." + "\t"
         result += "ID=" + str(self.identifier)
         result += ";Parent=" + str(self.parent_id)
-        for key in self.annotations.keys():
+        for key in self.annotations[self.rna_type].keys():
             result += ';' + key + "="
-            result += ','.join(self.annotations[key])
+            result += ','.join(self.annotations[self.rna_type][key])
         result += '\n'
         if self.exon:
             result += self.exon.to_gff(self.seq_name, self.source)
@@ -224,22 +232,31 @@ class XRNA:
         if self.exon:
             output += self.exon.to_tbl(has_start, has_stop, self.rna_type)
             # Write the annotations
-            if self.annotations_contain_product():
-                output += "\t\t\tproduct\t" + self.annotations['product'][0] + "\n"
-            else:
+            for key in self.annotations[self.rna_type].keys():
+                for value in self.annotations[self.rna_type][key]:
+                    output += '\t\t\t'+key+'\t'+value+'\n'
+            if not self.annotations_contain_product(feat_type=self.rna_type):
                 output += "\t\t\tproduct\thypothetical protein\n"
-            output += "\t\t\tprotein_id\tgnl|ncbi|"+self.identifier+"\n"
-            output += "\t\t\ttranscript_id\tgnl|ncbi|"+self.identifier+"_mrna\n"
+            if self.rna_type == "mRNA":
+                output += "\t\t\tprotein_id\tgnl|JCVI|"+self.identifier+"\n"
+            output += "\t\t\ttranscript_id\tgnl|JCVI|mRNA."+self.identifier+"\n"
         if self.cds:
             output += self.cds.to_tbl(has_start, has_stop)
-            # Write the annotations 
-            for key in self.annotations.keys():
-                for value in self.annotations[key]:
-                    output += '\t\t\t'+key+'\t'+value+'\n'
-            if not self.annotations_contain_product():
+            print >> sys.stderr, self
+            # Write the annotations
+            if 'CDS' in self.annotations.keys():
+                for key in self.annotations['CDS'].keys():
+                    if key == 'protein_id':
+                        continue
+                    for value in self.annotations['CDS'][key]:
+                        output += '\t\t\t'+key+'\t'+value+'\n'
+            if not self.annotations_contain_product(feat_type="CDS"):
                 output += "\t\t\tproduct\thypothetical protein\n"
-            output += "\t\t\tprotein_id\tgnl|ncbi|"+self.identifier+"\n"
-            output += "\t\t\ttranscript_id\tgnl|ncbi|"+self.identifier+"_mrna\n"
+            if self.annotations_contain_protein_id(feat_type="CDS"):
+                output += "\t\t\tprotein_id\tgnl|JCVI|"+self.identifier+"|gb|"+self.annotations['CDS']['protein_id'][0]+"\n"
+            else:
+                output += "\t\t\tprotein_id\tgnl|JCVI|"+self.identifier+"\n"
+            output += "\t\t\ttranscript_id\tgnl|JCVI|mRNA."+self.identifier+"\n"
         return output
 
     ## STATS STUFF ##
@@ -273,7 +290,7 @@ class XRNA:
         """Returns sum of all child exon lengths."""
         if not self.exon:
             return 0
-    
+
         total = 0
         for index_pair in self.exon.indices:
             total += length_of_segment(index_pair)
@@ -312,7 +329,7 @@ class XRNA:
                 if this_intron == 0:
                     continue
                 if this_intron < 0:
-                    raise Exception("Intron with negative length on "+self.name)
+                    raise Exception("Intron with negative length on {0}".format(self))
                 if shortest == None or this_intron < shortest:
                     shortest = this_intron
             last_end = index_pair[1]
@@ -339,6 +356,8 @@ class XRNA:
         else:
             return 0
 
-    def annotations_contain_product(self):
-        return 'product' in self.annotations.keys()
+    def annotations_contain_product(self, feat_type="mRNA"):
+        return 'product' in self.annotations[feat_type].keys()
 
+    def annotations_contain_protein_id(self, feat_type="mRNA"):
+        return 'protein_id' in self.annotations[feat_type].keys()

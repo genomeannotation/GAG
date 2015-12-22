@@ -47,7 +47,7 @@ class GFFReader:
 
     def validate_line(self, line):
         """Returns list of lists of fields if valid, empty list if not.
-        
+
         List of lists of fields -- because lines with multiple parents
         are split into multiple lines."""
         splitline = line.split('\t')
@@ -85,7 +85,7 @@ class GFFReader:
 
     def parse_attributes(self, attr):
         """Returns a dict with id, name and parent_id (if present)
-        
+
         If not, returns empty dict
         Also adds annotations if present
         """
@@ -137,7 +137,7 @@ class GFFReader:
 
         if "annotations" in attribs:
             del attribs["annotations"]
-        
+
         result.update(attribs)
         return result
 
@@ -156,7 +156,7 @@ class GFFReader:
 
         if "annotations" in attribs:
             del attribs["annotations"]
-        
+
         result.update(attribs)
         return result
 
@@ -171,11 +171,11 @@ class GFFReader:
 
         if 'name' in attribs:
             del attribs['name']
-        
-        result.update(attribs)
-        return result        
 
-    def extract_gene_args(self, line):  
+        result.update(attribs)
+        return result
+
+    def extract_gene_args(self, line):
         """Pulls Gene arguments from a gff line and returns them in a dictionary."""
         result = {'seq_name': line[0], 'source': line[1], \
                   'indices': [int(line[3]), int(line[4])], 'strand': line[6]}
@@ -200,7 +200,7 @@ class GFFReader:
 
         if "annotations" in attribs:
             del attribs["annotations"]
-        
+
         result.update(attribs)
         return result
 
@@ -233,7 +233,9 @@ class GFFReader:
         if ltype == 'gene':
             self.process_gene_line(line)
             return True
-        elif ltype == 'mRNA' or ltype == 'tRNA' or ltype == 'rRNA' or ltype == 'ncRNA':
+        elif ltype in ('mRNA', 'tRNA', 'rRNA', 'ncRNA', 'snRNA', 'snoRNA', 'miRNA'):
+            if ltype in ('snRNA', 'snoRNA', 'miRNA'):
+                ltype = 'ncRNA'
             self.process_rna_line(line, ltype)
             return True
         elif ltype == 'CDS':
@@ -242,7 +244,7 @@ class GFFReader:
         elif ltype == 'exon':
             self.process_exon_line(line)
             return True
-        elif ltype == 'start_codon' or ltype == 'stop_codon':
+        elif ltype in ('start_codon', 'stop_codon'):
             self.process_other_feature_line(line)
             return True
         else:
@@ -336,12 +338,12 @@ class GFFReader:
                     if not line_added:
                         ignored.append(line)
 
-        # Second pass, placing child features which 
+        # Second pass, placing child features which
         # preceded their parents in the first pass
         orphans = copy.deepcopy(self.orphans)
         for splitline in orphans:
             self.process_line(splitline)
-           
+
         # Add mRNAs to their parent genes
         for mrna in self.mrnas.values():
             parent_gene = self.genes[mrna.parent_id]
@@ -350,4 +352,3 @@ class GFFReader:
         if self.skipped_features > 0:
             sys.stderr.write("Warning: skipped "+str(self.skipped_features)+" uninteresting features.\n")
         return self.genes.values(), comments, invalid, ignored
-

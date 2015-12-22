@@ -220,7 +220,7 @@ class Controller:
 
     def get_filter_arg(self, filter_name):
         return self.filter_mgr.get_filter_arg(filter_name)
-        
+
     def apply_filter(self, filter_name, val, filter_mode):
         for seq in self.seqs:
             self.filter_mgr.apply_filter(filter_name, val, filter_mode, seq)
@@ -282,7 +282,7 @@ class Controller:
         annos = []
         for line in io_buffer:
             splitline = line.strip().split('\t')
-            if len(splitline) != 3:
+            if len(splitline) not in (3, 4):
                 return []
             else:
                 annos.append(splitline)
@@ -295,7 +295,7 @@ class Controller:
         """Removes any empty mRNAs or genes from a seq and adds them to self.removed_features."""
         self.removed_features.extend(seq.remove_empty_mrnas())
         self.removed_features.extend(seq.remove_empty_genes())
-        
+
     def stats(self):
         if not self.seqs:
             return self.no_genome_message
@@ -326,7 +326,7 @@ class Controller:
             else:
                 locus_tag = seq.get_locus_tag()
         return locus_tag
-    
+
     def remove_from_list(self, bad_list):
         # First remove any seqs on the list
         to_remove = []
