@@ -1,6 +1,7 @@
 ## keep it clean
 __pycache__
 data
+gag_output
 *.pyc
 *.swp
 *.db

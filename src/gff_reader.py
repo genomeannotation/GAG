@@ -233,7 +233,8 @@ class GFFReader:
         if ltype == 'gene':
             self.process_gene_line(line)
             return True
-        elif ltype == 'mRNA' or ltype == 'tRNA' or ltype == 'rRNA' or ltype == 'ncRNA':
+        elif ltype == 'mRNA' or ltype == 'tRNA' or ltype == 'rRNA' or ltype == 'ncRNA' or\
+             ltype == 'miRNA':
             self.process_rna_line(line, ltype)
             return True
         elif ltype == 'CDS':
