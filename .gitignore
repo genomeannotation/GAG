@@ -1,4 +1,5 @@
 ## keep it clean
+__pycache__
 *.pyc
 *.swp
 *.db
