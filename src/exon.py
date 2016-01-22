@@ -13,4 +13,3 @@ class Exon(GenePart):
         """Returns a string representing the .tbl-formatted entry for this exon."""
         indices = copy.deepcopy(self.indices)
         return write_tbl_entry(indices, self.strand, has_start, has_stop, feature_type, self.annotations)
-

@@ -18,6 +18,7 @@ class Gene:
         self.name = name
         self.mrnas = []
         self.removed_mrnas = []
+        self.pseudo = False
         if not annotations:
             self.annotations = {}
         else:
@@ -361,6 +362,8 @@ class Gene:
         if self.name:
             output += "\t\t\tgene\t" + self.name + "\n"
         output += "\t\t\tlocus_tag\t" + self.identifier + "\n"
+        if self.pseudo:
+            output += "\t\t\tpseudo\n"
         for mrna in self.mrnas:
             output += mrna.to_tbl()
         return output
