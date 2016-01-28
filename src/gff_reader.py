@@ -61,7 +61,8 @@ class GFFReader:
             print("stop greater than start")
             return []
         # Everything except genes must have parent id
-        if not "Parent" in splitline[8] and not splitline[2] == "gene":
+        if not "Parent" in splitline[8] and\
+           not (splitline[2] == "gene" or splitline[2] == 'pseudogene'):
             print("no parent")
             return []
         if self.has_multiple_parents(splitline[8]):
@@ -230,8 +231,8 @@ class GFFReader:
             line: a list of the fields
         """
         ltype = self.line_type(line)
-        if ltype == 'gene':
-            self.process_gene_line(line)
+        if ltype == 'gene' or ltype == 'pseudogene':
+            self.process_gene_line(line, ltype)
             return True
         elif ltype in ('mRNA', 'tRNA', 'rRNA', 'ncRNA', 'snRNA', 'snoRNA', 'miRNA'):
             if ltype in ('snRNA', 'snoRNA', 'miRNA'):
@@ -251,13 +252,16 @@ class GFFReader:
             self.skipped_features += 1
             return False
 
-    def process_gene_line(self, line):
+    def process_gene_line(self, line, gene_type):
         """Extracts arguments from a line and instantiates a Gene object."""
         kwargs = self.extract_gene_args(line)
         if not kwargs:
             return
         gene_id = kwargs['identifier']
-        self.genes[gene_id] = Gene(**kwargs)
+        gene = Gene(**kwargs)
+        if gene_type == 'pseudogene':
+            gene.pseudo = True
+        self.genes[gene_id] = gene
 
     def process_rna_line(self, line, rna_type):
         """Extracts arguments from a line and instantiates an XRNA object."""

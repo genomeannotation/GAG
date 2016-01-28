@@ -162,7 +162,9 @@ class Controller:
         for seq in self.seqs:
             fasta.write(seq.to_fasta())
             gff.write(seq.to_gff())
-            tbl.write(seq.to_tbl())
+            if not args.skip_empty_scaffolds or len(seq.genes) > 0:
+                # Possibly skip empty sequences
+                tbl.write(seq.to_tbl())
             proteins.write(seq.to_protein_fasta())
 
         # Write removed.gff

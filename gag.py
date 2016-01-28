@@ -36,6 +36,7 @@ def main():
     parser.add_argument('-fil', '--flag_introns_longer_than')
     parser.add_argument('-fgs', '--flag_genes_shorter_than')
     parser.add_argument('-fgl', '--flag_genes_longer_than')
+    parser.add_argument('-ses', '--skip_empty_scaffolds', action='store_true')
     args = parser.parse_args()
     controller = Controller()
     controller.execute(args)
