@@ -52,7 +52,7 @@ class GFFReader:
         are split into multiple lines."""
         splitline = line.split('\t')
         if len(splitline) is not 9:
-            print("not enough columns")
+            print("not enough columns: "+line)
             return []
         if not "ID" in splitline[8]:
             print("No ID")
