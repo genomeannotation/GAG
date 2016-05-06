@@ -96,7 +96,7 @@ class Sequence:
     def add_annotations_from_list(self, anno_list):
         for gene in self.genes:
             for anno in anno_list:
-                if gene.identifier == anno[0]:
+                if gene.identifier == anno[0] and (anno[3] and anno[3] == "gene"):
                     if anno[1] == "name":
                         gene.name = anno[2]
                     gene.add_annotation(anno[1], anno[2])
@@ -254,7 +254,7 @@ class Sequence:
     def to_tbl(self):
         result = ">Feature " + self.header + "\n"
         result += "1\t" + str(len(self.bases)) + "\tREFERENCE\n"
-        result += "\t\t\tPBARC\t12345\n"
+        #result += "\t\t\tPBARC\t12345\n"
         for gene in self.genes:
             result += gene.to_tbl()
         return result

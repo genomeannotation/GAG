@@ -10,8 +10,10 @@ def length_of_segment(index_pair):
 
 class XRNA:
 
-    def __init__(self, identifier, indices, parent_id, source=None, seq_name=None, strand='+', annotations=None, rna_type="mRNA"):
+    def __init__(self, identifier, indices, parent_id=None, source=None, seq_name=None, strand='+', annotations=None, rna_type="mRNA", ncrna_class=None, derives_from=None):
         self.rna_type = rna_type
+        self.ncrna_class = ncrna_class
+        self.derives_from = derives_from
         self.identifier = identifier
         self.indices = indices
         self.parent_id = parent_id
@@ -229,17 +231,31 @@ class XRNA:
         has_start = self.has_start()
         has_stop = self.has_stop()
         output = ""
-        if self.exon:
-            output += self.exon.to_tbl(has_start, has_stop, self.rna_type)
+        if self.exon or self.rna_type in ('precursor_RNA', 'misc_feature') \
+                or self.ncrna_class == 'miRNA':
+            if self.exon:
+                output += self.exon.to_tbl(has_start, has_stop, self.rna_type)
+            else:
+                (start, stop) = (self.indices[0], self.indices[1]) if self.strand == '+' else \
+                    (self.indices[1], self.indices[0])
+                output += str(start)+'\t'+str(stop)+'\t'+self.rna_type+'\n'
             # Write the annotations
             for key in self.annotations[self.rna_type].keys():
                 for value in self.annotations[self.rna_type][key]:
                     output += '\t\t\t'+key+'\t'+value+'\n'
-            if not self.annotations_contain_product(feat_type=self.rna_type):
+            if not self.ncrna_class and not self.annotations_contain_product(feat_type=self.rna_type) \
+                    and not self.rna_type in ('misc_RNA', 'misc_feature'):
                 output += "\t\t\tproduct\thypothetical protein\n"
             if self.rna_type == "mRNA":
                 output += "\t\t\tprotein_id\tgnl|JCVI|"+self.identifier+"\n"
-            output += "\t\t\ttranscript_id\tgnl|JCVI|mRNA."+self.identifier+"\n"
+            if self.rna_type in ('misc_RNA', 'misc_feature'):
+                output += "\t\t\tnote\t"+self.identifier+"\n"
+            elif not self.ncrna_class == 'miRNA':
+                output += "\t\t\ttranscript_id\tgnl|JCVI|mRNA."+self.identifier+"\n"
+            if self.ncrna_class:
+                output += "\t\t\tncRNA_class\t"+self.ncrna_class+"\n"
+                if not self.annotations_contain_product(feat_type=self.rna_type):
+                    output += "\t\t\tproduct\tother RNA\n"
         if self.cds:
             output += self.cds.to_tbl(has_start, has_stop)
             print >> sys.stderr, self

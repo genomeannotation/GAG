@@ -52,18 +52,21 @@ class GFFReader:
         are split into multiple lines."""
         splitline = line.split('\t')
         if len(splitline) is not 9:
-            print("not enough columns")
+            print("not enough columns" + " ::: " + line)
             return []
         if not "ID" in splitline[8]:
-            print("No ID")
+            print("No ID" + " ::: " + line)
             return []
         if not int(splitline[3]) <= int(splitline[4]):
-            print("stop greater than start")
+            print("stop greater than start" + " ::: " + line)
             return []
+        # Special case: mature miRNA and uORF have "Derives_from" relationship
+        if splitline[2] in ("uORF", "miRNA") and "Derives_from" in splitline[8]:
+            pass
         # Everything except genes must have parent id
-        if not "Parent" in splitline[8] and\
-           not (splitline[2] == "gene" or splitline[2] == 'pseudogene'):
-            print("no parent")
+        elif not "Parent" in splitline[8] and \
+           not (splitline[2] in ("gene", "pseudogene", "transposable_element_gene")):
+            print("no parent" + " ::: " + line)
             return []
         if self.has_multiple_parents(splitline[8]):
             splitlines = self.split_multi_parent_line(splitline)
@@ -84,7 +87,7 @@ class GFFReader:
         """Returns type of feature, as denoted by 3rd field in list."""
         return line[2]
 
-    def parse_attributes(self, attr):
+    def parse_attributes(self, attr, ftype=""):
         """Returns a dict with id, name and parent_id (if present)
 
         If not, returns empty dict
@@ -100,12 +103,14 @@ class GFFReader:
                 continue
             key = splitpair[0]
             value = splitpair[1]
-            if key == "ID":
+            if key in "ID":
                 result['identifier'] = value
             elif key == "Name":
                 result['name'] = value
             elif key == "Parent":
                 result['parent_id'] = value
+            elif key == "Derives_from":
+                result['derives_from'] = value
             elif (key == "Dbxref" or
                     key == "Ontology_term" or
                     key == "product"):
@@ -120,6 +125,9 @@ class GFFReader:
         # Add annotations if we found any
         if annotations:
             result["annotations"] = annotations
+        # Extract parent_id from derives_from identifier
+        if not ftype.endswith("gene") and 'parent_id' not in result and 'derives_from' in result:
+            result['parent_id'] = result['derives_from'].split(".")[0]
         return result
 
     def extract_cds_args(self, line):
@@ -180,7 +188,7 @@ class GFFReader:
         """Pulls Gene arguments from a gff line and returns them in a dictionary."""
         result = {'seq_name': line[0], 'source': line[1], \
                   'indices': [int(line[3]), int(line[4])], 'strand': line[6]}
-        attribs = self.parse_attributes(line[8])
+        attribs = self.parse_attributes(line[8], ftype=line[2])
 
         if not attribs:
             return None
@@ -231,18 +239,34 @@ class GFFReader:
             line: a list of the fields
         """
         ltype = self.line_type(line)
-        if ltype == 'gene' or ltype == 'pseudogene':
+        if ltype in ('gene', 'pseudogene', 'transposable_element_gene'):
             self.process_gene_line(line, ltype)
             return True
-        elif ltype in ('mRNA', 'tRNA', 'rRNA', 'ncRNA', 'snRNA', 'snoRNA', 'miRNA'):
-            if ltype in ('snRNA', 'snoRNA', 'miRNA'):
-                ltype = 'ncRNA'
-            self.process_rna_line(line, ltype)
+        elif ltype in ('mRNA', 'tRNA', 'rRNA', 'ncRNA', 'miRNA', \
+                'miRNA_primary_transcript', 'snRNA', 'snoRNA', \
+                'lnc_RNA', 'antisense_lncRNA', 'antisense_RNA',
+                'uORF', 'pseudogenic_transcript', 'pseudogenic_tRNA', \
+                'transcript_region'):
+            ncrna_class = None
+            if ltype in ('snRNA', 'snoRNA', 'miRNA', 'antisense_RNA', 'lnc_RNA', 'antisense_lncRNA'):
+                if ltype in ('lnc_RNA', 'antisense_lncRNA'):
+                    ltype = 'lncRNA'
+                ltype, ncrna_class = 'ncRNA', ltype
+            elif ltype == 'miRNA_primary_transcript':
+                ltype = 'precursor_RNA'
+            elif ltype in ('pseudogenic_transcript', 'pseudogenic_tRNA', \
+                    'transcript_region'):
+                ltype = 'misc_RNA'
+            elif ltype == 'uORF':
+                ltype = 'misc_feature'
+            if ltype == 'ncRNA' and not ncrna_class:
+                ncrna_class = 'other'
+            self.process_rna_line(line, ltype, ncrna_class)
             return True
         elif ltype == 'CDS':
             self.process_cds_line(line)
             return True
-        elif ltype == 'exon':
+        elif ltype in ('exon', 'pseudogenic_exon'):
             self.process_exon_line(line)
             return True
         elif ltype in ('start_codon', 'stop_codon'):
@@ -259,16 +283,17 @@ class GFFReader:
             return
         gene_id = kwargs['identifier']
         gene = Gene(**kwargs)
-        if gene_type == 'pseudogene':
+        if gene_type in ('pseudogene', 'transposable_element_gene'):
             gene.pseudo = True
         self.genes[gene_id] = gene
 
-    def process_rna_line(self, line, rna_type):
+    def process_rna_line(self, line, rna_type, ncrna_class):
         """Extracts arguments from a line and instantiates an XRNA object."""
         kwargs = self.extract_mrna_args(line)
         if not kwargs:
             return
         kwargs["rna_type"] = rna_type
+        kwargs["ncrna_class"] = ncrna_class
         mrna_id = kwargs['identifier']
         self.mrnas[mrna_id] = XRNA(**kwargs)
 
@@ -349,6 +374,7 @@ class GFFReader:
             self.process_line(splitline)
 
         # Add mRNAs to their parent genes
+        # Skip if RNA feature has a Derives_from relationshop
         for mrna in self.mrnas.values():
             parent_gene = self.genes[mrna.parent_id]
             parent_gene.mrnas.append(mrna)

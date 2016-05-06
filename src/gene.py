@@ -8,7 +8,7 @@ def length_of_segment(index_pair):
 
 class Gene:
 
-    def __init__(self, seq_name, source, indices, strand, identifier, name="", annotations=None, score=None):
+    def __init__(self, seq_name, source, indices, strand, identifier, name="", annotations=None, score=None, derives_from=None):
         self.seq_name = seq_name
         self.source = source
         self.indices = indices
@@ -19,6 +19,7 @@ class Gene:
         self.mrnas = []
         self.removed_mrnas = []
         self.pseudo = False
+        self.derives_from = derives_from
         if not annotations:
             self.annotations = {}
         else:
@@ -348,11 +349,12 @@ class Gene:
         # Check if there's an mRNA with a no start/stop
         has_start = True
         has_stop = True
-        for mrna in self.mrnas:
-            if not mrna.has_start():
-                has_start = False
-            if not mrna.has_stop():
-                has_stop = False
+        if not self.pseudo:
+            for mrna in self.mrnas:
+                if not mrna.has_start():
+                    has_start = False
+                if not mrna.has_stop():
+                    has_stop = False
         output = ""
         if not has_start:
             output += "<"
