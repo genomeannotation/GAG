@@ -66,6 +66,10 @@ class CDS(GenePart):
 
         # Sort that list (by first index in each index_pair)
         all_attributes.sort()
+
+        if self.strand == '-':
+            all_attributes.reverse()
+
         # Repopulate the attributes
         for i in xrange(length):
             self.indices[i] = [all_attributes[i][0], all_attributes[i][1]]

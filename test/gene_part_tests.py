@@ -58,6 +58,17 @@ class TestGenePart(unittest.TestCase):
         self.assertEquals("gp1", gp.identifier[0])
         self.assertEquals([5, 10], gp.indices[0])
 
+    def test_sort_attributes_negative_strand(self):
+        gp = GenePart(strand='-')
+        gp.indices = [[5, 10], [25, 30]] # out of order (for negative strand)!
+        gp.identifier = ["gp1", "gp2"]
+        gp.score = [8, 10]
+        self.assertEquals("gp1", gp.identifier[0])
+        self.assertEquals([25, 30], gp.indices[1])
+        gp.sort_attributes()
+        self.assertEquals("gp1", gp.identifier[1])
+        self.assertEquals([5, 10], gp.indices[1])
+
     def test_gagflagged(self):
         gp = GenePart()
         self.assertFalse(gp.gagflagged())
