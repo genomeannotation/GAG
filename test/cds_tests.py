@@ -93,19 +93,6 @@ class TestCDS(unittest.TestCase):
         self.assertEquals([5, 10], cds.indices[0])
         self.assertEquals(0, cds.phase[0])
 
-    def test_sort_attributes_negative_strand(self):
-        cds = CDS(strand = '-')
-        cds.indices = [[5, 10], [25, 30]] # out of order (for negative)!
-        cds.identifier = ["cds1", "cds2"]
-        cds.phase = [0, 1]
-        self.assertEquals("cds2", cds.identifier[1])
-        self.assertEquals([25, 30], cds.indices[1])
-        self.assertEquals(1, cds.phase[1])
-        cds.sort_attributes()
-        self.assertEquals("cds1", cds.identifier[1])
-        self.assertEquals([5, 10], cds.indices[1])
-        self.assertEquals(0, cds.phase[1])
-
     def test_length(self):
         self.assertEquals(3453, self.test_cds1.length())
 
