@@ -9,6 +9,7 @@ class Sequence:
         self.header = header
         self.bases = bases
         self.genes = []
+        self.non_genes = []
         self.removed_genes = []
 
     def __str__(self):
@@ -21,6 +22,9 @@ class Sequence:
 
     def add_gene(self, gene):
         self.genes.append(gene)
+
+    def add_non_gene(self, non_gene):
+        self.non_genes.append(non_gene)
 
     def contains_gene(self, gene_id):
         for gene in self.genes:
@@ -102,6 +106,10 @@ class Sequence:
                     gene.add_annotation(anno[1], anno[2])
                 if gene.contains_mrna(anno[0]):
                     gene.add_mrna_annotation(anno[0], anno[1], anno[2], feat_type=anno[3])
+        for non_gene in self.non_genes:
+            for anno in anno_list:
+                if non_gene.identifier == anno[0]:
+                    non_gene.add_annotation(anno[1], anno[2], feat_type=anno[3])
 
     def number_of_gagflags(self):
         total = 0
@@ -251,12 +259,14 @@ class Sequence:
                 return gene.cds_to_tbl(mrna_id)
         return "CDS not found."
 
-    def to_tbl(self):
+    def to_tbl(self, gc_tag=None):
         result = ">Feature " + self.header + "\n"
         result += "1\t" + str(len(self.bases)) + "\tREFERENCE\n"
         #result += "\t\t\tPBARC\t12345\n"
         for gene in self.genes:
-            result += gene.to_tbl()
+            result += gene.to_tbl(gc_tag=gc_tag)
+        for non_gene in self.non_genes:
+            result += non_gene.to_tbl(gc_tag=gc_tag)
         return result
 
     def to_mrna_fasta(self):

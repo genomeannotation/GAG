@@ -13,6 +13,7 @@ class GFFReader:
     def __init__(self):
         self.genes = {}
         self.mrnas = {}
+        self.non_genes = []
         self.orphans = []
         self.skipped_features = 0
 
@@ -62,6 +63,9 @@ class GFFReader:
             return []
         # Special case: mature miRNA and uORF have "Derives_from" relationship
         if splitline[2] in ("uORF", "miRNA") and "Derives_from" in splitline[8]:
+            pass
+        # Special case: IES and CBS features have no parents
+        if splitline[2] in ("chromosome_breakage_sequence", "internal_eliminated_sequence"):
             pass
         # Everything except genes must have parent id
         elif not "Parent" in splitline[8] and \
@@ -272,6 +276,13 @@ class GFFReader:
         elif ltype in ('start_codon', 'stop_codon'):
             self.process_other_feature_line(line)
             return True
+        elif ltype in ('internal_eliminated_sequence', 'chromosome_breakage_sequence'):
+            if ltype == 'internal_eliminated_sequence':
+                ltype = 'iDNA'
+            elif ltype == 'chromosome_breakage_sequence':
+                ltype = 'misc_feature'
+            self.process_non_gene_feature_line(line, ltype)
+            return True
         else:
             self.skipped_features += 1
             return False
@@ -339,6 +350,15 @@ class GFFReader:
         parent_mrna = self.mrnas[parent_id]
         parent_mrna.other_features.append(GenePart(**kwargs))
 
+    def process_non_gene_feature_line(self, line, feat_type):
+        """Extracts arguments from a line and add them to an XRNA object without a parent Gene"""
+        kwargs = self.extract_mrna_args(line)
+        if not kwargs:
+            return
+        kwargs["rna_type"] = feat_type
+        mrna_id = kwargs['identifier']
+        self.mrnas[mrna_id] = XRNA(**kwargs)
+
     def read_file(self, reader):
         """GFFReader's public method, takes a reader, returns list of Genes,
         list of comments, list of invalid lines and list of ignored features.
@@ -376,9 +396,12 @@ class GFFReader:
         # Add mRNAs to their parent genes
         # Skip if RNA feature has a Derives_from relationshop
         for mrna in self.mrnas.values():
-            parent_gene = self.genes[mrna.parent_id]
-            parent_gene.mrnas.append(mrna)
+            if not mrna.parent_id:
+                self.non_genes.append(mrna)
+            else:
+                parent_gene = self.genes[mrna.parent_id]
+                parent_gene.mrnas.append(mrna)
 
         if self.skipped_features > 0:
             sys.stderr.write("Warning: skipped "+str(self.skipped_features)+" uninteresting features.\n")
-        return self.genes.values(), comments, invalid, ignored
+        return self.genes.values(), self.non_genes, comments, invalid, ignored

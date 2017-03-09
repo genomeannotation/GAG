@@ -2,6 +2,7 @@
 
 import sys
 import math
+import re
 from src.gene_part import GenePart
 import src.translator as translate
 
@@ -226,12 +227,12 @@ class XRNA:
             result += other.to_gff(self.seq_name, self.source)
         return result
 
-    def to_tbl(self):
+    def to_tbl(self, gc_tag=None):
         """Returns a string of RNA and child features in .tbl format."""
         has_start = self.has_start()
         has_stop = self.has_stop()
         output = ""
-        if self.exon or self.rna_type in ('precursor_RNA', 'misc_feature') \
+        if self.exon or self.rna_type in ('precursor_RNA', 'misc_feature', 'iDNA') \
                 or self.ncrna_class == 'miRNA':
             if self.exon:
                 output += self.exon.to_tbl(has_start, has_stop, self.rna_type)
@@ -240,22 +241,28 @@ class XRNA:
                     (self.indices[1], self.indices[0])
                 output += str(start)+'\t'+str(stop)+'\t'+self.rna_type+'\n'
             # Write the annotations
+            if not self.ncrna_class and not self.annotations_contain_product(feat_type=self.rna_type) \
+                    and not self.rna_type in ('misc_RNA', 'misc_feature', 'iDNA'):
+                output += self.tbl_line("product", "hypothetical protein")
+            if self.rna_type == "mRNA":
+                output += self.tbl_line("protein_id", "gnl|{0}|{1}".format(gc_tag, self.identifier))
+            if self.rna_type in ('misc_RNA', 'misc_feature', 'iDNA'):
+                if self.rna_type == 'iDNA':
+                    identifier = "{0} ({1})".format("Internal Eliminated Sequence", self.identifier)
+                elif self.rna_type == 'misc_feature' and re.search("[0-9]+[LR]-[0-9]+", self.identifier):
+                    identifier = "{0} (Cbs {1})".format("Chromosome breakage sequence", self.identifier)
+                else:
+                    identifier = self.identifier
+                output += self.tbl_line("note", identifier)
+            elif not self.ncrna_class == 'miRNA':
+                output += self.tbl_line("transcript_id", "gnl|{0}|mRNA.{1}".format(gc_tag, self.identifier))
+            if self.ncrna_class:
+                output += self.tbl_line("ncRNA_class", self.ncrna_class)
+                if not self.annotations_contain_product(feat_type=self.rna_type):
+                    output += self.tbl_line("product", "other RNA")
             for key in self.annotations[self.rna_type].keys():
                 for value in self.annotations[self.rna_type][key]:
-                    output += '\t\t\t'+key+'\t'+value+'\n'
-            if not self.ncrna_class and not self.annotations_contain_product(feat_type=self.rna_type) \
-                    and not self.rna_type in ('misc_RNA', 'misc_feature'):
-                output += "\t\t\tproduct\thypothetical protein\n"
-            if self.rna_type == "mRNA":
-                output += "\t\t\tprotein_id\tgnl|JCVI|"+self.identifier+"\n"
-            if self.rna_type in ('misc_RNA', 'misc_feature'):
-                output += "\t\t\tnote\t"+self.identifier+"\n"
-            elif not self.ncrna_class == 'miRNA':
-                output += "\t\t\ttranscript_id\tgnl|JCVI|mRNA."+self.identifier+"\n"
-            if self.ncrna_class:
-                output += "\t\t\tncRNA_class\t"+self.ncrna_class+"\n"
-                if not self.annotations_contain_product(feat_type=self.rna_type):
-                    output += "\t\t\tproduct\tother RNA\n"
+                    output += self.tbl_line(key, value)
         if self.cds:
             output += self.cds.to_tbl(has_start, has_stop)
             print >> sys.stderr, self
@@ -265,15 +272,19 @@ class XRNA:
                     if key == 'protein_id':
                         continue
                     for value in self.annotations['CDS'][key]:
-                        output += '\t\t\t'+key+'\t'+value+'\n'
+                        output += self.tbl_line(key, value)
             if not self.annotations_contain_product(feat_type="CDS"):
-                output += "\t\t\tproduct\thypothetical protein\n"
+                output += self.tbl_line("product", "hypothetical protein")
             if self.annotations_contain_protein_id(feat_type="CDS"):
-                output += "\t\t\tprotein_id\tgnl|JCVI|"+self.identifier+"|gb|"+self.annotations['CDS']['protein_id'][0]+"\n"
+                output += self.tbl_line("protein_id", \
+                    "gnl|{0}|{1}|gb|{2}".format(gc_tag, self.identifier, self.annotations['CDS']['protein_id][0]']))
             else:
-                output += "\t\t\tprotein_id\tgnl|JCVI|"+self.identifier+"\n"
-            output += "\t\t\ttranscript_id\tgnl|JCVI|mRNA."+self.identifier+"\n"
+                output += self.tbl_line("protein_id", "gnl|{0}|{1}".format(gc_tag, self.identifier))
+            output += self.tbl_line("transcript_id", "gnl|{0}|mRNA.{1}".format(gc_tag, self.identifier))
         return output
+
+    def tbl_line(self, *args, **kwargs):
+        return "\t\t\t{0}\t{1}\n".format(args[0], args[1])
 
     ## STATS STUFF ##
 

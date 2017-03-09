@@ -37,6 +37,8 @@ def main():
     parser.add_argument('-fgs', '--flag_genes_shorter_than')
     parser.add_argument('-fgl', '--flag_genes_longer_than')
     parser.add_argument('-ses', '--skip_empty_scaffolds', action='store_true')
+    parser.add_argument('-gct', '--genome_center_tag', default="JCVI")
+    parser.add_argument('-wpf', '--wgs_accession_prefix')
     args = parser.parse_args()
     controller = Controller()
     controller.execute(args)

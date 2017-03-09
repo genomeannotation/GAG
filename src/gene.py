@@ -340,7 +340,7 @@ class Gene:
             result += mrna.to_gff()
         return result
 
-    def to_tbl(self):
+    def to_tbl(self, gc_tag=None):
         """Returns a string in .tbl format of the gene and its child features."""
         if self.strand == "-":
             indices = [self.indices[1], self.indices[0]]
@@ -372,5 +372,5 @@ class Gene:
         if self.pseudo:
             output += "\t\t\tpseudo\n"
         for mrna in self.mrnas:
-            output += mrna.to_tbl()
+            output += mrna.to_tbl(gc_tag=gc_tag)
         return output

@@ -156,6 +156,12 @@ class Controller:
         for line in self.stats_mgr.summary():
             stats_file.write(line)
 
+        # genome_center_tag or wgs_accession_prefix
+        gc_tag = args.genome_center_tag
+        if args.wgs_accession_prefix:
+            gc_tag = args.wgs_accession_prefix
+            if not gc_tag.startswith("WGS:"):
+                gc_tag = "{0}:{1}".format("WGS", gc_tag)
         # Write fasta, gff, tbl, protein fasta
         sys.stderr.write("Writing gff, tbl and fasta to " + out_dir + "/ ...\n")
         gff.write("##gff-version 3\n")
@@ -164,7 +170,7 @@ class Controller:
             gff.write(seq.to_gff())
             if not args.skip_empty_scaffolds or len(seq.genes) > 0:
                 # Possibly skip empty sequences
-                tbl.write(seq.to_tbl())
+                tbl.write(seq.to_tbl(gc_tag=gc_tag))
             proteins.write(seq.to_protein_fasta())
 
         # Write removed.gff
@@ -249,9 +255,11 @@ class Controller:
         # That's kind of messy
         gffreader = GFFReader()
         reader = open(line, 'rb')
-        genes, comments, invalids, ignored = gffreader.read_file(reader)
+        genes, non_genes, comments, invalids, ignored = gffreader.read_file(reader)
         for gene in genes:
             self.add_gene(gene)
+        for non_gene in non_genes:
+            self.add_non_gene(non_gene)
         # Write comments, invalid lines and ignored features
         with open(prefix + "/genome.comments.gff", 'w') as comments_file:
             for comment in comments:
@@ -319,6 +327,11 @@ class Controller:
         for seq in self.seqs:
             if seq.header == gene.seq_name:
                 seq.add_gene(gene)
+
+    def add_non_gene(self, non_gene):
+        for seq in self.seqs:
+            if seq.header == non_gene.seq_name:
+                seq.add_non_gene(non_gene)
 
     def get_locus_tag(self):
         locus_tag = ""
