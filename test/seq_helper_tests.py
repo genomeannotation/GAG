@@ -44,8 +44,19 @@ class TestSeqHelper(unittest.TestCase):
         mrna.identifier = "foo_mrna"
         mrna.cds = Mock()
         mrna.cds.indices = [[4, 10], [21, 27]]
+        mrna.cds.get_phase.return_value = 0
         mrna.strand = '+'
         expected = ">foo_mrna protein\nDYRL\n"
+        self.assertEquals(expected, self.helper.mrna_to_protein_fasta(mrna))
+
+    def test_mrna_to_protein_fasta_phase1(self):
+        mrna = Mock()
+        mrna.identifier = "foo_mrna"
+        mrna.cds = Mock()
+        mrna.cds.indices = [[4, 10], [21, 27]]
+        mrna.cds.get_phase.return_value = 1
+        mrna.strand = '+'
+        expected = ">foo_mrna protein\nITDY\n"
         self.assertEquals(expected, self.helper.mrna_to_protein_fasta(mrna))
 
     def test_mrna_to_protein_fasta_reverse(self):
@@ -53,6 +64,7 @@ class TestSeqHelper(unittest.TestCase):
         mrna.identifier = "foo_mrna"
         mrna.cds = Mock()
         mrna.cds.indices = [[21, 27], [4, 10]]
+        mrna.cds.get_phase.return_value = 0
         mrna.strand = '-'
         expected = ">foo_mrna protein\nCNL*\n"
         self.assertEquals(expected, self.helper.mrna_to_protein_fasta(mrna))
