@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import sys
 import math
 import re
 from src.gene_part import GenePart
@@ -265,7 +264,6 @@ class XRNA:
                     output += self.tbl_line(key, value)
         if self.cds:
             output += self.cds.to_tbl(has_start, has_stop)
-            print >> sys.stderr, self
             # Write the annotations
             if 'CDS' in self.annotations.keys():
                 for key in self.annotations['CDS'].keys():
