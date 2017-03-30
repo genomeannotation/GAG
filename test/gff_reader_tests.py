@@ -289,6 +289,17 @@ class TestGFFReader(unittest.TestCase):
         self.assertTrue(genes[0].mrnas[0])
         self.assertEquals('-', genes[0].mrnas[0].strand)
 
+    def test_delete_name_if_name_and_id_are_equivalent(self):
+        attr = "ID=BDOR_007864;Name=BDOR_007864\n"
+        parsed = self.reader.parse_attributes(attr)
+        self.assertEqual('BDOR_007864', parsed['identifier'])
+        self.assertTrue('name' not in parsed)
+        
+    def test_dbxref_converted_to_db_xref_correctly(self):
+        attr = "ID=AGLA000002-RA;Name=AglaTmpM000002-RA;Parent=AGLA000002;Dbxref=PRINTS:PR00075,PFAM:foo;\n"
+        parsed = self.reader.parse_attributes(attr)
+        self.assertEqual(["PRINTS:PR00075", "PFAM:foo"], parsed['annotations']['db_xref'])
+
 
 ##########################
 def suite():
