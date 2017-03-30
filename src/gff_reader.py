@@ -98,8 +98,9 @@ class GFFReader:
             splitpair = pair.split('=')
             if len(splitpair) != 2:
                 continue
+            # Rename key if we get Dbxref instead of xb_xref
             if splitpair[0] == 'Dbxref':
-		key = "db_xref"
+                key = "db_xref"
             else:
                 key = splitpair[0]
             value = splitpair[1]
@@ -123,6 +124,9 @@ class GFFReader:
         # Add annotations if we found any
         if annotations:
             result["annotations"] = annotations
+        # Delete gene name if it is the same as the ID
+        if 'name' in result and result['identifier'] == result['name']:
+            del result['name']
         return result
 
     def extract_cds_args(self, line):
