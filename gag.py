@@ -6,6 +6,7 @@ import argparse
 from src.controller import Controller
 
 def main():
+    version = "v1.1.1"
     parser = argparse.ArgumentParser(
     epilog="""
     Docs at http://genomeannotation.github.io/GAG/
@@ -15,6 +16,7 @@ def main():
     )
     parser.add_argument('-f', '--fasta', required=True)
     parser.add_argument('-g', '--gff', required=True)
+    parser.add_argument('-v', '--version', action='version', version="GAG " + version)
     parser.add_argument('-a', '--anno')
     parser.add_argument('-t', '--trim')
     parser.add_argument('-o', '--out')
