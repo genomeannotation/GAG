@@ -98,11 +98,7 @@ class GFFReader:
             splitpair = pair.split('=')
             if len(splitpair) != 2:
                 continue
-            # Rename key if we get Dbxref instead of xb_xref
-            if splitpair[0] == 'Dbxref':
-                key = "db_xref"
-            else:
-                key = splitpair[0]
+            key = splitpair[0]
             value = splitpair[1]
             if key == "ID":
                 result['identifier'] = value
@@ -110,7 +106,7 @@ class GFFReader:
                 result['name'] = value
             elif key == "Parent":
                 result['parent_id'] = value
-            elif (key == "db_xref" or
+            elif (key == "Dbxref" or
                     key == "Ontology_term" or
                     key == "product"):
                 if key in annotations.keys():
