@@ -235,7 +235,10 @@ class XRNA:
             # Write the annotations 
             for key in self.annotations.keys():
                 for value in self.annotations[key]:
-                    output += '\t\t\t'+key+'\t'+value+'\n'
+                    if key == 'Dbxref':
+                        output += '\t\t\t'+'db_xref'+'\t'+value+'\n'
+                    else:
+                        output += '\t\t\t'+key+'\t'+value+'\n'
             if not self.annotations_contain_product():
                 output += "\t\t\tproduct\thypothetical protein\n"
             output += "\t\t\tprotein_id\tgnl|ncbi|"+self.identifier+"\n"
