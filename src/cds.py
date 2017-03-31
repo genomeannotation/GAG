@@ -30,8 +30,10 @@ class CDS(GenePart):
             first_index = self.indices[0][0]
             return [first_index, first_index+2]
         elif strand == '-':
-            first_index = self.indices[0][1]
-            return [first_index-2, first_index]
+            # Quick fix, applies get_stop_indices for - strand
+            last_index_pair = self.indices[len(self.indices)-1]
+            last_index = last_index_pair[1]
+            return [last_index-2, last_index]
 
     def get_stop_indices(self, strand):
         """Returns coordinates of third-to-last and last base of CDS."""
@@ -40,9 +42,9 @@ class CDS(GenePart):
             last_index = last_index_pair[1]
             return [last_index-2, last_index]
         elif strand == '-':
-            last_index_pair = self.indices[len(self.indices)-1]
-            last_index = last_index_pair[0]
-            return [last_index, last_index+2]
+            # Quick fix, applies get_start_indices for - strand
+            first_index = self.indices[0][0]
+            return [first_index, first_index+2]
 
     def sort_attributes(self):
         """Sorts indices, keeping identifiers and phases with their corresponding index pair.
