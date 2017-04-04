@@ -57,7 +57,8 @@ class TestStatsManager(unittest.TestCase):
         self.mgr.ref_stats["Total intron length"] = 65
         self.mgr.ref_stats["Total CDS length"] = 60
 
-    def get_new_dict(self):
+    @staticmethod
+    def get_new_dict():
         d = {"Total sequence length": 50, "Number of genes": 1, "Number of mRNAs": 1, "Number of exons": 1,
              "Number of introns": 1, "Number of CDS": 1, "Overlapping genes": 1, "Contained genes": 1,
              "CDS: complete": 3, "CDS: start, no stop": 1, "CDS: stop, no start": 1, "CDS: no stop, no start": 2,

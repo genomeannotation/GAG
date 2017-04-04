@@ -9,6 +9,114 @@ from mock import Mock
 from src.gff_reader import *
 
 
+def get_sample_text():
+    sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n"
+    sample_text += "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n"
+    sample_text += "scaffold00080\tmaker\texon\t106151\t106451\t0.9\t+\t.\tID=BDOR_007864-RA:exon:0;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\texon\t106509\t106749\t0.9\t+\t.\tID=BDOR_007864-RA:exon:1;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\tCDS\t106151\t106451\t.\t+\t0\tID=BDOR_007864-RA:cds:0;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\tCDS\t106509\t106749\t.\t+\t2\tID=BDOR_007864-RA:cds:1;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\tstop_codon\t109851\t109853\t.\t+\t.\tID=BDOR_007864-RA:stop2;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\tgene\t145206\t183302\t.\t+\t.\tID=BDOR_007866\n"
+    sample_text += "scaffold00080\tmaker\tmRNA\t145206\t183302\t.\t+\t.\tID=BDOR_007866-RB;Parent=BDOR_007866\n"
+    sample_text += "scaffold00080\tmaker\texon\t145206\t145282\t0.065333\t+\t.\tID=BDOR_007866-RB:exon:5;Parent=BDOR_007866-RB\n"
+    sample_text += "scaffold00080\tmaker\texon\t145607\t145865\t47.919\t+\t.\tID=BDOR_007866-RB:exon:6;Parent=BDOR_007866-RB\n"
+    sample_text += "scaffold00080\tmaker\texon\t145928\t146176\t67.378\t+\t.\tID=BDOR_007866-RB:exon:7;Parent=BDOR_007866-RB\n"
+    sample_text += "scaffold00080\tmaker\tfive_prime_UTR\t145206\t145282\t.\t+\t.\tID=BDOR_007866-RB:UTR1;Parent=BDOR_007866-RB\n"
+    sample_text += "scaffold00080\tmaker\tfive_prime_UTR\t145607\t145865\t.\t+\t.\tID=BDOR_007866-RB:UTR2;Parent=BDOR_007866-RB\n"
+    sample_text += "scaffold00080\tmaker\tfive_prime_UTR\t145928\t146176\t.\t+\t.\tID=BDOR_007866-RB:UTR3;Parent=BDOR_007866-RB\n"
+    sample_text += "scaffold00080\tmaker\tfive_prime_UTR\t154498\t154575\t.\t+\t.\tID=BDOR_007866-RB:UTR4;Parent=BDOR_007866-RB\n"
+    sample_text += "scaffold00080\tmaker\tCDS\t154576\t154620\t.\t+\t0\tID=BDOR_007866-RB:cds:5;Parent=BDOR_007866-RB\n"
+    sample_text += "scaffold00080\tmaker\tCDS\t179210\t179419\t.\t+\t0\tID=BDOR_007866-RB:cds:6;Parent=BDOR_007866-RB\n"
+    sample_text += "scaffold00080\tmaker\tCDS\t179489\t179691\t.\t+\t0\tID=BDOR_007866-RB:cds:7;Parent=BDOR_007866-RB\n"
+    sample_text += "scaffold00080\tmaker\tthree_prime_UTR\t183025\t183302\t.\t+\t.\tID=BDOR_007866-RB:UTR5;Parent=BDOR_007866-RB\n"
+    sample_text += "scaffold00080\tmaker\tstop_codon\t183022\t183024\t.\t+\t.\tID=BDOR_007866-RB:stop2;Parent=BDOR_007866-RB\n"
+    return sample_text
+
+
+def get_out_of_order_text():
+    sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n"
+    sample_text += "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n"
+    sample_text += "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RB;Parent=BDOR_007864\n"
+    sample_text += "scaffold00080\tmaker\texon\t106151\t106451\t0.9\t+\t.\tID=BDOR_007864-RA:exon:0;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\texon\t106509\t106749\t0.9\t+\t.\tID=BDOR_007864-RA:exon:1;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\tCDS\t106151\t106451\t.\t+\t0\tID=BDOR_007864-RA:cds:0;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\tCDS\t106509\t106749\t.\t+\t2\tID=BDOR_007864-RA:cds:1;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\tstop_codon\t109851\t109853\t.\t+\t.\tID=BDOR_007864-RA:stop2;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\texon\t106151\t106451\t0.9\t+\t.\tID=BDOR_007864-RA:exon:0;Parent=BDOR_007864-RB\n"
+    sample_text += "scaffold00080\tmaker\texon\t106509\t106749\t0.9\t+\t.\tID=BDOR_007864-RA:exon:1;Parent=BDOR_007864-RB\n"
+    sample_text += "scaffold00080\tmaker\tCDS\t106151\t106451\t.\t+\t0\tID=BDOR_007864-RA:cds:0;Parent=BDOR_007864-RB\n"
+    sample_text += "scaffold00080\tmaker\tCDS\t106509\t106749\t.\t+\t2\tID=BDOR_007864-RA:cds:1;Parent=BDOR_007864-RB\n"
+    sample_text += "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RB\n"
+    sample_text += "scaffold00080\tmaker\tstop_codon\t109851\t109853\t.\t+\t.\tID=BDOR_007864-RA:stop2;Parent=BDOR_007864-RB\n"
+    return sample_text
+
+
+def get_out_of_order_text_with_missing_parent():
+    sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n"
+    sample_text += "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n"
+    sample_text += "scaffold00080\tmaker\texon\t106151\t106451\t0.9\t+\t.\tID=BDOR_007864-RA:exon:0;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\texon\t106509\t106749\t0.9\t+\t.\tID=BDOR_007864-RA:exon:1;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\tCDS\t106151\t106451\t.\t+\t0\tID=BDOR_007864-RA:cds:0;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\tCDS\t106509\t106749\t.\t+\t2\tID=BDOR_007864-RA:cds:1;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\tstop_codon\t109851\t109853\t.\t+\t.\tID=BDOR_007864-RA:stop2;Parent=BDOR_007864-RA\n"
+    sample_text += "scaffold00080\tmaker\texon\t106151\t106451\t0.9\t+\t.\tID=BDOR_007864-RA:exon:0;Parent=BDOR_007864-RB\n"
+    sample_text += "scaffold00080\tmaker\texon\t106509\t106749\t0.9\t+\t.\tID=BDOR_007864-RA:exon:1;Parent=BDOR_007864-RB\n"
+    sample_text += "scaffold00080\tmaker\tCDS\t106151\t106451\t.\t+\t0\tID=BDOR_007864-RA:cds:0;Parent=BDOR_007864-RB\n"
+    sample_text += "scaffold00080\tmaker\tCDS\t106509\t106749\t.\t+\t2\tID=BDOR_007864-RA:cds:1;Parent=BDOR_007864-RB\n"
+    sample_text += "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RB\n"
+    sample_text += "scaffold00080\tmaker\tstop_codon\t109851\t109853\t.\t+\t.\tID=BDOR_007864-RA:stop2;Parent=BDOR_007864-RB\n"
+    return sample_text
+
+
+def get_annotated_gff():
+    result = "Scaffold1\tI5K\tgene\t133721\t162851\t.\t-\t.\tID=AGLA000002;Name=AglaTmpM000002;\n"
+    result += "Scaffold1\tI5K\tmRNA\t133721\t162851\t.\t-\t.\tID=AGLA000002-RA;Name=AglaTmpM000002-RA;Parent=AGLA000002;Dbxref=PRINTS:PR00075;\n"
+    result += "Scaffold1\tI5K\texon\t133721\t135519\t.\t-\t.\tID=AGLA000002-RA-EXON01;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\texon\t140163\t140635\t.\t-\t.\tID=AGLA000002-RA-EXON02;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\texon\t147266\t147396\t.\t-\t.\tID=AGLA000002-RA-EXON03;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\texon\t152757\t152979\t.\t-\t.\tID=AGLA000002-RA-EXON04;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\texon\t162720\t162762\t.\t-\t.\tID=AGLA000002-RA-EXON05;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\texon\t162825\t162851\t.\t-\t.\tID=AGLA000002-RA-EXON06;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\tCDS\t140426\t140635\t.\t-\t0\tID=AGLA000002-RA-CDS01;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\tCDS\t147266\t147396\t.\t-\t2\tID=AGLA000002-RA-CDS02;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\tCDS\t152757\t152976\t.\t-\t0\tID=AGLA000002-RA-CDS03;Parent=AGLA000002-RA;\n"
+    return result
+
+
+def get_annotated_gff_multi_dbxref():
+    result = "Scaffold1\tI5K\tgene\t133721\t162851\t.\t-\t.\tID=AGLA000002;Name=AglaTmpM000002;\n"
+    result += "Scaffold1\tI5K\tmRNA\t133721\t162851\t.\t-\t.\tID=AGLA000002-RA;Name=AglaTmpM000002-RA;Parent=AGLA000002;Dbxref=PRINTS:PR00075,PFAM:foo;\n"
+    result += "Scaffold1\tI5K\texon\t133721\t135519\t.\t-\t.\tID=AGLA000002-RA-EXON01;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\texon\t140163\t140635\t.\t-\t.\tID=AGLA000002-RA-EXON02;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\texon\t147266\t147396\t.\t-\t.\tID=AGLA000002-RA-EXON03;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\texon\t152757\t152979\t.\t-\t.\tID=AGLA000002-RA-EXON04;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\texon\t162720\t162762\t.\t-\t.\tID=AGLA000002-RA-EXON05;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\texon\t162825\t162851\t.\t-\t.\tID=AGLA000002-RA-EXON06;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\tCDS\t140426\t140635\t.\t-\t0\tID=AGLA000002-RA-CDS01;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\tCDS\t147266\t147396\t.\t-\t2\tID=AGLA000002-RA-CDS02;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\tCDS\t152757\t152976\t.\t-\t0\tID=AGLA000002-RA-CDS03;Parent=AGLA000002-RA;\n"
+    return result
+
+
+def get_annotated_gff_multi_dbxref_repeated_anno():
+    result = "Scaffold1\tI5K\tgene\t133721\t162851\t.\t-\t.\tID=AGLA000002;Name=AglaTmpM000002;\n"
+    result += "Scaffold1\tI5K\tmRNA\t133721\t162851\t.\t-\t.\tID=AGLA000002-RA;Name=AglaTmpM000002-RA;Parent=AGLA000002;Dbxref=PRINTS:PR00075;Dbxref=PFAM:foo;\n"
+    result += "Scaffold1\tI5K\texon\t133721\t135519\t.\t-\t.\tID=AGLA000002-RA-EXON01;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\texon\t140163\t140635\t.\t-\t.\tID=AGLA000002-RA-EXON02;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\texon\t147266\t147396\t.\t-\t.\tID=AGLA000002-RA-EXON03;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\texon\t152757\t152979\t.\t-\t.\tID=AGLA000002-RA-EXON04;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\texon\t162720\t162762\t.\t-\t.\tID=AGLA000002-RA-EXON05;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\texon\t162825\t162851\t.\t-\t.\tID=AGLA000002-RA-EXON06;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\tCDS\t140426\t140635\t.\t-\t0\tID=AGLA000002-RA-CDS01;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\tCDS\t147266\t147396\t.\t-\t2\tID=AGLA000002-RA-CDS02;Parent=AGLA000002-RA;\n"
+    result += "Scaffold1\tI5K\tCDS\t152757\t152976\t.\t-\t0\tID=AGLA000002-RA-CDS03;Parent=AGLA000002-RA;\n"
+    return result
+
+
 class TestGFFReader(unittest.TestCase):
 
     def setUp(self):
@@ -125,75 +233,15 @@ class TestGFFReader(unittest.TestCase):
         current_exon.add_identifier.assert_called_with('BDOR_007864-RA:exon:1')
 
     def test_read_file(self):
-        text = self.get_sample_text()
+        text = get_sample_text()
         inbuff = io.BytesIO(text)
         genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEquals(2, len(genes))
         self.assertEquals('BDOR_007864-RA', genes[0].mrnas[0].identifier)
         self.assertEquals([179489, 179691], genes[1].mrnas[0].cds.indices[2])
 
-    def get_sample_text(self):
-        sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n"
-        sample_text += "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n"
-        sample_text += "scaffold00080\tmaker\texon\t106151\t106451\t0.9\t+\t.\tID=BDOR_007864-RA:exon:0;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\texon\t106509\t106749\t0.9\t+\t.\tID=BDOR_007864-RA:exon:1;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\tCDS\t106151\t106451\t.\t+\t0\tID=BDOR_007864-RA:cds:0;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\tCDS\t106509\t106749\t.\t+\t2\tID=BDOR_007864-RA:cds:1;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\tstop_codon\t109851\t109853\t.\t+\t.\tID=BDOR_007864-RA:stop2;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\tgene\t145206\t183302\t.\t+\t.\tID=BDOR_007866\n"
-        sample_text += "scaffold00080\tmaker\tmRNA\t145206\t183302\t.\t+\t.\tID=BDOR_007866-RB;Parent=BDOR_007866\n"
-        sample_text += "scaffold00080\tmaker\texon\t145206\t145282\t0.065333\t+\t.\tID=BDOR_007866-RB:exon:5;Parent=BDOR_007866-RB\n"
-        sample_text += "scaffold00080\tmaker\texon\t145607\t145865\t47.919\t+\t.\tID=BDOR_007866-RB:exon:6;Parent=BDOR_007866-RB\n"
-        sample_text += "scaffold00080\tmaker\texon\t145928\t146176\t67.378\t+\t.\tID=BDOR_007866-RB:exon:7;Parent=BDOR_007866-RB\n"
-        sample_text += "scaffold00080\tmaker\tfive_prime_UTR\t145206\t145282\t.\t+\t.\tID=BDOR_007866-RB:UTR1;Parent=BDOR_007866-RB\n"
-        sample_text += "scaffold00080\tmaker\tfive_prime_UTR\t145607\t145865\t.\t+\t.\tID=BDOR_007866-RB:UTR2;Parent=BDOR_007866-RB\n"
-        sample_text += "scaffold00080\tmaker\tfive_prime_UTR\t145928\t146176\t.\t+\t.\tID=BDOR_007866-RB:UTR3;Parent=BDOR_007866-RB\n"
-        sample_text += "scaffold00080\tmaker\tfive_prime_UTR\t154498\t154575\t.\t+\t.\tID=BDOR_007866-RB:UTR4;Parent=BDOR_007866-RB\n"
-        sample_text += "scaffold00080\tmaker\tCDS\t154576\t154620\t.\t+\t0\tID=BDOR_007866-RB:cds:5;Parent=BDOR_007866-RB\n"
-        sample_text += "scaffold00080\tmaker\tCDS\t179210\t179419\t.\t+\t0\tID=BDOR_007866-RB:cds:6;Parent=BDOR_007866-RB\n"
-        sample_text += "scaffold00080\tmaker\tCDS\t179489\t179691\t.\t+\t0\tID=BDOR_007866-RB:cds:7;Parent=BDOR_007866-RB\n"
-        sample_text += "scaffold00080\tmaker\tthree_prime_UTR\t183025\t183302\t.\t+\t.\tID=BDOR_007866-RB:UTR5;Parent=BDOR_007866-RB\n"
-        sample_text += "scaffold00080\tmaker\tstop_codon\t183022\t183024\t.\t+\t.\tID=BDOR_007866-RB:stop2;Parent=BDOR_007866-RB\n"
-        return sample_text
-
-    def get_out_of_order_text(self):
-        sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n"
-        sample_text += "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n"
-        sample_text += "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RB;Parent=BDOR_007864\n"
-        sample_text += "scaffold00080\tmaker\texon\t106151\t106451\t0.9\t+\t.\tID=BDOR_007864-RA:exon:0;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\texon\t106509\t106749\t0.9\t+\t.\tID=BDOR_007864-RA:exon:1;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\tCDS\t106151\t106451\t.\t+\t0\tID=BDOR_007864-RA:cds:0;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\tCDS\t106509\t106749\t.\t+\t2\tID=BDOR_007864-RA:cds:1;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\tstop_codon\t109851\t109853\t.\t+\t.\tID=BDOR_007864-RA:stop2;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\texon\t106151\t106451\t0.9\t+\t.\tID=BDOR_007864-RA:exon:0;Parent=BDOR_007864-RB\n"
-        sample_text += "scaffold00080\tmaker\texon\t106509\t106749\t0.9\t+\t.\tID=BDOR_007864-RA:exon:1;Parent=BDOR_007864-RB\n"
-        sample_text += "scaffold00080\tmaker\tCDS\t106151\t106451\t.\t+\t0\tID=BDOR_007864-RA:cds:0;Parent=BDOR_007864-RB\n"
-        sample_text += "scaffold00080\tmaker\tCDS\t106509\t106749\t.\t+\t2\tID=BDOR_007864-RA:cds:1;Parent=BDOR_007864-RB\n"
-        sample_text += "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RB\n"
-        sample_text += "scaffold00080\tmaker\tstop_codon\t109851\t109853\t.\t+\t.\tID=BDOR_007864-RA:stop2;Parent=BDOR_007864-RB\n"
-        return sample_text
-        
-    def get_out_of_order_text_with_missing_parent(self):
-        sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n"
-        sample_text += "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n"
-        sample_text += "scaffold00080\tmaker\texon\t106151\t106451\t0.9\t+\t.\tID=BDOR_007864-RA:exon:0;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\texon\t106509\t106749\t0.9\t+\t.\tID=BDOR_007864-RA:exon:1;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\tCDS\t106151\t106451\t.\t+\t0\tID=BDOR_007864-RA:cds:0;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\tCDS\t106509\t106749\t.\t+\t2\tID=BDOR_007864-RA:cds:1;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\tstop_codon\t109851\t109853\t.\t+\t.\tID=BDOR_007864-RA:stop2;Parent=BDOR_007864-RA\n"
-        sample_text += "scaffold00080\tmaker\texon\t106151\t106451\t0.9\t+\t.\tID=BDOR_007864-RA:exon:0;Parent=BDOR_007864-RB\n"
-        sample_text += "scaffold00080\tmaker\texon\t106509\t106749\t0.9\t+\t.\tID=BDOR_007864-RA:exon:1;Parent=BDOR_007864-RB\n"
-        sample_text += "scaffold00080\tmaker\tCDS\t106151\t106451\t.\t+\t0\tID=BDOR_007864-RA:cds:0;Parent=BDOR_007864-RB\n"
-        sample_text += "scaffold00080\tmaker\tCDS\t106509\t106749\t.\t+\t2\tID=BDOR_007864-RA:cds:1;Parent=BDOR_007864-RB\n"
-        sample_text += "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RB\n"
-        sample_text += "scaffold00080\tmaker\tstop_codon\t109851\t109853\t.\t+\t.\tID=BDOR_007864-RA:stop2;Parent=BDOR_007864-RB\n"
-        return sample_text
-        
     def test_read_file_out_of_order(self):
-        text = self.get_out_of_order_text()
+        text = get_out_of_order_text()
         inbuff = io.BytesIO(text)
         genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEqual(1, len(genes))
@@ -203,90 +251,48 @@ class TestGFFReader(unittest.TestCase):
         self.assertEqual(2, len(genes[0].mrnas[1].exon.indices))
 
     def test_read_file_doesnt_loop_infinitely_when_feature_with_no_parent_mrna(self):
-        text = self.get_out_of_order_text_with_missing_parent()
+        text = get_out_of_order_text_with_missing_parent()
         inbuff = io.BytesIO(text)
         genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEqual(1, len(genes))
-        
-    def get_annotated_gff(self):
-        result = "Scaffold1\tI5K\tgene\t133721\t162851\t.\t-\t.\tID=AGLA000002;Name=AglaTmpM000002;\n"
-        result += "Scaffold1\tI5K\tmRNA\t133721\t162851\t.\t-\t.\tID=AGLA000002-RA;Name=AglaTmpM000002-RA;Parent=AGLA000002;Dbxref=PRINTS:PR00075;\n"
-        result += "Scaffold1\tI5K\texon\t133721\t135519\t.\t-\t.\tID=AGLA000002-RA-EXON01;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\texon\t140163\t140635\t.\t-\t.\tID=AGLA000002-RA-EXON02;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\texon\t147266\t147396\t.\t-\t.\tID=AGLA000002-RA-EXON03;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\texon\t152757\t152979\t.\t-\t.\tID=AGLA000002-RA-EXON04;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\texon\t162720\t162762\t.\t-\t.\tID=AGLA000002-RA-EXON05;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\texon\t162825\t162851\t.\t-\t.\tID=AGLA000002-RA-EXON06;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\tCDS\t140426\t140635\t.\t-\t0\tID=AGLA000002-RA-CDS01;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\tCDS\t147266\t147396\t.\t-\t2\tID=AGLA000002-RA-CDS02;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\tCDS\t152757\t152976\t.\t-\t0\tID=AGLA000002-RA-CDS03;Parent=AGLA000002-RA;\n"
-        return result
-
-    def get_annotated_gff_multi_dbxref(self):
-        result = "Scaffold1\tI5K\tgene\t133721\t162851\t.\t-\t.\tID=AGLA000002;Name=AglaTmpM000002;\n"
-        result += "Scaffold1\tI5K\tmRNA\t133721\t162851\t.\t-\t.\tID=AGLA000002-RA;Name=AglaTmpM000002-RA;Parent=AGLA000002;Dbxref=PRINTS:PR00075,PFAM:foo;\n"
-        result += "Scaffold1\tI5K\texon\t133721\t135519\t.\t-\t.\tID=AGLA000002-RA-EXON01;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\texon\t140163\t140635\t.\t-\t.\tID=AGLA000002-RA-EXON02;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\texon\t147266\t147396\t.\t-\t.\tID=AGLA000002-RA-EXON03;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\texon\t152757\t152979\t.\t-\t.\tID=AGLA000002-RA-EXON04;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\texon\t162720\t162762\t.\t-\t.\tID=AGLA000002-RA-EXON05;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\texon\t162825\t162851\t.\t-\t.\tID=AGLA000002-RA-EXON06;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\tCDS\t140426\t140635\t.\t-\t0\tID=AGLA000002-RA-CDS01;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\tCDS\t147266\t147396\t.\t-\t2\tID=AGLA000002-RA-CDS02;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\tCDS\t152757\t152976\t.\t-\t0\tID=AGLA000002-RA-CDS03;Parent=AGLA000002-RA;\n"
-        return result
-
-    def get_annotated_gff_multi_dbxref_repeated_anno(self):
-        result = "Scaffold1\tI5K\tgene\t133721\t162851\t.\t-\t.\tID=AGLA000002;Name=AglaTmpM000002;\n"
-        result += "Scaffold1\tI5K\tmRNA\t133721\t162851\t.\t-\t.\tID=AGLA000002-RA;Name=AglaTmpM000002-RA;Parent=AGLA000002;Dbxref=PRINTS:PR00075;Dbxref=PFAM:foo;\n"
-        result += "Scaffold1\tI5K\texon\t133721\t135519\t.\t-\t.\tID=AGLA000002-RA-EXON01;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\texon\t140163\t140635\t.\t-\t.\tID=AGLA000002-RA-EXON02;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\texon\t147266\t147396\t.\t-\t.\tID=AGLA000002-RA-EXON03;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\texon\t152757\t152979\t.\t-\t.\tID=AGLA000002-RA-EXON04;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\texon\t162720\t162762\t.\t-\t.\tID=AGLA000002-RA-EXON05;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\texon\t162825\t162851\t.\t-\t.\tID=AGLA000002-RA-EXON06;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\tCDS\t140426\t140635\t.\t-\t0\tID=AGLA000002-RA-CDS01;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\tCDS\t147266\t147396\t.\t-\t2\tID=AGLA000002-RA-CDS02;Parent=AGLA000002-RA;\n"
-        result += "Scaffold1\tI5K\tCDS\t152757\t152976\t.\t-\t0\tID=AGLA000002-RA-CDS03;Parent=AGLA000002-RA;\n"
-        return result
 
     def test_read_file_annotated(self):
-        text = self.get_annotated_gff()
+        text = get_annotated_gff()
         inbuff = io.BytesIO(text)
         genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEquals(1, len(genes))
         self.assertEquals({"Dbxref": ["PRINTS:PR00075"]}, genes[0].mrnas[0].annotations)
 
     def test_read_file_annotated_multi_dbxref(self):
-        text = self.get_annotated_gff_multi_dbxref()
+        text = get_annotated_gff_multi_dbxref()
         inbuff = io.BytesIO(text)
         genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEquals(1, len(genes))
         self.assertEquals({"Dbxref": ["PRINTS:PR00075", "PFAM:foo"]}, genes[0].mrnas[0].annotations)
 
     def test_read_file_annotated_multi_dbxref_repeated_anno(self):
-        text = self.get_annotated_gff_multi_dbxref_repeated_anno()
+        text = get_annotated_gff_multi_dbxref_repeated_anno()
         inbuff = io.BytesIO(text)
         genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEquals(1, len(genes))
         self.assertEquals({"Dbxref": ["PRINTS:PR00075", "PFAM:foo"]}, genes[0].mrnas[0].annotations)
 
     def test_CDS_knows_its_strand(self):
-        text = self.get_annotated_gff()
+        text = get_annotated_gff()
         inbuff = io.BytesIO(text)
         genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertTrue(genes[0].mrnas[0].cds)
         self.assertEquals('-', genes[0].mrnas[0].cds.strand)
 
     def test_exon_knows_its_strand(self):
-        text = self.get_annotated_gff()
+        text = get_annotated_gff()
         inbuff = io.BytesIO(text)
         genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertTrue(genes[0].mrnas[0].exon)
         self.assertEquals('-', genes[0].mrnas[0].exon.strand)
 
     def test_mrna_knows_its_strand(self):
-        text = self.get_annotated_gff()
+        text = get_annotated_gff()
         inbuff = io.BytesIO(text)
         genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertTrue(genes[0].mrnas[0])

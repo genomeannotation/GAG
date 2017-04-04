@@ -8,6 +8,36 @@ from src.gff_reader import GFFReader
 from src.filter_manager import FilterManager
 from src.stats_manager import StatsManager
 
+
+def read_annotation_file(io_buffer):
+    annos = []
+    for line in io_buffer:
+        splitline = line.strip().split('\t')
+        if len(splitline) != 3:
+            return []
+        else:
+            annos.append(splitline)
+    return annos
+
+
+def read_bed_file(io_buffer):
+    trimlist = []
+    for line in io_buffer:
+        splitline = line.strip().split('\t')
+        if len(splitline) != 3:
+            return []
+        else:
+            try:
+                entry = [splitline[0], int(splitline[1]), int(splitline[2])]
+            except ValueError:
+                sys.stderr.write("Error reading .bed file. Non-integer value ")
+                sys.stderr.write("in column 2 or 3. Here is the line:\n")
+                sys.stderr.write(line)
+                return []
+            trimlist.append(entry)
+    return trimlist
+
+
 class Controller:
 
     def __init__(self):
@@ -187,7 +217,7 @@ class Controller:
         if not os.path.isfile(filename):
             sys.stderr.write("Error: " + filename + " is not a file. Nothing trimmed.\n")
             return
-        trimlist = self.read_bed_file(open(filename, 'rb'))
+        trimlist = read_bed_file(open(filename, 'rb'))
         if not trimlist:
             sys.stderr.write("Failed to read .bed file; nothing trimmed.\n")
             return
@@ -198,7 +228,7 @@ class Controller:
         if not os.path.isfile(filename):
             sys.stderr.write("Error: " + filename + " is not a file. Nothing annotated.\n")
             return
-        annos = self.read_annotation_file(open(filename, 'rb'))
+        annos = read_annotation_file(open(filename, 'rb'))
         if not annos:
             sys.stderr.write("Failed to read annotations from " + filename + "; no annotations added.\n")
             return
@@ -263,35 +293,7 @@ class Controller:
             for item in ignored:
                 ignored_file.write(item)
 
-    def read_bed_file(self, io_buffer):
-        trimlist = []
-        for line in io_buffer:
-            splitline = line.strip().split('\t')
-            if len(splitline) != 3:
-                return []
-            else:
-                try:
-                    entry = [splitline[0], int(splitline[1]), int(splitline[2])]
-                except ValueError:
-                    sys.stderr.write("Error reading .bed file. Non-integer value ")
-                    sys.stderr.write("in column 2 or 3. Here is the line:\n")
-                    sys.stderr.write(line)
-                    return []
-                trimlist.append(entry)
-        return trimlist
-
-    def read_annotation_file(self, io_buffer):
-        annos = []
-        for line in io_buffer:
-            splitline = line.strip().split('\t')
-            if len(splitline) != 3:
-                return []
-            else:
-                annos.append(splitline)
-        return annos
-
-
-# Clean up
+    # Clean up
 
     def remove_empty_features(self, seq):
         """Removes any empty mRNAs or genes from a seq and adds them to self.removed_features."""
