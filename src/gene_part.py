@@ -2,10 +2,10 @@
 # coding=utf-8
 
 import math
-from builtins import range
+from past.builtins import xrange
 
 
-class GenePart:
+class GenePart(object):
     def __init__(self, feature_type=None, identifier=None,
                  indices=None, score=None, strand='+', parent_id=None):
         self.feature_type = feature_type
@@ -60,10 +60,10 @@ class GenePart:
             return
         if length == len(self.score):
             sort_scores = True
-        # Build a list of lists where each entry is 
+        # Build a list of lists where each entry is
         # composed of attributes
         all_attributes = []
-        for i in range(length):
+        for i in xrange(length):
             all_attributes.append([self.indices[i][0], self.indices[i][1],
                                    self.identifier[i]])
             if sort_scores:
@@ -72,7 +72,7 @@ class GenePart:
         # Sort that list (by first index in each index_pair)
         all_attributes.sort()
         # Repopulate the attributes
-        for i in range(length):
+        for i in xrange(length):
             self.indices[i] = [all_attributes[i][0], all_attributes[i][1]]
             self.identifier[i] = all_attributes[i][2]
             if sort_scores:
@@ -156,7 +156,7 @@ class GenePart:
     def to_gff(self, seq_name, source):
         """Returns a string containing the .gff representation of a GenePart."""
         result = ""
-        for i in range(len(self.indices)):
+        for i in xrange(len(self.indices)):
             result += seq_name + "\t" + source + "\t"
             result += self.feature_type + "\t" + str(self.indices[i][0])
             result += "\t" + str(self.indices[i][1]) + "\t"
