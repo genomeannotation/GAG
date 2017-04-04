@@ -139,7 +139,7 @@ class MaxExonLengthFilter(object):
 ###################################################################################################
 
 class MinIntronLengthFilter(object):
-    def __init__(self, min_length=0, max_length=0):
+    def __init__(self, min_length=0):
         self.arg = min_length
         self.filter_mode = "REMOVE"
         return

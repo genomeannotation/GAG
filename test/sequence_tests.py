@@ -186,7 +186,7 @@ class TestSequence(unittest.TestCase):
         self.seq1.genes = [Mock(), Mock()]
         self.seq1.genes[0].remove_empty_mrnas.return_value = []
         self.seq1.genes[1].remove_empty_mrnas.return_value = []
-        removed_mrnas = self.seq1.remove_empty_mrnas()
+        self.seq1.remove_empty_mrnas()
         self.seq1.genes[0].remove_empty_mrnas.assert_called_with()
         self.seq1.genes[1].remove_empty_mrnas.assert_called_with()
 
@@ -304,14 +304,14 @@ class TestSequence(unittest.TestCase):
         mockgene = Mock()
         mockgene.contains_mrna.return_value = True
         self.seq1.genes = [mockgene]
-        foo = self.seq1.cds_to_gff("foo_mrna")
+        self.seq1.cds_to_gff("foo_mrna")
         mockgene.cds_to_gff.assert_called_with("seq1", "foo_mrna")
 
     def test_cds_to_tbl(self):
         mockgene = Mock()
         mockgene.contains_mrna.return_value = True
         self.seq1.genes = [mockgene]
-        foo = self.seq1.cds_to_tbl("foo_mrna")
+        self.seq1.cds_to_tbl("foo_mrna")
         mockgene.cds_to_tbl.assert_called_with("foo_mrna")
 
     def test_to_mrna_fasta(self):

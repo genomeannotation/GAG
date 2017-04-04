@@ -101,7 +101,6 @@ class TestGenePart(unittest.TestCase):
         # test .to_gff
         seq_name = "sctg_0001_0001"
         source = 'maker'
-        strand = '+'
         expected = "sctg_0001_0001\tmaker\tCDS\t1\t44\t.\t+\t.\t"
         expected += "ID=foo1;Parent=mama\n"
         expected += "sctg_0001_0001\tmaker\tCDS\t65\t103\t.\t+\t.\t"

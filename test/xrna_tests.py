@@ -92,11 +92,11 @@ class TestXRNA(unittest.TestCase):
         self.assertEquals(expected, str(self.test_mrna1))
 
     def test_cds_to_gff(self):
-        foo = self.test_mrna1.cds_to_gff("foo_seq", "maker")
+        self.test_mrna1.cds_to_gff("foo_seq", "maker")
         self.fake_cds.to_gff.assert_called_with("foo_seq", "maker")
 
     def test_cds_to_tbl(self):
-        foo = self.test_mrna1.cds_to_tbl()
+        self.test_mrna1.cds_to_tbl()
         self.fake_cds.to_tbl.assert_called_with(False, False)
 
     def test_to_gff(self):
@@ -150,7 +150,6 @@ class TestXRNA(unittest.TestCase):
         cds.get_start_indices.return_value = 20
         cds.get_stop_indices.return_value = 40
         self.test_mrna0.cds = cds
-        seq_name = 'seq_foo'
         strand = '+'
         self.assertFalse(self.test_mrna0.other_features)
         self.test_mrna0.create_start_and_stop_if_necessary(seq_object, strand)
@@ -164,7 +163,6 @@ class TestXRNA(unittest.TestCase):
         cds.get_start_indices.return_value = 20
         cds.get_stop_indices.return_value = 40
         self.test_mrna0.cds = cds
-        seq_name = 'seq_foo'
         strand = '+'
         self.assertFalse(self.test_mrna0.other_features)
         self.test_mrna0.create_start_and_stop_if_necessary(seq_object, strand)
