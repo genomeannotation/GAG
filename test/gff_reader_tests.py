@@ -94,14 +94,14 @@ class TestGFFReader(unittest.TestCase):
 
     def test_extract_gene_args(self):
         line = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n".split('\t')
-        expected = {'seq_name': 'scaffold00080', 'source': 'maker', 'indices': [106151, 109853],\
+        expected = {'seq_name': 'scaffold00080', 'source': 'maker', 'indices': [106151, 109853],
                     'strand': '+', 'identifier': 'BDOR_007864'}
         args = self.reader.extract_gene_args(line)
         self.assertEqual(expected, args)
 
     def test_extract_other_feature_args(self):
         line = "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RA\n".split('\t')
-        expected = {'feature_type': 'start_codon', 'indices': [106151, 106153],\
+        expected = {'feature_type': 'start_codon', 'indices': [106151, 106153],
                     'identifier': 'BDOR_007864-RA:start1', 'parent_id': 'BDOR_007864-RA'}
         args = self.reader.extract_other_feature_args(line)
         self.assertEqual(expected, args)

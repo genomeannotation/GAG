@@ -148,16 +148,16 @@ class XRNA:
         # TODO figure out naming scheme...
         start_id = self.identifier + ":start"
         start_parent_id = self.identifier
-        start = GenePart(feature_type='start_codon', identifier=start_id, \
-                indices=indices, parent_id=start_parent_id, strand=self.strand)
+        start = GenePart(feature_type='start_codon', identifier=start_id,
+                         indices=indices, parent_id=start_parent_id, strand=self.strand)
         self.add_other_feature(start)
 
     def add_stop_codon(self, indices):
         """Adds a stop_codon GenePart to MRNA.other_features"""
         stop_id = self.identifier + ":stop"
         stop_parent_id = self.identifier
-        stop = GenePart(feature_type='stop_codon', identifier=stop_id, \
-                indices=indices, parent_id=stop_parent_id, strand=self.strand)
+        stop = GenePart(feature_type='stop_codon', identifier=stop_id,
+                        indices=indices, parent_id=stop_parent_id, strand=self.strand)
         self.add_other_feature(stop)
 
     def has_start(self):

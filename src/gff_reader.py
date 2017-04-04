@@ -127,8 +127,8 @@ class GFFReader:
 
     def extract_cds_args(self, line):
         """Pulls CDS arguments from a gff line and returns them in a dictionary."""
-        result = {'indices': [int(line[3]), int(line[4])], \
-                'strand': line[6], 'phase': int(line[7])}
+        result = {'indices': [int(line[3]), int(line[4])],
+                  'strand': line[6], 'phase': int(line[7])}
         if isinstance(line[7], float):
             result['score'] = line[7]
         attribs = self.parse_attributes(line[8])
@@ -181,7 +181,7 @@ class GFFReader:
 
     def extract_gene_args(self, line):  
         """Pulls Gene arguments from a gff line and returns them in a dictionary."""
-        result = {'seq_name': line[0], 'source': line[1], \
+        result = {'seq_name': line[0], 'source': line[1],
                   'indices': [int(line[3]), int(line[4])], 'strand': line[6]}
         attribs = self.parse_attributes(line[8])
 

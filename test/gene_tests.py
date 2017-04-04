@@ -316,8 +316,8 @@ class TestGene(unittest.TestCase):
         self.assertEquals(0, len(newgene.annotations.keys()))
 
     def test_gene_initialized_with_annotations(self):
-        newgene = Gene(seq_name="seq1", source="maker", indices=[1, 50], strand="+", identifier="foo_gene_1",\
-                annotations={"bar": ["cat"]})
+        newgene = Gene(seq_name="seq1", source="maker", indices=[1, 50], strand="+", identifier="foo_gene_1",
+                       annotations={"bar": ["cat"]})
         self.assertTrue(newgene.annotations)
         self.assertEquals(1, len(newgene.annotations.keys()))
 

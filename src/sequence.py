@@ -318,8 +318,8 @@ class Sequence:
         return count
 
     def get_cds_partial_info(self):
-        results = {"CDS: complete": 0, "CDS: start, no stop": 0,\
-                "CDS: stop, no start": 0, "CDS: no stop, no start": 0}
+        results = {"CDS: complete": 0, "CDS: start, no stop": 0,
+                   "CDS: stop, no start": 0, "CDS: no stop, no start": 0}
         for gene in self.genes:
             partial_info = gene.get_partial_info()
             results["CDS: complete"] += partial_info["complete"]

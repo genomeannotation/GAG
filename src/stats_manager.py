@@ -7,24 +7,24 @@
 
 class StatsManager:
 
-    increment_stats = ["Total sequence length", "Number of genes", "Number of mRNAs", "Number of exons", "Number of introns", "Number of CDS",\
-            "Overlapping genes", "Contained genes", "CDS: complete", "CDS: start, no stop", "CDS: stop, no start", "CDS: no stop, no start",\
-            "Total gene length", "Total mRNA length", "Total exon length",\
-            "Total intron length", "Total CDS length"]    
+    increment_stats = ["Total sequence length", "Number of genes", "Number of mRNAs", "Number of exons", "Number of introns", "Number of CDS",
+                       "Overlapping genes", "Contained genes", "CDS: complete", "CDS: start, no stop", "CDS: stop, no start", "CDS: no stop, no start",
+                       "Total gene length", "Total mRNA length", "Total exon length",
+                       "Total intron length", "Total CDS length"]
     min_stats = ["Shortest gene", "Shortest mRNA", "Shortest exon", "Shortest intron", "Shortest CDS"]
     max_stats = ["Longest gene", "Longest mRNA", "Longest exon", "Longest intron", "Longest CDS"]
-    calc_stats_formulae = {"mean gene length": ["Total gene length", "Number of genes"],\
-            "mean mRNA length": ["Total mRNA length", "Number of mRNAs"],\
-            "mean exon length": ["Total exon length", "Number of exons"],\
-            "mean intron length": ["Total intron length", "Number of introns"],\
-            "mean CDS length": ["Total CDS length", "Number of CDS"],\
-            "% of genome covered by genes": ["Total gene length", "Total sequence length"],\
-            "% of genome covered by CDS": ["Total CDS length", "Total sequence length"],\
-            "mean mRNAs per gene": ["Number of mRNAs", "Number of genes"], "mean exons per mRNA": ["Number of exons", "Number of mRNAs"],\
-            "mean introns per mRNA": ["Number of introns", "Number of mRNAs"]}
-    calc_stats = ["mean gene length", "mean mRNA length", "mean exon length", "mean intron length",\
-            "mean CDS length", "% of genome covered by genes", "% of genome covered by CDS",\
-            "mean mRNAs per gene", "mean exons per mRNA", "mean introns per mRNA"]
+    calc_stats_formulae = {"mean gene length": ["Total gene length", "Number of genes"],
+                           "mean mRNA length": ["Total mRNA length", "Number of mRNAs"],
+                           "mean exon length": ["Total exon length", "Number of exons"],
+                           "mean intron length": ["Total intron length", "Number of introns"],
+                           "mean CDS length": ["Total CDS length", "Number of CDS"],
+                           "% of genome covered by genes": ["Total gene length", "Total sequence length"],
+                           "% of genome covered by CDS": ["Total CDS length", "Total sequence length"],
+                           "mean mRNAs per gene": ["Number of mRNAs", "Number of genes"], "mean exons per mRNA": ["Number of exons", "Number of mRNAs"],
+                           "mean introns per mRNA": ["Number of introns", "Number of mRNAs"]}
+    calc_stats = ["mean gene length", "mean mRNA length", "mean exon length", "mean intron length",
+                  "mean CDS length", "% of genome covered by genes", "% of genome covered by CDS",
+                  "mean mRNAs per gene", "mean exons per mRNA", "mean introns per mRNA"]
 
     def __init__(self):
         self.ref_stats = {}

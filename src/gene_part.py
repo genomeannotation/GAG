@@ -4,7 +4,7 @@ import math
 import src.translator as translate
 
 class GenePart:
-    def __init__(self, feature_type=None, identifier=None,\
+    def __init__(self, feature_type=None, identifier=None,
                  indices=None, score=None, strand='+', parent_id=None):
         self.feature_type = feature_type
         self.identifier = []
