@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# coding=utf-8
 
 # Does its very best to parse an NCBI genome submission error report
 # containing locations of regions to trim

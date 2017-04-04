@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding=utf-8
 
 import copy
 from src.gene_part import *

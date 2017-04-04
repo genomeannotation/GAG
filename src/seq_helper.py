@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding=utf-8
 
 from src.translator import translate, reverse_complement, contains_internal_stop
 

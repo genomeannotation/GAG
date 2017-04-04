@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# coding=utf-8
 
 # Intended to deal with one lonely file -- the .gff input for our Bdorsalis WGS submission
 # This script replaces the ID field with the Name field and updates the Parent fields accordingly
