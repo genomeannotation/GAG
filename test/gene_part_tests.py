@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 
 import unittest
-from mock import Mock, PropertyMock
+
 from src.gene_part import GenePart
-from src.xrna import XRNA
-from src.gene import Gene
+
 
 class TestGenePart(unittest.TestCase):
 

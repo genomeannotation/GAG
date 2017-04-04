@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 
 import unittest
-from mock import Mock, MagicMock
+
+from mock import Mock
+
 from src.sequence import Sequence
+
 
 class TestSequence(unittest.TestCase):
 

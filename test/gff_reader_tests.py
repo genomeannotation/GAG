@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 
-import unittest
 import io
 import os
-from mock import Mock, patch, PropertyMock
+import unittest
+
+from mock import Mock
+
 from src.gff_reader import *
+
 
 class TestGFFReader(unittest.TestCase):
 

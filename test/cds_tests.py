@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 
 import unittest
-from mock import Mock, PropertyMock
+
+from mock import Mock
+
 from src.cds import CDS
+
 
 class TestCDS(unittest.TestCase):
 

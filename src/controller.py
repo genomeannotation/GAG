@@ -274,7 +274,7 @@ class Controller:
                     entry = [splitline[0], int(splitline[1]), int(splitline[2])]
                 except ValueError:
                     sys.stderr.write("Error reading .bed file. Non-integer value ")
-                    sys.sdterr.write("in column 2 or 3. Here is the line:\n")
+                    sys.stderr.write("in column 2 or 3. Here is the line:\n")
                     sys.stderr.write(line)
                     return []
                 trimlist.append(entry)
@@ -300,7 +300,7 @@ class Controller:
         
     def stats(self):
         if not self.seqs:
-            return self.no_genome_message
+            return "error: no sequences"
         else:
             number_of_gagflags = 0
             # TODO have stats mgr handle "number of sequences"

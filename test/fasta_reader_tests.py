@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
-import unittest
 import io
+import unittest
+
 from src.fasta_reader import FastaReader
-from mock import Mock
+
 
 class TestFastaReader(unittest.TestCase):
 

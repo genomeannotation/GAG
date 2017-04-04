@@ -37,7 +37,7 @@ def read_bed_file(filename):
                     entry = [splitline[0], int(splitline[1]), int(splitline[2])]
                 except ValueError:
                     sys.stderr.write("Error reading .bed file. Non-integer value ")
-                    sys.sdterr.write("in column 2 or 3. Here is the line:\n")
+                    sys.stderr.write("in column 2 or 3. Here is the line:\n")
                     sys.stderr.write(line)
                     return []
                 trimlist.append(entry)

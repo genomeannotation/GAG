@@ -227,7 +227,7 @@ class MinGeneLengthFilter:
                 elif self.filter_mode == "FLAG":
                     print("Flagging gene: "+gene.identifier)
                     gene.add_annotation("gag_flag", "gene_min_length:"+str(self.arg))
-                elif self.fitler_mode == "LIST":
+                elif self.filter_mode == "LIST":
                     print(gene.identifier)
         if self.filter_mode == "REMOVE":
             seq.genes = [gene for gene in seq.genes if not gene.death_flagged]
@@ -261,7 +261,7 @@ class MaxGeneLengthFilter:
                 elif self.filter_mode == "FLAG":
                     print("Flagging gene: "+gene.identifier)
                     gene.add_annotation("gag_flag", "gene_min_length:"+str(self.arg))
-                elif self.fitler_mode == "LIST":
+                elif self.filter_mode == "LIST":
                     print(gene.identifier)
         if self.filter_mode == "REMOVE":
             seq.genes = [gene for gene in seq.genes if not gene.death_flagged]

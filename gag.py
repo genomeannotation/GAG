@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
-import sys
 import argparse
+
 from src.controller import Controller
+
 
 def main():
     version = "v1.1.1"

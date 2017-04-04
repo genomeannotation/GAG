@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
 import unittest
-from mock import Mock, PropertyMock
-from src.gene_part import GenePart, get_reversed_indices
+
 from src.exon import Exon
+from src.gene_part import get_reversed_indices
+
 
 class TestExon(unittest.TestCase):
 

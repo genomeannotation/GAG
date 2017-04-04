@@ -315,7 +315,7 @@ class XRNA:
                 if this_intron == 0:
                     continue
                 if this_intron < 0:
-                    raise Exception("Intron with negative length on "+self.name)
+                    raise Exception("Intron with negative length on " + self.identifier)
                 if shortest is None or this_intron < shortest:
                     shortest = this_intron
             last_end = index_pair[1]
