@@ -133,19 +133,19 @@ class Sequence:
 
     def remove_terminal_ns(self):
         # Remove any Ns at the beginning of the sequence
-        initial_ns = self.how_many_Ns_forward(1)
+        initial_ns = self.how_many_n_forward(1)
         if initial_ns:
             self.trim_region(1, initial_ns)
         # Remove any Ns at the end of the sequence
         length = len(self.bases)
-        terminal_ns = self.how_many_Ns_backward(length)
+        terminal_ns = self.how_many_n_backward(length)
         if terminal_ns:
             self.trim_region(length-terminal_ns+1, length)
 
     # Given a position in the sequence, returns the number of Ns 
     # from that position forward 
     # (returns 0 if the base at that position is not N)
-    def how_many_Ns_forward(self, position):
+    def how_many_n_forward(self, position):
         index = position-1
         if self.bases[index] != 'N' and self.bases[index] != 'n':
             return 0
@@ -162,7 +162,7 @@ class Sequence:
     # Given a position in the fasta, returns the number of Ns 
     # from that position backward 
     # (returns 0 if the base at that position is not N)
-    def how_many_Ns_backward(self, position):
+    def how_many_n_backward(self, position):
         index = position-1
         if self.bases[index] != 'N' and self.bases[index] != 'n':
             return 0

@@ -182,9 +182,9 @@ class TestStatsManager(unittest.TestCase):
                       'dog 24      4222    \n' \
                       'foo 4232234 84      \n'
         column_names = ['columnA', 'columnB']
-        dictA = {'foo' : 4232234, 'dog' : 24}
-        dictB = {'foo' : 84, 'dog' : 4222}
-        self.assertEquals(format_columns(column_names, ['dog', 'foo'], [dictA, dictB], 1), desired_tbl)
+        dict_a = {'foo' : 4232234, 'dog' : 24}
+        dict_b = {'foo' : 84, 'dog' : 4222}
+        self.assertEquals(format_columns(column_names, ['dog', 'foo'], [dict_a, dict_b], 1), desired_tbl)
 
 
 ##########################
