@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 
 import copy
+
+import src.translator as translate
 from src.gene_part import *
+
 
 class CDS(GenePart):
 
