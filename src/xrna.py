@@ -128,10 +128,10 @@ class XRNA:
         self_start = self.indices[0]
         self_end = self.indices[1]
         # mrna contains beginning of indices
-        if self_start <= begin and self_end >= begin:
+        if self_start <= begin <= self_end:
             return True
         # mrna contains end of indices
-        elif self_start <= end and self_end >= end:
+        elif self_start <= end <= self_end:
             return True
         # indices contain entire mrna
         elif begin <= self_start and end >= self_end:

@@ -497,9 +497,9 @@ def overlap(indices1, indices2):
     """Returns a boolean indicating whether two pairs of indices overlap."""
     if not (len(indices1) == 2 and len(indices2) ==2):
         return False
-    if indices1[0] >= indices2[0] and indices1[0] <= indices2[1]:
+    if indices2[0] <= indices1[0] <= indices2[1]:
         return True
-    elif indices1[1] >= indices2[0] and indices1[1] <= indices2[1]:
+    elif indices2[0] <= indices1[1] <= indices2[1]:
         return True
     else:
         return False
