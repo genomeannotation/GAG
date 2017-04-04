@@ -289,7 +289,12 @@ class TestGFFReader(unittest.TestCase):
         self.assertTrue(genes[0].mrnas[0])
         self.assertEquals('-', genes[0].mrnas[0].strand)
 
-
+    def test_delete_name_if_name_and_id_are_equivalent(self):
+        attr = "ID=BDOR_007864;Name=BDOR_007864\n"
+        parsed = self.reader.parse_attributes(attr)
+        self.assertEqual('BDOR_007864', parsed['identifier'])
+        self.assertTrue('name' not in parsed)
+        
 ##########################
 def suite():
     suite = unittest.TestSuite()

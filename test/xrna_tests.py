@@ -179,6 +179,22 @@ class TestXRNA(unittest.TestCase):
         expected += "\t\t\tprotein_id\tgnl|ncbi|bdor_foo2\n"
         expected += "\t\t\ttranscript_id\tgnl|ncbi|bdor_foo2_mrna\n"
         self.assertEquals(self.test_mrna1.to_tbl(), expected)
+        
+    def test_to_tbl_replace_Dbxref_with_db_xref(self):
+        self.fake_exon.to_tbl.return_value = "fake_exon_to_tbl...\n"
+        self.fake_cds.to_tbl.return_value = "fake_cds_to_tbl...\n"
+        self.test_mrna1.add_annotation('Dbxref', 'fake_Db')
+        expected = "fake_exon_to_tbl...\n"
+        expected += "\t\t\tproduct\thypothetical protein\n"
+        expected += "\t\t\tprotein_id\tgnl|ncbi|bdor_foo2\n"
+        expected += "\t\t\ttranscript_id\tgnl|ncbi|bdor_foo2_mrna\n"
+        expected += "fake_cds_to_tbl...\n"
+        expected += "\t\t\tdb_xref\tfake_Db\n"
+        expected += "\t\t\tproduct\thypothetical protein\n"
+        expected += "\t\t\tprotein_id\tgnl|ncbi|bdor_foo2\n"
+        expected += "\t\t\ttranscript_id\tgnl|ncbi|bdor_foo2_mrna\n"
+        self.assertEquals(self.test_mrna1.to_tbl(), expected)
+
 
     def test_to_tbl_with_annotations(self):
         self.fake_exon.to_tbl.return_value = "fake_exon_to_tbl...\n"

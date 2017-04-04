@@ -120,6 +120,9 @@ class GFFReader:
         # Add annotations if we found any
         if annotations:
             result["annotations"] = annotations
+        # Delete gene name if it is the same as the ID
+        if 'name' in result and result['identifier'] == result['name']:
+            del result['name']
         return result
 
     def extract_cds_args(self, line):

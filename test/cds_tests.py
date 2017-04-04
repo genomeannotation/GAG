@@ -31,7 +31,7 @@ class TestCDS(unittest.TestCase):
         self.assertEquals(expected, self.test_cds1.get_start_indices('+'))
 
     def test_get_start_indices_neg_strand(self):
-        expected = [4032, 4034]
+        expected = [7434, 7436]
         self.assertEquals(expected, self.test_cds1.get_start_indices('-'))
 
     def test_get_stop_indices_pos_strand(self):
@@ -39,7 +39,7 @@ class TestCDS(unittest.TestCase):
         self.assertEquals(expected, self.test_cds1.get_stop_indices('+'))
 
     def test_get_stop_indices_neg_strand(self):
-        expected = [6630, 6632]
+        expected = [3734, 3736]
         self.assertEquals(expected, self.test_cds1.get_stop_indices('-'))
 
     def test_extract_sequence_pos_strand(self):
