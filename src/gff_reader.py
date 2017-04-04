@@ -260,6 +260,7 @@ class GFFReader:
         if not kwargs:
             return
         gene_id = kwargs['identifier']
+        # noinspection PyArgumentList
         gene = Gene(**kwargs)
         if gene_type == 'pseudogene':
             gene.pseudo = True
@@ -272,6 +273,7 @@ class GFFReader:
             return
         kwargs["rna_type"] = rna_type
         mrna_id = kwargs['identifier']
+        # noinspection PyArgumentList
         self.mrnas[mrna_id] = XRNA(**kwargs)
 
     def process_cds_line(self, line):
@@ -287,6 +289,7 @@ class GFFReader:
         if parent_mrna.cds:
             self.update_cds(line, parent_mrna.cds)
         else:
+            # noinspection PyArgumentList
             parent_mrna.cds = CDS(**kwargs)
 
     def process_exon_line(self, line):
@@ -302,6 +305,7 @@ class GFFReader:
         if parent_mrna.exon:
             self.update_exon(line, parent_mrna.exon)
         else:
+            # noinspection PyArgumentList
             parent_mrna.exon = Exon(**kwargs)
 
     def process_other_feature_line(self, line):
@@ -314,6 +318,7 @@ class GFFReader:
             self.orphans.append(line)
             return
         parent_mrna = self.mrnas[parent_id]
+        # noinspection PyArgumentList
         parent_mrna.other_features.append(GenePart(**kwargs))
 
     def read_file(self, reader):
