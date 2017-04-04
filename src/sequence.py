@@ -357,9 +357,9 @@ class Sequence:
             length = gene.get_shortest_exon()
             if length == 0:
                 continue
-            if shortest == None or length < shortest:
+            if shortest is None or length < shortest:
                 shortest = length
-        if shortest == None:
+        if shortest is None:
             return 0
         return shortest
 
@@ -383,9 +383,9 @@ class Sequence:
             length = gene.get_shortest_intron()
             if length == 0:
                 continue
-            if shortest == None or length < shortest:
+            if shortest is None or length < shortest:
                 shortest = length
-        if shortest == None:
+        if shortest is None:
             return 0
         return shortest
 
@@ -413,7 +413,7 @@ class Sequence:
         length = 0
         shortest = None
         for gene in self.genes:
-            if gene.length() < length or shortest == None:
+            if gene.length() < length or shortest is None:
                 length = gene.length()
                 shortest = gene
         return length
@@ -423,7 +423,7 @@ class Sequence:
         shortest = None
         for gene in self.genes:
             for mrna in gene.mrnas:
-                if mrna.length() < length or shortest == None:
+                if mrna.length() < length or shortest is None:
                     length = mrna.length()
                     shortest = mrna
         return length
@@ -433,7 +433,7 @@ class Sequence:
         shortest = None
         for gene in self.genes:
             for mrna in gene.mrnas:
-                if mrna.cds and (mrna.cds.length() < length or shortest == None):
+                if mrna.cds and (mrna.cds.length() < length or shortest is None):
                     length = mrna.cds.length()
                     shortest = mrna.cds
         return length

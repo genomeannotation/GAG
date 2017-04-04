@@ -156,9 +156,9 @@ class Gene:
             length = mrna.get_shortest_exon()
             if length == 0:
                 continue
-            if shortest == None or length < shortest:
+            if shortest is None or length < shortest:
                 shortest = length
-        if shortest == None:
+        if shortest is None:
             return 0
         return shortest
 
@@ -192,9 +192,9 @@ class Gene:
             length = mrna.get_shortest_intron()
             if length == 0:
                 continue
-            if shortest == None or length < shortest:
+            if shortest is None or length < shortest:
                 shortest = length
-        if shortest == None:
+        if shortest is None:
             return 0
         return shortest
 

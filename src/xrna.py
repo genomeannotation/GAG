@@ -266,9 +266,9 @@ class XRNA:
             length = length_of_segment(index_pair)
             if length == 0:
                 continue
-            if shortest == None or length_of_segment(index_pair) < shortest:
+            if shortest is None or length_of_segment(index_pair) < shortest:
                 shortest = length
-        if shortest == None:
+        if shortest is None:
             return 0
         return shortest
 
@@ -316,10 +316,10 @@ class XRNA:
                     continue
                 if this_intron < 0:
                     raise Exception("Intron with negative length on "+self.name)
-                if shortest == None or this_intron < shortest:
+                if shortest is None or this_intron < shortest:
                     shortest = this_intron
             last_end = index_pair[1]
-        if shortest == None:
+        if shortest is None:
             return 0
         return shortest
 
