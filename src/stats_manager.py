@@ -6,7 +6,7 @@
 # ok, update should take a list of seqs instead of a single seq
 # then it can calculate stuff like longest seq, number of seqs, etc.
 
-class StatsManager:
+class StatsManager(object):
     increment_stats = ["Total sequence length", "Number of genes", "Number of mRNAs", "Number of exons",
                        "Number of introns", "Number of CDS",
                        "Overlapping genes", "Contained genes", "CDS: complete", "CDS: start, no stop",

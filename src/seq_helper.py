@@ -3,8 +3,8 @@
 
 from src.translator import translate, reverse_complement, contains_internal_stop
 
-class SeqHelper:
 
+class SeqHelper(object):
     def __init__(self, bases):
         self.full_sequence = bases
 
@@ -55,7 +55,7 @@ class SeqHelper:
     def get_sequence_from_indices(self, strand, indices):
         result = ""
         for index_pair in indices:
-            start = index_pair[0]-1
+            start = index_pair[0] - 1
             stop = index_pair[1]
             result += self.full_sequence[start:stop]
         if strand == '-':

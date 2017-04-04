@@ -52,7 +52,7 @@ def split_multi_parent_line(fields):
     return all_lines
 
 
-class GFFReader:
+class GFFReader(object):
     def __init__(self):
         self.genes = {}
         self.mrnas = {}

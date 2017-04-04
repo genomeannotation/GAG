@@ -39,8 +39,7 @@ def read_bed_file(io_buffer):
     return trimlist
 
 
-class Controller:
-
+class Controller(object):
     def __init__(self):
         self.seqs = []
         self.removed_features = []
@@ -268,7 +267,7 @@ class Controller:
         for seq in self.seqs:
             seq.create_starts_and_stops()
 
-# Reading in files
+        # Reading in files
 
     def read_fasta(self, line):
         reader = FastaReader()
@@ -316,7 +315,7 @@ class Controller:
             last_line = "(" + str(number_of_gagflags) + " features flagged)\n"
             return first_line + self.stats_mgr.summary() + last_line
 
-# Utility methods
+        # Utility methods
 
     def add_gene(self, gene):
         for seq in self.seqs:

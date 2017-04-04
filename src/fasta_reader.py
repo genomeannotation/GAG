@@ -4,7 +4,7 @@
 from src.sequence import Sequence
 
 
-class FastaReader:
+class FastaReader(object):
     def __init__(self):
         self.seqs = []
 

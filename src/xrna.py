@@ -8,9 +8,10 @@ import src.translator as translate
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
 
-class XRNA:
 
-    def __init__(self, identifier, indices, parent_id, source=None, seq_name=None, strand='+', annotations=None, rna_type="mRNA"):
+class XRNA(object):
+    def __init__(self, identifier, indices, parent_id, source=None, seq_name=None, strand='+', annotations=None,
+                 rna_type="mRNA"):
         self.rna_type = rna_type
         self.identifier = identifier
         self.indices = indices
@@ -38,16 +39,16 @@ class XRNA:
 
         String contains the RNA's identifier and the number of features it contains.
         """
-        result = self.rna_type+" (ID=" + str(self.identifier) + ") containing "
+        result = self.rna_type + " (ID=" + str(self.identifier) + ") containing "
         if self.exon:
             result += "Exon, "
         if self.cds:
             result += "CDS "
         if len(self.other_features) > 0:
-            result += "and " + str(len(self.other_features)) 
+            result += "and " + str(len(self.other_features))
             result += " other features"
         return result
-        
+
     def add_annotation(self, key, value):
         """Adds an annotation to the RNA.
 
@@ -59,7 +60,7 @@ class XRNA:
             self.annotations[key].append(value)
         else:
             self.annotations[key] = [value]
-        
+
     def length(self):
         """Returns the length of the RNA."""
         return length_of_segment(self.indices)
@@ -229,21 +230,21 @@ class XRNA:
                 output += "\t\t\tproduct\t" + self.annotations['product'][0] + "\n"
             else:
                 output += "\t\t\tproduct\thypothetical protein\n"
-            output += "\t\t\tprotein_id\tgnl|ncbi|"+self.identifier+"\n"
-            output += "\t\t\ttranscript_id\tgnl|ncbi|"+self.identifier+"_mrna\n"
+            output += "\t\t\tprotein_id\tgnl|ncbi|" + self.identifier + "\n"
+            output += "\t\t\ttranscript_id\tgnl|ncbi|" + self.identifier + "_mrna\n"
         if self.cds:
             output += self.cds.to_tbl(has_start, has_stop)
             # Write the annotations 
             for key in self.annotations.keys():
                 for value in self.annotations[key]:
                     if key == 'Dbxref':
-                        output += '\t\t\t'+'db_xref'+'\t'+value+'\n'
+                        output += '\t\t\t' + 'db_xref' + '\t' + value + '\n'
                     else:
-                        output += '\t\t\t'+key+'\t'+value+'\n'
+                        output += '\t\t\t' + key + '\t' + value + '\n'
             if not self.annotations_contain_product():
                 output += "\t\t\tproduct\thypothetical protein\n"
-            output += "\t\t\tprotein_id\tgnl|ncbi|"+self.identifier+"\n"
-            output += "\t\t\ttranscript_id\tgnl|ncbi|"+self.identifier+"_mrna\n"
+            output += "\t\t\tprotein_id\tgnl|ncbi|" + self.identifier + "\n"
+            output += "\t\t\ttranscript_id\tgnl|ncbi|" + self.identifier + "_mrna\n"
         return output
 
     # STATS STUFF #
@@ -277,7 +278,7 @@ class XRNA:
         """Returns sum of all child exon lengths."""
         if not self.exon:
             return 0
-    
+
         total = 0
         for index_pair in self.exon.indices:
             total += length_of_segment(index_pair)

@@ -9,7 +9,7 @@ def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
 
 
-class Gene:
+class Gene(object):
     def __init__(self, seq_name, source, indices, strand, identifier, name="", annotations=None, score=None):
         self.seq_name = seq_name
         self.source = source

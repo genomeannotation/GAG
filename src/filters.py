@@ -3,7 +3,7 @@
 
 ###################################################################################################
 
-class MinCDSLengthFilter:
+class MinCDSLengthFilter(object):
     def __init__(self, min_length=0):
         self.arg = min_length
         self.filter_mode = "REMOVE"
@@ -36,7 +36,7 @@ class MinCDSLengthFilter:
             print(str(count) + " mRNAs")
 
 
-class MaxCDSLengthFilter:
+class MaxCDSLengthFilter(object):
     def __init__(self, max_length=0):
         self.arg = max_length
         self.filter_mode = "REMOVE"
@@ -72,7 +72,7 @@ class MaxCDSLengthFilter:
 
 ###################################################################################################
 
-class MinExonLengthFilter:
+class MinExonLengthFilter(object):
     def __init__(self, min_length=0):
         self.arg = min_length
         self.filter_mode = "REMOVE"
@@ -106,7 +106,7 @@ class MinExonLengthFilter:
             print(str(count) + " mRNAs")
 
 
-class MaxExonLengthFilter:
+class MaxExonLengthFilter(object):
     def __init__(self, max_length=0):
         self.arg = max_length
         self.filter_mode = "REMOVE"
@@ -138,7 +138,7 @@ class MaxExonLengthFilter:
 
 ###################################################################################################
 
-class MinIntronLengthFilter:
+class MinIntronLengthFilter(object):
     def __init__(self, min_length=0, max_length=0):
         self.arg = min_length
         self.filter_mode = "REMOVE"
@@ -172,7 +172,7 @@ class MinIntronLengthFilter:
             print(str(count) + " mRNAs")
 
 
-class MaxIntronLengthFilter:
+class MaxIntronLengthFilter(object):
     def __init__(self, max_length=0):
         self.arg = max_length
         self.filter_mode = "REMOVE"
@@ -208,7 +208,7 @@ class MaxIntronLengthFilter:
 
 ###################################################################################################
 
-class MinGeneLengthFilter:
+class MinGeneLengthFilter(object):
     def __init__(self, min_length=0):
         self.arg = min_length
         self.filter_mode = "REMOVE"
@@ -241,7 +241,7 @@ class MinGeneLengthFilter:
             print(str(count) + " genes")
 
 
-class MaxGeneLengthFilter:
+class MaxGeneLengthFilter(object):
     def __init__(self, max_length=0):
         self.arg = max_length
         self.filter_mode = "REMOVE"
