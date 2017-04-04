@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import math
-import src.translator as translate
+
 
 class GenePart:
     def __init__(self, feature_type=None, identifier=None,
@@ -179,9 +179,8 @@ def get_reversed_indices(indices):
     Each pair in the list is reversed, and the order of the
     pairs is also reversed.
     """
-    indices.reverse()
-    [ind.reverse() for ind in indices]
-    return indices
+    rev_indices = [[i for i in ind[::-1]] for ind in indices[::-1]]
+    return rev_indices
 
 def one_line_indices_entry(indices, has_start, has_stop, feature_type):
     """Returns .tbl formatted entry for features with only one pair of coordinates."""
