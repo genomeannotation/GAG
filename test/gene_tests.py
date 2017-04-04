@@ -327,9 +327,9 @@ class TestGene(unittest.TestCase):
 
 ##########################
 def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestGene))
-    return suite
+    _suite = unittest.TestSuite()
+    _suite.addTest(unittest.makeSuite(TestGene))
+    return _suite
 
 if __name__ == '__main__':
     unittest.main()

@@ -178,9 +178,9 @@ class TestCDS(unittest.TestCase):
 
 ##########################
 def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestCDS))
-    return suite
+    _suite = unittest.TestSuite()
+    _suite.addTest(unittest.makeSuite(TestCDS))
+    return _suite
 
 if __name__ == '__main__':
     unittest.main()

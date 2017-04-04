@@ -82,9 +82,9 @@ class TestSeqHelper(unittest.TestCase):
 
 ##########################
 def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestSeqHelper))
-    return suite
+    _suite = unittest.TestSuite()
+    _suite.addTest(unittest.makeSuite(TestSeqHelper))
+    return _suite
 
 if __name__ == '__main__':
     unittest.main()

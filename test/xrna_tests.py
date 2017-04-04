@@ -299,9 +299,9 @@ class TestXRNA(unittest.TestCase):
 
 ##########################
 def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestXRNA))
-    return suite
+    _suite = unittest.TestSuite()
+    _suite.addTest(unittest.makeSuite(TestXRNA))
+    return _suite
 
 if __name__ == '__main__':
     unittest.main()

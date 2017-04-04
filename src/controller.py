@@ -212,7 +212,7 @@ class Controller:
             # In the case that there are multiple regions to trim in a single
             # sequence, trim from the end so indices don't get messed up
             to_trim_this_seq = [x for x in trimlist if x[0] == seq.header]
-            to_trim_this_seq = sorted(to_trim_this_seq, key=lambda entry: entry[2], reverse=True)
+            to_trim_this_seq = sorted(to_trim_this_seq, key=lambda _entry: _entry[2], reverse=True)
             for entry in to_trim_this_seq:
                 removed_genes = seq.trim_region(entry[1], entry[2])
                 self.removed_features.extend(removed_genes)

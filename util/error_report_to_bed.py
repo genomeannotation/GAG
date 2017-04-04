@@ -15,14 +15,14 @@ regions = {}
 
 def parse_regions(text):
     """Return a list of (start, end) tuples."""
-    regions = []
+    _regions = []
     region_pairs = text.strip().split(",")
     for region_pair in region_pairs:
         split_pair = region_pair.split("..")
         start = split_pair[0]
         end = split_pair[1]
-        regions.append( [start, end] )
-    return regions
+        _regions.append([start, end])
+    return _regions
 
 with open(report_file, 'r') as report:
     for line in report:
