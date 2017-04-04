@@ -58,34 +58,13 @@ class TestStatsManager(unittest.TestCase):
         self.mgr.ref_stats["Total CDS length"] = 60
 
     def get_new_dict(self):
-        d = {}
-        d["Total sequence length"] = 50
-        d["Number of genes"] = 1
-        d["Number of mRNAs"] = 1
-        d["Number of exons"] = 1
-        d["Number of introns"] = 1
-        d["Number of CDS"] = 1
-        d["Overlapping genes"] = 1
-        d["Contained genes"] = 1
-        d["CDS: complete"] = 3
-        d["CDS: start, no stop"] = 1
-        d["CDS: stop, no start"] = 1
-        d["CDS: no stop, no start"] = 2
-        d["Longest gene"] = 30
-        d["Longest mRNA"] = 30
-        d["Longest exon"] = 9
-        d["Longest intron"] = 9
-        d["Longest CDS"] = 8
-        d["Shortest gene"] = 5
-        d["Shortest mRNA"] = 5
-        d["Shortest exon"] = 2
-        d["Shortest intron"] = 2
-        d["Shortest CDS"] = 3
-        d["Total gene length"] = 15
-        d["Total mRNA length"] = 15
-        d["Total exon length"] = 15
-        d["Total intron length"] = 15
-        d["Total CDS length"] = 10
+        d = {"Total sequence length": 50, "Number of genes": 1, "Number of mRNAs": 1, "Number of exons": 1,
+             "Number of introns": 1, "Number of CDS": 1, "Overlapping genes": 1, "Contained genes": 1,
+             "CDS: complete": 3, "CDS: start, no stop": 1, "CDS: stop, no start": 1, "CDS: no stop, no start": 2,
+             "Longest gene": 30, "Longest mRNA": 30, "Longest exon": 9, "Longest intron": 9, "Longest CDS": 8,
+             "Shortest gene": 5, "Shortest mRNA": 5, "Shortest exon": 2, "Shortest intron": 2, "Shortest CDS": 3,
+             "Total gene length": 15, "Total mRNA length": 15, "Total exon length": 15, "Total intron length": 15,
+             "Total CDS length": 10}
         return d
     
     def test_alt_is_empty(self):
