@@ -80,8 +80,8 @@ def update_agp(agp_filename, trimlist):
                 bases_to_trim = trim_stop - trim_start + 1
                 # Only adjust start if the trim region comes before it
                 if trim_stop <= start:
-                    start = start - bases_to_trim
-                stop = stop - bases_to_trim
+                    start -= bases_to_trim
+                stop -= bases_to_trim
                 fields[1] = str(start)
                 fields[2] = str(stop)
             print("\t".join(fields))
@@ -119,8 +119,8 @@ def update_gff(gff_filename, trimlist):
                 bases_to_trim = trim_stop - trim_start + 1
                 # Only adjust start if the trim region comes before it
                 if trim_stop <= start:
-                    start = start - bases_to_trim
-                stop = stop - bases_to_trim
+                    start -= bases_to_trim
+                stop -= bases_to_trim
                 fields[3] = str(start)
                 fields[4] = str(stop)
             print("\t".join(fields))
