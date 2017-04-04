@@ -1,5 +1,8 @@
 #!/usr/bin/env python
+# coding=utf-8
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
+
+from builtins import range
 
 BASES = ['t', 'c', 'a', 'g']
 CODONS = [a+b+c for a in BASES for b in BASES for c in BASES]
@@ -61,7 +64,7 @@ def translate(seq, strand):
     # Now translate
     peptide = ''
     
-    for i in xrange(0, len(seq), 3):
+    for i in range(0, len(seq), 3):
         codon = seq[i: i+3]
         if len(codon) != 3:
             amino_acid = ''
