@@ -6,7 +6,6 @@ from src.gene_part import GenePart
 
 
 class TestGenePart(unittest.TestCase):
-
     def setUp(self):
         self.gp1 = GenePart()
         self.gp2 = GenePart(feature_type='CDS', indices=[1, 44])
@@ -39,7 +38,7 @@ class TestGenePart(unittest.TestCase):
         self.assertEquals(0, len(self.gp3.identifier))
         self.gp3.add_identifier('7')
         self.assertEquals(1, len(self.gp3.identifier))
-    
+
     def test_add_annotation(self):
         gp = GenePart()
         self.assertFalse(gp.annotations)
@@ -48,7 +47,7 @@ class TestGenePart(unittest.TestCase):
 
     def test_sort_attributes(self):
         gp = GenePart()
-        gp.indices = [[25, 30], [5, 10]] # out of order!
+        gp.indices = [[25, 30], [5, 10]]  # out of order!
         gp.identifier = ["gp2", "gp1"]
         gp.score = [10, 8]
         self.assertEquals("gp1", gp.identifier[1])
@@ -110,13 +109,14 @@ class TestGenePart(unittest.TestCase):
         self.assertEquals(expected, actual)
         # what if no indices, etc.?
         self.assertFalse(self.gp1.to_gff(seq_name="foo", source="bar"))
-        
+
 
 ##########################
 def suite():
     _suite = unittest.TestSuite()
     _suite.addTest(unittest.makeSuite(TestGenePart))
     return _suite
+
 
 if __name__ == '__main__':
     unittest.main()

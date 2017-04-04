@@ -3,13 +3,14 @@
 import sys
 import argparse
 
+
 # Command line script to update .agp file
 # According to a .bed file of locations
 # which have been trimmed from the genome
 
 def overlap(indices1, indices2):
     """Returns a boolean indicating whether two pairs of indices overlap."""
-    if not (len(indices1) == 2 and len(indices2) ==2):
+    if not (len(indices1) == 2 and len(indices2) == 2):
         return False
     if indices2[0] <= indices1[0] <= indices2[1]:
         return True
@@ -18,12 +19,14 @@ def overlap(indices1, indices2):
     else:
         return False
 
+
 def contains(indices1, indices2):
     """Returns a boolean indicating whether indices1 contain indices2"""
     if indices1[0] <= indices2[0] and indices1[1] >= indices2[1]:
         return True
     else:
         return False
+
 
 def read_bed_file(filename):
     trimlist = []
@@ -43,12 +46,14 @@ def read_bed_file(filename):
                 trimlist.append(entry)
         return trimlist
 
+
 def fail_if_overlap(start, stop, trim_indices):
     if overlap([start, stop], trim_indices):
         sys.stderr.write("Collision! start/stop = %d/%d; \
-                trim start/stop = %d/%d\n" %\
-                (start, stop, trim_indices[0], trim_indices[1]))
+                trim start/stop = %d/%d\n" %
+                         (start, stop, trim_indices[0], trim_indices[1]))
         sys.exit()
+
 
 def update_agp(agp_filename, trimlist):
     with open(agp_filename, 'r') as agp:
@@ -73,8 +78,8 @@ def update_agp(agp_filename, trimlist):
                 # Fail spectacularly if trim region *contains* start->stop region
                 if contains(trim_indices, [start, stop]):
                     sys.stderr.write("Collision! start/stop = %d/%d; \
-                            trim start/stop = %d/%d\n" %\
-                            (start, stop, trim_start, trim_stop))
+                            trim start/stop = %d/%d\n" %
+                                     (start, stop, trim_start, trim_stop))
                     sys.exit()
                 # Trim region comes before our indices -- trim!
                 bases_to_trim = trim_stop - trim_start + 1
@@ -85,6 +90,7 @@ def update_agp(agp_filename, trimlist):
                 fields[1] = str(start)
                 fields[2] = str(stop)
             print("\t".join(fields))
+
 
 def update_gff(gff_filename, trimlist):
     with open(gff_filename, 'r') as gff:
@@ -112,8 +118,8 @@ def update_gff(gff_filename, trimlist):
                 # Fail spectacularly if trim region *contains* start->stop region
                 if contains(trim_indices, [start, stop]):
                     sys.stderr.write("Collision! start/stop = %d/%d; \
-                            trim start/stop = %d/%d\n" %\
-                            (start, stop, trim_start, trim_stop))
+                            trim start/stop = %d/%d\n" %
+                                     (start, stop, trim_start, trim_stop))
                     sys.exit()
                 # Trim region comes before our indices -- trim!
                 bases_to_trim = trim_stop - trim_start + 1
@@ -124,6 +130,7 @@ def update_gff(gff_filename, trimlist):
                 fields[3] = str(start)
                 fields[4] = str(stop)
             print("\t".join(fields))
+
 
 def main():
     # Parse args

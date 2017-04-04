@@ -222,7 +222,7 @@ class Controller:
 
     def get_filter_arg(self, filter_name):
         return self.filter_mgr.get_filter_arg(filter_name)
-        
+
     def apply_filter(self, filter_name, val, filter_mode):
         for seq in self.seqs:
             self.filter_mgr.apply_filter(filter_name, val, filter_mode, seq)
@@ -237,7 +237,7 @@ class Controller:
         for seq in self.seqs:
             seq.create_starts_and_stops()
 
-## Reading in files
+# Reading in files
 
     def read_fasta(self, line):
         reader = FastaReader()
@@ -291,13 +291,13 @@ class Controller:
         return annos
 
 
-## Clean up
+# Clean up
 
     def remove_empty_features(self, seq):
         """Removes any empty mRNAs or genes from a seq and adds them to self.removed_features."""
         self.removed_features.extend(seq.remove_empty_mrnas())
         self.removed_features.extend(seq.remove_empty_genes())
-        
+
     def stats(self):
         if not self.seqs:
             return "error: no sequences"
@@ -313,7 +313,7 @@ class Controller:
             last_line = "(" + str(number_of_gagflags) + " features flagged)\n"
             return first_line + self.stats_mgr.summary() + last_line
 
-## Utility methods
+# Utility methods
 
     def add_gene(self, gene):
         for seq in self.seqs:
@@ -328,7 +328,7 @@ class Controller:
             else:
                 locus_tag = seq.get_locus_tag()
         return locus_tag
-    
+
     def remove_from_list(self, bad_list):
         # First remove any seqs on the list
         to_remove = []

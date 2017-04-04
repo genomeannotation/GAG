@@ -8,7 +8,6 @@ from src.sequence import Sequence
 
 
 class TestSequence(unittest.TestCase):
-
     def setUp(self):
         self.seq1 = Sequence("seq1", "GATTACA")
 
@@ -22,22 +21,23 @@ class TestSequence(unittest.TestCase):
         mockgene.to_protein_fasta.return_value = "mockgene_to_protein_fasta\n"
         mockgene.get_valid_mrnas = Mock(return_value=[])
         self.seq1.add_gene(mockgene)
-        
+
     def add_mock_gene_with_1_mrna(self, name):
         mockgene = Mock()
         mockgene.indices = [1, 10]
         mockgene.identifier = name
         mockgene.death_flagged = False
         mockgene.mrnas = [Mock()]
-        mockgene.mrnas[0].identifier = name+"-RA"
+        mockgene.mrnas[0].identifier = name + "-RA"
         mockgene.mrnas[0].cds = Mock()
-        mockgene.mrnas[0].cds.identifier = [name+"-RA:CDS"]
+        mockgene.mrnas[0].cds.identifier = [name + "-RA:CDS"]
         mockgene.mrnas[0].cds.length = Mock(return_value=5)
         mockgene.mrnas[0].exon = Mock()
         mockgene.mrnas[0].length = Mock(return_value=2)
         mockgene.get_valid_mrnas = Mock(return_value=mockgene.mrnas)
         mockgene.length = Mock(return_value=20)
-        mockgene.get_partial_info.return_value = {"complete": 1, "start_no_stop": 0, "stop_no_start": 1, "no_stop_no_start": 1}
+        mockgene.get_partial_info.return_value = {"complete": 1, "start_no_stop": 0, "stop_no_start": 1,
+                                                  "no_stop_no_start": 1}
         mockgene.get_num_exons.return_value = 5
         mockgene.get_num_introns.return_value = 4
         mockgene.get_longest_exon.return_value = 20
@@ -47,26 +47,27 @@ class TestSequence(unittest.TestCase):
         mockgene.get_total_exon_length.return_value = 15
         mockgene.get_total_intron_length.return_value = 15
         self.seq1.add_gene(mockgene)
-        
+
     def add_mock_gene_with_2_mrnas(self, name):
         mockgene = Mock()
         mockgene.indices = [20, 30]
         mockgene.identifier = name
         mockgene.death_flagged = False
         mockgene.mrnas = [Mock(), Mock()]
-        mockgene.mrnas[0].identifier = name+"-RA"
+        mockgene.mrnas[0].identifier = name + "-RA"
         mockgene.mrnas[0].cds = None
         mockgene.mrnas[0].exon = None
         mockgene.mrnas[0].length = Mock(return_value=5)
-        mockgene.mrnas[1].identifier = name+"-RB"
+        mockgene.mrnas[1].identifier = name + "-RB"
         mockgene.mrnas[1].cds = Mock()
-        mockgene.mrnas[1].cds.identifier = [name+"-RB:CDS"]
+        mockgene.mrnas[1].cds.identifier = [name + "-RB:CDS"]
         mockgene.mrnas[1].cds.length = Mock(return_value=3)
         mockgene.mrnas[1].exon = Mock()
         mockgene.mrnas[1].length = Mock(return_value=2)
         mockgene.get_valid_mrnas = Mock(return_value=mockgene.mrnas)
         mockgene.length = Mock(return_value=10)
-        mockgene.get_partial_info.return_value = {"complete": 0, "start_no_stop": 1, "stop_no_start": 1, "no_stop_no_start": 1}
+        mockgene.get_partial_info.return_value = {"complete": 0, "start_no_stop": 1, "stop_no_start": 1,
+                                                  "no_stop_no_start": 1}
         mockgene.get_num_exons.return_value = 4
         mockgene.get_num_introns.return_value = 3
         mockgene.get_longest_exon.return_value = 10
@@ -130,7 +131,7 @@ class TestSequence(unittest.TestCase):
     def test_add_gene(self):
         self.add_mock_gene()
         self.assertEqual(1, len(self.seq1.genes))
-    
+
     def test_remove_gene(self):
         self.add_mock_gene('foo_gene')
         self.assertEqual(1, len(self.seq1.genes))
@@ -156,7 +157,7 @@ class TestSequence(unittest.TestCase):
         self.add_mock_gene('zub_gene')
         bad_genes = ["nice_gene", "bacon", 28]
         self.assertEquals(3, len(self.seq1.genes))
-        self.seq1.remove_genes_from_list(bad_genes) # nothing should happen
+        self.seq1.remove_genes_from_list(bad_genes)  # nothing should happen
         self.assertEquals(3, len(self.seq1.genes))
 
     def test_remove_mrnas_from_list(self):
@@ -166,7 +167,7 @@ class TestSequence(unittest.TestCase):
         removed = self.seq1.remove_mrnas_from_list(bad_mrnas)
         self.assertEquals(["foo"], removed)
         self.seq1.genes[0].remove_mrnas_from_list.assert_called_with(bad_mrnas)
-    
+
     def test_remove_empty_genes(self):
         self.add_mock_gene('foo_gene')
         self.add_mock_gene('bar_gene')
@@ -179,7 +180,7 @@ class TestSequence(unittest.TestCase):
         self.assertEquals(2, len(removed_genes))
         self.assertEquals(1, len(self.seq1.genes))
         self.assertEquals(2, len(self.seq1.removed_genes))
-    
+
     def test_remove_empty_mrnas(self):
         self.seq1.genes = [Mock(), Mock()]
         self.seq1.genes[0].remove_empty_mrnas.return_value = []
@@ -190,7 +191,7 @@ class TestSequence(unittest.TestCase):
 
     def test_remove_empty_mrnas_returns_list(self):
         gene = Mock()
-        gene.remove_empty_mrnas.return_value = [1, 2] #should be list of mRNAs but whatever
+        gene.remove_empty_mrnas.return_value = [1, 2]  # should be list of mRNAs but whatever
         self.seq1.genes = [gene]
         removed_mrnas = self.seq1.remove_empty_mrnas()
         self.assertEquals([1, 2], removed_mrnas)
@@ -256,7 +257,7 @@ class TestSequence(unittest.TestCase):
         self.add_mock_gene_with_2_mrnas("foo_gene2")
         partial_info = self.seq1.get_cds_partial_info()
         self.assertEquals(1, partial_info["CDS: complete"])
-    
+
     def test_get_contained_genes(self):
         fake_gene0 = Mock()
         fake_gene0.indices = [0, 10]
@@ -275,7 +276,7 @@ class TestSequence(unittest.TestCase):
         self.seq1.add_gene(fake_gene4)
         contained = self.seq1.get_contained_genes()
         self.assertEqual(contained, [fake_gene1])
-    
+
     def test_get_overlapping_genes(self):
         fake_gene0 = Mock()
         fake_gene0.indices = [0, 10]
@@ -297,7 +298,6 @@ class TestSequence(unittest.TestCase):
         self.assertTrue(fake_gene1 in contained)
         self.assertTrue(fake_gene2 in contained)
         self.assertTrue(fake_gene3 in contained)
-        
 
     def test_cds_to_gff(self):
         mockgene = Mock()
@@ -371,12 +371,12 @@ class TestSequence(unittest.TestCase):
         self.assertEquals(stats["Total CDS length"], 8)
 
 
-
 ##########################
 def suite():
     _suite = unittest.TestSuite()
     _suite.addTest(unittest.makeSuite(TestSequence))
     return _suite
+
 
 if __name__ == '__main__':
     unittest.main()

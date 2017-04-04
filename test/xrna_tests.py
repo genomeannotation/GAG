@@ -8,10 +8,10 @@ from src.xrna import XRNA
 
 
 class TestXRNA(unittest.TestCase):
-
     def setUp(self):
         self.test_mrna0 = XRNA(identifier='bdor_foo', indices=[3734, 7436], strand='-', parent_id=1)
-        self.test_mrna1 = XRNA(identifier='bdor_foo2', indices=[3734, 7436], parent_id=1, seq_name="sctg_0080_0020", source="maker")
+        self.test_mrna1 = XRNA(identifier='bdor_foo2', indices=[3734, 7436], parent_id=1, seq_name="sctg_0080_0020",
+                               source="maker")
         self.fake_exon = Mock()
         self.fake_cds = Mock()
         self.fake_start_codon = Mock()
@@ -37,7 +37,7 @@ class TestXRNA(unittest.TestCase):
         self.fake_exon.gagflagged.return_value = True
         self.assertEquals(1, self.test_mrna1.number_of_gagflags())
 
-    def test_add_other_feature(self): 
+    def test_add_other_feature(self):
         self.assertEquals(0, len(self.test_mrna0.other_features))
         self.test_mrna0.add_other_feature(self.fake_start_codon)
         self.assertEquals(1, len(self.test_mrna0.other_features))
@@ -131,7 +131,6 @@ class TestXRNA(unittest.TestCase):
         self.fake_cds.to_gff.assert_called_with("sctg_0080_0020", "maker")
         self.fake_start_codon.to_gff.assert_called_with("sctg_0080_0020", "maker")
 
-
     def test_indices_intersect_mrna_false(self):
         mrna = XRNA(identifier=1, indices=[10, 20], parent_id='foo')
         self.assertFalse(mrna.indices_intersect_mrna([5, 9]))
@@ -146,7 +145,7 @@ class TestXRNA(unittest.TestCase):
     def test_create_start_and_stop_if_necessary(self):
         seq_object = Mock()
         cds = Mock()
-        cds.extract_sequence.return_value = 'atgtag' # startstop
+        cds.extract_sequence.return_value = 'atgtag'  # startstop
         cds.get_start_indices.return_value = 20
         cds.get_stop_indices.return_value = 40
         self.test_mrna0.cds = cds
@@ -160,7 +159,7 @@ class TestXRNA(unittest.TestCase):
     def test_create_start_and_stop_when_no_start_or_stop(self):
         seq_object = Mock()
         cds = Mock()
-        cds.extract_sequence.return_value = 'tagatg' # no start or stop
+        cds.extract_sequence.return_value = 'tagatg'  # no start or stop
         cds.get_start_indices.return_value = 20
         cds.get_stop_indices.return_value = 40
         self.test_mrna0.cds = cds
@@ -182,7 +181,7 @@ class TestXRNA(unittest.TestCase):
         expected += "\t\t\tprotein_id\tgnl|ncbi|bdor_foo2\n"
         expected += "\t\t\ttranscript_id\tgnl|ncbi|bdor_foo2_mrna\n"
         self.assertEquals(self.test_mrna1.to_tbl(), expected)
-        
+
     def test_to_tbl_replace_Dbxref_with_db_xref(self):
         self.fake_exon.to_tbl.return_value = "fake_exon_to_tbl...\n"
         self.fake_cds.to_tbl.return_value = "fake_cds_to_tbl...\n"
@@ -197,7 +196,6 @@ class TestXRNA(unittest.TestCase):
         expected += "\t\t\tprotein_id\tgnl|ncbi|bdor_foo2\n"
         expected += "\t\t\ttranscript_id\tgnl|ncbi|bdor_foo2_mrna\n"
         self.assertEquals(self.test_mrna1.to_tbl(), expected)
-
 
     def test_to_tbl_with_annotations(self):
         self.fake_exon.to_tbl.return_value = "fake_exon_to_tbl...\n"
@@ -245,8 +243,7 @@ class TestXRNA(unittest.TestCase):
         self.test_mrna0.add_annotation('product', 'foo')
         self.assertTrue(self.test_mrna0.annotations_contain_product())
 
-
-    ## STATS STUFF ##
+    # STATS STUFF #
 
     def set_fake_exon_indices(self):
         self.fake_exon.indices = [[1, 5], [11, 16], [21, 27]]
@@ -296,12 +293,12 @@ class TestXRNA(unittest.TestCase):
         self.assertEquals(2, self.test_mrna1.get_num_introns())
 
 
-
 ##########################
 def suite():
     _suite = unittest.TestSuite()
     _suite.addTest(unittest.makeSuite(TestXRNA))
     return _suite
+
 
 if __name__ == '__main__':
     unittest.main()

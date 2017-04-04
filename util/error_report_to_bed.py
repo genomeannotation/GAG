@@ -13,6 +13,7 @@ if len(sys.argv) != 2:
 report_file = sys.argv[1]
 regions = {}
 
+
 def parse_regions(text):
     """Return a list of (start, end) tuples."""
     _regions = []
@@ -23,6 +24,7 @@ def parse_regions(text):
         end = split_pair[1]
         _regions.append([start, end])
     return _regions
+
 
 with open(report_file, 'r') as report:
     for line in report:
@@ -36,4 +38,4 @@ with open(report_file, 'r') as report:
         seq = fields[0].strip()
         regions = parse_regions(fields[2])
         for pair in regions:
-            sys.stdout.write("\t".join( [seq, pair[0], pair[1]] ) + "\n")
+            sys.stdout.write("\t".join([seq, pair[0], pair[1]]) + "\n")

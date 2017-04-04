@@ -7,7 +7,6 @@ from src.gene_part import *
 
 
 class CDS(GenePart):
-
     def __init__(self, identifier=None, indices=None,
                  score=None, phase=None, strand=None, parent_id=None):
         GenePart.__init__(self, feature_type='CDS', identifier=identifier,
@@ -31,23 +30,23 @@ class CDS(GenePart):
         """Returns coordinates of first and third base of CDS."""
         if strand == '+':
             first_index = self.indices[0][0]
-            return [first_index, first_index+2]
+            return [first_index, first_index + 2]
         elif strand == '-':
             # Quick fix, applies get_stop_indices for - strand
-            last_index_pair = self.indices[len(self.indices)-1]
+            last_index_pair = self.indices[len(self.indices) - 1]
             last_index = last_index_pair[1]
-            return [last_index-2, last_index]
+            return [last_index - 2, last_index]
 
     def get_stop_indices(self, strand):
         """Returns coordinates of third-to-last and last base of CDS."""
         if strand == '+':
-            last_index_pair = self.indices[len(self.indices)-1]
+            last_index_pair = self.indices[len(self.indices) - 1]
             last_index = last_index_pair[1]
-            return [last_index-2, last_index]
+            return [last_index - 2, last_index]
         elif strand == '-':
             # Quick fix, applies get_start_indices for - strand
             first_index = self.indices[0][0]
-            return [first_index, first_index+2]
+            return [first_index, first_index + 2]
 
     def sort_attributes(self):
         """Sorts indices, keeping identifiers and phases with their corresponding index pair.
@@ -64,8 +63,8 @@ class CDS(GenePart):
         # composed of attributes
         all_attributes = []
         for i in xrange(length):
-            all_attributes.append([self.indices[i][0], self.indices[i][1], 
-                self.identifier[i], self.phase[i]])
+            all_attributes.append([self.indices[i][0], self.indices[i][1],
+                                   self.identifier[i], self.phase[i]])
             if sort_scores:
                 all_attributes[i].append(self.score[i])
 
@@ -106,5 +105,4 @@ class CDS(GenePart):
             phase = self.phase[0]
         else:
             phase = self.phase[-1]
-        return write_tbl_entry(indices, self.strand, has_start, has_stop, "CDS", phase) 
-
+        return write_tbl_entry(indices, self.strand, has_start, has_stop, "CDS", phase)

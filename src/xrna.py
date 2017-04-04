@@ -245,7 +245,7 @@ class XRNA:
             output += "\t\t\ttranscript_id\tgnl|ncbi|"+self.identifier+"_mrna\n"
         return output
 
-    ## STATS STUFF ##
+    # STATS STUFF #
 
     def get_longest_exon(self):
         """Returns length of longest exon contained on RNA."""

@@ -2,8 +2,8 @@
 
 from src.sequence import Sequence
 
-class FastaReader:
 
+class FastaReader:
     def __init__(self):
         self.seqs = []
 
@@ -15,11 +15,10 @@ class FastaReader:
                 if len(header) > 0:
                     # Save the data
                     self.seqs.append(Sequence(header, bases))
-                header = line[1:].strip().split()[0] # Get the next header
+                header = line[1:].strip().split()[0]  # Get the next header
                 bases = ''
             else:
                 bases += line.strip()
         # Add the last sequence
         self.seqs.append(Sequence(header, bases))
         return self.seqs
-

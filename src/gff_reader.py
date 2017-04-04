@@ -8,8 +8,8 @@ from src.exon import Exon
 from src.xrna import XRNA
 from src.gene import Gene
 
-class GFFReader:
 
+class GFFReader:
     def __init__(self):
         self.genes = {}
         self.mrnas = {}
@@ -35,7 +35,7 @@ class GFFReader:
         parents = self.get_parents_from_list_of_attributes(split_attr)
         attr_without_parents = self.remove_parent_info_from_attr(split_attr)
         all_lines = []
-        #import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         for parent in parents:
             line = fields[:8]
             new_attr_list = copy.deepcopy(attr_without_parents)
@@ -52,17 +52,17 @@ class GFFReader:
         are split into multiple lines."""
         splitline = line.split('\t')
         if len(splitline) is not 9:
-            print("not enough columns: "+line)
+            print("not enough columns: " + line)
             return []
-        if not "ID" in splitline[8]:
+        if "ID" not in splitline[8]:
             print("No ID")
             return []
         if not int(splitline[3]) <= int(splitline[4]):
             print("stop greater than start")
             return []
         # Everything except genes must have parent id
-        if not "Parent" in splitline[8] and\
-           not (splitline[2] == "gene" or splitline[2] == 'pseudogene'):
+        if "Parent" not in splitline[8] and \
+                not (splitline[2] == "gene" or splitline[2] == 'pseudogene'):
             print("no parent")
             return []
         if self.has_multiple_parents(splitline[8]):
@@ -107,13 +107,13 @@ class GFFReader:
             elif key == "Parent":
                 result['parent_id'] = value
             elif (key == "Dbxref" or
-                    key == "Ontology_term" or
-                    key == "product"):
+                  key == "Ontology_term" or
+                  key == "product"):
                 if key in annotations.keys():
                     # allow for annotations in the style of "Dbxref=PFAM:foo,PRINTS:bar"
                     annotations[key].extend(value.split(','))
                 else:
-                    annotations[key] = value.split(',') # always a list :)
+                    annotations[key] = value.split(',')  # always a list :)
         # Make sure we found an ID
         if "identifier" not in result:
             return {}
@@ -141,7 +141,7 @@ class GFFReader:
 
         if "annotations" in attribs:
             del attribs["annotations"]
-        
+
         result.update(attribs)
         return result
 
@@ -160,7 +160,7 @@ class GFFReader:
 
         if "annotations" in attribs:
             del attribs["annotations"]
-        
+
         result.update(attribs)
         return result
 
@@ -175,11 +175,11 @@ class GFFReader:
 
         if 'name' in attribs:
             del attribs['name']
-        
-        result.update(attribs)
-        return result        
 
-    def extract_gene_args(self, line):  
+        result.update(attribs)
+        return result
+
+    def extract_gene_args(self, line):
         """Pulls Gene arguments from a gff line and returns them in a dictionary."""
         result = {'seq_name': line[0], 'source': line[1],
                   'indices': [int(line[3]), int(line[4])], 'strand': line[6]}
@@ -204,7 +204,7 @@ class GFFReader:
 
         if "annotations" in attribs:
             del attribs["annotations"]
-        
+
         result.update(attribs)
         return result
 
@@ -237,8 +237,7 @@ class GFFReader:
         if ltype == 'gene' or ltype == 'pseudogene':
             self.process_gene_line(line, ltype)
             return True
-        elif ltype == 'mRNA' or ltype == 'tRNA' or ltype == 'rRNA' or ltype == 'ncRNA' or\
-             ltype == 'miRNA' or ltype == 'snRNA':
+        elif ltype == 'mRNA' or ltype == 'tRNA' or ltype == 'rRNA' or ltype == 'ncRNA' or ltype == 'miRNA' or ltype == 'snRNA':
             self.process_rna_line(line, ltype)
             return True
         elif ltype == 'CDS':
@@ -354,13 +353,12 @@ class GFFReader:
         orphans = copy.deepcopy(self.orphans)
         for splitline in orphans:
             self.process_line(splitline)
-           
+
         # Add mRNAs to their parent genes
         for mrna in self.mrnas.values():
             parent_gene = self.genes[mrna.parent_id]
             parent_gene.mrnas.append(mrna)
 
         if self.skipped_features > 0:
-            sys.stderr.write("Warning: skipped "+str(self.skipped_features)+" uninteresting features.\n")
+            sys.stderr.write("Warning: skipped " + str(self.skipped_features) + " uninteresting features.\n")
         return self.genes.values(), comments, invalid, ignored
-

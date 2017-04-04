@@ -16,7 +16,7 @@ class GenePart:
         self.score = []
         if score is not None:
             self.score.append(score)
-        self.strand = strand # Defauts to positive strand (?)
+        self.strand = strand  # Defauts to positive strand (?)
         self.parent_id = parent_id
         self.annotations = []
 
@@ -26,7 +26,7 @@ class GenePart:
         String contains the type of feature and the identifier for its first segment.
         """
         result = self.feature_type + " (first ID="
-        result += str(self.identifier[0])+ ")"
+        result += str(self.identifier[0]) + ")"
         return result
 
     def add_indices(self, ind):
@@ -62,8 +62,8 @@ class GenePart:
         # composed of attributes
         all_attributes = []
         for i in xrange(length):
-            all_attributes.append([self.indices[i][0], self.indices[i][1], 
-                self.identifier[i]])
+            all_attributes.append([self.indices[i][0], self.indices[i][1],
+                                   self.identifier[i]])
             if sort_scores:
                 all_attributes[i].append(self.score[i])
 
@@ -84,7 +84,7 @@ class GenePart:
             value: a string representing the content of the annotation
         """
         self.annotations.append([key, value])
-    
+
     def gagflagged(self):
         """Returns a boolean indicating whether the GenePart contains a 'gagflag' annotation."""
         for anno in self.annotations:
@@ -147,7 +147,7 @@ class GenePart:
         entry = "ID=" + str(self.identifier[i]) + ";"
         entry += "Parent=" + str(self.parent_id)
         for annot in self.annotations:
-            entry += ';'+annot[0]+'='+annot[1]
+            entry += ';' + annot[0] + '=' + annot[1]
         entry += '\n'
         return entry
 
@@ -163,15 +163,20 @@ class GenePart:
             result += self.generate_attribute_entry(i)
         return result
 
-######################### Utility Functions ##########################################
+
+#####################
+# Utility Functions #
+#####################
 
 def length_of_segment(index_pair):
     """Returns the length in base pairs between two indices (inclusive)."""
     return math.fabs(index_pair[1] - index_pair[0]) + 1
 
+
 def adjust_index_pair(index_pair, increment):
     """Returns pair of indices incremented by given number."""
     return [i + increment for i in index_pair]
+
 
 def get_reversed_indices(indices):
     """Returns reversed list of indices.
@@ -182,6 +187,7 @@ def get_reversed_indices(indices):
     rev_indices = [[i for i in ind[::-1]] for ind in indices[::-1]]
     return rev_indices
 
+
 def one_line_indices_entry(indices, has_start, has_stop, feature_type):
     """Returns .tbl formatted entry for features with only one pair of coordinates."""
     output = ""
@@ -191,8 +197,9 @@ def one_line_indices_entry(indices, has_start, has_stop, feature_type):
     if not has_stop:
         output += ">"
     output += str(indices[1]) + "\t"
-    output += feature_type+"\n"
+    output += feature_type + "\n"
     return output
+
 
 def write_tbl_entry(indices, strand, has_start, has_stop, feature_type, phase=0):
     """Returns .tbl-formatted string for a GenePart.
@@ -214,8 +221,8 @@ def write_tbl_entry(indices, strand, has_start, has_stop, feature_type, phase=0)
         # Write first line of coordinates
         if not has_start:
             output += "<"
-        output += str(indices[0][0]) + "\t" + str(indices[0][1]) + "\t" 
-        output += feature_type+"\n"
+        output += str(indices[0][0]) + "\t" + str(indices[0][1]) + "\t"
+        output += feature_type + "\n"
         # Write middle lines
         for index_pair in indices[1:-1]:
             output += str(index_pair[0]) + "\t" + str(index_pair[1]) + "\n"
@@ -225,6 +232,5 @@ def write_tbl_entry(indices, strand, has_start, has_stop, feature_type, phase=0)
             output += ">"
         output += str(indices[-1][1]) + "\n"
     if feature_type == "CDS":
-        output += "\t\t\tcodon_start\t" + str(phase+1) + "\n"
+        output += "\t\t\tcodon_start\t" + str(phase + 1) + "\n"
     return output
-

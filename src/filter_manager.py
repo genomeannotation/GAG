@@ -27,4 +27,3 @@ class FilterManager:
     
     def get_filter_arg(self, filter_name):
         return self.filters[filter_name].arg
-   

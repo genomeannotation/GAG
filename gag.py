@@ -9,11 +9,11 @@ from src.controller import Controller
 def main():
     version = "v1.1.1"
     parser = argparse.ArgumentParser(
-    epilog="""
+        epilog="""
     Docs at http://genomeannotation.github.io/GAG/
     Bugs and feature requests at https://github.com/genomeannotation/GAG/issues
     """,
-    formatter_class=argparse.RawDescriptionHelpFormatter
+        formatter_class=argparse.RawDescriptionHelpFormatter
     )
     parser.add_argument('-f', '--fasta', required=True)
     parser.add_argument('-g', '--gff', required=True)
@@ -43,6 +43,7 @@ def main():
     args = parser.parse_args()
     controller = Controller()
     controller.execute(args)
+
 
 if __name__ == '__main__':
     main()
