@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding=utf-8
 
 import unittest
 from mock import Mock
@@ -21,9 +22,9 @@ class TestFilterManager(unittest.TestCase):
 
 ##########################
 def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestFilterManager))
-    return suite
+    _suite = unittest.TestSuite()
+    _suite.addTest(unittest.makeSuite(TestFilterManager))
+    return _suite
 
 if __name__ == '__main__':
     unittest.main()

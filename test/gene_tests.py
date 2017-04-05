@@ -1,8 +1,12 @@
 #!/usr/bin/env python
+# coding=utf-8
 
 import unittest
-from mock import Mock, PropertyMock
+
+from mock import Mock
+
 from src.gene import Gene
+
 
 class TestGene(unittest.TestCase):
 
@@ -155,7 +159,7 @@ class TestGene(unittest.TestCase):
 
     def test_cds_to_gff(self):
         self.fake_mrna1.identifier = "foo_mrna"
-        foo = self.test_gene1.cds_to_gff("foo_seq", "foo_mrna")
+        self.test_gene1.cds_to_gff("foo_seq", "foo_mrna")
         self.fake_mrna1.cds_to_gff.assert_called_with("foo_seq", "maker")
 
     def test_cds_to_gff_no_such_mrna(self):
@@ -165,7 +169,7 @@ class TestGene(unittest.TestCase):
 
     def test_cds_to_tbl(self):
         self.fake_mrna1.identifier = "foo_mrna"
-        foo = self.test_gene1.cds_to_tbl("foo_mrna")
+        self.test_gene1.cds_to_tbl("foo_mrna")
         self.fake_mrna1.cds_to_tbl.assert_called_with()
 
     def test_to_mrna_fasta(self):
@@ -316,17 +320,17 @@ class TestGene(unittest.TestCase):
         self.assertEquals(0, len(newgene.annotations.keys()))
 
     def test_gene_initialized_with_annotations(self):
-        newgene = Gene(seq_name="seq1", source="maker", indices=[1, 50], strand="+", identifier="foo_gene_1",\
-                annotations={"bar": ["cat"]})
+        newgene = Gene(seq_name="seq1", source="maker", indices=[1, 50], strand="+", identifier="foo_gene_1",
+                       annotations={"bar": ["cat"]})
         self.assertTrue(newgene.annotations)
         self.assertEquals(1, len(newgene.annotations.keys()))
 
 
 ##########################
 def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestGene))
-    return suite
+    _suite = unittest.TestSuite()
+    _suite.addTest(unittest.makeSuite(TestGene))
+    return _suite
 
 if __name__ == '__main__':
     unittest.main()

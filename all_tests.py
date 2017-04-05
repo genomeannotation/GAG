@@ -1,35 +1,25 @@
 #!/usr/bin/env python
+# coding=utf-8
 
 # import all the lovely files
 import unittest
-import test.fasta_reader_tests
-import test.gene_part_tests
-import test.xrna_tests
-import test.gene_tests
-import test.translator_tests
-import test.gff_reader_tests
-import test.sequence_tests
-import test.filter_manager_tests
-import test.filters_tests
-import test.stats_manager_tests
-import test.seq_helper_tests
-import test.cds_tests
-import test.exon_tests
+from test import fasta_reader_tests, gene_part_tests, xrna_tests, gene_tests, translator_tests, gff_reader_tests,\
+    sequence_tests, filter_manager_tests, filters_tests, stats_manager_tests, seq_helper_tests, cds_tests, exon_tests
 
 # get suites from test modules
-suite1 = test.fasta_reader_tests.suite()
-suite2 = test.gene_part_tests.suite()
-suite3 = test.xrna_tests.suite()
-suite4 = test.gene_tests.suite()
-suite9 = test.translator_tests.suite()
-suite10 = test.gff_reader_tests.suite()
-suite11 = test.sequence_tests.suite()
-suite12 = test.filter_manager_tests.suite()
-suite13 = test.filters_tests.suite()
-suite14 = test.stats_manager_tests.suite()
-suite15 = test.seq_helper_tests.suite()
-suite16 = test.cds_tests.suite()
-suite17 = test.exon_tests.suite()
+suite1 = fasta_reader_tests.suite()
+suite2 = gene_part_tests.suite()
+suite3 = xrna_tests.suite()
+suite4 = gene_tests.suite()
+suite9 = translator_tests.suite()
+suite10 = gff_reader_tests.suite()
+suite11 = sequence_tests.suite()
+suite12 = filter_manager_tests.suite()
+suite13 = filters_tests.suite()
+suite14 = stats_manager_tests.suite()
+suite15 = seq_helper_tests.suite()
+suite16 = cds_tests.suite()
+suite17 = exon_tests.suite()
 
 # collect suites in a TestSuite object
 suite = unittest.TestSuite()

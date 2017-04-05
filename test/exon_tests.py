@@ -1,9 +1,11 @@
 #!/usr/bin/env python
+# coding=utf-8
 
 import unittest
-from mock import Mock, PropertyMock
-from src.gene_part import GenePart, get_reversed_indices
+
 from src.exon import Exon
+from src.gene_part import get_reversed_indices
+
 
 class TestExon(unittest.TestCase):
 
@@ -112,9 +114,9 @@ class TestExon(unittest.TestCase):
 
 ##########################
 def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestExon))
-    return suite
+    _suite = unittest.TestSuite()
+    _suite.addTest(unittest.makeSuite(TestExon))
+    return _suite
 
 if __name__ == '__main__':
     unittest.main()

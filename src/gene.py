@@ -1,13 +1,15 @@
 #!/usr/bin/env python
+# coding=utf-8
 
 import math
 import sys
 
+
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
 
-class Gene:
 
+class Gene(object):
     def __init__(self, seq_name, source, indices, strand, identifier, name="", annotations=None, score=None):
         self.seq_name = seq_name
         self.source = source
@@ -31,7 +33,7 @@ class Gene:
         String contains the gene's identifier, the sequence it is on,
         and the number of mRNAs it contains.
         """
-        result = "Gene (ID=" + str(self.identifier) 
+        result = "Gene (ID=" + str(self.identifier)
         result += ", seq_name=" + self.seq_name
         result += ") containing " + str(len(self.mrnas))
         result += " mrnas"
@@ -43,7 +45,7 @@ class Gene:
         for mrna in self.mrnas:
             result.append(mrna.identifier)
         return result
-    
+
     def remove_mrna(self, mrna_id):
         to_remove = None
         for mrna in self.mrnas:
@@ -53,8 +55,8 @@ class Gene:
             self.mrnas.remove(to_remove)
             self.removed_mrnas.append(to_remove)
             return True
-        return False # Return false if mrna wasn't removed
-        
+        return False  # Return false if mrna wasn't removed
+
     def remove_mrnas_from_list(self, bad_mrnas):
         to_remove = []
         for mrna in self.mrnas:
@@ -66,7 +68,7 @@ class Gene:
                 sys.stderr.write("Removed mrna " + mrna.identifier + "\n")
             self.removed_mrnas.extend(to_remove)
         return to_remove
-    
+
     def remove_empty_mrnas(self):
         """Removes mRNAs with no exon or CDS.
         """
@@ -84,7 +86,7 @@ class Gene:
         if to_remove:
             for mrna in to_remove:
                 self.mrnas.remove(mrna)
-                
+
             self.removed_mrnas.extend(to_remove)
         return to_remove
 
@@ -112,7 +114,7 @@ class Gene:
         for mrna in self.mrnas:
             if mrna.identifier == mrna_id:
                 mrna.add_annotation(key, value)
-        
+
     def length(self):
         """Returns the length of the gene."""
         return length_of_segment(self.indices)
@@ -156,9 +158,9 @@ class Gene:
             length = mrna.get_shortest_exon()
             if length == 0:
                 continue
-            if shortest == None or length < shortest:
+            if shortest is None or length < shortest:
                 shortest = length
-        if shortest == None:
+        if shortest is None:
             return 0
         return shortest
 
@@ -168,7 +170,7 @@ class Gene:
         for mrna in self.mrnas:
             total += mrna.get_total_exon_length()
         return total
-    
+
     def get_num_exons(self):
         """Returns number of exons contained on gene."""
         total = 0
@@ -192,9 +194,9 @@ class Gene:
             length = mrna.get_shortest_intron()
             if length == 0:
                 continue
-            if shortest == None or length < shortest:
+            if shortest is None or length < shortest:
                 shortest = length
-        if shortest == None:
+        if shortest is None:
             return 0
         return shortest
 
@@ -211,7 +213,7 @@ class Gene:
         for mrna in self.mrnas:
             total += mrna.get_num_introns()
         return total
-    
+
     def create_starts_and_stops(self, seq_object):
         """Creates start and stop codons on child mRNAs.
 
@@ -329,7 +331,7 @@ class Gene:
             for mrna in self.removed_mrnas:
                 result += mrna.to_gff()
         return result
-    
+
     # Outputs only removed mrnas
     def removed_to_gff(self):
         """Returns a string in .gff format of the gene and its child features."""
@@ -367,6 +369,3 @@ class Gene:
         for mrna in self.mrnas:
             output += mrna.to_tbl()
         return output
-
-
-

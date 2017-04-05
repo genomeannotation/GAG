@@ -1,12 +1,13 @@
 #!/usr/bin/env python
+# coding=utf-8
 
 import unittest
 from src.stats_manager import StatsManager
 from src.stats_manager import format_column
 from src.stats_manager import format_columns
 
-class TestStatsManager(unittest.TestCase):
 
+class TestStatsManager(unittest.TestCase):
     def setUp(self):
         self.mgr = StatsManager()
 
@@ -57,42 +58,22 @@ class TestStatsManager(unittest.TestCase):
         self.mgr.ref_stats["Total intron length"] = 65
         self.mgr.ref_stats["Total CDS length"] = 60
 
-    def get_new_dict(self):
-        d = {}
-        d["Total sequence length"] = 50
-        d["Number of genes"] = 1
-        d["Number of mRNAs"] = 1
-        d["Number of exons"] = 1
-        d["Number of introns"] = 1
-        d["Number of CDS"] = 1
-        d["Overlapping genes"] = 1
-        d["Contained genes"] = 1
-        d["CDS: complete"] = 3
-        d["CDS: start, no stop"] = 1
-        d["CDS: stop, no start"] = 1
-        d["CDS: no stop, no start"] = 2
-        d["Longest gene"] = 30
-        d["Longest mRNA"] = 30
-        d["Longest exon"] = 9
-        d["Longest intron"] = 9
-        d["Longest CDS"] = 8
-        d["Shortest gene"] = 5
-        d["Shortest mRNA"] = 5
-        d["Shortest exon"] = 2
-        d["Shortest intron"] = 2
-        d["Shortest CDS"] = 3
-        d["Total gene length"] = 15
-        d["Total mRNA length"] = 15
-        d["Total exon length"] = 15
-        d["Total intron length"] = 15
-        d["Total CDS length"] = 10
+    @staticmethod
+    def get_new_dict():
+        d = {"Total sequence length": 50, "Number of genes": 1, "Number of mRNAs": 1, "Number of exons": 1,
+             "Number of introns": 1, "Number of CDS": 1, "Overlapping genes": 1, "Contained genes": 1,
+             "CDS: complete": 3, "CDS: start, no stop": 1, "CDS: stop, no start": 1, "CDS: no stop, no start": 2,
+             "Longest gene": 30, "Longest mRNA": 30, "Longest exon": 9, "Longest intron": 9, "Longest CDS": 8,
+             "Shortest gene": 5, "Shortest mRNA": 5, "Shortest exon": 2, "Shortest intron": 2, "Shortest CDS": 3,
+             "Total gene length": 15, "Total mRNA length": 15, "Total exon length": 15, "Total intron length": 15,
+             "Total CDS length": 10}
         return d
-    
+
     def test_alt_is_empty(self):
         self.assertTrue(self.mgr.alt_is_empty())
         self.mgr.update_alt(self.get_new_dict())
         self.assertFalse(self.mgr.alt_is_empty())
-        
+
     def test_update_ref(self):
         self.populate_ref()
         newdict = self.get_new_dict()
@@ -103,11 +84,11 @@ class TestStatsManager(unittest.TestCase):
         self.assertEquals(self.mgr.ref_stats["Total sequence length"], 150)
         self.assertEquals(self.mgr.ref_stats["Shortest CDS"], 3)
         self.assertEquals(self.mgr.ref_stats["Longest gene"], 30)
-    
+
     def test_summary_with_modifications(self):
         self.populate_ref()
         self.mgr.update_alt(self.get_new_dict())
-        expected =  "                                 Reference Genome     Modified Genome     \n"
+        expected = "                                 Reference Genome     Modified Genome     \n"
         expected += "                                 ----------------     ---------------     \n"
         expected += "Total sequence length            100                  50                  \n"
         expected += "Number of genes                  5                    1                   \n"
@@ -151,7 +132,7 @@ class TestStatsManager(unittest.TestCase):
 
     def test_summary_without_modifications(self):
         self.populate_ref()
-        expected =  "                                 Genome            \n"
+        expected = "                                 Genome            \n"
         expected += "                                 ------            \n"
         expected += "Total sequence length            100               \n"
         expected += "Number of genes                  5                 \n"
@@ -191,28 +172,29 @@ class TestStatsManager(unittest.TestCase):
         expected += "mean exons per mRNA              1.0               \n"
         expected += "mean introns per mRNA            1.0               \n"
         summary = self.mgr.summary()
-        #self.assertEquals(summary, expected)
-        
+        # self.assertEquals(summary, expected)
+
     def test_format_column(self):
         column = ['a', 'sd', 'asdf']
         self.assertEquals(format_column(column, 5), ['a        ', 'sd       ', 'asdf     '])
-        
+
     def test_format_columns(self):
         desired_tbl = '    columnA columnB \n' \
                       '    ------- ------- \n' \
                       'dog 24      4222    \n' \
                       'foo 4232234 84      \n'
         column_names = ['columnA', 'columnB']
-        dictA = {'foo' : 4232234, 'dog' : 24}
-        dictB = {'foo' : 84, 'dog' : 4222}
-        self.assertEquals(format_columns(column_names, ['dog', 'foo'], [dictA, dictB], 1), desired_tbl)
+        dict_a = {'foo': 4232234, 'dog': 24}
+        dict_b = {'foo': 84, 'dog': 4222}
+        self.assertEquals(format_columns(column_names, ['dog', 'foo'], [dict_a, dict_b], 1), desired_tbl)
 
 
 ##########################
 def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestStatsManager))
-    return suite
+    _suite = unittest.TestSuite()
+    _suite.addTest(unittest.makeSuite(TestStatsManager))
+    return _suite
+
 
 if __name__ == '__main__':
     unittest.main()
