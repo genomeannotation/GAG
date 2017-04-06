@@ -111,7 +111,6 @@ class TestGenePart(unittest.TestCase):
         self.assertFalse(self.gp1.to_gff(seq_name="foo", source="bar"))
 
 
-##########################
 def suite():
     _suite = unittest.TestSuite()
     _suite.addTest(unittest.makeSuite(TestGenePart))

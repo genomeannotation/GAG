@@ -14,8 +14,8 @@
 
 import sys
 
-def main():
 
+def main():
     if len(sys.argv) != 2:
         sys.stderr.write("usage: old_maker_gff_to_gag-ready_gff.py <file.gff>\n")
         sys.exit()
@@ -54,11 +54,5 @@ def main():
             sys.stdout.write(outline)
 
 
-
-
-#################################################################################
 if __name__ == '__main__':
     main()
-
-
-

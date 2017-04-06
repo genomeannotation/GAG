@@ -45,7 +45,7 @@ class SeqHelper(object):
         untranslated = self.get_sequence_from_indices(strand, indices)
         # Take phase into account
         untranslated = untranslated[mrna.cds.get_phase(0):]
-        return identifier + "\n" + translate(untranslated, '+') + "\n"
+        return identifier + "\n" + translate(untranslated, strand) + "\n"
 
     def id_and_indices_to_fasta(self, identifier, strand, indices):
         result = identifier + "\n"

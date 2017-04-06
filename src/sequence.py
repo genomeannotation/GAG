@@ -294,7 +294,6 @@ class Sequence(object):
             result += gene.to_gff(True)
         return result
 
-    ###################################################################################################
     # Statsy type stuff
 
     def get_num_mrna(self):

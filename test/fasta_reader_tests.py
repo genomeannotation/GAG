@@ -8,7 +8,6 @@ from src.fasta_reader import FastaReader
 
 
 class TestFastaReader(unittest.TestCase):
-
     def setUp(self):
         self.reader = FastaReader()
 
@@ -28,14 +27,12 @@ class TestFastaReader(unittest.TestCase):
         self.assertEquals(4, len(self.reader.seqs))
         self.assertEquals('NNNNNNNNGATTACAGATTACAGATTACANNNNNNNNNNN', self.reader.seqs[3].bases)
 
-        
 
-
-##########################
 def suite():
     _suite = unittest.TestSuite()
     _suite.addTest(unittest.makeSuite(TestFastaReader))
     return _suite
+
 
 if __name__ == '__main__':
     unittest.main()

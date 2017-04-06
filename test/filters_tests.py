@@ -59,8 +59,6 @@ class TestFilters(unittest.TestCase):
         self.assertEqual(seq.genes[1].mrnas, [test_mrna1, test_mrna2])
         self.assertEqual(seq.genes[2].mrnas, [test_mrna3])
 
-    ###################################################################################################
-
     def test_max_cds_length_filter(self):
         cds_length = MaxCDSLengthFilter(100)
 
@@ -110,8 +108,6 @@ class TestFilters(unittest.TestCase):
         self.assertEqual(len(seq.genes), 3)
         self.assertEqual(seq.genes[0].mrnas, [test_mrna0])
         self.assertEqual(seq.genes[1].mrnas, [test_mrna1, test_mrna2])
-
-    ###################################################################################################
 
     def test_min_exon_length_filter(self):
         exon_length = MinExonLengthFilter(30)
@@ -166,8 +162,6 @@ class TestFilters(unittest.TestCase):
         self.assertEqual(seq.genes[1].mrnas, [test_mrna1, test_mrna2])
         self.assertEqual(seq.genes[2].mrnas, [test_mrna3])
 
-    ###################################################################################################
-
     def test_max_exon_length_filter(self):
         exon_length = MaxExonLengthFilter(30)
 
@@ -220,8 +214,6 @@ class TestFilters(unittest.TestCase):
         self.assertEqual(len(seq.genes), 3)
         self.assertEqual(seq.genes[0].mrnas, [test_mrna0])
         self.assertEqual(seq.genes[1].mrnas, [test_mrna1, test_mrna2])
-
-    ###################################################################################################
 
     def test_min_intron_length_filter(self):
         intron_length = MinIntronLengthFilter(30)
@@ -293,8 +285,6 @@ class TestFilters(unittest.TestCase):
         self.assertEquals(1, len(seq.genes[0].mrnas))
         assert not gene.remove_mrna.called
 
-    ###################################################################################################
-
     def test_max_intron_length_filter(self):
         intron_length = MaxIntronLengthFilter(30)
 
@@ -348,8 +338,6 @@ class TestFilters(unittest.TestCase):
         self.assertEqual(seq.genes[0].mrnas, [test_mrna0])
         self.assertEqual(seq.genes[1].mrnas, [test_mrna1, test_mrna2])
 
-    ###################################################################################################
-
     def test_min_gene_length_filter(self):
         gene_length_range = MinGeneLengthFilter(30)
 
@@ -374,8 +362,6 @@ class TestFilters(unittest.TestCase):
         gene_length_range.apply(seq)
 
         self.assertEqual(seq.genes, [test_gene1, test_gene2])
-
-    ###################################################################################################
 
     def test_max_gene_length_filter(self):
         gene_length_range = MaxGeneLengthFilter(30)
@@ -404,7 +390,6 @@ class TestFilters(unittest.TestCase):
         self.assertEqual(seq.genes, [test_gene0, test_gene1])
 
 
-##########################
 def suite():
     _suite = unittest.TestSuite()
     _suite.addTest(unittest.makeSuite(TestFilters))

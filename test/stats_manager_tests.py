@@ -189,7 +189,6 @@ class TestStatsManager(unittest.TestCase):
         self.assertEquals(format_columns(column_names, ['dog', 'foo'], [dict_a, dict_b], 1), desired_tbl)
 
 
-##########################
 def suite():
     _suite = unittest.TestSuite()
     _suite.addTest(unittest.makeSuite(TestStatsManager))

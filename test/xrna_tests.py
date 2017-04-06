@@ -292,7 +292,6 @@ class TestXRNA(unittest.TestCase):
         self.assertEquals(2, self.test_mrna1.get_num_introns())
 
 
-##########################
 def suite():
     _suite = unittest.TestSuite()
     _suite.addTest(unittest.makeSuite(TestXRNA))

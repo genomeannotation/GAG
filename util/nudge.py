@@ -153,7 +153,5 @@ def main():
         update_gff(args.gff, trimlist)
 
 
-##########################
-
 if __name__ == "__main__":
     main()

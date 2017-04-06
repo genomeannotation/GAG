@@ -82,7 +82,6 @@ class TestSeqHelper(unittest.TestCase):
         self.assertTrue(helper.mrna_contains_internal_stop(mrna))
 
 
-##########################
 def suite():
     _suite = unittest.TestSuite()
     _suite.addTest(unittest.makeSuite(TestSeqHelper))
