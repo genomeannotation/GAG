@@ -54,7 +54,6 @@ class TestTranslate(unittest.TestCase):
         self.assertFalse(contains_internal_stop(test_seq, '+'))
 
 
-##########################
 def suite():
     _suite = unittest.TestSuite()
     _suite.addTest(unittest.makeSuite(TestTranslate))

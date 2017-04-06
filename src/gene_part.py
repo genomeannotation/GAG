@@ -166,9 +166,7 @@ class GenePart(object):
         return result
 
 
-#####################
-# Utility Functions #
-#####################
+# Utility Functions
 
 def length_of_segment(index_pair):
     """Returns the length in base pairs between two indices (inclusive)."""

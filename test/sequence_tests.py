@@ -372,7 +372,6 @@ class TestSequence(unittest.TestCase):
         self.assertEquals(stats["Total CDS length"], 8)
 
 
-##########################
 def suite():
     _suite = unittest.TestSuite()
     _suite.addTest(unittest.makeSuite(TestSequence))

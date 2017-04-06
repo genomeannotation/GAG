@@ -4,8 +4,8 @@
 import copy
 from src.gene_part import *
 
-class Exon(GenePart):
 
+class Exon(GenePart):
     def __init__(self, **kwargs):
         kwargs['feature_type'] = 'exon'
         GenePart.__init__(self, **kwargs)

@@ -5,6 +5,7 @@ import math
 from src.gene_part import GenePart
 import src.translator as translate
 
+
 def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
 
@@ -346,4 +347,3 @@ class XRNA(object):
 
     def annotations_contain_product(self):
         return 'product' in self.annotations.keys()
-

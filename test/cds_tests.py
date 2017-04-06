@@ -179,7 +179,6 @@ class TestCDS(unittest.TestCase):
         self.assertEquals(self.test_cds1.to_tbl(False, False), expected)
 
 
-##########################
 def suite():
     _suite = unittest.TestSuite()
     _suite.addTest(unittest.makeSuite(TestCDS))

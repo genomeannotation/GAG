@@ -10,6 +10,7 @@ from mock import Mock
 from src.gff_reader import *
 
 
+# noinspection PyPep8
 def get_sample_text():
     sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n"
     sample_text += "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n"
@@ -36,6 +37,7 @@ def get_sample_text():
     return sample_text
 
 
+# noinspection PyPep8
 def get_out_of_order_text():
     sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n"
     sample_text += "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n"
@@ -55,6 +57,7 @@ def get_out_of_order_text():
     return sample_text
 
 
+# noinspection PyPep8
 def get_out_of_order_text_with_missing_parent():
     sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n"
     sample_text += "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n"
@@ -73,6 +76,7 @@ def get_out_of_order_text_with_missing_parent():
     return sample_text
 
 
+# noinspection PyPep8
 def get_annotated_gff():
     result = "Scaffold1\tI5K\tgene\t133721\t162851\t.\t-\t.\tID=AGLA000002;Name=AglaTmpM000002;\n"
     result += "Scaffold1\tI5K\tmRNA\t133721\t162851\t.\t-\t.\tID=AGLA000002-RA;Name=AglaTmpM000002-RA;Parent=AGLA000002;Dbxref=PRINTS:PR00075;\n"
@@ -88,6 +92,7 @@ def get_annotated_gff():
     return result
 
 
+# noinspection PyPep8
 def get_annotated_gff_multi_dbxref():
     result = "Scaffold1\tI5K\tgene\t133721\t162851\t.\t-\t.\tID=AGLA000002;Name=AglaTmpM000002;\n"
     result += "Scaffold1\tI5K\tmRNA\t133721\t162851\t.\t-\t.\tID=AGLA000002-RA;Name=AglaTmpM000002-RA;Parent=AGLA000002;Dbxref=PRINTS:PR00075,PFAM:foo;\n"
@@ -103,6 +108,7 @@ def get_annotated_gff_multi_dbxref():
     return result
 
 
+# noinspection PyPep8
 def get_annotated_gff_multi_dbxref_repeated_anno():
     result = "Scaffold1\tI5K\tgene\t133721\t162851\t.\t-\t.\tID=AGLA000002;Name=AglaTmpM000002;\n"
     result += "Scaffold1\tI5K\tmRNA\t133721\t162851\t.\t-\t.\tID=AGLA000002-RA;Name=AglaTmpM000002-RA;Parent=AGLA000002;Dbxref=PRINTS:PR00075;Dbxref=PFAM:foo;\n"
@@ -156,18 +162,22 @@ class TestGFFReader(unittest.TestCase):
         line = "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n".split('\t')
         self.assertEqual('mRNA', self.reader.line_type(line))
 
+    # noinspection PyPep8
     def test_line_type_exon(self):
         line = "scaffold00080\tmaker\texon\t106151\t106451\t0.9\t+\t.\tID=BDOR_007864-RA:exon:0;Parent=BDOR_007864-RA\n".split('\t')
         self.assertEqual('exon', self.reader.line_type(line))
 
+    # noinspection PyPep8
     def test_line_type_cds(self):
         line = "scaffold00080\tmaker\tCDS\t106151\t106451\t.\t+\t0\tID=BDOR_007864-RA:cds:0;Parent=BDOR_007864-RA\n".split('\t')
         self.assertEqual('CDS', self.reader.line_type(line))
 
+    # noinspection PyPep8
     def test_line_type_start_codon(self):
         line = "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RA\n".split('\t')
         self.assertEqual('start_codon', self.reader.line_type(line))
 
+    # noinspection PyPep8
     def test_line_type_stop_codon(self):
         line = "scaffold00080\tmaker\tstop_codon\t109851\t109853\t.\t+\t.\tID=BDOR_007864-RA:stop2;Parent=BDOR_007864-RA\n".split('\t')
         self.assertEqual('stop_codon', self.reader.line_type(line))
@@ -185,18 +195,21 @@ class TestGFFReader(unittest.TestCase):
         self.assertEqual('BDOR_007864-RA', parsed['parent_id'])
         self.assertEqual('BDOR_007864-RA', parsed['name'])
 
+    # noinspection PyPep8
     def test_extract_cds_args(self):
         line = "scaffold00080\tmaker\tCDS\t106151\t106451\t.\t+\t0\tID=BDOR_007864-RA:cds:0;Parent=BDOR_007864-RA\n".split('\t')
         args = self.reader.extract_cds_args(line)
         expected = {'indices': [106151, 106451], 'strand': '+', 'phase': 0, 'identifier': 'BDOR_007864-RA:cds:0', 'parent_id': 'BDOR_007864-RA'}
         self.assertEqual(expected, args)
 
+    # noinspection PyPep8
     def test_extract_exon_args(self):
         line = "scaffold00080\tmaker\texon\t106151\t106451\t0.9\t+\t.\tID=BDOR_007864-RA:exon:0;Parent=BDOR_007864-RA\n".split('\t')
         expected = {'indices': [106151, 106451], 'score': 0.9, 'strand': '+', 'identifier': 'BDOR_007864-RA:exon:0', 'parent_id': 'BDOR_007864-RA'}
         args = self.reader.extract_exon_args(line)
         self.assertEqual(expected, args)
 
+    # noinspection PyPep8
     def test_extract_mrna_args(self):
         line = "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n".split('\t')
         expected = {'indices': [106151, 109853], 'identifier': 'BDOR_007864-RA', 'strand': '+', 'parent_id': 'BDOR_007864',
@@ -211,6 +224,7 @@ class TestGFFReader(unittest.TestCase):
         args = self.reader.extract_gene_args(line)
         self.assertEqual(expected, args)
 
+    # noinspection PyPep8
     def test_extract_other_feature_args(self):
         line = "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RA\n".split('\t')
         expected = {'feature_type': 'start_codon', 'indices': [106151, 106153],
@@ -218,6 +232,7 @@ class TestGFFReader(unittest.TestCase):
         args = self.reader.extract_other_feature_args(line)
         self.assertEqual(expected, args)
 
+    # noinspection PyPep8
     def test_update_cds(self):
         current_cds = Mock()
         line = "scaffold00080\tmaker\tCDS\t106509\t106749\t.\t+\t2\tID=BDOR_007864-RA:cds:1;Parent=BDOR_007864-RA\n".split('\t')
@@ -226,6 +241,7 @@ class TestGFFReader(unittest.TestCase):
         current_cds.add_phase.assert_called_with(2)
         current_cds.add_identifier.assert_called_with('BDOR_007864-RA:cds:1')
 
+    # noinspection PyPep8
     def test_update_exon(self):
         current_exon = Mock()
         line = "scaffold00080\tmaker\texon\t106509\t106749\t8.34\t+\t2\tID=BDOR_007864-RA:exon:1;Parent=BDOR_007864-RA\n".split('\t')
@@ -305,7 +321,7 @@ class TestGFFReader(unittest.TestCase):
         self.assertEqual('BDOR_007864', parsed['identifier'])
         self.assertTrue('name' not in parsed)
         
-##########################
+
 def suite():
     _suite = unittest.TestSuite()
     _suite.addTest(unittest.makeSuite(TestGFFReader))

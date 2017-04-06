@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-###################################################################################################
+
+# CDS
 
 class MinCDSLengthFilter(object):
     def __init__(self, min_length=0):
@@ -70,7 +71,7 @@ class MaxCDSLengthFilter(object):
             print(str(count) + " mRNAs")
 
 
-###################################################################################################
+# Exon
 
 class MinExonLengthFilter(object):
     def __init__(self, min_length=0):
@@ -136,7 +137,7 @@ class MaxExonLengthFilter(object):
             print("\nFlagged " + str(count) + " mRNAs")
 
 
-###################################################################################################
+# Intron
 
 class MinIntronLengthFilter(object):
     def __init__(self, min_length=0):
@@ -206,7 +207,7 @@ class MaxIntronLengthFilter(object):
             print(str(count) + " mRNAs")
 
 
-###################################################################################################
+# Gene
 
 class MinGeneLengthFilter(object):
     def __init__(self, min_length=0):
