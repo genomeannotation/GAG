@@ -48,6 +48,8 @@ class SeqHelper(object):
             ph = mrna.cds.get_phase(0)
         elif strand is "-":
             ph = mrna.cds.get_phase(-1)
+        else:
+            ph = 0
         untranslated = untranslated[ph:]
         return identifier + "\n" + translate(untranslated, "+") + "\n"
 
@@ -58,7 +60,6 @@ class SeqHelper(object):
 
     def get_sequence_from_indices(self, strand, indices):
         result = ""
-        # indices = sorted([sorted(pair) for pair in indices], key=lambda ind: ind[0])
         for index_pair in indices:
             start = index_pair[0] - 1
             stop = index_pair[1]
