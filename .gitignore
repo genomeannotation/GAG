@@ -1,6 +1,4 @@
 ## keep it clean
-.idea*
-
 __pycache__
 data
 gag_output
