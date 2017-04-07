@@ -19,10 +19,16 @@ class CDS(GenePart):
 
     def get_phase(self, i):
         """Returns phase for given segment of CDS."""
-        if self.phase and len(self.phase) > i:
-            return self.phase[i]
+        if i < 0:
+            if self.phase and len(self.phase) > abs(i) - 1:
+                return self.phase[i]
+            else:
+                return "."
         else:
-            return "."
+            if self.phase and len(self.phase) > i:
+                return self.phase[i]
+            else:
+                return "."
 
     def add_phase(self, ph):
         """Appends phase to CDS"""
