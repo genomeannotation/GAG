@@ -2,7 +2,6 @@
 # coding=utf-8
 
 import math
-from past.builtins import xrange
 
 
 class GenePart(object):
