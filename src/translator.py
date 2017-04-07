@@ -47,14 +47,17 @@ def contains_internal_stop(seq, strand):
 
 
 def reverse_complement(seq):
-    bases = ['a', 'c', 'g', 't', 'n', 'A', 'C', 'G', 'T', 'N']
-    complements = ['t', 'g', 'c', 'a', 'n', 'T', 'G', 'C', 'A', 'N']
-    rev_comp_dict = dict(zip(bases, complements))
-    # Convert mixed or illegal bases to 'N'
-    for i, base in enumerate(seq):
-        if base not in 'actgnACTGN':
-            seq = seq[0:i] + 'N' + seq[i + 1:]
-    return ''.join([rev_comp_dict.get(base) for base in reversed(seq)])
+    complement = {'a': 't',
+                  'A': 'T',
+                  'c': 'g',
+                  'G': 'C',
+                  'g': 'c',
+                  'C': 'G',
+                  't': 'a',
+                  'T': 'A',
+                  'n': 'n',
+                  'N': 'N'}
+    return ''.join([complement.get(base, 'N') for base in seq[::-1]])
 
 
 def translate(seq, strand):
