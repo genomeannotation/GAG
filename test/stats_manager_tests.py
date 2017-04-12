@@ -60,12 +60,32 @@ class TestStatsManager(unittest.TestCase):
 
     @staticmethod
     def get_new_dict():
-        d = {"Total sequence length": 50, "Number of genes": 1, "Number of mRNAs": 1, "Number of exons": 1,
-             "Number of introns": 1, "Number of CDS": 1, "Overlapping genes": 1, "Contained genes": 1,
-             "CDS: complete": 3, "CDS: start, no stop": 1, "CDS: stop, no start": 1, "CDS: no stop, no start": 2,
-             "Longest gene": 30, "Longest mRNA": 30, "Longest exon": 9, "Longest intron": 9, "Longest CDS": 8,
-             "Shortest gene": 5, "Shortest mRNA": 5, "Shortest exon": 2, "Shortest intron": 2, "Shortest CDS": 3,
-             "Total gene length": 15, "Total mRNA length": 15, "Total exon length": 15, "Total intron length": 15,
+        d = {"Total sequence length": 50,
+             "Number of genes": 1,
+             "Number of mRNAs": 1,
+             "Number of exons": 1,
+             "Number of introns": 1,
+             "Number of CDS": 1,
+             "Overlapping genes": 1,
+             "Contained genes": 1,
+             "CDS: complete": 3,
+             "CDS: start, no stop": 1,
+             "CDS: stop, no start": 1,
+             "CDS: no stop, no start": 2,
+             "Longest gene": 30,
+             "Longest mRNA": 30,
+             "Longest exon": 9,
+             "Longest intron": 9,
+             "Longest CDS": 8,
+             "Shortest gene": 5,
+             "Shortest mRNA": 5,
+             "Shortest exon": 2,
+             "Shortest intron": 2,
+             "Shortest CDS": 3,
+             "Total gene length": 15,
+             "Total mRNA length": 15,
+             "Total exon length": 15,
+             "Total intron length": 15,
              "Total CDS length": 10}
         return d
 
@@ -131,52 +151,50 @@ class TestStatsManager(unittest.TestCase):
         self.assertEquals(summary, expected)
 
     def test_summary_without_modifications(self):
-        pass
         # Todo: fix test_summary_without_modifications test.
-        """
-        self.populate_ref()
-        expected = "                                 Genome            \n"
-        expected += "                                 ------            \n"
-        expected += "Total sequence length            100               \n"
-        expected += "Number of genes                  5                 \n"
-        expected += "Number of mRNAs                  7                 \n"
-        expected += "Number of exons                  7                 \n"
-        expected += "Number of introns                7                 \n"
-        expected += "Number of CDS                    7                 \n"
-        expected += "Overlapping genes                3                 \n"
-        expected += "Contained genes                  3                 \n"
-        expected += "CDS: complete                    3                 \n"
-        expected += "CDS: start, no stop              1                 \n"
-        expected += "CDS: stop, no start              1                 \n"
-        expected += "CDS: no stop, no start           2                 \n"
-        expected += "Total gene length                70                \n"
-        expected += "Total mRNA length                70                \n"
-        expected += "Total exon length                65                \n"
-        expected += "Total intron length              65                \n"
-        expected += "Total CDS length                 60                \n"
-        expected += "Shortest gene                    10                \n"
-        expected += "Shortest mRNA                    10                \n"
-        expected += "Shortest exon                    8                 \n"
-        expected += "Shortest intron                  8                 \n"
-        expected += "Shortest CDS                     6                 \n"
-        expected += "Longest gene                     25                \n"
-        expected += "Longest mRNA                     25                \n"
-        expected += "Longest exon                     21                \n"
-        expected += "Longest intron                   21                \n"
-        expected += "Longest CDS                      20                \n"
-        expected += "mean gene length                 14.0              \n"
-        expected += "mean mRNA length                 10.0              \n"
-        expected += "mean exon length                 9.28571428571     \n"
-        expected += "mean intron length               9.28571428571     \n"
-        expected += "mean CDS length                  8.57142857143     \n"
-        expected += "% of genome covered by genes     0.7               \n"
-        expected += "% of genome covered by CDS       0.6               \n"
-        expected += "mean mRNAs per gene              1.4               \n"
-        expected += "mean exons per mRNA              1.0               \n"
-        expected += "mean introns per mRNA            1.0               \n"
+        self.mgr.update_alt(self.get_new_dict())
+        self.mgr.update_ref(self.get_new_dict())
+        expected = "                                 Genome     \n" + \
+                   "                                 ------     \n" + \
+                   "Total sequence length            50         \n" + \
+                   "Number of genes                  1          \n" + \
+                   "Number of mRNAs                  1          \n" + \
+                   "Number of exons                  1          \n" + \
+                   "Number of introns                1          \n" + \
+                   "Number of CDS                    1          \n" + \
+                   "Overlapping genes                1          \n" + \
+                   "Contained genes                  1          \n" + \
+                   "CDS: complete                    3          \n" + \
+                   "CDS: start, no stop              1          \n" + \
+                   "CDS: stop, no start              1          \n" + \
+                   "CDS: no stop, no start           2          \n" + \
+                   "Total gene length                15         \n" + \
+                   "Total mRNA length                15         \n" + \
+                   "Total exon length                15         \n" + \
+                   "Total intron length              15         \n" + \
+                   "Total CDS length                 10         \n" + \
+                   "Shortest gene                    5          \n" + \
+                   "Shortest mRNA                    5          \n" + \
+                   "Shortest exon                    2          \n" + \
+                   "Shortest intron                  2          \n" + \
+                   "Shortest CDS                     3          \n" + \
+                   "Longest gene                     30         \n" + \
+                   "Longest mRNA                     30         \n" + \
+                   "Longest exon                     9          \n" + \
+                   "Longest intron                   9          \n" + \
+                   "Longest CDS                      8          \n" + \
+                   "mean gene length                 15         \n" + \
+                   "mean mRNA length                 15         \n" + \
+                   "mean exon length                 15         \n" + \
+                   "mean intron length               15         \n" + \
+                   "mean CDS length                  10         \n" + \
+                   "% of genome covered by genes     30.0       \n" + \
+                   "% of genome covered by CDS       20.0       \n" + \
+                   "mean mRNAs per gene              1          \n" + \
+                   "mean exons per mRNA              1          \n" + \
+                   "mean introns per mRNA            1          \n"
         summary = self.mgr.summary()
-        # self.assertEquals(summary, expected)
-        """
+        self.assertEquals(summary, expected)
 
     def test_format_column(self):
         column = ['a', 'sd', 'asdf']
