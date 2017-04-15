@@ -10,8 +10,8 @@ from src.gene_part import *
 class CDS(GenePart):
     def __init__(self, identifier=None, indices=None,
                  score=None, phase=None, strand=None, parent_id=None):
-        GenePart.__init__(self, feature_type='CDS', identifier=identifier,
-                          indices=indices, score=score, strand=strand, parent_id=parent_id)
+        super(CDS, self).__init__(feature_type='CDS', identifier=identifier,
+                                  indices=indices, score=score, strand=strand, parent_id=parent_id)
         self.phase = []
         if phase is not None:
             self.phase.append(phase)
