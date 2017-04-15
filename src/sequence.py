@@ -102,6 +102,9 @@ class Sequence(object):
                 if gene.contains_mrna(anno[0]):
                     gene.add_mrna_annotation(anno[0], anno[1], anno[2])
 
+    def is_empty(self):
+        return len(self.bases) == 0
+
     def number_of_gagflags(self):
         total = 0
         for gene in self.genes:
@@ -189,7 +192,8 @@ class Sequence(object):
         self.bases = self.bases[:start - 1] + self.bases[stop:]
         # Adjust indices of remaining genes
         bases_removed = stop - start + 1
-        [g.adjust_indices(-bases_removed, start) for g in self.genes]
+        for g in self.genes:
+            g.adjust_indices(-bases_removed, start)
         return genes_to_remove
 
     def get_subseq(self, start=1, stop=None):
@@ -495,11 +499,11 @@ class Sequence(object):
 
 def overlap(indices1, indices2):
     """Returns a boolean indicating whether two pairs of indices overlap."""
-    if not (len(indices1) == 2 and len(indices2) == 2):
-        return False
-    if indices2[0] <= indices1[0] <= indices2[1]:
-        return True
-    elif indices2[0] <= indices1[1] <= indices2[1]:
+    assert (len(indices1) == 2 and len(indices2) == 2)
+    if (indices2[0] <= indices1[0] <= indices2[1]) or \
+       (indices2[0] <= indices1[1] <= indices2[1]) or \
+       (indices1[0] <= indices2[0] <= indices1[1]) or \
+       (indices1[0] <= indices2[1] <= indices1[1]):
         return True
     else:
         return False
