@@ -151,7 +151,6 @@ class TestStatsManager(unittest.TestCase):
         self.assertEquals(summary, expected)
 
     def test_summary_without_modifications(self):
-        # Todo: fix test_summary_without_modifications test.
         self.mgr.update_alt(self.get_new_dict())
         self.mgr.update_ref(self.get_new_dict())
         expected = "                                 Genome     \n" + \
