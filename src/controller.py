@@ -190,6 +190,8 @@ class Controller(object):
         sys.stderr.write("Writing gff, tbl and fasta to " + out_dir + "/ ...\n")
         gff.write("##gff-version 3\n")
         for seq in self.seqs:
+            if seq.is_empty():
+                continue
             fasta.write(seq.to_fasta())
             gff.write(seq.to_gff())
             if not args.skip_empty_scaffolds or len(seq.genes) > 0:
