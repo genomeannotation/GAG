@@ -500,6 +500,8 @@ class Sequence(object):
 def overlap(indices1, indices2):
     """Returns a boolean indicating whether two pairs of indices overlap."""
     assert (len(indices1) == 2 and len(indices2) == 2)
+    indices1 = sorted(indices1)
+    indices2 = sorted(indices2)
     if (indices2[0] <= indices1[0] <= indices2[1]) or \
        (indices2[0] <= indices1[1] <= indices2[1]) or \
        (indices1[0] <= indices2[0] <= indices1[1]) or \

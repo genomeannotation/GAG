@@ -5,7 +5,7 @@ import unittest
 
 from mock import Mock
 
-from src.sequence import Sequence
+from src.sequence import Sequence, overlap
 
 
 class TestSequence(unittest.TestCase):
@@ -277,6 +277,22 @@ class TestSequence(unittest.TestCase):
         self.seq1.add_gene(fake_gene4)
         contained = self.seq1.get_contained_genes()
         self.assertEqual(contained, [fake_gene1])
+
+    # ToDo check if indicies are always in acending order
+    def test_overlap(self):
+        cases = [
+            ([1, 100], [25, 75], True),     # 2nd fully enclosed in 1st
+            ([25, 75], [1, 100], True),     # 1st fully enclosed in 2nd
+            ([1, 100], [50, 150], True),    # 2nd starts before 1st ends
+            ([50, 150], [1, 100], True),    # 1st starts before 2nd ends
+            ([1, 100], [100, 200], True),   # adjacent, shaired endpoint
+            ([100, 1], [75, 25], True),     # 2nd fully enclosed in 1st, indicies in reverse order
+            ([1, 100], [101, 200], False),  # adjacent, not overlaping
+            ([101, 200], [1, 100], False)   # reversed order, not overlaping
+        ]
+        for case in cases:
+            indices1, indices2, expected = case
+            self.assertEqual(overlap(indices1, indices2), expected)
 
     def test_get_overlapping_genes(self):
         fake_gene0 = Mock()
