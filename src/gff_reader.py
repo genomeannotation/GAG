@@ -144,9 +144,6 @@ class GFFReader(object):
         if not attribs:
             return None
 
-        if 'name' in attribs:
-            del attribs['name']
-
         if "annotations" in attribs:
             del attribs["annotations"]
 
@@ -163,9 +160,6 @@ class GFFReader(object):
         if not attribs:
             return None
 
-        if 'name' in attribs:
-            del attribs['name']
-
         if "annotations" in attribs:
             del attribs["annotations"]
 
@@ -180,9 +174,6 @@ class GFFReader(object):
 
         if not attribs:
             return None
-
-        if 'name' in attribs:
-            del attribs['name']
 
         result.update(attribs)
         return result
@@ -206,9 +197,6 @@ class GFFReader(object):
 
         if not attribs:
             return None
-
-        if 'name' in attribs:
-            del attribs['name']
 
         if "annotations" in attribs:
             del attribs["annotations"]

@@ -3,10 +3,10 @@
 
 import math
 
-
+# Todo: check if initilized variable is None before using
 class GenePart(object):
     def __init__(self, feature_type=None, identifier=None,
-                 indices=None, score=None, strand='+', parent_id=None):
+                 indices=None, score=None, strand='+', parent_id=None, name=None):
         self.feature_type = feature_type
         self.identifier = []
         if identifier is not None:
@@ -20,6 +20,7 @@ class GenePart(object):
         self.strand = strand  # Defauts to positive strand (?)
         self.parent_id = parent_id
         self.annotations = []
+        self.name = name
 
     def __str__(self):
         """Returns string representation of a GenePart.

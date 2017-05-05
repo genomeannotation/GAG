@@ -9,6 +9,7 @@ def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
 
 
+# Todo: check if initilized variable is None before using
 class Gene(object):
     def __init__(self, seq_name, source, indices, strand, identifier, name="", annotations=None, score=None):
         self.seq_name = seq_name
@@ -21,10 +22,7 @@ class Gene(object):
         self.mrnas = []
         self.removed_mrnas = []
         self.pseudo = False
-        if not annotations:
-            self.annotations = {}
-        else:
-            self.annotations = annotations
+        self.annotations = {} if annotations is None else annotations
         self.death_flagged = False
 
     def __str__(self):
