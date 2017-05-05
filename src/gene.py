@@ -9,9 +9,8 @@ def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
 
 
-# Todo: check if initilized variable is None before using
 class Gene(object):
-    def __init__(self, seq_name, source, indices, strand, identifier, name="", annotations=None, score=None):
+    def __init__(self, seq_name, source, indices, strand, identifier, name='', annotations=None, score=None):
         self.seq_name = seq_name
         self.source = source
         self.indices = indices
@@ -135,10 +134,7 @@ class Gene(object):
 
         If no score is present, returns '.' (the default .gff value).
         """
-        if self.score:
-            return self.score
-        else:
-            return '.'
+        return self.score or '.'
 
     def get_longest_exon(self):
         """Returns length of longest exon contained on gene."""

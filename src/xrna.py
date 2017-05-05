@@ -10,10 +10,9 @@ def length_of_segment(index_pair):
     return math.fabs(index_pair[1] - index_pair[0]) + 1
 
 
-# Todo: check if initilized variable is None before using
 class XRNA(object):
-    def __init__(self, identifier, indices, parent_id, source=None, seq_name=None, name='', strand='+', annotations=None,
-                 rna_type="mRNA"):
+    def __init__(self, identifier, indices, parent_id, source='', seq_name='', name='', strand='+',
+                 annotations=None, rna_type="mRNA"):
         self.rna_type = rna_type
         self.identifier = identifier
         self.indices = indices
@@ -195,7 +194,7 @@ class XRNA(object):
 
     def to_gff(self):
         """Returns a string of RNA and child features in .gff format."""
-        result = self.seq_name or '' + "\t" + self.source or '' + "\t" + self.rna_type + "\t"
+        result = self.seq_name + "\t" + self.source + "\t" + self.rna_type + "\t"
         result += str(self.indices[0]) + "\t" + str(self.indices[1]) + "\t"
         result += "." + "\t" + self.strand + "\t" + "." + "\t"
         result += "ID=" + str(self.identifier)
