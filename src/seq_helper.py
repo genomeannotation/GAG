@@ -18,28 +18,33 @@ class SeqHelper(object):
 
     def mrna_to_fasta(self, mrna):
         """Writes a two-line fasta-style entry consisting of all exonic sequence."""
-
         if not mrna.exon:
             return ""
+        # ToDo: add name to header
         identifier = ">" + mrna.identifier
+        metadata = "ID=" + mrna.identifier + "|Parent=" + mrna.parent_id + "|Name=" + mrna.name
         strand = mrna.strand
         indices = mrna.exon.indices
-        return self.id_and_indices_to_fasta(identifier, strand, indices)
+        return self.id_and_indices_to_fasta(identifier, strand, indices, metadata)
 
     def mrna_to_cds_fasta(self, mrna):
         """Writes a two-line fasta-style entry consisting of all CDS sequence."""
         if not mrna.cds:
             return ""
-        identifier = ">" + mrna.identifier + " CDS"
+        # ToDo: add name to header
+        identifier = ">CDS|" + mrna.identifier
+        metadata = "ID=" + mrna.identifier + "|Parent=" + mrna.parent_id + "|Name=" + mrna.name
         strand = mrna.strand
         indices = mrna.cds.indices
-        return self.id_and_indices_to_fasta(identifier, strand, indices)
+        return self.id_and_indices_to_fasta(identifier, strand, indices, metadata)
 
     def mrna_to_protein_fasta(self, mrna):
         """Writes a two-line fasta-style entry consisting of the translation of CDS sequence."""
         if not mrna.cds:
             return ""
-        identifier = ">" + mrna.identifier + " protein"
+        # ToDo: add name to header
+        identifier = ">protein|" + mrna.identifier
+        metadata = "ID=" + mrna.identifier + "|Parent=" + mrna.parent_id + "|Name=" + mrna.name
         strand = mrna.strand
         indices = mrna.cds.indices
         untranslated = self.get_sequence_from_indices(strand, indices)
@@ -51,10 +56,14 @@ class SeqHelper(object):
         else:
             ph = 0
         untranslated = untranslated[ph:]
-        return identifier + "\n" + translate(untranslated, "+") + "\n"
+        return identifier + " " + metadata + "\n" + translate(untranslated, "+") + "\n"
 
-    def id_and_indices_to_fasta(self, identifier, strand, indices):
-        result = identifier + "\n"
+    def id_and_indices_to_fasta(self, identifier, strand, indices, metadata=None):
+        result = identifier
+        if metadata:
+            result += " " + metadata + "\n"
+        else:
+            result += "\n"
         result += self.get_sequence_from_indices(strand, indices) + "\n"
         return result
 
