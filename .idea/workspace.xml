@@ -2,8 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3dc5be23-4a00-42d3-bc61-0c0cf4844253" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/stats_manager_tests.py" afterPath="$PROJECT_DIR$/test/stats_manager_tests.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cds.py" afterPath="$PROJECT_DIR$/src/cds.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gene.py" afterPath="$PROJECT_DIR$/src/gene.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gene_part.py" afterPath="$PROJECT_DIR$/src/gene_part.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gff_reader.py" afterPath="$PROJECT_DIR$/src/gff_reader.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/seq_helper.py" afterPath="$PROJECT_DIR$/src/seq_helper.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/xrna.py" afterPath="$PROJECT_DIR$/src/xrna.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,106 +24,54 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="seq_helper_tests.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/seq_helper_tests.py">
+      <file leaf-file-name="xrna.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/xrna.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="142">
-              <caret line="74" column="49" lean-forward="false" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="49" />
-              <folding>
-                <element signature="e#38#53#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="stats_manager_tests.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/test/stats_manager_tests.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="11" column="31" lean-forward="false" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="31" />
+            <state relative-caret-position="195">
+              <caret line="28" column="17" lean-forward="false" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="stats_manager.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/stats_manager.py">
+      <file leaf-file-name="gene.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/gene.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-4725">
+              <caret line="21" column="23" lean-forward="false" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gene_part.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/gene_part.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
-              <caret line="42" column="41" lean-forward="false" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
+              <caret line="17" column="28" lean-forward="false" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="case.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/anaconda/envs/py27/lib/python2.7/unittest/case.py">
+      <file leaf-file-name="gff_reader.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/gff_reader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="328" column="0" lean-forward="false" selection-start-line="328" selection-start-column="0" selection-end-line="328" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="case.py" pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_HOME_DIR$/helpers/pycharm/nose_helper/case.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="suite.py" pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_HOME_DIR$/helpers/pycharm/nose_helper/suite.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="140" column="0" lean-forward="false" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tcunittest.py" pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_HOME_DIR$/helpers/pycharm/tcunittest.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="426">
-              <caret line="261" column="0" lean-forward="false" selection-start-line="261" selection-start-column="0" selection-end-line="261" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="utrunner.py" pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_HOME_DIR$/helpers/pycharm/utrunner.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="456">
-              <caret line="187" column="0" lean-forward="false" selection-start-line="187" selection-start-column="0" selection-end-line="187" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pydevd.py" pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="381">
-              <caret line="1595" column="0" lean-forward="false" selection-start-line="1595" selection-start-column="0" selection-end-line="1595" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="gene_tests.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/gene_tests.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+            <state relative-caret-position="582">
+              <caret line="163" column="26" lean-forward="false" selection-start-line="163" selection-start-column="26" selection-end-line="163" selection-end-column="26" />
               <folding>
-                <element signature="e#38#53#0" expanded="true" />
+                <element signature="e#38#48#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="5" lean-forward="true" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="5" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -132,6 +86,17 @@
       <find>bxref</find>
       <find>dbxref</find>
       <find>db_xref</find>
+      <find>genome.mrna.fasta</find>
+      <find>mrna.fasta</find>
+      <find>fasta</find>
+      <find>proteins</find>
+      <find>if 'name' in attribs:</find>
+      <find>self.mrnas</find>
+      <find>get</find>
+      <find>name</find>
+      <find>self.source</find>
+      <find>self.parent_id</find>
+      <find>self.name</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/walkthrough</dir>
@@ -145,14 +110,19 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/cds.py" />
-        <option value="$PROJECT_DIR$/src/seq_helper.py" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/gag_output/genome.proteins.fasta" />
         <option value="$PROJECT_DIR$/test/gene_tests.py" />
         <option value="$PROJECT_DIR$/test/seq_helper_tests.py" />
         <option value="$PROJECT_DIR$/src/stats_manager.py" />
         <option value="$PROJECT_DIR$/test/stats_manager_tests.py" />
+        <option value="$PROJECT_DIR$/test/sequence_tests.py" />
+        <option value="$PROJECT_DIR$/src/seq_helper.py" />
+        <option value="$PROJECT_DIR$/src/gff_reader.py" />
+        <option value="$PROJECT_DIR$/src/cds.py" />
+        <option value="$PROJECT_DIR$/src/gene.py" />
+        <option value="$PROJECT_DIR$/src/xrna.py" />
+        <option value="$PROJECT_DIR$/src/gene_part.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -211,6 +181,66 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GAG" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GAG" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="walkthrough" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GAG" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GAG" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="walkthrough" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="basic" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GAG" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GAG" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GAG" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GAG" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gag_output" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -233,29 +263,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python tests.Unittest TestStatsManager.test_summary_without_modifications">
-    <configuration default="false" name="Unittest TestSeqHelper.test_mrna_to_protein_fasta_reverse_phase1" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="GAG" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/seq_helper_tests.py" />
-      <option name="CLASS_NAME" value="TestSeqHelper" />
-      <option name="METHOD_NAME" value="test_mrna_to_protein_fasta_reverse_phase1" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_METHOD" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="false" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.gag">
     <configuration default="false" name="all_tests" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -270,6 +278,23 @@
       <module name="GAG" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/all_tests.py" />
       <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="gag" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="GAG" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/gag.py" />
+      <option name="PARAMETERS" value="-f walkthrough/basic/genome.fasta -g walkthrough/basic/genome.gff" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
@@ -508,19 +533,19 @@
     </configuration>
     <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Python tests.tests" />
-      <item index="1" class="java.lang.String" itemvalue="Python tests.Unittest TestSeqHelper.test_mrna_to_protein_fasta_reverse_phase1" />
-      <item index="2" class="java.lang.String" itemvalue="Python.all_tests" />
+      <item index="1" class="java.lang.String" itemvalue="Python.all_tests" />
+      <item index="2" class="java.lang.String" itemvalue="Python.gag" />
       <item index="3" class="java.lang.String" itemvalue="Python tests.Unittest TestStatsManager.test_summary_without_modifications" />
       <item index="4" class="java.lang.String" itemvalue="Python tests.Unittest TestStatsManager.test_summary_with_modifications" />
       <item index="5" class="java.lang.String" itemvalue="Python tests.Unittest TestStatsManager.test_alt_is_empty" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python tests.Unittest TestStatsManager.test_summary_without_modifications" />
-        <item index="1" class="java.lang.String" itemvalue="Python tests.Unittest TestStatsManager.test_alt_is_empty" />
-        <item index="2" class="java.lang.String" itemvalue="Python tests.Unittest TestStatsManager.test_summary_with_modifications" />
-        <item index="3" class="java.lang.String" itemvalue="Python.all_tests" />
-        <item index="4" class="java.lang.String" itemvalue="Python tests.Unittest TestSeqHelper.test_mrna_to_protein_fasta_reverse_phase1" />
+        <item index="0" class="java.lang.String" itemvalue="Python.gag" />
+        <item index="1" class="java.lang.String" itemvalue="Python tests.Unittest TestStatsManager.test_summary_without_modifications" />
+        <item index="2" class="java.lang.String" itemvalue="Python tests.Unittest TestStatsManager.test_alt_is_empty" />
+        <item index="3" class="java.lang.String" itemvalue="Python tests.Unittest TestStatsManager.test_summary_with_modifications" />
+        <item index="4" class="java.lang.String" itemvalue="Python.all_tests" />
       </list>
     </recent_temporary>
   </component>
@@ -586,10 +611,9 @@
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24593128" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959184" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32914045" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32809225" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959184" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32914045" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959184" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32914045" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -602,9 +626,31 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32809225" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32914045" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959184" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32914045" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24593128" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32809225" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32914045" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40985325" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -623,7 +669,7 @@
           <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="13" />
+      <option name="time" value="17" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -649,7 +695,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#38#53#0" expanded="true" />
+            <element signature="e#38#53#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -658,7 +704,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -667,7 +712,7 @@
         <state relative-caret-position="30">
           <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding>
-            <element signature="e#38#53#0" expanded="true" />
+            <element signature="e#38#53#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -676,7 +721,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -684,7 +728,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -692,7 +735,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -700,9 +742,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="10" column="22" lean-forward="false" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="22" />
-          <folding>
-            <element signature="e#38#53#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -727,14 +766,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="16" lean-forward="false" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="16" />
           <folding />
         </state>
       </provider>
@@ -746,19 +777,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gag_output/genome.proteins.fasta">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="27" selection-end-column="660" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/util/nudge.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -766,7 +788,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -774,7 +795,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -782,35 +802,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="10" column="22" lean-forward="false" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="22" />
-          <folding>
-            <element signature="e#38#53#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cds.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding>
-            <element signature="e#38#49#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/translator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="915">
-          <caret line="61" column="4" lean-forward="false" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/seq_helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="900">
-          <caret line="60" column="28" lean-forward="false" selection-start-line="60" selection-start-column="28" selection-end-line="60" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -818,7 +809,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -827,24 +817,24 @@
         <state relative-caret-position="30">
           <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding>
-            <element signature="e#38#53#0" expanded="true" />
+            <element signature="e#38#53#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/seq_helper_tests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
+        <state relative-caret-position="1110">
           <caret line="74" column="49" lean-forward="false" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="49" />
           <folding>
-            <element signature="e#38#53#0" expanded="true" />
+            <element signature="e#38#53#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pycharm/nose_helper/case.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
+        <state relative-caret-position="270">
           <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding />
         </state>
@@ -852,7 +842,7 @@
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pycharm/nose_helper/suite.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
+        <state relative-caret-position="2010">
           <caret line="140" column="0" lean-forward="false" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
           <folding />
         </state>
@@ -860,7 +850,7 @@
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pycharm/tcunittest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="426">
+        <state relative-caret-position="3840">
           <caret line="261" column="0" lean-forward="false" selection-start-line="261" selection-start-column="0" selection-end-line="261" selection-end-column="0" />
           <folding />
         </state>
@@ -868,7 +858,7 @@
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pycharm/utrunner.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
+        <state relative-caret-position="2760">
           <caret line="187" column="0" lean-forward="false" selection-start-line="187" selection-start-column="0" selection-end-line="187" selection-end-column="0" />
           <folding />
         </state>
@@ -876,7 +866,7 @@
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
+        <state relative-caret-position="23400">
           <caret line="1595" column="0" lean-forward="false" selection-start-line="1595" selection-start-column="0" selection-end-line="1595" selection-end-column="0" />
           <folding />
         </state>
@@ -884,16 +874,16 @@
     </entry>
     <entry file="file://$USER_HOME$/anaconda/envs/py27/lib/python2.7/unittest/case.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
+        <state relative-caret-position="4725">
           <caret line="328" column="0" lean-forward="false" selection-start-line="328" selection-start-column="0" selection-end-line="328" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/stats_manager.py">
+    <entry file="file://$PROJECT_DIR$/test/sequence_tests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="42" column="41" lean-forward="false" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
+        <state relative-caret-position="204">
+          <caret line="280" column="0" lean-forward="false" selection-start-line="280" selection-start-column="0" selection-end-line="280" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -902,6 +892,192 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="11" column="31" lean-forward="false" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/walkthrough/basic/genome.fasta">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/walkthrough/annotation/genome.fasta">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/walkthrough/short_introns/genome.fasta">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2016.3/python_stubs/-1201431840/__builtin__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="2833" column="8" lean-forward="false" selection-start-line="2833" selection-start-column="8" selection-end-line="2833" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gag.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gag_output/genome.proteins.fasta">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gag_output/genome.fasta">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cds.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="15" column="28" lean-forward="false" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controller.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="896">
+          <caret line="283" column="0" lean-forward="false" selection-start-line="283" selection-start-column="0" selection-end-line="283" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fasta_reader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stats_manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="42" column="41" lean-forward="false" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/translator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="896">
+          <caret line="61" column="4" lean-forward="false" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/filter_manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/filters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/seq_helper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="91" lean-forward="false" selection-start-line="24" selection-start-column="91" selection-end-line="24" selection-end-column="91" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sequence.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4200">
+          <caret line="281" column="34" lean-forward="false" selection-start-line="281" selection-start-column="34" selection-end-line="281" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/exon.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/xrna.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="28" column="17" lean-forward="false" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gene.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4725">
+          <caret line="21" column="23" lean-forward="false" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gene_part.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="28" lean-forward="false" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gff_reader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="582">
+          <caret line="163" column="26" lean-forward="false" selection-start-line="163" selection-start-column="26" selection-end-line="163" selection-end-column="26" />
+          <folding>
+            <element signature="e#38#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="5" lean-forward="true" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="5" />
           <folding />
         </state>
       </provider>
