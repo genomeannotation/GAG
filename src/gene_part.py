@@ -3,9 +3,9 @@
 
 import math
 
-# Todo: check if initilized variable is None before using
+
 class GenePart(object):
-    def __init__(self, feature_type=None, identifier=None,
+    def __init__(self, feature_type='', identifier=None,
                  indices=None, score=None, strand='+', parent_id=None, name=None):
         self.feature_type = feature_type
         self.identifier = []
