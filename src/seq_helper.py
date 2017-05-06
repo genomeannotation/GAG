@@ -20,7 +20,6 @@ class SeqHelper(object):
         """Writes a two-line fasta-style entry consisting of all exonic sequence."""
         if not mrna.exon:
             return ""
-        # ToDo: add name to header
         identifier = ">" + mrna.identifier
         metadata = "ID=" + mrna.identifier + "|Parent=" + mrna.parent_id + "|Name=" + mrna.name
         strand = mrna.strand
@@ -31,7 +30,6 @@ class SeqHelper(object):
         """Writes a two-line fasta-style entry consisting of all CDS sequence."""
         if not mrna.cds:
             return ""
-        # ToDo: add name to header
         identifier = ">CDS|" + mrna.identifier
         metadata = "ID=" + mrna.identifier + "|Parent=" + mrna.parent_id + "|Name=" + mrna.name
         strand = mrna.strand
@@ -42,7 +40,6 @@ class SeqHelper(object):
         """Writes a two-line fasta-style entry consisting of the translation of CDS sequence."""
         if not mrna.cds:
             return ""
-        # ToDo: add name to header
         identifier = ">protein|" + mrna.identifier
         metadata = "ID=" + mrna.identifier + "|Parent=" + mrna.parent_id + "|Name=" + mrna.name
         strand = mrna.strand
