@@ -11,8 +11,8 @@ def length_of_segment(index_pair):
 
 
 class XRNA(object):
-    def __init__(self, identifier, indices, parent_id, source=None, seq_name=None, strand='+', annotations=None,
-                 rna_type="mRNA"):
+    def __init__(self, identifier, indices, parent_id, source='', seq_name='', name='', strand='+',
+                 annotations=None, rna_type="mRNA"):
         self.rna_type = rna_type
         self.identifier = identifier
         self.indices = indices
@@ -21,19 +21,11 @@ class XRNA(object):
         self.exon = None
         self.cds = None
         self.other_features = []
-        if not annotations:
-            self.annotations = {}
-        else:
-            self.annotations = annotations
-        if not source:
-            self.source = ""
-        else:
-            self.source = source
-        if not seq_name:
-            self.seq_name = ""
-        else:
-            self.seq_name = seq_name
+        self.annotations = {} if annotations is None else annotations
         self.death_flagged = False
+        self.source = source
+        self.seq_name = seq_name
+        self.name = name
 
     def __str__(self):
         """Returns string representation of the RNA.

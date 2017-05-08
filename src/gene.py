@@ -10,7 +10,7 @@ def length_of_segment(index_pair):
 
 
 class Gene(object):
-    def __init__(self, seq_name, source, indices, strand, identifier, name="", annotations=None, score=None):
+    def __init__(self, seq_name, source, indices, strand, identifier, name='', annotations=None, score=None):
         self.seq_name = seq_name
         self.source = source
         self.indices = indices
@@ -21,10 +21,7 @@ class Gene(object):
         self.mrnas = []
         self.removed_mrnas = []
         self.pseudo = False
-        if not annotations:
-            self.annotations = {}
-        else:
-            self.annotations = annotations
+        self.annotations = {} if annotations is None else annotations
         self.death_flagged = False
 
     def __str__(self):
@@ -137,10 +134,7 @@ class Gene(object):
 
         If no score is present, returns '.' (the default .gff value).
         """
-        if self.score:
-            return self.score
-        else:
-            return '.'
+        return self.score or '.'
 
     def get_longest_exon(self):
         """Returns length of longest exon contained on gene."""

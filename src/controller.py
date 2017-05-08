@@ -173,6 +173,7 @@ class Controller(object):
         gff = open(out_dir + '/genome.gff', 'w')
         tbl = open(out_dir + '/genome.tbl', 'w')
         proteins = open(out_dir + '/genome.proteins.fasta', 'w')
+        mrna = open(out_dir + '/genome.mrna.fasta', 'w')
         removed = open(out_dir + '/genome.removed.gff', 'w')
         stats_file = open(out_dir + '/genome.stats', 'w')
 
@@ -198,6 +199,7 @@ class Controller(object):
                 # Possibly skip empty sequences
                 tbl.write(seq.to_tbl())
             proteins.write(seq.to_protein_fasta())
+            mrna.write(seq.to_mrna_fasta())
 
         # Write removed.gff
         for feature in self.removed_features:

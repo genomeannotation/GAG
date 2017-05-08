@@ -278,7 +278,6 @@ class TestSequence(unittest.TestCase):
         contained = self.seq1.get_contained_genes()
         self.assertEqual(contained, [fake_gene1])
 
-    # ToDo check if indicies are always in acending order
     def test_overlap(self):
         cases = [
             ([1, 100], [25, 75], True),     # 2nd fully enclosed in 1st

@@ -2,8 +2,7 @@
 # coding=utf-8
 
 
-# TODO TODO TODO
-# ok, update should take a list of seqs instead of a single seq
+# TODO: ok, update should take a list of seqs instead of a single seq
 # then it can calculate stuff like longest seq, number of seqs, etc.
 
 class StatsManager(object):
