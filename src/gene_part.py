@@ -58,11 +58,11 @@ class GenePart:
             return
         if length == len(self.score):
             sort_scores = True
-        # Build a list of lists where each entry is 
+        # Build a list of lists where each entry is
         # composed of attributes
         all_attributes = []
         for i in xrange(length):
-            all_attributes.append([self.indices[i][0], self.indices[i][1], 
+            all_attributes.append([self.indices[i][0], self.indices[i][1],
                 self.identifier[i]])
             if sort_scores:
                 all_attributes[i].append(self.score[i])
@@ -84,7 +84,7 @@ class GenePart:
             value: a string representing the content of the annotation
         """
         self.annotations.append([key, value])
-    
+
     def gagflagged(self):
         """Returns a boolean indicating whether the GenePart contains a 'gagflag' annotation."""
         for anno in self.annotations:
@@ -215,7 +215,7 @@ def write_tbl_entry(indices, strand, has_start, has_stop, feature_type, phase=0)
         # Write first line of coordinates
         if not has_start:
             output += "<"
-        output += str(indices[0][0]) + "\t" + str(indices[0][1]) + "\t" 
+        output += str(indices[0][0]) + "\t" + str(indices[0][1]) + "\t"
         output += feature_type+"\n"
         # Write middle lines
         for index_pair in indices[1:-1]:
@@ -226,6 +226,6 @@ def write_tbl_entry(indices, strand, has_start, has_stop, feature_type, phase=0)
             output += ">"
         output += str(indices[-1][1]) + "\n"
     if feature_type == "CDS":
-        output += "\t\t\tcodon_start\t" + str(phase+1) + "\n"
+        output += "\t\t\t{0}\t{1}\n".format("codon_start", str(phase+1))
     return output
 

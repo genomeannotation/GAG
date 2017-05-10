@@ -9,15 +9,15 @@ class TestGene(unittest.TestCase):
     def setUp(self):
         self.test_gene0 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[3734, 7436], strand='+', identifier=1)
         self.test_gene1 = Gene(seq_name="sctg_0080_0020", source="maker", indices=[3734, 7436], strand='+', identifier=1)
-        
+
         self.fake_mrna1 = Mock()
         self.fake_mrna1.identifier = "fake_mrna1"
         self.fake_mrna1.death_flagged = False
-        
+
         self.fake_mrna2 = Mock()
         self.fake_mrna2.identifier = "fake_mrna2"
         self.fake_mrna2.death_flagged = False
-        
+
         self.test_gene1.mrnas.append(self.fake_mrna1)
         self.test_gene1.mrnas.append(self.fake_mrna2)
 
@@ -41,7 +41,7 @@ class TestGene(unittest.TestCase):
     def test_get_mrna_ids(self):
         expected = ["fake_mrna1", "fake_mrna2"]
         self.assertEquals(self.test_gene1.get_mrna_ids(), expected)
-    
+
     def test_remove_mrna(self):
         self.assertEquals(self.test_gene1.mrnas, [self.fake_mrna1, self.fake_mrna2])
         self.assertEquals(len(self.test_gene1.removed_mrnas), 0)
@@ -61,7 +61,7 @@ class TestGene(unittest.TestCase):
         self.assertEquals(2, len(removed_mrnas))
         self.assertEquals(1, len(self.test_gene1.mrnas))
         self.assertEquals(2, len(self.test_gene1.removed_mrnas))
-    
+
     def test_remove_empty_mrnas(self):
         self.fake_mrna1.rna_type = "mRNA"
         self.fake_mrna1.cds = Mock()
@@ -225,7 +225,7 @@ class TestGene(unittest.TestCase):
         mrna.identifier = "foo_mrna"
         self.test_gene0.mrnas = [mrna]
         self.test_gene0.add_mrna_annotation("foo_mrna", "gag_flag", "awesome_anno")
-        mrna.add_annotation.assert_called_with("gag_flag", "awesome_anno")
+        mrna.add_annotation.assert_called_with("gag_flag", "awesome_anno", feat_type=None)
 
     def test_to_tbl_positive(self):
         gene = Gene(seq_name="seq1", source="maker", indices=[1, 50], strand="+", identifier="foo_gene_1")

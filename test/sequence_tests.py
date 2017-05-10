@@ -19,7 +19,7 @@ class TestSequence(unittest.TestCase):
         mockgene.to_protein_fasta.return_value = "mockgene_to_protein_fasta\n"
         mockgene.get_valid_mrnas = Mock(return_value=[])
         self.seq1.add_gene(mockgene)
-        
+
     def add_mock_gene_with_1_mrna(self, name):
         mockgene = Mock()
         mockgene.indices = [1, 10]
@@ -44,7 +44,7 @@ class TestSequence(unittest.TestCase):
         mockgene.get_total_exon_length.return_value = 15
         mockgene.get_total_intron_length.return_value = 15
         self.seq1.add_gene(mockgene)
-        
+
     def add_mock_gene_with_2_mrnas(self, name):
         mockgene = Mock()
         mockgene.indices = [20, 30]
@@ -127,7 +127,7 @@ class TestSequence(unittest.TestCase):
     def test_add_gene(self):
         self.add_mock_gene()
         self.assertEqual(1, len(self.seq1.genes))
-    
+
     def test_remove_gene(self):
         self.add_mock_gene('foo_gene')
         self.assertEqual(1, len(self.seq1.genes))
@@ -163,7 +163,7 @@ class TestSequence(unittest.TestCase):
         removed = self.seq1.remove_mrnas_from_list(bad_mrnas)
         self.assertEquals(["foo"], removed)
         self.seq1.genes[0].remove_mrnas_from_list.assert_called_with(bad_mrnas)
-    
+
     def test_remove_empty_genes(self):
         self.add_mock_gene('foo_gene')
         self.add_mock_gene('bar_gene')
@@ -176,7 +176,7 @@ class TestSequence(unittest.TestCase):
         self.assertEquals(2, len(removed_genes))
         self.assertEquals(1, len(self.seq1.genes))
         self.assertEquals(2, len(self.seq1.removed_genes))
-    
+
     def test_remove_empty_mrnas(self):
         self.seq1.genes = [Mock(), Mock()]
         self.seq1.genes[0].remove_empty_mrnas.return_value = []
@@ -235,7 +235,7 @@ class TestSequence(unittest.TestCase):
         gene.contains_mrna.return_value = True
         anno_list = [["foo_mrna", "Dbxref", "PFAM:0001"]]
         self.seq1.add_annotations_from_list(anno_list)
-        gene.add_mrna_annotation.assert_called_with("foo_mrna", "Dbxref", "PFAM:0001")
+        gene.add_mrna_annotation.assert_called_with("foo_mrna", "Dbxref", "PFAM:0001", feat_type=None)
 
     def test_add_annotations_from_list_adds_to_gene(self):
         gene = Mock()
@@ -253,7 +253,7 @@ class TestSequence(unittest.TestCase):
         self.add_mock_gene_with_2_mrnas("foo_gene2")
         partial_info = self.seq1.get_cds_partial_info()
         self.assertEquals(1, partial_info["CDS: complete"])
-    
+
     def test_get_contained_genes(self):
         fake_gene0 = Mock()
         fake_gene0.indices = [0, 10]
@@ -272,7 +272,7 @@ class TestSequence(unittest.TestCase):
         self.seq1.add_gene(fake_gene4)
         contained = self.seq1.get_contained_genes()
         self.assertEqual(contained, [fake_gene1])
-    
+
     def test_get_overlapping_genes(self):
         fake_gene0 = Mock()
         fake_gene0.indices = [0, 10]
@@ -294,7 +294,7 @@ class TestSequence(unittest.TestCase):
         self.assertTrue(fake_gene1 in contained)
         self.assertTrue(fake_gene2 in contained)
         self.assertTrue(fake_gene3 in contained)
-        
+
 
     def test_cds_to_gff(self):
         mockgene = Mock()

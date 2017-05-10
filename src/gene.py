@@ -101,7 +101,7 @@ class Gene:
         else:
             self.annotations[key] = [value]
 
-    def add_mrna_annotation(self, mrna_id, key, value, feat_type="mRNA"):
+    def add_mrna_annotation(self, mrna_id, key, value, feat_type=None):
         """Adds annotation key, value pair to specified mrna.
 
         Does nothing if mrna not found.
@@ -340,7 +340,7 @@ class Gene:
             result += mrna.to_gff()
         return result
 
-    def to_tbl(self, gc_tag=None):
+    def to_tbl(self, gc_tag=None, txid_format=None):
         """Returns a string in .tbl format of the gene and its child features."""
         if self.strand == "-":
             indices = [self.indices[1], self.indices[0]]
@@ -351,10 +351,8 @@ class Gene:
         has_stop = True
         if not self.pseudo:
             for mrna in self.mrnas:
-                if not mrna.has_start():
-                    has_start = False
-                if not mrna.has_stop():
-                    has_stop = False
+                if not mrna.has_start(): has_start = False
+                if not mrna.has_stop(): has_stop = False
         output = ""
         if not has_start:
             output += "<"
@@ -363,14 +361,19 @@ class Gene:
             output += ">"
         output += str(indices[1]) + "\t" + "gene\n"
         if self.name and (self.name != self.identifier):
-            output += "\t\t\tgene\t" + self.name + "\n"
-        output += "\t\t\tlocus_tag\t" + self.identifier + "\n"
+            output += self.tbl_line("gene", self.name)
+        output += self.tbl_line("locus_tag", self.identifier)
         # Write the annotations
         for key in self.annotations.keys():
             for value in self.annotations[key]:
-                output += '\t\t\t'+key+'\t'+value+'\n'
+                output += self.tbl_line(key, value)
         if self.pseudo:
-            output += "\t\t\tpseudo\n"
+            output += self.tbl_line("pseudo")
         for mrna in self.mrnas:
-            output += mrna.to_tbl(gc_tag=gc_tag)
+            output += mrna.to_tbl(gc_tag=gc_tag, txid_format=txid_format)
         return output
+
+    def tbl_line(self, *args, **kwargs):
+        return "\t\t\t{0}\t{1}\n".format(args[0], args[1]) \
+            if len(args) == 2 else \
+            "\t\t\t{0}\n".format(args[0])

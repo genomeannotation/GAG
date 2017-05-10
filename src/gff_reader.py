@@ -140,7 +140,7 @@ class GFFReader:
                 'strand': line[6], 'phase': int(line[7])}
         if isinstance(line[7], float):
             result['score'] = line[7]
-        attribs = self.parse_attributes(line[8])
+        attribs = self.parse_attributes(line[8], ftype=line[2])
 
         if not attribs:
             return None
@@ -159,7 +159,7 @@ class GFFReader:
         result = {'indices': [int(line[3]), int(line[4])], 'strand': line[6]}
         if line[5] != '.':
             result['score'] = float(line[5])
-        attribs = self.parse_attributes(line[8])
+        attribs = self.parse_attributes(line[8], ftype=line[2])
 
         if not attribs:
             return None
@@ -177,7 +177,7 @@ class GFFReader:
         """Pulls XRNA arguments from a gff line and returns them in a dictionary."""
         result = {'indices': [int(line[3]), int(line[4])], 'strand': line[6],
                   'seq_name': line[0], 'source': line[1]}
-        attribs = self.parse_attributes(line[8])
+        attribs = self.parse_attributes(line[8], ftype=line[2])
 
         if not attribs:
             return None
@@ -203,7 +203,7 @@ class GFFReader:
     def extract_other_feature_args(self, line):
         """Pulls GenePart arguments from a gff line and returns them in a dictionary."""
         result = {'feature_type': line[2], 'indices': [int(line[3]), int(line[4])]}
-        attribs = self.parse_attributes(line[8])
+        attribs = self.parse_attributes(line[8], ftype=line[2])
 
         if not attribs:
             return None

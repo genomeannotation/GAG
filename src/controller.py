@@ -162,6 +162,10 @@ class Controller:
             gc_tag = args.wgs_accession_prefix
             if not gc_tag.startswith("WGS:"):
                 gc_tag = "{0}:{1}".format("WGS", gc_tag)
+        if args.reference_qualifier:
+            ref_qual = args.reference_qualifier
+        if args.transcript_id_format:
+            txid_format = args.transcript_id_format
         # Write fasta, gff, tbl, protein fasta
         sys.stderr.write("Writing gff, tbl and fasta to " + out_dir + "/ ...\n")
         gff.write("##gff-version 3\n")
@@ -170,7 +174,7 @@ class Controller:
             gff.write(seq.to_gff())
             if not args.skip_empty_scaffolds or len(seq.genes) > 0:
                 # Possibly skip empty sequences
-                tbl.write(seq.to_tbl(gc_tag=gc_tag))
+                tbl.write(seq.to_tbl(gc_tag=gc_tag, ref_qual=ref_qual, txid_format=txid_format))
             proteins.write(seq.to_protein_fasta())
 
         # Write removed.gff

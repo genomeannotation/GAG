@@ -124,7 +124,7 @@ class TestGFFReader(unittest.TestCase):
     def test_read_file(self):
         text = self.get_sample_text()
         inbuff = io.BytesIO(text)
-        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
+        genes, non_genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEquals(2, len(genes))
         self.assertEquals('BDOR_007864-RA', genes[0].mrnas[0].identifier)
         self.assertEquals([179489, 179691], genes[1].mrnas[0].cds.indices[2])
@@ -171,7 +171,7 @@ class TestGFFReader(unittest.TestCase):
         sample_text += "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RB\n"
         sample_text += "scaffold00080\tmaker\tstop_codon\t109851\t109853\t.\t+\t.\tID=BDOR_007864-RA:stop2;Parent=BDOR_007864-RB\n"
         return sample_text
-        
+
     def get_out_of_order_text_with_missing_parent(self):
         sample_text = "scaffold00080\tmaker\tgene\t106151\t109853\t.\t+\t.\tID=BDOR_007864\n"
         sample_text += "scaffold00080\tmaker\tmRNA\t106151\t109853\t.\t+\t.\tID=BDOR_007864-RA;Parent=BDOR_007864\n"
@@ -188,11 +188,11 @@ class TestGFFReader(unittest.TestCase):
         sample_text += "scaffold00080\tmaker\tstart_codon\t106151\t106153\t.\t+\t.\tID=BDOR_007864-RA:start1;Parent=BDOR_007864-RB\n"
         sample_text += "scaffold00080\tmaker\tstop_codon\t109851\t109853\t.\t+\t.\tID=BDOR_007864-RA:stop2;Parent=BDOR_007864-RB\n"
         return sample_text
-        
+
     def test_read_file_out_of_order(self):
         text = self.get_out_of_order_text()
         inbuff = io.BytesIO(text)
-        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
+        genes, non_genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEqual(1, len(genes))
         self.assertEqual('BDOR_007864-RA', genes[0].mrnas[0].identifier)
         self.assertEqual(2, len(genes[0].mrnas))
@@ -202,9 +202,9 @@ class TestGFFReader(unittest.TestCase):
     def test_read_file_doesnt_loop_infinitely_when_feature_with_no_parent_mrna(self):
         text = self.get_out_of_order_text_with_missing_parent()
         inbuff = io.BytesIO(text)
-        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
+        genes, non_genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEqual(1, len(genes))
-        
+
     def get_annotated_gff(self):
         result = "Scaffold1\tI5K\tgene\t133721\t162851\t.\t-\t.\tID=AGLA000002;Name=AglaTmpM000002;\n"
         result += "Scaffold1\tI5K\tmRNA\t133721\t162851\t.\t-\t.\tID=AGLA000002-RA;Name=AglaTmpM000002-RA;Parent=AGLA000002;Dbxref=PRINTS:PR00075;\n"
@@ -250,42 +250,42 @@ class TestGFFReader(unittest.TestCase):
     def test_read_file_annotated(self):
         text = self.get_annotated_gff()
         inbuff = io.BytesIO(text)
-        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
+        genes, non_genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEquals(1, len(genes))
         self.assertEquals({"Dbxref": ["PRINTS:PR00075"]}, genes[0].mrnas[0].annotations)
 
     def test_read_file_annotated_multi_dbxref(self):
         text = self.get_annotated_gff_multi_dbxref()
         inbuff = io.BytesIO(text)
-        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
+        genes, non_genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEquals(1, len(genes))
         self.assertEquals({"Dbxref": ["PRINTS:PR00075", "PFAM:foo"]}, genes[0].mrnas[0].annotations)
 
     def test_read_file_annotated_multi_dbxref_repeated_anno(self):
         text = self.get_annotated_gff_multi_dbxref_repeated_anno()
         inbuff = io.BytesIO(text)
-        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
+        genes, non_genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertEquals(1, len(genes))
         self.assertEquals({"Dbxref": ["PRINTS:PR00075", "PFAM:foo"]}, genes[0].mrnas[0].annotations)
 
     def test_CDS_knows_its_strand(self):
         text = self.get_annotated_gff()
         inbuff = io.BytesIO(text)
-        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
+        genes, non_genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertTrue(genes[0].mrnas[0].cds)
         self.assertEquals('-', genes[0].mrnas[0].cds.strand)
 
     def test_exon_knows_its_strand(self):
         text = self.get_annotated_gff()
         inbuff = io.BytesIO(text)
-        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
+        genes, non_genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertTrue(genes[0].mrnas[0].exon)
         self.assertEquals('-', genes[0].mrnas[0].exon.strand)
 
     def test_mrna_knows_its_strand(self):
         text = self.get_annotated_gff()
         inbuff = io.BytesIO(text)
-        genes, comments, invalids, ignored = self.reader.read_file(inbuff)
+        genes, non_genes, comments, invalids, ignored = self.reader.read_file(inbuff)
         self.assertTrue(genes[0].mrnas[0])
         self.assertEquals('-', genes[0].mrnas[0].strand)
 

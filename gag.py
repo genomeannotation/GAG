@@ -38,6 +38,8 @@ def main():
     parser.add_argument('-ses', '--skip_empty_scaffolds', action='store_true')
     parser.add_argument('-gct', '--genome_center_tag', default='ncbi')
     parser.add_argument('-wpf', '--wgs_accession_prefix')
+    parser.add_argument('-ref', '--reference_qualifier', default='PBARC:12345')
+    parser.add_argument('-tif', '--transcript_id_format', default='suffix', choices=['prefix', 'suffix'])
     args = parser.parse_args()
     controller = Controller()
     controller.execute(args)
