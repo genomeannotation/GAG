@@ -1,12 +1,13 @@
 #!/usr/bin/env python
+# coding=utf-8
 
-import unittest
 import io
+import unittest
+
 from src.fasta_reader import FastaReader
-from mock import Mock
+
 
 class TestFastaReader(unittest.TestCase):
-
     def setUp(self):
         self.reader = FastaReader()
 
@@ -26,14 +27,12 @@ class TestFastaReader(unittest.TestCase):
         self.assertEquals(4, len(self.reader.seqs))
         self.assertEquals('NNNNNNNNGATTACAGATTACAGATTACANNNNNNNNNNN', self.reader.seqs[3].bases)
 
-        
 
-
-##########################
 def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestFastaReader))
-    return suite
+    _suite = unittest.TestSuite()
+    _suite.addTest(unittest.makeSuite(TestFastaReader))
+    return _suite
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,20 +1,24 @@
 #!/usr/bin/env python
+# coding=utf-8
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
-import sys
 import argparse
+
 from src.controller import Controller
 
+
 def main():
+    version = "v1.1.1"
     parser = argparse.ArgumentParser(
-    epilog="""
+        epilog="""
     Docs at http://genomeannotation.github.io/GAG/
     Bugs and feature requests at https://github.com/genomeannotation/GAG/issues
     """,
-    formatter_class=argparse.RawDescriptionHelpFormatter
+        formatter_class=argparse.RawDescriptionHelpFormatter
     )
     parser.add_argument('-f', '--fasta', required=True)
     parser.add_argument('-g', '--gff', required=True)
+    parser.add_argument('-v', '--version', action='version', version="GAG " + version)
     parser.add_argument('-a', '--anno')
     parser.add_argument('-t', '--trim')
     parser.add_argument('-o', '--out')
@@ -40,6 +44,7 @@ def main():
     args = parser.parse_args()
     controller = Controller()
     controller.execute(args)
+
 
 if __name__ == '__main__':
     main()

@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# coding=utf-8
 
 # Does its very best to parse an NCBI genome submission error report
 # containing locations of regions to trim
@@ -13,16 +14,18 @@ if len(sys.argv) != 2:
 report_file = sys.argv[1]
 regions = {}
 
+
 def parse_regions(text):
     """Return a list of (start, end) tuples."""
-    regions = []
+    _regions = []
     region_pairs = text.strip().split(",")
     for region_pair in region_pairs:
         split_pair = region_pair.split("..")
         start = split_pair[0]
         end = split_pair[1]
-        regions.append( [start, end] )
-    return regions
+        _regions.append([start, end])
+    return _regions
+
 
 with open(report_file, 'r') as report:
     for line in report:
@@ -36,4 +39,4 @@ with open(report_file, 'r') as report:
         seq = fields[0].strip()
         regions = parse_regions(fields[2])
         for pair in regions:
-            sys.stdout.write("\t".join( [seq, pair[0], pair[1]] ) + "\n")
+            sys.stdout.write("\t".join([seq, pair[0], pair[1]]) + "\n")
