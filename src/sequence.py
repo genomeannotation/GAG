@@ -10,6 +10,7 @@ class Sequence(object):
         self.header = header
         self.bases = bases
         self.genes = []
+        self.non_genes = []
         self.removed_genes = []
 
     def __str__(self):
@@ -22,6 +23,9 @@ class Sequence(object):
 
     def add_gene(self, gene):
         self.genes.append(gene)
+
+    def add_non_gene(self, non_gene):
+        self.non_genes.append(non_gene)
 
     def contains_gene(self, gene_id):
         for gene in self.genes:
@@ -97,10 +101,19 @@ class Sequence(object):
     def add_annotations_from_list(self, anno_list):
         for gene in self.genes:
             for anno in anno_list:
-                if gene.identifier == anno[0] and anno[1] == "name":
-                    gene.name = anno[2]
+                feat_type = None
+                if len(anno) > 3:
+                    feat_type = anno[3]
+                if gene.identifier == anno[0] or (feat_type == "gene"):
+                    if anno[1] == "name":
+                        gene.name = anno[2]
+                    gene.add_annotation(anno[1], anno[2])
                 if gene.contains_mrna(anno[0]):
-                    gene.add_mrna_annotation(anno[0], anno[1], anno[2])
+                    gene.add_mrna_annotation(anno[0], anno[1], anno[2], feat_type=feat_type)
+        for non_gene in self.non_genes:
+            for anno in anno_list:
+                if non_gene.identifier == anno[0]:
+                    non_gene.add_annotation(anno[1], anno[2], feat_type=feat_type)
 
     def is_empty(self):
         return len(self.bases) == 0
@@ -146,8 +159,8 @@ class Sequence(object):
         if terminal_ns:
             self.trim_region(length - terminal_ns + 1, length)
 
-    # Given a position in the sequence, returns the number of Ns 
-    # from that position forward 
+    # Given a position in the sequence, returns the number of Ns
+    # from that position forward
     # (returns 0 if the base at that position is not N)
     def how_many_n_forward(self, position):
         index = position - 1
@@ -163,8 +176,8 @@ class Sequence(object):
                     count += 1
             return count
 
-    # Given a position in the fasta, returns the number of Ns 
-    # from that position backward 
+    # Given a position in the fasta, returns the number of Ns
+    # from that position backward
     # (returns 0 if the base at that position is not N)
     def how_many_n_backward(self, position):
         index = position - 1
@@ -253,12 +266,16 @@ class Sequence(object):
                 return gene.cds_to_tbl(mrna_id)
         return "CDS not found."
 
-    def to_tbl(self):
+    def to_tbl(self, gc_tag='ncbi', ref_qual='PBARC:12345', txid_format='suffix'):
         result = ">Feature " + self.header + "\n"
         result += "1\t" + str(len(self.bases)) + "\tREFERENCE\n"
-        result += "\t\t\tPBARC\t12345\n"
+        if ref_qual:
+            q, qv = ref_qual.split(":")
+            result += "\t\t\t{0}\t{1}\n".format(q, qv)
         for gene in self.genes:
-            result += gene.to_tbl()
+            result += gene.to_tbl(gc_tag=gc_tag, txid_format=txid_format)
+        for non_gene in self.non_genes:
+            result += non_gene.to_tbl(gc_tag=gc_tag)
         return result
 
     def to_mrna_fasta(self):

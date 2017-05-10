@@ -230,7 +230,7 @@ class TestGene(unittest.TestCase):
         mrna.identifier = "foo_mrna"
         self.test_gene0.mrnas = [mrna]
         self.test_gene0.add_mrna_annotation("foo_mrna", "gag_flag", "awesome_anno")
-        mrna.add_annotation.assert_called_with("gag_flag", "awesome_anno")
+        mrna.add_annotation.assert_called_with("gag_flag", "awesome_anno", feat_type=None)
 
     def test_to_tbl_positive(self):
         gene = Gene(seq_name="seq1", source="maker", indices=[1, 50], strand="+", identifier="foo_gene_1")
