@@ -8,7 +8,7 @@ from src.controller import Controller
 
 
 def main():
-    version = "v1.1.1"
+    version = "v2.0.1"
     parser = argparse.ArgumentParser(
         epilog="""
     Docs at http://genomeannotation.github.io/GAG/
