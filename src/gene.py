@@ -10,7 +10,7 @@ def length_of_segment(index_pair):
 
 
 class Gene(object):
-    def __init__(self, seq_name, source, indices, strand, identifier, name='', annotations=None, score=None):
+    def __init__(self, seq_name, source, indices, strand, identifier, name="", annotations=None, score=None, derives_from=None):
         self.seq_name = seq_name
         self.source = source
         self.indices = indices
@@ -22,6 +22,7 @@ class Gene(object):
         self.removed_mrnas = []
         self.pseudo = False
         self.annotations = {} if annotations is None else annotations
+        self.derives_from = derives_from
         self.death_flagged = False
 
     def __str__(self):
@@ -99,7 +100,7 @@ class Gene(object):
         else:
             self.annotations[key] = [value]
 
-    def add_mrna_annotation(self, mrna_id, key, value):
+    def add_mrna_annotation(self, mrna_id, key, value, feat_type=None):
         """Adds annotation key, value pair to specified mrna.
 
         Does nothing if mrna not found.
@@ -107,10 +108,11 @@ class Gene(object):
             mrna_id: the identifier of the mrna to which the annotation belongs
             key: a string indicating the type of annotation (e.g. Dbxref, gagflag)
             value: a string representing the content of the annotation
+            type: a string representing feature type (mRNA, CDS)
         """
         for mrna in self.mrnas:
             if mrna.identifier == mrna_id:
-                mrna.add_annotation(key, value)
+                mrna.add_annotation(key, value, feat_type=feat_type)
 
     def length(self):
         """Returns the length of the gene."""
@@ -334,7 +336,7 @@ class Gene(object):
             result += mrna.to_gff()
         return result
 
-    def to_tbl(self):
+    def to_tbl(self, gc_tag=None, txid_format=None):
         """Returns a string in .tbl format of the gene and its child features."""
         if self.strand == "-":
             indices = [self.indices[1], self.indices[0]]
@@ -343,11 +345,10 @@ class Gene(object):
         # Check if there's an mRNA with a no start/stop
         has_start = True
         has_stop = True
-        for mrna in self.mrnas:
-            if not mrna.has_start():
-                has_start = False
-            if not mrna.has_stop():
-                has_stop = False
+        if not self.pseudo:
+            for mrna in self.mrnas:
+                if not mrna.has_start(): has_start = False
+                if not mrna.has_stop(): has_stop = False
         output = ""
         if not has_start:
             output += "<"
@@ -355,11 +356,20 @@ class Gene(object):
         if not has_stop:
             output += ">"
         output += str(indices[1]) + "\t" + "gene\n"
-        if self.name:
-            output += "\t\t\tgene\t" + self.name + "\n"
-        output += "\t\t\tlocus_tag\t" + self.identifier + "\n"
+        if self.name and (self.name != self.identifier):
+            output += self.tbl_line("gene", self.name)
+        output += self.tbl_line("locus_tag", self.identifier)
+        # Write the annotations
+        for key in self.annotations.keys():
+            for value in self.annotations[key]:
+                output += self.tbl_line(key, value)
         if self.pseudo:
-            output += "\t\t\tpseudo\n"
+            output += self.tbl_line("pseudo")
         for mrna in self.mrnas:
-            output += mrna.to_tbl()
+            output += mrna.to_tbl(gc_tag=gc_tag, txid_format=txid_format)
         return output
+
+    def tbl_line(self, *args, **kwargs):
+        return "\t\t\t{0}\t{1}\n".format(args[0], args[1]) \
+            if len(args) == 2 else \
+            "\t\t\t{0}\n".format(args[0])

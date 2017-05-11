@@ -232,5 +232,5 @@ def write_tbl_entry(indices, strand, has_start, has_stop, feature_type, phase=0)
             output += ">"
         output += str(indices[-1][1]) + "\n"
     if feature_type == "CDS":
-        output += "\t\t\tcodon_start\t" + str(phase + 1) + "\n"
+        output += "\t\t\t{0}\t{1}\n".format("codon_start", str(phase + 1))
     return output

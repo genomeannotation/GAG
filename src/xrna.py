@@ -2,6 +2,7 @@
 # coding=utf-8
 
 import math
+import re
 from src.gene_part import GenePart
 import src.translator as translate
 
@@ -12,8 +13,10 @@ def length_of_segment(index_pair):
 
 class XRNA(object):
     def __init__(self, identifier, indices, parent_id, source='', seq_name='', name='', strand='+',
-                 annotations=None, rna_type="mRNA"):
+                 annotations=None, rna_type="mRNA", ncrna_class=None, derives_from=None):
         self.rna_type = rna_type
+        self.ncrna_class = ncrna_class
+        self.derives_from = derives_from
         self.identifier = identifier
         self.indices = indices
         self.parent_id = parent_id
@@ -42,17 +45,27 @@ class XRNA(object):
             result += " other features"
         return result
 
-    def add_annotation(self, key, value):
+    def add_annotation(self, key, value, feat_type=None):
         """Adds an annotation to the RNA.
 
         Args:
             key: the type of annotation
             value: the annotation itself
+            feat_type: type of RNA or sub feature
         """
-        if key in self.annotations:
+        if not feat_type:
+            if key not in self.annotations:
+                self.annotations[key] = []
+
             self.annotations[key].append(value)
         else:
-            self.annotations[key] = [value]
+            if feat_type not in self.annotations:
+                self.annotations[feat_type] = dict()
+
+            if key not in self.annotations[feat_type]:
+                self.annotations[feat_type][key] = []
+
+            self.annotations[feat_type][key].append(value)
 
     def length(self):
         """Returns the length of the RNA."""
@@ -157,6 +170,7 @@ class XRNA(object):
 
     def has_start(self):
         """Returns a boolean indicating whether the RNA contains a 'start_codon' feature"""
+        if self.rna_type != 'mRNA': return True
         for feature in self.other_features:
             if feature.feature_type == 'start_codon':
                 return True
@@ -164,6 +178,7 @@ class XRNA(object):
 
     def has_stop(self):
         """Returns a boolean indicating whether the RNA contains a 'stop_codon' feature"""
+        if self.rna_type != 'mRNA': return True
         for feature in self.other_features:
             if feature.feature_type == 'stop_codon':
                 return True
@@ -199,9 +214,12 @@ class XRNA(object):
         result += "." + "\t" + self.strand + "\t" + "." + "\t"
         result += "ID=" + str(self.identifier)
         result += ";Parent=" + str(self.parent_id)
-        for key in self.annotations.keys():
+        xrna_annotations = self.annotations[self.rna_type] \
+                if self.rna_type in self.annotations.keys() \
+                else self.annotations
+        for key in xrna_annotations.keys():
             result += ';' + key + "="
-            result += ','.join(self.annotations[key])
+            result += ','.join(xrna_annotations[key])
         result += '\n'
         if self.exon:
             result += self.exon.to_gff(self.seq_name, self.source)
@@ -211,36 +229,87 @@ class XRNA(object):
             result += other.to_gff(self.seq_name, self.source)
         return result
 
-    def to_tbl(self):
+    def to_tbl(self, gc_tag='ncbi', txid_format='suffix'):
         """Returns a string of RNA and child features in .tbl format."""
         has_start = self.has_start()
         has_stop = self.has_stop()
         output = ""
-        if self.exon:
-            output += self.exon.to_tbl(has_start, has_stop, self.rna_type)
-            # Write the annotations
-            if self.annotations_contain_product():
-                output += "\t\t\tproduct\t" + self.annotations['product'][0] + "\n"
+
+        # set the transcript_id based on specified format
+        transcript_id = "{0}_mrna".format(self.identifier) \
+            if txid_format == 'suffix' \
+            else 'mRNA.{0}'.format(self.identifier)
+
+        if self.exon or self.rna_type in ('precursor_RNA', 'misc_feature', 'iDNA') \
+                or self.ncrna_class == 'miRNA':
+            if self.exon:
+                output += self.exon.to_tbl(has_start, has_stop, self.rna_type)
             else:
-                output += "\t\t\tproduct\thypothetical protein\n"
-            output += "\t\t\tprotein_id\tgnl|ncbi|" + self.identifier + "\n"
-            output += "\t\t\ttranscript_id\tgnl|ncbi|" + self.identifier + "_mrna\n"
+                (start, stop) = (self.indices[0], self.indices[1]) if self.strand == '+' else \
+                    (self.indices[1], self.indices[0])
+                output += str(start)+'\t'+str(stop)+'\t'+self.rna_type+'\n'
+
+            # Write the annotations
+            if not self.ncrna_class and not self.annotations_contain_product(feat_type=self.rna_type) \
+                    and not self.rna_type in ('misc_RNA', 'misc_feature', 'iDNA'):
+                output += self.tbl_line("product", "hypothetical protein")
+
+            if self.rna_type == "mRNA":
+                output += self.tbl_line("protein_id", "gnl|{0}|{1}".format(gc_tag, self.identifier))
+
+            if self.rna_type in ('misc_RNA', 'misc_feature', 'iDNA'):
+                if self.rna_type == 'iDNA':
+                    identifier = "{0} ({1})".format("Internal Eliminated Sequence", self.identifier)
+                elif self.rna_type == 'misc_feature' and re.search("[0-9]+[LR]-[0-9]+", self.identifier):
+                    identifier = "{0} (Cbs {1})".format("Chromosome breakage sequence", self.identifier)
+                else:
+                    identifier = self.identifier
+                output += self.tbl_line("note", identifier)
+            elif not self.ncrna_class == 'miRNA':
+                output += self.tbl_line("transcript_id", "gnl|{0}|{1}".format(gc_tag, transcript_id))
+
+            if self.ncrna_class:
+                output += self.tbl_line("ncRNA_class", self.ncrna_class)
+                if not self.annotations_contain_product(feat_type=self.rna_type):
+                    output += self.tbl_line("product", "other RNA")
+
+            xrna_annotations = self.annotations[self.rna_type] \
+                    if self.rna_type in self.annotations.keys() \
+                    else self.annotations
+
+            for key in xrna_annotations.keys():
+                for value in xrna_annotations[key]:
+                    output += self.tbl_line(key, value)
         if self.cds:
             output += self.cds.to_tbl(has_start, has_stop)
-            # Write the annotations 
-            for key in self.annotations.keys():
-                for value in self.annotations[key]:
-                    if key == 'Dbxref':
-                        output += '\t\t\t' + 'db_xref' + '\t' + value + '\n'
-                    else:
-                        output += '\t\t\t' + key + '\t' + value + '\n'
-            if not self.annotations_contain_product():
-                output += "\t\t\tproduct\thypothetical protein\n"
-            output += "\t\t\tprotein_id\tgnl|ncbi|" + self.identifier + "\n"
-            output += "\t\t\ttranscript_id\tgnl|ncbi|" + self.identifier + "_mrna\n"
+            # Write the annotations
+            cds_annotations = self.annotations['CDS'] \
+                    if 'CDS' in self.annotations.keys() \
+                    else self.annotations
+
+            for key in sorted(cds_annotations.keys()):
+                if key == 'protein_id':
+                    continue
+                for value in cds_annotations[key]:
+                    output += self.tbl_line(key, value)
+
+            if not self.annotations_contain_product(feat_type="CDS"):
+                output += self.tbl_line("product", "hypothetical protein")
+
+            if self.annotations_contain_protein_id(feat_type="CDS"):
+                output += self.tbl_line("protein_id", \
+                    "gnl|{0}|{1}|gb|{2}".format(gc_tag, self.identifier, cds_annotations['protein_id'][0]))
+            else:
+                output += self.tbl_line("protein_id", "gnl|{0}|{1}".format(gc_tag, self.identifier))
+            output += self.tbl_line("transcript_id", "gnl|{0}|{1}".format(gc_tag, transcript_id))
         return output
 
-    # STATS STUFF #
+    def tbl_line(self, *args, **kwargs):
+        return "\t\t\t{0}\t{1}\n".format(args[0], args[1]) \
+            if len(args) == 2 else \
+            "\t\t\t{0}\n".format(args[0])
+
+    ## STATS STUFF ##
 
     def get_longest_exon(self):
         """Returns length of longest exon contained on RNA."""
@@ -337,5 +406,14 @@ class XRNA(object):
         else:
             return 0
 
-    def annotations_contain_product(self):
-        return 'product' in self.annotations.keys()
+    def annotations_contain_product(self, feat_type=None):
+        if feat_type not in self.annotations.keys():
+            return 'product' in self.annotations.keys()
+
+        return 'product' in self.annotations[feat_type].keys()
+
+    def annotations_contain_protein_id(self, feat_type=None):
+        if feat_type not in self.annotations.keys():
+            return 'protein_id' in self.annotations.keys()
+
+        return 'protein_id' in self.annotations[feat_type].keys()

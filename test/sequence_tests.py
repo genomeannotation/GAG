@@ -240,7 +240,7 @@ class TestSequence(unittest.TestCase):
         gene.contains_mrna.return_value = True
         anno_list = [["foo_mrna", "Dbxref", "PFAM:0001"]]
         self.seq1.add_annotations_from_list(anno_list)
-        gene.add_mrna_annotation.assert_called_with("foo_mrna", "Dbxref", "PFAM:0001")
+        gene.add_mrna_annotation.assert_called_with("foo_mrna", "Dbxref", "PFAM:0001", feat_type=None)
 
     def test_add_annotations_from_list_adds_to_gene(self):
         gene = Mock()
