@@ -21,6 +21,7 @@ class SeqHelper(object):
         if not mrna.exon:
             return ""
         identifier = ">" + mrna.identifier
+        # ToDo: Determine if we can I assume these values will all exist
         metadata = "ID=" + mrna.identifier + "|Parent=" + mrna.parent_id + "|Name=" + mrna.name
         strand = mrna.strand
         indices = mrna.exon.indices
@@ -31,6 +32,7 @@ class SeqHelper(object):
         if not mrna.cds:
             return ""
         identifier = ">CDS|" + mrna.identifier
+        # ToDo: Determine if we can I assume these values will all exist
         metadata = "ID=" + mrna.identifier + "|Parent=" + mrna.parent_id + "|Name=" + mrna.name
         strand = mrna.strand
         indices = mrna.cds.indices
@@ -41,6 +43,7 @@ class SeqHelper(object):
         if not mrna.cds:
             return ""
         identifier = ">protein|" + mrna.identifier
+        # ToDo: Determine if we can I assume these values will all exist
         metadata = "ID=" + mrna.identifier + "|Parent=" + mrna.parent_id + "|Name=" + mrna.name
         strand = mrna.strand
         indices = mrna.cds.indices
