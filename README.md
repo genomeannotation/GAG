@@ -7,3 +7,5 @@ A command line program to read, modify, annotate and output genomic data. Can wr
 For usage, type 'python gag.py'
 
 See documentation at http://genomeannotation.github.io/GAG
+
+Please cite the following: https://academic.oup.com/gigascience/advance-article/doi/10.1093/gigascience/giy018/4920812 when using GAG for your research.
